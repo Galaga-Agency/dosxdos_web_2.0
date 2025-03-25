@@ -1,0 +1,38 @@
+// Import Google Fonts
+@import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100;200;300;400;500;600;700;800;900&family=Marcellus&family=Syne:wght@400;500;600;700;800&family=Aladin&display=swap");
+
+// Define Custom Font (Gallery Modern)
+@font-face {
+    font-family: "GalleryModern";
+    src: url("/assets/fonts/gallerymodern-webfont.woff2") format("woff2"),
+        url("/assets/fonts/gallerymodern-webfont.woff") format("woff"),
+        url("/assets/fonts/gallerymodern-webfont.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Font Family Map
+$font-family: (
+    "ff": ("body": "'Syne', sans-serif",
+        "heading": "'Syne', sans-serif",
+        "p": "'Syne', sans-serif",
+        "syne": "'Syne', sans-serif",
+        "gallery": "'GalleryModern', sans-serif",
+        "shoulders": "'Big Shoulders Display', cursive",
+        "marcellus": "'Marcellus', serif",
+        "aladin": "'Aladin', system-ui",
+        "fontawesome": '"Font Awesome 6 Pro"',
+    )
+);
+
+// Font Size Map
+$font-size: (
+    "fz": ("body": 14px,
+        "p": 16px,
+    )
+);
+
+// Apply default font to body
+body {
+    font-family: map-get($font-family, "ff", "body");
+}
