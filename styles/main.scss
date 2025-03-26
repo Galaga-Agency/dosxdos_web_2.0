@@ -1,6 +1,3 @@
-@forward 'animations';
-@forward 'theme';
-@forward 'components';
-@forward 'layout';
-
-@import url('/assets/css/font-awesome-pro.css');
+// Main entry point using @use
+@use 'abstracts' as *;
+@use 'base' as *;

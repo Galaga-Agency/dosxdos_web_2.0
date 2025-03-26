@@ -1,0 +1,17 @@
+// This file must use variables, so we need to import them
+@use 'variables' as *;
+
+// Function for spacing calculations
+@function spacing($multiplier) {
+    @return $spacing-unit * $multiplier;
+}
+
+// Function for z-index
+@function z($layer) {
+    @if map-has-key($z-layers, $layer) {
+        @return map-get($z-layers, $layer);
+    }
+
+    @warn "Unknown z-index layer `#{$layer}`. Available layers are: #{map-keys($z-layers)}.";
+    @return 0;
+}

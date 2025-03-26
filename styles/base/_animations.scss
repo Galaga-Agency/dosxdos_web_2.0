@@ -1,0 +1,200 @@
+// Animations
+
+@use 'colors' as *;
+
+// Fade in
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+// Fade out
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+// Slide in from right
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+// Slide out to right
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+// Slide up
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+// Scale in
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+// Rotate in
+@keyframes rotateIn {
+    from {
+        transform: rotate(-10deg) scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: rotate(0) scale(1);
+        opacity: 1;
+    }
+}
+
+// Bounce
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+// Pulse
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+// Shimmer
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+// Animation utility classes
+.animate {
+    &-fade-in {
+        animation: fadeIn 0.3s ease forwards;
+    }
+
+    &-fade-out {
+        animation: fadeOut 0.3s ease forwards;
+    }
+
+    &-slide-in-right {
+        animation: slideInRight 0.5s ease forwards;
+    }
+
+    &-slide-out-right {
+        animation: slideOutRight 0.5s ease forwards;
+    }
+
+    &-slide-up {
+        animation: slideUp 0.5s ease forwards;
+    }
+
+    &-scale-in {
+        animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    &-rotate-in {
+        animation: rotateIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    &-bounce {
+        animation: bounce 1s ease infinite;
+    }
+
+    &-pulse {
+        animation: pulse 2s ease infinite;
+    }
+
+    &-shimmer {
+        background: linear-gradient(90deg, rgba($gray-400, 0), rgba($gray-400, 0.2), rgba($gray-400, 0));
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+    }
+
+    // Animation delays
+    &-delay {
+        &-100 {
+            animation-delay: 0.1s;
+        }
+
+        &-200 {
+            animation-delay: 0.2s;
+        }
+
+        &-300 {
+            animation-delay: 0.3s;
+        }
+
+        &-400 {
+            animation-delay: 0.4s;
+        }
+
+        &-500 {
+            animation-delay: 0.5s;
+        }
+    }
+}
