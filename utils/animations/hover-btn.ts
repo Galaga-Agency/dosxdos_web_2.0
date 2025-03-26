@@ -42,8 +42,8 @@ function hoverBtn() {
             gsap.to(target, {
                 x: ((relX - $this.width() / 2) / $this.width()) * movement,
                 y: ((relY - $this.height() / 2) / $this.height()) * movement,
-                ease: "power2.out", // Changed from Power2.easeOut
-                duration: 1 // Added duration parameter
+                ease: "power2.out", 
+                duration: 1
             });
         }
 
@@ -51,8 +51,8 @@ function hoverBtn() {
             gsap.to(hoverBtnItem[i], {
                 x: 0,
                 y: 0,
-                ease: "power2.out", // Changed from Power2.easeOut
-                duration: 1 // Added duration parameter
+                ease: "power2.out", 
+                duration: 1
             });
         });
     });
