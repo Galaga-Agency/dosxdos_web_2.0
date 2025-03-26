@@ -1,6 +1,6 @@
-@forward '../../public/assets/css/animate.css';
-@forward '../../public/assets/css/custom-animation.css';
-@forward '../../public/assets/css/font-awesome-pro.css';
+@forward 'animations';
 @forward 'theme';
 @forward 'components';
 @forward 'layout';
+
+@import url('/assets/css/font-awesome-pro.css');

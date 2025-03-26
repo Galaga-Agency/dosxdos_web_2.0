@@ -1,8 +1,7 @@
-@use '@/scss/utils' as *;
+@use '@/styles/utils' as *;
 
-/*----------------------------------------*/
-/*  2.2 Theme Settings
-/*----------------------------------------*/
+
+// Theme Settings
 
 .tp-theme{
     $self : &;
