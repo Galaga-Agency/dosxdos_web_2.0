@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
+import React from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuthStore } from "@/store/authStore";
 
-const AdminDashboard = () => {
+const AdminDashboard: React.FC = () => {
   const { logout } = useAuthStore();
 
   return (
