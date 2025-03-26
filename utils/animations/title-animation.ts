@@ -1,4 +1,4 @@
-import { gsap, Power2 } from "gsap";
+import { gsap } from "gsap";
 import $ from "jquery";
 import { SplitText } from "@/plugins";
 
@@ -429,7 +429,7 @@ function zoomAnimation() {
         duration: 1.5,
         autoAlpha: 0,
         scale: 1.4,
-        ease: Power2.easeOut,
+        ease: "power2.out",
         clearProps: "all",
       });
     });
