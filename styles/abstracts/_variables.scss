@@ -1,64 +1,94 @@
+// -----------------------------------------------------------------------------
 // Spacing
-$spacing-unit: 8px;
-$spacing-xs: $spacing-unit;
-$spacing-sm: $spacing-unit * 2;
-$spacing-md: $spacing-unit * 3;
-$spacing-lg: $spacing-unit * 4;
-$spacing-xl: $spacing-unit * 5;
-$spacing-xxl: $spacing-unit * 6;
+// -----------------------------------------------------------------------------
+$spacing: (
+    xs: 8px,
+    sm: 16px,
+    md: 24px,
+    lg: 32px,
+    xl: 40px,
+    xxl: 48px
+);
 
-// Container widths
-$container-max-width: 1280px;
-$container-narrow: 960px;
+// -----------------------------------------------------------------------------
+// Container Widths
+// -----------------------------------------------------------------------------
+$container: (
+  desktop: 80vw,
+  smalldesktop: 92vw, // Add this
+  mobile: 100vw
+);
 
-// Breakpoints
+
+// -----------------------------------------------------------------------------
+// Breakpoints (mobile-first)
 $breakpoints: (
-    'xs': 0,
-    'sm': 576px,
-    'md': 768px,
-    'lg': 992px,
-    'xl': 1200px,
-    'xxl': 1400px
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
 );
 
-// Z-index layers
-$z-layers: (
-    'below': -1,
-    'default': 0,
-    'above': 1,
-    'header': 100,
-    'menu': 200,
-    'modal': 300,
-    'toast': 400,
-    'tooltip': 500
+// -----------------------------------------------------------------------------
+// Z-Index
+// -----------------------------------------------------------------------------
+$z-index: (
+    below: -1,
+    default: 0,
+    above: 1,
+    header: 100,
+    menu: 200,
+    modal: 300,
+    toast: 400,
+    tooltip: 500
 );
 
-// Border radius
-$border-radius-sm: 2px;
-$border-radius-md: 4px;
-$border-radius-lg: 8px;
-$border-radius-xl: 16px;
-$border-radius-full: 9999px;
+// -----------------------------------------------------------------------------
+// Border Radius
+// -----------------------------------------------------------------------------
+$radius: (
+    sm: 2px,
+    md: 4px,
+    lg: 8px,
+    xl: 16px,
+    full: 9999px
+);
 
-// Transition durations
-$transition-fast: 150ms;
-$transition-normal: 300ms;
-$transition-slow: 500ms;
+// -----------------------------------------------------------------------------
+// Transitions
+// -----------------------------------------------------------------------------
+$durations: (
+    fast: 150ms,
+    normal: 300ms,
+    slow: 500ms
+);
 
-// Shadows
+// -----------------------------------------------------------------------------
+// Shadows / I use this $ syntax instead because it break the code otherwise using the arrray since i have two comas "," in the definition
+// -----------------------------------------------------------------------------
 $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
+// -----------------------------------------------------------------------------
 // Typography
-$font-size-base: 1rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 1.25rem;
-$font-size-2xl: 1.5rem;
-$font-size-3xl: 1.875rem;
+// -----------------------------------------------------------------------------
+$font-size: (
+    sm: 0.875rem,
+    base: 1rem,
+    lg: 1.125rem,
+    xl: 1.25rem,
+    2xl: 1.5rem,
+    3xl: 1.875rem
+);
 
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
+$font-weight: (
+    medium: 500,
+    semibold: 600,
+    bold: 700
+);
 
-$letter-spacing-tight: -0.025em;
+$letter-spacing: (
+    tight: -0.025em
+);

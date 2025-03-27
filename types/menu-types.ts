@@ -5,6 +5,7 @@ export interface MenuItem {
   children?: MenuItem[];
 }
 
-export interface MenuProps {
-  className?: string;
+export interface CtaButton {
+  label: string;
+  href: string;
 }

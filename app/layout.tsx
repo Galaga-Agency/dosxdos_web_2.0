@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/main.scss";
-import Menu from "@/layout/Menu/Menu";
+import Menu from "@/components/layout/Menu/Menu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,9 +54,12 @@ export const metadata: Metadata = {
     siteName: "Dos x Dos Grupo Imagen",
   },
   icons: {
-    // put various sizes as browsers tend to support different icon sizes
     icon: [
-      { url: "/icon.png" },
+      {
+        url: "/favicon.ico", // Added favicon explicitly
+        sizes: "any",
+        type: "image/x-icon",
+      },
       {
         url: "/assets/img/icons/icon-48x48.png",
         sizes: "48x48",
@@ -132,8 +135,8 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <Menu />
-          {children}
+        <Menu />
+        {children}
       </body>
     </html>
   );

@@ -1,0 +1,79 @@
+@use 'abstracts/variables' as *;
+@use 'base/colors' as *;
+@use 'abstracts/mixins' as *;
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &__link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        color: $primary-color;
+        background-color: rgba($primary-color, 0.1);
+
+        &:hover {
+            background-color: $primary-color;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba($primary-color, 0.2);
+
+            .social-icons__icon {
+                fill: $white;
+            }
+        }
+
+        &:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba($primary-color, 0.2);
+        }
+    }
+
+    &__icon {
+        fill: $primary-color;
+        transition: fill 0.3s ease;
+    }
+
+    // Size variations
+    &.small {
+        .social-icons__link {
+            width: 32px;
+            height: 32px;
+            padding: 6px;
+        }
+
+        .social-icons__icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &.medium {
+        .social-icons__link {
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+        }
+
+        .social-icons__icon {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    &.large {
+        .social-icons__link {
+            width: 48px;
+            height: 48px;
+            padding: 10px;
+        }
+
+        .social-icons__icon {
+            width: 28px;
+            height: 28px;
+        }
+    }
+}

@@ -1,51 +1,83 @@
-import { MenuItem } from '@/types/menu-types';
+import { MenuItem, CtaButton } from "@/types/menu-types";
 
 export const menuItems: MenuItem[] = [
-  { 
-    id: 'home', 
-    label: 'Home', 
-    href: '/' 
-  },
-  { 
-    id: 'services', 
-    label: 'Services', 
-    href: '/services',
+  {
+    id: "sobre-nosotros",
+    label: "Sobre Nosotros",
+    href: "/sobre-nosotros",
     children: [
-      { 
-        id: 'web-design', 
-        label: 'Web Design', 
-        href: '/services/web-design' 
+      {
+        id: "equipo",
+        label: "Equipo",
+        href: "/sobre-nosotros/equipo",
       },
-      { 
-        id: 'development', 
-        label: 'Development', 
-        href: '/services/development' 
+      {
+        id: "responsabilidad-social",
+        label: "Responsabilidad Social",
+        href: "/sobre-nosotros/responsabilidad-social",
       },
-      { 
-        id: 'consulting', 
-        label: 'Consulting', 
-        href: '/services/consulting' 
-      }
-    ]
+    ],
   },
-  { 
-    id: 'portfolio', 
-    label: 'Portfolio', 
-    href: '/portfolio' 
+  {
+    id: "servicios",
+    label: "Servicios",
+    href: "/servicios",
+    children: [
+      {
+        id: "interiorismo-comercial",
+        label: "Interiorismo comercial",
+        href: "/portfolio/interiorismo-comercial",
+      },
+      {
+        id: "produccion-digital",
+        label: "Producción digital",
+        href: "/portfolio/produccion-digital",
+      },
+      {
+        id: "perfumeria",
+        label: "Perfumería",
+        href: "/portfolio/perfumeria",
+      },
+      {
+        id: "shop-in-shop",
+        label: "Shop in shop",
+        href: "/portfolio/shop-in-shop",
+      },
+      {
+        id: "escaparatismo",
+        label: "Escaparatismo",
+        href: "/portfolio/escaparatismo",
+      },
+      {
+        id: "espacios-promocionales",
+        label: "Espacios promocionales",
+        href: "/portfolio/espacios-promocionales",
+      },
+      {
+        id: "pergolas",
+        label: "Pérgolas",
+        href: "/portfolio/pergolas",
+      },
+    ],
   },
-  { 
-    id: 'about', 
-    label: 'About', 
-    href: '/about' 
+  {
+    id: "portfolio",
+    label: "Portfolio",
+    href: "/portfolio",
   },
-  { 
-    id: 'contact', 
-    label: 'Contact', 
-    href: '/contact' 
-  }
+  {
+    id: "blog",
+    label: "Blog",
+    href: "/blog",
+  },
+  {
+    id: "contacto",
+    label: "Contacto",
+    href: "/contacto",
+  },
 ];
 
-export const ctaButton = {
-  label: 'Get Started',
-  href: '/contact'
+export const ctaButton: CtaButton = {
+  label: "Solicite Presupuesto",
+  href: "/contacto",
 };

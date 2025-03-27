@@ -1,5 +1,5 @@
-// Animations
-
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 @use 'colors' as *;
 
 // Fade in
@@ -170,7 +170,7 @@
     }
 
     &-shimmer {
-        background: linear-gradient(90deg, rgba($gray-400, 0), rgba($gray-400, 0.2), rgba($gray-400, 0));
+        background: linear-gradient(90deg, rgba($secondary-color, 0), rgba($secondary-color, 0.2), rgba($secondary-color, 0));
         background-size: 200% 100%;
         animation: shimmer 2s infinite;
     }

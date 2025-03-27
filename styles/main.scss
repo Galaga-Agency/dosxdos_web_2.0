@@ -1,3 +1,36 @@
-// Main entry point using @use
 @use 'abstracts' as *;
 @use 'base' as *;
+
+// Webkit Scrollbar (Chrome, Safari, newer versions of Opera)
+::-webkit-scrollbar {
+  width: 10px; // Vertical scrollbar width
+  height: 10px; // Horizontal scrollbar height
+}
+
+// Scrollbar Track
+::-webkit-scrollbar-track {
+  background: rgba($primary-color, 0.05); 
+  border-radius: 10px;
+}
+
+// Scrollbar Handle
+::-webkit-scrollbar-thumb {
+  background: rgba($primary-color, 0.5); 
+  border-radius: 10px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: $primary-color;
+  }
+}
+
+// Scrollbar Corner
+::-webkit-scrollbar-corner {
+  background: rgba($black, 0.05);
+}
+
+// Firefox Scrollbar
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba($primary-color, 0.5) rgba($black, 0.05);
+}

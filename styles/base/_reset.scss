@@ -1,10 +1,11 @@
-// Modern CSS reset
+// prevents layout hell with padding+width
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
+// removes default margin and padding
 body,
 h1,
 h2,
@@ -18,6 +19,7 @@ dd {
     margin: 0;
 }
 
+// removes default list styles
 ul,
 ol {
     list-style: none;
@@ -25,6 +27,7 @@ ol {
     padding: 0;
 }
 
+// Smooth scrolling with anchor links or focus jumps
 html:focus-within {
     scroll-behavior: smooth;
 }
@@ -40,12 +43,15 @@ a {
     color: inherit;
 }
 
+// Prevents overflowing images
 img,
 picture {
     max-width: 100%;
     display: block;
 }
 
+
+// Keeps form elements consistent with body font
 input,
 button,
 textarea,

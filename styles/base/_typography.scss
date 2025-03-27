@@ -1,10 +1,12 @@
 @use '../abstracts/variables' as *;
-@use './colors' as *;
+@use '../abstracts/mixins' as *;
+@use '../base/colors' as *;
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: $font-size-base;
-    color: $text-color;
+    @include font-size(base);
+    @include font-weight(medium);
+    color: $black;
 }
 
 h1,
@@ -13,22 +15,22 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: $font-weight-bold;
+    @include font-weight(bold);
     line-height: 1.2;
 }
 
 h1 {
-    font-size: $font-size-3xl;
+    @include font-size(3xl);
 }
 
 h2 {
-    font-size: $font-size-2xl;
+    @include font-size(2xl);
 }
 
 h3 {
-    font-size: $font-size-xl;
+    @include font-size(xl);
 }
 
 p {
-    margin-bottom: 1rem;
+    margin-bottom: spacing(md);
 }

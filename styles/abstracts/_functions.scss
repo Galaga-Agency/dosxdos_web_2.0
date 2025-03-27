@@ -1,17 +1,30 @@
-// This file must use variables, so we need to import them
-@use 'variables' as *;
+// -----------------------------------------------------------------------------
+// ⚠️ NOTE: This file is currently unused and commented out
+// -----------------------------------------------------------------------------
+// This file contains helper Sass functions (like spacing() and z())
+// which were initially added to create a scalable design system.
+//
+// After consideration, I decided not to use them in this project
+// because they added unnecessary complexity. Instead, I opted for
+// direct SCSS variables like $spacing-md or z-index values.
+//
+// I’m keeping the functions here, fully commented out, for future reference
+// or reuse in other projects where such utilities might be useful.
+// -----------------------------------------------------------------------------
 
-// Function for spacing calculations
-@function spacing($multiplier) {
-    @return $spacing-unit * $multiplier;
-}
+// @use 'variables' as *;
 
-// Function for z-index
-@function z($layer) {
-    @if map-has-key($z-layers, $layer) {
-        @return map-get($z-layers, $layer);
-    }
+// // Function for spacing calculations
+// @function spacing($multiplier) {
+//     @return $spacing-unit * $multiplier;
+// }
 
-    @warn "Unknown z-index layer `#{$layer}`. Available layers are: #{map-keys($z-layers)}.";
-    @return 0;
-}
+// // Function for z-index
+// @function z($layer) {
+//     @if map-has-key($z-layers, $layer) {
+//         @return map-get($z-layers, $layer);
+//     }
+
+//     @warn "Unknown z-index layer `#{$layer}`. Available layers are: #{map-keys($z-layers)}.";
+//     @return 0;
+// }
