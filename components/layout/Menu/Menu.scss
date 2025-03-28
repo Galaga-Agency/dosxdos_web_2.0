@@ -3,7 +3,7 @@
 @use "abstracts/mixins" as *;
 
 .menu {
-  background-color: rgba($white, 0.98);
+  background-color: transparent;
   color: $black;
   position: fixed;
   top: 0;
@@ -15,32 +15,38 @@
   font-family: sans-serif;
   overflow: visible;
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($white, 0.2); // Extremely transparent
+    backdrop-filter: blur(5px); // Extreme blur
+    -webkit-backdrop-filter: blur(5px); // Safari support
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), inset 0 0 15px rgba($white, 0.1);
+    z-index: -1;
+    border-bottom: 1px solid rgba($white, 0.1);
+  }
+
   &--scrolled {
-    box-shadow: $shadow-md;
-    height: 75px;
-
-    .menu__nav-list {
-      transform: translateY(0);
-    }
-
-    .menu__logo-image {
-      max-height: 65px;
-
-      @include min-width(md) {
-        max-height: 75px;
-      }
-
-      @include min-width(lg) {
-        max-height: 70px;
-      }
-
-      @include min-width(xl) {
-        max-height: 80px;
-      }
+    &::before {
+      background-color: rgba($white, 0.3);
+      backdrop-filter: blur(45px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08),
+        inset 0 0 20px rgba($white, 0.15);
     }
   }
 
-  // Background shape
+  &__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0;
+  }
+
   &__bg-shape {
     position: absolute;
     top: -150px;
@@ -79,28 +85,14 @@
     }
   }
 
-  &__container {
-    @include flex(row, space-between, center);
-    @include spacing(md);
-    @include container-width(mobile);
-    margin: 0 auto;
-    position: relative;
-    height: 100%;
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-      padding-inline: 2rem;
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-      padding-inline: 0;
-    }
-  }
-
-  // Logo styling
   &__logo {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    height: 85px;
+    display: flex;
+    align-items: center;
     @include z-index(above);
     text-decoration: none;
     transition: all 0.3s ease;
@@ -113,23 +105,34 @@
   &__logo-image {
     display: block;
     height: auto;
-    max-height: 65px;
+    max-height: 55px;
     width: auto;
     transition: all 0.3s ease;
-    margin-top: 10px;
 
     @include min-width(md) {
-      max-height: 80px;
+      max-height: 65px;
+    }
+
+    @include min-width(xl) {
+      max-height: 75px;
     }
   }
 
-  // Desktop navigation
+  &__hamburger-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    @include z-index(toast);
+  }
+
+  // Navigation - hidden on mobile/tablet
   &__nav {
     display: none;
-
-    @include min-width(xl) {
-      display: block;
-    }
   }
 
   &__nav-list {
@@ -138,16 +141,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    transform: translateY(3px);
     transition: all 0.3s ease;
-
-    @include min-width(lg) {
-      gap: 1rem;
-    }
-
-    @include min-width(xxl) {
-      gap: 2rem;
-    }
   }
 
   &__nav-item {
@@ -162,7 +156,6 @@
   &__nav-button {
     text-transform: uppercase;
     @include font-weight(semibold);
-    @include font-size(base);
     position: relative;
     padding: 0.5rem 0;
     color: $black;
@@ -174,14 +167,7 @@
     display: flex;
     align-items: center;
     gap: 0.25rem;
-
-    @include min-width(lg) {
-      @include font-size(sm);
-    }
-
-    @include min-width(xl) {
-      @include font-size(base);
-    }
+    white-space: nowrap;
 
     &::after {
       content: "";
@@ -217,7 +203,8 @@
     top: calc(100% + 0.5rem);
     left: 50%;
     transform: translateX(-50%) translateY(10px);
-    min-width: 200px;
+    min-width: 230px;
+    width: auto;
     background-color: $white;
     @include border-radius(md);
     box-shadow: $shadow-md;
@@ -252,6 +239,7 @@
     padding: 0.5rem 1.5rem;
     color: $black;
     text-decoration: none;
+    text-wrap: nowrap;
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     position: relative;
     @include font-size(base);
@@ -283,24 +271,22 @@
 
   // Actions area
   &__actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    height: 85px;
     display: flex;
     align-items: center;
     gap: 1rem;
     @include z-index(toast);
-    position: relative;
   }
 
-  // Social Icons - Desktop
   &__social-desktop {
     display: none;
-
-    @include min-width(xl) {
-      display: block;
-      margin-left: 0.5rem;
-    }
+    margin-inline: 0.5rem;
   }
 
-  // Social Icons - Mobile
   &__social-mobile {
     display: flex;
     justify-content: center;
@@ -310,47 +296,6 @@
   // CTA Button
   &__cta {
     display: none;
-
-    @include min-width(lg) {
-      display: none;
-    }
-
-    @include min-width(xl) {
-      display: inline-flex;
-    }
-
-    padding: 0.5rem 1.5rem;
-    background-color: $primary-color;
-    color: $white;
-    @include border-radius(full);
-    @include font-weight(semibold);
-    @include font-size(base);
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    box-shadow: 0 4px 12px rgba($primary-color, 0.2);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba($primary-color, 0.3);
-    }
-
-    &:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 8px rgba($primary-color, 0.2);
-    }
-  }
-
-  // Hamburger menu
-  &__hamburger-wrapper {
-    display: block;
-    cursor: pointer;
-    position: relative; // Establish stacking context
-    @include z-index(toast); // Higher z-index than the mobile menu
-
-    @include min-width(xl) {
-      display: none;
-    }
   }
 
   // Mobile menu
@@ -366,15 +311,20 @@
     transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     @include z-index(menu);
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    scrollbar-width: none; // Firefox
-    -ms-overflow-style: none; // Internet Explorer and Edge
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    height: 100%;
+
+    @include min-width(md) {
+      max-width: 360px;
+    }
 
     &::-webkit-scrollbar {
-      display: none; // WebKit browsers (Chrome, Safari)
+      display: none;
     }
 
     &.open {
@@ -447,9 +397,16 @@
     }
   }
 
-  &__mobile-button,
-  &__mobile-link {
+  &__mobile-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
+  }
+
+  &__mobile-button-main,
+  &__mobile-button-toggle,
+  &__mobile-link {
     background: none;
     border: none;
     text-align: left;
@@ -458,7 +415,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     color: $black;
     text-decoration: none;
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -467,6 +424,17 @@
       color: $primary-color;
       transform: translateX(5px);
     }
+  }
+
+  &__mobile-button-main {
+    flex-grow: 1;
+    padding-right: 1rem;
+  }
+
+  &__mobile-button-toggle {
+    width: auto;
+    padding: 0.5rem;
+    cursor: pointer;
   }
 
   &__mobile-submenu {
@@ -481,15 +449,15 @@
     }
 
     &-inner {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
       overflow: hidden;
     }
   }
 
   &__mobile-sublink {
     display: block;
-    padding: 0.5rem 0;
+    padding: 0.4rem 0;
     color: rgba($black, 0.8);
     text-decoration: none;
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -530,7 +498,7 @@
     text-decoration: none;
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     text-align: center;
-    box-shadow: 0 4px 12px rgba($primary-color, 0.2);
+    box-shadow: $shadow-md;
     position: relative;
     overflow: hidden;
     margin-top: 1rem;
@@ -547,7 +515,6 @@
     }
   }
 
-  // Overlay
   &__overlay {
     position: fixed;
     top: 0;
@@ -559,6 +526,192 @@
     backdrop-filter: blur(3px);
     opacity: 0;
     animation: fadeIn 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  }
+
+  // DESKTOP OVERRIDES
+  @media (min-width: 1200px) {
+    &__container {
+      @include container-width(desktop);
+      @include flex(row, space-between, center);
+      padding: 0 24px;
+    }
+
+    &__logo {
+      position: relative;
+      top: auto;
+      left: auto;
+      padding: 0;
+      height: auto;
+    }
+
+    &__nav {
+      display: block;
+    }
+
+    &__nav-list {
+      gap: 2rem;
+    }
+
+    &__nav-link,
+    &__nav-button {
+      @include font-size(base);
+    }
+
+    &__hamburger-wrapper {
+      display: none;
+    }
+
+    &__actions {
+      position: relative;
+      top: auto;
+      right: auto;
+      padding: 0;
+      height: auto;
+    }
+
+    &__cta {
+      display: inline-flex;
+      padding: 0.5rem 1.5rem;
+      @include font-size(base);
+      background-color: $primary-color;
+      color: $white;
+      @include border-radius(full);
+      @include font-weight(semibold);
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba($primary-color, 0.2);
+      transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba($primary-color, 0.3);
+      }
+    }
+
+    &__social-desktop {
+      display: block;
+      margin-inline: 0.5rem;
+    }
+  }
+
+  // Large displays like Nest Hub Max
+  @media (min-width: 1024px) and (max-width: 1199px) {
+    &__container {
+      padding: 0;
+    }
+
+    &__nav {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &__nav-list {
+      gap: 1.25rem;
+    }
+
+    &__nav-link,
+    &__nav-button {
+      font-size: 0.85rem;
+    }
+
+    &__hamburger-wrapper {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1400px) {
+  .menu {
+    &__container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      max-width: 100%;
+    }
+
+    &__logo {
+      position: static;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      margin-right: auto;
+    }
+
+    &__nav {
+      position: static;
+      transform: none;
+      margin: 0 auto;
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    &__nav-list {
+      gap: 1rem;
+      align-items: center;
+    }
+
+    &__nav-link,
+    &__nav-button {
+      font-size: 0.9rem;
+      padding: 0.25rem 0;
+    }
+
+    &__actions {
+      position: static;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-left: auto;
+      padding: 0;
+    }
+
+    &__social-desktop {
+      display: block;
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+// Ultra-Responsive Adjustments for Smaller Screens
+@media screen and (max-width: 1280px) {
+  .menu {
+    &__container {
+      padding: 0 15px;
+    }
+
+    &__nav-list {
+      gap: 0.75rem;
+    }
+
+    &__nav-link,
+    &__nav-button {
+      font-size: 0.8rem;
+    }
+
+    &__cta {
+      padding: 0.3rem 0.8rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Flexible Typography for Smaller Screens
+@media screen and (max-width: 1400px) {
+  .menu {
+    &__nav-link,
+    &__nav-button {
+      @include responsive-font-size(0.9rem, 0.8rem);
+    }
+
+    &__cta {
+      @include responsive-font-size(0.9rem, 0.8rem);
+    }
   }
 }
 

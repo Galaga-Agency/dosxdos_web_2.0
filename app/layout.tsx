@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/main.scss";
 import Menu from "@/components/layout/Menu/Menu";
+import WhatsAppButton from "@/components/WhatsAppButton/WhatsAppButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -137,6 +138,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Menu />
         {children}
+        <WhatsAppButton
+          phoneNumber="1234567890"
+        />
       </body>
     </html>
   );

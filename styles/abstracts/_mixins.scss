@@ -1,16 +1,16 @@
 // These mixins are sort of functions i use to map through the sort of variable arrays i have in _variables.scss, and make the syntax easier to use throughout the app
-// For example, without mixin, for font-size, i would need to write font-size: map-get($font-size, 2xl); but with mixin, i can just write @include font-size(2xl);, 
+// For example, without mixin, for font-size, i would need to write font-size: map-get($font-size, 2xl); but with mixin, i can just write @include font-size(2xl);,
 // which is much easier to read and write
 // some other mixins are for redudant css code i wanted to avoid, such as flex, flex-driection etc which tend to always come together
 
-@use '../abstracts/variables' as *;
+@use "../abstracts/variables" as *;
 
 // -----------------------------------------------------------------------------
 // Spacing
 // Usage: padding: spacing(sm);
 // -----------------------------------------------------------------------------
 @mixin spacing($size, $property: padding) {
-    #{$property}: map-get($spacing, $size);
+  #{$property}: map-get($spacing, $size);
 }
 
 // -----------------------------------------------------------------------------
@@ -18,7 +18,7 @@
 // Usage: max-width: container-width(max);
 // -----------------------------------------------------------------------------
 @mixin container-width($size, $property: max-width) {
-    #{$property}: map-get($container, $size);
+  #{$property}: map-get($container, $size);
 }
 
 // -----------------------------------------------------------------------------
@@ -26,15 +26,13 @@
 // Usage: @include min-width(md) { ... }
 // -----------------------------------------------------------------------------
 @mixin min-width($breakpoint) {
-    @if map-has-key($breakpoints, $breakpoint) {
-        @media (min-width: map-get($breakpoints, $breakpoint)) {
-            @content;
-        }
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
     }
-
-    @else {
-        @warn "Unknown breakpoint: `#{$breakpoint}`. Available: #{map-keys($breakpoints)}.";
-    }
+  } @else {
+    @warn "Unknown breakpoint: `#{$breakpoint}`. Available: #{map-keys($breakpoints)}.";
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -42,7 +40,7 @@
 // Usage: @include z-index(modal);
 // -----------------------------------------------------------------------------
 @mixin z-index($layer) {
-    z-index: map-get($z-index, $layer);
+  z-index: map-get($z-index, $layer);
 }
 
 // -----------------------------------------------------------------------------
@@ -50,7 +48,7 @@
 // Usage: @include border-radius(md);
 // -----------------------------------------------------------------------------
 @mixin border-radius($size) {
-    border-radius: map-get($radius, $size);
+  border-radius: map-get($radius, $size);
 }
 
 // -----------------------------------------------------------------------------
@@ -58,7 +56,7 @@
 // Usage: @include transition-duration(normal);
 // -----------------------------------------------------------------------------
 @mixin transition-duration($speed) {
-    transition-duration: map-get($durations, $speed);
+  transition-duration: map-get($durations, $speed);
 }
 
 // -----------------------------------------------------------------------------
@@ -66,7 +64,7 @@
 // Usage: @include font-size(2xl);
 // -----------------------------------------------------------------------------
 @mixin font-size($size) {
-    font-size: map-get($font-size, $size);
+  font-size: map-get($font-size, $size);
 }
 
 // -----------------------------------------------------------------------------
@@ -74,7 +72,7 @@
 // Usage: @include font-weight(bold);
 // -----------------------------------------------------------------------------
 @mixin font-weight($weight) {
-    font-weight: map-get($font-weight, $weight);
+  font-weight: map-get($font-weight, $weight);
 }
 
 // -----------------------------------------------------------------------------
@@ -82,7 +80,7 @@
 // Usage: @include letter-spacing(tight);
 // -----------------------------------------------------------------------------
 @mixin letter-spacing($value) {
-    letter-spacing: map-get($letter-spacing, $value);
+  letter-spacing: map-get($letter-spacing, $value);
 }
 
 // -----------------------------------------------------------------------------
@@ -90,10 +88,10 @@
 // Usage: @include flex(row, space-between, center);
 // -----------------------------------------------------------------------------
 @mixin flex($direction, $justify, $align) {
-    display: flex;
-    flex-direction: $direction;
-    justify-content: $justify;
-    align-items: $align;
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
 }
 
 // -----------------------------------------------------------------------------
@@ -101,7 +99,19 @@
 // Usage: @include text-truncate;
 // -----------------------------------------------------------------------------
 @mixin text-truncate {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// -----------------------------------------------------------------------------
+// Responsive font size
+// Usage: @include responsive-font-size(1.5rem, 1.25rem);
+// -----------------------------------------------------------------------------
+@mixin responsive-font-size($large-screen, $small-screen) {
+  font-size: $large-screen;
+
+  @media screen and (max-width: 1280px) {
+    font-size: $small-screen;
+  }
 }

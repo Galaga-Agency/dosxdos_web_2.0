@@ -14,20 +14,23 @@ $spacing: (
 // Container Widths
 // -----------------------------------------------------------------------------
 $container: (
-  desktop: 80vw,
-  smalldesktop: 92vw, // Add this
-  mobile: 100vw
+  desktop: clamp(1140px, 80vw, 1680px),  // More responsive approach with clamp
+  smalldesktop: clamp(950px, 92vw, 1140px),
+  tablet: 95vw,
+  mobile: clamp(280px, 100vw, 540px)
 );
 
 
 // -----------------------------------------------------------------------------
 // Breakpoints (mobile-first)
-$breakpoints: (
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    xxl: 1400px
+ $breakpoints: (
+  xs: 375px,    // Extra small phones
+  sm: 576px,    // Small phones
+  md: 768px,    // Tablets
+  lg: 992px,    // Small desktops
+  xl: 1200px,   // Medium desktops
+  xxl: 1400px,  // Large desktops
+  xxxl: 1600px  // Extra large desktops
 );
 
 // -----------------------------------------------------------------------------

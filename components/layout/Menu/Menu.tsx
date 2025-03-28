@@ -55,9 +55,17 @@ const Menu: React.FC = () => {
   }, []);
 
   const toggleMobileMenu = () => {
+    if (isMobileOpen) {
+      // When closing the mobile menu, reset submenu and body scroll
+      setOpenSubmenu(null);
+      document.body.style.overflow = "";
+    } else {
+      // When opening the mobile menu, prevent body scroll
+      document.body.style.overflow = "hidden";
+    }
+
+    // Toggle mobile menu state
     setIsMobileOpen(!isMobileOpen);
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = !isMobileOpen ? "hidden" : "";
   };
 
   const toggleSubmenu = (id: string) => {
@@ -155,7 +163,7 @@ const Menu: React.FC = () => {
               >
                 {item.children ? (
                   <>
-                    <button className="menu__nav-button">
+                    <Link href={item.href} className="menu__nav-button">
                       {item.label}
                       <ChevronDown
                         className={`menu__nav-icon ${
@@ -163,7 +171,7 @@ const Menu: React.FC = () => {
                         }`}
                         size={16}
                       />
-                    </button>
+                    </Link>
                     <div
                       className={`menu__dropdown ${
                         hoveredItem === item.id ? "menu__dropdown--active" : ""
@@ -195,7 +203,7 @@ const Menu: React.FC = () => {
         <div className="menu__actions">
           {/* CTA Button */}
           <Link href={ctaButton.href} className="menu__cta">
-            {ctaButton.label}
+            <span>{ctaButton.label}</span>
           </Link>
 
           {/* Desktop Social Icons */}
@@ -234,19 +242,27 @@ const Menu: React.FC = () => {
               >
                 {item.children ? (
                   <>
-                    <button
-                      className="menu__mobile-button"
-                      onClick={() => toggleSubmenu(item.id)}
-                    >
-                      {item.label}
-                      <span className="menu__mobile-icon">
-                        {openSubmenu === item.id ? (
-                          <Minus size={18} />
-                        ) : (
-                          <Plus size={18} />
-                        )}
-                      </span>
-                    </button>
+                    <div className="menu__mobile-button-wrapper">
+                      <Link
+                        href={item.href}
+                        className="menu__mobile-button-main"
+                        onClick={toggleMobileMenu}
+                      >
+                        {item.label}
+                      </Link>
+                      <button
+                        className="menu__mobile-button-toggle"
+                        onClick={() => toggleSubmenu(item.id)}
+                      >
+                        <span className="menu__mobile-icon">
+                          {openSubmenu === item.id ? (
+                            <Minus size={18} />
+                          ) : (
+                            <Plus size={18} />
+                          )}
+                        </span>
+                      </button>
+                    </div>
 
                     {/* Submenu container */}
                     <div
