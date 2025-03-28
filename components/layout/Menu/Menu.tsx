@@ -16,14 +16,10 @@ const Menu: React.FC = () => {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuItemsRef = useRef<Map<string, HTMLElement[]>>(new Map());
-
-  // Use our custom device detection hook
   const { isMobile, isTablet, isDesktop } = useDeviceDetect();
 
-  // Use GSAP animation hook
   const {
     mobileNavRef,
     collectMobileItem,
