@@ -18,7 +18,7 @@ const Menu: React.FC = () => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuItemsRef = useRef<Map<string, HTMLElement[]>>(new Map());
-  const { isMobile, isTablet, isDesktop } = useDeviceDetect();
+  const { isMobile } = useDeviceDetect();
 
   const {
     mobileNavRef,
