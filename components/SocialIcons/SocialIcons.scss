@@ -7,6 +7,7 @@
     align-items: center;
     gap: 1rem;
 
+    // Default styling (primary color)
     &__link {
         display: flex;
         align-items: center;
@@ -35,6 +36,33 @@
     &__icon {
         fill: $primary-color;
         transition: fill 0.3s ease;
+    }
+
+    // White color variation
+    &.white {
+        .social-icons__link {
+            color: $white;
+            background-color: rgba($white, 0.1);
+
+            &:hover {
+                background-color: $white;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 10px rgba($white, 0.2);
+
+                .social-icons__icon {
+                    fill: $primary-color;
+                }
+            }
+
+            &:active {
+                transform: translateY(-1px);
+                box-shadow: 0 3px 6px rgba($white, 0.2);
+            }
+        }
+
+        .social-icons__icon {
+            fill: $white;
+        }
     }
 
     // Size variations

@@ -7,14 +7,16 @@ import "./SocialIcons.scss";
 interface SocialIconsProps {
   className?: string;
   iconSize?: "small" | "medium" | "large";
+  color?: "primary" | "white";
 }
 
 const SocialIcons: React.FC<SocialIconsProps> = ({
   className = "",
   iconSize = "medium",
+  color = "primary",
 }) => {
   return (
-    <div className={`social-icons ${className} ${iconSize}`}>
+    <div className={`social-icons ${className} ${iconSize} ${color}`}>
       {/* LinkedIn */}
       <Link
         href="https://es.linkedin.com/company/dos-por-dos-grupo-imagen"

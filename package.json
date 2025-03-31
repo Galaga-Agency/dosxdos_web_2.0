@@ -15,6 +15,8 @@
     "framer-motion": "^12.6.2",
     "gsap": "^3.12.7",
     "isotope-layout": "^3.0.6",
+    "jquery": "^3.7.1",
+    "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.484.0",
     "next": "15.2.4",
     "react": "^19.0.0",
@@ -29,12 +31,14 @@
     "@types/gsap": "^1.20.2",
     "@types/imagesloaded": "^4.1.6",
     "@types/isotope-layout": "^3.0.14",
+    "@types/locomotive-scroll": "^4.1.4",
     "@types/node": "^20",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "sass": "^1.86.0",
+    "script-loader": "^0.7.2",
     "typescript": "^5"
   }
 }

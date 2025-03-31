@@ -1,36 +1,36 @@
-@use 'abstracts' as *;
-@use 'base' as *;
+@use "abstracts" as *;
+@use "base" as *;
 
 // Webkit Scrollbar (Chrome, Safari, newer versions of Opera)
-::-webkit-scrollbar {
+::-webkit-scrollbar, .c-scrollbar_thumb {
   width: 10px; // Vertical scrollbar width
   height: 10px; // Horizontal scrollbar height
 }
 
 // Scrollbar Track
-::-webkit-scrollbar-track {
-  background: rgba($primary-color, 0.05); 
+::-webkit-scrollbar-track, .c-scrollbar_thumb {
+  background: rgba($primary-color, 0.05) !important;
   border-radius: 10px;
 }
 
 // Scrollbar Handle
-::-webkit-scrollbar-thumb {
-  background: rgba($primary-color, 0.5); 
+::-webkit-scrollbar-thumb, .c-scrollbar_thumb {
+  background: rgba($primary-color, 0.9) !important;
   border-radius: 10px;
   transition: background 0.3s ease;
 
   &:hover {
-    background: $primary-color;
+    background: $primary-color !important;
   }
 }
 
 // Scrollbar Corner
-::-webkit-scrollbar-corner {
+::-webkit-scrollbar-corner, .c-scrollbar_thumb {
   background: rgba($black, 0.05);
 }
 
 // Firefox Scrollbar
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba($primary-color, 0.5) rgba($black, 0.05);
+  scrollbar-color: rgba($primary-color, 0.5) rgba($black, 0.05) !important;
 }
