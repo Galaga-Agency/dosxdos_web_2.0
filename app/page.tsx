@@ -4,39 +4,12 @@ import React from "react";
 import "./page.scss";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
-import SmoothScrollWrapper from "@/components/SmoothScroll";
-import SmoothScroll from "@/components/SmoothScroll";
-
-// Register only useGSAP initially - we'll register other plugins on demand
-gsap.registerPlugin(useGSAP);
+import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 
 const Home: React.FC = () => {
-  // Setup animations in useGSAP hook
-  useGSAP(() => {
-    // Import ScrollTrigger dynamically in the useGSAP hook
-    import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-      gsap.registerPlugin(ScrollTrigger);
-
-      // Now setup your animations
-      gsap.from(".homepage__hero-content h1", {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        scrollTrigger: {
-          trigger: ".homepage__hero",
-          start: "top center",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // More animations as needed
-    });
-  }, []);
 
   return (
-    <SmoothScroll>
+    <SmoothScrollWrapper>
       <div className="homepage">
         {/* Hero Section */}
         <section className="homepage__hero">
@@ -194,7 +167,7 @@ const Home: React.FC = () => {
           </div>
         </section>
       </div>
-    </SmoothScroll>
+    </SmoothScrollWrapper>
   );
 };
 
