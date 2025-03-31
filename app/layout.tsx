@@ -134,14 +134,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="es">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <Menu />
-          {children}
-          <WhatsAppButton phoneNumber="34928712222" />
-          <Footer />
+        <Menu />
+        {children}
       </body>
     </html>
   );

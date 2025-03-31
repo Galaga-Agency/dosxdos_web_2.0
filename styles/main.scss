@@ -2,19 +2,19 @@
 @use "base" as *;
 
 // Webkit Scrollbar (Chrome, Safari, newer versions of Opera)
-::-webkit-scrollbar, .c-scrollbar_thumb {
+::-webkit-scrollbar {
   width: 10px; // Vertical scrollbar width
   height: 10px; // Horizontal scrollbar height
 }
 
 // Scrollbar Track
-::-webkit-scrollbar-track, .c-scrollbar_thumb {
+::-webkit-scrollbar-track {
   background: rgba($primary-color, 0.05) !important;
   border-radius: 10px;
 }
 
 // Scrollbar Handle
-::-webkit-scrollbar-thumb, .c-scrollbar_thumb {
+::-webkit-scrollbar-thumb {
   background: rgba($primary-color, 0.9) !important;
   border-radius: 10px;
   transition: background 0.3s ease;
@@ -25,7 +25,7 @@
 }
 
 // Scrollbar Corner
-::-webkit-scrollbar-corner, .c-scrollbar_thumb {
+::-webkit-scrollbar-corner {
   background: rgba($black, 0.05);
 }
 
