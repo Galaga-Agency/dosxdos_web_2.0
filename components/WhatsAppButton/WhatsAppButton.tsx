@@ -5,14 +5,14 @@ import useWhatsAppAnimation from "@/hooks/useWhatsAppAnimation";
 import "./WhatsAppButton.scss";
 
 interface WhatsAppButtonProps {
-  phoneNumber: string; // Format: country code + phone number (e.g., "14155238886")
+  phoneNumber?: string; // Format: country code + phone number (e.g., "14155238886")
   message?: string;
   pulseAnimation?: boolean;
   position?: "bottom-right" | "bottom-left";
 }
 
 const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
-  phoneNumber,
+  phoneNumber = "34928712222", // Updated with your phone number as default
   message = "¡Hola! Estoy interesado en sus servicios.",
   pulseAnimation = true,
   position = "bottom-right",
@@ -72,8 +72,10 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
 
   // Create WhatsApp URL
   const getWhatsAppUrl = () => {
+    // Make sure to properly encode the message for the URL
     const encodedMessage = encodeURIComponent(message);
-    return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    // Ensure proper URL formatting with country code and message
+    return `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
   };
 
   const handleClick = () => {
