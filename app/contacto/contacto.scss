@@ -1,0 +1,67 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.contact-page {
+  min-height: 100vh;
+  margin-inline: auto;
+  padding-block: 10rem;
+  @include container-width(mobile);
+
+  @include min-width(md) {
+    @include container-width(tablet);
+  }
+
+  @include min-width(lg) {
+    @include container-width(desktop);
+  }
+
+  &__header {
+    width: 100%;
+    margin-bottom: spacing(xl);
+  }
+
+  &__subtitle {
+    @include font-size(base);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: spacing(sm);
+    color: $secondary-color;
+  }
+
+  &__title {
+    @include font-size(3xl);
+    @include font-weight(bold);
+    line-height: 1.1;
+    margin-bottom: spacing(xl);
+
+    @include min-width(lg) {
+      @include font-size(9xl);
+    }
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: spacing(xl);
+
+    @include min-width(lg) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__left {
+    &-info-section {
+      h2 {
+        @include font-size(xl);
+        margin-bottom: spacing(sm);
+      }
+
+      p {
+        @include font-size(base);
+        color: $secondary-color;
+      }
+    }
+  }
+}

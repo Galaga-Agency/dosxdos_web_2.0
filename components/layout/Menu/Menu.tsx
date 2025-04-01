@@ -8,93 +8,101 @@ import { Plus, Minus, ChevronDown } from "lucide-react";
 import HamburgerIcon from "@/components/HamburgerIcon/HamburgerIcon";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import useMenuAnimations from "@/hooks/useMenuAnimations";
+import { menuUtils } from "@/utils/animations/menu-anim"; // Professional animation utilities
 import "./Menu.scss";
 
 const Menu: React.FC = () => {
+  // State management
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  // Refs
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuItemsRef = useRef<Map<string, HTMLElement[]>>(new Map());
+  const menuRef = useRef<HTMLElement>(null);
+
+  // Device detection
   const { isMobile } = useDeviceDetect();
 
-  const {
-    mobileNavRef,
-    collectMobileItem,
-    collectDesktopItem,
-    collectDropdownLink,
-    animateDropdown,
-    animateMobileSubmenu,
-  } = useMenuAnimations({ isMobileOpen, openSubmenu });
-
-  // Handle submenu animation when it's opened
+  // Setup scroll-based styling and animations
+  // REPLACE ONLY THIS ONE USEEFFECT
   useEffect(() => {
-    if (openSubmenu && submenuItemsRef.current.has(openSubmenu)) {
-      const items = submenuItemsRef.current.get(openSubmenu) || [];
-      if (items.length > 0) {
-        // We'll animate the submenu items
-        animateMobileSubmenu(openSubmenu, items);
-      }
-    }
-  }, [openSubmenu, animateMobileSubmenu]);
-
-  // Handle scroll event for header styling
-  useEffect(() => {
-    const handleScroll = () => {
+    // Basic scroll handler for styling
+    const handleBasicScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    // Add basic scroll listener
+    window.addEventListener("scroll", handleBasicScroll, { passive: true });
 
+    // Add menu scroll behavior
+    let cleanup = () => {};
+    if (!isMobile && menuRef.current) {
+      cleanup = menuUtils.setupMenuScroll(menuRef.current);
+    }
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", handleBasicScroll);
+      cleanup();
+    };
+  }, [isMobile]);
+
+  // Submenu animation management
+  useEffect(() => {
+    if (openSubmenu && submenuItemsRef.current.has(openSubmenu)) {
+      const items = submenuItemsRef.current.get(openSubmenu) || [];
+
+      // Staggered animation for submenu items
+      items.forEach((item, index) => {
+        setTimeout(() => {
+          item.style.transition = "all 0.3s ease";
+          item.style.opacity = "1";
+          item.style.transform = "translateY(0)";
+        }, index * 50);
+      });
+    }
+  }, [openSubmenu]);
+
+  // Mobile menu toggle handler
   const toggleMobileMenu = () => {
     if (isMobileOpen) {
-      // When closing the mobile menu, reset submenu and body scroll
       setOpenSubmenu(null);
       document.body.style.overflow = "";
     } else {
-      // When opening the mobile menu, prevent body scroll
       document.body.style.overflow = "hidden";
     }
-
-    // Toggle mobile menu state
     setIsMobileOpen(!isMobileOpen);
   };
 
+  // Submenu toggle handler
   const toggleSubmenu = (id: string) => {
-    // If we're closing the currently open submenu, make sure to hide items first
     if (openSubmenu === id) {
-      // Hide all submenu items immediately
       const items = submenuItemsRef.current.get(id) || [];
       items.forEach((item) => {
         if (item) {
           item.style.opacity = "0";
+          item.style.transform = "translateY(10px)";
         }
       });
     }
 
-    // Toggle the submenu after a small delay to allow animations to complete
     setTimeout(
       () => {
         setOpenSubmenu(openSubmenu === id ? null : id);
       },
       openSubmenu === id ? 0 : 10
-    ); // No delay when closing, tiny delay when opening
+    );
   };
 
+  // Mouse event handlers for desktop dropdown
   const handleMouseEnter = (id: string) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     setHoveredItem(id);
-
-    // Trigger animation for dropdown links
-    if (id) {
-      animateDropdown(id);
-    }
   };
 
   const handleMouseLeave = () => {
@@ -103,7 +111,7 @@ const Menu: React.FC = () => {
     }, 400);
   };
 
-  // Helper function to collect submenu items
+  // Utility for managing submenu items
   const collectSubmenuItem = (parentId: string, el: HTMLElement | null) => {
     if (el) {
       if (!submenuItemsRef.current.has(parentId)) {
@@ -111,6 +119,8 @@ const Menu: React.FC = () => {
       }
       const items = submenuItemsRef.current.get(parentId) || [];
       if (!items.includes(el)) {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(10px)";
         items.push(el);
         submenuItemsRef.current.set(parentId, items);
       }
@@ -118,8 +128,10 @@ const Menu: React.FC = () => {
   };
 
   return (
-    <header className={`menu ${isScrolled ? "menu--scrolled" : ""}`}>
-      <div className="menu__bg-shape"></div>
+    <header
+      ref={menuRef}
+      className={`menu ${isScrolled ? "menu--scrolled" : ""}`}
+    >
       <div className="menu__container">
         {/* Logo Area */}
         <Link href="/" className="menu__logo">
@@ -155,7 +167,6 @@ const Menu: React.FC = () => {
                 }`}
                 onMouseEnter={() => handleMouseEnter(item.id)}
                 onMouseLeave={handleMouseLeave}
-                ref={collectDesktopItem}
               >
                 {item.children ? (
                   <>
@@ -178,7 +189,6 @@ const Menu: React.FC = () => {
                           key={child.id}
                           href={child.href}
                           className="menu__dropdown-link"
-                          ref={(el) => collectDropdownLink(item.id, el)}
                         >
                           {child.label}
                         </Link>
@@ -216,7 +226,7 @@ const Menu: React.FC = () => {
 
       {/* Mobile Menu */}
       <div className={`menu__mobile ${isMobileOpen ? "open" : ""}`}>
-        <div className="menu__mobile-inner" ref={mobileNavRef}>
+        <div className="menu__mobile-inner">
           <div className="menu__mobile-header">
             <div className="menu__mobile-logo">
               <Image
@@ -231,11 +241,7 @@ const Menu: React.FC = () => {
 
           <nav className="menu__mobile-nav">
             {menuItems.map((item) => (
-              <div
-                key={item.id}
-                className="menu__mobile-item"
-                ref={collectMobileItem}
-              >
+              <div key={item.id} className="menu__mobile-item">
                 {item.children ? (
                   <>
                     <div className="menu__mobile-button-wrapper">
@@ -278,7 +284,6 @@ const Menu: React.FC = () => {
                             ref={(el) =>
                               collectSubmenuItem(item.id, el as HTMLElement)
                             }
-                            style={{ opacity: 0 }} // Initially hidden
                           >
                             {sub.label}
                           </Link>

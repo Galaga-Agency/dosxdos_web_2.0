@@ -1,34 +1,71 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { PhoneCall, Mail, ArrowRight, ChevronRight } from "lucide-react";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Image from "next/image";
-import { useFooterAnimations } from "@/hooks/useFooterAnimations";
+import { initFooterAnimations } from "@/utils/animations/footer-anim";
 import logo from "@/public/assets/img/logo/logo_full_rojo.png";
 import "./Footer.scss";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [animationKey, setAnimationKey] = useState(0);
 
   // Refs for animations
-  const footerRef = useRef(null);
-  const brandRef = useRef(null);
-  const contactRef = useRef(null);
-  const navRef = useRef(null);
-  const ctaRef = useRef(null);
-  const bottomRef = useRef(null);
+  const footerRef = useRef<HTMLDivElement>(null);
+  const brandRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const bgShapeRef = useRef<HTMLDivElement>(null);
 
-  // Use animation hook (make sure to update the animation hook to match these refs)
-  useFooterAnimations({
-    footerRef,
-    brandRef,
-    contactRef,
-    navRef,
-    ctaRef,
-    bottomRef,
-  });
+  // Initialize animations on component mount and when key changes
+  useEffect(() => {
+    // Small delay to ensure DOM is fully rendered
+    const timeoutId = setTimeout(() => {
+      const cleanup = initFooterAnimations({
+        footer: footerRef.current,
+        brand: brandRef.current,
+        contact: contactRef.current,
+        nav: navRef.current,
+        cta: ctaRef.current,
+        bottom: bottomRef.current,
+        bgShape: bgShapeRef.current,
+      });
+
+      // Cleanup on unmount
+      return cleanup;
+    }, 100);
+
+    // Return cleanup function
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [animationKey]);
+
+  // Force re-render of animations when scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      // Trigger re-animation if footer is in view
+      if (footerRef.current) {
+        const rect = footerRef.current.getBoundingClientRect();
+        const isVisible =
+          rect.top >= 0 &&
+          rect.bottom <=
+            (window.innerHeight || document.documentElement.clientHeight);
+
+        if (isVisible) {
+          setAnimationKey((prev) => prev + 1);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <footer className="footer" ref={footerRef}>
@@ -179,7 +216,8 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="footer__bg-shape"></div>
+      {/* Background shape with reference for scroll-based animation */}
+      <div className="footer__bg-shape" ref={bgShapeRef}></div>
     </footer>
   );
 };

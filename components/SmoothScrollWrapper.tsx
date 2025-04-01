@@ -4,13 +4,14 @@ import React, { useEffect, ReactNode } from "react";
 import WhatsAppButton from "./WhatsAppButton/WhatsAppButton";
 import Footer from "./layout/Footer/Footer";
 
-// Define props interface with proper typing for children
 interface SmoothScrollWrapperProps {
   children: ReactNode;
+  showBackToTop?: boolean;
 }
 
 export default function SmoothScrollWrapper({
   children,
+  showBackToTop = true,
 }: SmoothScrollWrapperProps) {
   useEffect(() => {
     // Only run on client side
@@ -39,9 +40,12 @@ export default function SmoothScrollWrapper({
         requestAnimationFrame(() => {
           // Create ScrollSmoother
           const smoother = ScrollSmoother.create({
-            smooth:2,
+            smooth: 2,
             effects: true,
           });
+
+          // Make it globally available
+          (window as any).__smoother__ = smoother;
 
           console.log("ScrollSmoother initialized:", smoother);
         });
@@ -57,7 +61,7 @@ export default function SmoothScrollWrapper({
     <div id="smooth-wrapper">
       <div id="smooth-content">
         {children}
-        <WhatsAppButton phoneNumber="34928712222" />
+        {/* <WhatsAppButton phoneNumber="34928712222" /> */}
         <Footer />
       </div>
     </div>

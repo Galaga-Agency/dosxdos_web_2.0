@@ -93,7 +93,7 @@ function bounceAnimation() {
 
 // char animation
 function charAnimation() {
-    let char_come = gsap.utils.toArray(".tp-char-animation");
+    let char_come = gsap.utils.toArray(".char-animation");
     char_come.forEach((splitTextLine: any) => {
       const tl = gsap.timeline({
         scrollTrigger: {
