@@ -4,6 +4,7 @@ import "@/styles/main.scss";
 import Menu from "@/components/layout/Menu/Menu";
 import WhatsAppButton from "@/components/WhatsAppButton/WhatsAppButton";
 import Footer from "@/components/layout/Footer/Footer";
+import BackToTop from "@/components/BackToTop/BackToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,59 +59,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon.ico", // Added favicon explicitly
+        url: "/favicon.ico?v=123",
         sizes: "any",
         type: "image/x-icon",
-      },
-      {
-        url: "/assets/img/icons/icon-48x48.png",
-        sizes: "48x48",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-72x72.png",
-        sizes: "72x72",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-96x96.png",
-        sizes: "96x96",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-128x128.png",
-        sizes: "128x128",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-144x144.png",
-        sizes: "144x144",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-152x152.png",
-        sizes: "152x152",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-256x256.png",
-        sizes: "256x256",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-384x384.png",
-        sizes: "384x384",
-        type: "image/png",
-      },
-      {
-        url: "/assets/img/icons/icon-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
       },
     ],
     apple: [{ url: "/assets/img/logo/logo_fondo_rojo.png" }], //Special icon used when someone adds website to their iOS home screen
@@ -139,6 +90,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Menu />
         {children}
+        <BackToTop/>
       </body>
     </html>
   );
