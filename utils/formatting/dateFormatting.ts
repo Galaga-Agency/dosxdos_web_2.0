@@ -5,7 +5,7 @@
 // Format date to readable string (e.g., "Jan 1, 2023")
 export const formatDate = (date: string | Date): string => {
   const d = new Date(date);
-  return d.toLocaleDateString('en-US', {
+  return d.toLocaleDateString('es-ES', {
     month: 'short',
     day: 'numeric',
     year: 'numeric'

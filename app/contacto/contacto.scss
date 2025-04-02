@@ -90,7 +90,7 @@
     transform: rotate(180deg);
     font-weight: 600;
     letter-spacing: 1px;
-    color: $secondary-color;
+    color: $black;
     margin-bottom: 1rem;
   }
 
@@ -118,7 +118,7 @@
   &__mobile-social-title {
     @include font-size(xl);
     font-weight: 600;
-    color: $secondary-color;
+    color: $black;
     margin-bottom: 1rem;
     position: relative;
     z-index: 1;
@@ -155,7 +155,7 @@
   &__subtitle {
     @include font-size(base);
     @include font-weight(light);
-    color: $secondary-color;
+    color: rgba($black, 0.7);
     display: block;
     max-width: 50vw;
     margin-left: 0.5rem;
@@ -194,7 +194,7 @@
     &-info-section {
       p {
         @include font-size(md);
-        color: $secondary-color;
+        color: rgba($black, 0.7);
         max-width: 70vw;
 
         @include min-width(lg) {

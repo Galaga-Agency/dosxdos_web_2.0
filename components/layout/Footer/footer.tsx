@@ -183,6 +183,7 @@ const Footer = () => {
 
           {/* CTA Section */}
           <div className="footer__cta" ref={ctaRef}>
+            <div className="footer__cta-accent"></div>
             <div className="footer__cta-content">
               <h4>¿Hablamos?</h4>
               <p>¿Tienes un nuevo proyecto? Lo hacemos real.</p>
@@ -211,13 +212,10 @@ const Footer = () => {
             </div>
           </div>
           <div className="footer__social">
-            <SocialIcons iconSize="large" color="white" />
+            <SocialIcons iconSize="large" />
           </div>
         </div>
       </div>
-
-      {/* Background shape with reference for scroll-based animation */}
-      <div className="footer__bg-shape" ref={bgShapeRef}></div>
     </footer>
   );
 };
