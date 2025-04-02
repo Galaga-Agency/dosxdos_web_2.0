@@ -15,7 +15,7 @@
 
       label {
         display: block;
-        color: $secondary-color;
+        color: $black;
         @include font-size(md);
       }
 
@@ -23,13 +23,13 @@
         width: 100%;
         padding: 0.5rem 0;
         border: none;
-        border-bottom: 1px solid rgba($secondary-color, 0.2);
+        border-bottom: 1px solid rgba($black, 0.4);
         background-color: transparent;
-        color: rgba($secondary-color, 0.6);
+        color: rgba($black, 0.8);
         @include font-size(md);
 
         &::placeholder {
-          color: rgba($secondary-color, 0.4);
+          color: rgba($black, 0.3);
         }
 
         &:focus {
@@ -55,15 +55,15 @@
       width: 100%;
       padding: 0.5rem 0;
       border: none;
-      border-bottom: 1px solid rgba($secondary-color, 0.2);
+      border-bottom: 1px solid rgba($black, 0.4);
       background-color: transparent;
-      color: rgba($secondary-color, 0.6);
+      color: rgba($black, 0.8);
       @include font-size(md);
       min-height: 4rem;
       resize: vertical;
 
       &::placeholder {
-        color: rgba($secondary-color, 0.4);
+        color: rgba($black, 0.3);
       }
 
       &:focus {

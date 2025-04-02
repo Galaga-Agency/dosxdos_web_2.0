@@ -6,20 +6,16 @@
 // Footer base styles
 .footer {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    darken($secondary-color, 15%),
-    $secondary-color 70%
-  );
-  color: $white;
+  background: $secondary-color;
+  color: $black;
   overflow: hidden;
   padding: 3rem 1.5rem;
   @include z-index(above);
-  
+
   @include min-width(md) {
     padding: 4rem 2rem;
   }
-  
+
   @include min-width(lg) {
     padding: 5rem 2rem;
   }
@@ -32,15 +28,15 @@
     width: 100%;
     position: relative;
     z-index: 1; // Ensure above background shapes
-    
+
     @include min-width(md) {
       max-width: 92%;
     }
-    
+
     @include min-width(lg) {
       max-width: 1140px;
     }
-    
+
     @include min-width(xl) {
       max-width: 1280px;
     }
@@ -50,14 +46,14 @@
   &__main {
     display: flex;
     flex-direction: column;
-    
+
     @include min-width(md) {
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 2rem;
     }
-    
+
     @include min-width(lg) {
       flex-wrap: nowrap;
       justify-content: center;
@@ -70,7 +66,7 @@
     text-align: center;
     margin-bottom: 2.5rem;
     will-change: transform, opacity; // Optimization for animations
-    
+
     @include min-width(md) {
       text-align: left;
       width: 100%;
@@ -79,7 +75,7 @@
       justify-content: space-between;
       margin-bottom: 3rem;
     }
-    
+
     @include min-width(lg) {
       width: 28%;
       flex-direction: column;
@@ -103,17 +99,17 @@
     margin-bottom: 1.5rem;
     display: inline-block;
     transition: transform 0.3s ease;
-    
+
     @include min-width(md) {
       margin-bottom: 1.25rem;
       width: 230px;
     }
-    
+
     @include min-width(lg) {
       width: 250px;
       margin-bottom: 1.5rem;
     }
-    
+
     &:hover {
       transform: translateY(-5px);
     }
@@ -127,13 +123,13 @@
     max-width: 300px;
     margin-left: auto;
     margin-right: auto;
-    
+
     @include min-width(md) {
       margin-left: 0;
       margin-right: 0;
       margin-bottom: 0;
     }
-    
+
     @include min-width(lg) {
       margin-bottom: 1.75rem;
     }
@@ -144,11 +140,11 @@
     @include flex(column, center, center);
     gap: 0.75rem;
     will-change: transform, opacity; // Optimization
-    
+
     @include min-width(md) {
       align-items: flex-end;
     }
-    
+
     @include min-width(lg) {
       align-items: flex-start;
       margin-top: 0.5rem;
@@ -157,9 +153,9 @@
     a {
       @include flex(row, flex-start, center);
       gap: 0.5rem;
-      color: $white;
+      color: $black;
       text-decoration: none;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       will-change: transform; // Optimization
 
       &:hover {
@@ -167,12 +163,13 @@
 
         .icon {
           background-color: $primary-color;
+          color: $white;
         }
       }
 
       .icon {
         @include flex(row, center, center);
-        background-color: rgba($white, 0.1);
+        background-color: rgba($black, 0.1);
         width: 32px;
         height: 32px;
         @include border-radius(full);
@@ -187,7 +184,7 @@
     flex-direction: column;
     margin-block: 2.5rem;
     will-change: transform, opacity; // Optimization
-    
+
     @include min-width(md) {
       flex-direction: row;
       justify-content: flex-start;
@@ -195,7 +192,7 @@
       gap: 3rem;
       margin-block: 0;
     }
-    
+
     @include min-width(lg) {
       width: 42%;
       margin-block: 0;
@@ -205,7 +202,7 @@
 
   &__nav-column {
     margin-bottom: 2rem;
-    
+
     @include min-width(md) {
       flex: 1;
       margin-bottom: 0;
@@ -228,7 +225,7 @@
         background-color: $primary-color;
       }
     }
-    
+
     ul {
       list-style: none;
       padding: 0;
@@ -244,14 +241,14 @@
 
     a {
       @include flex(row, space-between, center);
-      color: rgba($white, 0.8);
+      color: rgba($black, 0.8);
       text-decoration: none;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       padding: 0.25rem 0;
       will-change: transform, color; // Optimization
 
       &:hover {
-        color: $white;
+        color: $black;
         transform: translateX(5px);
 
         .link-arrow {
@@ -272,18 +269,58 @@
 
   // CTA section
   &__cta {
-    background-color: rgba($white, 0.1);
+    position: relative;
+    background-color: transparent;
+    backdrop-filter: blur(5px);
     @include border-radius(lg);
     padding: 2.5rem 2rem;
     margin-bottom: 2.5rem;
     @include flex(column, center, center);
-    will-change: transform, opacity; // Optimization
-    
+    will-change: transform, opacity;
+    border: 1px solid rgba($black, 0.05);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+
+    // Glass effect background
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba($white, 0.2),
+        rgba($white, 0.07)
+      );
+      opacity: 0.5;
+      z-index: -1;
+      border-radius: inherit;
+    }
+
+    // Subtle gradient background
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom right,
+        rgba($primary-color, 0.05),
+        rgba($primary-color, 0.15)
+      );
+      z-index: -2;
+      border-radius: inherit;
+    }
+
     @include min-width(md) {
       width: 100%;
       margin-top: 1rem;
     }
-    
+
     @include min-width(lg) {
       width: 30%;
       margin-top: 0;
@@ -299,11 +336,32 @@
         @include font-size(2xl);
         @include font-weight(bold);
         margin-bottom: 0.75rem;
+        position: relative;
+        display: inline-block;
+
+        // Decorative underline
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -5px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 40px;
+          height: 2px;
+          background-color: $primary-color;
+          transition: width 0.3s ease;
+        }
       }
 
       p {
         margin-bottom: 1.75rem;
         @include font-size(lg);
+      }
+    }
+
+    &:hover {
+      h4::after {
+        width: 60px;
       }
     }
 
@@ -316,7 +374,7 @@
       background-color: $primary-color;
       color: $white;
       @include border-radius(full);
-      @include font-weight(semibold);
+      @include font-weight(medium);
       @include font-size(base);
       text-decoration: none;
       transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -325,17 +383,79 @@
       position: relative;
       overflow: hidden;
       gap: 0.5rem;
-      will-change: transform, background-color, box-shadow; // Optimization
+      will-change: transform, background-color, box-shadow;
+
+      // Button shine effect
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.7s ease;
+      }
 
       &:hover {
         background-color: darken($primary-color, 5%);
         box-shadow: $shadow-lg;
         transform: translateY(-3px) scale(1.02);
+
+        &::before {
+          left: 100%;
+        }
+
+        svg {
+          transform: translateX(3px);
+        }
       }
 
       &:active {
         transform: translateY(0);
         box-shadow: $shadow-md;
+      }
+
+      svg {
+        transition: transform 0.3s ease;
+      }
+    }
+
+    &-accent {
+      position: absolute;
+      top: -15px;
+      right: 30px;
+      width: 30px;
+      height: 30px;
+      background-color: $primary-color;
+      border-radius: 50%;
+      opacity: 0.8;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: -25px;
+        width: 15px;
+        height: 15px;
+        background-color: rgba($primary-color, 0.5);
+        border-radius: 50%;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        width: 20px;
+        height: 20px;
+        background-color: rgba($primary-color, 0.3);
+        border-radius: 50%;
       }
     }
   }
@@ -343,7 +463,7 @@
   // Bottom section
   &__bottom {
     padding-top: 2rem;
-    border-top: 1px solid rgba($white, 0.1);
+    border-top: 1px solid rgba($black, 0.1);
     @include flex(column, center, center);
     gap: 1.5rem;
     margin-top: 2rem;
@@ -358,7 +478,7 @@
 
   &__bottom-left {
     @include flex(column, center, center);
-    
+
     @include min-width(md) {
       align-items: flex-start;
     }
@@ -369,33 +489,33 @@
     opacity: 0.7;
     text-align: center;
     margin-bottom: 1rem;
-    
+
     @include min-width(md) {
       text-align: left;
       margin-bottom: 0.75rem;
     }
   }
-  
+
   &__legal-links {
     @include flex(column, center, center);
     gap: 0.75rem;
     margin-bottom: 1.5rem;
-    
+
     @include min-width(md) {
       @include flex(row, flex-start, center);
       margin-bottom: 0;
     }
-    
+
     a {
-      color: rgba($white, 0.7);
+      color: rgba($black, 0.7);
       text-decoration: none;
       @include font-size(sm);
       transition: all 0.3s ease;
-      
+
       @include min-width(md) {
         &:not(:last-child) {
           margin-right: 1.25rem;
-          
+
           &::after {
             content: "·";
             display: inline-block;
@@ -404,9 +524,9 @@
           }
         }
       }
-      
+
       &:hover {
-        color: $white;
+        color: $black;
         transform: translateX(3px);
       }
     }
@@ -415,7 +535,7 @@
   &__social {
     @include flex(row, center, center);
     gap: 1.25rem;
-    
+
     @include min-width(md) {
       justify-content: flex-end;
     }
@@ -432,7 +552,7 @@
     border-radius: 50%;
     z-index: -1;
     will-change: transform; // Optimization for animations
-    
+
     // CSS variables for pseudo-element movement
     --before-y: 0px;
     --after-y: 0px;
