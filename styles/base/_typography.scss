@@ -2,10 +2,62 @@
 @use '../abstracts/mixins' as *;
 @use '../base/colors' as *;
 
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/Inter-18pt-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/assets/fonts/Inter-18pt-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/Inter-24pt-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/RobotoSlab-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/assets/fonts/RobotoSlab-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/RobotoSlab-Bold.ttf') format('truetype');
+}
+
+:root {
+  // Define fallback variables
+  --font-sans: var(--font-inter, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  --font-serif: var(--font-roboto-slab, 'Roboto Slab', Georgia, serif);
+}
+
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    @include font-size(base);
-    @include font-weight(medium);
+    font-family: var(--font-sans);
     color: $black;
 }
 
@@ -15,8 +67,8 @@ h3,
 h4,
 h5,
 h6 {
-    @include font-weight(bold);
-    line-height: 1.2;
+    font-family: var(--font-serif);
+    margin-bottom: spacing(sm);
 }
 
 h1 {
@@ -33,4 +85,12 @@ h3 {
 
 p {
     margin-bottom: spacing(md);
+}
+
+.font-sans {
+    font-family: var(--font-sans);
+}
+
+.font-serif {
+    font-family: var(--font-serif);
 }

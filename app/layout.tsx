@@ -1,19 +1,51 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "@/styles/main.scss";
 import Menu from "@/components/layout/Menu/Menu";
-import WhatsAppButton from "@/components/WhatsAppButton/WhatsAppButton";
-import Footer from "@/components/layout/Footer/Footer";
 import BackToTop from "@/components/BackToTop/BackToTop";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = localFont({
+  variable: "--font-inter",
+  display: "swap",
+  src: [
+    {
+      path: "../public/assets/fonts/Inter_18pt-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/Inter_18pt-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/Inter_24pt-ExtraBold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const robotoSlab = localFont({
+  variable: "--font-roboto-slab",
+  display: "swap",
+  src: [
+    {
+      path: "../public/assets/fonts/RobotoSlab-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/RobotoSlab-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/RobotoSlab-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -59,7 +91,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon.ico?v=123",
+        url: "/favicon.ico?v=1",
         sizes: "any",
         type: "image/x-icon",
       },
@@ -87,10 +119,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${inter.variable} ${robotoSlab.variable}`}>
         <Menu />
         {children}
-        <BackToTop/>
+        <BackToTop />
       </body>
     </html>
   );

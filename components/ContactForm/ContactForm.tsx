@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useRef } from "react";
-import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { useForm, SubmitHandler } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import { toast, Toaster } from "react-hot-toast";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 import "./ContactForm.scss";
 
@@ -22,27 +22,8 @@ const ContactForm: React.FC = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ContactFormInputs>();
-
-  useGSAP(() => {
-    if (formRef.current) {
-      gsap.fromTo(
-        formRef.current.querySelectorAll(".form-group"),
-        {
-          opacity: 0,
-          y: 50,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          duration: 0.7,
-          ease: "power2.out",
-        }
-      );
-    }
-  }, []);
 
   const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
     try {
@@ -61,104 +42,126 @@ const ContactForm: React.FC = () => {
 
       toast.success("Mensaje enviado exitosamente");
       reset();
+
+      // Simple success animation
+      if (formRef.current) {
+        gsap.to(formRef.current, {
+          y: -5,
+          duration: 0.2,
+          ease: "power2.out",
+          yoyo: true,
+          repeat: 1,
+        });
+      }
     } catch (error) {
       toast.error("Error al enviar el mensaje");
       console.error("Error de envío:", error);
+
+      // Error shake animation
+      if (formRef.current) {
+        gsap.to(formRef.current, {
+          x: 5,
+          duration: 0.1,
+          ease: "power2.out",
+          yoyo: true,
+          repeat: 3,
+        });
+      }
     }
   };
 
   return (
     <div className="contact-form-wrapper">
       <Toaster position="top-right" />
-
       <form
         ref={formRef}
         onSubmit={handleSubmit(onSubmit)}
         className="contact-form"
       >
         <div className="form-group">
-          <div className="input-wrapper">
-            <input
-              type="text"
-              placeholder="Nombre completo"
-              {...register("name", {
-                required: "El nombre es obligatorio",
-                minLength: {
-                  value: 2,
-                  message: "El nombre debe tener al menos 2 caracteres",
-                },
-              })}
-            />
-            <span className="input-border"></span>
-          </div>
+          <label>Nombre</label>
+          <input
+            type="text"
+            placeholder="Su nombre completo"
+            {...register("name", {
+              required: "El nombre es obligatorio",
+              minLength: {
+                value: 2,
+                message: "El nombre debe tener al menos 2 caracteres",
+              },
+            })}
+            disabled={isSubmitting}
+          />
           {errors.name && (
             <span className="error-message">{errors.name.message}</span>
           )}
         </div>
 
         <div className="form-group">
-          <div className="input-wrapper">
-            <input
-              type="email"
-              placeholder="Correo electrónico"
-              {...register("email", {
-                required: "El correo es obligatorio",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Correo electrónico inválido",
-                },
-              })}
-            />
-            <span className="input-border"></span>
-          </div>
+          <label>Correo electrónico</label>
+          <input
+            type="email"
+            placeholder="correo@ejemplo.com"
+            {...register("email", {
+              required: "El correo electrónico es obligatorio",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Correo electrónico inválido",
+              },
+            })}
+            disabled={isSubmitting}
+          />
           {errors.email && (
             <span className="error-message">{errors.email.message}</span>
           )}
         </div>
 
         <div className="form-group">
-          <div className="input-wrapper">
-            <input
-              type="text"
-              placeholder="Asunto"
-              {...register("subject", {
-                required: "El asunto es obligatorio",
-                minLength: {
-                  value: 3,
-                  message: "El asunto debe tener al menos 3 caracteres",
-                },
-              })}
-            />
-            <span className="input-border"></span>
-          </div>
+          <label>Asunto</label>
+          <input
+            type="text"
+            placeholder="Asunto de su mensaje"
+            {...register("subject", {
+              required: "El asunto es obligatorio",
+              minLength: {
+                value: 3,
+                message: "El asunto debe tener al menos 3 caracteres",
+              },
+            })}
+            disabled={isSubmitting}
+          />
           {errors.subject && (
             <span className="error-message">{errors.subject.message}</span>
           )}
         </div>
 
         <div className="form-group">
-          <div className="input-wrapper">
-            <textarea
-              placeholder="Describe tu proyecto"
-              {...register("message", {
-                required: "El mensaje es obligatorio",
-                minLength: {
-                  value: 10,
-                  message: "El mensaje debe tener al menos 10 caracteres",
-                },
-              })}
-            ></textarea>
-            <span className="input-border"></span>
-          </div>
+          <label>Mensaje</label>
+          <textarea
+            placeholder="Cuéntenos sobre su proyecto"
+            rows={5}
+            {...register("message", {
+              required: "El mensaje es obligatorio",
+              minLength: {
+                value: 10,
+                message: "El mensaje debe tener al menos 10 caracteres",
+              },
+            })}
+            disabled={isSubmitting}
+          ></textarea>
           {errors.message && (
             <span className="error-message">{errors.message.message}</span>
           )}
         </div>
 
-        <button type="submit" className="submit-btn">
-          <span>Enviar Mensaje</span>
-          <div className="btn-overlay"></div>
-        </button>
+        <PrimaryButton
+          type="submit"
+          disabled={isSubmitting}
+          fullWidth
+          className="contact-form__submit-btn"
+        >
+          {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+        </PrimaryButton>
       </form>
     </div>
   );

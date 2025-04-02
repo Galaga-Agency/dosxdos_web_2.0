@@ -15,10 +15,9 @@ $spacing: (
 // -----------------------------------------------------------------------------
 $container: (
   desktop: clamp(1140px, 80vw, 1680px),
-  // More responsive approach with clamp
   smalldesktop: clamp(950px, 92vw, 1140px),
-  tablet: 95vw,
-  mobile: clamp(280px, 100vw, 540px),
+  tablet: 85vw,
+  mobile: clamp(280px, 90vw, 540px),
 );
 
 // -----------------------------------------------------------------------------
@@ -36,7 +35,7 @@ $breakpoints: (
   // Medium desktops
   xxl: 1400px,
   // Large desktops
-  xxxl: 1600px // Extra large desktops,,
+  xxxl: 1600px // Extra large desktops,,,,
 );
 
 // -----------------------------------------------------------------------------
@@ -98,9 +97,12 @@ $font-size: (
   7xl: 4.5rem,
   8xl: 6rem,
   9xl: 8rem,
+  10xl: 10rem,
 );
 
 $font-weight: (
+  extralight: 100,
+  light: 300,
   medium: 500,
   semibold: 600,
   bold: 700,

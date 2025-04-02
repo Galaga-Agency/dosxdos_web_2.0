@@ -1,0 +1,92 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: $primary-color;
+  color: $white;
+  @include border-radius(full);
+  @include font-weight(semibold);
+  @include font-size(base);
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  text-align: center;
+  box-shadow: $shadow-md;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+    backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  text-transform: capitalize;
+
+  &:hover {
+    background-color: darken($primary-color, 5%);
+    box-shadow: 0 6px 15px rgba($primary-color, 0.3);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba($primary-color, 0.2);
+  }
+
+  // Size variations
+  &--small {
+    padding: 0.5rem 1rem;
+    @include font-size(sm);
+  }
+
+  &--medium {
+    padding: 0.75rem 1.5rem;
+    @include font-size(base);
+  }
+
+  &--large {
+    padding: 1rem 2rem;
+    @include font-size(lg);
+  }
+
+  // Full width variation
+  &--full-width {
+    width: 100%;
+    display: flex;
+  }
+
+  // Disabled state
+  &--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+
+    &:hover {
+      transform: none;
+      box-shadow: $shadow-md;
+      background-color: $primary-color;
+    }
+  }
+
+  // Responsive adjustments
+  @media screen and (max-width: 1400px) {
+    @include responsive-font-size(0.9rem, 0.8rem);
+
+    &--small {
+      @include responsive-font-size(0.8rem, 0.7rem);
+    }
+
+    &--large {
+      @include responsive-font-size(1rem, 0.9rem);
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+}

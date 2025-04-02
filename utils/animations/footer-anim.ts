@@ -25,6 +25,13 @@ export const initFooterAnimations = (elements: FooterElements) => {
   const { footer, brand, contact, nav, cta, bottom, bgShape } = elements;
   if (!footer || !brand || !contact || !nav || !cta || !bottom) return;
 
+  // Flag to track if animations have been triggered
+  const animationTriggered = (footer as any)._footerAnimationTriggered;
+  if (animationTriggered) return;
+
+  // Mark that animations have been triggered
+  (footer as any)._footerAnimationTriggered = true;
+
   // Clean up existing ScrollTrigger instances
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
@@ -72,7 +79,7 @@ export const initFooterAnimations = (elements: FooterElements) => {
       scrollTrigger: {
         trigger: footer,
         start: isMobile ? "top bottom-=50" : "top bottom-=150",
-        toggleActions: "play none none reset",
+        toggleActions: "play none none none", // Prevent re-triggering
       },
     });
 

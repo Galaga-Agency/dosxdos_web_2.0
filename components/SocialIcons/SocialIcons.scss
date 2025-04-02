@@ -7,6 +7,23 @@
     align-items: center;
     gap: 1rem;
 
+    // Orientation variations
+    &.horizontal {
+        flex-direction: row;
+    }
+
+    &.vertical {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        transform: rotate(180deg);
+        height: fit-content;
+
+        .social-icons__link {
+            transform: rotate(180deg);
+        }
+    }
+
     // Default styling (primary color)
     &__link {
         display: flex;
@@ -102,6 +119,19 @@
         .social-icons__icon {
             width: 28px;
             height: 28px;
+        }
+    }
+
+    // Responsive adjustments
+    @media (max-width: 768px) {
+        &.vertical {
+            flex-direction: row;
+            writing-mode: initial;
+            transform: rotate(0);
+
+            .social-icons__link {
+                transform: rotate(0);
+            }
         }
     }
 }

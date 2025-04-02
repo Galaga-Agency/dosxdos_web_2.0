@@ -91,35 +91,65 @@ function bounceAnimation() {
   }
 }
 
-// char animation
-function charAnimation() {
-    let char_come = gsap.utils.toArray(".char-animation");
-    char_come.forEach((splitTextLine: any) => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: splitTextLine,
-          start: "top 90%",
-          end: "bottom 60%",
-          scrub: false,
-          markers: false,
-          toggleActions: "play none none none",
-        },
-      });
+function charAnimation(current?: any) {
+  // If a specific element is passed, only animate that
+  if (current) {
+    const splitTextLine = current;
 
-      const itemSplitted = new SplitText(splitTextLine, {
-        type: "chars, words",
-      });
-
-      gsap.set(splitTextLine, { perspective: 300 });
-      itemSplitted.split({ type: "chars, words" });
-      tl.from(itemSplitted.chars, {
-        duration: 1,
-        delay: 0.5,
-        x: 100,
-        autoAlpha: 0,
-        stagger: 0.05,
-      });
+    gsap.set(splitTextLine, {
+      visibility: "hidden",
+      perspective: 300,
     });
+
+    const itemSplitted = new SplitText(splitTextLine, {
+      type: "chars, words",
+    });
+
+    gsap.set(splitTextLine, { visibility: "visible" });
+
+    const tl = gsap.timeline();
+    tl.from(itemSplitted.chars, {
+      duration: 1,
+      x: 100,
+      autoAlpha: 0,
+      stagger: 0.05,
+    });
+
+    return;
+  }
+
+  // Original behavior for multiple elements
+  let char_come = gsap.utils.toArray(".char-animation");
+  char_come.forEach((splitTextLine: any) => {
+    gsap.set(splitTextLine, {
+      visibility: "hidden",
+      perspective: 300,
+    });
+
+    const itemSplitted = new SplitText(splitTextLine, {
+      type: "chars, words",
+    });
+
+    gsap.set(splitTextLine, { visibility: "visible" });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: splitTextLine,
+        start: "top 90%",
+        end: "bottom 60%",
+        scrub: false,
+        markers: false,
+        toggleActions: "play none none none",
+      },
+    });
+
+    tl.from(itemSplitted.chars, {
+      duration: 1,
+      x: 100,
+      autoAlpha: 0,
+      stagger: 0.05,
+    });
+  });
 }
 
 // fade left animation
@@ -206,87 +236,117 @@ function fadeAnimation() {
         a = 1,
         o = 1,
         i = 50,
-        s = .5,
+        s = 0.5,
         l = "power2.out";
-      t.getAttribute("data-fade-offset") && (i = t.getAttribute("data-fade-offset")), t.getAttribute("data-duration") && (o = t.getAttribute("data-duration")), t.getAttribute("data-fade-from") && (r = t.getAttribute("data-fade-from")), t.getAttribute("data-on-scroll") && (a = t.getAttribute("data-on-scroll")), t.getAttribute("data-delay") && (s = t.getAttribute("data-delay")), t.getAttribute("data-ease") && (l = t.getAttribute("data-ease")), 1 == a ? ("top" == r && gsap.from(t, {
-        y: -i,
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s,
-        scrollTrigger: {
-          trigger: t,
-          start: "top 110%"
-        }
-      }), "left" == r && gsap.from(t, {
-        x: -i,
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s,
-        scrollTrigger: {
-          trigger: t,
-          start: "top 110%"
-        }
-      }), "bottom" == r && gsap.from(t, {
-        y: i,
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s,
-        scrollTrigger: {
-          trigger: t,
-          start: "top 110%"
-        }
-      }), "right" == r && gsap.from(t, {
-        x: i,
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s,
-        scrollTrigger: {
-          trigger: t,
-          start: "top 110%"
-        }
-      }), "in" == r && gsap.from(t, {
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s,
-        scrollTrigger: {
-          trigger: t,
-          start: "top 110%"
-        }
-      })) : ("top" == r && gsap.from(t, {
-        y: -i,
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s
-      }), "left" == r && gsap.from(t, {
-        x: -i,
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s
-      }), "bottom" == r && gsap.from(t, {
-        y: i,
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s
-      }), "right" == r && gsap.from(t, {
-        x: i,
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s
-      }), "in" == r && gsap.from(t, {
-        opacity: 0,
-        ease: l,
-        duration: o,
-        delay: s
-      }))
+      t.getAttribute("data-fade-offset") &&
+        (i = t.getAttribute("data-fade-offset")),
+        t.getAttribute("data-duration") &&
+          (o = t.getAttribute("data-duration")),
+        t.getAttribute("data-fade-from") &&
+          (r = t.getAttribute("data-fade-from")),
+        t.getAttribute("data-on-scroll") &&
+          (a = t.getAttribute("data-on-scroll")),
+        t.getAttribute("data-delay") && (s = t.getAttribute("data-delay")),
+        t.getAttribute("data-ease") && (l = t.getAttribute("data-ease")),
+        1 == a
+          ? ("top" == r &&
+              gsap.from(t, {
+                y: -i,
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+                scrollTrigger: {
+                  trigger: t,
+                  start: "top 110%",
+                },
+              }),
+            "left" == r &&
+              gsap.from(t, {
+                x: -i,
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+                scrollTrigger: {
+                  trigger: t,
+                  start: "top 110%",
+                },
+              }),
+            "bottom" == r &&
+              gsap.from(t, {
+                y: i,
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+                scrollTrigger: {
+                  trigger: t,
+                  start: "top 110%",
+                },
+              }),
+            "right" == r &&
+              gsap.from(t, {
+                x: i,
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+                scrollTrigger: {
+                  trigger: t,
+                  start: "top 110%",
+                },
+              }),
+            "in" == r &&
+              gsap.from(t, {
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+                scrollTrigger: {
+                  trigger: t,
+                  start: "top 110%",
+                },
+              }))
+          : ("top" == r &&
+              gsap.from(t, {
+                y: -i,
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+              }),
+            "left" == r &&
+              gsap.from(t, {
+                x: -i,
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+              }),
+            "bottom" == r &&
+              gsap.from(t, {
+                y: i,
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+              }),
+            "right" == r &&
+              gsap.from(t, {
+                x: i,
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+              }),
+            "in" == r &&
+              gsap.from(t, {
+                opacity: 0,
+                ease: l,
+                duration: o,
+                delay: s,
+              }));
     });
   }
 }
@@ -434,26 +494,28 @@ function zoomAnimation() {
       });
     });
   }
-};
+}
 
 function titleAnimation() {
-  if ($('.tp_title_anim').length > 0) {
+  if ($(".tp_title_anim").length > 0) {
     let splitTitleLines = gsap.utils.toArray(".tp_title_anim");
     splitTitleLines.forEach((splitTextLine: any) => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: splitTextLine,
-          start: 'top 90%',
-          end: 'bottom 60%',
+          start: "top 90%",
+          end: "bottom 60%",
           scrub: false,
           markers: false,
-          toggleActions: 'play none none none'
-        }
+          toggleActions: "play none none none",
+        },
       });
 
-      const itemSplitted = new SplitText(splitTextLine, { type: "words, lines" });
+      const itemSplitted = new SplitText(splitTextLine, {
+        type: "words, lines",
+      });
       gsap.set(splitTextLine, { perspective: 400 });
-      itemSplitted.split({ type: "lines" })
+      itemSplitted.split({ type: "lines" });
       tl.from(itemSplitted.lines, {
         duration: 1,
         delay: 0.3,
@@ -461,7 +523,7 @@ function titleAnimation() {
         rotationX: -80,
         force3D: true,
         transformOrigin: "top center -50",
-        stagger: 0.1
+        stagger: 0.1,
       });
     });
   }
