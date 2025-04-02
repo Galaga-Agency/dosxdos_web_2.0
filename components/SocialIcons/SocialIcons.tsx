@@ -8,15 +8,25 @@ interface SocialIconsProps {
   className?: string;
   iconSize?: "small" | "medium" | "large";
   color?: "primary" | "white";
+  orientation?: "vertical" | "horizontal";
 }
 
 const SocialIcons: React.FC<SocialIconsProps> = ({
   className = "",
   iconSize = "medium",
   color = "primary",
+  orientation = "horizontal",
 }) => {
   return (
-    <div className={`social-icons ${className} ${iconSize} ${color}`}>
+    <div
+      className={`
+        social-icons 
+        ${className} 
+        ${iconSize} 
+        ${color} 
+        ${orientation === "vertical" ? "vertical" : "horizontal"}
+      `}
+    >
       {/* LinkedIn */}
       <Link
         href="https://es.linkedin.com/company/dos-por-dos-grupo-imagen"

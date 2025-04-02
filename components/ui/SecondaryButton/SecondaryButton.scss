@@ -1,0 +1,129 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: rgba($white, 0.1);
+  color: $primary-color;
+  @include border-radius(full);
+  @include font-weight(medium);
+  @include font-size(lg);
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba($white, 0.2);
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+    
+    &::before {
+      transform: translateX(0);
+      opacity: 0.1;
+    }
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba($white, 0) 0%,
+      rgba($white, 0.3) 50%,
+      rgba($white, 0) 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  // Size variations
+  &--small {
+    padding: 0.5rem 1rem;
+    @include font-size(sm);
+  }
+  
+  &--medium {
+    padding: 0.75rem 1.5rem;
+    @include font-size(base);
+  }
+  
+  &--large {
+    padding: 1rem 2rem;
+    @include font-size(lg);
+  }
+  
+  // Full width variation
+  &--full-width {
+    width: 100%;
+    display: flex;
+  }
+  
+  // Disabled state
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    backdrop-filter: blur(3px);
+    
+    &:hover {
+      transform: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  // Content container
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  // Icon styles
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  // Text styles
+  &__text {
+    position: relative;
+  }
+  
+  // Responsive adjustments
+  @media screen and (max-width: 1400px) {
+    @include responsive-font-size(0.9rem, 0.8rem);
+    
+    &--small {
+      @include responsive-font-size(0.8rem, 0.7rem);
+    }
+    
+    &--large {
+      @include responsive-font-size(1rem, 0.9rem);
+    }
+  }
+}

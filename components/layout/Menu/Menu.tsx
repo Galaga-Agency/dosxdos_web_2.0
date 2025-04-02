@@ -7,6 +7,7 @@ import { menuItems, ctaButton } from "@/data/menu-data";
 import { Plus, Minus, ChevronDown } from "lucide-react";
 import HamburgerIcon from "@/components/HamburgerIcon/HamburgerIcon";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim"; // Professional animation utilities
 import "./Menu.scss";
@@ -27,7 +28,6 @@ const Menu: React.FC = () => {
   const { isMobile } = useDeviceDetect();
 
   // Setup scroll-based styling and animations
-  // REPLACE ONLY THIS ONE USEEFFECT
   useEffect(() => {
     // Basic scroll handler for styling
     const handleBasicScroll = () => {
@@ -208,9 +208,13 @@ const Menu: React.FC = () => {
         {/* Actions Area */}
         <div className="menu__actions">
           {/* CTA Button */}
-          <Link href={ctaButton.href} className="menu__cta">
-            <span>{ctaButton.label}</span>
-          </Link>
+          <PrimaryButton
+            href={ctaButton.href}
+            className="menu__cta"
+            size="medium"
+          >
+            {ctaButton.label}
+          </PrimaryButton>
 
           {/* Desktop Social Icons */}
           <div className="menu__social-desktop">
@@ -313,13 +317,14 @@ const Menu: React.FC = () => {
               <SocialIcons iconSize="medium" className="menu__social-icons" />
             </div>
 
-            <Link
+            <PrimaryButton
               href={ctaButton.href}
               className="menu__mobile-cta"
               onClick={toggleMobileMenu}
+              fullWidth
             >
               {ctaButton.label}
-            </Link>
+            </PrimaryButton>
           </div>
         </div>
       </div>
