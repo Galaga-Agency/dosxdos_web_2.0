@@ -3,16 +3,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import { menuItems, ctaButton } from "@/data/menu-data";
 import { Plus, Minus, ChevronDown } from "lucide-react";
 import HamburgerIcon from "@/components/HamburgerIcon/HamburgerIcon";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import AdminBadge from "@/components/AdminBadge/AdminBadge";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import { menuUtils } from "@/utils/animations/menu-anim"; // Professional animation utilities
+import { menuUtils } from "@/utils/animations/menu-anim";
 import "./Menu.scss";
 
 const Menu: React.FC = () => {
+  // Get session status
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === "authenticated";
   // State management
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -205,6 +210,9 @@ const Menu: React.FC = () => {
           </ul>
         </nav>
 
+        {/* Admin Badge - Only show when authenticated */}
+        {isAuthenticated && <AdminBadge className="menu__admin-badge" />}
+
         {/* Actions Area */}
         <div className="menu__actions">
           {/* CTA Button */}
@@ -316,6 +324,9 @@ const Menu: React.FC = () => {
             <div className="menu__social-mobile">
               <SocialIcons iconSize="medium" className="menu__social-icons" />
             </div>
+
+            {/* Admin Badge - Only show when authenticated */}
+            {isAuthenticated && <AdminBadge className="admin-badge--mobile" />}
 
             <PrimaryButton
               href={ctaButton.href}

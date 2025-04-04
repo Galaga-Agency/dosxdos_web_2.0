@@ -3,6 +3,7 @@
 import React, { useEffect, ReactNode } from "react";
 import WhatsAppButton from "./WhatsAppButton/WhatsAppButton";
 import Footer from "./layout/Footer/Footer";
+import LoadingManager from "@/utils/loading";
 
 interface SmoothScrollWrapperProps {
   children: ReactNode;
@@ -47,7 +48,13 @@ export default function SmoothScrollWrapper({
           // Make it globally available
           (window as any).__smoother__ = smoother;
 
-          console.log("ScrollSmoother initialized:", smoother);
+          // Notify LoadingManager that ScrollSmoother is ready
+          LoadingManager.smootherInitialized();
+
+          // If we're currently loading, pause immediately
+          if (LoadingManager.isLoading) {
+            smoother.paused(true);
+          }
         });
       } catch (error) {
         console.error("Error initializing ScrollSmoother:", error);

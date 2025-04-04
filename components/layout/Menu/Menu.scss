@@ -51,6 +51,16 @@
     }
   }
 
+  &__admin-badge {
+    display: none;
+    margin-right: 1rem;
+
+    @include min-width(xl) {
+      display: inline-flex; /* Show on desktop */
+      margin-right: 1rem;
+    }
+  }
+
   &__container {
     position: relative;
     width: 100%;
@@ -313,7 +323,7 @@
 
   // CTA Button
   &__cta {
-    display: none!important;
+    display: none !important;
   }
 
   // Mobile menu
@@ -592,7 +602,7 @@
     }
 
     &__cta {
-      display: inline-flex!important;
+      display: inline-flex !important;
     }
 
     &__social-desktop {

@@ -1,0 +1,46 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.form-input {
+  margin-bottom: 2rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: $black;
+    @include font-size(base);
+    @include font-weight(light);
+  }
+
+  input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba($secondary-color, 0.3);
+    @include border-radius(md);
+    transition: all 0.3s ease;
+
+    &::placeholder {
+      color: rgba($black, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+
+    &.error {
+      border-color: $secondary-color;
+      background-color: rgba($secondary-color, 0.03);
+    }
+  }
+
+  .error-feedback {
+    color: $secondary-color;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+}

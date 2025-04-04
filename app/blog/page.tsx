@@ -18,8 +18,6 @@ import gsap from "gsap";
 const BlogPage: React.FC = () => {
   const imageContainerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLDivElement | null>(null);
-
-  // Pagination logic
   const blog_items = [...blogPosts];
   const first_blog = blog_items[0];
   const other_blogs = blog_items.filter((b) => b !== first_blog);
@@ -27,7 +25,6 @@ const BlogPage: React.FC = () => {
     usePagination({
       items: other_blogs,
       itemsPerPage: 6,
-      scrollTargetId: "pagination-section",
     });
 
   useParallax(
@@ -78,14 +75,14 @@ const BlogPage: React.FC = () => {
             >
               <div ref={imageRef} className="blog-page__featured-image-wrapper">
                 <Image
-                  src={first_blog.img}
+                  src={first_blog.img || "/assets/img/default-blog-image.jpg"}
                   alt={first_blog.title}
                   fill
                   priority
                   style={{
                     objectFit: "cover",
                     objectPosition: "center",
-                    willChange: "transform", // Optimizes animation performance
+                    willChange: "transform",
                   }}
                 />
               </div>

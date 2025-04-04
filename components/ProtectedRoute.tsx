@@ -1,27 +1,22 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/authStore";
+import { useSession } from "next-auth/react";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const { data: session, status } = useSession();
   const router = useRouter();
-  const { isAuthenticated } = useAuthStore();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login");
+    if (status === "unauthenticated") {
+      router.replace("/admin/login");
     }
-  }, [isAuthenticated, router]);
-
-  // Don't render children until authenticated
-  if (!isAuthenticated) {
-    return null;
-  }
+  }, [status, router]);
 
   return <>{children}</>;
 };

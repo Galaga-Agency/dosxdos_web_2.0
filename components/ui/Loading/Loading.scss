@@ -1,0 +1,51 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  @include z-index(above);
+  @include flex(center, center, center);
+  
+  /* Override any transforms from ScrollSmoother */
+  transform: none !important;
+  
+  /* Fix for Firefox to ensure loading is properly fixed */
+  body & {
+    position: fixed !important;
+  }
+
+  &__line {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.8rem;
+  }
+
+  &__svg-block {
+    display: flex;
+    align-items: flex-end;
+
+    svg + svg {
+      margin-left: -6rem;
+    }
+  }
+
+  &__icon {
+    width: 100px;
+    height: auto;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: $primary-color;
+    margin-bottom: 1.4rem;
+  }
+}
