@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "utils/scroll-magic.js",
     "hooks"
-  ],
+, "hooks"  ],
   "exclude": ["node_modules"]
 }

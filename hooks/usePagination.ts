@@ -9,7 +9,7 @@ export interface PaginationOptions<T> {
 export default function usePagination<T>({
   items,
   itemsPerPage = 6,
-  scrollTargetId = "pagination-section",
+  scrollTargetId = "pagination-section", // Keep the parameter for backwards compatibility
 }: PaginationOptions<T>) {
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -19,7 +19,7 @@ export default function usePagination<T>({
     if (currentPage >= Math.ceil(items.length / itemsPerPage)) {
       setCurrentPage(0);
     }
-  }, [items, itemsPerPage]);
+  }, [items, itemsPerPage, currentPage]);
 
   // Calculate total pages
   const pageCount = Math.ceil(items.length / itemsPerPage);
@@ -30,25 +30,14 @@ export default function usePagination<T>({
     (currentPage + 1) * itemsPerPage
   );
 
-  // Handle page click
-  const handlePageClick = useCallback(
-    (event: { selected: number }) => {
-      // Update the current page
-      setCurrentPage(event.selected);
+  // Handle page click - IMPORTANT: No scrolling logic here!
+  const handlePageClick = useCallback((event: { selected: number }) => {
+    // Simply update the page state
+    setCurrentPage(event.selected);
 
-      // Scroll to the target section if it exists
-      if (typeof window !== "undefined") {
-        const element = document.getElementById(scrollTargetId);
-        if (element) {
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      }
-    },
-    [scrollTargetId]
-  );
+    // DO NOT add any scrolling logic here
+    // The scrollTargetId parameter is kept for backwards compatibility only
+  }, []);
 
   // Reset to first page
   const resetToFirstPage = useCallback(() => {

@@ -1,0 +1,516 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.blog-detail {
+  position: relative;
+  margin-inline: auto;
+  min-height: 100vh;
+  width: 100%;
+  padding-block: 8rem;
+
+  @include min-width(lg) {
+    padding-block: 10rem;
+  }
+
+  // Background that covers entire screen width
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/assets/img/texture-white.svg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    z-index: -1;
+  }
+
+  &__container {
+    @include container-width(mobile);
+    margin: 0 auto;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__social-sidebar {
+    position: fixed;
+    left: 2rem;
+    top: 50vh;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: none;
+
+    @include min-width(xl) {
+      display: block;
+    }
+  }
+
+  &__social-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -12rem;
+      width: 3px;
+      height: 10rem;
+      background: linear-gradient(
+        to bottom,
+        rgba($primary-color, 0.3),
+        rgba($primary-color, 0.1),
+        transparent
+      );
+    }
+  }
+
+  &__social-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: $black;
+    margin-bottom: 1rem;
+  }
+
+  &__header {
+    width: 100%;
+    @include flex(column, unset, unset);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  &__back-link {
+    position: absolute;
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: $black;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__category {
+    span {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background-color: $primary-color;
+      color: $white;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      @include border-radius(md);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &__date {
+    span {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: rgba($black, 0.7);
+    }
+  }
+
+  &__title {
+    position: relative;
+    margin-bottom: 1rem;
+    color: $black;
+    @include font-size(4xl);
+    @include font-weight(bold);
+    line-height: 1.2;
+
+    @include min-width(md) {
+      @include font-size(5xl);
+    }
+
+    @include min-width(lg) {
+      @include font-size(6xl);
+    }
+  }
+
+  &__author {
+    margin-bottom: 2rem;
+
+    span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: rgba($black, 0.7);
+    }
+  }
+
+  &__featured-image-section {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    margin-bottom: 3rem;
+    overflow: hidden;
+    z-index: 1;
+
+    @include min-width(lg) {
+      height: 70vh;
+      margin-bottom: 4rem;
+    }
+  }
+
+  &__featured-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    @include border-radius(lg);
+  }
+
+  &__featured-image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 130%; // Increased height to allow for parallax movement
+    will-change: transform; // Performance optimization for animations
+    z-index: 1;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+  }
+
+  &__content {
+    max-width: 800px;
+    margin: 0 auto 4rem;
+  }
+
+  &__excerpt {
+    margin-bottom: 2rem;
+    
+    p {
+      font-size: 1.25rem;
+      line-height: 1.7;
+      color: rgba($black, 0.8);
+      font-weight: 500;
+    }
+  }
+
+  &__body {
+    margin-bottom: 3rem;
+
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: rgba($black, 0.75);
+    }
+
+    h2 {
+      @include font-size(3xl);
+      @include font-weight(bold);
+      margin: 2.5rem 0 1.5rem;
+      color: $black;
+    }
+
+    h3 {
+      @include font-size(2xl);
+      @include font-weight(semibold);
+      margin: 2rem 0 1rem;
+      color: $black;
+    }
+
+    ul, ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.75rem;
+        font-size: 1.125rem;
+        line-height: 1.6;
+      }
+    }
+
+    strong {
+      font-weight: 600;
+      color: $black;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      border-bottom: 1px solid rgba($primary-color, 0.3);
+      transition: border-color 0.3s ease;
+
+      &:hover {
+        border-color: $primary-color;
+      }
+    }
+  }
+
+  &__quote {
+    position: relative;
+    margin: 3rem 0;
+    padding: 2rem 3rem;
+    background-color: rgba($primary-color, 0.03);
+    border-left: 4px solid $primary-color;
+    @include border-radius(md);
+
+    .quote-mark {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 4rem;
+      line-height: 1;
+      color: rgba($primary-color, 0.2);
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 1.5rem;
+      line-height: 1.5;
+      font-weight: 500;
+      font-style: italic;
+      color: $black;
+      margin-bottom: 1rem;
+    }
+
+    cite {
+      display: block;
+      font-size: 1rem;
+      font-weight: 500;
+      font-style: normal;
+      color: rgba($black, 0.6);
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba($black, 0.1);
+  }
+
+  &__tags-title {
+    font-weight: 600;
+    color: $black;
+    margin-right: 0.5rem;
+  }
+
+  &__tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__tag {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    background-color: rgba($black, 0.05);
+    color: rgba($black, 0.7);
+    font-size: 0.875rem;
+    font-weight: 500;
+    @include border-radius(md);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+      color: $primary-color;
+    }
+  }
+
+  &__share-section {
+    @include flex(column, center, center);  
+    margin-bottom: 4rem;
+    padding: 2rem;
+    background-color: rgba($black, 0.02);
+    @include border-radius(lg);
+  }
+
+  &__share-title {
+    margin-bottom: 1.5rem;
+    @include font-size(xl);
+    @include font-weight(semibold);
+    color: $black;
+  }
+
+  &__related-posts {
+    margin-bottom: 4rem;
+  }
+
+  &__related-title {
+    @include font-size(3xl);
+    @include font-weight(bold);
+    margin-bottom: 2.5rem;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background-color: $primary-color;
+    }
+  }
+
+  &__related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @include min-width(md) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  &__related-item {
+    text-decoration: none;
+    display: block;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      
+      .blog-detail__related-image {
+        transform: scale(1.05);
+      }
+      
+      .blog-detail__related-item-title {
+        color: $primary-color;
+      }
+    }
+  }
+
+  &__related-image-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 70%;
+    overflow: hidden;
+    @include border-radius(md);
+    margin-bottom: 1rem;
+  }
+
+  &__related-image {
+    transition: transform 0.5s ease;
+    object-fit: cover;
+  }
+
+  &__related-content {
+    padding: 0.5rem 0;
+  }
+
+  &__related-date {
+    display: block;
+    font-size: 0.875rem;
+    color: rgba($black, 0.6);
+    margin-bottom: 0.5rem;
+  }
+
+  &__related-item-title {
+    @include font-size(lg);
+    @include font-weight(semibold);
+    color: $black;
+    transition: color 0.3s ease;
+    margin: 0;
+  }
+
+  &__mobile-social-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    width: 100%;
+
+    @include min-width(lg) {
+      display: none;
+    }
+  }
+
+  &__mobile-social-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+
+  &__mobile-social-title {
+    @include font-size(xl);
+    font-weight: 600;
+    color: $black;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__mobile-social-divider {
+    position: relative;
+    width: 100%;
+    height: 1px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        rgba($primary-color, 0.3),
+        rgba($primary-color, 0.1),
+        transparent
+      );
+      bottom: 0;
+    }
+  }
+}

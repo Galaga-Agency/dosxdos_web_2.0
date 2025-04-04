@@ -1,0 +1,38 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/base/colors" as *;
+@use "@/styles/abstracts/mixins" as *;
+
+.admin-badge {
+  &--icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparentize($primary-color, 0.9);
+    color: $primary-color;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: transparentize($primary-color, 0.7);
+      transform: scale(1.1);
+    }
+
+    // Mobile version in footer
+    &.admin-badge--mobile {
+      width: 100%;
+      @include border-radius(sm);
+      background-color: $primary-color;
+      color: $white;
+      padding: 0.5rem;
+      justify-content: center;
+      gap: 0.5rem;
+
+      &:hover {
+        background-color: darken($primary-color, 5%);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}

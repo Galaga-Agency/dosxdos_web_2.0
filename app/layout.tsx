@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "@/styles/main.scss";
 import Menu from "@/components/layout/Menu/Menu";
 import BackToTop from "@/components/BackToTop/BackToTop";
+import AuthProvider from "@/components/AuthProvider";
 
 const inter = localFont({
   variable: "--font-inter",
@@ -119,11 +120,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${inter.variable} ${robotoSlab.variable}`}>
-        <Menu />
-        {children}
-        <BackToTop />
-      </body>
+      <AuthProvider>
+        <body className={`${inter.variable} ${robotoSlab.variable}`}>
+          <Menu />
+          {children}
+          <BackToTop />
+        </body>
+      </AuthProvider>
     </html>
   );
 }
