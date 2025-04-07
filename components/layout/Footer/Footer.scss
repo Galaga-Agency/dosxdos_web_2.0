@@ -11,6 +11,7 @@
   overflow: hidden;
   padding: 3rem 1.5rem;
   @include z-index(above);
+  height: auto;
 
   @include min-width(md) {
     padding: 4rem 2rem;

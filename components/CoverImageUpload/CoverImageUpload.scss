@@ -5,6 +5,10 @@
 
 .cover-image-upload {
   width: 100%;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 3px 12px rgba($black, 0.1);
+  @include border-radius(lg);
+
 
   .cover-image-preview {
     width: 100%;
@@ -44,19 +48,19 @@
 
       .cover-image-icon {
         margin-bottom: 1rem;
-        color: rgba($secondary-color, 0.5);
+        color: rgba($black, 0.5);
       }
 
       p {
         @include font-size(base);
         @include font-weight(medium);
         margin-bottom: 0.5rem;
-        color: $secondary-color;
+        color: $black;
       }
 
       .cover-image-note {
         @include font-size(sm);
-        color: rgba($secondary-color, 0.7);
+        color: rgba($black, 0.7);
       }
     }
 

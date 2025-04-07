@@ -2,7 +2,7 @@
 
 import React, { useEffect, ReactNode } from "react";
 import LoadingManager from "@/utils/loading";
-import Footer from "./layout/Footer/footer";
+import Footer from "./layout/Footer/Footer";
 
 interface SmoothScrollWrapperProps {
   children: ReactNode;
@@ -16,6 +16,9 @@ export default function SmoothScrollWrapper({
   useEffect(() => {
     // Only run on client side
     if (typeof window === "undefined") return;
+
+    // Scroll to top immediately when component mounts
+    window.scrollTo(0, 0);
 
     // Import dependencies
     const initScrollSmoother = async () => {
@@ -67,7 +70,6 @@ export default function SmoothScrollWrapper({
     <div id="smooth-wrapper">
       <div id="smooth-content">
         {children}
-        {/* <WhatsAppButton phoneNumber="34928712222" /> */}
         <Footer />
       </div>
     </div>

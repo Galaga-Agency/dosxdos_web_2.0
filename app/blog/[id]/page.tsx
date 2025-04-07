@@ -8,6 +8,7 @@ import { BlogPost } from "@/types/blog-post-types";
 import { formatDate } from "@/utils/formatting/dateFormatting";
 import { charAnimation } from "@/utils/animations/title-anim";
 import { useParallax } from "@/utils/animations/parallax-image";
+import { formatBlogContent, getImageSource } from "@/utils/editor";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import { getAllPosts, getPostById } from "@/lib/blog-service";
@@ -118,17 +119,10 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
     return null;
   }
 
-  // Handle content format - it might be a string, array, or object
-  const contentArray = Array.isArray(blogPost.content)
-    ? blogPost.content
-    : typeof blogPost.content === "string"
-    ? [blogPost.content]
-    : [""];
-
-  const contentParagraphs = contentArray
-    .join("\n")
-    .split("\n\n")
-    .map((paragraph, index) => <p key={index}>{paragraph}</p>);
+  // Function to create markup for HTML content
+  const createMarkup = (htmlContent: string) => {
+    return { __html: htmlContent };
+  };
 
   return (
     <SmoothScrollWrapper>
@@ -174,11 +168,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                 className="blog-detail__featured-image-wrapper"
               >
                 <Image
-                  src={
-                    blogPost.img ||
-                    blogPost.coverImage ||
-                    "/assets/img/default-blog-image.jpg"
-                  }
+                  src={getImageSource(blogPost)}
                   alt={blogPost.title}
                   fill
                   priority
@@ -199,20 +189,29 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
               </div>
             )}
 
-            <div className="blog-detail__body">{contentParagraphs}</div>
+            {/* Render HTML content safely using dangerouslySetInnerHTML */}
+            <div 
+              className="blog-detail__body"
+              dangerouslySetInnerHTML={createMarkup(formatBlogContent(blogPost.content))}
+            />
 
-            <blockquote className="blog-detail__quote">
-              <span className="quote-mark">"</span>
-              <p>Don't watch the clock; do what it does. Keep going.</p>
-              <cite>— Sam Levenson</cite>
-            </blockquote>
-
+            {/* Tags section - Use hardcoded tags if none provided */}
             <div className="blog-detail__tags">
               <span className="blog-detail__tags-title">Etiquetas:</span>
               <div className="blog-detail__tags-list">
-                <span className="blog-detail__tag">Diseño</span>
-                <span className="blog-detail__tag">Web</span>
-                <span className="blog-detail__tag">Creatividad</span>
+                {blogPost.tags && blogPost.tags.length > 0 ? (
+                  blogPost.tags.map((tag, index) => (
+                    <span key={index} className="blog-detail__tag">
+                      {tag}
+                    </span>
+                  ))
+                ) : (
+                  <>
+                    <span className="blog-detail__tag">Diseño</span>
+                    <span className="blog-detail__tag">Web</span>
+                    <span className="blog-detail__tag">Creatividad</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -238,11 +237,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                   >
                     <div className="blog-detail__related-image-container">
                       <Image
-                        src={
-                          post.img ||
-                          post.coverImage ||
-                          "/assets/img/default-blog-image.jpg"
-                        }
+                        src={getImageSource(post)}
                         alt={post.title}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
