@@ -1,107 +1,223 @@
-// utils/editorUtils.ts
 import { EditorBlock } from "@/types/blog-post-types";
 
-/**
- * Create an empty editor block
- */
-export const createEmptyBlock = (type: string = "paragraph"): EditorBlock => ({
-  id: `block-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-  type,
-  content: "",
-  alignment: "left",
-  meta: {},
-});
+// Average reading speed (words per minute)
+const WORDS_PER_MINUTE = 225;
 
 /**
- * Process editor content to convert blocks to HTML
+ * Processes editor content into HTML for display
  */
-export const processEditorContent = (blocks: EditorBlock[]): string => {
-  if (!blocks.length) return "";
-  
-  const serializedContent = blocks.map(block => {
-    switch (block.type) {
-      case "heading_1":
-        return `<h1 style="text-align:${block.alignment || 'left'}">${block.content}</h1>`;
-        
-      case "heading_2":
-        return `<h2 style="text-align:${block.alignment || 'left'}">${block.content}</h2>`;
-        
-      case "quote":
-        return `<blockquote>${block.content}</blockquote>`;
-        
-      case "list_item":
-        return `<ul><li>${block.content}</li></ul>`;
-        
-      case "ordered_list_item":
-        return `<ol><li>${block.content}</li></ol>`;
-        
-      case "image":
-        return `<figure>
-          <img src="${block.content}" alt="${block.meta?.alt || 'Imagen del blog'}" />
-          ${block.meta?.caption ? `<figcaption>${block.meta.caption}</figcaption>` : ''}
-        </figure>`;
-        
-      case "separator":
-        return '<hr />';
-        
-      default: // paragraph
-        return `<p style="text-align:${block.alignment || 'left'}">${block.content}</p>`;
+export function processEditorContent(blocks: EditorBlock[]): string {
+  if (!blocks || blocks.length === 0) return "";
+
+  return blocks
+    .map((block) => {
+      switch (block.type) {
+        case "paragraph":
+          return `<p>${block.content}</p>`;
+
+        case "heading":
+          return `<h${block.level}>${block.content}</h${block.level}>`;
+
+        case "image":
+          return `
+            <div class="rich-text-editor__image-container">
+              <div class="rich-text-editor__image-wrapper">
+                <img src="${block.content}" alt="${block.altText || ''}" class="rich-text-editor__image" />
+                ${block.caption ? `<figcaption class="rich-text-editor__image-caption">${block.caption}</figcaption>` : ''}
+              </div>
+            </div>
+          `;
+
+        case "list":
+          const listTag = block.listType === "ordered" ? "ol" : "ul";
+          const listItems = block.items.map(item => `<li>${item}</li>`).join("");
+          return `<${listTag} class="rich-text-editor__list rich-text-editor__list-${block.listType}">${listItems}</${listTag}>`;
+
+        case "quote":
+          return `
+            <blockquote class="rich-text-editor__quote">
+              <p>${block.content}</p>
+              ${block.citation ? `<cite>${block.citation}</cite>` : ''}
+            </blockquote>
+          `;
+
+        case "code":
+          return `
+            <pre class="rich-text-editor__code${block.language ? ` language-${block.language}` : ''}">
+              <code>${block.content}</code>
+            </pre>
+          `;
+
+        case "table":
+          const headers = block.headers 
+            ? `<thead><tr>${block.headers.map(h => `<th>${h}</th>`).join("")}</tr></thead>` 
+            : "";
+          
+          const rows = block.rows.map(row => 
+            `<tr>${row.map(cell => `<td>${cell}</td>`).join("")}</tr>`
+          ).join("");
+          
+          return `
+            <div class="rich-text-editor__table-container">
+              <table class="rich-text-editor__table">
+                ${headers}
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+          `;
+
+        default:
+          return "";
+      }
+    })
+    .join("\n");
+}
+
+/**
+ * Safely formats blog content for display, handling different content formats
+ */
+export function formatBlogContent(content: any): string {
+  // Check if the content is a string that includes HTML tags
+  if (typeof content === 'string') {
+    // If it's already HTML (contains tags), return it directly
+    if (content.includes('<') && content.includes('>')) {
+      return content;
     }
-  }).join('\n\n');
+    // If it's plain text, wrap it in paragraph tags
+    return `<p>${content}</p>`;
+  }
   
-  return serializedContent;
-};
+  // If content is an array of editor blocks
+  if (Array.isArray(content)) {
+    if (content.length > 0 && typeof content[0] === 'object' && content[0].type) {
+      // Process array of editor blocks
+      return processEditorContent(content);
+    } else {
+      // If it's an array of strings, join with paragraph tags
+      return content.map(item => `<p>${item}</p>`).join('\n');
+    }
+  }
+  
+  // Handle base64 encoded images that might be stored directly in content
+  if (typeof content === 'string' && content.startsWith('data:image')) {
+    return `<div class="rich-text-editor__image-container">
+              <div class="rich-text-editor__image-wrapper">
+                <img src="${content}" alt="Blog image" class="rich-text-editor__image" />
+              </div>
+            </div>`;
+  }
+  
+  // If content is an object with editorBlocks attribute, try to parse it
+  if (typeof content === 'object' && content !== null) {
+    // Check for editorBlocks stored as string
+    if (content.editorBlocks && typeof content.editorBlocks === 'string') {
+      try {
+        const blocks = JSON.parse(content.editorBlocks);
+        return processEditorContent(blocks);
+      } catch (e) {
+        console.error('Error parsing editorBlocks:', e);
+      }
+    }
+    
+    // Check for content directly stored in blocks property
+    if (content.blocks && Array.isArray(content.blocks)) {
+      return processEditorContent(content.blocks);
+    }
+    
+    // If it has an HTML property, use that
+    if (content.html && typeof content.html === 'string') {
+      return content.html;
+    }
+    
+    // Last resort: stringify the object
+    try {
+      return JSON.stringify(content);
+    } catch (e) {
+      return '<p>Content could not be displayed</p>';
+    }
+  }
+  
+  // Default fallback
+  return '<p>No content available</p>';
+}
 
 /**
- * Calculate read time for content
+ * Calculates estimated reading time in minutes
  */
-export const calculateReadTime = (content: string): string => {
-  const wordsPerMinute = 225;
-  const text = content.replace(/<[^>]*>/g, '');
-  const wordCount = text.split(/\s+/).length;
-  const readTime = Math.ceil(wordCount / wordsPerMinute);
-  return `${readTime} min`;
-};
+export function calculateReadTime(content: string): number {
+  // Remove HTML tags
+  const text = content.replace(/<[^>]*>/g, "");
+  
+  // Count words (splitting by whitespace)
+  const wordCount = text.trim().split(/\s+/).length;
+  
+  // Calculate reading time in minutes
+  const readTimeMinutes = Math.ceil(wordCount / WORDS_PER_MINUTE);
+  
+  // Return at least 1 minute
+  return Math.max(1, readTimeMinutes);
+}
 
 /**
- * Handle positioning of the selection toolbar
+ * Extracts plain text from HTML content
  */
-export const positionSelectionToolbar = (
-  range: Range, 
-  toolbarRef: React.RefObject<HTMLDivElement>,
-  editorRef: React.RefObject<HTMLDivElement>
-) => {
-  if (!toolbarRef.current || !editorRef.current) return;
+export function extractTextFromHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "");
+}
 
-  const rect = range.getBoundingClientRect();
-  const editorRect = editorRef.current.getBoundingClientRect();
+/**
+ * Generates a slug from a title
+ */
+export function generateSlugFromTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "") // Remove special characters
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/--+/g, "-") // Replace multiple hyphens with a single one
+    .trim(); // Trim leading and trailing spaces/hyphens
+}
 
-  const toolbarWidth = toolbarRef.current.offsetWidth;
-  const toolbarHeight = toolbarRef.current.offsetHeight;
-
-  // Position it above the selection
-  let left = rect.left + rect.width / 2 - toolbarWidth / 2 - editorRect.left;
-  let top = rect.top - toolbarHeight - 10 - editorRect.top;
-
-  // Keep it within bounds
-  if (left < 0) left = 0;
-  if (left + toolbarWidth > editorRect.width) {
-    left = editorRect.width - toolbarWidth;
+/**
+ * Helper function to get the image source for the featured image
+ * @param blogPost The blog post object
+ * @returns The URL for the featured image
+ */
+export function getImageSource(blogPost: any): string {
+  // Check if blog post has a base64 encoded image
+  if (typeof blogPost.content === 'string' && 
+      blogPost.content.startsWith('data:image')) {
+    return blogPost.content;
   }
 
-  if (top < 0) {
-    // Position below if above doesn't fit
-    top = rect.bottom + 10 - editorRect.top;
+  // Check for image in content if it's an array of blocks
+  if (Array.isArray(blogPost.content)) {
+    const imageBlock = blogPost.content.find(
+      (block: any) => block.type === 'image'
+    );
+    if (imageBlock && imageBlock.src) {
+      return imageBlock.src;
+    } else if (imageBlock && imageBlock.content) {
+      return imageBlock.content;
+    }
   }
-
-  toolbarRef.current.style.left = `${left}px`;
-  toolbarRef.current.style.top = `${top}px`;
-};
-
-/**
- * Find the first image in editor content
- */
-export const findFirstImage = (editorContent: EditorBlock[]): string | null => {
-  const imageBlock = editorContent.find((block) => block.type === "image");
-  return imageBlock?.content || null;
-};
+  
+  // Check for editorBlocks JSON string
+  if (blogPost.editorBlocks) {
+    try {
+      const blocks = JSON.parse(blogPost.editorBlocks);
+      const imageBlock = blocks.find((block: any) => block.type === 'image');
+      if (imageBlock && imageBlock.src) {
+        return imageBlock.src;
+      } else if (imageBlock && imageBlock.content) {
+        return imageBlock.content;
+      }
+    } catch (e) {
+      console.error('Error parsing editorBlocks for image:', e);
+    }
+  }
+  
+  // Otherwise use the regular image paths
+  return blogPost.img || 
+         blogPost.coverImage || 
+         "/assets/img/default-blog-image.jpg";
+}

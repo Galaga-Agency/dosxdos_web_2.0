@@ -1,104 +1,75 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { EditorState } from "lexical";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { TableNode, TableCellNode, TableRowNode } from "@lexical/table";
-import { ListNode, ListItemNode } from "@lexical/list";
-import { CodeNode } from "@lexical/code";
-import { LinkNode } from "@lexical/link";
-import { ImageNode } from "@/nodes/image";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { ToolbarPlugin } from "@/plugins/blog-form-toolbar";
-import { ImagesPlugin } from "@/plugins/images-blog-form";
+
+// Nodes
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { ListNode, ListItemNode } from "@lexical/list";
+import { CodeNode } from "@lexical/code";
+import { LinkNode, AutoLinkNode } from "@lexical/link";
+import { ImageNode } from "@/nodes/image";
+
+// Plugins
+import { ToolbarPlugin } from "@/plugins/blog/Toolbar";
+import { ImagesPlugin } from "@/plugins/blog/Images";
+
+// Types
 import { EditorBlock } from "@/types/blog-post-types";
+import { $convertFromLexicalState } from "@/utils/converter";
+
 import "./RichTextEditor.scss";
-import {
-  $convertToLexicalState,
-  $convertFromLexicalState,
-} from "@/utils/converter";
 
-export const processEditorContent = (blocks: EditorBlock[]): string => {
-  if (!blocks.length) return "";
-
-  const serializedContent = blocks
-    .map((block) => {
-      switch (block.type) {
-        case "heading_1":
-          return `<h1 style="text-align:${block.alignment || "left"}">${
-            block.content
-          }</h1>`;
-
-        case "heading_2":
-          return `<h2 style="text-align:${block.alignment || "left"}">${
-            block.content
-          }</h2>`;
-
-        case "quote":
-          return `<blockquote>${block.content}</blockquote>`;
-
-        case "list_item":
-          return `<ul><li>${block.content}</li></ul>`;
-
-        case "ordered_list_item":
-          return `<ol><li>${block.content}</li></ol>`;
-
-        case "image":
-          return `<figure>
-          <img src="${block.content}" alt="${
-            block.meta?.alt || "Imagen del blog"
-          }" />
-          ${
-            block.meta?.caption
-              ? `<figcaption>${block.meta.caption}</figcaption>`
-              : ""
-          }
-        </figure>`;
-
-        case "separator":
-          return "<hr />";
-
-        default: // paragraph
-          return `<p style="text-align:${block.alignment || "left"}">${
-            block.content
-          }</p>`;
-      }
-    })
-    .join("\n\n");
-
-  return serializedContent;
-};
-
-export const calculateReadTime = (content: string): string => {
-  const wordsPerMinute = 225;
-  const text = content.replace(/<[^>]*>/g, "");
-  const wordCount = text.split(/\s+/).length;
-  const readTime = Math.ceil(wordCount / wordsPerMinute);
-  return `${readTime} min`;
-};
-
+// Theme configuration
 const theme = {
-  // Lexical theme - customize as needed
   paragraph: "rich-text-editor__paragraph",
   heading: {
     h1: "rich-text-editor__heading-1",
     h2: "rich-text-editor__heading-2",
+    h3: "rich-text-editor__heading-3",
   },
-  quote: "rich-text-editor__quote",
   list: {
-    ul: "rich-text-editor__list",
-    ol: "rich-text-editor__list",
+    ul: "rich-text-editor__list-ul",
+    ol: "rich-text-editor__list-ol",
     listitem: "rich-text-editor__list-item",
   },
+  quote: "rich-text-editor__quote",
   image: "rich-text-editor__image",
+  link: "rich-text-editor__link",
 };
+
+// URL matching regex for auto links
+const URL_MATCHER = /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+
+// Auto link matchers
+const MATCHERS = [
+  (text: string) => {
+    const match = URL_MATCHER.exec(text);
+    if (match === null) {
+      return null;
+    }
+    const fullMatch = match[0];
+    return {
+      index: match.index,
+      length: fullMatch.length,
+      text: fullMatch,
+      url: fullMatch.startsWith('http') ? fullMatch : `https://${fullMatch}`,
+      attributes: {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+    };
+  },
+];
 
 interface RichTextEditorProps {
   value?: EditorBlock[];
@@ -109,18 +80,19 @@ interface RichTextEditorProps {
   disabled?: boolean;
 }
 
+// Create a simple ErrorBoundary component for RichTextPlugin
+function SimpleErrorBoundary({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}
+
 const RichTextEditor: React.FC<RichTextEditorProps> = ({
-  value,
+  value = [],
   onChange,
   onImageUpload,
   className = "",
   placeholder = "Comienza a escribir aquí...",
   disabled = false,
 }) => {
-  const [editorState, setEditorState] = useState<EditorState | null>(null);
-  const [imageCount, setImageCount] = useState(0);
-  const [blockCount, setBlockCount] = useState(0);
-
   // Configure Lexical
   const initialConfig = {
     namespace: "BlogEditor",
@@ -134,87 +106,55 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       ListNode,
       ListItemNode,
       CodeNode,
-      TableNode,
-      TableCellNode,
-      TableRowNode,
       ImageNode,
       LinkNode,
+      AutoLinkNode,
     ],
     editable: !disabled,
   };
 
   // Handle editor content changes
-  const handleEditorChange = (editorState: React.SetStateAction<EditorState | null>) => {
-    setEditorState(editorState);
+  const handleEditorChange = (editorState: any) => {
+    if (!onChange) return;
 
-    // Convert Lexical state to your format
-    if (onChange) {
-      (editorState as EditorState)?.read(() => {
+    try {
+      editorState.read(() => {
         const blocks = $convertFromLexicalState();
-
-        // Update image and block counts
-        const imageNodes = blocks.filter((block) => block.type === "image");
-        const nonEmptyBlocks = blocks.filter(
-          (block) => block.type !== "image" && block.type !== "separator"
-        );
-
-        setImageCount(imageNodes.length);
-        setBlockCount(nonEmptyBlocks.length);
-
         onChange(blocks);
       });
+    } catch (error) {
+      console.error("Error converting editor state:", error);
     }
   };
 
-  // Initialize editor with value if provided
-  useEffect(() => {
-    if (value && value.length > 0 && editorState) {
-      const editor = editorState?.getEditor();
-      editor?.update(() => {
-        $convertToLexicalState(value);
-      });
-    }
-  }, [value, editorState]);
-
   return (
-    <div
+    <div 
       className={`rich-text-editor ${className} ${
         disabled ? "is-disabled" : ""
       }`}
     >
       <LexicalComposer initialConfig={initialConfig}>
         {/* Editor toolbar */}
-        <ToolbarPlugin />
+        <ToolbarPlugin onImageUpload={onImageUpload} />
 
-        {/* Main editor */}
+        {/* Main editor content */}
         <div className="rich-text-editor__content">
           <RichTextPlugin
-            contentEditable={
-              <ContentEditable className="rich-text-editor__editable" />
-            }
-            placeholder={
-              <div className="rich-text-editor__placeholder">{placeholder}</div>
-            }
-            ErrorBoundary={LexicalErrorBoundary as any}
+            contentEditable={<ContentEditable className="rich-text-editor__editable" />}
+            placeholder={<div className="rich-text-editor__placeholder">{placeholder}</div>}
+            ErrorBoundary={SimpleErrorBoundary}
           />
         </div>
 
-        {/* Image handling */}
+        {/* Plugins */}
         <ImagesPlugin onImageUpload={onImageUpload} />
-
-        {/* Additional plugins */}
         <HistoryPlugin />
         <AutoFocusPlugin />
         <ListPlugin />
+        <LinkPlugin />
+        <AutoLinkPlugin matchers={MATCHERS} />
         <OnChangePlugin onChange={handleEditorChange} />
       </LexicalComposer>
-
-      {/* Footer with count */}
-      <div className="rich-text-editor__footer">
-        <div className="rich-text-editor__char-count">
-          {blockCount} bloques | {imageCount} imágenes
-        </div>
-      </div>
     </div>
   );
 };

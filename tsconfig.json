@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "utils/scroll-magic.js",
     "hooks"
-, "hooks", "plugins/blog-form-toolbar.js", "plugins/images-blog-form.js"  ],
+, "hooks", "plugins/blog/Toolbar.tsx", "plugins/blog/Images.tsx"  ],
   "exclude": ["node_modules"]
 }

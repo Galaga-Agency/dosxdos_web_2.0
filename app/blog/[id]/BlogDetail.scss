@@ -34,6 +34,7 @@
   &__container {
     @include container-width(mobile);
     margin: 0 auto;
+    position: relative;
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -101,10 +102,13 @@
     max-width: 800px;
     margin-inline: auto;
     text-align: center;
+    position: relative;
   }
 
   &__back-link {
     position: absolute;
+    left: 0;
+    top: 0;
     display: inline-block;
     margin-bottom: 2rem;
     color: $black;
@@ -112,6 +116,15 @@
     text-decoration: none;
     transition: color 0.3s ease;
     cursor: pointer;
+    text-align: left;
+
+    @include min-width(md) {
+      left: -2rem;
+    }
+
+    @include min-width(lg) {
+      left: -3rem;
+    }
 
     &:hover {
       color: $primary-color;
@@ -124,6 +137,7 @@
     justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
+    margin-top: 2rem; // Add space above meta for back button
   }
 
   &__category {
@@ -288,41 +302,75 @@
         border-color: $primary-color;
       }
     }
-  }
 
-  &__quote {
-    position: relative;
-    margin: 3rem 0;
-    padding: 2rem 3rem;
-    background-color: rgba($primary-color, 0.03);
-    border-left: 4px solid $primary-color;
-    @include border-radius(md);
-
-    .quote-mark {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      font-size: 4rem;
-      line-height: 1;
-      color: rgba($primary-color, 0.2);
-      font-weight: 700;
+    /* Styling for the Rich Text Editor content */
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 2rem 0;
+      box-shadow: 0 4px 12px rgba($black, 0.1);
     }
 
-    p {
-      font-size: 1.5rem;
-      line-height: 1.5;
-      font-weight: 500;
-      font-style: italic;
-      color: $black;
-      margin-bottom: 1rem;
+    blockquote {
+      position: relative;
+      margin: 3rem 0;
+      padding: 2rem 3rem;
+      background-color: rgba($primary-color, 0.03);
+      border-left: 4px solid $primary-color;
+      @include border-radius(md);
+
+      &::before {
+        content: '"';
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        font-size: 4rem;
+        line-height: 1;
+        color: rgba($primary-color, 0.2);
+        font-weight: 700;
+      }
+
+      p {
+        font-size: 1.5rem;
+        line-height: 1.5;
+        font-weight: 500;
+        font-style: italic;
+        color: $black;
+        margin-bottom: 1rem;
+      }
+
+      cite {
+        display: block;
+        font-size: 1rem;
+        font-weight: 500;
+        font-style: normal;
+        color: rgba($black, 0.6);
+      }
     }
 
-    cite {
+    /* Fix for image container from Rich Text Editor */
+    .rich-text-editor__image-container {
+      margin: 2rem 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .rich-text-editor__image-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba($black, 0.1);
+    }
+
+    .rich-text-editor__image {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
       display: block;
-      font-size: 1rem;
-      font-weight: 500;
-      font-style: normal;
-      color: rgba($black, 0.6);
+      object-fit: contain;
     }
   }
 

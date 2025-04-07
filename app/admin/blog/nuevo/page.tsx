@@ -9,25 +9,27 @@ import { createOrUpdatePost } from "@/lib/blog-service";
 import { useAnimations, animateFormSubmission } from "@/hooks/useFormAnimation";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import CoverImageUpload from "@/components/CoverImageUpload/CoverImageUpload";
-import RichTextEditor, {
-  processEditorContent,
-  calculateReadTime,
-} from "@/components/RichTextEditor/RichTextEditor";
 import "./NewBlogPostPage.scss";
+import { calculateReadTime, processEditorContent } from "@/utils/editor";
+import RichTextEditor from "@/components/RichTextEditor/RichTextEditor";
+import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
+import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 
 export default function NewBlogPostPage() {
   const router = useRouter();
   const [editorContent, setEditorContent] = useState<EditorBlock[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-    const { headerRef, formRef } = useAnimations();
-  const { 
-    coverImage, 
-    coverImageFile, 
-    coverImageInputRef, 
-    handleCoverImageChange, 
-    handleRemoveCoverImage, 
+  const { headerRef, formRef } = useAnimations();
+  const {
+    coverImage,
+    coverImageFile,
+    coverImageInputRef,
+    handleCoverImageChange,
+    handleRemoveCoverImage,
     handleImageUpload,
-    cleanup: cleanupImages
+    cleanup: cleanupImages,
   } = useImageUpload();
 
   // Clean up object URLs on unmount
@@ -55,7 +57,9 @@ export default function NewBlogPostPage() {
   // Find the first image in the editor content for use as default cover image
   const findFirstImage = () => {
     const imageBlock = editorContent.find((block) => block.type === "image");
-    return imageBlock && typeof imageBlock.content === "string" ? imageBlock.content : null;
+    return imageBlock && typeof imageBlock.content === "string"
+      ? imageBlock.content
+      : null;
   };
 
   const onSubmit = async (data: Partial<BlogPost>) => {
@@ -115,120 +119,128 @@ export default function NewBlogPostPage() {
   };
 
   return (
-    <div className="new-blog-post-page">
-      <div className="new-blog-post-page__container">
-        <div className="new-blog-post-page__header" ref={headerRef}>
-          <h1>Crear Nueva Entrada de Blog</h1>
-        </div>
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="new-blog-post-page__form"
-          ref={formRef as any}
-        >
-          <div className="form-group">
-            <label htmlFor="title">Título</label>
-            <input
-              id="title"
-              type="text"
-              className={`form-input ${errors.title ? "is-invalid" : ""}`}
-              placeholder="Ingresa el título de tu entrada"
-              disabled={isSubmitting}
-              {...register("title", { required: "El título es obligatorio" })}
-            />
-            {errors.title && (
-              <p className="form-error">{errors.title.message}</p>
-            )}
+    <SmoothScrollWrapper>
+      <div className="new-blog-post-page">
+        <div className="new-blog-post-page__container">
+          <div className="new-blog-post-page__header" ref={headerRef}>
+            <h1>Crear Nueva Entrada de Blog</h1>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="category">Categoría</label>
-            <input
-              id="category"
-              type="text"
-              className={`form-input ${errors.category ? "is-invalid" : ""}`}
-              placeholder="Ej: Tecnología, Diseño, Marketing..."
-              disabled={isSubmitting}
-              {...register("category")}
-            />
-          </div>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="new-blog-post-page__form"
+            ref={formRef as any}
+          >
+            <div className="form-group">
+              <label htmlFor="title">Título</label>
+              <input
+                id="title"
+                type="text"
+                className={`form-input ${errors.title ? "is-invalid" : ""}`}
+                placeholder="Ingresa el título de tu entrada"
+                disabled={isSubmitting}
+                {...register("title", { required: "El título es obligatorio" })}
+              />
+              {errors.title && (
+                <p className="form-error">{errors.title.message}</p>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="excerpt">Extracto</label>
-            <textarea
-              id="excerpt"
-              rows={3}
-              className={`form-textarea ${errors.excerpt ? "is-invalid" : ""}`}
-              placeholder="Breve descripción de tu entrada"
-              disabled={isSubmitting}
-              {...register("excerpt")}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Imagen de Portada</label>
-            <CoverImageUpload
-              coverImage={coverImage}
-              coverImageInputRef={coverImageInputRef as any}
-              isSubmitting={isSubmitting}
-              onImageChange={handleCoverImageChange}
-              onRemoveImage={handleRemoveCoverImage}
-            />
-          </div>
-
-          <div className="form-group editor-container">
-            <label>Contenido</label>
-            <div className="rich-editor-wrapper">
-              <RichTextEditor
-                value={editorContent as any}
-                onChange={setEditorContent}
-                onImageUpload={handleImageUpload}
-                placeholder="Comienza a escribir tu artículo aquí..."
+            <div className="form-group">
+              <label htmlFor="category">Categoría</label>
+              <input
+                id="category"
+                type="text"
+                className={`form-input ${errors.category ? "is-invalid" : ""}`}
+                placeholder="Ej: Tecnología, Diseño, Marketing..."
+                disabled={isSubmitting}
+                {...register("category")}
               />
             </div>
-            {/* Hidden validation field */}
-            <input
-              type="hidden"
-              {...register("content", {
-                validate: () =>
-                  editorContent.length > 0 || "El contenido es obligatorio",
-              })}
-              value={editorContent.length > 0 ? "content" : ""}
-            />
-            {errors.content && (
-              <p className="form-error">{errors.content.message}</p>
-            )}
-          </div>
 
-          <div className="form-group form-checkbox">
-            <input
-              id="published"
-              type="checkbox"
-              {...register("published")}
-              disabled={isSubmitting}
-            />
-            <label htmlFor="published">Publicar inmediatamente</label>
-          </div>
+            <div className="form-group">
+              <label htmlFor="excerpt">Extracto</label>
+              <textarea
+                id="excerpt"
+                rows={3}
+                className={`form-textarea ${
+                  errors.excerpt ? "is-invalid" : ""
+                }`}
+                placeholder="Breve descripción de tu entrada"
+                disabled={isSubmitting}
+                {...register("excerpt")}
+              />
+            </div>
 
-          <div className="form-actions">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => router.push("/admin/blog")}
-              disabled={isSubmitting}
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isSubmitting || editorContent.length === 0}
-            >
-              {isSubmitting ? "Creando..." : "Crear Entrada"}
-            </button>
-          </div>
-        </form>
+            <div className="form-group">
+              <label>Imagen de Portada</label>
+              <CoverImageUpload
+                coverImage={coverImage}
+                coverImageInputRef={coverImageInputRef as any}
+                isSubmitting={isSubmitting}
+                onImageChange={handleCoverImageChange}
+                onRemoveImage={handleRemoveCoverImage}
+              />
+            </div>
+
+            <div className="form-group editor-container">
+              <label>Contenido</label>
+              <div className="rich-editor-wrapper">
+                <RichTextEditor
+                  value={editorContent as any}
+                  onChange={setEditorContent}
+                  onImageUpload={handleImageUpload}
+                  placeholder="Comienza a escribir tu artículo aquí..."
+                />
+              </div>
+              {/* Hidden validation field */}
+              <input
+                type="hidden"
+                {...register("content", {
+                  validate: () =>
+                    editorContent.length > 0 || "El contenido es obligatorio",
+                })}
+                value={editorContent.length > 0 ? "content" : ""}
+              />
+              {errors.content && (
+                <p className="form-error">
+                  {typeof errors.content?.message === "string"
+                    ? errors.content.message
+                    : ""}
+                </p>
+              )}
+            </div>
+
+            <div className="form-group form-checkbox">
+              <CustomCheckbox
+                label={"Publicar"}
+                id="published"
+                type="checkbox"
+                {...register("published")}
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div className="form-actions">
+              <SecondaryButton
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => router.push("/admin/blog")}
+                disabled={isSubmitting}
+              >
+                Cancelar
+              </SecondaryButton>
+              <PrimaryButton
+                type="submit"
+                className="btn btn-primary"
+                disabled={isSubmitting || editorContent.length === 0}
+              >
+                {isSubmitting ? "Creando..." : "Crear Entrada"}
+              </PrimaryButton>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </SmoothScrollWrapper>
   );
 }
