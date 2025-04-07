@@ -14,9 +14,9 @@ export const authOptions: NextAuthOptions = {
         const password = credentials?.password;
 
         const expectedUsername =
-          process.env.NEXT_PUBLIC_ADMIN_USERNAME || "dosxdos";
+          process.env.ADMIN_USERNAME || "dosxdos";
         const expectedPassword =
-          process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "dosxdos2025*";
+          process.env.ADMIN_PASSWORD || "dosxdos2025*";
 
         if (username === expectedUsername && password === expectedPassword) {
           return { id: "1", name: "Admin", email: "admin@example.com" };
@@ -30,5 +30,5 @@ export const authOptions: NextAuthOptions = {
     signIn: "/admin/login",
     error: "/admin/login",
   },
-  secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 };
