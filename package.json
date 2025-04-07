@@ -11,6 +11,7 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@gsap/react": "^2.1.2",
+    "@lexical/react": "^0.29.0",
     "@portabletext/react": "^3.2.1",
     "@types/uuid": "^10.0.0",
     "bootstrap": "^5.3.3",

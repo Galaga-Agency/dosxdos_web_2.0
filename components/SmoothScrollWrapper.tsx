@@ -2,8 +2,8 @@
 
 import React, { useEffect, ReactNode } from "react";
 import WhatsAppButton from "./WhatsAppButton/WhatsAppButton";
-import Footer from "./layout/Footer/Footer";
 import LoadingManager from "@/utils/loading";
+import Footer from "./layout/Footer/Footer";
 
 interface SmoothScrollWrapperProps {
   children: ReactNode;

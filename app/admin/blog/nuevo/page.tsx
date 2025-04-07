@@ -1,32 +1,43 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
+import { BlogPost, EditorBlock } from "@/types/blog-post-types";
 import { createOrUpdatePost } from "@/lib/blog-service";
-import { BlogPost } from "@/types/blog-post-types";
+import { useAnimations, animateFormSubmission } from "@/hooks/useFormAnimation";
+import { useImageUpload } from "@/hooks/useImageUpload";
+import CoverImageUpload from "@/components/CoverImageUpload/CoverImageUpload";
 import RichTextEditor, {
   processEditorContent,
   calculateReadTime,
 } from "@/components/RichTextEditor/RichTextEditor";
 import "./NewBlogPostPage.scss";
-import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
-import gsap from "gsap";
 
 export default function NewBlogPostPage() {
   const router = useRouter();
-  const [editorContent, setEditorContent] = useState([]);
+  const [editorContent, setEditorContent] = useState<EditorBlock[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [coverImage, setCoverImage] = useState<string | null>(null);
-  const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
+    const { headerRef, formRef } = useAnimations();
+  const { 
+    coverImage, 
+    coverImageFile, 
+    coverImageInputRef, 
+    handleCoverImageChange, 
+    handleRemoveCoverImage, 
+    handleImageUpload,
+    cleanup: cleanupImages
+  } = useImageUpload();
 
-  // Refs
-  const pageRef = useRef(null);
-  const headerRef = useRef(null);
-  const formRef = useRef(null);
-  const coverImageInputRef = useRef<HTMLInputElement>(null);
+  // Clean up object URLs on unmount
+  useEffect(() => {
+    return () => {
+      cleanupImages();
+    };
+  }, [cleanupImages]);
 
+  // Form setup
   const {
     register,
     handleSubmit,
@@ -41,69 +52,10 @@ export default function NewBlogPostPage() {
     },
   });
 
-  // Animations
-  useEffect(() => {
-    const tl = gsap.timeline();
-
-    if (headerRef.current && formRef.current) {
-      tl.fromTo(
-        headerRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
-      );
-
-      tl.fromTo(
-        formRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-        "-=0.3"
-      );
-    }
-  }, []);
-
-  // Handle cover image upload
-  const handleCoverImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    const file = files[0];
-    setCoverImageFile(file);
-
-    // Create URL for preview
-    const imageUrl = URL.createObjectURL(file);
-    setCoverImage(imageUrl);
-  };
-
-  // Handle removing cover image
-  const handleRemoveCoverImage = () => {
-    setCoverImage(null);
-    setCoverImageFile(null);
-    if (coverImageInputRef.current) {
-      coverImageInputRef.current.value = "";
-    }
-  };
-
-  // Handle image uploads from the editor
-  const handleImageUpload = async (file: File): Promise<string> => {
-    try {
-      // In a real app, you'd upload to your server
-      // For this demo, create an object URL
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          const imageUrl = URL.createObjectURL(file);
-          resolve(imageUrl);
-        }, 1000); // Simulate upload delay
-      });
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      throw error;
-    }
-  };
-
   // Find the first image in the editor content for use as default cover image
   const findFirstImage = () => {
     const imageBlock = editorContent.find((block) => block.type === "image");
-    return imageBlock?.content || null;
+    return imageBlock && typeof imageBlock.content === "string" ? imageBlock.content : null;
   };
 
   const onSubmit = async (data: Partial<BlogPost>) => {
@@ -115,7 +67,7 @@ export default function NewBlogPostPage() {
         coverImage || findFirstImage() || "/assets/img/default-blog-image.jpg";
 
       // Process editor content
-      const htmlContent = processEditorContent(editorContent);
+      const htmlContent = processEditorContent(editorContent as any);
 
       // Create the post
       const newPost: BlogPost = {
@@ -136,12 +88,7 @@ export default function NewBlogPostPage() {
 
       // Animation before submitting
       if (formRef.current) {
-        await gsap.to(formRef.current, {
-          opacity: 0.7,
-          scale: 0.98,
-          duration: 0.3,
-          ease: "power2.out",
-        });
+        await animateFormSubmission(formRef.current, true);
       }
 
       // Call server action to create post
@@ -149,12 +96,7 @@ export default function NewBlogPostPage() {
 
       // Success animation
       if (formRef.current) {
-        await gsap.to(formRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
+        await animateFormSubmission(formRef.current, false);
       }
 
       // Redirect to blog list
@@ -165,12 +107,7 @@ export default function NewBlogPostPage() {
 
       // Reset form animation
       if (formRef.current) {
-        gsap.to(formRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
+        animateFormSubmission(formRef.current, false);
       }
 
       setIsSubmitting(false);
@@ -178,7 +115,7 @@ export default function NewBlogPostPage() {
   };
 
   return (
-    <div className="new-blog-post-page" ref={pageRef}>
+    <div className="new-blog-post-page">
       <div className="new-blog-post-page__container">
         <div className="new-blog-post-page__header" ref={headerRef}>
           <h1>Crear Nueva Entrada de Blog</h1>
@@ -187,7 +124,7 @@ export default function NewBlogPostPage() {
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="new-blog-post-page__form"
-          ref={formRef}
+          ref={formRef as any}
         >
           <div className="form-group">
             <label htmlFor="title">Título</label>
@@ -230,76 +167,20 @@ export default function NewBlogPostPage() {
 
           <div className="form-group">
             <label>Imagen de Portada</label>
-            <div className="cover-image-upload">
-              <input
-                type="file"
-                ref={coverImageInputRef}
-                style={{ display: "none" }}
-                accept="image/*"
-                onChange={handleCoverImageChange}
-                disabled={isSubmitting}
-              />
-
-              <div
-                className={`cover-image-preview ${!coverImage ? "empty" : ""}`}
-                onClick={() =>
-                  !isSubmitting && coverImageInputRef.current?.click()
-                }
-              >
-                {coverImage ? (
-                  <>
-                    <img src={coverImage} alt="Imagen de portada" />
-                    <button
-                      type="button"
-                      className="cover-image-delete-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRemoveCoverImage();
-                      }}
-                      disabled={isSubmitting}
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </>
-                ) : (
-                  <div className="cover-image-placeholder">
-                    <div className="cover-image-icon">
-                      <svg
-                        width="32"
-                        height="32"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <rect
-                          x="3"
-                          y="3"
-                          width="18"
-                          height="18"
-                          rx="2"
-                          ry="2"
-                        />
-                        <circle cx="8.5" cy="8.5" r="1.5" />
-                        <polyline points="21 15 16 10 5 21" />
-                      </svg>
-                    </div>
-                    <p>Haz clic para subir una imagen de portada</p>
-                    <span className="cover-image-note">
-                      Si no subes una imagen, se utilizará la primera imagen del
-                      contenido
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
+            <CoverImageUpload
+              coverImage={coverImage}
+              coverImageInputRef={coverImageInputRef as any}
+              isSubmitting={isSubmitting}
+              onImageChange={handleCoverImageChange}
+              onRemoveImage={handleRemoveCoverImage}
+            />
           </div>
 
           <div className="form-group editor-container">
             <label>Contenido</label>
             <div className="rich-editor-wrapper">
               <RichTextEditor
-                value={editorContent}
+                value={editorContent as any}
                 onChange={setEditorContent}
                 onImageUpload={handleImageUpload}
                 placeholder="Comienza a escribir tu artículo aquí..."
