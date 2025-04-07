@@ -10,7 +10,7 @@ import { $insertNodes } from "@lexical/utils";
 
 export function ImagesPlugin({ onImageUpload }) {
   const [editor] = useLexicalComposerContext();
-  const fileInputRef = useRef < HTMLInputElement > null;
+  const fileInputRef = useRef <HTMLInputElement> null;
 
   useEffect(() => {
     if (!onImageUpload) return;
