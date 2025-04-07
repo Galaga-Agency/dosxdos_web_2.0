@@ -3,7 +3,7 @@
 import React, { useEffect, ReactNode } from "react";
 import WhatsAppButton from "./WhatsAppButton/WhatsAppButton";
 import LoadingManager from "@/utils/loading";
-import Footer from "./layout/Footer/Footer";
+import Footer from "./layout/Footer/footer";
 
 interface SmoothScrollWrapperProps {
   children: ReactNode;
