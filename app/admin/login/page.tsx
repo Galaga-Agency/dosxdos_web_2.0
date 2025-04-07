@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signIn, useSession } from "next-auth/react";
-import "./login.scss";
+import "./Login.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomInput from "@/components/ui/CustomInput/CustomInput";
 
