@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { charAnimation } from "@/utils/animations/title-anim";
@@ -10,52 +10,81 @@ import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import BlogItem from "@/components/BlogItem/BlogItem";
 import Pagination from "@/components/ui/Pagination/Pagination";
-import { blogPosts } from "@/data/blog-posts";
 import usePagination from "@/hooks/usePagination";
 import { formatDate } from "@/utils/formatting/dateFormatting";
 import gsap from "gsap";
+import { BlogPost } from "@/types/blog-post-types";
+import Loading from "@/components/ui/Loading/Loading";
 
 const BlogPage: React.FC = () => {
   const imageContainerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLDivElement | null>(null);
-  const blog_items = [...blogPosts];
-  const first_blog = blog_items[0];
-  const other_blogs = blog_items.filter((b) => b !== first_blog);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Get only published blog posts
+  const publishedBlogItems = blogItems.filter(
+    (post) => post.published === true
+  );
+
+  const first_blog = publishedBlogItems[0];
+  const other_blogs = publishedBlogItems.slice(1);
   const { currentItems, handlePageClick, pageCount, currentPage } =
     usePagination({
       items: other_blogs,
-      itemsPerPage: 6,
+      itemsPerPage: 3,
     });
 
   useParallax(
     imageContainerRef as React.RefObject<HTMLElement>,
     imageRef as React.RefObject<HTMLElement>,
     {
-      intensity: 0.25, // More subtle movement (25% of container height)
-      scrubAmount: 1.2, // Smoother scrubbing (higher value = smoother)
-      delay: 200, // Slightly longer delay to ensure everything is properly mounted
+      intensity: 0.25,
+      scrubAmount: 1.2,
+      delay: 200,
     }
   );
 
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch("/api/blog");
+        const data = await res.json();
+        // You could filter here or use the publishedBlogItems variable
+        setBlogItems(data);
+      } catch (error) {
+        console.error("Failed to fetch blog posts:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   useEffect(() => {
-    // Ensure the title is initially hidden
-    if (titleRef.current) {
-      gsap.set(titleRef.current, {
-        visibility: "hidden",
-      });
-
-      // Ensure the animation runs after component mount
+    if (!loading && titleRef.current) {
+      gsap.set(titleRef.current, { visibility: "hidden" });
       const timer = setTimeout(() => {
-        // If charAnimation is a function that takes a ref or selector
-        charAnimation(titleRef.current);
+        charAnimation(titleRef.current!);
       }, 200);
-
-      // Cleanup function
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [loading]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!first_blog) {
+    return (
+      <div className="blog-page__empty-state">
+        <h2>No hay entradas de blog disponibles.</h2>
+      </div>
+    );
+  }
 
   return (
     <SmoothScrollWrapper>
@@ -75,7 +104,10 @@ const BlogPage: React.FC = () => {
             >
               <div ref={imageRef} className="blog-page__featured-image-wrapper">
                 <Image
-                  src={first_blog.img || "/assets/img/default-blog-image.jpg"}
+                  src={
+                    first_blog.coverImage ||
+                    "/assets/img/default-blog-image.jpg"
+                  }
                   alt={first_blog.title}
                   fill
                   priority

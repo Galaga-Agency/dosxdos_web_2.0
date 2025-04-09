@@ -308,7 +308,6 @@
       max-width: 100%;
       height: auto;
       border-radius: 8px;
-      margin: 2rem 0;
       box-shadow: 0 4px 12px rgba($black, 0.1);
     }
 
@@ -349,9 +348,7 @@
       }
     }
 
-    /* Fix for image container from Rich Text Editor */
     .rich-text-editor__image-container {
-      margin: 2rem 0;
       width: 100%;
       max-width: 100%;
     }

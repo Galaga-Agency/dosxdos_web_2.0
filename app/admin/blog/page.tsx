@@ -12,6 +12,8 @@ import "./BlogList.scss";
 import AdminBlogCard from "@/components/AdminBlogCard/AdminBlogCard";
 import { deletePost, getAllPosts } from "@/lib/blog-service";
 import Loading from "@/components/ui/Loading/Loading";
+import Pagination from "@/components/ui/Pagination/Pagination";
+import usePagination from "@/hooks/usePagination";
 
 function BlogListPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -26,8 +28,16 @@ function BlogListPage() {
   const actionsRef = useRef<HTMLDivElement>(null);
   const postsContainerRef = useRef<HTMLDivElement>(null);
   const emptyStateRef = useRef<HTMLDivElement>(null);
+  const paginationRef = useRef<HTMLDivElement>(null);
 
   const isAuthenticated = status === "authenticated";
+
+  // Set up pagination (6 posts per page like in the blog page)
+  const { currentItems, handlePageClick, pageCount, currentPage } =
+    usePagination({
+      items: posts,
+      itemsPerPage: 6,
+    });
 
   // Fetch posts with 3-second minimum loading time
   useEffect(() => {
@@ -57,7 +67,7 @@ function BlogListPage() {
       tl.fromTo(
         headerRef.current,
         { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.8, delay: 0.3 ,ease: "power3.out" }
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: "power3.out" }
       );
 
       tl.fromTo(
@@ -110,6 +120,21 @@ function BlogListPage() {
             onComplete: () => setHasAnimated(true),
           }
         );
+
+        // Animate pagination if it exists
+        if (paginationRef.current && posts.length > 6) {
+          gsap.fromTo(
+            paginationRef.current,
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              delay: 0.3,
+              ease: "power3.out",
+            }
+          );
+        }
       } else {
         setHasAnimated(true);
       }
@@ -193,25 +218,41 @@ function BlogListPage() {
             ) : (
               <div className="blog-list-page__posts">
                 {posts.length > 0 ? (
-                  <div
-                    className="blog-list-page__posts-grid"
-                    ref={postsContainerRef}
-                  >
-                    {posts.map((post, index) => (
+                  <>
+                    <div
+                      className="blog-list-page__posts-grid"
+                      ref={postsContainerRef}
+                    >
+                      {currentItems.map((post, index) => (
+                        <div
+                          key={post.slug || post.id || index}
+                          className="blog-post-card"
+                          data-id={post.id}
+                          data-slug={post.slug}
+                        >
+                          <AdminBlogCard
+                            post={post}
+                            onDelete={handleDeletePost}
+                            index={index}
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Add pagination if there are more than 6 posts */}
+                    {posts.length > 6 && (
                       <div
-                        key={post.slug || post.id || index}
-                        className="blog-post-card"
-                        data-id={post.id}
-                        data-slug={post.slug}
+                        className="blog-list-page__pagination"
+                        ref={paginationRef}
                       >
-                        <AdminBlogCard
-                          post={post}
-                          onDelete={handleDeletePost}
-                          index={index}
+                        <Pagination
+                          handlePageClick={handlePageClick}
+                          pageCount={pageCount}
+                          currentPage={currentPage}
                         />
                       </div>
-                    ))}
-                  </div>
+                    )}
+                  </>
                 ) : (
                   <div className="blog-list-page__empty" ref={emptyStateRef}>
                     <p>No hay entradas de blog disponibles.</p>

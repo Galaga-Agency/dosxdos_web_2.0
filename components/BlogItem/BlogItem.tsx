@@ -19,7 +19,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ item, index = 0 }) => {
       <div className="blog-item__image-container">
         <div className="blog-item__image-wrapper">
           <Image
-            src={item.img}
+            src={item.coverImage || (item.img && item.img[0]) || ""}
             alt={item.title}
             fill
             sizes="(max-width: 768px) 100vw, 33vw"

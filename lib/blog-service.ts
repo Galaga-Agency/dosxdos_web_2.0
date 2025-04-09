@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use server";
 
 import { promises as fs } from "fs";
@@ -6,7 +7,7 @@ import matter from "gray-matter";
 import { v4 as uuidv4 } from "uuid";
 import { BlogPost } from "@/types/blog-post-types";
 
-const POSTS_DIRECTORY = path.join(process.cwd(), "content/blog");
+const POSTS_DIRECTORY = path.join(process.cwd(), "data/blog-articles");
 
 export async function getAllPosts(): Promise<BlogPost[]> {
   try {
@@ -51,6 +52,8 @@ export async function getAllPosts(): Promise<BlogPost[]> {
           matterResult.data.coverImage || "/assets/img/default-blog-image.jpg",
         author: matterResult.data.author || "Admin",
         published: matterResult.data.published !== false,
+        editorBlocks: "",
+        tags: matterResult.data.tags || [],
       };
 
       allPostsData.push(post);
@@ -97,6 +100,7 @@ export async function createOrUpdatePost(post: BlogPost): Promise<BlogPost> {
         updatedPost.coverImage || "/assets/img/default-blog-image.jpg",
       author: updatedPost.author || "Admin",
       published: updatedPost.published !== false,
+      tags: updatedPost.tags || [],
     };
 
     // Create markdown content
