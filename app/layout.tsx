@@ -4,6 +4,7 @@ import "@/styles/main.scss";
 import Menu from "@/components/layout/Menu/Menu";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
+import PageTransition from "@/components/PageTransition/PageTransition";
 
 const inter = localFont({
   variable: "--font-inter",
@@ -121,9 +122,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <AuthProvider>
-        <body className={`${inter.variable} ${robotoSlab.variable}`}>
+        <body
+          className={`${inter.variable} ${robotoSlab.variable}`}
+          suppressHydrationWarning
+        >
           <Menu />
-          {children}
+          <PageTransition>{children}</PageTransition>
           <BackToTop />
         </body>
       </AuthProvider>

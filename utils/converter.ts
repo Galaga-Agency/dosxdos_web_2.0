@@ -2,7 +2,7 @@ import { $getRoot, $isElementNode, $isTextNode, LexicalNode } from "lexical";
 import { $isHeadingNode, $isQuoteNode } from "@lexical/rich-text";
 import { $isListNode, $isListItemNode } from "@lexical/list";
 import { $isLinkNode } from "@lexical/link";
-import { $isImageNode } from "@/nodes/image";
+import { $isImageNode } from "@/nodes/image-node";
 import { EditorBlock } from "@/types/blog-post-types";
 
 // Convert Lexical state to our custom EditorBlock format
@@ -30,13 +30,13 @@ function processNode(node: LexicalNode, blocks: EditorBlock[]) {
       type: "heading",
       level,
       content: getTextContent(node),
-    });
+    } as any);
   } else if ($isQuoteNode(node)) {
     // Quote nodes
     blocks.push({
       type: "quote",
       content: getTextContent(node),
-    });
+    } as any);
   } else if ($isListNode(node)) {
     // List nodes
     const listType = node.getListType();
@@ -45,14 +45,14 @@ function processNode(node: LexicalNode, blocks: EditorBlock[]) {
       type: "list",
       listType: listType === "bullet" ? "unordered" : "ordered",
       items: getListItems(node),
-    });
+    } as any);
   } else if ($isImageNode(node)) {
     // Image nodes
     blocks.push({
       type: "image",
       content: node.getSrc(),
       altText: node.getAltText(),
-    });
+    } as any);
   } else if ($isElementNode(node)) {
     // Generic element nodes (paragraphs, etc.)
     // Skip empty paragraphs
@@ -61,7 +61,7 @@ function processNode(node: LexicalNode, blocks: EditorBlock[]) {
       blocks.push({
         type: "paragraph",
         content,
-      });
+      } as any);
     }
   }
 }

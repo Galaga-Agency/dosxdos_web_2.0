@@ -1,0 +1,59 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.emoji-list {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 8px;
+  padding: 12px;
+  max-height: 380px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba($secondary-color, 0.1);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($secondary-color, 0.3);
+    border-radius: 4px;
+
+    &:hover {
+      background: rgba($secondary-color, 0.5);
+    }
+  }
+
+  .emoji-item {
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 8px;
+    font-size: 22px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: rgba($secondary-color, 0.1);
+      transform: scale(1.1);
+    }
+    
+    &.selected {
+      background: rgba($primary-color, 0.1);
+      transform: scale(1.1);
+      box-shadow: 0 2px 4px rgba($primary-color, 0.2);
+    }
+  }
+
+  .emoji-no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: rgba($secondary-color, 0.7);
+    padding: 16px;
+    font-style: italic;
+  }
+}

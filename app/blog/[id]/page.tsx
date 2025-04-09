@@ -35,19 +35,27 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
       try {
         // Use getPostById instead of direct fetch
         const data = await getPostById(id);
+
+        console.log("Current article:", data);
+
         setBlogPost(data);
 
         // Fetch related posts using getAllPosts
         const allPosts = await getAllPosts();
 
-        setRelatedPosts(
-          allPosts
-            .filter(
-              (post) =>
-                post.id !== id && data && post.category === data.category
-            )
-            .slice(0, 3)
+        let related = allPosts.filter(
+          (post) =>
+            post.id !== id &&
+            data?.tags?.some((tag) => post.tags?.includes(tag))
         );
+
+        if (related.length === 0) {
+          related = allPosts.filter(
+            (post) => post.id !== id && post.category === data?.category
+          );
+        }
+
+        setRelatedPosts(related.slice(0, 3));
       } catch (error) {
         console.error("Error loading blog post:", error);
         notFound();
@@ -190,9 +198,11 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
             )}
 
             {/* Render HTML content safely using dangerouslySetInnerHTML */}
-            <div 
+            <div
               className="blog-detail__body"
-              dangerouslySetInnerHTML={createMarkup(formatBlogContent(blogPost.content))}
+              dangerouslySetInnerHTML={createMarkup(
+                formatBlogContent(blogPost.content)
+              )}
             />
 
             {/* Tags section - Use hardcoded tags if none provided */}

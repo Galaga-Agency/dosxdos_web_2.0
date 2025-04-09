@@ -1,4 +1,3 @@
-// hooks/useEditorState.ts
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { EditorBlock } from '@/types/blog-post-types';
 import { useBlockAnimations } from './useFormAnimation';
