@@ -27,7 +27,7 @@ const ContactPage: React.FC = () => {
       const timer = setTimeout(() => {
         // If charAnimation is a function that takes a ref or selector
         charAnimation(titleRef.current);
-      }, 200);
+      }, 1500);
 
       // Cleanup function
       return () => clearTimeout(timer);

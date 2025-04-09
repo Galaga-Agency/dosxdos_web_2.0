@@ -6,18 +6,14 @@ import gsap from "gsap";
 import Image from "next/image";
 import "./PageTransition.scss";
 
-export default function PageTransition({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [displayChildren, setDisplayChildren] = useState(children);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [contentVisible, setContentVisible] = useState(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const prevPathRef = useRef(pathname);
 
   useEffect(() => {
@@ -28,153 +24,135 @@ export default function PageTransition({
   }, [pathname, children, isTransitioning]);
 
   const runTransition = (newChildren: React.ReactNode) => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !contentRef.current) return;
 
     setIsTransitioning(true);
     setContentVisible(false);
-    containerRef.current.innerHTML = "";
-
-    const primary = document.createElement("div");
-    const secondary = document.createElement("div");
-    const glass = document.createElement("div");
-
-    primary.className = "page-transition__panel primary";
-    secondary.className = "page-transition__panel secondary";
-    glass.className = "page-transition__panel glass";
-
-    containerRef.current.appendChild(primary);
-    containerRef.current.appendChild(secondary);
-    containerRef.current.appendChild(glass);
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        containerRef.current!.innerHTML = "";
-        setIsTransitioning(false);
-      },
-    });
-
-    // Initial state
-    gsap.set(primary, { x: "-100%", width: "25vw", left: "0" });
-    gsap.set(secondary, { width: "0vw", left: "25vw" });
-    gsap.set(glass, { width: "0vw", left: "95vw" });
-    gsap.set(logoRef.current, { opacity: 0, scale: 0.9 });
-
-    // PRIMARY SLIDE IN (from left, stops at 0)
-    tl.to(primary, {
-      x: "0%",
-      duration: 0.5,
-      ease: "power3.out",
-    });
-
-    // LOGO FADE + SCALE IN
-    if (logoRef.current) {
-      tl.to(
-        logoRef.current,
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.4,
-          ease: "back.out(1.7)",
+    
+    // Create a persistent cover layer
+    const coverLayer = document.createElement("div");
+    coverLayer.className = "page-transition__cover-layer";
+    document.body.appendChild(coverLayer);
+    
+    // Create a separate container for the logo to ensure it's positioned correctly
+    const logoContainer = document.createElement("div");
+    logoContainer.className = "page-transition__logo-container";
+    document.body.appendChild(logoContainer);
+    
+    // Initial fade in the cover
+    gsap.fromTo(coverLayer, 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 0.2, onComplete: startMainAnimation }
+    );
+    
+    function startMainAnimation() {
+      // Now create the animation layer
+      containerRef.current!.innerHTML = "";
+      
+      const glassLayer = document.createElement("div");
+      const logo = document.createElement("img");
+  
+      glassLayer.className = "page-transition__panel glass-layer";
+      logo.className = "page-transition__logo";
+      logo.src = "/assets/img/logo/logo_fondo_rojo.png";
+      logo.alt = "Dos x Dos Logo";
+  
+      containerRef.current!.appendChild(glassLayer);
+      logoContainer.appendChild(logo); // Add logo to the separate container
+  
+      const tl = gsap.timeline({
+        onComplete: () => {
+          containerRef.current!.innerHTML = "";
+          // Remove the cover layer and logo container after everything is done
+          document.body.removeChild(coverLayer);
+          document.body.removeChild(logoContainer);
+          setIsTransitioning(false);
         },
-        "<+0.1"
-      );
-    }
-
-    // SECONDARY STRETCHES from 0 to 70vw (starts from 25vw)
-    tl.to(
-      secondary,
-      {
-        width: "10vw",
-        duration: 0.6,
-        ease: "power3.inOut",
-      },
-      "<+0.1"
-    );
-
-    // GLASS STRETCHES from 0 to 50vw (starts from 95vw)
-    tl.to(
-      glass,
-      {
-        width: "50vw",
-        duration: 0.5,
-        ease: "power3.inOut",
-      },
-      "<+0.1"
-    );
-
-    // SWAP PAGE CONTENT
-    tl.call(
-      () => {
-        setDisplayChildren(newChildren);
-        setContentVisible(true);
-      },
-      null,
-      "<+0.2"
-    );
-
-    // EXIT ANIMATION: glass → secondary → primary
-    tl.to(
-      glass,
-      {
-        width: "0vw",
-        duration: 0.3,
-        ease: "power2.in",
-      },
-      "+=0.5"
-    );
-
-    tl.to(
-      secondary,
-      {
-        width: "0vw",
-        duration: 0.4,
-        ease: "power2.in",
-      },
-      "<+0.1"
-    );
-
-    if (logoRef.current) {
-      tl.to(
-        logoRef.current,
-        {
-          opacity: 0,
-          scale: 0.9,
-          duration: 0.3,
-          ease: "power2.in",
-        },
-        "<"
-      );
-    }
-
-    // PRIMARY SLIDES OUT TO RIGHT
-    tl.to(
-      primary,
-      {
+      });
+  
+      gsap.set(glassLayer, {
         x: "100%",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        backdropFilter: "blur(10px)",
+        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+        borderLeft: "1px solid rgba(255, 255, 255, 0.3)"
+      });
+  
+      gsap.set(logo, {
+        opacity: 0,
+        scale: 0.8,
+      });
+      
+      // We can now hide the cover as our glass layer will take over
+      tl.to(coverLayer, { opacity: 0, duration: 0.4 }, 0);
+  
+      // Entry animation - smooth single layer slide in
+      tl.to(glassLayer, { 
+        x: "0%", 
+        duration: 0.8, 
+        ease: "power3.out" 
+      }, 0);
+      
+      // Logo animation
+      tl.to(logo, { 
+        opacity: 1, 
+        scale: 1, 
+        duration: 0.5, 
+        ease: "back.out(1.7)" 
+      }, "-=0.3");
+  
+      // Update the children after the glass layer is in place
+      tl.call(() => {
+        setDisplayChildren(newChildren);
+      });
+      
+      // Before exit animations, fade in the cover again
+      tl.to(coverLayer, { opacity: 1, duration: 0.3 });
+      
+      // Now we can safely make the content visible since it's behind the cover
+      tl.call(() => {
+        setContentVisible(true);
+      });
+  
+      // Logo exit animation - start sooner
+      tl.to(logo, { 
+        opacity: 0, 
+        scale: 0.8, 
+        duration: 0.3, // Slightly faster exit
+        ease: "power2.inOut" 
+      }, "-=0.1");
+  
+      // Smooth exit animation for the glass layer
+      tl.to(glassLayer, {
+        x: "-100%",
+        duration: 0.8,
+        ease: "power2.inOut"
+      }, "-=0.3");
+      
+      // Finally fade out the cover to reveal the new content
+      tl.to(coverLayer, { 
+        opacity: 0, 
         duration: 0.5,
-        ease: "power3.in",
-      },
-      "<+0.2"
-    );
+        ease: "power1.inOut" 
+      });
+    }
   };
 
   return (
     <div className="page-transition">
       <div className="page-transition__panels" ref={containerRef}></div>
-
-      <div className="page-transition__logo" ref={logoRef}>
-        <Image
-          src="/assets/img/logo/logo_fondo_rojo.png"
-          alt="Dos x Dos Logo"
-          width={140}
-          height={70}
-          priority
-        />
-      </div>
-
       <div
         className="page-transition__content"
-        style={{ opacity: contentVisible ? 1 : 0 }}
+        ref={contentRef}
+        style={{
+          opacity: contentVisible ? 1 : 0,
+          visibility: contentVisible ? "visible" : "hidden",
+          transition: "opacity 0.3s ease"
+        }}
       >
         {displayChildren}
       </div>
