@@ -43,7 +43,7 @@ const BlogPage: React.FC = () => {
     {
       intensity: 0.25,
       scrubAmount: 1.2,
-      delay: 200,
+      delay: 500,
     }
   );
 
@@ -69,7 +69,7 @@ const BlogPage: React.FC = () => {
       gsap.set(titleRef.current, { visibility: "hidden" });
       const timer = setTimeout(() => {
         charAnimation(titleRef.current!);
-      }, 200);
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [loading]);
