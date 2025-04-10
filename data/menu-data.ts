@@ -12,9 +12,14 @@ export const menuItems: MenuItem[] = [
         href: "/sobre-nosotros/equipo",
       },
       {
-        id: "responsabilidad-social",
-        label: "Responsabilidad Social",
-        href: "/sobre-nosotros/responsabilidad-social",
+        id: "accion-social",
+        label: "Acción social",
+        href: "/sobre-nosotros/accion-social",
+      },
+      {
+        id: "nuestro-espacio",
+        label: "Nuestro espacio",
+        href: "/sobre-nosotros/nuestro-espacio",
       },
     ],
   },
