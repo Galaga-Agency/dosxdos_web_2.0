@@ -2,95 +2,252 @@
 @use '../abstracts/mixins' as *;
 @use '../base/colors' as *;
 
+// Note: Next.js is handling the font loading through localFont in the RootLayout
+// These are fallbacks in case the Next.js font loading fails
+
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Big Shoulders Display';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   font-display: swap;
-  src: url('/assets/fonts/Inter-18pt-Regular.ttf') format('truetype');
+  src: url('/assets/fonts/BigShouldersDisplay-Light.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Big Shoulders Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/BigShouldersDisplay-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Big Shoulders Display';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('/assets/fonts/Inter-18pt-Medium.ttf') format('truetype');
+  src: url('/assets/fonts/BigShouldersDisplay-Medium.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/assets/fonts/Inter-24pt-ExtraBold.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/assets/fonts/RobotoSlab-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Roboto Slab';
+  font-family: 'Big Shoulders Display';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('/assets/fonts/RobotoSlab-SemiBold.ttf') format('truetype');
+  src: url('/assets/fonts/BigShouldersDisplay-SemiBold.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Roboto Slab';
+  font-family: 'Big Shoulders Display';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/assets/fonts/RobotoSlab-Bold.ttf') format('truetype');
+  src: url('/assets/fonts/BigShouldersDisplay-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Big Shoulders Display';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/assets/fonts/BigShouldersDisplay-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Big Shoulders Display';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/assets/fonts/BigShouldersDisplay-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-Thin.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-ThinItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-LightItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-MediumItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-SemiBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/assets/fonts/Sarabun-ExtraBoldItalic.ttf') format('truetype');
 }
 
 :root {
-  // Define fallback variables
-  --font-sans: var(--font-inter, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-  --font-serif: var(--font-roboto-slab, 'Roboto Slab', Georgia, serif);
+  // Define font variables
+  --font-display: var(--font-big-shoulders, 'Big Shoulders Display', Impact, sans-serif);
+  --font-body: var(--font-sarabun, 'Sarabun', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
 }
 
 body {
-    font-family: var(--font-sans);
-    color: $black;
+  font-family: var(--font-body);
+  color: $black;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: var(--font-serif);
-    margin-bottom: spacing(sm);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  margin-bottom: spacing(sm);
+  font-weight: 700;
 }
 
 h1 {
-    @include font-size(3xl);
+  @include font-size(3xl);
 }
 
 h2 {
-    @include font-size(2xl);
+  @include font-size(2xl);
 }
 
 h3 {
-    @include font-size(xl);
+  @include font-size(xl);
 }
 
 p {
-    margin-bottom: spacing(md);
+  margin-bottom: spacing(md);
 }
 
-.font-sans {
-    font-family: var(--font-sans);
+.font-display {
+  font-family: var(--font-display);
 }
 
-.font-serif {
-    font-family: var(--font-serif);
+.font-body {
+  font-family: var(--font-body);
+}
+
+// Font weight utility classes
+.font-thin {
+  font-weight: 100;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.font-regular {
+  font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-extrabold {
+  font-weight: 800;
+}
+
+.font-black {
+  font-weight: 900;
+}
+
+// Italic utility class
+.font-italic {
+  font-style: italic;
 }

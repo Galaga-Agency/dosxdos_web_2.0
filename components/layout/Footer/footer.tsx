@@ -186,9 +186,9 @@ const Footer = () => {
             <div className="footer__cta-accent"></div>
             <div className="footer__cta-content">
               <h4>¿Hablamos?</h4>
-              <p>¿Tienes un nuevo proyecto? Lo hacemos real.</p>
+              <p>¿Tiene un nuevo proyecto? Lo hacemos real.</p>
               <Link href="/contacto" className="footer__cta-button">
-                <span>Solicita presupuesto</span>
+                <span>Solicite presupuesto</span>
                 <ArrowRight size={16} />
               </Link>
             </div>

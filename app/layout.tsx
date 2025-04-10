@@ -6,46 +6,121 @@ import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
 import PageTransition from "@/components/PageTransition/PageTransition";
 
-const inter = localFont({
-  variable: "--font-inter",
+const bigShoulders = localFont({
+  variable: "--font-big-shoulders",
   display: "swap",
   src: [
     {
-      path: "../public/assets/fonts/Inter_18pt-Regular.ttf",
+      path: "../public/assets/fonts/BigShouldersDisplay-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/BigShouldersDisplay-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/assets/fonts/Inter_18pt-Medium.ttf",
+      path: "../public/assets/fonts/BigShouldersDisplay-Medium.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../public/assets/fonts/Inter_24pt-ExtraBold.ttf",
+      path: "../public/assets/fonts/BigShouldersDisplay-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/BigShouldersDisplay-Bold.ttf",
       weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/BigShouldersDisplay-ExtraBold.ttf",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/BigShouldersDisplay-Black.ttf",
+      weight: "900",
       style: "normal",
     },
   ],
 });
 
-const robotoSlab = localFont({
-  variable: "--font-roboto-slab",
+const sarabun = localFont({
+  variable: "--font-sarabun",
   display: "swap",
   src: [
     {
-      path: "../public/assets/fonts/RobotoSlab-Regular.ttf",
+      path: "../public/assets/fonts/Sarabun-Thin.ttf",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-ThinItalic.ttf",
+      weight: "100",
+      style: "italic",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-LightItalic.ttf",
+      weight: "300",
+      style: "italic",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/assets/fonts/RobotoSlab-SemiBold.ttf",
+      path: "../public/assets/fonts/Sarabun-Italic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-MediumItalic.ttf",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-SemiBold.ttf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../public/assets/fonts/RobotoSlab-Bold.ttf",
+      path: "../public/assets/fonts/Sarabun-SemiBoldItalic.ttf",
+      weight: "600",
+      style: "italic",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-Bold.ttf",
       weight: "700",
       style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-BoldItalic.ttf",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-ExtraBold.ttf",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/Sarabun-ExtraBoldItalic.ttf",
+      weight: "800",
+      style: "italic",
     },
   ],
 });
@@ -123,7 +198,7 @@ export default function RootLayout({
     <html lang="es">
       <AuthProvider>
         <body
-          className={`${inter.variable} ${robotoSlab.variable}`}
+          className={`${bigShoulders.variable} ${sarabun.variable}`}
           suppressHydrationWarning
         >
           <Menu />
