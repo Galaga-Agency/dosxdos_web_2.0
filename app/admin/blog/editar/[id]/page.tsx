@@ -5,27 +5,37 @@ import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { createOrUpdatePost } from "@/lib/blog-service";
 import { BlogPost } from "@/types/blog-post-types";
-import { processEditorContent, calculateReadTime } from "@/utils/editor";
-import "./NewBlogPostPage.scss";
-import { useRouter } from "next/navigation";
+import {
+  processEditorContent,
+  calculateReadTime,
+  parseHtmlContentToBlocks,
+  lexicalToEditorBlocks,
+} from "@/utils/editor";
+import "./EditBlogPostPage.scss";
+import { useRouter, useParams } from "next/navigation";
 import { Trash2, Upload, Image } from "lucide-react";
 import gsap from "gsap";
 import RichTextEditor from "@/components/RichTextEditor/RichTextEditorWrapper";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
+import Loading from "@/components/ui/Loading/Loading";
 
-export default function NewBlogPostPage() {
+export default function EditBlogPostPage() {
   const router = useRouter();
+  const params = useParams();
+  const postId = params.id as string;
+
   const [editorContent, setEditorContent] = useState<
     { type: string; content: string; alignment?: string; meta?: any }[]
   >([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
-  const [articleId] = useState(() => uuidv4());
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [notFound, setNotFound] = useState(false);
 
   // Refs
   const pageRef = useRef(null);
@@ -37,6 +47,8 @@ export default function NewBlogPostPage() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
+    setValue,
   } = useForm<Partial<BlogPost>>({
     defaultValues: {
       title: "",
@@ -47,8 +59,96 @@ export default function NewBlogPostPage() {
     },
   });
 
-  // Animations
+  // Fetch existing post data
   useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        setIsLoading(true);
+
+        // Use the blog-service directly
+        const post = await fetch(`/api/blog/${postId}`).then((res) => {
+          if (!res.ok) {
+            if (res.status === 404) {
+              setNotFound(true);
+            }
+            throw new Error(`Error fetching post: ${res.statusText}`);
+          }
+
+          return res.json();
+        });
+
+        console.log("📦 Fetched post:", post);
+
+        if (!post) {
+          setNotFound(true);
+          setIsLoading(false);
+          return;
+        }
+
+        // Populate form with existing data
+        reset({
+          title: post.title || "",
+          category: post.category || "",
+          excerpt: post.excerpt || "",
+          author: post.author || "Admin",
+          published: post.published ?? true,
+        });
+
+        // Set cover image if exists
+        if (
+          post.coverImage &&
+          post.coverImage !== "/assets/img/default-blog-image.jpg"
+        ) {
+          setCoverImage(post.coverImage);
+        }
+
+        // Set tags
+        if (post.tags && Array.isArray(post.tags)) {
+          setTags(post.tags);
+        }
+
+        console.log("🧪 editorBlocks (raw):", post.editorBlocks);
+
+        if (
+          typeof post.editorBlocks === "string" &&
+          post.editorBlocks.trim().length > 0
+        ) {
+          try {
+            const blocks = JSON.parse(post.editorBlocks);
+            console.log("✅ Parsed editorBlocks:", blocks);
+
+            if (Array.isArray(blocks)) {
+              setEditorContent(blocks);
+            } else if (typeof blocks === "object" && blocks.root) {
+              const parsed = lexicalToEditorBlocks(post.editorBlocks);
+              setEditorContent(parsed);
+            }
+          } catch (err) {
+            console.error("❌ Error parsing editorBlocks:", err);
+          }
+        } else if (post.content) {
+          console.log("📄 Falling back to content");
+          const blocksFromHtml = parseHtmlContentToBlocks(post.content);
+          setEditorContent(blocksFromHtml);
+        }
+
+        setIsLoading(false);
+
+        // Run animations after data is loaded
+        runEntryAnimations();
+      } catch (error) {
+        console.error("Error fetching post data:", error);
+        setIsLoading(false);
+      }
+    };
+
+    if (postId) {
+      fetchPostData();
+    }
+  }, [postId, reset]);
+
+  // Animations
+  const runEntryAnimations = () => {
     const tl = gsap.timeline();
 
     if (headerRef.current && formRef.current) {
@@ -65,7 +165,7 @@ export default function NewBlogPostPage() {
         "-=0.3"
       );
     }
-  }, []);
+  };
 
   const handleCoverImageChange = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -79,7 +179,7 @@ export default function NewBlogPostPage() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("articleId", articleId);
+      formData.append("articleId", postId); // Use existing post ID
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -91,7 +191,7 @@ export default function NewBlogPostPage() {
       }
 
       const { url } = await res.json();
-      setCoverImage(url); // ✅ e.g. /uploads/abc-123/cover.png
+      setCoverImage(url);
     } catch (err) {
       console.error("Failed to upload cover image:", err);
       alert("No se pudo subir la imagen de portada");
@@ -127,7 +227,7 @@ export default function NewBlogPostPage() {
       // Specifically log images
       const images = editorContent.filter((block) => block.type === "image");
       if (images.length > 0) {
-        console.log("[NewBlogPostPage] Images in editor content:", images);
+        console.log("[EditBlogPostPage] Images in editor content:", images);
       }
     }
   }, [editorContent]);
@@ -136,7 +236,7 @@ export default function NewBlogPostPage() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("articleId", articleId);
+      formData.append("articleId", postId); // Use existing post ID
 
       const response = await fetch("/api/upload", {
         method: "POST",
@@ -155,12 +255,6 @@ export default function NewBlogPostPage() {
     }
   };
 
-  // Find the first image in the editor content for use as default cover image
-  const findFirstImage = () => {
-    const imageBlock = editorContent.find((block) => block.type === "image");
-    return imageBlock?.content || null;
-  };
-
   const onSubmit = async (data: Partial<BlogPost>) => {
     try {
       setIsSubmitting(true);
@@ -176,14 +270,6 @@ export default function NewBlogPostPage() {
           ) === index
       );
 
-      // Count original and unique images
-      const originalImageCount = editorContent.filter(
-        (block) => block.type === "image"
-      ).length;
-      const uniqueImageCount = uniqueEditorContent.filter(
-        (block) => block.type === "image"
-      ).length;
-
       // Determine cover image
       const effectiveCoverImage =
         coverImage ||
@@ -193,10 +279,9 @@ export default function NewBlogPostPage() {
       // Process editor content with unique blocks
       const htmlContent = processEditorContent(uniqueEditorContent as any);
 
-      // Create the post
-      const newPost: BlogPost = {
-        id: uuidv4(),
-        date: new Date().toISOString(),
+      // Create the updated post object
+      const updatedPost: Partial<BlogPost> = {
+        id: postId,
         title: data.title || "",
         content: htmlContent,
         category: data.category || "",
@@ -208,6 +293,7 @@ export default function NewBlogPostPage() {
         tags: tags,
         readTime: calculateReadTime(htmlContent),
         editorBlocks: JSON.stringify(uniqueEditorContent),
+        // Don't update the date to preserve the original creation date
       };
 
       // Animation before submitting
@@ -220,8 +306,8 @@ export default function NewBlogPostPage() {
         });
       }
 
-      // Call server action to create post
-      const createdPost = await createOrUpdatePost(newPost);
+      // Use the server action to update the post
+      await createOrUpdatePost(updatedPost as BlogPost);
 
       // Success animation
       if (formRef.current) {
@@ -236,8 +322,8 @@ export default function NewBlogPostPage() {
       // Redirect to blog list
       router.push("/admin/blog");
     } catch (error) {
-      console.error("Error creating post:", error);
-      alert("No se pudo crear el post. Por favor, inténtalo de nuevo.");
+      console.error("Error updating post:", error);
+      alert("No se pudo actualizar el post. Por favor, inténtalo de nuevo.");
 
       // Reset form animation
       if (formRef.current) {
@@ -253,16 +339,42 @@ export default function NewBlogPostPage() {
     }
   };
 
+  if (notFound) {
+    return (
+      <div className="edit-blog-post-page not-found">
+        <div className="edit-blog-post-page__container">
+          <h1>Entrada no encontrada</h1>
+          <p>La entrada de blog que intentas editar no existe.</p>
+          <SecondaryButton
+            type="button"
+            onClick={() => router.push("/admin/blog")}
+          >
+            Volver al listado
+          </SecondaryButton>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="edit-blog-post-page loading">
+        <Loading />
+        <p>Cargando entrada...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="new-blog-post-page" ref={pageRef}>
-      <div className="new-blog-post-page__container">
-        <div className="new-blog-post-page__header" ref={headerRef}>
-          <h1>Crear Nueva Entrada de Blog</h1>
+    <div className="edit-blog-post-page" ref={pageRef}>
+      <div className="edit-blog-post-page__container">
+        <div className="edit-blog-post-page__header" ref={headerRef}>
+          <h1>Editar Entrada de Blog</h1>
         </div>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="new-blog-post-page__form"
+          className="edit-blog-post-page__form"
           ref={formRef}
         >
           <div className="form-group">
@@ -440,7 +552,7 @@ export default function NewBlogPostPage() {
               type="submit"
               disabled={isSubmitting || editorContent.length === 0}
             >
-              {isSubmitting ? "Creando..." : "Crear Entrada"}
+              {isSubmitting ? "Guardando..." : "Guardar Cambios"}
             </PrimaryButton>
           </div>
         </form>

@@ -22,8 +22,10 @@ import LexicalImagePlugin from "@/plugins/blog/LexicalImagePlugin";
 import LexicalLinkDialogPlugin from "@/plugins/blog/LexicalLinkDialogPlugin";
 import LexicalToolbarPlugin from "@/plugins/blog/LexicalToolbarPlugin";
 import LexicalEmojiPlugin from "@/plugins/blog/LexicalEmojiPlugin";
+import { useStickyInputFocus } from "@/hooks/useStickyInputFocus";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { PreventFocusStealingPlugin } from "@/plugins/blog/PreventFocusStealingPlugin";
 
-// Export the interface to be reused in index.tsx
 export interface RichTextEditorProps {
   value?: any;
   onChange?: (content: any) => void;
@@ -42,85 +44,89 @@ export default function RichTextEditor({
   const [initialEditorState, setInitialEditorState] = useState<string | null>(
     null
   );
-  const [editorReady, setEditorReady] = useState(false);
+  const [canRender, setCanRender] = useState(false);
   const [localImageBlocks, setLocalImageBlocks] = useState<any[]>([]);
   const editorRef = useRef<HTMLDivElement>(null);
+  useStickyInputFocus("#tags");
 
-  // URL matching function for auto-links
-  function createUrlMatcherFunction() {
-    const URL_REGEX =
+  const URL_MATCHER = (() => {
+    const regex =
       /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
-
     return (text: string) => {
-      const match = URL_REGEX.exec(text);
-      if (match === null) {
-        return null;
-      }
-      const startIndex = match.index;
+      const match = regex.exec(text);
+      if (!match) return null;
       const url = match[0];
       return {
-        index: startIndex,
+        index: match.index,
         length: url.length,
         text: url,
         url: url.startsWith("www.") ? `https://${url}` : url,
       };
     };
-  }
+  })();
 
-  const URL_MATCHER = createUrlMatcherFunction();
-
-  // Process the initial value to convert it to Lexical format
   useEffect(() => {
-    if (value) {
-      try {
-        // Extract image blocks from incoming value
-        if (Array.isArray(value)) {
-          const images = value.filter((block) => block.type === "image");
-          setLocalImageBlocks(images);
-        }
+    // Every 50ms, if something other than the tag input is stealing focus, stop it
+    const interval = setInterval(() => {
+      const active = document.activeElement;
+      const tagInput = document.querySelector("#tags");
 
-        if (typeof value === "string") {
-          // Check if it's a JSON string
-          try {
-            JSON.parse(value);
-            setInitialEditorState(value);
-          } catch (e) {
-            // It's not a JSON string, treat it as HTML content
-            const dummyBlocks = [
-              {
-                id: "initial",
-                type: "paragraph",
-                content: value,
-                alignment: "left",
-                meta: {},
-              },
-            ];
-            setInitialEditorState(editorBlocksToLexical(dummyBlocks as any));
-          }
-        } else if (Array.isArray(value)) {
-          // Filter out image blocks before creating Lexical state
-          const textBlocks = value.filter((block) => block.type !== "image");
-          const lexicalState = editorBlocksToLexical(textBlocks);
-          setInitialEditorState(lexicalState);
-        }
-      } catch (error) {
-        console.error("Error setting initial editor state:", error);
-        // Initialize with empty editor state
-        setInitialEditorState(null);
+      if (
+        tagInput &&
+        active &&
+        active !== tagInput &&
+        !document.activeElement?.closest(".editor-container") &&
+        document.activeElement?.classList.contains("editor-input")
+      ) {
+        console.warn("❌ Stealing focus back to #tags");
+        (tagInput as HTMLElement).focus();
       }
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, []);
+
+useEffect(() => {
+  if (initialEditorState !== null) return;
+
+  try {
+    if (Array.isArray(value)) {
+      const lexicalState = editorBlocksToLexical(value);
+      setInitialEditorState(lexicalState);
+
+      const images = value.filter((b) => b.type === "image");
+      setLocalImageBlocks(images);
+    } else if (typeof value === "string") {
+      try {
+        JSON.parse(value);
+        setInitialEditorState(value);
+      } catch {
+        const fallback: any = [
+          {
+            id: "initial",
+            type: "paragraph",
+            content: value,
+            alignment: "left",
+            meta: {},
+          },
+        ];
+        setInitialEditorState(editorBlocksToLexical(fallback));
+      }
+    } else {
+      setInitialEditorState(editorBlocksToLexical([]));
     }
 
-    // After a short delay, mark the editor as ready
-    const timer = setTimeout(() => {
-      setEditorReady(true);
-    }, 100);
+    setCanRender(true);
+  } catch (err) {
+    console.error("❌ Failed to parse editor value:", err);
+    setInitialEditorState(editorBlocksToLexical([]));
+    setCanRender(true);
+  }
+}, [initialEditorState, value]);
 
-    return () => clearTimeout(timer);
-  }, [value]);
 
-  // Theme configuration
+  // Lexical config
   const theme = {
-    // Base theme
     text: {
       bold: "editor-text-bold",
       italic: "editor-text-italic",
@@ -129,20 +135,13 @@ export default function RichTextEditor({
       underlineStrikethrough: "editor-text-underlineStrikethrough",
       code: "editor-text-code",
     },
-    // Block styles
     paragraph: "editor-paragraph",
-    heading: {
-      h1: "editor-h1",
-      h2: "editor-h2",
-      h3: "editor-h3",
-    },
+    heading: { h1: "editor-h1", h2: "editor-h2", h3: "editor-h3" },
     list: {
       ul: "editor-list-ul",
       ol: "editor-list-ol",
       li: "editor-list-li",
-      nested: {
-        listitem: "editor-nested-listitem",
-      },
+      nested: { listitem: "editor-nested-listitem" },
       listitemChecked: "editor-listItemChecked",
       listitemUnchecked: "editor-listItemUnchecked",
     },
@@ -152,20 +151,16 @@ export default function RichTextEditor({
     table: "editor-table",
     tableCell: "editor-tableCell",
     tableCellHeader: "editor-tableCellHeader",
-    // Element styles
     alignLeft: "editor-align-left",
     alignCenter: "editor-align-center",
     alignRight: "editor-align-right",
     alignJustify: "editor-align-justify",
   };
 
-  // Initial configuration for the Lexical editor
   const initialConfig = {
     namespace: "RichTextEditor",
     theme,
-    onError: (error: Error) => {
-      console.error("Lexical Editor Error:", error);
-    },
+    onError: (error: Error) => console.error("Lexical error:", error),
     nodes: [
       HeadingNode,
       QuoteNode,
@@ -181,69 +176,103 @@ export default function RichTextEditor({
     editorState: initialEditorState,
   };
 
-  // Add an image block to our local tracking
   const handleAddImage = (imageBlock: any) => {
     setLocalImageBlocks((prev) => [...prev, imageBlock]);
   };
 
-  // Handle editor changes and convert to the format needed by the app
   const handleEditorChange = (editorState: EditorState) => {
     if (!onChange) return;
 
     editorState.read(() => {
-      const jsonState = editorState.toJSON();
-      const stateString = JSON.stringify(jsonState);
+      const json = editorState.toJSON();
+      const stateString = JSON.stringify(json);
+      const blocks = lexicalToEditorBlocks(stateString);
 
-      // Get blocks from lexical state
-      const lexicalBlocks = lexicalToEditorBlocks(stateString);
+      const updatedImages = localImageBlocks.filter((img) =>
+        blocks.find((b) => b.type === "image" && b.content === img.content)
+      );
 
-      // Combine with our local image blocks
-      const finalBlocks = [...lexicalBlocks, ...localImageBlocks];
-
-      // Call onChange with the final blocks
+      const finalBlocks = [...blocks, ...updatedImages];
+      setLocalImageBlocks(updatedImages);
       onChange(finalBlocks);
     });
   };
 
+  useEffect(() => {
+    const editorEl = editorRef.current?.querySelector(
+      ".editor-input"
+    ) as HTMLElement | null;
+    const tagInput = document.querySelector("#tags") as HTMLElement | null;
+
+    if (!editorEl || !tagInput) return;
+
+    let manuallyFocused = false;
+
+    const handleEditorFocus = (e: FocusEvent) => {
+      if (!manuallyFocused && document.activeElement !== editorEl) {
+        console.warn("🛑 Editor tried to steal focus, preventing...");
+        e.stopPropagation();
+        e.preventDefault();
+        tagInput.focus(); // put it back in the tag input
+      }
+    };
+
+    const allowFocus = () => {
+      manuallyFocused = true;
+      setTimeout(() => {
+        manuallyFocused = false;
+      }, 1000); // allow editor focus for 1s after click
+    };
+
+    editorEl.addEventListener("focusin", handleEditorFocus, true);
+    editorEl.addEventListener("mousedown", allowFocus);
+
+    return () => {
+      editorEl.removeEventListener("focusin", handleEditorFocus, true);
+      editorEl.removeEventListener("mousedown", allowFocus);
+    };
+  }, []);
+
   return (
     <div
-      className={`rich-text-editor-container ${disabled ? "is-disabled" : ""} ${
-        editorReady ? "ready" : ""
-      }`}
+      className={`rich-text-editor-container ${disabled ? "is-disabled" : ""}`}
       ref={editorRef}
       onClick={(e) => e.stopPropagation()}
     >
-      <LexicalComposer initialConfig={initialConfig}>
-        <div className="rich-text-editor">
-          <LexicalToolbarPlugin
-            disabled={disabled}
-            onImageUpload={onImageUpload}
-          />
-          <div
-            className="editor-container"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <RichTextPlugin
-              contentEditable={<ContentEditable className="editor-input" />}
-              placeholder={
-                <div className="editor-placeholder">{placeholder}</div>
-              }
-              ErrorBoundary={LexicalErrorBoundary}
-            />
-            <ListPlugin />
-            <LinkPlugin />
-            <AutoLinkPlugin matchers={[URL_MATCHER]} />
-            <LexicalLinkDialogPlugin />
-            <LexicalImagePlugin
+      {canRender && initialEditorState && (
+        <LexicalComposer initialConfig={initialConfig}>
+          <div className="rich-text-editor">
+            <LexicalToolbarPlugin
+              disabled={disabled}
               onImageUpload={onImageUpload}
-              onImageInserted={handleAddImage}
             />
-            <LexicalEmojiPlugin />
-            <HistoryPlugin />
-            <OnChangePlugin onChange={handleEditorChange} />
+            <div
+              className="editor-container"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <RichTextPlugin
+                contentEditable={<ContentEditable className="editor-input" />}
+                placeholder={
+                  <div className="editor-placeholder">{placeholder}</div>
+                }
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+              <ListPlugin />
+              <PreventFocusStealingPlugin />
+              <LinkPlugin />
+              <AutoLinkPlugin matchers={[URL_MATCHER]} />
+              <LexicalLinkDialogPlugin />
+              <LexicalImagePlugin
+                onImageUpload={onImageUpload}
+                onImageInserted={handleAddImage}
+              />
+              <LexicalEmojiPlugin />
+              <HistoryPlugin />
+              <OnChangePlugin onChange={handleEditorChange} />
+            </div>
           </div>
-        </div>
-      </LexicalComposer>
+        </LexicalComposer>
+      )}
     </div>
   );
 }
