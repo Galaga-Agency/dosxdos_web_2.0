@@ -261,7 +261,7 @@ export function editorBlocksToLexical(blocks: EditorBlock[]): string {
 
   const lexicalState = {
     root: {
-      children,
+      children: children.length > 0 ? children : [createParagraphNode("", 0)],
       direction: "ltr",
       format: "",
       indent: 0,
@@ -364,14 +364,8 @@ function createListNode(listType: "bullet" | "number", items: string[]): any {
  * This is a simplified implementation that extracts text and preserves basic formatting
  */
 function parseContentToChildren(content: string): any[] {
-  // If the content doesn't have HTML tags, return a simple text node
-  if (!content.includes("<")) {
-    return [createTextNode(content)];
-  }
-
-  // For this simplified implementation, we'll strip HTML tags and create a simple text node
-  // In a real implementation, you'd want to parse the HTML and create appropriate formatting
-  const plainText = content.replace(/<[^>]*>/g, "");
+  const plainText = content.replace(/<[^>]*>/g, "").trim();
+  if (!plainText) return [createTextNode("")]; // Fallback if empty
   return [createTextNode(plainText)];
 }
 
@@ -624,4 +618,142 @@ export function formatBlogContent(content: any): string {
 
   // Default fallback
   return "<p>No content available</p>";
+}
+
+/**
+ * Parses HTML content into editor blocks
+ * This is useful for converting existing blog content to the editor block format
+ */
+export function parseHtmlContentToBlocks(html: string) {
+  const blocks: {
+    id: string;
+    type: string;
+    content: string;
+    alignment?: string;
+    meta?: any;
+  }[] = [];
+
+  // Use browser's DOMParser to parse HTML
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+
+  // Process each child node of the body
+  Array.from(doc.body.childNodes).forEach((node) => {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const element = node as HTMLElement;
+      const tagName = element.tagName.toLowerCase();
+
+      // Process headings
+      if (tagName.match(/^h[1-6]$/)) {
+        const level = parseInt(tagName.substring(1));
+        const headingType =
+          level === 1
+            ? BlockType.HEADING_1
+            : level === 2
+            ? BlockType.HEADING_2
+            : BlockType.HEADING_1;
+
+        blocks.push({
+          id: uuidv4(),
+          type: headingType,
+          content: element.innerHTML,
+          alignment: "left",
+          meta: {},
+        });
+      }
+      // Process paragraphs
+      else if (tagName === "p") {
+        blocks.push({
+          id: uuidv4(),
+          type: BlockType.PARAGRAPH,
+          content: element.innerHTML,
+          alignment: "left",
+          meta: {},
+        });
+      }
+      // Process unordered lists
+      else if (tagName === "ul") {
+        const items = element.querySelectorAll("li");
+        items.forEach((item) => {
+          blocks.push({
+            id: uuidv4(),
+            type: BlockType.LIST_ITEM,
+            content: item.innerHTML,
+            alignment: "left",
+            meta: {},
+          });
+        });
+      }
+      // Process ordered lists
+      else if (tagName === "ol") {
+        const items = element.querySelectorAll("li");
+        items.forEach((item) => {
+          blocks.push({
+            id: uuidv4(),
+            type: BlockType.ORDERED_LIST_ITEM,
+            content: item.innerHTML,
+            alignment: "left",
+            meta: {},
+          });
+        });
+      }
+      // Process images
+      else if (
+        (tagName === "div" &&
+          element.classList.contains("rich-text-editor__image-container")) ||
+        tagName === "img"
+      ) {
+        const img = tagName === "img" ? element : element.querySelector("img");
+        if (img) {
+          const imgSrc = img.getAttribute("src") || "";
+          const imgAlt = img.getAttribute("alt") || "";
+
+          // Find caption if it exists
+          let caption = "";
+          const figcaption = element.querySelector("figcaption");
+          if (figcaption) {
+            caption = figcaption.textContent || "";
+          }
+
+          blocks.push({
+            id: uuidv4(),
+            type: BlockType.IMAGE,
+            content: imgSrc,
+            alignment: "center",
+            meta: {
+              alt: imgAlt,
+              caption: caption,
+            },
+          });
+        }
+      }
+      // Process blockquotes
+      else if (tagName === "blockquote") {
+        const p = element.querySelector("p");
+        const cite = element.querySelector("cite");
+
+        blocks.push({
+          id: uuidv4(),
+          type: BlockType.QUOTE,
+          content: p ? p.innerHTML : element.innerHTML,
+          alignment: "left",
+          meta: {
+            citation: cite ? cite.textContent : "",
+          },
+        });
+      }
+      // For any other element, treat as paragraph
+      else {
+        blocks.push({
+          id: uuidv4(),
+          type: BlockType.PARAGRAPH,
+          content: element.outerHTML,
+          alignment: "left",
+          meta: {},
+        });
+      }
+    }
+  });
+
+  return blocks;
 }

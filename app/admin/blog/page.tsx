@@ -14,12 +14,20 @@ import { deletePost, getAllPosts } from "@/lib/blog-service";
 import Loading from "@/components/ui/Loading/Loading";
 import Pagination from "@/components/ui/Pagination/Pagination";
 import usePagination from "@/hooks/usePagination";
+import Modal from "@/components/ui/Modal/Modal";
+import { AlertTriangle } from "lucide-react";
 
 function BlogListPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [postToDelete, setPostToDelete] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
+
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -143,31 +151,59 @@ function BlogListPage() {
     return () => clearTimeout(timer);
   }, [loading, posts]);
 
-  const handleDeletePost = async (id: string) => {
-    if (!id) return;
+  // Open delete confirmation modal
+  const openDeleteModal = (id: string) => {
+    const post = posts.find((post) => post.id === id);
+    if (post) {
+      setPostToDelete({
+        id: post.id,
+        title: post.title || "esta entrada",
+      });
+      setIsDeleteModalOpen(true);
+    }
+  };
 
-    if (confirm("¿Estás seguro de que quieres eliminar esta entrada?")) {
-      try {
-        await deletePost(id);
+  // Replace the confirmDelete function in your BlogListPage component with this:
 
-        const postElement = document.querySelector(`[data-id="${id}"]`);
-        if (postElement) {
-          gsap.to(postElement, {
-            opacity: 0,
-            y: -20,
-            duration: 0.5,
-            ease: "power3.out",
-            onComplete: () => {
-              setPosts(posts.filter((post) => post.id !== id));
-            },
-          });
-        } else {
-          setPosts(posts.filter((post) => post.id !== id));
-        }
-      } catch (error) {
-        console.error("Error deleting post:", error);
-        alert("No se pudo eliminar la entrada del blog");
+  const confirmDelete = async () => {
+    if (!postToDelete) return;
+
+    try {
+      // First close the modal
+      setIsDeleteModalOpen(false);
+
+      // Then perform the deletion
+      await deletePost(postToDelete.id);
+
+      const postElement = document.querySelector(
+        `[data-id="${postToDelete.id}"]`
+      );
+
+      if (postElement) {
+        gsap.to(postElement, {
+          opacity: 0,
+          y: -20,
+          duration: 0.5,
+          ease: "power3.out",
+          onComplete: () => {
+            // Update the state after the animation
+            setPosts((prevPosts) =>
+              prevPosts.filter((post) => post.id !== postToDelete.id)
+            );
+            setPostToDelete(null);
+          },
+        });
+      } else {
+        // If we can't find the element, just update the state
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post.id !== postToDelete.id)
+        );
+        setPostToDelete(null);
       }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert("No se pudo eliminar la entrada del blog");
+      setPostToDelete(null);
     }
   };
 
@@ -232,7 +268,7 @@ function BlogListPage() {
                         >
                           <AdminBlogCard
                             post={post}
-                            onDelete={handleDeletePost}
+                            onDelete={openDeleteModal}
                             index={index}
                           />
                         </div>
@@ -269,6 +305,23 @@ function BlogListPage() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        size="small"
+        title="Confirmar eliminación"
+        icon={<AlertTriangle size={40} />}
+        centered
+      >
+        <p>¿Estás seguro de que quieres eliminar este artículo?</p>
+        <strong>{postToDelete?.title || "esta entrada"}</strong>
+        <p className="delete-warning">Esta acción no se puede deshacer.</p>
+      </Modal>
     </ProtectedRoute>
   );
 }

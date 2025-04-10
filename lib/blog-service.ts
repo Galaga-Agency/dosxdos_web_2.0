@@ -52,7 +52,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
           matterResult.data.coverImage || "/assets/img/default-blog-image.jpg",
         author: matterResult.data.author || "Admin",
         published: matterResult.data.published !== false,
-        editorBlocks: "",
+        editorBlocks: matterResult.data.editorBlocks || "",
         tags: matterResult.data.tags || [],
       };
 
@@ -89,7 +89,7 @@ export async function createOrUpdatePost(post: BlogPost): Promise<BlogPost> {
     // Update the post with the id
     const updatedPost = { ...post, id };
 
-    // Prepare frontmatter
+    // Prepare frontmatter — ✅ now includes editorBlocks
     const frontmatter = {
       id: updatedPost.id,
       title: updatedPost.title,
@@ -101,9 +101,10 @@ export async function createOrUpdatePost(post: BlogPost): Promise<BlogPost> {
       author: updatedPost.author || "Admin",
       published: updatedPost.published !== false,
       tags: updatedPost.tags || [],
+      editorBlocks: updatedPost.editorBlocks || "",
     };
 
-    // Create markdown content
+    // Create markdown content (content = HTML, not blocks)
     const markdown = matter.stringify(updatedPost.content || "", frontmatter);
 
     // Ensure the directory exists

@@ -3,21 +3,24 @@ import {
   getPostById,
   createOrUpdatePost,
   deletePost,
-  getAllPosts,
 } from "@/lib/blog-service";
 
-export async function GET() {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    console.log("[API] GET /api/blog hit"); // 👈 This must show
-    const posts = await getAllPosts();
-    console.log("[API] Posts loaded:", posts.length);
-    return NextResponse.json(posts);
+    console.log(`[API] GET /api/blog/${params.id} hit`);
+    const post = await getPostById(params.id);
+
+    if (!post) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(post);
   } catch (error) {
-    console.error("[API] Error fetching blog posts:", error);
-    return NextResponse.json(
-      { error: "Error fetching posts" },
-      { status: 500 }
-    );
+    console.error(`[API] Error fetching blog post ${params.id}:`, error);
+    return NextResponse.json({ error: "Error fetching post" }, { status: 500 });
   }
 }
 

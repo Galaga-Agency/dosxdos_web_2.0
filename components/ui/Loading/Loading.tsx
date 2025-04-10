@@ -7,6 +7,8 @@ import "./Loading.scss";
 
 export default function Loading() {
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     // Set loading state to true
     LoadingManager.setLoading(true);
 

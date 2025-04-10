@@ -35,3 +35,13 @@
   scrollbar-color: rgba($primary-color, 0.5) rgba($black, 0.05) !important;
 }
 
+input:focus,
+textarea:focus,
+[contenteditable="true"]:focus {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+body {
+  overscroll-behavior-y: none;
+}

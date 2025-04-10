@@ -13,6 +13,7 @@ import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import { getAllPosts, getPostById } from "@/lib/blog-service";
 import gsap from "gsap";
+import { findRelatedPosts } from "@/utils/similarity";
 import "./BlogDetail.scss";
 
 interface BlogDetailPageProps {
@@ -43,19 +44,18 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
         // Fetch related posts using getAllPosts
         const allPosts = await getAllPosts();
 
-        let related = allPosts.filter(
-          (post) =>
-            post.id !== id &&
-            data?.tags?.some((tag) => post.tags?.includes(tag))
-        );
+        // Use the improved similarity detection algorithm
+        const related = data ? findRelatedPosts(data, allPosts, 3) : [];
 
+        // Fallback to category matching if no related posts found
         if (related.length === 0) {
-          related = allPosts.filter(
+          const categoryMatches = allPosts.filter(
             (post) => post.id !== id && post.category === data?.category
           );
+          setRelatedPosts(categoryMatches.slice(0, 3));
+        } else {
+          setRelatedPosts(related);
         }
-
-        setRelatedPosts(related.slice(0, 3));
       } catch (error) {
         console.error("Error loading blog post:", error);
         notFound();

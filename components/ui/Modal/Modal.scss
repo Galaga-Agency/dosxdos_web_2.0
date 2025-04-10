@@ -1,0 +1,166 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1;
+  }
+
+  &__content {
+    position: relative;
+    background-color: rgba($white, 0.5);
+    backdrop-filter: blur(20px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba($white, 0.15);
+    box-shadow: 0 16px 40px rgba($white, 0.2);
+    width: 90%;
+    max-height: 85vh;
+    overflow: visible;
+    padding: 2.5rem 1.5rem 2rem 1.5rem;
+    z-index: 2;
+    @include flex(column, center, center);
+    text-align: center;
+    color: $white;
+
+    &--small {
+      max-width: 400px;
+    }
+    &--medium {
+      max-width: 600px;
+    }
+    &--large {
+      max-width: 800px;
+    }
+
+    &--danger {
+      border: 1px solid rgba($danger-color, 0.25);
+      box-shadow: 0 0 0 3px rgba($danger-color, 0.15);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    width: 5rem;
+    height: 5rem;
+    background-color: rgba($white, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $danger-color;
+    border: 2px solid rgba($danger-color, 0.2);
+    box-shadow: 0 0 12px rgba($danger-color, 0.3);
+    z-index: 3;
+  }
+
+  &__header {
+    margin-bottom: 1rem;
+    width: 100%;
+
+    .modal__title {
+      margin: 1.5rem 0 0;
+      @include font-size(xl);
+      font-weight: 700;
+      color: $white;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 4;
+    background-color: rgba($white, 0.05);
+    border: none;
+    color: $white;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    @include flex(row, center, center);
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+      color: $primary-color;
+      transform: rotate(180deg);
+    }
+  }
+
+  &__body {
+    color: rgba($white, 0.85);
+    font-size: 0.95rem;
+
+
+    &--centered {
+      text-align: center;
+    }
+
+    strong {
+      font-weight: 600;
+      color: $white;
+      font-style: italic;
+      margin-top: 1.5rem;
+    }
+
+    .delete-warning {
+      font-size: 0.85rem;
+      color: rgba($white, 0.6);
+      margin-top: 0.75rem;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    width: 90%;
+
+    .modal__cancel-btn,
+    .modal__confirm-btn {
+      padding: 0.6rem 0;
+      width: 50%;
+      border-radius: 999px;
+      font-weight: 500;
+      border: none;
+      transition: 0.3s ease;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .modal__cancel-btn {
+      background-color: rgba($white, 0.3);
+      color: $white;
+      border: 1px solid rgba($white, 0.5);
+
+      &:hover {
+        background-color: rgba($white, 0.1);
+      }
+    }
+
+    .modal__confirm-btn {
+      background-color: $danger-color;
+      color: $white;
+
+      &:hover {
+        background-color: darken($danger-color, 8%);
+      }
+    }
+  }
+}
