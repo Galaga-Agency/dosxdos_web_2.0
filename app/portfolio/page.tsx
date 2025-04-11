@@ -25,11 +25,30 @@ export default function PortfolioPage() {
   const [isAnimating, setIsAnimating] = useState(false);
   const horizontalRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(true);
 
+  // Check for mobile/desktop on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is md breakpoint
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Clear any existing ScrollTriggers
   useEffect(() => {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
   }, []);
 
+  // Update filtered projects when filter changes
   useEffect(() => {
     setFilteredProjects(
       filter === "all"
@@ -38,8 +57,9 @@ export default function PortfolioPage() {
     );
   }, [filter]);
 
+  // Setup horizontal scrolling (tablet/desktop only)
   useEffect(() => {
-    if (!horizontalRef.current || !sectionsRef.current) return;
+    if (!horizontalRef.current || !sectionsRef.current || isMobile) return;
 
     const container = horizontalRef.current;
     const sections = gsap.utils.toArray<HTMLElement>(
@@ -47,7 +67,7 @@ export default function PortfolioPage() {
       sectionsRef.current
     );
 
-    gsap.to(sections, {
+    const horizontalScrollTrigger = gsap.to(sections, {
       xPercent: -100 * (sections.length - 1),
       ease: "none",
       scrollTrigger: {
@@ -65,8 +85,35 @@ export default function PortfolioPage() {
       },
     });
 
-    return () => ScrollTrigger.getById("horizontal-scroll")?.kill();
-  }, [filteredProjects]);
+    return () => {
+      horizontalScrollTrigger.kill();
+      ScrollTrigger.getById("horizontal-scroll")?.kill();
+    };
+  }, [filteredProjects, isMobile]);
+
+  // Setup vertical scrolling section detection (mobile only)
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const sections = document.querySelectorAll(`.${styles.verticalSection}`);
+
+    sections.forEach((section, index) => {
+      ScrollTrigger.create({
+        id: `vertical-section-${index}`,
+        trigger: section,
+        start: "top center",
+        end: "bottom center",
+        onEnter: () => setActiveSection(index),
+        onEnterBack: () => setActiveSection(index),
+      });
+    });
+
+    return () => {
+      sections.forEach((_, index) => {
+        ScrollTrigger.getById(`vertical-section-${index}`)?.kill();
+      });
+    };
+  }, [filteredProjects, isMobile]);
 
   const handleFilterChange = (newFilter: string) => {
     if (filter === newFilter || isAnimating) return;
@@ -95,6 +142,29 @@ export default function PortfolioPage() {
         onNavigate={() => {}}
       />
       <ScrollIndicator />
+
+      {/* Mobile Vertical Layout */}
+      <div className={styles.verticalContainer}>
+        <div className={styles.verticalSection}>
+          <IntroSection isActive={activeSection === 0} />
+        </div>
+
+        <div className={styles.verticalSection}>
+          <StatsSection />
+        </div>
+
+        {filteredProjects.map((project, index) => (
+          <div key={project.id} className={styles.verticalSection}>
+            <ProjectSection project={project} />
+          </div>
+        ))}
+
+        <div className={styles.verticalSection}>
+          <CTASection />
+        </div>
+      </div>
+
+      {/* Tablet/Desktop Horizontal Layout */}
       <div
         className={styles.horizontalContainer}
         ref={horizontalRef}
