@@ -130,7 +130,7 @@ export default function PortfolioPage() {
     <div className={styles.portfolioPage}>
       <SocialSidebar />
       <SocialSidebar isMobile={true} />
-      <Filters
+      {/* <Filters
         categories={projectCategories}
         currentFilter={filter}
         onFilterChange={handleFilterChange}
@@ -140,7 +140,7 @@ export default function PortfolioPage() {
         totalSections={totalSections}
         activeSection={activeSection}
         onNavigate={() => {}}
-      />
+      /> */}
       <ScrollIndicator />
 
       {/* Mobile Vertical Layout */}
