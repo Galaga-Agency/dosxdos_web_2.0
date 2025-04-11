@@ -1,0 +1,71 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.cta-section {
+  .section-title {
+    max-width: 1000px;
+    margin-bottom: 4rem;
+
+    @include min-width(md) {
+      margin-bottom: 6rem;
+    }
+  }
+
+  .cta-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .keep-in-touch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+
+    &-logo {
+      display: inline-flex;
+      background-color: $black;
+      color: $white;
+      padding: 0.5rem;
+      @include border-radius(full);
+      box-shadow: $shadow-md;
+      will-change: transform, opacity;
+
+      span {
+        padding: 0.5rem 1rem;
+        @include font-weight(semibold);
+
+        &:first-child {
+          padding-left: 1.5rem;
+        }
+
+        &:last-child {
+          padding-right: 1.5rem;
+        }
+      }
+    }
+  }
+
+  .contact-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background-color: $primary-color;
+    color: $white;
+    @include font-weight(semibold);
+    text-decoration: none;
+    @include border-radius(md);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 10px rgba($primary-color, 0.3);
+    will-change: transform, opacity;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 8px 20px rgba($primary-color, 0.4);
+    }
+  }
+}
