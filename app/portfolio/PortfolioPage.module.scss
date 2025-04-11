@@ -1,0 +1,52 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.portfolioPage {
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.horizontalContainer {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sectionsContainer {
+  display: flex;
+  height: 100%;
+}
+
+.section {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  flex-shrink: 0;
+}
+
+.main-title {
+  &.char-animation {
+    visibility: hidden;
+
+    &.visible {
+      visibility: visible;
+    }
+
+    span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+
+      &.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+}

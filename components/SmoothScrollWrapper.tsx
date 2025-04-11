@@ -14,46 +14,37 @@ export default function SmoothScrollWrapper({
   showBackToTop = true,
 }: SmoothScrollWrapperProps) {
   useEffect(() => {
-    // Only run on client side
     if (typeof window === "undefined") return;
 
-    // Scroll to top immediately when component mounts
     window.scrollTo(0, 0);
 
-    // Import dependencies
+    let smoother: any = null;
+
     const initScrollSmoother = async () => {
       try {
-        // Import modules individually to avoid destructuring issues
         const gsapModule = await import("gsap");
         const ScrollTriggerModule = await import("gsap/ScrollTrigger");
         const ScrollSmootherModule = await import(
           "@/plugins/gsap-scroll-smoother"
         );
 
-        // Access the default exports correctly
         const gsap = gsapModule.default || gsapModule;
         const ScrollTrigger =
           ScrollTriggerModule.ScrollTrigger || ScrollTriggerModule.default;
         const ScrollSmoother = ScrollSmootherModule.default;
 
-        // Register plugins
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-        // Make sure the DOM is ready
         requestAnimationFrame(() => {
-          // Create ScrollSmoother
-          const smoother = ScrollSmoother.create({
+          smoother = ScrollSmoother.create({
             smooth: 2,
             effects: true,
           });
 
-          // Make it globally available
           (window as any).__smoother__ = smoother;
 
-          // Notify LoadingManager that ScrollSmoother is ready
           LoadingManager.smootherInitialized();
 
-          // If we're currently loading, pause immediately
           if (LoadingManager.isLoading) {
             smoother.paused(true);
           }
@@ -64,6 +55,22 @@ export default function SmoothScrollWrapper({
     };
 
     initScrollSmoother();
+
+    return () => {
+      if (smoother) {
+        smoother.kill();
+        (window as any).__smoother__ = null;
+      }
+      // Kill any lingering ScrollTriggers too
+      if (typeof window !== "undefined" && (window as any).gsap) {
+        import("gsap/ScrollTrigger").then((module) => {
+          const ScrollTrigger = module.ScrollTrigger;
+          if (ScrollTrigger) {
+            ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+          }
+        });
+      }
+    };
   }, []);
 
   return (

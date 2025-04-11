@@ -2,17 +2,12 @@ import { useEffect, RefObject } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-  // Temporary debug: show markers
-  ScrollTrigger.defaults({ markers: true });
-}
+gsap.registerPlugin(ScrollTrigger);
 
 interface HorizontalScrollOptions {
   sectionSelector: string;
-  scrub?: number | boolean;
+  scrub?: number;
   start?: string;
-  pinSpacing?: boolean;
   onUpdate?: (self: ScrollTrigger) => void;
 }
 
@@ -22,41 +17,36 @@ export const useHorizontalScroll = (
   options: HorizontalScrollOptions
 ) => {
   useEffect(() => {
-    if (!containerRef.current || !sectionsRef.current) return;
+    const container = containerRef.current;
+    const sectionWrapper = sectionsRef.current;
 
-    const {
-      sectionSelector,
-      scrub = 1,
-      start = "top top",
-      pinSpacing = true,
-      onUpdate,
-    } = options;
+    if (!container || !sectionWrapper) return;
 
-    const sections = gsap.utils.toArray<HTMLElement>(sectionSelector);
+    const sections = gsap.utils.toArray<HTMLElement>(
+      options.sectionSelector,
+      sectionWrapper
+    );
 
-    // Calculate total scroll width
-    const totalScrollWidth =
-      (sectionsRef.current.scrollWidth || 0) - window.innerWidth;
+    if (sections.length === 0) return;
 
-    // Create horizontal scroll animation
-    const mainScrollTrigger = gsap.to(sectionsRef.current, {
-      x: () => -totalScrollWidth,
+    const tween = gsap.to(sections, {
+      xPercent: -100 * (sections.length - 1),
       ease: "none",
       scrollTrigger: {
-        trigger: containerRef.current,
+        trigger: container,
         pin: true,
-        scrub: scrub,
-        start: start,
-        end: () => totalScrollWidth,
-        invalidateOnRefresh: true,
-        pinSpacing: pinSpacing,
-        onUpdate: onUpdate,
+        scrub: options.scrub ?? 0.6,
+        snap: 1 / (sections.length - 1),
+        start: options.start ?? "top top",
+        end: () => `+=${container.offsetWidth}`,
+        onUpdate: options.onUpdate,
+        id: "horizontal-scroll",
       },
     });
 
-    // Cleanup function
     return () => {
-      mainScrollTrigger.kill();
+      tween.scrollTrigger?.kill();
+      tween.kill();
     };
   }, [containerRef, sectionsRef, options]);
 };
