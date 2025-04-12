@@ -3,31 +3,137 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
-.overview-section {
+.stats-section {
+  position: relative;
+  width: 100%;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/assets/img/texture-white.svg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    z-index: -1;
+  }
+
+  .section-container {
+    width: 100%;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 60px 20px;
+    
+    @include min-width(md) {
+      padding: 80px 40px;
+      max-width: 85%;
+    }
+    
+    @include min-width(lg) {
+      padding: 100px 60px;
+      max-width: 1280px;
+    }
+  }
+  
+  .section-header {
+    margin-bottom: 60px;
+    text-align: center;
+    
+    .section-title {
+      @include font-size(4xl);
+      @include font-weight(bold);
+      color: $black;
+      margin-bottom: 16px;
+      position: relative;
+      display: inline-block;
+      
+      @include min-width(md) {
+        @include font-size(5xl);
+      }
+    }
+    
+    .section-divider {
+      width: 80px;
+      height: 4px;
+      background-color: $primary-color;
+      margin: 0 auto 24px;
+      border-radius: 2px;
+    }
+    
+    .section-subtitle {
+      @include font-size(lg);
+      max-width: 700px;
+      margin: 0 auto;
+      color: rgba($black, 0.7);
+      line-height: 1.6;
+      
+      @include min-width(md) {
+        @include font-size(xl);
+      }
+    }
+  }
+  
+  .stats-wrapper {
+    margin-bottom: 80px;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba($primary-color, 0.3), transparent);
+    }
+  }
+
   .company-stats {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 5rem;
-    gap: 2rem;
-
+    justify-content: center;
+    gap: 40px;
+    
     @include min-width(md) {
       flex-wrap: nowrap;
-      gap: 3rem;
+      justify-content: space-between;
+      gap: 20px;
     }
 
     .stat-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
-      will-change: transform, opacity;
+      gap: 8px;
+      width: 40%;
+      
+      @include min-width(md) {
+        width: auto;
+      }
 
       .stat-number {
         @include font-size(5xl);
         @include font-weight(bold);
         color: $primary-color;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 16px;
+        
+        @include min-width(md) {
+          @include font-size(6xl);
+        }
+        
+        @include min-width(lg) {
+          @include font-size(7xl);
+        }
 
         &::before {
           content: "";
@@ -47,7 +153,39 @@
         color: rgba($black, 0.7);
         text-transform: uppercase;
         letter-spacing: 1px;
-        margin-top: 0.5rem;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .values-wrapper {
+    margin-top: 60px;
+    
+    .section-subheader {
+      text-align: center;
+      margin-bottom: 40px;
+      
+      h3 {
+        @include font-size(2xl);
+        @include font-weight(semibold);
+        color: $black;
+        position: relative;
+        display: inline-block;
+        
+        @include min-width(md) {
+          @include font-size(3xl);
+        }
+        
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -12px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 40px;
+          height: 2px;
+          background-color: $primary-color;
+        }
       }
     }
   }
@@ -55,42 +193,71 @@
   .company-values {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
-
-    @include min-width(md) {
+    gap: 30px;
+    
+    @include min-width(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include min-width(lg) {
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      gap: 40px;
     }
 
     .value-item {
-      padding: 2rem;
+      padding: 30px;
       background-color: rgba($white, 0.8);
-      @include border-radius(md);
-      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      @include border-radius(lg);
       box-shadow: $shadow-sm;
-      will-change: transform, opacity;
-
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      border: 1px solid rgba($secondary-color, 0.1);
+      height: 100%;
+      transform-style: preserve-3d;
+      
       &:hover {
         transform: translateY(-10px);
         box-shadow: $shadow-md;
+        background-color: rgba($white, 0.95);
+      }
+      
+      .value-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        margin-bottom: 20px;
+        background-color: rgba($primary-color, 0.1);
+        color: $primary-color;
+        @include border-radius(full);
+        transition: all 0.3s ease;
+        
+        svg {
+          stroke: $primary-color;
+          transition: transform 0.3s ease;
+        }
+      }
+      
+      &:hover .value-icon {
+        background-color: $primary-color;
+        color: $white;
+        transform: scale(1.1);
+        
+        svg {
+          stroke: $white;
+          transform: rotate(10deg);
+        }
       }
 
       .value-title {
-        @include font-size(2xl);
+        @include font-size(xl);
         @include font-weight(semibold);
-        margin-bottom: 1rem;
+        margin-bottom: 16px;
         color: $black;
         position: relative;
-        padding-bottom: 0.75rem;
-
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 30px;
-          height: 2px;
-          background-color: $primary-color;
+        
+        @include min-width(md) {
+          @include font-size(2xl);
         }
       }
 
