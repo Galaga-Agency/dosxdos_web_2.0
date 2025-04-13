@@ -10,7 +10,7 @@
   overflow-y: auto;
   background-color: $white;
 
-  // Background texture
+  // Background texture - applied to portfolioPage only
   &::before {
     content: "";
     position: fixed;
@@ -40,42 +40,51 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
-  @include spacing(md, padding);
+  padding: 2rem 1rem;
   
-  // Add spacing between sections
+  // Remove margin bottom from last child
   &:not(:last-child) {
-    margin-bottom: spacing(md);
+    margin-bottom: 1rem;
+  }
+  
+  // Hide any section-specific backgrounds
+  &::before {
+    display: none;
   }
 }
 
-// Horizontal scroll layout (for tablets and desktops)
+// Horizontal scroll layout (hidden on mobile, shown on tablets and above)
 .horizontalContainer {
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-  display: none; // Hidden by default on mobile
+  display: none; // Default - hidden on mobile
 }
 
-.sectionsContainer {
-  display: flex;
-  height: 100%;
-}
-
-.section {
-  width: 100vw;
-  height: 100vh;
-  flex-shrink: 0;
-  position: relative;
-}
-
-// Responsive behavior
-// Switch from vertical to horizontal layout on tablets and above
+// Media query to switch layouts on tablets and above
 @include min-width(md) {
   .verticalContainer {
     display: none; // Hide vertical layout
   }
   
   .horizontalContainer {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
     display: block; // Show horizontal layout
+  }
+  
+  .sectionsContainer {
+    display: flex;
+    height: 90%;
+  }
+  
+  .section {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+    position: relative;
+    
+    // Hide any section-specific backgrounds
+    &::before {
+      display: none;
+    }
   }
 }

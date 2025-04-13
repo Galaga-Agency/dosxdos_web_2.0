@@ -150,7 +150,7 @@ export default function PortfolioPage() {
         </div>
 
         <div className={styles.verticalSection}>
-          <StatsSection />
+          <StatsSection isActive={activeSection === 1} />
         </div>
 
         {filteredProjects.map((project, index) => (
@@ -175,7 +175,7 @@ export default function PortfolioPage() {
             <IntroSection isActive={activeSection === 0} />
           </section>
           <section className={styles.section}>
-            <StatsSection />
+            <StatsSection isActive={activeSection === 1} />
           </section>
           {filteredProjects.map((project) => (
             <section key={project.id} className={styles.section}>
