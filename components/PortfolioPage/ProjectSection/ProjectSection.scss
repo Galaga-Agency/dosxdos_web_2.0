@@ -4,119 +4,441 @@
 @use "base/animations" as *;
 
 .project-section {
-  .project-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  overflow: hidden;
+  transition: background-color 0.7s ease;
+  
+  // Texture overlay
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-
-    @include min-width(lg) {
-      flex-direction: row;
-      align-items: center;
-      gap: 6rem;
-    }
+    height: 100%;
+    background-image: url("/assets/img/texture-white.svg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    z-index: -1;
+    pointer-events: none;
+    mix-blend-mode: overlay;
   }
-
-  .project-details {
-    flex: 1;
-    will-change: transform, opacity;
-
-    .project-category {
-      display: inline-block;
-      padding: 0.4rem 1rem;
-      background-color: $primary-color;
-      color: $white;
-      font-weight: 600;
-      font-size: 0.875rem;
-      text-transform: uppercase;
-      @include border-radius(md);
-      margin-bottom: 1.5rem;
-      box-shadow: 0 2px 6px rgba($primary-color, 0.3);
-    }
-
-    p {
-      @include font-size(lg);
-      line-height: 1.7;
-      color: rgba($black, 0.7);
-      margin-bottom: 2rem;
-      max-width: 600px;
-    }
-
-    .view-project-btn {
-      display: inline-block;
-      padding: 0.75rem 1.75rem;
-      background-color: $black;
-      color: $white;
-      @include font-weight(semibold);
-      @include border-radius(md);
-      text-decoration: none;
-      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 100%;
-        background-color: $primary-color;
-        transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        z-index: -1;
-      }
-
-      &:hover {
-        transform: translateY(-3px);
-        box-shadow: $shadow-md;
-
-        &::before {
-          width: 100%;
-        }
-      }
-    }
-  }
-
-  .project-image {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    @include border-radius(lg);
-    box-shadow: $shadow-lg;
-    max-width: 700px;
-    margin: 0 auto;
-    will-change: transform, opacity;
-
-    &::after {
+  
+  // Particles background - decorative dots
+  .project-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    opacity: 0.4;
+    pointer-events: none;
+    
+    // Create a dotted pattern using multiple box-shadows
+    &::before {
       content: "";
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: $primary-color;
+      box-shadow: 
+        40px 60px 0 rgba($black, 0.1),
+        120px 30px 0 rgba($black, 0.07),
+        200px 80px 0 rgba($black, 0.05),
+        80px 180px 0 rgba($black, 0.08),
+        160px 240px 0 rgba($black, 0.06),
+        260px 160px 0 rgba($black, 0.09),
+        340px 50px 0 rgba($black, 0.07),
+        380px 180px 0 rgba($black, 0.05),
+        440px 110px 0 rgba($black, 0.08),
+        520px 220px 0 rgba($black, 0.06),
+        580px 40px 0 rgba($black, 0.09),
+        660px 130px 0 rgba($black, 0.05),
+        720px 60px 0 rgba($black, 0.08),
+        800px 200px 0 rgba($black, 0.06),
+        140px 340px 0 rgba($black, 0.07),
+        220px 380px 0 rgba($black, 0.09),
+        300px 320px 0 rgba($black, 0.05),
+        380px 400px 0 rgba($black, 0.08),
+        460px 360px 0 rgba($black, 0.06),
+        540px 420px 0 rgba($black, 0.07),
+        620px 380px 0 rgba($black, 0.09),
+        700px 340px 0 rgba($black, 0.05),
+        780px 420px 0 rgba($black, 0.06);
+    }
+  }
+  
+  // Animated blob gradient
+  .project-blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 43% 57% 52% 48% / 45% 48% 52% 55%;
+    background: linear-gradient(
+      135deg, 
+      rgba($primary-color, 0.03) 0%, 
+      rgba($primary-color, 0.08) 50%, 
+      rgba($black, 0.05) 100%
+    );
+    filter: blur(80px);
+    opacity: 0.5;
+    z-index: -2;
+    pointer-events: none;
+    animation: pulseAnimation 12s infinite ease-in-out alternate, 
+              rotateAnimation 25s infinite linear;
+    
+    @include min-width(md) {
+      width: 600px;
+      height: 600px;
+    }
+  }
+  
+  // Project-specific styling with unique blobs and gradients
+  &[data-project-index="0"] {
+    .project-blob {
+      top: 15%;
+      right: 10%;
+      animation-delay: 0s;
       background: linear-gradient(
-        45deg,
-        rgba($primary-color, 0.1),
-        transparent
+        135deg, 
+        rgba($primary-color, 0.07) 0%, 
+        rgba($primary-color, 0.03) 70%, 
+        rgba($black, 0.04) 100%
       );
-      z-index: 1;
-      opacity: 0;
-      transition: opacity 0.6s ease;
     }
-
-    &:hover::after {
-      opacity: 1;
+  }
+  
+  &[data-project-index="1"] {
+    .project-blob {
+      bottom: 10%;
+      left: 15%;
+      animation-delay: -3s;
+      background: linear-gradient(
+        215deg, 
+        rgba($black, 0.05) 0%, 
+        rgba($primary-color, 0.06) 50%, 
+        rgba($black, 0.04) 100%
+      );
+      border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
     }
-
-    .project-img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-
+  }
+  
+  &[data-project-index="2"] {
+    .project-blob {
+      top: 35%;
+      left: 10%;
+      animation-delay: -5s;
+      background: linear-gradient(
+        165deg, 
+        rgba($primary-color, 0.05) 0%, 
+        rgba($black, 0.04) 60%, 
+        rgba($primary-color, 0.06) 100%
+      );
+      border-radius: 38% 62% 64% 36% / 45% 58% 42% 55%;
+    }
+  }
+  
+  &[data-project-index="3"] {
+    .project-blob {
+      bottom: 15%;
+      right: 15%;
+      animation-delay: -7s;
+      background: linear-gradient(
+        195deg, 
+        rgba($black, 0.04) 0%, 
+        rgba($primary-color, 0.07) 40%, 
+        rgba($primary-color, 0.03) 100%
+      );
+      border-radius: 59% 41% 33% 67% / 45% 38% 62% 55%;
+    }
+  }
+  
+  // Main content container
+  .section-container {
+    width: 100%;
+    @include container-width(mobile);
+    
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+    
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+    
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+  
+  // Project content layout
+  .project-content {
+    @include flex(column, center, center);
+    gap: 2.5rem;
+    
+    @include min-width(md) {
+      gap: 3rem; 
+    }
+    
+    @include min-width(lg) {
+      @include flex(row, space-between, center);
+      gap: 3rem; 
+    }
+  }
+  
+  // Project details section
+  .project-details {
+    flex: 1;
+    z-index: 5;
+    max-width: 100%;
+    
+    @include min-width(lg) {
+      max-width: 45%;
+    }
+    
+    // Category badge
+    .project-category {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 1rem;
+      background-color: rgba($primary-color, 0.1);
+      color: $primary-color;
+      @include font-size(sm);
+      @include font-weight(semibold);
+      text-transform: uppercase;
+      @include border-radius(md);
+      margin-bottom: 1.5rem; // Fixed spacing
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      
+      // Subtle shine effect
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          rgba(255,255,255,0) 0%,
+          rgba(255,255,255,0.3) 100%
+        );
+        transform: skewX(-25deg);
+        transition: all 0.7s ease;
+      }
+      
       &:hover {
-        transform: scale(1.05);
+        background-color: $primary-color;
+        color: $white;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba($primary-color, 0.3);
+        
+        &::before {
+          animation: shine 1.2s ease-out;
+          left: 150%;
+        }
+      }
+    }
+    
+    // Project title styling
+    .section-title {
+      @include font-size(3xl);
+      @include font-weight(bold);
+      color: $black;
+      margin-bottom: 2rem; // Fixed spacing
+      position: relative;
+      line-height: 1.2;
+      
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background-color: $primary-color;
+        transition: width 0.4s ease;
+      }
+      
+      @include min-width(md) {
+        @include font-size(4xl);
+      }
+      
+      @include min-width(lg) {
+        @include font-size(5xl);
+      }
+      
+      .is-active & {
+        &::after {
+          width: 100px;
+        }
+      }
+    }
+    
+    // Content paragraph styling
+    .section-content {
+      p {
+        @include font-size(base);
+        color: rgba($black, 0.7);
+        line-height: 1.7;
+        margin-bottom: 2rem; // Fixed spacing
+        
+        @include min-width(md) {
+          @include font-size(lg);
+          max-width: 580px;
+        }
+      }
+    }
+    
+    // Project view button
+    .view-project-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.8rem;
+      background-color: $primary-color;
+      color: $white;
+      @include font-weight(semibold);
+      @include border-radius(full);
+      text-decoration: none;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: 0 6px 15px rgba($primary-color, 0.25);
+      margin-top: 1rem; // Fixed spacing
+      
+      .btn-text {
+        position: relative;
+        z-index: 2;
+        transition: transform 0.3s ease;
+      }
+      
+      .btn-icon {
+        position: relative;
+        z-index: 2;
+        transition: transform 0.3s ease;
+      }
+      
+      // Background hover effect
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: darken($primary-color, 10%);
+        z-index: 1;
+        opacity: 0;
+        transform: translateX(-100%);
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba($primary-color, 0.3);
+        
+        &::before {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        
+        .btn-icon {
+          transform: translateX(5px);
+        }
+      }
+      
+      &:active {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba($primary-color, 0.25);
+      }
+    }
+  }
+  
+  // Project gallery grid
+  .project-gallery {
+    flex: 1;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 0.75rem;
+    min-height: 400px;
+    height: 60vh;
+    max-height: 700px;
+    width: 100%;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    
+    @include min-width(md) {
+      gap: 1rem;
+    }
+    
+    @include min-width(lg) {
+      gap: 1.25rem;
+      min-height: 550px;
+    }
+    
+    // Individual project image
+    .project-image {
+      position: relative;
+      overflow: hidden;
+      @include border-radius(lg);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      transform-style: preserve-3d;
+      
+      // Overlay for hover effects
+      .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba($black, 0.05),
+          rgba($black, 0.2)
+        );
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      
+      .project-img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        @include border-radius(lg);
+        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      
+      &:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+        
+        .project-img {
+          transform: scale(1.08);
+        }
+        
+        .image-overlay {
+          opacity: 1;
+        }
       }
     }
   }
