@@ -115,3 +115,30 @@
     font-size: $small-screen;
   }
 }
+
+// -----------------------------------------------------------------------------
+// Randomize projects layout in portfolio page
+// -----------------------------------------------------------------------------
+@mixin random-project-layout($index) {
+  .project-image {
+    &:nth-child(1) {
+      grid-column: #{calc(1 + $index * 2)} / span 7;
+      grid-row: 1 / span 6;
+      z-index: 3;
+    }
+
+    &:nth-child(2) {
+      grid-column: #{calc(8 - $index)} / span 4;
+      grid-row: 4 / span 3;
+      z-index: 2;
+      transform: translateY(#{calc(-20% - $index * 5%)});
+    }
+
+    &:nth-child(3) {
+      grid-column: #{calc(9 + $index)} / span 3;
+      grid-row: 2 / span 3;
+      z-index: 1;
+      transform: translateY(#{calc(10% + $index * 7%)});
+    }
+  }
+}

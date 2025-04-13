@@ -4,68 +4,221 @@
 @use "base/animations" as *;
 
 .cta-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  overflow: hidden;
+  
+  // Texture overlay - matches other sections
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/assets/img/texture-white.svg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    z-index: -1;
+    pointer-events: none;
+  }
+  
+  // Unique background styling for CTA section
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 20%;
+    right: 10%;
+    width: 320px;
+    height: 320px;
+    border-radius: 40% 60% 70% 30% / 40% 40% 60% 60%;
+    background: linear-gradient(135deg, rgba($black, 0.03), rgba($primary-color, 0.04));
+    filter: blur(80px);
+    z-index: -1;
+  }
+  
+  .section-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
   .section-title {
-    max-width: 1000px;
+    @include font-size(3xl);
+    @include font-weight(bold);
+    color: $black;
     margin-bottom: 4rem;
-
+    text-align: center;
+    max-width: 800px;
+    position: relative;
+    
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background-color: $primary-color;
+    }
+    
     @include min-width(md) {
+      @include font-size(4xl);
+      margin-bottom: 5rem;
+    }
+    
+    @include min-width(lg) {
+      @include font-size(5xl);
       margin-bottom: 6rem;
     }
   }
-
+  
   .cta-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 3rem;
+    
+    @include min-width(md) {
+      gap: 4rem;
+    }
   }
-
+  
   .keep-in-touch {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
-
+    gap: 2.5rem;
+    
     &-logo {
       display: inline-flex;
       background-color: $black;
       color: $white;
       padding: 0.5rem;
       @include border-radius(full);
-      box-shadow: $shadow-md;
-      will-change: transform, opacity;
-
+      box-shadow: 0 8px 20px rgba($black, 0.15);
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      
+      &:hover {
+        transform: translateY(-5px);
+      }
+      
       span {
         padding: 0.5rem 1rem;
         @include font-weight(semibold);
-
+        
         &:first-child {
           padding-left: 1.5rem;
         }
-
+        
         &:last-child {
           padding-right: 1.5rem;
         }
       }
+      
+      @include min-width(md) {
+        padding: 0.6rem;
+        
+        span {
+          padding: 0.6rem 1.2rem;
+          
+          &:first-child {
+            padding-left: 2rem;
+          }
+          
+          &:last-child {
+            padding-right: 2rem;
+          }
+        }
+      }
     }
   }
-
+  
   .contact-btn {
-    display: inline-block;
-    padding: 1rem 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.8rem;
     background-color: $primary-color;
     color: $white;
     @include font-weight(semibold);
+    @include border-radius(full);
     text-decoration: none;
-    @include border-radius(md);
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 0 4px 10px rgba($primary-color, 0.3);
-    will-change: transform, opacity;
-
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 6px 15px rgba($primary-color, 0.25);
+    
+    svg {
+      transition: transform 0.3s ease;
+    }
+    
+    // Background hover effect - matches other sections
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: darken($primary-color, 10%);
+      z-index: -1;
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    
     &:hover {
-      background-color: darken($primary-color, 10%);
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 8px 20px rgba($primary-color, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba($primary-color, 0.3);
+      
+      &::before {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      
+      svg {
+        transform: translateX(5px);
+      }
+    }
+    
+    &:active {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba($primary-color, 0.25);
+    }
+    
+    @include min-width(md) {
+      padding: 1rem 2.5rem;
+      @include font-size(lg);
+    }
+  }
+  
+  // Custom background positioning for different viewport widths
+  @include min-width(md) {
+    &::after {
+      width: 400px;
+      height: 400px;
+      bottom: 15%;
+      right: 8%;
+    }
+  }
+  
+  @include min-width(lg) {
+    &::after {
+      width: 500px;
+      height: 500px;
+      bottom: 10%;
+      right: 5%;
     }
   }
 }

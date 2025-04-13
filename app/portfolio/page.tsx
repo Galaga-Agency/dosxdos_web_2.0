@@ -4,8 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SocialSidebar from "@/components/PortfolioPage/PortfolioUI/SocialSidebar/SocialSidebar";
-import Filters from "@/components/PortfolioPage/PortfolioUI/Filters/Filters";
-import Navigation from "@/components/PortfolioPage/PortfolioUI/Navigation/Navigation";
 import ScrollIndicator from "@/components/PortfolioPage/PortfolioUI/ScrollIndicator/ScrollIndicator";
 import IntroSection from "@/components/PortfolioPage/IntroSection/IntroSection";
 import StatsSection from "@/components/PortfolioPage/StatsSection/StatsSection";
@@ -26,6 +24,7 @@ export default function PortfolioPage() {
   const horizontalRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(true);
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   // Check for mobile/desktop on mount and resize
   useEffect(() => {
@@ -67,6 +66,11 @@ export default function PortfolioPage() {
       sectionsRef.current
     );
 
+    // Destroy existing ScrollTrigger if it exists
+    if (scrollTriggerRef.current) {
+      scrollTriggerRef.current.kill();
+    }
+
     const horizontalScrollTrigger = gsap.to(sections, {
       xPercent: -100 * (sections.length - 1),
       ease: "none",
@@ -74,16 +78,28 @@ export default function PortfolioPage() {
         id: "horizontal-scroll",
         trigger: container,
         pin: true,
-        scrub: 0.6,
-        snap: 1 / (sections.length - 1),
+        scrub: 1, // Increased scrub time for less sensitivity
+        snap: {
+          snapTo: 1 / (sections.length - 1),
+          duration: { min: 0.2, max: 1 }, // Control snap duration
+          delay: 0.2, // Add a small delay before snapping
+          ease: "power1.inOut"
+        },
         start: "top top",
         end: `+=${container.offsetWidth}`,
-        onUpdate: (self) => {
+        onUpdate: (self: any) => {
           const newActive = Math.round(self.progress * (sections.length - 1));
           if (newActive !== activeSection) setActiveSection(newActive);
         },
+        // Increase wheel and touch resistance
+        wheelSpeed: -1, // Slower wheel scrolling
+        touchDrag: true,
+        prevention: true // Prevent default scroll behavior
       },
-    });
+    } as any);
+
+    // Store reference to ScrollTrigger for potential future destruction
+    scrollTriggerRef.current = horizontalScrollTrigger.scrollTrigger as any;
 
     return () => {
       horizontalScrollTrigger.kill();
@@ -97,7 +113,7 @@ export default function PortfolioPage() {
 
     const sections = document.querySelectorAll(`.${styles.verticalSection}`);
 
-    sections.forEach((section, index) => {
+    const triggers = Array.from(sections).map((section, index) => 
       ScrollTrigger.create({
         id: `vertical-section-${index}`,
         trigger: section,
@@ -105,13 +121,11 @@ export default function PortfolioPage() {
         end: "bottom center",
         onEnter: () => setActiveSection(index),
         onEnterBack: () => setActiveSection(index),
-      });
-    });
+      })
+    );
 
     return () => {
-      sections.forEach((_, index) => {
-        ScrollTrigger.getById(`vertical-section-${index}`)?.kill();
-      });
+      triggers.forEach(trigger => trigger.kill());
     };
   }, [filteredProjects, isMobile]);
 
@@ -130,18 +144,7 @@ export default function PortfolioPage() {
     <div className={styles.portfolioPage}>
       <SocialSidebar />
       <SocialSidebar isMobile={true} />
-      {/* <Filters
-        categories={projectCategories}
-        currentFilter={filter}
-        onFilterChange={handleFilterChange}
-        isAnimating={isAnimating}
-      />
-      <Navigation
-        totalSections={totalSections}
-        activeSection={activeSection}
-        onNavigate={() => {}}
-      /> */}
-      <ScrollIndicator />
+      {/* <ScrollIndicator /> */}
 
       {/* Mobile Vertical Layout */}
       <div className={styles.verticalContainer}>
@@ -155,7 +158,7 @@ export default function PortfolioPage() {
 
         {filteredProjects.map((project, index) => (
           <div key={project.id} className={styles.verticalSection}>
-            <ProjectSection project={project} />
+            <ProjectSection project={project} projectIndex={0} />
           </div>
         ))}
 
@@ -179,11 +182,11 @@ export default function PortfolioPage() {
           </section>
           {filteredProjects.map((project) => (
             <section key={project.id} className={styles.section}>
-              <ProjectSection project={project} />
+              <ProjectSection project={project} isActive={activeSection === 2} projectIndex={0}/>
             </section>
           ))}
           <section className={styles.section}>
-            <CTASection />
+            <CTASection isActive={activeSection === 3}/>
           </section>
         </div>
       </div>
