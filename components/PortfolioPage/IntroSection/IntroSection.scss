@@ -3,10 +3,38 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
+// Hidden/visible classes for responsive title
+.title-mobile {
+  display: block;
+
+  @include min-width(md) {
+    display: none;
+  }
+}
+
+.title-tablet {
+  display: none;
+
+  @include min-width(md) {
+    display: block;
+  }
+
+  @include min-width(lg) {
+    display: none;
+  }
+}
+
+.title-desktop {
+  display: none;
+
+  @include min-width(lg) {
+    display: block;
+  }
+}
+
 .intro-section {
   position: relative;
   width: 100%;
-  min-height: 100vh; // Changed to min-height to accommodate content
   padding: 0;
   overflow: hidden;
 
@@ -30,17 +58,26 @@
 
   &__container {
     width: 100%;
-    min-height: 100vh; // Use min-height instead of height
-    padding: 6rem 1.5rem 3rem 1.5rem;
-    display: flex;
-    align-items: center;
+    min-height: 100vh;
+    margin-inline: auto;
+    padding-top: 60px; // Add padding for navbar on mobile
+    @include flex(column, center, center);
+    @include container-width(mobile);
 
-    @include min-width(lg) {
-      padding: 3rem 6rem 3rem 10rem;
+    @include min-width(md) {
+      padding-top: 0; // Reset padding on larger screens
+      @include container-width(tablet);
+      min-height: 100vh;
     }
 
     @include min-width(lg) {
-      padding: 3rem 7rem 3rem 10rem;
+      @include container-width(smalldesktop);
+      flex-direction: row;
+      height: 100vh;
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
     }
   }
 
@@ -48,43 +85,79 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto; // Changed from auto 1fr for better mobile layout
+    grid-template-rows: auto auto;
     gap: 2rem;
 
+    @include min-width(md) {
+      gap: 1.5rem;
+    }
+
     @include min-width(lg) {
-      grid-template-columns: 45% 55%;
+      grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr;
+      gap: 2rem;
+    }
+
+    @include min-width(xl) {
+      grid-template-columns: 45% 55%;
+      gap: 3rem;
     }
   }
 
   &__text-area {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    @include flex(column, center, flex-start);
     z-index: 2;
+    max-width: 100%;
+
+    @include min-width(md) {
+      max-width: 90%;
+    }
 
     @include min-width(lg) {
+      padding-right: 2rem;
+    }
+
+    @include min-width(xl) {
+      padding-right: 4rem;
+    }
+
+    @include min-width(xxl) {
       padding-right: 6rem;
     }
   }
 
   &__title {
-    @include font-size(6xl);
+    @include font-size(4xl);
     @include font-weight(bold);
     color: $black;
-    line-height: 1.3;
-    margin-bottom: 3rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
     position: relative;
+    margin-top: 30px; // Add top margin on mobile
+
+    @include min-width(sm) {
+      @include font-size(5xl);
+      margin-bottom: 2rem;
+      margin-top: 0; // Reset margin on larger screens
+    }
 
     @include min-width(md) {
       @include font-size(6xl);
+      margin-bottom: 2.5rem;
+      line-height: 1.1; // Tighter line height for tablet
     }
 
     @include min-width(lg) {
-      @include font-size(7xl);
+      @include font-size(6xl);
+      margin-bottom: 3rem;
+      line-height: 1.2; // Reset to original line height
     }
 
     @include min-width(xl) {
+      @include font-size(7xl);
+    }
+
+    @include min-width(xxl) {
       @include font-size(8xl);
     }
 
@@ -97,18 +170,23 @@
   }
 
   &__description {
-    @include font-size(lg);
+    @include font-size(base);
     line-height: 1.7;
     color: rgba($black, 0.8);
-    max-width: 600px;
+    max-width: 100%;
+
+    @include min-width(sm) {
+      @include font-size(lg);
+    }
 
     @include min-width(md) {
       @include font-size(xl);
+      max-width: 600px;
     }
 
     strong {
       color: $black;
-      font-weight: 600;
+      @include font-weight(semibold);
       position: relative;
 
       &::after {
@@ -126,15 +204,26 @@
   &__gallery {
     position: relative;
     width: 100%;
-    min-height: 450px; // Increased min-height for mobile
+    height: 400px; // Base height for mobile
+
+    @include min-width(sm) {
+      height: 450px;
+    }
+
+    @include min-width(md) {
+      height: 500px;
+    }
 
     @include min-width(lg) {
-      min-height: 500px;
+      height: 550px;
     }
 
     @include min-width(xl) {
-      min-height: unset;
-      height: 100%;
+      height: 600px;
+    }
+
+    @include min-width(xxl) {
+      height: 650px;
     }
   }
 
@@ -160,35 +249,98 @@
       transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    // Mobile layout - Adjusted for better spacing
-    @media (max-width: 991px) {
+    // Base styles for mobile (smallest screens)
+    &--1 {
+      width: 50%;
+      height: 40%;
+      top: 5%;
+      left: 5%;
+    }
+
+    &--2 {
+      width: 40%;
+      height: 35%;
+      top: 10%;
+      right: 5%;
+    }
+
+    &--3 {
+      width: 35%;
+      height: 30%;
+      bottom: 15%;
+      left: 10%;
+    }
+
+    &--4 {
+      width: 45%;
+      height: 30%;
+      bottom: 10%;
+      right: 5%;
+    }
+
+    // Small devices (small phones)
+    @include min-width(sm) {
       &--1 {
-        width: 55%;
-        height: 45%;
+        width: 50%;
+        height: 40%;
         top: 5%;
-        left: 0;
+        left: 5%;
       }
+
       &--2 {
         width: 40%;
         height: 35%;
         top: 10%;
-        right: 0;
+        right: 5%;
       }
+
       &--3 {
         width: 35%;
-        height: 40%;
-        bottom: 10%;
-        left: 5%;
-      }
-      &--4 {
-        width: 50%;
         height: 35%;
+        bottom: 15%;
+        left: 10%;
+      }
+
+      &--4 {
+        width: 45%;
+        height: 30%;
         bottom: 10%;
         right: 5%;
       }
     }
 
-    // Desktop layout
+    // Medium devices (tablets)
+    @include min-width(md) {
+      &--1 {
+        width: 45%;
+        height: 40%;
+        top: 5%;
+        left: 5%;
+      }
+
+      &--2 {
+        width: 40%;
+        height: 35%;
+        top: 10%;
+        right: 5%;
+      }
+
+      &--3 {
+        width: 40%;
+        height: 35%;
+        bottom: 15%;
+        left: 5%;
+      }
+
+      &--4 {
+        width: 50%;
+        height: 35%;
+        bottom: 10%;
+        right: 0;
+      }
+    }
+
+    // Large devices (laptops/desktops)
     @include min-width(lg) {
       &--1 {
         width: 40%;
@@ -196,18 +348,21 @@
         top: 5%;
         left: 5%;
       }
+
       &--2 {
-        width: 30%;
-        height: 45%;
-        top: 10%;
-        right: 0;
-      }
-      &--3 {
         width: 35%;
         height: 40%;
-        bottom: 0;
+        top: 10%;
+        right: 5%;
+      }
+
+      &--3 {
+        width: 35%;
+        height: 35%;
+        bottom: 5%;
         left: 15%;
       }
+
       &--4 {
         width: 45%;
         height: 35%;
@@ -215,18 +370,67 @@
         right: 10%;
       }
     }
-  }
-}
 
-// Specific fix for small mobile screens
-@media (max-width: 375px) {
-  .intro-section {
-    &__gallery {
-      min-height: 350px;
+    // Extra large devices (large desktops)
+    @include min-width(xl) {
+      &--1 {
+        width: 40%;
+        height: 35%;
+        top: 5%;
+        left: 5%;
+      }
+
+      &--2 {
+        width: 30%;
+        height: 45%;
+        top: 10%;
+        right: 0;
+      }
+
+      &--3 {
+        width: 35%;
+        height: 40%;
+        bottom: 0;
+        left: 15%;
+      }
+
+      &--4 {
+        width: 45%;
+        height: 35%;
+        bottom: 15%;
+        right: 10%;
+      }
     }
-    
-    &__title {
-      @include font-size(5xl);
+
+    // Extra extra large devices
+    @include min-width(xxl) {
+      &--1 {
+        width: 40%;
+        height: 40%;
+        top: 0;
+        left: 5%;
+      }
+
+      &--2 {
+        width: 30%;
+        height: 45%;
+        top: 5%;
+        right: 0;
+      }
+
+      &--3 {
+        width: 35%;
+        height: 40%;
+        bottom: 0;
+        left: 10%;
+      }
+
+      &--4 {
+        width: 45%;
+        height: 35%;
+        bottom: 15%;
+        right: 5%;
+      }
     }
   }
 }
@@ -240,12 +444,15 @@
   &.delay-1 {
     animation-delay: 1.5s;
   }
+
   &.delay-2 {
     animation-delay: 1.7s;
   }
+
   &.delay-3 {
     animation-delay: 1.9s;
   }
+
   &.delay-4 {
     animation-delay: 2.1s;
   }

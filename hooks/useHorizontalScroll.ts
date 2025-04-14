@@ -8,6 +8,7 @@ interface HorizontalScrollOptions {
   sectionSelector: string;
   scrub?: number;
   start?: string;
+  snap?: boolean; // default: false
   onUpdate?: (self: ScrollTrigger) => void;
 }
 
@@ -29,19 +30,24 @@ export const useHorizontalScroll = (
 
     if (sections.length === 0) return;
 
+    const scrollTriggerConfig: ScrollTrigger.Vars = {
+      trigger: container,
+      pin: true,
+      scrub: options.scrub ?? 0.6,
+      start: options.start ?? "top top",
+      end: () => `+=${container.offsetWidth}`,
+      onUpdate: options.onUpdate,
+      id: "horizontal-scroll",
+    };
+
+    if (options.snap) {
+      scrollTriggerConfig.snap = 1 / (sections.length - 1);
+    }
+
     const tween = gsap.to(sections, {
       xPercent: -100 * (sections.length - 1),
       ease: "none",
-      scrollTrigger: {
-        trigger: container,
-        pin: true,
-        scrub: options.scrub ?? 0.6,
-        snap: 1 / (sections.length - 1),
-        start: options.start ?? "top top",
-        end: () => `+=${container.offsetWidth}`,
-        onUpdate: options.onUpdate,
-        id: "horizontal-scroll",
-      },
+      scrollTrigger: scrollTriggerConfig,
     });
 
     return () => {

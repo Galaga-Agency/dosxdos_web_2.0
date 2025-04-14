@@ -8,12 +8,12 @@ import ScrollIndicator from "@/components/PortfolioPage/PortfolioUI/ScrollIndica
 import IntroSection from "@/components/PortfolioPage/IntroSection/IntroSection";
 import StatsSection from "@/components/PortfolioPage/StatsSection/StatsSection";
 import ProjectSection from "@/components/PortfolioPage/ProjectSection/ProjectSection";
+import CategorySection from "@/components/PortfolioPage/CategoriesSection/CategoriesSection";
 import CTASection from "@/components/PortfolioPage/CTASection/CTASection";
-import { featuredProjects, projectCategories } from "@/data/projects";
+import { featuredProjects } from "@/data/projects";
 import { getProjectsByCategory } from "@/utils/projects";
 import styles from "./PortfolioPage.module.scss";
 
-// Register GSAP plugin
 gsap.registerPlugin(ScrollTrigger);
 
 export default function PortfolioPage() {
@@ -26,28 +26,22 @@ export default function PortfolioPage() {
   const [isMobile, setIsMobile] = useState(true);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
-  // Check for mobile/desktop on mount and resize
+  // Detect mobile
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // 768px is md breakpoint
+      setIsMobile(window.innerWidth < 768);
     };
-
-    // Initial check
     checkMobile();
-
-    // Add resize listener
     window.addEventListener("resize", checkMobile);
-
-    // Cleanup
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Clear any existing ScrollTriggers
+  // Kill any existing ScrollTriggers
   useEffect(() => {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
   }, []);
 
-  // Update filtered projects when filter changes
+  // Filter logic
   useEffect(() => {
     setFilteredProjects(
       filter === "all"
@@ -56,7 +50,7 @@ export default function PortfolioPage() {
     );
   }, [filter]);
 
-  // Setup horizontal scrolling (tablet/desktop only)
+  // Horizontal scroll (desktop/tablet)
   useEffect(() => {
     if (!horizontalRef.current || !sectionsRef.current || isMobile) return;
 
@@ -66,7 +60,6 @@ export default function PortfolioPage() {
       sectionsRef.current
     );
 
-    // Destroy existing ScrollTrigger if it exists
     if (scrollTriggerRef.current) {
       scrollTriggerRef.current.kill();
     }
@@ -78,27 +71,16 @@ export default function PortfolioPage() {
         id: "horizontal-scroll",
         trigger: container,
         pin: true,
-        scrub: 1, // Increased scrub time for less sensitivity
-        snap: {
-          snapTo: 1 / (sections.length - 1),
-          duration: { min: 0.2, max: 1 }, // Control snap duration
-          delay: 0.2, // Add a small delay before snapping
-          ease: "power1.inOut"
-        },
+        scrub: 1, // smooth scroll
         start: "top top",
-        end: `+=${container.offsetWidth}`,
+        end: () => `+=${container.offsetWidth}`,
         onUpdate: (self: any) => {
           const newActive = Math.round(self.progress * (sections.length - 1));
           if (newActive !== activeSection) setActiveSection(newActive);
         },
-        // Increase wheel and touch resistance
-        wheelSpeed: -1, // Slower wheel scrolling
-        touchDrag: true,
-        prevention: true // Prevent default scroll behavior
       },
-    } as any);
+    });
 
-    // Store reference to ScrollTrigger for potential future destruction
     scrollTriggerRef.current = horizontalScrollTrigger.scrollTrigger as any;
 
     return () => {
@@ -107,13 +89,13 @@ export default function PortfolioPage() {
     };
   }, [filteredProjects, isMobile]);
 
-  // Setup vertical scrolling section detection (mobile only)
+  // Vertical scroll (mobile)
   useEffect(() => {
     if (!isMobile) return;
 
     const sections = document.querySelectorAll(`.${styles.verticalSection}`);
 
-    const triggers = Array.from(sections).map((section, index) => 
+    const triggers = Array.from(sections).map((section, index) =>
       ScrollTrigger.create({
         id: `vertical-section-${index}`,
         trigger: section,
@@ -125,7 +107,7 @@ export default function PortfolioPage() {
     );
 
     return () => {
-      triggers.forEach(trigger => trigger.kill());
+      triggers.forEach((trigger) => trigger.kill());
     };
   }, [filteredProjects, isMobile]);
 
@@ -138,7 +120,7 @@ export default function PortfolioPage() {
     }, 300);
   };
 
-  const totalSections = 2 + filteredProjects.length + 1;
+  const totalSections = 4 + filteredProjects.length;
 
   return (
     <div className={styles.portfolioPage}>
@@ -146,7 +128,7 @@ export default function PortfolioPage() {
       <SocialSidebar isMobile={true} />
       {/* <ScrollIndicator /> */}
 
-      {/* Mobile Vertical Layout */}
+      {/* Mobile layout */}
       <div className={styles.verticalContainer}>
         <div className={styles.verticalSection}>
           <IntroSection isActive={activeSection === 0} />
@@ -158,16 +140,28 @@ export default function PortfolioPage() {
 
         {filteredProjects.map((project, index) => (
           <div key={project.id} className={styles.verticalSection}>
-            <ProjectSection project={project} projectIndex={0} />
+            <ProjectSection
+              project={project}
+              isActive={activeSection === index + 2}
+              projectIndex={index}
+            />
           </div>
         ))}
 
         <div className={styles.verticalSection}>
-          <CTASection />
+          <CategorySection
+            isActive={activeSection === filteredProjects.length + 2}
+          />
+        </div>
+
+        <div className={styles.verticalSection}>
+          <CTASection
+            isActive={activeSection === filteredProjects.length + 3}
+          />
         </div>
       </div>
 
-      {/* Tablet/Desktop Horizontal Layout */}
+      {/* Desktop/Tablet horizontal layout */}
       <div
         className={styles.horizontalContainer}
         ref={horizontalRef}
@@ -177,16 +171,31 @@ export default function PortfolioPage() {
           <section className={styles.section}>
             <IntroSection isActive={activeSection === 0} />
           </section>
+
           <section className={styles.section}>
             <StatsSection isActive={activeSection === 1} />
           </section>
-          {filteredProjects.map((project) => (
+
+          {filteredProjects.map((project, index) => (
             <section key={project.id} className={styles.section}>
-              <ProjectSection project={project} isActive={activeSection === 2} projectIndex={0}/>
+              <ProjectSection
+                project={project}
+                isActive={activeSection === index + 2}
+                projectIndex={index}
+              />
             </section>
           ))}
+
           <section className={styles.section}>
-            <CTASection isActive={activeSection === 3}/>
+            <CategorySection
+              isActive={activeSection === filteredProjects.length + 2}
+            />
+          </section>
+
+          <section className={styles.section}>
+            <CTASection
+              isActive={activeSection === filteredProjects.length + 3}
+            />
           </section>
         </div>
       </div>

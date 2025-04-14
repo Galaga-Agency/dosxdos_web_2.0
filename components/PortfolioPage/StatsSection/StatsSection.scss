@@ -5,17 +5,27 @@
 
 .stats-section {
   position: relative;
-  width: 100%;
-  padding: 4rem 1.5rem 8rem 1.5rem; // Reduced padding
-  
+  @include flex(column, center, center);
+  padding-inline: auto;
+  min-height: 100vh;
+  position: relative;
+  overflow: visible;
+  @include container-width(mobile);
+
   @include min-width(md) {
-    padding: 4rem 2rem 8rem 2rem; // Reduced padding
+    @include container-width(tablet);
+    min-width: 100vw;
   }
-  
+
   @include min-width(lg) {
-    padding: 8rem 2rem; // Slightly increased top padding
+    @include container-width(desktop);
   }
-  
+
+  @include min-width(lg) {
+    flex-direction: row;
+    height: 100vh;
+  }
+
   /* Background texture */
   &::before {
     content: "";
@@ -33,86 +43,80 @@
     z-index: -1;
     pointer-events: none;
   }
-  
+
   .section-container {
     width: 100%;
     max-width: 90%;
     margin: 0 auto;
-    
-    @include min-width(md) {
-      max-width: 85%;
-    }
-    
-    @include min-width(lg) {
-      max-width: 1280px;
-    }
   }
-  
+
   .section-header {
     text-align: center;
     margin-bottom: 3rem; // Reduced margin
-    
+
     @include min-width(md) {
       margin-bottom: 4rem; // Slightly increased for desktop
     }
-    
+
     .section-title {
       @include font-size(3xl);
       @include font-weight(bold);
       color: $black;
       margin-bottom: 1rem;
-      
+
       @include min-width(md) {
         @include font-size(4xl);
       }
-      
+
       @include min-width(lg) {
         @include font-size(5xl);
       }
     }
-    
+
     .section-divider {
       width: 50px;
       height: 3px;
       background-color: $primary-color;
       margin: 1rem auto;
       border-radius: 2px;
-      
+
       @include min-width(md) {
         width: 60px;
       }
     }
-    
+
     .section-subtitle {
       @include font-size(base);
       max-width: 90%;
       margin: 0 auto;
       color: rgba($black, 0.7);
       line-height: 1.6;
-      
+
       @include min-width(md) {
         @include font-size(lg);
         max-width: 80%;
       }
-      
+
       @include min-width(lg) {
         @include font-size(xl);
         max-width: 700px;
       }
     }
   }
-  
+
   .company-stats {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 1.5rem; // Reduced gap
     margin-bottom: 4rem; // Reduced margin
-    
+    margin-inline: auto;
+
     @include min-width(md) {
       flex-wrap: nowrap;
       justify-content: space-between;
       margin-bottom: 5rem; // Slightly reduced margin
+      max-width: 80%;
     }
 
     .stat-item {
@@ -123,7 +127,7 @@
       opacity: 0; /* Hidden by default for animation */
       transform: translateY(30px); /* Initial position for animation */
       transition: opacity 0.5s ease, transform 0.5s ease;
-      
+
       @include min-width(md) {
         width: auto;
       }
@@ -133,15 +137,15 @@
         @include font-weight(bold);
         color: $primary-color;
         margin-bottom: 0.25rem; // Reduced margin
-        
+
         @include min-width(md) {
           @include font-size(4xl);
         }
-        
+
         @include min-width(lg) {
           @include font-size(5xl);
         }
-        
+
         @include min-width(xl) {
           @include font-size(6xl);
         }
@@ -153,29 +157,29 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         font-weight: 500;
-        
+
         @include min-width(md) {
           @include font-size(base);
         }
       }
     }
   }
-  
+
   .values-header {
     text-align: center;
     margin-bottom: 2.5rem; // Reduced margin
-    
+
     @include min-width(md) {
       margin-bottom: 3.5rem;
     }
-    
+
     h3 {
       @include font-size(xl);
       @include font-weight(semibold);
       color: $black;
       position: relative;
       display: inline-block;
-      
+
       &::after {
         content: "";
         position: absolute;
@@ -186,11 +190,11 @@
         height: 2px;
         background-color: $primary-color;
       }
-      
+
       @include min-width(md) {
         @include font-size(2xl);
       }
-      
+
       @include min-width(lg) {
         @include font-size(3xl);
       }
@@ -198,17 +202,48 @@
   }
 
   .company-values {
-    display: grid;
-    grid-template-columns: 1fr;
+    @include flex(column, center, unset);
     gap: 1.5rem;
-    
+    width: 100%;
+
+    // Mobile layout (stacked)
     @include min-width(sm) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem; // Reduced gap
+      @include flex(column, center, center);
+      gap: 1.5rem;
     }
-    
+
+    // Tablet layout (2+1)
+    @include min-width(md) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: center;
+      max-width: 85%;
+      margin: 0 auto;
+
+      // Third item spans full width and is centered
+      .value-item:nth-child(3) {
+        grid-column: 1 / span 2;
+        max-width: 50%;
+        justify-self: center;
+      }
+    }
+
+    // Desktop layout (3 in a row)
     @include min-width(lg) {
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch;
+      gap: 1.5rem;
+      max-width: 100%;
+
+      // Reset the third item
+      .value-item:nth-child(3) {
+        max-width: none;
+      }
     }
 
     .value-item {
@@ -223,24 +258,29 @@
       opacity: 0; /* Hidden by default for animation */
       transform: translateY(30px); /* Initial position for animation */
       transition: all 0.5s ease;
-      
+
       @include min-width(md) {
         padding: 1.75rem; // Slightly reduced padding
+        width: 100%; // Full width of grid cell
       }
-      
+
+      @include min-width(lg) {
+        width: calc(33.333% - 1rem); // Approximately 1/3 width minus gap
+      }
+
       &:hover {
         transform: translateY(-8px) !important;
         box-shadow: $shadow-md;
         background-color: rgba($white, 0.9);
       }
-      
+
       /* Row layout for title and icon */
       .value-header {
         display: flex;
         align-items: center;
         gap: 1rem;
         margin-bottom: 1rem; // Reduced margin
-        
+
         .value-icon {
           flex-shrink: 0;
           display: flex;
@@ -252,25 +292,25 @@
           color: $primary-color;
           @include border-radius(full);
           transition: all 0.3s ease;
-          
+
           @include min-width(md) {
             width: 45px;
             height: 45px;
           }
-          
+
           svg {
             stroke: $primary-color;
             transition: stroke 0.3s ease;
             width: 22px;
             height: 22px;
-            
+
             @include min-width(md) {
               width: 24px;
               height: 24px;
             }
           }
         }
-        
+
         .value-title {
           @include font-size(lg);
           @include font-weight(semibold);
@@ -278,11 +318,11 @@
           position: relative;
           margin: 0;
           padding-bottom: 0.5rem; // Reduced padding
-          
+
           @include min-width(md) {
             @include font-size(xl);
           }
-          
+
           &::after {
             content: "";
             position: absolute;
@@ -291,18 +331,18 @@
             width: 20px;
             height: 2px;
             background-color: $primary-color;
-            
+
             @include min-width(md) {
               width: 30px;
             }
           }
         }
       }
-      
+
       &:hover .value-icon {
         background-color: $primary-color;
         transform: scale(1.1);
-        
+
         svg {
           stroke: $white;
         }
@@ -312,7 +352,7 @@
         @include font-size(sm);
         line-height: 1.6;
         color: rgba($black, 0.7);
-        
+
         @include min-width(md) {
           @include font-size(base);
         }

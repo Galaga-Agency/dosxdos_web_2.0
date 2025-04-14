@@ -325,9 +325,6 @@ const Menu: React.FC = () => {
               <SocialIcons iconSize="medium" className="menu__social-icons" />
             </div>
 
-            {/* Admin Badge - Only show when authenticated */}
-            {isAuthenticated && <AdminBadge className="admin-badge--mobile" />}
-
             <PrimaryButton
               href={ctaButton.href}
               className="menu__mobile-cta"
