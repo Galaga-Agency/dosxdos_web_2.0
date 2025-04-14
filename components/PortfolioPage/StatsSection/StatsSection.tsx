@@ -23,7 +23,7 @@ const StatsSection: React.FC<{ isActive?: boolean }> = ({ isActive = false }) =>
           <h2 className="section-title">Nuestro impacto en números</h2>
           <div className="section-divider"></div>
           <p className="section-subtitle">
-            Llevamos casi dos décadas creando proyectos destacados con clientes de todo el mundo
+            Llevamos casi cuatro décadas creando proyectos destacados con clientes de todo el mundo
           </p>
         </div>
 
@@ -33,7 +33,7 @@ const StatsSection: React.FC<{ isActive?: boolean }> = ({ isActive = false }) =>
             <span className="stat-label">Proyectos</span>
           </div>
           <div className="stat-item">
-            <span className="stat-number">17</span>
+            <span className="stat-number">37</span>
             <span className="stat-label">Años en negocio</span>
           </div>
           <div className="stat-item">
@@ -41,7 +41,7 @@ const StatsSection: React.FC<{ isActive?: boolean }> = ({ isActive = false }) =>
             <span className="stat-label">Premios</span>
           </div>
           <div className="stat-item">
-            <span className="stat-number">4</span>
+            <span className="stat-number">2</span>
             <span className="stat-label">Oficinas</span>
           </div>
         </div>
