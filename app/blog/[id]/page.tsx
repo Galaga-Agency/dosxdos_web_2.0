@@ -80,14 +80,15 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
   // Animate title characters
   useEffect(() => {
-    if (titleRef.current && blogPost) {
-      gsap.set(titleRef.current, {
-        visibility: "hidden",
-      });
-
+    if (blogPost) {
       const timer = setTimeout(() => {
-        charAnimation(titleRef.current);
-      }, 200);
+        if (titleRef.current) {
+          console.log("ANIMATING TITLE:", titleRef.current.innerText);
+          charAnimation(titleRef.current);
+        } else {
+          console.warn("Title ref is still null when animating");
+        }
+      }, 1500); // Slight delay ensures h1 is in the DOM
 
       return () => clearTimeout(timer);
     }
@@ -158,9 +159,14 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                 <span>{formatDate(blogPost.date)}</span>
               </div>
             </div>
-            <h1 ref={titleRef} className="blog-detail__title char-animation">
+            <h1
+              ref={titleRef}
+              className="blog-detail__title char-animation"
+              style={{ visibility: "hidden" }}
+            >
               {blogPost.title}
             </h1>
+
             <div className="blog-detail__author">
               <span>Por {blogPost.author}</span>
             </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { charAnimation } from "@/utils/animations/title-anim";
@@ -8,14 +10,24 @@ interface IntroSectionProps {
 }
 
 const IntroSection: React.FC<IntroSectionProps> = ({ isActive }) => {
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleMobileRef = useRef<HTMLHeadingElement>(null);
+  const titleTabletRef = useRef<HTMLHeadingElement>(null);
+  const titleDesktopRef = useRef<HTMLHeadingElement>(null);
 
   // Apply character animation when section becomes active
   useEffect(() => {
-    if (isActive && titleRef.current) {
+    if (isActive) {
       // Add a 1.5 second delay before starting the animation
       const timer = setTimeout(() => {
-        charAnimation(titleRef.current);
+        if (titleMobileRef.current) {
+          charAnimation(titleMobileRef.current);
+        }
+        if (titleTabletRef.current) {
+          charAnimation(titleTabletRef.current);
+        }
+        if (titleDesktopRef.current) {
+          charAnimation(titleDesktopRef.current);
+        }
       }, 1500);
 
       // Clean up the timer if the component unmounts
@@ -28,7 +40,29 @@ const IntroSection: React.FC<IntroSectionProps> = ({ isActive }) => {
       <div className="intro-section__container">
         <div className="intro-section__content">
           <div className="intro-section__text-area">
-            <h1 ref={titleRef} className="intro-section__title char-animation">
+            {/* Mobile Title (3 lines) */}
+            <h1
+              ref={titleMobileRef}
+              className="intro-section__title title-mobile char-animation"
+            >
+              Proyectos que <br /> hablan por <br /> si solos
+              <span className="intro-section__title-asterisk">*</span>
+            </h1>
+
+            {/* Tablet Title (2 lines) */}
+            <h1
+              ref={titleTabletRef}
+              className="intro-section__title title-tablet char-animation"
+            >
+              Proyectos que <br /> hablan por si solos
+              <span className="intro-section__title-asterisk">*</span>
+            </h1>
+
+            {/* Desktop Title (3 lines) */}
+            <h1
+              ref={titleDesktopRef}
+              className="intro-section__title title-desktop char-animation"
+            >
               Proyectos que <br /> hablan por <br /> si solos
               <span className="intro-section__title-asterisk">*</span>
             </h1>

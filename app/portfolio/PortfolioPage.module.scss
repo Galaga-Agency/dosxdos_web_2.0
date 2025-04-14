@@ -6,11 +6,12 @@
 .portfolioPage {
   position: relative;
   margin: 0;
+  min-width: 100vw;
+  min-height: 100vh;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   background-color: $white;
 
-  // Background texture - applied to portfolioPage only
   &::before {
     content: "";
     position: fixed;
@@ -41,12 +42,12 @@
   min-height: 100vh;
   position: relative;
   padding: 2rem 1rem;
-  
+
   // Remove margin bottom from last child
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
-  
+
   // Hide any section-specific backgrounds
   &::before {
     display: none;
@@ -63,25 +64,25 @@
   .verticalContainer {
     display: none; // Hide vertical layout
   }
-  
+
   .horizontalContainer {
     height: 100vh;
     overflow: hidden;
     position: relative;
     display: block; // Show horizontal layout
   }
-  
+
   .sectionsContainer {
     display: flex;
     height: 90%;
   }
-  
+
   .section {
     width: 100vw;
     height: 100vh;
     flex-shrink: 0;
     position: relative;
-    
+
     // Hide any section-specific backgrounds
     &::before {
       display: none;
