@@ -8,8 +8,7 @@
   margin: 0;
   min-width: 100vw;
   min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden;
   background-color: $white;
 
   &::before {
@@ -25,8 +24,12 @@
     background-size: cover;
     background-position: center;
     opacity: 0.5;
-    z-index: -1;
+    z-index: 0;
     pointer-events: none;
+
+    @include min-width(md) {
+      z-index: -1;
+    }
   }
 }
 

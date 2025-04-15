@@ -3,8 +3,11 @@
 import React from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import HeroSlider from "@/components/Homepage/HeroSlider/HeroSlider";
+import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
+import AboutUsSection from "@/components/Homepage/AboutUsSection/AboutUsSection";
 import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSection";
 import "./page.scss";
+import LatestProjectsSection from "@/components/Homepage/LatestprojectsSection/LatestprojectsSection";
 
 // Slider images data
 const heroSlides = [
@@ -35,7 +38,10 @@ const Home: React.FC = () => {
           />
         </section>
 
+        <AboutUsSection />
+        <LogoMarquee />
         <ServicesSection />
+        <LatestProjectsSection />
       </div>
     </SmoothScrollWrapper>
   );

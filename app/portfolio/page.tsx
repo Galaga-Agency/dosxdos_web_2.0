@@ -111,22 +111,12 @@ export default function PortfolioPage() {
     };
   }, [filteredProjects, isMobile]);
 
-  const handleFilterChange = (newFilter: string) => {
-    if (filter === newFilter || isAnimating) return;
-    setIsAnimating(true);
-    setTimeout(() => {
-      setFilter(newFilter);
-      setIsAnimating(false);
-    }, 300);
-  };
-
   const totalSections = 4 + filteredProjects.length;
 
   return (
     <div className={styles.portfolioPage}>
       <SocialSidebar />
       <SocialSidebar isMobile={true} />
-      {/* <ScrollIndicator /> */}
 
       {/* Mobile layout */}
       <div className={styles.verticalContainer}>

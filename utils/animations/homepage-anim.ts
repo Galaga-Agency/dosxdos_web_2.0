@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 // Absolute basic animation function
-export const animateServicesSection = (elements: {
+export const animateAboutUsSection = (elements: {
   title: HTMLElement | null;
   text: HTMLElement | null;
   image: HTMLElement | null;

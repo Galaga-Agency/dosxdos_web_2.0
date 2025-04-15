@@ -7,7 +7,7 @@
   @include flex(column, center, center);
   padding-inline: auto;
   position: relative;
-  overflow: hidden; // Changed from visible to hidden to prevent overflow
+  overflow: visible;
   @include container-width(mobile);
   padding-top: 40px; // Add padding to avoid overlap with navbar on mobile
 
@@ -61,8 +61,8 @@
   }
 
   @include min-width(lg) {
-    top: 50px;
-    right: 50px;
+    top: 7vh;
+    right: -5vw;
   }
 
   span {
@@ -307,25 +307,25 @@
 
   // Randomized blob positions
   &:nth-of-type(1) .category-blob {
-    top: 35%;
+    top: 25%; // Moved up from 35%
   }
   &:nth-of-type(2) .category-blob {
-    top: 45%;
+    top: 35%; // Moved up from 45%
   }
   &:nth-of-type(3) .category-blob {
-    top: 30%;
+    top: 20%; // Moved up from 30%
   }
   &:nth-of-type(4) .category-blob {
-    top: 48%;
+    top: 38%; // Moved up from 48%
   }
   &:nth-of-type(5) .category-blob {
-    top: 38%;
+    top: 28%; // Moved up from 38%
   }
   &:nth-of-type(6) .category-blob {
-    top: 42%;
+    top: 32%; // Moved up from 42%
   }
   &:nth-of-type(7) .category-blob {
-    top: 32%;
+    top: 22%; // Moved up from 32%
   }
 
   &:hover {
