@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import "./LogoMarquee.scss";
 
 const LogoMarquee: React.FC = () => {
@@ -73,21 +73,29 @@ const LogoMarquee: React.FC = () => {
 
   return (
     <section className="logo-marquee">
+      {/* Texture overlay */}
+      <div className="texture-overlay"></div>
+
       <div className="logo-marquee__header">
-        <span className="logo-marquee__asterisk">*</span>
-        <h2 className="logo-marquee__title">Marcas que confían en nosotros</h2>
+        <span className="logo-marquee__header-asterisk">*</span>
+        <h2 className="logo-marquee__header-title">
+          Marcas que confían en <span>nosotros</span>
+        </h2>
       </div>
 
       <div className="logo-marquee__container">
         <div className="logo-marquee__wrapper">
           <div className="logo-marquee__track" ref={trackRef}>
             {allLogos.map((logo, index) => (
-              <div className="logo-marquee__item" key={`${logo.id}-${index}`}>
+              <div 
+                className="logo-marquee__item" 
+                key={`${logo.id}-${index}`}
+              >
                 <Image
                   src={logo.src}
                   alt={logo.name}
-                  width={150}
-                  height={80}
+                  width={200}
+                  height={150}
                   unoptimized
                 />
               </div>
