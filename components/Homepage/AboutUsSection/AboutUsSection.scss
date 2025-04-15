@@ -6,7 +6,7 @@
 .aboutus-section {
   &--alt {
     position: relative;
-    padding: 6rem 1rem;
+    padding: 4rem 1rem;
     background-color: transparent;
     overflow: hidden;
 
@@ -111,9 +111,7 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-
     @include container-width(mobile);
-    margin: 0 auto;
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -125,6 +123,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 2rem;
+      padding: 4rem 1rem;
     }
 
     @include min-width(xl) {
@@ -134,15 +133,18 @@
 
   &__image-wrapper {
     position: relative;
-    width: 50%;
-    max-width: 300px;
-    margin-bottom: 3rem;
+    width: 30%;
+    max-width: 200px;
+    margin-bottom: 1.5rem;
+    margin-left: 10rem;
     will-change: opacity, transform;
 
     @include min-width(lg) {
       width: 20%;
       margin-bottom: 0;
       max-width: none;
+      margin-left: 0;
+
     }
   }
 

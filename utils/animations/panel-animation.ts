@@ -5,9 +5,9 @@ import { ScrollTrigger } from "@/plugins";
 function panelOneAnimation() {
   let pp = gsap.matchMedia();
   pp.add("(min-width: 1200px)", () => {
-    const panelsSections = gsap.utils.toArray(".panels");
+    const panelsSections: any = gsap.utils.toArray(".panels");
     for (var i = 0; i < panelsSections.length; i++) {
-      const thePanelsSection: any = panelsSections[i];
+      const thePanelsSection = panelsSections[i];
       const panels = gsap.utils.toArray(
         ".panels-container .panel",
         thePanelsSection
@@ -19,7 +19,7 @@ function panelOneAnimation() {
       gsap.set(panels, { height: window.innerHeight });
 
       let totalPanelsWidth = 0;
-      panels.forEach(function (panel: any) {
+      panels.forEach(function (panel) {
         if (panel) {
           totalPanelsWidth += $(panel).width() ?? 0;
         }
@@ -59,32 +59,70 @@ function panelOneAnimation() {
   });
 }
 
-// PORTFOLIO TWO ANIMATION
+// PORTFOLIO TWO ANIMATION - FIXED VERSION
 function panelTwoAnimation() {
-  let pr = gsap.matchMedia();
-  pr.add("(min-width: 768px)", () => {
-
-    let tl = gsap.timeline();
-    let projectPanels = document.querySelectorAll('.project-panel')
-    // if (projectPanels.length > 0) {
-    projectPanels.forEach((section) => {
-      tl.to(section, {
-        scrollTrigger: {
-          trigger: section,
-          pin: section,
-          scrub: 1,
-          start: 'top top',
-          end: "bottom 100%",
-          endTrigger: '.project-panel-area',
-          pinSpacing: false,
-          markers: false,
-        },
-      })
-    })
-    // }
-
+  // Clean up existing ScrollTrigger instances related to panels to prevent glitches
+  ScrollTrigger.getAll().forEach((trigger: any) => {
+    if (trigger.vars && trigger.vars.trigger && 
+        (trigger.vars.trigger.classList.contains('project-panel') || 
+         trigger.vars.trigger.classList.contains('project-panel-area'))) {
+      trigger.kill();
+    }
   });
-};
+  
+  // Use matchMedia for responsive behavior
+  let pr = gsap.matchMedia();
+  
+  pr.add("(min-width: 768px)", () => {
+    // Query the panels after media match to ensure DOM is ready
+    let projectPanels = gsap.utils.toArray('.project-panel');
+    
+    if (projectPanels.length === 0) {
+      console.warn("No project panels found");
+      return;
+    }
+    
+    // Create a new timeline for each execution to prevent conflicts
+    let tl = gsap.timeline();
+    
+    // Get the project panel area for endTrigger
+    const projectPanelArea = document.querySelector('.project-panel-area');
+    if (!projectPanelArea) {
+      console.warn("Project panel area not found");
+      return;
+    }
+    
+    // Force a small delay to ensure layout is complete
+    gsap.delayedCall(0.1, () => {
+      // Set up each panel individually
+      projectPanels.forEach((panel:any, index) => {
+        // Set explicit height to ensure consistency
+        gsap.set(panel, { height: "100vh" });
+        
+        // Create animation for each panel
+        tl.to(panel, {
+          scrollTrigger: {
+            id: `panel-trigger-${index}`,
+            trigger: panel,
+            pin: true,
+            scrub: 1,
+            start: 'top top',
+            end: "bottom 100%",
+            endTrigger: projectPanelArea,
+            pinSpacing: false,
+            markers: false,
+            onEnter: () => console.log(`Panel ${index+1} entered`),
+            onLeaveBack: () => console.log(`Panel ${index+1} left backwards`),
+            onRefresh: (self: any) => {
+              // Ensure pin is properly set up on refresh
+              self.pin = true;
+            }
+          } as any,
+        });
+      });
+    });
+  });
+}
 
 
 function studioPanel() {
@@ -94,16 +132,16 @@ function studioPanel() {
     const panelsSectionss = gsap.utils.toArray(".panels-2");
     for (let i = 0; i < panelsSectionss.length; i++) {
 
-      const thePanelsSection: any = panelsSectionss[i];
+      const thePanelsSection:any  = panelsSectionss[i];
       const panels = gsap.utils.toArray(".panels-container-2 .panel-2", thePanelsSection);
       const panelsContainer = thePanelsSection.querySelector(".panels-container-2");
 
       gsap.set(panelsContainer, { height: window.innerHeight });
       gsap.set(panels, { height: window.innerHeight });
 
-      let totalPanelsWidth: any = 0;
-      panels.forEach(function (panel: any) {
-        totalPanelsWidth += $(panel).width();
+      let totalPanelsWidth = 0;
+      panels.forEach(function (panel) {
+        totalPanelsWidth += $(panel as HTMLElement).width() ?? 0;
       });
 
 
@@ -121,7 +159,7 @@ function studioPanel() {
         }
       });
 
-      const services_items: any = gsap.utils.toArray(".tp-studio-service-item");
+      const services_items = gsap.utils.toArray(".tp-studio-service-item");
 
       services_items.forEach(function (item: any) {
         gsap.to(item, {
@@ -138,7 +176,7 @@ function studioPanel() {
     }
 
   });
-};
+}
 
 
 function servicePanel() {
@@ -162,9 +200,15 @@ function servicePanel() {
     })
 
   });
-};
+}
 
 
+// Function to clean up all ScrollTrigger instances
+function clearScrollTriggers() {
+  if (ScrollTrigger) {
+    ScrollTrigger.getAll().forEach((trigger: { kill: () => any; }) => trigger.kill());
+  }
+}
 
 
-export { panelOneAnimation, panelTwoAnimation, studioPanel,servicePanel };
+export { panelOneAnimation, panelTwoAnimation, studioPanel, servicePanel, clearScrollTriggers };
