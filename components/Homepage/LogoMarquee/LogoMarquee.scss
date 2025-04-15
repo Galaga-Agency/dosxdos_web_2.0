@@ -5,23 +5,66 @@
 
 .logo-marquee {
   width: 100%;
-  background-color: $secondary-color;
+  background-color: #f4f4f6; // Soft light gray instead of pure white
   padding: 6rem 0 3rem 0;
   position: relative;
-  overflow: hidden;
-  isolation: isolate;
-
+  
+  // Top separator
   &::before {
     content: "";
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+      to right, 
+      transparent, 
+      rgba($primary-color, 0.5), 
+      rgba($black, 0.2), 
+      rgba($primary-color, 0.5), 
+      transparent
+    );
+    opacity: 0.7;
+    z-index: 1;
+  }
+
+  // Bottom separator
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+      to right, 
+      transparent, 
+      rgba($primary-color, 0.5), 
+      rgba($black, 0.2), 
+      rgba($primary-color, 0.5), 
+      transparent
+    );
+    opacity: 0.7;
+    z-index: 1;
+  }
+
+  // Subtle background texture
+  .texture-overlay {
+    position: absolute;
     inset: 0;
-    background-image: url("/assets/img/texture-white.svg");
-    background-size: cover;
-    background-position: center;
-    opacity: 0.15;
-    z-index: 0;
+    background-image: 
+      linear-gradient(
+        45deg, 
+        rgba($primary-color, 0.03) 0%, 
+        transparent 10%
+      ),
+      url("/assets/img/texture-white.svg");
+    background-size: cover, 300px;
+    opacity: 0.1;
     mix-blend-mode: overlay;
     pointer-events: none;
+    z-index: 0;
   }
 
   &__header {
@@ -31,28 +74,56 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    position: relative;
     z-index: 2;
+    margin-bottom: 3rem;
 
-    .logo-marquee__asterisk {
+    &-asterisk {
       color: $primary-color;
       font-size: 2.5rem;
       font-weight: 700;
+      line-height: 1;
     }
 
-    .logo-marquee__title {
+    &-title {
       font-size: 2.4rem;
       font-weight: 900;
       color: $black;
+      line-height: 1.2;
 
       @include min-width(md) {
         font-size: 3rem;
+      }
+
+      span {
+        color: $primary-color;
+        position: relative;
+        display: inline-block;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background-color: $primary-color;
+          transform: scaleX(0);
+          transform-origin: right;
+          transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        &:hover::after {
+          transform: scaleX(1);
+          transform-origin: left;
+        }
       }
     }
   }
 
   &__container {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
   }
@@ -87,45 +158,29 @@
     align-items: center;
     justify-content: center;
     padding: 0 1rem;
-    filter: grayscale(100%) brightness(0.9) contrast(1.1) opacity(0.85);
-    transition: filter 0.3s ease, transform 0.3s ease;
-    mix-blend-mode: luminosity;
-
+    transition: 
+      filter 0.3s ease, 
+      transform 0.3s ease;
+    
     img {
       max-height: 150px;
       width: auto;
       height: auto;
       object-fit: contain;
-      transition: transform 0.4s ease;
+      opacity: 0.6;
+      filter: grayscale(100%) contrast(0.5);
+      transition: 
+        opacity 0.3s ease,
+        filter 0.3s ease,
+        transform 0.3s ease;
     }
 
     &:hover {
-      filter: grayscale(0%) brightness(1.05) contrast(1.2) opacity(1);
-      transform: scale(1.05);
-
       img {
-        transform: translateY(-3px);
+        opacity: 1;
+        filter: grayscale(0%) contrast(1);
+        transform: scale(1.05);
       }
     }
-  }
-
-  // Optional touch: highlight glow
-  &__item::after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    width: 140%;
-    height: 140%;
-    background: radial-gradient(circle, rgba($primary-color, 0.1), transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-  }
-
-  &__item:hover::after {
-    opacity: 1;
   }
 }
