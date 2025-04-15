@@ -93,7 +93,7 @@ const ServicesSection: React.FC = () => {
     <section className="services-section">
       <div className="container">
         <h2 ref={titleRef} className="title">
-          Nuestros servicios
+          Nuestros <span>servicios</span>
         </h2>
         <p className="subtitle">
           Nuestros equipos en <strong>Canarias</strong> y{" "}
@@ -129,7 +129,17 @@ const ServicesSection: React.FC = () => {
         </div>
       </div>
 
-      <SloganSection/>
+      <SloganSection />
+
+      <div className="marquee-container">
+        <div className="marquee-track">
+          <div className="marquee-text">
+            {Array.from({ length: 50 }).map((_, i) => (
+              <span key={i}>OUR WORK&nbsp;</span>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
