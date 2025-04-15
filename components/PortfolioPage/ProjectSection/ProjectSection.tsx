@@ -71,42 +71,124 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   projectIndex,
   isActive = false,
 }) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef: any = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
+  const animationSetupDoneRef = useRef(false);
 
+  // Set up initial GSAP states immediately on component mount
   useEffect(() => {
-    if (!contentRef.current || !isActive || hasAnimatedRef.current) return;
-    hasAnimatedRef.current = true;
+    if (!contentRef.current || animationSetupDoneRef.current) return;
 
-    const details = contentRef.current.querySelector(".project-details");
+    // Mark setup as done to avoid repeating
+    animationSetupDoneRef.current = true;
+
     const category = contentRef.current.querySelector(".project-category");
     const title = contentRef.current.querySelector(".section-title");
     const content = contentRef.current.querySelector(".section-content p");
-    const button = contentRef.current.querySelector(".primary-button"); // Updated selector for the PrimaryButton
+    const button = contentRef.current.querySelector(".primary-button");
     const gallery = contentRef.current.querySelector(".project-gallery");
     const images = contentRef.current.querySelectorAll(".project-image");
 
+    // Set initial states immediately
     gsap.set([category, title, content, button], { opacity: 0, y: 30 });
     gsap.set(gallery, { opacity: 0, scale: 0.95 });
     gsap.set(images, { opacity: 0, y: 40, scale: 0.9 });
+  }, []);
 
+  // Handle viewport intersection
+  useEffect(() => {
+    if (!sectionRef.current || !contentRef.current) return;
+
+    // Create Intersection Observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimatedRef.current) {
+            hasAnimatedRef.current = true;
+
+            // Play animations
+            triggerAnimation();
+
+            // Unobserve after triggering animation
+            observer.unobserve(sectionRef.current);
+          }
+        });
+      },
+      {
+        threshold: 0.15, // Lower threshold to trigger earlier
+        rootMargin: "0px",
+      }
+    );
+
+    // Start observing
+    observer.observe(sectionRef.current);
+
+    // Cleanup
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  // Handle direct activation via isActive prop
+  useEffect(() => {
+    if (isActive && !hasAnimatedRef.current) {
+      hasAnimatedRef.current = true;
+      triggerAnimation();
+    }
+  }, [isActive]);
+
+  // Animation function to avoid code duplication
+  const triggerAnimation = () => {
+    if (!contentRef.current) return;
+
+    // Add active class for non-GSAP animations
+    contentRef.current.classList.add("is-active");
+
+    const category = contentRef.current.querySelector(".project-category");
+    const title = contentRef.current.querySelector(".section-title");
+    const content = contentRef.current.querySelector(".section-content p");
+    const button = contentRef.current.querySelector(".primary-button");
+    const gallery = contentRef.current.querySelector(".project-gallery");
+    const images = contentRef.current.querySelectorAll(".project-image");
+
+    // Create timeline for smooth sequencing
     const tl = gsap.timeline();
-    tl.to(category, { opacity: 1, y: 0, duration: 0.4 })
-      .to(title, { opacity: 1, y: 0, duration: 0.4 }, "-=0.2")
-      .to(content, { opacity: 1, y: 0, duration: 0.4 }, "-=0.2")
-      .to(button, { opacity: 1, y: 0, duration: 0.4 }, "-=0.2")
-      .to(gallery, { opacity: 1, scale: 1, duration: 0.5 }, "-=0.2");
+    tl.to(category, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" })
+      .to(
+        title,
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        "-=0.2"
+      )
+      .to(
+        content,
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        "-=0.3"
+      )
+      .to(
+        button,
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        "-=0.3"
+      )
+      .to(
+        gallery,
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" },
+        "-=0.3"
+      );
 
+    // Separate animation for images with stagger
     gsap.to(images, {
       opacity: 1,
       y: 0,
       scale: 1,
       duration: 0.7,
       stagger: 0.15,
-      delay: 0.5,
+      ease: "back.out(1.2)",
+      delay: 0.3,
     });
-  }, [isActive]);
+  };
 
   const galleryImages = (() => {
     const baseImages = [project.image, ...(project.additionalImages || [])];
@@ -128,11 +210,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
       className="project-section"
       data-project-index={projectIndex}
     >
+      <div className="project-blob"></div>
+      <div className="project-particles"></div>
+
       <div className="section-container">
-        <div
-          className={`project-content ${isActive ? "is-active" : ""}`}
-          ref={contentRef}
-        >
+        <div className="project-content" ref={contentRef}>
           <div className="project-details">
             <span className="project-category">
               {projectCategories.find((cat) => cat.id === project.category)
@@ -141,11 +223,10 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
             <h2 className="section-title">{project.title}</h2>
             <div className="section-content">
               <p>{project.description}</p>
-              {/* Replaced Link with PrimaryButton */}
               <PrimaryButton
                 href={`/proyectos/${project.slug}`}
                 size="medium"
-                className="project-button"
+                className="primary-button"
               >
                 Ver detalles
                 <ArrowRight size={20} />

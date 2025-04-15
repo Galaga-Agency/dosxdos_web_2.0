@@ -58,11 +58,11 @@ export const menuItems: MenuItem[] = [
         label: "Espacios promocionales",
         href: "/portfolio/espacios-promocionales",
       },
-      {
-        id: "pergolas",
-        label: "Pérgolas",
-        href: "/portfolio/pergolas",
-      },
+      // {
+      //   id: "pergolas",
+      //   label: "Pérgolas",
+      //   href: "/portfolio/pergolas",
+      // },
     ],
   },
   {
