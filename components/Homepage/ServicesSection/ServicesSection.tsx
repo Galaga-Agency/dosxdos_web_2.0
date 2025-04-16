@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { gsap } from "gsap";
 import { SplitText } from "@/plugins";
 import { charAnimation } from "@/utils/animations/title-anim";
 import { categoriesList } from "@/data/categories";
+import ServiceCard from "@/components/ServiceCard/ServiceCard";
 import "./ServicesSection.scss";
-import SloganSection from "../SloganSection/SloganSection";
 
 const ServicesSection: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
-
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const decorRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
     gsap.registerPlugin(SplitText);
 
@@ -24,117 +25,87 @@ const ServicesSection: React.FC = () => {
       }, 500);
       return () => clearTimeout(timer);
     }
-
-    // Subtle card hover animations
-    cardsRef.current.forEach((card) => {
-      if (card) {
-        const cardImage = card.querySelector(".image") as HTMLImageElement;
-        const cardGlass = card.querySelector(".glass");
-        const description = cardGlass?.querySelector(".description");
-        const link = cardGlass?.querySelector(".link");
-
-        card.addEventListener("mouseenter", () => {
-          gsap.to(cardImage, {
-            scale: 1.05,
-            filter: "brightness(0.95)",
-            duration: 0.6,
-            ease: "power1.inOut",
-          });
-
-          if (cardGlass) {
-            gsap.to(cardGlass, {
-              height: "40%",
-              backdropFilter: "blur(15px)",
-              backgroundColor: "rgba(255, 255, 255, 0.6)",
-              duration: 0.6,
-              ease: "power1.inOut",
-            });
-
-            gsap.to([description, link], {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              stagger: 0.1,
-              ease: "power1.inOut",
-            });
-          }
-        });
-
-        card.addEventListener("mouseleave", () => {
-          gsap.to(cardImage, {
-            scale: 1,
-            filter: "brightness(1)",
-            duration: 0.6,
-            ease: "power1.inOut",
-          });
-
-          if (cardGlass) {
-            gsap.to(cardGlass, {
-              height: "25%",
-              backdropFilter: "blur(8px)",
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
-              duration: 0.6,
-              ease: "power1.inOut",
-            });
-
-            gsap.to([description, link], {
-              opacity: 0,
-              y: 20,
-              duration: 0.6,
-              ease: "power1.inOut",
-            });
-          }
-        });
-      }
-    });
+    
+    // Subtitle fade-in
+    if (subtitleRef.current) {
+      gsap.fromTo(
+        subtitleRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: "power3.out" }
+      );
+    }
+    
+    // Grid items fade in
+    if (gridRef.current) {
+      const gridItems = gridRef.current.children;
+      gsap.fromTo(
+        gridItems,
+        { opacity: 0, y: 50 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          stagger: 0.15, 
+          delay: 0.7,
+          ease: "power2.out" 
+        }
+      );
+    }
+    
+    // Decorative elements animation
+    if (decorRef.current) {
+      const decorElements = decorRef.current.children;
+      gsap.fromTo(
+        decorElements,
+        { opacity: 0, scale: 0.8 },
+        { 
+          opacity: 1, 
+          scale: 1, 
+          duration: 1, 
+          stagger: 0.2, 
+          delay: 1,
+          ease: "elastic.out(1, 0.5)" 
+        }
+      );
+    }
   }, []);
 
   return (
-    <section className="services-section">
-      <div className="container">
-        <h2 ref={titleRef} className="title">
+    <section className="services-section" ref={sectionRef}>
+      <div className="services-section__decorative-elements" ref={decorRef}>
+        <div className="services-section__decor-dots"></div>
+        <div className="services-section__decor-line"></div>
+        <div className="services-section__decor-circle"></div>
+        <div className="services-section__decor-grid"></div>
+      </div>
+      
+      <div className="services-section__container">
+        <h2 ref={titleRef} className="services-section__title">
           Nuestros <span>servicios</span>
         </h2>
-        <p className="subtitle">
+        
+        <p ref={subtitleRef} className="services-section__subtitle">
           Nuestros equipos en <strong>Canarias</strong> y{" "}
           <strong>Madrid</strong>. Nuestros servicios donde los necesites.
         </p>
-        <div className="grid">
-          {categoriesList.map((service, index) => (
-            <Link
+        
+        <div ref={gridRef} className="services-section__grid">
+          {categoriesList.map((service) => (
+            <ServiceCard
               key={service.id}
-              ref={(el) => (cardsRef.current[index] = el) as any}
-              href={`/servicios/${service.id}`}
-              className="card"
-            >
-              <div className="image-wrapper">
-                <Image
-                  src={service.imageUrl}
-                  alt={service.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="image"
-                />
-              </div>
-
-              <div className="glass">
-                <span className="category">
-                  <span className="category-inner">{service.name}</span>
-                </span>
-                <p className="description">{service.description}</p>
-                <span className="link">Ver más →</span>
-              </div>
-            </Link>
+              id={service.id}
+              name={service.name}
+              description={service.description as any}
+              imageUrl={service.imageUrl}
+            />
           ))}
         </div>
       </div>
 
-      {/* <SloganSection /> */}
-
-      <div className="marquee-container">
-        <div className="marquee-track">
-          <div className="marquee-text">
-            {Array.from({ length: 50 }).map((_, i) => (
+      <div className="services-section__marquee-container">
+        <div className="services-section__marquee-track">
+          <div className="services-section__marquee-text">
+            {Array.from({ length: 20 }).map((_, i) => (
               <span key={i}>OUR WORK&nbsp;</span>
             ))}
           </div>

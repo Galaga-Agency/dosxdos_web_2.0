@@ -8,17 +8,17 @@ import { menuItems, ctaButton } from "@/data/menu-data";
 import { Plus, Minus, ChevronDown } from "lucide-react";
 import HamburgerIcon from "@/components/HamburgerIcon/HamburgerIcon";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import AdminBadge from "@/components/AdminBadge/AdminBadge";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim";
 import "./Menu.scss";
-import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 
 const Menu: React.FC = () => {
   // Get session status
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
+  
   // State management
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -268,6 +268,7 @@ const Menu: React.FC = () => {
                       <button
                         className="menu__mobile-button-toggle"
                         onClick={() => toggleSubmenu(item.id)}
+                        aria-label={`Toggle ${item.label} submenu`}
                       >
                         <span className="menu__mobile-icon">
                           {openSubmenu === item.id ? (
@@ -326,14 +327,16 @@ const Menu: React.FC = () => {
               <SocialIcons iconSize="medium" className="menu__social-icons" />
             </div>
 
-            <PrimaryButton
-              href={ctaButton.href}
-              className="menu__mobile-cta"
-              onClick={toggleMobileMenu}
-              fullWidth
-            >
-              {ctaButton.label}
-            </PrimaryButton>
+            <div className="menu__mobile-cta">
+              <SecondaryButton
+                href={ctaButton.href}
+                onClick={toggleMobileMenu}
+                fullWidth
+                isOutlined
+              >
+                {ctaButton.label}
+              </SecondaryButton>
+            </div>
           </div>
         </div>
       </div>
