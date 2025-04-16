@@ -1,4 +1,303 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
-@use "base/animations" as *;
+
+.story-section {
+  position: relative;
+  padding: 6rem 0;
+  background-color: transparent;
+  overflow: hidden;
+
+
+  // Decorative elements
+  .story-decor {
+    position: absolute;
+    z-index: 1;
+    display: none;
+    
+    @include min-width(md) {
+      display: block;
+    }
+    
+    &-dot1 {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: $primary-color;
+      top: 10%;
+      left: 8%;
+      
+      @include min-width(lg) {
+        width: 15px;
+        height: 15px;
+      }
+    }
+    
+    &-dot2 {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: $primary-color;
+      bottom: 30%;
+      right: 10%;
+      
+      @include min-width(lg) {
+        width: 10px;
+        height: 10px;
+      }
+    }
+    
+    &-dot3 {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: $primary-color;
+      bottom: 15%;
+      left: 15%;
+      
+      @include min-width(lg) {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    &-line1 {
+      width: 80px;
+      height: 2px;
+      background-color: $primary-color;
+      top: 15%;
+      right: 5%;
+      transform: rotate(45deg);
+      
+      @include min-width(lg) {
+        width: 120px;
+      }
+    }
+    
+    &-line2 {
+      width: 60px;
+      height: 2px;
+      background-color: $primary-color;
+      top: 20%;
+      left: 28%;
+      transform: rotate(-30deg);
+      
+      @include min-width(lg) {
+        width: 100px;
+      }
+    }
+  }
+
+  .container {
+    @include container-width(mobile);
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  .story-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+
+    @include min-width(lg) {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .title {
+    @include font-size(3xl);
+    @include font-weight(bold);
+    color: $black;
+    margin-bottom: 2rem;
+    position: relative;
+    line-height: 1.2;
+    will-change: opacity, transform;
+
+    span {
+      color: $primary-color;
+      position: relative;
+      display: inline-block;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: $primary-color;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      &:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+    }
+  }
+
+  .story-text {
+    p {
+      @include font-size(lg);
+      line-height: 1.7;
+      color: rgba($black, 0.8);
+      margin-bottom: 1.5rem;
+
+      strong {
+        color: $black;
+        @include font-weight(semibold);
+      }
+    }
+
+    .story-intro {
+      @include font-size(xl);
+      @include font-weight(semibold);
+      margin-bottom: 2rem;
+    }
+
+    .cta-wrapper {
+      margin-top: 2rem;
+    }
+  }
+
+  .glass-card {
+    background: rgba($white, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba($white, 0.3);
+    @include border-radius(lg);
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba($black, 0.05);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba($black, 0.1);
+    }
+  }
+
+  .philosophy {
+    margin-top: 2rem;
+    background-color: rgba($secondary-color, 0.3);
+
+    h3 {
+      @include font-size(xl);
+      @include font-weight(semibold);
+      color: $black;
+      margin-bottom: 1rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: $primary-color;
+      }
+    }
+  }
+
+  .services-container {
+    h3 {
+      @include font-size(xl);
+      @include font-weight(semibold);
+      color: $black;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: $primary-color;
+      }
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+
+      @include min-width(md) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .service-card {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+
+      .service-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      h4 {
+        @include font-size(lg);
+        @include font-weight(semibold);
+        color: $black;
+        margin-bottom: 0.75rem;
+      }
+
+      p {
+        @include font-size(base);
+        color: rgba($black, 0.7);
+        flex-grow: 1;
+      }
+
+      .service-arrow {
+        @include font-size(xl);
+        @include font-weight(bold);
+        color: $primary-color;
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s ease;
+      }
+
+      &:hover {
+        .service-arrow {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes pulseAnimation {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+@keyframes rotateAnimation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

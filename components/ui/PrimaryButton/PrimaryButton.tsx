@@ -15,9 +15,11 @@ interface PrimaryButtonProps {
   size?: "small" | "medium" | "large";
   fullWidth?: boolean;
   disabled?: boolean;
+  isDarkBackground?: boolean;
+  ref?: any;
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({
+const PrimaryButton = ({
   children,
   href,
   onClick,
@@ -26,7 +28,9 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   size = "medium",
   fullWidth = false,
   disabled = false,
-}) => {
+  isDarkBackground,
+  ref,
+}: PrimaryButtonProps) => {
   const baseClass = "primary-button";
 
   const buttonClasses = [
@@ -34,6 +38,8 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     size && `${baseClass}--${size}`,
     fullWidth && `${baseClass}--full-width`,
     disabled && `${baseClass}--disabled`,
+    isDarkBackground !== undefined &&
+      `${baseClass}--on-${isDarkBackground ? "dark" : "light"}`,
     className,
   ]
     .filter(Boolean)

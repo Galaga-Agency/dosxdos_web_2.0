@@ -13,6 +13,7 @@ import AdminBadge from "@/components/AdminBadge/AdminBadge";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim";
 import "./Menu.scss";
+import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 
 const Menu: React.FC = () => {
   // Get session status
@@ -142,7 +143,7 @@ const Menu: React.FC = () => {
         <Link href="/" className="menu__logo">
           {isMobile ? (
             <Image
-              src="/assets/img/logo/logo-red.png"
+              src="/assets/img/logo/logo-gris.png"
               alt="Logo"
               width={180}
               height={50}
@@ -151,7 +152,7 @@ const Menu: React.FC = () => {
             />
           ) : (
             <Image
-              src="/assets/img/logo/logo_full_rojo.png"
+              src="/assets/img/logo/logo_full_gris.svg"
               alt="Logo"
               width={200}
               height={50}
@@ -216,13 +217,13 @@ const Menu: React.FC = () => {
         {/* Actions Area */}
         <div className="menu__actions">
           {/* CTA Button */}
-          <PrimaryButton
+          <SecondaryButton
             href={ctaButton.href}
             className="menu__cta"
             size="medium"
           >
             {ctaButton.label}
-          </PrimaryButton>
+          </SecondaryButton>
 
           {/* Desktop Social Icons */}
           <div className="menu__social-desktop">
@@ -242,7 +243,7 @@ const Menu: React.FC = () => {
           <div className="menu__mobile-header">
             <div className="menu__mobile-logo">
               <Image
-                src="/assets/img/logo/logo-red.png"
+                src="/assets/img/logo/logo-gris.png"
                 alt="Logo"
                 width={140}
                 height={40}

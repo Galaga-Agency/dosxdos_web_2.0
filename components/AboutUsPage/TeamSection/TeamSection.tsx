@@ -1,128 +1,134 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-import { useParallax } from "@/utils/animations/parallax-image";
-import "./TeamSection.scss"
+import { SplitText } from "@/plugins";
+import { charAnimation } from "@/utils/animations/title-anim";
+import { teamMembers } from "@/data/team";
+import "./TeamSection.scss";
 
 const TeamSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const teamImageContainerRef = useRef<HTMLDivElement | null>(null);
-  const teamImageRef = useRef<HTMLDivElement | null>(null);
-
-  // Parallax effect for the team image
-  useParallax(
-    teamImageContainerRef as React.RefObject<HTMLElement>,
-    teamImageRef as React.RefObject<HTMLElement>,
-    {
-      intensity: 0.2,
-      scrubAmount: 1,
-      delay: 300,
-    }
-  );
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    
-    if (sectionRef.current) {
-      gsap.fromTo(
-        sectionRef.current,
-        {
-          opacity: 0,
-          y: 50,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
+    gsap.registerPlugin(SplitText);
 
-      // Animate stats with stagger
-      const stats = sectionRef.current.querySelectorAll(".about-us-page__stat");
-      gsap.fromTo(
-        stats,
-        {
-          opacity: 0,
-          y: 30,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: stats,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
+    // Title animation
+    if (titleRef.current) {
+      const timer = setTimeout(() => {
+        charAnimation(titleRef.current);
+      }, 500);
+      return () => clearTimeout(timer);
     }
+
+    // Subtle card hover animations
+    cardsRef.current.forEach((card) => {
+      if (card) {
+        const cardImage = card.querySelector(".image") as HTMLImageElement;
+        const cardGlass = card.querySelector(".glass");
+        const description = cardGlass?.querySelector(".description");
+        const link = cardGlass?.querySelector(".link");
+
+        card.addEventListener("mouseenter", () => {
+          gsap.to(cardImage, {
+            scale: 1.05,
+            filter: "brightness(0.95)",
+            duration: 0.6,
+            ease: "power1.inOut",
+          });
+
+          if (cardGlass) {
+            gsap.to(cardGlass, {
+              height: "40%",
+              backdropFilter: "blur(15px)",
+              backgroundColor: "rgba(255, 255, 255, 0.6)",
+              duration: 0.6,
+              ease: "power1.inOut",
+            });
+
+            gsap.to([description, link], {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              stagger: 0.1,
+              ease: "power1.inOut",
+            });
+          }
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(cardImage, {
+            scale: 1,
+            filter: "brightness(1)",
+            duration: 0.6,
+            ease: "power1.inOut",
+          });
+
+          if (cardGlass) {
+            gsap.to(cardGlass, {
+              height: "25%",
+              backdropFilter: "blur(8px)",
+              backgroundColor: "rgba(255, 255, 255, 0.4)",
+              duration: 0.6,
+              ease: "power1.inOut",
+            });
+
+            gsap.to([description, link], {
+              opacity: 0,
+              y: 20,
+              duration: 0.6,
+              ease: "power1.inOut",
+            });
+          }
+        });
+      }
+    });
   }, []);
 
   return (
-    <div 
-      ref={sectionRef}
-      className="about-us-page__team-section section-animate"
-    >
-      <div className="about-us-page__team-content">
-        <div className="about-us-page__team-text">
-          <h2 className="about-us-page__section-title">
-            Nuestro <span>Equipo</span>
-          </h2>
-          <p>
-            Detrás de cada proyecto hay un equipo apasionado y talentoso. 
-            Somos profesionales comprometidos con la excelencia y la innovación.
-          </p>
-          <p>
-            Una mezcla de diferentes perspectivas, habilidades y experiencias, 
-            unidos por la pasión de crear soluciones únicas que superen las expectativas.
-          </p>
-        </div>
-        <div
-          ref={teamImageContainerRef}
-          className="about-us-page__team-image-container"
-        >
-          <div ref={teamImageRef} className="about-us-page__team-image-wrapper">
-            <Image
-              src="/assets/img/team.jpg"
-              alt="Equipo Dos por Dos"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              style={{
-                objectFit: "cover",
-                objectPosition: "center",
-                willChange: "transform",
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="about-us-page__team-stats">
-        <div className="about-us-page__stat">
-          <h3>30+</h3>
-          <p>Años de experiencia</p>
-        </div>
-        <div className="about-us-page__stat">
-          <h3>45+</h3>
-          <p>Profesionales</p>
-        </div>
-        <div className="about-us-page__stat">
-          <h3>500+</h3>
-          <p>Proyectos completados</p>
-        </div>
-        <div className="about-us-page__stat">
-          <h3>3+</h3>
-          <p>Fundaciones apoyadas</p>
+    <section className="team-section">
+      <div className="container">
+        <h2 ref={titleRef} className="title">
+          Nuestro <span>Equipo</span>
+        </h2>
+        <p className="subtitle">
+          Un equipo de profesionales apasionados, comprometidos con la
+          creatividad y la excelencia en cada proyecto.
+        </p>
+        <div className="grid">
+          {teamMembers.map((member, index) => (
+            <Link
+              key={member.id}
+              ref={(el) => (cardsRef.current[index] = el) as any}
+              href={`/equipo/${member.id}`}
+              className="card"
+            >
+              <div className="image-wrapper">
+                <Image
+                  src={member.imageUrl}
+                  alt={member.name}
+                  fill
+                  priority
+                  quality={100}
+                  sizes="(min-width: 1024px) 80vw, (min-width: 768px) 60vw, 90vw"
+                  className="image"
+                />
+              </div>
+
+              <div className="glass">
+                <span className="category">
+                  <span className="category-inner">{member.name}</span>
+                </span>
+                <p className="description">{member.position}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

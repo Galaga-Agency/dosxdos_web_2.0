@@ -129,7 +129,7 @@ const ServicesSection: React.FC = () => {
         </div>
       </div>
 
-      <SloganSection />
+      {/* <SloganSection /> */}
 
       <div className="marquee-container">
         <div className="marquee-track">

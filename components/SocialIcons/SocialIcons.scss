@@ -1,137 +1,139 @@
-@use 'abstracts/variables' as *;
-@use 'base/colors' as *;
-@use 'abstracts/mixins' as *;
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
 
 .social-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  // Orientation variations
+  &.horizontal {
+    flex-direction: row;
+  }
+
+  &.vertical {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    transform: rotate(180deg);
+    height: fit-content;
+
+    .social-icons__link {
+      transform: rotate(180deg);
+    }
+  }
+
+  // Default styling (primary color)
+  &__link {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    color: $secondary-color;
+    background-color: rgba($secondary-color, 0.1);
 
-    // Orientation variations
-    &.horizontal {
-        flex-direction: row;
+    &:hover {
+      background-color: $secondary-color;
+      transform: translateY(-3px);
+      filter: drop-shadow(1px 1px 2px $white);
+
+      .social-icons__icon {
+        fill: rgba($black, 0.4);
+      }
     }
 
+    &:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba($secondary-color, 0.2);
+    }
+  }
+
+  &__icon {
+    fill: $secondary-color;
+    transition: fill 0.3s ease;
+    filter: drop-shadow(1px 1px 2px $black);
+  }
+
+  // White color variation
+  &.white {
+    .social-icons__link {
+      color: $black;
+      background-color: rgba($black, 0.1);
+
+      &:hover {
+        background-color: rgba($black, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 10px rgba($black, 0.2);
+
+        .social-icons__icon {
+          fill: $secondary-color;
+        }
+      }
+
+      &:active {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba($white, 0.2);
+      }
+    }
+
+    .social-icons__icon {
+      fill: $white;
+      text-shadow: 1px 1px 2px $black;
+    }
+  }
+
+  // Size variations
+  &.small {
+    .social-icons__link {
+      width: 32px;
+      height: 32px;
+      padding: 6px;
+    }
+
+    .social-icons__icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &.medium {
+    .social-icons__link {
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+    }
+
+    .social-icons__icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &.large {
+    .social-icons__link {
+      width: 48px;
+      height: 48px;
+      padding: 10px;
+    }
+
+    .social-icons__icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
     &.vertical {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        transform: rotate(180deg);
-        height: fit-content;
+      flex-direction: row;
+      writing-mode: initial;
+      transform: rotate(0);
 
-        .social-icons__link {
-            transform: rotate(180deg);
-        }
+      .social-icons__link {
+        transform: rotate(0);
+      }
     }
-
-    // Default styling (primary color)
-    &__link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-        color: $primary-color;
-        background-color: rgba($primary-color, 0.1);
-
-        &:hover {
-            background-color: $primary-color;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba($primary-color, 0.2);
-
-            .social-icons__icon {
-                fill: $white;
-            }
-        }
-
-        &:active {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 6px rgba($primary-color, 0.2);
-        }
-    }
-
-    &__icon {
-        fill: $primary-color;
-        transition: fill 0.3s ease;
-    }
-
-    // White color variation
-    &.white {
-        .social-icons__link {
-            color: $black;
-            background-color: rgba($black, 0.1);
-
-            &:hover {
-                background-color: $black;
-                transform: translateY(-3px);
-                box-shadow: 0 6px 10px rgba($black, 0.2);
-
-                .social-icons__icon {
-                    fill: $primary-color;
-                }
-            }
-
-            &:active {
-                transform: translateY(-1px);
-                box-shadow: 0 3px 6px rgba($white, 0.2);
-            }
-        }
-
-        .social-icons__icon {
-            fill: $white;
-        }
-    }
-
-    // Size variations
-    &.small {
-        .social-icons__link {
-            width: 32px;
-            height: 32px;
-            padding: 6px;
-        }
-
-        .social-icons__icon {
-            width: 20px;
-            height: 20px;
-        }
-    }
-
-    &.medium {
-        .social-icons__link {
-            width: 40px;
-            height: 40px;
-            padding: 8px;
-        }
-
-        .social-icons__icon {
-            width: 24px;
-            height: 24px;
-        }
-    }
-
-    &.large {
-        .social-icons__link {
-            width: 48px;
-            height: 48px;
-            padding: 10px;
-        }
-
-        .social-icons__icon {
-            width: 28px;
-            height: 28px;
-        }
-    }
-
-    // Responsive adjustments
-    @media (max-width: 768px) {
-        &.vertical {
-            flex-direction: row;
-            writing-mode: initial;
-            transform: rotate(0);
-
-            .social-icons__link {
-                transform: rotate(0);
-            }
-        }
-    }
+  }
 }
