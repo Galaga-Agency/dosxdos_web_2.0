@@ -1,151 +1,67 @@
-@use 'abstracts/variables' as *;
-@use 'base/colors' as *;
-@use 'abstracts/mixins' as *;
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
 
 .hamburger {
-    position: relative;
-    width: 60px; // Increased from 50px
-    height: 60px; // Increased from 50px
-    cursor: pointer;
-    @include z-index(toast);
+  position: relative;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  @include z-index(toast);
 
-    &__inner {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 36px; // Increased from 30px
-        cursor: pointer;
+  &__inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 36px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
 
-        span {
-            display: block;
-            width: 100%;
-            height: 4px; // Increased from 3px
-            background: $primary-color;
-            border-radius: 3px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-        }
+    span {
+      height: 4px;
+      width: 100%;
+      background-color: $secondary-color;
+            box-shadow: 1px 1px 2px $black;
+      border-radius: 3px;
+      transition: transform 0.4s ease, opacity 0.4s ease,
+        background-color 0.4s ease;
+      display: block;
+      position: relative;
+    }
+  }
 
-        span+span {
-            margin-top: 8px; // Increased from 6px
-        }
+  // === ACTIVE STATE ===
+  &__inner.active {
+    span {
+      background-color: $black;
+            box-shadow: none;
     }
 
-    .active span:nth-child(1) {
-        animation: top 0.5s ease forwards;
+    span:nth-child(1) {
+      transform: translateY(10px) rotate(45deg);
     }
 
-    .not-active span:nth-child(1) {
-        animation: top-2 0.5s ease forwards;
+    span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
     }
 
-    .active span:nth-child(2) {
-        animation: scaled 0.5s ease forwards;
+    span:nth-child(3) {
+      transform: translateY(-10px) rotate(-45deg);
     }
+  }
 
-    .not-active span:nth-child(2) {
-        animation: scaled-2 0.5s ease forwards;
+  // === NOT ACTIVE STATE ===
+  &__inner.not-active {
+    span:nth-child(1),
+    span:nth-child(2),
+    span:nth-child(3) {
+      transform: none;
+      opacity: 1;
     }
-
-    .active span:nth-child(3) {
-        animation: bottom 0.5s ease forwards;
-    }
-
-    .not-active span:nth-child(3) {
-        animation: bottom-2 0.5s ease forwards;
-    }
-}
-
-@keyframes top {
-    0% {
-        top: 0;
-        transform: rotate(0);
-    }
-
-    50% {
-        top: 12px;
-        transform: rotate(0);
-    }
-
-    100% {
-        top: 12px;
-        transform: rotate(45deg);
-    }
-}
-
-@keyframes top-2 {
-    0% {
-        top: 12px;
-        transform: rotate(45deg);
-    }
-
-    50% {
-        top: 12px;
-        transform: rotate(0deg);
-    }
-
-    100% {
-        top: 0;
-        transform: rotate(0deg);
-    }
-}
-
-@keyframes bottom {
-    0% {
-        bottom: 0;
-        transform: rotate(0);
-    }
-
-    50% {
-        bottom: 12px;
-        transform: rotate(0);
-    }
-
-    100% {
-        bottom: 12px;
-        transform: rotate(135deg);
-    }
-}
-
-@keyframes bottom-2 {
-    0% {
-        bottom: 12px;
-        transform: rotate(135deg);
-    }
-
-    50% {
-        bottom: 12px;
-        transform: rotate(0);
-    }
-
-    100% {
-        bottom: 0;
-        transform: rotate(0);
-    }
-}
-
-@keyframes scaled {
-    50% {
-        transform: scale(0);
-    }
-
-    100% {
-        transform: scale(0);
-    }
-}
-
-@keyframes scaled-2 {
-    0% {
-        transform: scale(0);
-    }
-
-    50% {
-        transform: scale(0);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+  }
 }

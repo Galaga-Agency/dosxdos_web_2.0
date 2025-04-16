@@ -4,90 +4,85 @@
 @use "base/animations" as *;
 
 .hero-section {
-    position: relative;
-    width: 100%;
-    height: 80vh;
-    margin-bottom: spacing(xxl);
-    overflow: hidden;
-    z-index: 1;
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  margin-bottom: 48px;
+  overflow: hidden;
+  @include z-index(above);
 
-    @include min-width(lg) {
-      height: 100vh;
-    }
+  @include min-width(lg) {
+    height: 100vh;
   }
 
-  &__hero-image-container {
+  &__image-container {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
   }
 
-  &__hero-image-wrapper {
+  &__image-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 130%; // Increased height for parallax movement
-    will-change: transform; // Performance optimization for animations
-    z-index: 1;
+    height: 130%;
+    will-change: transform;
+    @include z-index(default);
 
     img {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center;
-      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      @include transition-duration(slow);
+      will-change: transform;
     }
   }
 
-  &__hero-content {
+  &__content {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 5;
+    @include z-index(above);
     color: $white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 2rem;
+    @include flex(column, flex-start, flex-start);
+    padding: 24px;
 
     @include min-width(md) {
-      padding: 4rem;
+      padding: 32px;
+    }
+
+    @include min-width(lg) {
+      padding: 40px;
     }
   }
 
-  &__hero-overlay {
+  &__overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.5),
-      rgba(0, 0, 0, 0.7)
-    );
-    z-index: -1;
+    background: linear-gradient(to top, rgba($white, 0.1), rgba(0, 0, 0, 0.4));
+    @include z-index(below);
   }
 
-  &__hero-title {
-    position: relative;
-    margin-bottom: 2rem;
+  &__title {
+    margin-top: 80px;
+    margin-bottom: 24px;
     color: $white;
     @include font-size(3xl);
     @include font-weight(bold);
-    z-index: 10; // Keep above the moving image
+    @include z-index(above);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    max-width: 800px;
 
     @include min-width(md) {
       @include font-size(5xl);
+      margin-bottom: 32px;
     }
 
     @include min-width(lg) {
@@ -96,21 +91,170 @@
 
     span {
       color: $primary-color;
+      display: inline-block;
     }
   }
 
-  &__hero-subtitle {
-    position: relative;
+  &__description {
     max-width: 600px;
-    z-index: 10;
+    margin-bottom: 32px;
+    @include z-index(above);
 
     p {
-      @include font-size(xl);
+      @include font-size(lg);
       line-height: 1.6;
-      color: rgba($white, 0.9);
+      color: $white;
 
       @include min-width(md) {
-        @include font-size(2xl);
+        @include font-size(xl);
       }
     }
+  }
+
+  &__stats {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+    @include z-index(above);
+
+    @include min-width(md) {
+      flex-direction: row;
+      gap: 40px;
+    }
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__stat-value {
+    @include font-size(3xl);
+    @include font-weight(bold);
+    color: $primary-color;
+    line-height: 1;
+
+    @include min-width(md) {
+      @include font-size(4xl);
+    }
+  }
+
+  &__stat-label {
+    @include font-size(sm);
+    color: $white;
+    text-transform: uppercase;
+    @include letter-spacing(tight);
+
+    @include min-width(md) {
+      @include font-size(base);
+    }
+  }
+
+  &__cta-button {
+    @include z-index(above);
+  }
+}
+
+/* Floating Images with NESTED parallax */
+.random-images {
+  position: relative;
+  width: 100%;
+  padding: 32px 16px;
+  @include z-index(above);
+
+  @include min-width(md) {
+    padding: 40px 32px;
+    min-height: 75vh;
+  }
+
+  @include min-width(lg) {
+    min-height: 80vh;
+  }
+
+  &__container {
+    position: relative;
+    width: 90%;
+    height: 60vw;
+    max-height: 60vh;
+    margin: 0 auto 48px;
+    overflow: hidden;
+    background-color: $white;
+    box-shadow: $shadow-lg;
+    will-change: transform;
+
+    @include min-width(md) {
+      position: absolute;
+      margin: 0;
+    }
+
+    &--1 {
+      @include min-width(md) {
+        width: 55%;
+        height: 30vh;
+        top: -5vh;
+        left: 5%;
+      }
+
+      @include min-width(lg) {
+        width: 30%;
+        height: 65vh;
+        left: 15%;
+      }
+    }
+
+    &--2 {
+      @include min-width(md) {
+        width: 50%;
+        height: 50vh;
+        top: 15vh;
+        right: 0;
+      }
+
+      @include min-width(lg) {
+        width: 20%;
+        height: 60vh;
+        top: 5vh;
+        right: 12%;
+      }
+    }
+
+    &--3 {
+      @include min-width(md) {
+        width: 40%;
+        height: 30vh;
+        top: 45vh;
+        right: 45%;
+      }
+
+      @include min-width(lg) {
+        width: 15%;
+        height: 40vh;
+        top: 47vh;
+        right: 25%;
+      }
+    }
+  }
+
+  &__inner-container {
+    position: absolute;
+    top: -30%;
+    left: -15%;
+    width: 130%;
+    height: 160%;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  &__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    will-change: transform;
+  }
 }

@@ -3,8 +3,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 interface SlideItem {
   id: number;
@@ -14,51 +15,48 @@ interface SlideItem {
 interface HeroSliderProps {
   slides: SlideItem[];
   autoplaySpeed?: number;
-  logoImageUrl?: string;
-  logoMobileImageUrl?: string;
 }
 
 const HeroSlider: React.FC<HeroSliderProps> = ({
   slides,
   autoplaySpeed = 3000,
-  logoImageUrl = "/assets/img/homepage/portada-desktop.png",
-  logoMobileImageUrl = "/assets/img/homepage/portada-movil.png",
 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const logoRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
+  const { isTouchDevice } = useDeviceDetect();
 
-  // Check mobile on mount
+  // Title and CTA animation
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-    };
-  }, []);
-
-  // Logo and CTA animation
-  useEffect(() => {
-    if (logoRef.current) {
+    // Title animation
+    if (titleRef.current) {
       gsap.fromTo(
-        logoRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 1.2, delay: 0.5, ease: "power2.out" }
+        titleRef.current,
+        { opacity: 0, y: -50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          delay: 0.3,
+          ease: "power3.out",
+          transformOrigin: "left center",
+        }
       );
     }
 
+    // CTA animation
     if (ctaRef.current) {
       gsap.fromTo(
         ctaRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, delay: 1.5, ease: "power2.out" }
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: 0.3,
+          ease: "power2.out",
+        }
       );
     }
   }, []);
@@ -68,7 +66,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     // Apply zoom effect to initial slide
     if (imageRefs.current[activeSlide]) {
       gsap.to(imageRefs.current[activeSlide], {
-        scale: 1.1,
         duration: 6,
         ease: "power1.inOut",
       });
@@ -83,32 +80,67 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     return () => clearInterval(interval);
   }, [activeSlide, autoplaySpeed, slides.length]);
 
-  // Handle slide transitions
-  useEffect(() => {
-    // Reset all slides to scale 1
-    imageRefs.current.forEach((imgRef) => {
-      if (imgRef) {
-        gsap.set(imgRef, { scale: 1 });
-      }
-    });
-
-    // Zoom effect on active slide
-    if (imageRefs.current[activeSlide]) {
-      gsap.to(imageRefs.current[activeSlide], {
-        scale: 1.1,
-        duration: 6,
-        ease: "power1.inOut",
-      });
-    }
-  }, [activeSlide]);
-
   const goToSlide = (index: number) => {
     if (index === activeSlide) return;
     setActiveSlide(index);
   };
 
+  const goToPrevSlide = () => {
+    const prevSlide = activeSlide === 0 ? slides.length - 1 : activeSlide - 1;
+    setActiveSlide(prevSlide);
+  };
+
+  const goToNextSlide = () => {
+    const nextSlide = (activeSlide + 1) % slides.length;
+    setActiveSlide(nextSlide);
+  };
+
   return (
     <div className="hero-slider">
+      {!isTouchDevice && (
+        <>
+          <button
+            className="hero-slider__nav hero-slider__nav--prev"
+            onClick={goToPrevSlide}
+            aria-label="Previous Slide"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+
+          <button
+            className="hero-slider__nav hero-slider__nav--next"
+            onClick={goToNextSlide}
+            aria-label="Next Slide"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </>
+      )}
+
       <div className="hero-slider__container">
         {slides.map((slide, index) => (
           <div
@@ -132,21 +164,14 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         ))}
       </div>
 
-      <div className="hero-slider__logo" ref={logoRef}>
-        <Image
-          src={isMobile ? logoMobileImageUrl : logoImageUrl}
-          alt="Dos Por Dos Grupo Imagen"
-          width={700}
-          height={350}
-          className="hero-slider__logo-image"
-          priority
-        />
-      </div>
+      <h1 className="hero-slider__title" ref={titleRef}>
+        Espacios Que Inspiran
+      </h1>
 
       <div className="hero-slider__cta" ref={ctaRef}>
-        <PrimaryButton href="/portfolio" size="large">
+        <SecondaryButton href="/portfolio" size="large">
           Descubrir Proyectos
-        </PrimaryButton>
+        </SecondaryButton>
       </div>
 
       <div className="hero-slider__indicators">

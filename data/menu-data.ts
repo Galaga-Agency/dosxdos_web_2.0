@@ -4,7 +4,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "sobre-nosotros",
     label: "Sobre Nosotros",
-    href: "/sobre-nosotros",
+    href: "/sobre-nosotros/equipo",
     children: [
       {
         id: "equipo",
