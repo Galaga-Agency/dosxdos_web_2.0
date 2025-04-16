@@ -58,7 +58,7 @@ const LogoMarquee: React.FC = () => {
 
       gsap.to(trackRef.current, {
         x: -totalWidth / 2,
-        duration: 25,
+        duration: 30,
         repeat: -1,
         ease: "none",
         modifiers: {
@@ -73,29 +73,25 @@ const LogoMarquee: React.FC = () => {
 
   return (
     <section className="logo-marquee">
-      {/* Texture overlay */}
-      <div className="texture-overlay"></div>
-
-      <div className="logo-marquee__header">
-        <span className="logo-marquee__header-asterisk">*</span>
-        <h2 className="logo-marquee__header-title">
-          Marcas que confían en <span>nosotros</span>
-        </h2>
-      </div>
-
       <div className="logo-marquee__container">
+        <div className="logo-marquee__header">
+          <h2 className="logo-marquee__header-title">
+            Marcas que confían en <span className="highlight">nosotros</span>
+          </h2>
+        </div>
+        
         <div className="logo-marquee__wrapper">
           <div className="logo-marquee__track" ref={trackRef}>
             {allLogos.map((logo, index) => (
-              <div 
-                className="logo-marquee__item" 
+              <div
+                className="logo-marquee__item"
                 key={`${logo.id}-${index}`}
               >
                 <Image
                   src={logo.src}
                   alt={logo.name}
                   width={200}
-                  height={150}
+                  height={100}
                   unoptimized
                 />
               </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
+import { motion } from "framer-motion";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
@@ -22,56 +22,11 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   autoplaySpeed = 3000,
 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
   const { isTouchDevice } = useDeviceDetect();
 
-  // Title and CTA animation
+  // Autoplay timer
   useEffect(() => {
-    // Title animation
-    if (titleRef.current) {
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: -50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          delay: 0.3,
-          ease: "power3.out",
-          transformOrigin: "left center",
-        }
-      );
-    }
-
-    // CTA animation
-    if (ctaRef.current) {
-      gsap.fromTo(
-        ctaRef.current,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          delay: 0.3,
-          ease: "power2.out",
-        }
-      );
-    }
-  }, []);
-
-  // Initial slide setup and autoplay
-  useEffect(() => {
-    // Apply zoom effect to initial slide
-    if (imageRefs.current[activeSlide]) {
-      gsap.to(imageRefs.current[activeSlide], {
-        duration: 6,
-        ease: "power1.inOut",
-      });
-    }
-
-    // Autoplay timer
     const interval = setInterval(() => {
       const nextSlide = (activeSlide + 1) % slides.length;
       setActiveSlide(nextSlide);
@@ -93,6 +48,33 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   const goToNextSlide = () => {
     const nextSlide = (activeSlide + 1) % slides.length;
     setActiveSlide(nextSlide);
+  };
+
+  // Animation variants for Framer Motion
+  const titleVariants = {
+    hidden: { opacity: 0, y: -30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 1.4,
+        ease: [0.25, 0.1, 0.25, 1],
+        delay: 0.2
+      }
+    }
+  };
+
+  const ctaVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 1.2, 
+        ease: [0.25, 0.1, 0.25, 1],
+        delay: 0.4
+      }
+    }
   };
 
   return (
@@ -164,14 +146,26 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         ))}
       </div>
 
-      <h1 className="hero-slider__title" ref={titleRef}>
-        Espacios Que Inspiran
-      </h1>
+      <div className="hero-slider__content">
+        <motion.h1 
+          className="hero-slider__title"
+          initial="hidden"
+          animate="visible"
+          variants={titleVariants}
+        >
+          Espacios Que Inspiran
+        </motion.h1>
 
-      <div className="hero-slider__cta" ref={ctaRef}>
-        <SecondaryButton href="/portfolio" size="large">
-          Descubrir Proyectos
-        </SecondaryButton>
+        <motion.div 
+          className="hero-slider__cta"
+          initial="hidden"
+          animate="visible"
+          variants={ctaVariants}
+        >
+          <SecondaryButton href="/portfolio" size="large">
+            Descubrir Proyectos
+          </SecondaryButton>
+        </motion.div>
       </div>
 
       <div className="hero-slider__indicators">

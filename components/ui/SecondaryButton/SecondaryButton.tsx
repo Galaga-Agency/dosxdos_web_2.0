@@ -15,13 +15,11 @@ interface SecondaryButtonProps {
   size?: "small" | "medium" | "large";
   fullWidth?: boolean;
   disabled?: boolean;
-  variant?: "light" | "dark";
-  icon?: React.ReactNode;
-  target?: string;
-  rel?: string;
+  isOutlined?: boolean;
+  ref?: any;
 }
 
-const SecondaryButton: React.FC<SecondaryButtonProps> = ({
+const SecondaryButton = ({
   children,
   href,
   onClick,
@@ -30,9 +28,9 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
   size = "medium",
   fullWidth = false,
   disabled = false,
-  variant = "light",
-  icon,
-}) => {
+  isOutlined = false,
+  ref,
+}: SecondaryButtonProps) => {
   const baseClass = "secondary-button";
 
   const buttonClasses = [
@@ -40,24 +38,17 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
     size && `${baseClass}--${size}`,
     fullWidth && `${baseClass}--full-width`,
     disabled && `${baseClass}--disabled`,
-    variant && `${baseClass}--${variant}`,
+    isOutlined && `${baseClass}--outlined`,
     className,
   ]
     .filter(Boolean)
     .join(" ");
 
-  const content = (
-    <span className={`${baseClass}__content`}>
-      {icon && <span className={`${baseClass}__icon`}>{icon}</span>}
-      <span className={`${baseClass}__text`}>{children}</span>
-    </span>
-  );
-
   // If href is provided, render as a Link
   if (href && !disabled) {
     return (
       <Link href={href} className={buttonClasses} onClick={onClick}>
-        {content}
+        <span className={`${baseClass}__content`}>{children}</span>
       </Link>
     );
   }
@@ -70,7 +61,7 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {content}
+      <span className={`${baseClass}__content`}>{children}</span>
     </button>
   );
 };

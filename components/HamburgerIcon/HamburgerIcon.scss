@@ -36,11 +36,6 @@
 
   // === ACTIVE STATE ===
   &__inner.active {
-    span {
-      background-color: $black;
-            box-shadow: none;
-    }
-
     span:nth-child(1) {
       transform: translateY(10px) rotate(45deg);
     }
