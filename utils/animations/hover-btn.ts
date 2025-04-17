@@ -59,10 +59,12 @@ function hoverBtn() {
 }
 
 function initCardMouseParallax() {
-  const cards = document.querySelectorAll(".team-section .card");
+  const cards = document.querySelectorAll(".team-section.card, .service-card");
 
   cards.forEach((card) => {
     const image = card.querySelector(".image") as HTMLElement;
+    
+    if (!image) return;
 
     $(card).mousemove(function (e: any) {
       const $this: any = $(card);
@@ -70,11 +72,11 @@ function initCardMouseParallax() {
       const relY = e.pageY - $this.offset().top;
 
       gsap.to(image, {
-        x: ((relX - $this.width() / 2) / $this.width()) * 60,
-        y: ((relY - $this.height() / 2) / $this.height()) * 60,
-        scale: 1.1,
+        x: ((relX - $this.width() / 2) / $this.width()) * 40,
+        y: ((relY - $this.height() / 2) / $this.height()) * 40,
+        scale: 1.3,
         ease: "power2.out",
-        duration: 1,
+        duration: 2.5,
       });
     });
 
@@ -84,7 +86,7 @@ function initCardMouseParallax() {
         y: 0,
         scale: 1,
         ease: "power2.out",
-        duration: 1,
+        duration: 2,
       });
     });
   });

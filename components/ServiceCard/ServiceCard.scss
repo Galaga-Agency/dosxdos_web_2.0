@@ -5,124 +5,211 @@
 .service-card {
   position: relative;
   display: block;
-  height: 500px;
+  height: 400px;
   width: 100%;
+  max-width: 300px;
   overflow: hidden;
-  text-decoration: none;
-  color: $black;
-  background-color: $white;
   @include border-radius(md);
-  box-shadow: 0 4px 20px rgba($black, 0.05);
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-              box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba($black, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  margin: 0 auto;
+  
+  // Subtle corner decorations
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    z-index: 3;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  // Top-right corner
+  &::before {
+    top: 15px;
+    right: 15px;
+    border-top: 1px solid rgba($white, 0.5);
+    border-right: 1px solid rgba($white, 0.5);
+  }
+  
+  // Bottom-left corner
+  &::after {
+    bottom: 15px;
+    left: 15px;
+    border-bottom: 1px solid rgba($white, 0.5);
+    border-left: 1px solid rgba($white, 0.5);
+  }
   
   &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 30px rgba($black, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba($black, 0.12);
     
-    .service-card__gradient-overlay {
-      opacity: 0.1;
-    }
-    
-    .service-card__link {
-      span {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      
-      svg {
-        transform: translateX(0);
-        opacity: 1;
-      }
+    &::before, &::after {
+      opacity: 1;
+      transform: scale(1.1);
     }
   }
   
-  &__image-container {
+  &__image-wrapper {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    
+    // Subtle frame effect
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba($white, 0.1);
+      z-index: 2;
+      pointer-events: none;
+    }
   }
   
-  &__image {
-    position: absolute;
+  .image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     will-change: transform;
   }
   
-  &__gradient-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba($black, 0) 0%,
-      rgba($black, 0.3) 50%,
-      rgba($black, 0.7) 100%
-    );
-    opacity: 0.7;
-    transition: opacity 0.6s ease;
-    z-index: 1;
-  }
-  
-  &__content {
+  &__overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    height: 35%; // Default height
+    background: linear-gradient(
+      to top,
+      rgba($black, 0.8) 0%,
+      rgba($black, 0.3) 70%,
+      rgba($black, 0) 100%
+    );
+    z-index: 1;
+    transition: height 0.4s ease;
+  }
+  
+  &:hover &__overlay {
+    height: 75%; // Expanded height on hover
+  }
+  
+  /* Single content container with all elements stacked in right order */
+  &__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     padding: 2rem;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    transition: transform 0.4s ease;
   }
   
-  &__category {
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+  &:hover &__content {
+    transform: translateY(-3rem);
+  }
+  
+  &__title {
     color: $white;
-    background-color: rgba($black, 0.4);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    align-self: flex-start;
-    border: 1px solid rgba($white, 0.1);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+    position: relative;
+    padding-bottom: 0.5rem;
+    
+    // Decorative underline that expands on hover
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 30px;
+      height: 1px;
+      background-color: rgba($white, 0.5);
+      transition: width 0.4s ease;
+    }
+  }
+  
+  &:hover &__title::after {
+    width: 70px;
   }
   
   &__description {
-    font-size: 1rem;
+    color: rgba($white, 0.9);
+    font-size: 0.9rem;
     line-height: 1.5;
-    color: $white;
-    margin: 0;
-    font-weight: 400;
-    max-width: 90%;
+    margin-top: 1rem;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.4s ease, opacity 0.4s ease;
+  }
+  
+  &:hover &__description {
+    height: auto;
+    opacity: 1;
   }
   
   &__link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
     color: $white;
+    font-size: 0.85rem;
     font-weight: 600;
-    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+    height: 0;
+    opacity: 0;
     overflow: hidden;
+    transition: height 0.4s ease, opacity 0.4s ease;
+    position: relative;
     
-    span {
-      transform: translateX(-10px);
-      opacity: 0;
-      transition: transform 0.4s ease, opacity 0.4s ease;
+    &::after {
+      content: "→";
+      transition: transform 0.2s ease;
     }
     
-    svg {
-      transform: translateX(-20px);
-      opacity: 0;
-      transition: transform 0.4s ease 0.1s, opacity 0.4s ease 0.1s;
+    &:hover::after {
+      transform: translateX(3px);
+    }
+  }
+  
+  &:hover &__link {
+    height: auto;
+    opacity: 1;
+  }
+  
+  // Responsive adjustments
+  @include min-width(md) {
+    max-width: 320px;
+  }
+  
+  @include min-width(lg) {
+    max-width: 340px;
+  }
+  
+  @media screen and (max-width: 480px) {
+    max-width: 100%;
+    height: 350px;
+    
+    &__content {
+      padding: 1.5rem;
+    }
+    
+    &__title {
+      font-size: 1.1rem;
+    }
+    
+    &__description {
+      font-size: 0.85rem;
     }
   }
 }
