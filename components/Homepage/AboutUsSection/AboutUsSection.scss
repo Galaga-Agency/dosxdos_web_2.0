@@ -123,6 +123,7 @@
   &__content-wrapper {
     position: relative;
     max-width: 650px;
+    margin: auto 0;
 
     // Accent line
     &::before {

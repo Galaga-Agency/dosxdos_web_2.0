@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
-import Image from "next/image";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import gsap from "gsap";
+import Image from "next/image";
+import { initCardMouseParallax } from "@/utils/animations/hover-btn";
 import "./ServiceCard.scss";
 
 interface ServiceCardProps {
@@ -19,63 +19,35 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   description,
   imageUrl,
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-
+  // Call the utility function for mouse parallax after component mounts
   useEffect(() => {
-    if (!cardRef.current || !imageRef.current) return;
-
-    const card = cardRef.current;
-    const image = imageRef.current;
-
-    // Mouse move parallax effect
-    card.addEventListener("mousemove", (e) => {
-      const rect = card.getBoundingClientRect();
-      const relX = e.clientX - rect.left;
-      const relY = e.clientY - rect.top;
-      
-      gsap.to(image, {
-        x: ((relX - rect.width / 2) / rect.width) * 40,
-        y: ((relY - rect.height / 2) / rect.height) * 40,
-        scale: 1.1,
-        ease: "power2.out",
-        duration: 1,
-      });
-    });
-
-    // Reset on mouse leave
-    card.addEventListener("mouseleave", () => {
-      gsap.to(image, {
-        x: 0,
-        y: 0,
-        scale: 1,
-        ease: "power2.out",
-        duration: 1,
-      });
-    });
+    initCardMouseParallax();
   }, []);
 
   return (
-    <div className="service-card" ref={cardRef}>
-      <div className="service-card__image-container">
+    <Link 
+      href={`/servicios/${id}`} 
+      className="team-section card service-card"
+    >
+      <div className="service-card__image-wrapper">
         <Image
           src={imageUrl}
           alt={name}
           fill
-          sizes="(max-width: 768px) 100vw, 33vw"
-          className="service-card__image"
-          ref={imageRef as any}
+          sizes="(max-width: 768px) 100vw, 300px"
+          className="image"
         />
       </div>
       
-      <div className="service-card__overlay">
-        <span className="service-card__category">{name}</span>
+      <div className="service-card__overlay"></div>
+      
+      {/* Single content container with proper stacking */}
+      <div className="service-card__content">
+        <h3 className="service-card__title">{name}</h3>
         <p className="service-card__description">{description}</p>
-        <Link href={`/servicios/${id}`} className="service-card__link">
-          Ver más →
-        </Link>
+        <span className="service-card__link">Ver más</span>
       </div>
-    </div>
+    </Link>
   );
 };
 
