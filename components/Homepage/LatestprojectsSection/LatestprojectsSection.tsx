@@ -6,8 +6,8 @@ import {
   panelTwoAnimation,
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
-import "@/components/Homepage/LatestProjectsSection/LatestProjectsSection.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import "./LatestProjectsSection.scss"
 
 const projectData = [
   {
