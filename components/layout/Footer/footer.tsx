@@ -6,7 +6,7 @@ import { PhoneCall, Mail, ArrowRight, ChevronRight } from "lucide-react";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Image from "next/image";
 import { initFooterAnimations } from "@/utils/animations/footer-anim";
-import logo from "@/public/assets/img/logo/logo_full_rojo.png";
+import logo from "@/public/assets/img/logo/logo_full_negro.png";
 import "./Footer.scss";
 
 const Footer = () => {
@@ -20,7 +20,6 @@ const Footer = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const bgShapeRef = useRef<HTMLDivElement>(null);
 
   // Initialize animations on component mount and when key changes
   useEffect(() => {
@@ -32,8 +31,7 @@ const Footer = () => {
         contact: contactRef.current,
         nav: navRef.current,
         cta: ctaRef.current,
-        bottom: bottomRef.current,
-        bgShape: bgShapeRef.current,
+        bottom: bottomRef.current
       });
 
       // Cleanup on unmount
@@ -69,6 +67,9 @@ const Footer = () => {
 
   return (
     <footer className="footer" ref={footerRef}>
+      <div className="footer__decor-circle"></div>
+      <div className="footer__decor-line"></div>
+      
       <div className="footer__container">
         <div className="footer__main">
           {/* Brand Section */}
@@ -183,7 +184,6 @@ const Footer = () => {
 
           {/* CTA Section */}
           <div className="footer__cta" ref={ctaRef}>
-            <div className="footer__cta-accent"></div>
             <div className="footer__cta-content">
               <h4>¿Hablamos?</h4>
               <p>¿Tiene un nuevo proyecto? Lo hacemos real.</p>
