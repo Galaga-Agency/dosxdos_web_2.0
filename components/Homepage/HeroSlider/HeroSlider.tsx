@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 interface SlideItem {
   id: number;
@@ -79,7 +80,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
   return (
     <div className="hero-slider">
-      {!isTouchDevice && (
         <>
           <button
             className="hero-slider__nav hero-slider__nav--prev"
@@ -121,7 +121,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
             </svg>
           </button>
         </>
-      )}
 
       <div className="hero-slider__container">
         {slides.map((slide, index) => (
@@ -162,9 +161,9 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           animate="visible"
           variants={ctaVariants}
         >
-          <SecondaryButton href="/portfolio" size="large">
+          <PrimaryButton href="/portfolio" size="large">
             Descubrir Proyectos
-          </SecondaryButton>
+          </PrimaryButton>
         </motion.div>
       </div>
 

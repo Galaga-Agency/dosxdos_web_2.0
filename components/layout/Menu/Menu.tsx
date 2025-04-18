@@ -13,6 +13,7 @@ import AdminBadge from "@/components/AdminBadge/AdminBadge";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim";
 import "./Menu.scss";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const Menu: React.FC = () => {
   // Get session status
@@ -217,13 +218,13 @@ const Menu: React.FC = () => {
         {/* Actions Area */}
         <div className="menu__actions">
           {/* CTA Button */}
-          <SecondaryButton
+          <PrimaryButton
             href={ctaButton.href}
             className="menu__cta"
             size="medium"
           >
             {ctaButton.label}
-          </SecondaryButton>
+          </PrimaryButton>
 
           {/* Desktop Social Icons */}
           <div className="menu__social-desktop">
@@ -328,14 +329,13 @@ const Menu: React.FC = () => {
             </div>
 
             <div className="menu__mobile-cta">
-              <SecondaryButton
+              <PrimaryButton
                 href={ctaButton.href}
                 onClick={toggleMobileMenu}
                 fullWidth
-                isOutlined
               >
                 {ctaButton.label}
-              </SecondaryButton>
+              </PrimaryButton>
             </div>
           </div>
         </div>

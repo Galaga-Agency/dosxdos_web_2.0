@@ -22,7 +22,7 @@
     height: 120px;
     background-image: radial-gradient(
       circle,
-      rgba($black, 0.15) 1px,
+      rgba($black, 0.2) 1px,
       transparent 1px
     );
     background-size: 8px 8px;
@@ -338,7 +338,7 @@
           transform: translateX(-50%);
           width: 40px;
           height: 2px;
-          background-color: rgba($black, 0.3);
+          background-color: rgba($black, 0.2);
           transition: width 0.3s ease;
         }
       }
@@ -353,43 +353,6 @@
     &:hover {
       h4::after {
         width: 60px;
-      }
-    }
-
-    // Redesigned CTA button with more subtle styling
-    &-button {
-      @include flex(row, center, center);
-      width: 100%;
-      max-width: 280px;
-      margin: 0 auto;
-      padding: 0.875rem 1.5rem;
-      background-color: $black;
-      color: $white;
-      @include border-radius(full);
-      @include font-weight(medium);
-      @include font-size(base);
-      text-decoration: none;
-      transition: all 0.3s ease;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      gap: 0.5rem;
-      will-change: transform, background-color;
-
-      &:hover {
-        transform: translateY(-3px);
-        
-        svg {
-          transform: translateX(3px);
-        }
-      }
-
-      &:active {
-        transform: translateY(0);
-      }
-
-      svg {
-        transition: transform 0.3s ease;
       }
     }
   }
@@ -483,7 +446,7 @@
     bottom: 15%;
     width: 150px;
     height: 150px;
-    border: 1px solid rgba($black, 0.05);
+    border: 1px solid rgba($black, 0.1);
     border-radius: 50%;
     opacity: 0.6;
     z-index: 0;
@@ -491,28 +454,6 @@
     @media screen and (max-width: 768px) {
       width: 100px;
       height: 100px;
-    }
-  }
-  
-  &__decor-line {
-    position: absolute;
-    right: 15%;
-    top: 30%;
-    width: 80px;
-    height: 1px;
-    background-color: rgba($black, 0.15);
-    transform: rotate(-15deg);
-    z-index: 0;
-    
-    &::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: rgba($black, 0.3);
     }
   }
 }
