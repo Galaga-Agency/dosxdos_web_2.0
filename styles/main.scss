@@ -9,18 +9,18 @@
 
 // Scrollbar Track
 ::-webkit-scrollbar-track {
-  background: rgba($primary-color, 0.05) !important;
+  background: rgba($black, 0.05) !important;
   border-radius: 10px;
 }
 
 // Scrollbar Handle
 ::-webkit-scrollbar-thumb {
-  background: rgba($primary-color, 0.9) !important;
+  background: rgba($black, 0.9) !important;
   border-radius: 10px;
   transition: background 0.3s ease;
 
   &:hover {
-    background: $primary-color !important;
+    background: $black !important;
   }
 }
 
@@ -32,7 +32,7 @@
 // Firefox Scrollbar
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba($primary-color, 0.5) rgba($black, 0.05) !important;
+  scrollbar-color: rgba($black, 0.5) rgba($black, 0.05) !important;
 }
 
 input:focus,

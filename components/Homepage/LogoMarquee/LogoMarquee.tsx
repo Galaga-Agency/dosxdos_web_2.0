@@ -76,23 +76,20 @@ const LogoMarquee: React.FC = () => {
       <div className="logo-marquee__container">
         <div className="logo-marquee__header">
           <h2 className="logo-marquee__header-title">
-            Marcas que confían en <span className="highlight">nosotros</span>
+            Marcas que <span className="highlight-bg">confían en nosotros</span>
           </h2>
         </div>
         
         <div className="logo-marquee__wrapper">
           <div className="logo-marquee__track" ref={trackRef}>
             {allLogos.map((logo, index) => (
-              <div
-                className="logo-marquee__item"
-                key={`${logo.id}-${index}`}
-              >
+              <div key={`${logo.id}-${index}`} className="logo-marquee__item">
                 <Image
                   src={logo.src}
                   alt={logo.name}
-                  width={200}
-                  height={100}
-                  unoptimized
+                  width={150}
+                  height={80}
+                  className="logo-marquee__logo"
                 />
               </div>
             ))}
