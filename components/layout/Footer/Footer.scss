@@ -3,22 +3,44 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
-// Footer base styles
+// Footer base styles with more subtle design cues
 .footer {
   position: relative;
-  background: $secondary-color;
+  background: $white;
   color: $black;
   overflow: hidden;
-  padding: 3rem 1.5rem;
+  padding: 4rem 1.5rem 3rem;
   @include z-index(above);
-  height: auto;
+  
+  // Subtle decorative elements similar to other sections
+  &::before {
+    content: "";
+    position: absolute;
+    right: 5%;
+    top: 10%;
+    width: 120px;
+    height: 120px;
+    background-image: radial-gradient(
+      circle,
+      rgba($black, 0.15) 1px,
+      transparent 1px
+    );
+    background-size: 8px 8px;
+    opacity: 0.2;
+    z-index: 0;
+    
+    @media screen and (max-width: 768px) {
+      width: 80px;
+      height: 80px;
+    }
+  }
 
   @include min-width(md) {
-    padding: 4rem 2rem;
+    padding: 5rem 2rem 3rem;
   }
 
   @include min-width(lg) {
-    padding: 5rem 2rem;
+    padding: 6rem 2rem 3rem;
   }
 
   // Container layout
@@ -28,7 +50,7 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-    z-index: 1; // Ensure above background shapes
+    z-index: 1;
 
     @include min-width(md) {
       max-width: 92%;
@@ -62,11 +84,11 @@
     }
   }
 
-  // Brand section
+  // Brand section with subtle styling
   &__brand {
     text-align: center;
     margin-bottom: 2.5rem;
-    will-change: transform, opacity; // Optimization for animations
+    will-change: transform, opacity;
 
     @include min-width(md) {
       text-align: left;
@@ -124,6 +146,7 @@
     max-width: 300px;
     margin-left: auto;
     margin-right: auto;
+    color: rgba($black, 0.75);
 
     @include min-width(md) {
       margin-left: 0;
@@ -136,11 +159,11 @@
     }
   }
 
-  // Contact information
+  // Contact information with subtle styling
   &__contact {
     @include flex(column, center, center);
     gap: 0.75rem;
-    will-change: transform, opacity; // Optimization
+    will-change: transform, opacity;
 
     @include min-width(md) {
       align-items: flex-end;
@@ -154,23 +177,23 @@
     a {
       @include flex(row, flex-start, center);
       gap: 0.5rem;
-      color: $black;
+      color: rgba($black, 0.75);
       text-decoration: none;
-      transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      will-change: transform; // Optimization
+      transition: all 0.3s ease;
+      will-change: transform;
 
       &:hover {
         transform: translateX(5px);
+        color: $black;
 
         .icon {
-          background-color: $primary-color;
-          color: $white;
+          background-color: rgba($black, 0.05);
         }
       }
 
       .icon {
         @include flex(row, center, center);
-        background-color: rgba($black, 0.1);
+        background-color: rgba($black, 0.03);
         width: 32px;
         height: 32px;
         @include border-radius(full);
@@ -179,12 +202,12 @@
     }
   }
 
-  // Navigation columns
+  // Navigation columns with cleaner, more subtle styling
   &__nav-wrapper {
     display: flex;
     flex-direction: column;
     margin-block: 2.5rem;
-    will-change: transform, opacity; // Optimization
+    will-change: transform, opacity;
 
     @include min-width(md) {
       flex-direction: row;
@@ -214,8 +237,10 @@
       @include font-weight(semibold);
       margin-bottom: 1.25rem;
       position: relative;
+      color: $black;
       padding-bottom: 0.5rem;
 
+      // Subtle line decoration like elsewhere in your site
       &::after {
         content: "";
         position: absolute;
@@ -223,7 +248,7 @@
         bottom: 0;
         width: 30px;
         height: 2px;
-        background-color: $primary-color;
+        background-color: rgba($black, 0.3);
       }
     }
 
@@ -242,11 +267,11 @@
 
     a {
       @include flex(row, space-between, center);
-      color: rgba($black, 0.8);
+      color: rgba($black, 0.6);
       text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.3s ease;
       padding: 0.25rem 0;
-      will-change: transform, color; // Optimization
+      will-change: transform, color;
 
       &:hover {
         color: $black;
@@ -262,17 +287,16 @@
         opacity: 0;
         transform: translateX(-10px);
         transition: all 0.3s ease;
-        color: $primary-color;
-        will-change: transform, opacity; // Optimization
+        color: $black;
+        will-change: transform, opacity;
       }
     }
   }
 
-  // CTA section
+  // CTA section with more subtle styling matching your other components
   &__cta {
     position: relative;
-    background-color: transparent;
-    backdrop-filter: blur(5px);
+    background-color: rgba($black, 0.03);
     @include border-radius(lg);
     padding: 2.5rem 2rem;
     margin-bottom: 2.5rem;
@@ -280,42 +304,6 @@
     will-change: transform, opacity;
     border: 1px solid rgba($black, 0.05);
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
-
-    // Glass effect background
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        135deg,
-        rgba($white, 0.2),
-        rgba($white, 0.07)
-      );
-      opacity: 0.5;
-      z-index: -1;
-      border-radius: inherit;
-    }
-
-    // Subtle gradient background
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom right,
-        rgba($primary-color, 0.05),
-        rgba($primary-color, 0.15)
-      );
-      z-index: -2;
-      border-radius: inherit;
-    }
 
     @include min-width(md) {
       width: 100%;
@@ -339,8 +327,9 @@
         margin-bottom: 0.75rem;
         position: relative;
         display: inline-block;
+        color: $black;
 
-        // Decorative underline
+        // Decorative underline matching your other components
         &::after {
           content: "";
           position: absolute;
@@ -349,7 +338,7 @@
           transform: translateX(-50%);
           width: 40px;
           height: 2px;
-          background-color: $primary-color;
+          background-color: rgba($black, 0.3);
           transition: width 0.3s ease;
         }
       }
@@ -357,6 +346,7 @@
       p {
         margin-bottom: 1.75rem;
         @include font-size(lg);
+        color: rgba($black, 0.7);
       }
     }
 
@@ -366,52 +356,29 @@
       }
     }
 
+    // Redesigned CTA button with more subtle styling
     &-button {
       @include flex(row, center, center);
       width: 100%;
       max-width: 280px;
       margin: 0 auto;
       padding: 0.875rem 1.5rem;
-      background-color: $primary-color;
+      background-color: $black;
       color: $white;
       @include border-radius(full);
       @include font-weight(medium);
       @include font-size(base);
       text-decoration: none;
-      transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+      transition: all 0.3s ease;
       text-align: center;
-      box-shadow: $shadow-md;
       position: relative;
       overflow: hidden;
       gap: 0.5rem;
-      will-change: transform, background-color, box-shadow;
-
-      // Button shine effect
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.7s ease;
-      }
+      will-change: transform, background-color;
 
       &:hover {
-        background-color: darken($primary-color, 5%);
-        box-shadow: $shadow-lg;
-        transform: translateY(-3px) scale(1.02);
-
-        &::before {
-          left: 100%;
-        }
-
+        transform: translateY(-3px);
+        
         svg {
           transform: translateX(3px);
         }
@@ -419,56 +386,22 @@
 
       &:active {
         transform: translateY(0);
-        box-shadow: $shadow-md;
       }
 
       svg {
         transition: transform 0.3s ease;
       }
     }
-
-    &-accent {
-      position: absolute;
-      top: -15px;
-      right: 30px;
-      width: 30px;
-      height: 30px;
-      background-color: $primary-color;
-      border-radius: 50%;
-      opacity: 0.8;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 15px;
-        left: -25px;
-        width: 15px;
-        height: 15px;
-        background-color: rgba($primary-color, 0.5);
-        border-radius: 50%;
-      }
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        right: -10px;
-        width: 20px;
-        height: 20px;
-        background-color: rgba($primary-color, 0.3);
-        border-radius: 50%;
-      }
-    }
   }
 
-  // Bottom section
+  // Bottom section with cleaner separation
   &__bottom {
     padding-top: 2rem;
     border-top: 1px solid rgba($black, 0.1);
     @include flex(column, center, center);
     gap: 1.5rem;
     margin-top: 2rem;
-    will-change: transform, opacity; // Optimization
+    will-change: transform, opacity;
 
     @include min-width(md) {
       @include flex(row, space-between, center);
@@ -487,7 +420,7 @@
 
   &__copyright {
     @include font-size(sm);
-    opacity: 0.7;
+    color: rgba($black, 0.6);
     text-align: center;
     margin-bottom: 1rem;
 
@@ -508,7 +441,7 @@
     }
 
     a {
-      color: rgba($black, 0.7);
+      color: rgba($black, 0.6);
       text-decoration: none;
       @include font-size(sm);
       transition: all 0.3s ease;
@@ -522,6 +455,7 @@
             display: inline-block;
             margin-left: 1.25rem;
             font-weight: bold;
+            color: rgba($black, 0.3);
           }
         }
       }
@@ -542,46 +476,43 @@
     }
   }
 
-  // Background shape with scroll-based movement support
-  &__bg-shape {
+  // More subtle decorative elements
+  &__decor-circle {
     position: absolute;
-    bottom: -150px;
-    left: -100px;
-    width: 300px;
-    height: 300px;
-    background-color: rgba($primary-color, 0.05);
+    left: 5%;
+    bottom: 15%;
+    width: 150px;
+    height: 150px;
+    border: 1px solid rgba($black, 0.05);
     border-radius: 50%;
-    z-index: -1;
-    will-change: transform; // Optimization for animations
-
-    // CSS variables for pseudo-element movement
-    --before-y: 0px;
-    --after-y: 0px;
-
-    &::before {
-      content: "";
-      position: absolute;
-      bottom: 50px;
-      right: -200px;
-      width: 200px;
-      height: 200px;
-      background-color: rgba($primary-color, 0.03);
-      border-radius: 50%;
-      transform: translateY(var(--before-y));
-      will-change: transform;
+    opacity: 0.6;
+    z-index: 0;
+    
+    @media screen and (max-width: 768px) {
+      width: 100px;
+      height: 100px;
     }
-
+  }
+  
+  &__decor-line {
+    position: absolute;
+    right: 15%;
+    top: 30%;
+    width: 80px;
+    height: 1px;
+    background-color: rgba($black, 0.15);
+    transform: rotate(-15deg);
+    z-index: 0;
+    
     &::after {
       content: "";
       position: absolute;
-      top: -100px;
-      right: -150px;
-      width: 250px;
-      height: 250px;
-      background-color: rgba($primary-color, 0.07);
+      right: 0;
+      top: 0;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
-      transform: translateY(var(--after-y));
-      will-change: transform;
+      background-color: rgba($black, 0.3);
     }
   }
 }
