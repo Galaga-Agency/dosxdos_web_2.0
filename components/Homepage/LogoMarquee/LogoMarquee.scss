@@ -151,7 +151,7 @@
     transition: all 0.3s ease;
 
     img {
-      max-height: 65px;
+      max-height: 120px;
       width: auto;
       height: auto;
       object-fit: contain;
@@ -160,11 +160,11 @@
       transition: all 0.5s ease;
 
       @include min-width(md) {
-        max-height: 75px;
+        max-height: 100px;
       }
 
       @include min-width(lg) {
-        max-height: 125px;
+        max-height: 150px;
       }
     }
 
