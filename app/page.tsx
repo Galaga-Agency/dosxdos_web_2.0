@@ -6,7 +6,6 @@ import HeroSlider from "@/components/Homepage/HeroSlider/HeroSlider";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
 import AboutUsSection from "@/components/Homepage/AboutUsSection/AboutUsSection";
 import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSection";
-// import LatestProjectsSection from "@/components/Homepage/LatestprojectsSection/LatestprojectsSection";
 import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import "./page.scss";
 import { BlogPost } from "@/types/blog-post-types";
