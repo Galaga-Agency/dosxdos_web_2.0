@@ -2,11 +2,11 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   panelTwoAnimation,
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import "./LatestProjectsSection.scss"
 
 const projectData = [
@@ -68,14 +68,15 @@ const LatestProjectsSection: React.FC = () => {
 
   return (
     <section className="latest-projects">
-      {/* Background text OUR WORK */}
-      <div className="latest-projects__bg-text">OUR WORK</div>
-      
       {/* Header section with title and subtitle */}
       <div className="latest-projects__header-container">
         <div className="latest-projects__header">
-          <h2 className="latest-projects__title">NUESTRO TRABAJO</h2>
-          <p className="latest-projects__subtitle">Una selección de nuestros proyectos más recientes</p>
+          <h2 className="latest-projects__title">
+            NUESTRO <span className="highlight">TRABAJO</span>
+          </h2>
+          <p className="latest-projects__subtitle">
+            Una selección de nuestros proyectos más recientes
+          </p>
         </div>
       </div>
 
@@ -96,25 +97,10 @@ const LatestProjectsSection: React.FC = () => {
             </div>
 
             <div className="project-panel__content">
-              <div className="project-panel__glass">
-                <span className="project-panel__category">{project.category}</span>
-                <h3 className="project-panel__title">{project.title}</h3>
-                <p className="project-panel__description">
-                  {project.description}
-                </p>
-                <div className="project-panel__location">
-                  <span className="project-panel__location-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                      <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                  </span>
-                  {project.location}
-                </div>
-                <PrimaryButton href={project.link}>
-                  Ver Proyecto
-                </PrimaryButton>
-              </div>
+              <h3 className="project-panel__title">{project.title}</h3>
+              <Link href={project.link} className="project-panel__link">
+                Ver Proyecto
+              </Link>
             </div>
           </div>
         ))}

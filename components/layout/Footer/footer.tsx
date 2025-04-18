@@ -8,6 +8,7 @@ import Image from "next/image";
 import { initFooterAnimations } from "@/utils/animations/footer-anim";
 import logo from "@/public/assets/img/logo/logo_full_negro.png";
 import "./Footer.scss";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -187,10 +188,10 @@ const Footer = () => {
             <div className="footer__cta-content">
               <h4>¿Hablamos?</h4>
               <p>¿Tiene un nuevo proyecto? Lo hacemos real.</p>
-              <Link href="/contacto" className="footer__cta-button">
+              <PrimaryButton href="/contacto">
                 <span>Solicite presupuesto</span>
                 <ArrowRight size={16} />
-              </Link>
+              </PrimaryButton>
             </div>
           </div>
         </div>
