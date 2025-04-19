@@ -7,7 +7,7 @@ import {
   panelTwoAnimation,
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
-import "./LatestProjectsSection.scss";
+import "./FeaturedprojectsSection.scss";
 
 const projectData = [
   {
@@ -43,7 +43,7 @@ const projectData = [
   },
 ];
 
-const LatestProjectsSection: React.FC = () => {
+const FeaturedprojectsSection: React.FC = () => {
   const initialized = useRef<boolean>(false);
 
   useEffect(() => {
@@ -113,4 +113,4 @@ const LatestProjectsSection: React.FC = () => {
   );
 };
 
-export default LatestProjectsSection;
+export default FeaturedprojectsSection;

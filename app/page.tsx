@@ -9,7 +9,7 @@ import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSecti
 import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import "./page.scss";
 import { BlogPost } from "@/types/blog-post-types";
-import LatestProjectsSection from "@/components/Homepage/LatestProjectsSection/LatestProjectsSection";
+import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSection/FeaturedprojectsSection";
 
 // Slider images data
 const heroSlides = [
@@ -63,7 +63,7 @@ const Home: React.FC = () => {
         <AboutUsSection />
         <LogoMarquee />
         <ServicesSection />
-        <LatestProjectsSection />
+        <FeaturedprojectsSection />
         {!loading && blogPosts.length > 0 && (
           <BlogCarouselSection posts={blogPosts} />
         )}
