@@ -9,7 +9,7 @@ import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSecti
 import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import "./page.scss";
 import { BlogPost } from "@/types/blog-post-types";
-import LatestProjectsSection from "@/components/Homepage/LatestProjectsSection/LatestprojectsSection";
+import LatestProjectsSection from "@/components/Homepage/LatestProjectsSection/LatestProjectsSection";
 
 // Slider images data
 const heroSlides = [
