@@ -9,7 +9,7 @@ import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSecti
 import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import "./page.scss";
 import { BlogPost } from "@/types/blog-post-types";
-import LatestProjectsSection from "@/components/Homepage/LatestProjectsSection/LatestProjectsSection";
+import LatestProjectsSection from "../../components/Homepage/LatestProjectsSection/LatestProjectsSection";
 // Slider images data
 const heroSlides = [
   {
@@ -56,10 +56,7 @@ const Home: React.FC = () => {
     <SmoothScrollWrapper showBackToTop={false}>
       <div className="homepage">
         <section className="homepage__hero">
-          <HeroSlider
-            slides={heroSlides}
-            autoplaySpeed={3000}
-          />
+          <HeroSlider slides={heroSlides} autoplaySpeed={3000} />
         </section>
 
         <AboutUsSection />
