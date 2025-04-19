@@ -20,6 +20,10 @@ const BlogPage: React.FC = () => {
   const imageContainerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const featuredDateRef = useRef<HTMLDivElement>(null);
+  const featuredCategoryRef = useRef<HTMLDivElement>(null);
+  const postsSectionRef = useRef<HTMLDivElement>(null);
+  const postsGridRef = useRef<HTMLDivElement>(null);
 
   const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -52,7 +56,6 @@ const BlogPage: React.FC = () => {
       try {
         const res = await fetch("/api/blog");
         const data = await res.json();
-        // You could filter here or use the publishedBlogItems variable
         setBlogItems(data);
       } catch (error) {
         console.error("Failed to fetch blog posts:", error);
@@ -64,13 +67,43 @@ const BlogPage: React.FC = () => {
     fetchPosts();
   }, []);
 
+  // Enhanced animations
   useEffect(() => {
-    if (!loading && titleRef.current) {
-      gsap.set(titleRef.current, { visibility: "hidden" });
-      const timer = setTimeout(() => {
-        charAnimation(titleRef.current!);
-      }, 1500);
-      return () => clearTimeout(timer);
+    if (!loading) {
+      // Title animation
+      if (titleRef.current) {
+        gsap.set(titleRef.current, { visibility: "hidden" });
+        setTimeout(() => {
+          charAnimation(titleRef.current!);
+        }, 1500);
+      }
+
+      // Animate featured date badge
+      if (featuredDateRef.current) {
+        gsap.fromTo(
+          featuredDateRef.current,
+          { x: -50, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.9 }
+        );
+      }
+
+      // Animate featured category
+      if (featuredCategoryRef.current) {
+        gsap.fromTo(
+          featuredCategoryRef.current,
+          { x: 50, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 1 }
+        );
+      }
+
+      // Animate posts section
+      if (postsSectionRef.current) {
+        gsap.fromTo(
+          postsSectionRef.current.querySelector('.posts-title'),
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        );
+      }
     }
   }, [loading]);
 
@@ -93,7 +126,7 @@ const BlogPage: React.FC = () => {
           <div className="blog-page__social-sidebar">
             <div className="blog-page__social-wrapper">
               <span className="blog-page__social-label">Síguenos</span>
-              <SocialIcons orientation="vertical" color="primary" />
+              <SocialIcons orientation="vertical" />
             </div>
           </div>
 
@@ -124,10 +157,10 @@ const BlogPage: React.FC = () => {
                 className="blog-page__featured-content-link"
               >
                 <div className="blog-page__featured-overlay"></div>
-                <div className="blog-page__featured-image-date">
+                <div ref={featuredDateRef} className="blog-page__featured-image-date">
                   {formatDate(first_blog.date)}
                 </div>
-                <div className="blog-page__featured-category">
+                <div ref={featuredCategoryRef} className="blog-page__featured-category">
                   <span>{first_blog.category}</span>
                 </div>
                 <h1
@@ -146,10 +179,10 @@ const BlogPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="blog-page__posts-section" id="pagination-section">
+          <div ref={postsSectionRef} className="blog-page__posts-section" id="pagination-section">
             <h2 className="posts-title">Artículos Recientes</h2>
 
-            <div className="posts-grid">
+            <div ref={postsGridRef} className="posts-grid">
               {currentItems.map((item, index) => (
                 <div key={item.id} className="blog-page__post-item">
                   <BlogItem item={item} index={index} />
@@ -159,7 +192,7 @@ const BlogPage: React.FC = () => {
 
             <div className="blog-page__pagination">
               <Pagination
-                handlePageClick={handlePageClick}
+                handlePageClick={(page) => handlePageClick({ selected: page })}
                 pageCount={pageCount}
                 currentPage={currentPage}
               />
@@ -171,7 +204,7 @@ const BlogPage: React.FC = () => {
               <h3 className="blog-page__mobile-social-title">Síguenos</h3>
               <div className="blog-page__mobile-social-divider"></div>
             </div>
-            <SocialIcons orientation="horizontal" color="primary" />
+            <SocialIcons orientation="horizontal" />
           </div>
 
           <div className="blog-page__desktop-social-cta">
@@ -180,7 +213,7 @@ const BlogPage: React.FC = () => {
                 Mantente actualizado con nuestros últimos contenidos y proyectos
               </h3>
               <div className="blog-page__desktop-social-icons">
-                <SocialIcons orientation="horizontal" color="primary" />
+                <SocialIcons orientation="horizontal" />
               </div>
             </div>
           </div>

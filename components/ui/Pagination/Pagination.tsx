@@ -1,137 +1,89 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./Pagination.scss";
 
 interface PaginationProps {
-  handlePageClick: (event: { selected: number }) => void;
+  handlePageClick: (pageNumber: number) => void;
   pageCount: number;
-  currentPage?: number;
-  className?: string;
+  currentPage: number;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
   handlePageClick,
   pageCount,
-  currentPage = 0,
-  className = "",
+  currentPage,
 }) => {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    const totalShownPages = 5; // max number of page buttons to show
+    let startPage, endPage;
 
-  // Responsive check
-  useEffect(() => {
-    const checkMobile = (): void => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+    if (pageCount <= totalShownPages) {
+      // show all pages if total pages is less than max to show
+      startPage = 0;
+      endPage = pageCount;
+    } else {
+      // calculate start and end page based on current page
+      const leftOffset = Math.floor(totalShownPages / 2);
+      const rightOffset = Math.ceil(totalShownPages / 2) - 1;
 
-  if (pageCount <= 1) return null;
-
-  // Generate array of page numbers to display
-  const getPageNumbers = (): (number | string)[] => {
-    const displayed: (number | string)[] = [];
-    const range = isMobile ? 1 : 2;
-
-    // Always show first page
-    displayed.push(0);
-
-    // Show ellipsis if needed
-    if (currentPage > range + 1) {
-      displayed.push("ellipsis-start");
+      if (currentPage <= leftOffset) {
+        // current page near the start
+        startPage = 0;
+        endPage = totalShownPages;
+      } else if (currentPage + rightOffset >= pageCount) {
+        // current page near the end
+        startPage = pageCount - totalShownPages;
+        endPage = pageCount;
+      } else {
+        // current page somewhere in the middle
+        startPage = currentPage - leftOffset;
+        endPage = currentPage + rightOffset;
+      }
     }
 
-    // Pages around current
-    for (
-      let i = Math.max(1, currentPage - range);
-      i <= Math.min(pageCount - 2, currentPage + range);
-      i++
-    ) {
-      displayed.push(i);
+    // add page number buttons
+    for (let i = startPage; i < endPage; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          onClick={() => handlePageClick(i)}
+          className={`pagination__button ${currentPage === i ? "active" : ""}`}
+          aria-label={`Go to page ${i + 1}`}
+          aria-current={currentPage === i ? "page" : undefined}
+        >
+          {i + 1}
+        </button>
+      );
     }
 
-    // Show ellipsis if needed
-    if (currentPage < pageCount - range - 2) {
-      displayed.push("ellipsis-end");
-    }
-
-    // Always show last page if there are multiple pages
-    if (pageCount > 1) {
-      displayed.push(pageCount - 1);
-    }
-
-    return displayed;
-  };
-
-  const pageNumbers = getPageNumbers();
-
-  const handleButtonClick = (newPage: number, e: React.MouseEvent): void => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Save current scroll position
-    const scrollPos = window.scrollY;
-
-    // Only trigger if it's actually a different page
-    if (newPage !== currentPage) {
-      handlePageClick({ selected: newPage });
-    }
-
-    // Immediately force scroll position back
-    window.scrollTo(0, scrollPos);
-
-    // And again after a short delay to counter any effects
-    setTimeout(() => window.scrollTo(0, scrollPos), 0);
+    return pageNumbers;
   };
 
   return (
-    <div className={`pagination ${className}`}>
-      {/* Previous button */}
+    <div className="pagination">
       <button
-        className="pagination__item pagination__item--prev"
-        onClick={(e) => handleButtonClick(Math.max(0, currentPage - 1), e)}
+        className="pagination__nav-button"
+        onClick={() => {
+          if (currentPage > 0) handlePageClick(currentPage - 1);
+        }}
         disabled={currentPage === 0}
+        aria-label="Previous page"
       >
-        ←
+        <ChevronLeft size={20} />
       </button>
 
-      {/* Page numbers */}
-      {pageNumbers.map((page, index) => {
-        // Ellipsis
-        if (page === "ellipsis-start" || page === "ellipsis-end") {
-          return (
-            <span
-              key={`ellipsis-${index}`}
-              className="pagination__item pagination__item--break"
-            >
-              ...
-            </span>
-          );
-        }
+      {renderPageNumbers()}
 
-        // Regular page number
-        return (
-          <button
-            key={`page-${page}`}
-            className={`pagination__item ${
-              currentPage === page ? "pagination__item--active" : ""
-            }`}
-            onClick={(e) => handleButtonClick(page as number, e)}
-          >
-            {(page as number) + 1}
-          </button>
-        );
-      })}
-
-      {/* Next button */}
       <button
-        className="pagination__item pagination__item--next"
-        onClick={(e) =>
-          handleButtonClick(Math.min(pageCount - 1, currentPage + 1), e)
-        }
+        className="pagination__nav-button"
+        onClick={() => {
+          if (currentPage < pageCount - 1) handlePageClick(currentPage + 1);
+        }}
         disabled={currentPage === pageCount - 1}
+        aria-label="Next page"
       >
-        →
+        <ChevronRight size={20} />
       </button>
     </div>
   );

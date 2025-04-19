@@ -3,10 +3,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
-import { SplitText } from "@/plugins";
-import { charAnimation } from "@/utils/animations/title-anim";
 import BlogItem from "@/components/BlogItem/BlogItem";
 import { BlogPost } from "@/types/blog-post-types";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import "./BlogCarouselSection.scss";
 
 interface BlogCarouselSectionProps {
@@ -14,8 +13,11 @@ interface BlogCarouselSectionProps {
 }
 
 const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
+  const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [totalSlides, setTotalSlides] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(3);
@@ -42,29 +44,8 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
 
   // Calculate total slides
   useEffect(() => {
-    setTotalSlides(Math.ceil(posts.length / itemsPerView));
+    setTotalSlides(Math.max(1, Math.ceil(posts.length / itemsPerView)));
   }, [posts, itemsPerView]);
-
-  // Title animation
-  useEffect(() => {
-    gsap.registerPlugin(SplitText);
-
-    if (titleRef.current) {
-      const timer = setTimeout(() => {
-        charAnimation(titleRef.current);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  // Navigation handlers
-  const handlePrev = () => {
-    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
-  };
 
   // Update carousel position
   useEffect(() => {
@@ -78,16 +59,36 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
     }
   }, [currentSlide]);
 
+  // Navigation handlers
+  const handlePrev = () => {
+    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+  };
+
+  // Fix for animation issues - manually initialize basic visibility
+  useEffect(() => {
+    // Make sure items are visible regardless of animation
+    const blogItems = document.querySelectorAll('.blog-item');
+    if (blogItems.length) {
+      gsap.set(blogItems, { opacity: 1, y: 0 });
+    }
+    
+    // Let the homepage-anim.ts handle the rest of the animations
+  }, []);
+
   return (
-    <section className="blog-carousel-section">
+    <section ref={sectionRef} className="blog-carousel-section">
       <div className="container">
         <div className="section-header">
+          <div className="section-header__decorative-line"></div>
           <h2 ref={titleRef} className="title">
-            Últimas <span>publicaciones</span>
+            NUESTRO <span>BLOG</span>
           </h2>
-          <p className="subtitle">
-            Descubre las últimas tendencias y noticias en nuestro blog
-            especializado
+          <p ref={subtitleRef} className="subtitle">
+            Descubre las últimas tendencias y noticias en nuestro blog especializado
           </p>
         </div>
 
@@ -96,7 +97,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
             <button
               className="nav-button prev"
               onClick={handlePrev}
-              aria-label="Previous slide"
+              aria-label="Publicación anterior"
             >
               <svg
                 width="24"
@@ -117,7 +118,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
             <button
               className="nav-button next"
               onClick={handleNext}
-              aria-label="Next slide"
+              aria-label="Siguiente publicación"
             >
               <svg
                 width="24"
@@ -147,22 +148,24 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
             </div>
           </div>
 
-          <div className="carousel-dots">
-            {Array.from({ length: totalSlides }).map((_, index) => (
-              <button
-                key={index}
-                className={`dot ${currentSlide === index ? "active" : ""}`}
-                onClick={() => setCurrentSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
+          {totalSlides > 1 && (
+            <div className="carousel-dots">
+              {Array.from({ length: totalSlides }).map((_, index) => (
+                <button
+                  key={index}
+                  className={`dot ${currentSlide === index ? "active" : ""}`}
+                  onClick={() => setCurrentSlide(index)}
+                  aria-label={`Ir a publicación ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="cta-container">
-          <Link href="/blog" className="primary-button">
+        <div ref={ctaRef} className="cta-container">
+          <PrimaryButton href="/blog" size="medium">
             Ver todas las publicaciones
-          </Link>
+          </PrimaryButton>
         </div>
       </div>
     </section>
