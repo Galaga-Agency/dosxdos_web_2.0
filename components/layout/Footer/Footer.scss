@@ -3,11 +3,11 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
-// Footer base styles with more subtle design cues
+// Footer base styles with dark theme
 .footer {
   position: relative;
-  background: $white;
-  color: $black;
+  background: $black;
+  color: $white;
   overflow: hidden;
   padding: 4rem 1.5rem 3rem;
   @include z-index(above);
@@ -22,11 +22,11 @@
     height: 120px;
     background-image: radial-gradient(
       circle,
-      rgba($black, 0.2) 1px,
+      rgba($white, 0.2) 1px,
       transparent 1px
     );
     background-size: 8px 8px;
-    opacity: 0.2;
+    opacity: 0.15;
     z-index: 0;
     
     @media screen and (max-width: 768px) {
@@ -122,6 +122,7 @@
     margin-bottom: 1.5rem;
     display: inline-block;
     transition: transform 0.3s ease;
+    filter: brightness(0) invert(1); // Invert logo for dark background
 
     @include min-width(md) {
       margin-bottom: 1.25rem;
@@ -146,7 +147,7 @@
     max-width: 300px;
     margin-left: auto;
     margin-right: auto;
-    color: rgba($black, 0.75);
+    color: rgba($white, 0.85);
 
     @include min-width(md) {
       margin-left: 0;
@@ -177,23 +178,23 @@
     a {
       @include flex(row, flex-start, center);
       gap: 0.5rem;
-      color: rgba($black, 0.75);
+      color: rgba($white, 0.85);
       text-decoration: none;
       transition: all 0.3s ease;
       will-change: transform;
 
       &:hover {
         transform: translateX(5px);
-        color: $black;
+        color: $white;
 
         .icon {
-          background-color: rgba($black, 0.05);
+          background-color: rgba($white, 0.15);
         }
       }
 
       .icon {
         @include flex(row, center, center);
-        background-color: rgba($black, 0.03);
+        background-color: rgba($white, 0.08);
         width: 32px;
         height: 32px;
         @include border-radius(full);
@@ -237,7 +238,7 @@
       @include font-weight(semibold);
       margin-bottom: 1.25rem;
       position: relative;
-      color: $black;
+      color: $white;
       padding-bottom: 0.5rem;
 
       // Subtle line decoration like elsewhere in your site
@@ -248,7 +249,7 @@
         bottom: 0;
         width: 30px;
         height: 2px;
-        background-color: rgba($black, 0.3);
+        background-color: rgba($white, 0.3);
       }
     }
 
@@ -267,14 +268,14 @@
 
     a {
       @include flex(row, space-between, center);
-      color: rgba($black, 0.6);
+      color: rgba($white, 0.7);
       text-decoration: none;
       transition: all 0.3s ease;
       padding: 0.25rem 0;
       will-change: transform, color;
 
       &:hover {
-        color: $black;
+        color: $white;
         transform: translateX(5px);
 
         .link-arrow {
@@ -287,7 +288,7 @@
         opacity: 0;
         transform: translateX(-10px);
         transition: all 0.3s ease;
-        color: $black;
+        color: $white;
         will-change: transform, opacity;
       }
     }
@@ -296,13 +297,13 @@
   // CTA section with more subtle styling matching your other components
   &__cta {
     position: relative;
-    background-color: rgba($black, 0.03);
+    background-color: rgba($white, 0.05);
     @include border-radius(lg);
     padding: 2.5rem 2rem;
     margin-bottom: 2.5rem;
     @include flex(column, center, center);
     will-change: transform, opacity;
-    border: 1px solid rgba($black, 0.05);
+    border: 1px solid rgba($white, 0.1);
     overflow: hidden;
 
     @include min-width(md) {
@@ -327,7 +328,7 @@
         margin-bottom: 0.75rem;
         position: relative;
         display: inline-block;
-        color: $black;
+        color: $white;
 
         // Decorative underline matching your other components
         &::after {
@@ -338,7 +339,7 @@
           transform: translateX(-50%);
           width: 40px;
           height: 2px;
-          background-color: rgba($black, 0.2);
+          background-color: rgba($white, 0.3);
           transition: width 0.3s ease;
         }
       }
@@ -346,7 +347,7 @@
       p {
         margin-bottom: 1.75rem;
         @include font-size(lg);
-        color: rgba($black, 0.7);
+        color: rgba($white, 0.85);
       }
     }
 
@@ -360,7 +361,7 @@
   // Bottom section with cleaner separation
   &__bottom {
     padding-top: 2rem;
-    border-top: 1px solid rgba($black, 0.1);
+    border-top: 1px solid rgba($white, 0.15);
     @include flex(column, center, center);
     gap: 1.5rem;
     margin-top: 2rem;
@@ -383,7 +384,7 @@
 
   &__copyright {
     @include font-size(sm);
-    color: rgba($black, 0.6);
+    color: rgba($white, 0.6);
     text-align: center;
     margin-bottom: 1rem;
 
@@ -404,7 +405,7 @@
     }
 
     a {
-      color: rgba($black, 0.6);
+      color: rgba($white, 0.6);
       text-decoration: none;
       @include font-size(sm);
       transition: all 0.3s ease;
@@ -418,13 +419,13 @@
             display: inline-block;
             margin-left: 1.25rem;
             font-weight: bold;
-            color: rgba($black, 0.3);
+            color: rgba($white, 0.4);
           }
         }
       }
 
       &:hover {
-        color: $black;
+        color: $white;
         transform: translateX(3px);
       }
     }
@@ -437,6 +438,11 @@
     @include min-width(md) {
       justify-content: flex-end;
     }
+    
+    // Make social icons white in dark theme
+    :global(.social-icon) {
+      color: $white;
+    }
   }
 
   // More subtle decorative elements
@@ -446,14 +452,25 @@
     bottom: 15%;
     width: 150px;
     height: 150px;
-    border: 1px solid rgba($black, 0.1);
+    border: 1px solid rgba($white, 0.1);
     border-radius: 50%;
-    opacity: 0.6;
+    opacity: 0.15;
     z-index: 0;
     
     @media screen and (max-width: 768px) {
       width: 100px;
       height: 100px;
     }
+  }
+  
+  &__decor-line {
+    position: absolute;
+    right: 10%;
+    top: 30%;
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba($white, 0.2), transparent);
+    opacity: 0.3;
+    z-index: 0;
   }
 }

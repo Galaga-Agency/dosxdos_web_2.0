@@ -5,10 +5,32 @@
 
 .blog-carousel-section {
   position: relative;
-  padding: 4rem 0 6rem 0;
-  background-color: transparent;
+  padding: 5rem 0 7rem 0;
+  background-color: $white;
   overflow: hidden;
-
+  
+  // Decorative elements similar to service cards
+  &::before {
+    content: "";
+    position: absolute;
+    right: 5%;
+    top: 15%;
+    width: 80px;
+    height: 80px;
+    border: 1px solid rgba($black, 0.06);
+    pointer-events: none;
+  }
+  
+  // Additional subtle decorative elements
+  &::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    bottom: 10%;
+    width: 40px;
+    height: 1px;
+    background-color: rgba($black, 0.1);
+  }
 
   .container {
     @include container-width(mobile);
@@ -30,8 +52,30 @@
   }
 
   .section-header {
-    text-align: center;
-    margin-bottom: 3rem;
+    text-align: left;
+    margin-bottom: 3.5rem;
+    position: relative;
+    padding-left: 2rem;
+    
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.8rem;
+      width: 10px;
+      height: 10px;
+      background-color: $primary-color;
+      opacity: 0.8;
+    }
+    
+    &__decorative-line {
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 1px;
+      height: 100%;
+      background-color: rgba($primary-color, 0.15);
+    }
   }
 
   .title {
@@ -43,41 +87,15 @@
     line-height: 1.2;
     will-change: opacity, transform;
     display: inline-block;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background-color: $primary-color;
-      transition: width 0.4s ease;
-    }
+    text-transform: uppercase;
+    letter-spacing: 1px;
 
     span {
-      color: $primary-color;
       position: relative;
       display: inline-block;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: $primary-color;
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-      }
-
-      &:hover::after {
-        transform: scaleX(1);
-        transform-origin: left;
-      }
+      margin-left: 0.5rem;
+      font-weight: 400;
+      color: rgba($primary-color, 0.8);
     }
   }
 
@@ -87,7 +105,6 @@
     color: rgba($black, 0.8);
     will-change: opacity, transform;
     max-width: 600px;
-    margin: 0 auto;
   }
 
   .carousel-container {
@@ -100,6 +117,7 @@
   .carousel-track-container {
     overflow: hidden;
     width: 100%;
+    padding: 0.5rem 0;
   }
 
   .carousel-track {
@@ -126,39 +144,46 @@
   .carousel-navigation {
     position: absolute;
     top: 50%;
-    left: 0;
-    right: 0;
     transform: translateY(-50%);
+    width: 100%;
     display: flex;
     justify-content: space-between;
     pointer-events: none;
     z-index: 5;
-    padding: 0 0.5rem;
-
+    // Move the navigation outside the carousel
+    left: 0;
+    padding: 0 1rem;
+    
     @include min-width(md) {
-      padding: 0 1rem;
+      padding: 0 2.5rem;
+      width: calc(100% + 2rem);
+      left: -1rem;
+    }
+    
+    @include min-width(lg) {
+      padding: 0 3rem;
+      width: calc(100% + 3rem);
+      left: -1.5rem;
     }
   }
 
   .nav-button {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgba($white, 0.9);
-    border: 1px solid rgba($black, 0.1);
+    border: 1px solid rgba($black, 0.2);
     color: $black;
     cursor: pointer;
-    box-shadow: $shadow-md;
     transition: all 0.3s ease;
     pointer-events: auto;
 
     &:hover {
-      background-color: $primary-color;
+      background-color: rgba($primary-color, 0.8);
       color: $white;
-      transform: scale(1.05);
+      border-color: rgba($primary-color, 0.8);
     }
 
     &:active {
@@ -166,8 +191,8 @@
     }
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
     }
   }
 
@@ -180,14 +205,13 @@
     .dot {
       width: 8px;
       height: 8px;
-      border-radius: 50%;
       background-color: rgba($black, 0.2);
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
 
       &.active {
-        background-color: $primary-color;
+        background-color: rgba($primary-color, 0.8);
         transform: scale(1.2);
       }
 
@@ -200,67 +224,6 @@
   .cta-container {
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
-  }
-
-  .primary-button {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    background-color: $primary-color;
-    color: $white;
-    @include font-weight(semibold);
-    @include font-size(base);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    @include border-radius(lg);
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: $shadow-md;
-    border: none;
-    cursor: pointer;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -75%;
-      width: 150%;
-      height: 100%;
-      background: linear-gradient(
-        120deg,
-        rgba($white, 0) 0%,
-        rgba($white, 0.3) 50%,
-        rgba($white, 0) 100%
-      );
-      transform: skewX(-20deg);
-      transition: all 0.6s ease;
-      z-index: 1;
-    }
-
-    &:hover {
-      background-color: darken($primary-color, 10%);
-      transform: translateY(-3px);
-      box-shadow: $shadow-lg;
-
-      &::before {
-        animation: shine 1.5s ease infinite;
-      }
-    }
-
-    &:active {
-      transform: translateY(0);
-      box-shadow: $shadow-sm;
-    }
-  }
-
-  @keyframes shine {
-    from {
-      left: -75%;
-    }
-    to {
-      left: 150%;
-    }
+    margin-top: 3.5rem;
   }
 }

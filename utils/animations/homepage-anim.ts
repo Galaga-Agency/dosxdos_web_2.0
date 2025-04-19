@@ -11,6 +11,7 @@ interface AboutUsSectionElements {
   text: HTMLElement;
   cta?: HTMLElement;
   decor?: HTMLElement;
+  image?: HTMLElement;
 }
 
 export const animateAboutUsSection = ({
@@ -19,7 +20,8 @@ export const animateAboutUsSection = ({
   title,
   text,
   cta,
-  decor
+  decor,
+  image
 }: AboutUsSectionElements) => {
   // Create a timeline for better control
   const tl = gsap.timeline({
@@ -329,4 +331,181 @@ export const animateHeroSlider = ({
   );
   
   return tl;
+};
+
+// Blog Carousel Section animation
+interface BlogCarouselSectionElements {
+  section?: HTMLElement;
+  title?: HTMLElement;
+  subtitle?: HTMLElement;
+  carousel?: HTMLElement;
+  cta?: HTMLElement;
+}
+
+export const animateBlogCarouselSection = ({
+  section,
+  title,
+  subtitle,
+  carousel,
+  cta,
+}: BlogCarouselSectionElements) => {
+  if (!section) return;
+  
+  // First ensure all blog items are visible
+  const blogItems = section.querySelectorAll('.blog-item');
+  gsap.set(blogItems, { opacity: 1, y: 0 });
+  
+  // Create a timeline for section elements
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top 90%",
+      toggleActions: "play none none none",
+    },
+  });
+
+  // Animate decorative line if present
+  const decorLine = section.querySelector('.section-header__decorative-line');
+  if (decorLine) {
+    tl.fromTo(
+      decorLine,
+      {
+        scaleY: 0,
+        transformOrigin: "top",
+      },
+      {
+        scaleY: 1,
+        duration: 0.8,
+        ease: "power3.inOut",
+      },
+      0
+    );
+  }
+
+  // Animate title if it exists
+  if (title) {
+    const titleElements = title.querySelectorAll('span');
+    
+    if (titleElements.length) {
+      tl.fromTo(
+        title,
+        {
+          opacity: 0,
+          x: -20,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        0.3
+      );
+      
+      tl.fromTo(
+        titleElements,
+        {
+          opacity: 0,
+          y: 10,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power2.out",
+        },
+        0.4
+      );
+    } else {
+      tl.fromTo(
+        title,
+        {
+          opacity: 0,
+          x: -20,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        0.3
+      );
+    }
+  }
+
+  // Animate subtitle
+  if (subtitle) {
+    tl.fromTo(
+      subtitle,
+      {
+        opacity: 0,
+        x: -15,
+      },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        ease: "power2.out",
+      },
+      0.5
+    );
+  }
+
+  // Animate CTA
+  if (cta) {
+    tl.fromTo(
+      cta,
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "back.out(1.4)",
+      },
+      0.9
+    );
+  }
+
+  return tl;
+};
+
+// Blog Item Corner Animation
+export const animateBlogItemCorners = (card: HTMLElement) => {
+  if (!card) return;
+  
+  const corners = card.querySelectorAll('.blog-item__corner');
+  if (!corners.length) return;
+  
+  // Set initial state
+  gsap.set(corners, {
+    width: 0,
+    height: 0,
+    opacity: 0,
+  });
+  
+  // Create hover entry/exit animations using event listeners
+  card.addEventListener('mouseenter', () => {
+    gsap.to(corners, {
+      width: 15,
+      height: 15,
+      opacity: 1,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    gsap.to(corners, {
+      width: 0,
+      height: 0,
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.in",
+    });
+  });
 };

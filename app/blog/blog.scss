@@ -1,3 +1,4 @@
+@use "sass:math";
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
@@ -10,10 +11,27 @@
   width: 100%;
   padding-block: 8rem;
 
+  // Subtle decorative element for the entire page
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35%;
+    height: 400px;
+    background-image: radial-gradient(
+      circle,
+      rgba($black, 0.03) 1px,
+      transparent 1px
+    );
+    background-size: 15px 15px;
+    opacity: 0.5;
+    z-index: -1;
+  }
+
   @include min-width(lg) {
     padding-block: 10rem;
   }
-
 
   &__container {
     @include container-width(mobile);
@@ -56,12 +74,12 @@
       content: "";
       position: absolute;
       bottom: -12rem;
-      width: 3px;
+      width: 2px;
       height: 10rem;
       background: linear-gradient(
         to bottom,
-        rgba($primary-color, 0.3),
-        rgba($primary-color, 0.1),
+        rgba($black, 0.3),
+        rgba($black, 0.1),
         transparent
       );
     }
@@ -97,9 +115,36 @@
     position: relative;
     width: 100%;
     height: 80vh;
-    margin-bottom: spacing(xxl);
+    margin-bottom: 3rem;
     overflow: hidden;
     z-index: 1;
+
+    // Stylish frame around featured image
+    &::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(135deg, rgba($black, 0.05) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    // Decorative corner element
+    &::after {
+      content: "";
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 120px;
+      height: 120px;
+      border-top: 2px solid rgba($black, 0.1);
+      border-right: 2px solid rgba($black, 0.1);
+      z-index: -1;
+      pointer-events: none;
+    }
 
     @include min-width(lg) {
       height: 100vh;
@@ -111,6 +156,16 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    
+    // Add a subtle frame
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba($white, 0.2);
+      z-index: 6;
+      pointer-events: none;
+    }
   }
 
   &__featured-image-wrapper {
@@ -194,13 +249,15 @@
     position: absolute;
     top: 2rem;
     left: 2rem;
-    background-color: $primary-color;
+    background-color: rgba($black, 0.85);
     color: white;
     padding: 0.5rem 1rem;
     font-weight: 600;
     text-transform: uppercase;
     z-index: 10; // Keep above the moving image
     border-radius: 4px;
+    // Subtle accent
+    border-left: 3px solid rgba($primary-color, 0.7);
   }
 
   &__featured-image-title {
@@ -212,6 +269,17 @@
     @include font-weight(semibold);
     z-index: 10; // Keep above the moving image
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    
+    // Add stylish underline
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 90px;
+      height: 3px;
+      background: linear-gradient(90deg, rgba($white, 0.8), transparent);
+    }
 
     @include min-width(md) {
       @include font-size(4xl);
@@ -268,21 +336,71 @@
   &__posts-section {
     padding-top: 4rem;
     width: 100%;
+    position: relative;
+    
+    // Add decorative element
+    &::before {
+      content: "";
+      position: absolute;
+      left: -50px;
+      top: 50%;
+      width: 100px;
+      height: 1px;
+      background-color: rgba($black, 0.1);
+      
+      @include min-width(md) {
+        width: 150px;
+      }
+    }
+    
+    // Add subtle decorative circle
+    &::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: 100px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 1px solid rgba($black, 0.05);
+      z-index: -1;
+      
+      @include min-width(md) {
+        right: -100px;
+        bottom: 150px;
+        width: 250px;
+        height: 250px;
+      }
+    }
 
     .posts-title {
       @include font-size(3xl);
       @include font-weight(bold);
-      margin-bottom: 2.5rem;
+      margin-bottom: 3rem;
       position: relative;
-
+      display: inline-block;
+      
+      // Add stylish decorative element
+      &::before {
+        content: "";
+        position: absolute;
+        left: -40px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 25px;
+        height: 3px;
+        background-color: $black;
+      }
+      
+      // Add subtle decorative square
       &::after {
         content: "";
         position: absolute;
-        bottom: -15px;
+        bottom: -10px;
         left: 0;
-        width: 80px;
-        height: 4px;
-        background-color: $primary-color;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, $black, rgba($black, 0.05));
       }
     }
 
@@ -290,14 +408,31 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 2rem;
+      position: relative;
+      
+      // Add fun decorative element
+      &::before {
+        content: "";
+        position: absolute;
+        right: -40px;
+        top: 30%;
+        width: 80px;
+        height: 80px;
+        background-image: 
+          linear-gradient(to right, rgba($black, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba($black, 0.05) 1px, transparent 1px);
+        background-size: 10px 10px;
+        z-index: -1;
+        opacity: 0.7;
+      }
 
       @include min-width(md) {
         grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: spacing(4xl);
+        gap: 2.5rem;
       }
 
       @include min-width(lg) {
-        gap: spacing(5xl);
+        gap: 3rem;
       }
 
       & > * {
@@ -319,18 +454,18 @@
   &__pagination {
     display: flex;
     justify-content: center;
-    margin-top: spacing(md);
-    padding-top: spacing(md);
-    border-top: 1px solid rgba($secondary-color, 0.08);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba($black, 0.08);
 
     @include min-width(md) {
-      margin-top: spacing(lg);
-      padding-top: spacing(lg);
+      margin-top: 2rem;
+      padding-top: 2rem;
     }
 
     @include min-width(lg) {
-      margin-top: spacing(xl);
-      padding-top: spacing(xl);
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
     }
 
     opacity: 0;
@@ -346,6 +481,24 @@
     gap: 1.5rem;
     margin-top: 3rem;
     width: 100%;
+    position: relative;
+    
+    // decorative dot pattern
+    &::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      left: 20%;
+      width: 50px;
+      height: 50px;
+      background-image: radial-gradient(
+        circle,
+        rgba($black, 0.1) 1px,
+        transparent 1px
+      );
+      background-size: 5px 5px;
+      z-index: -1;
+    }
 
     @include min-width(lg) {
       display: none;
@@ -367,6 +520,18 @@
     margin-bottom: 1rem;
     position: relative;
     z-index: 1;
+    
+    // Add subtle accent element
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 2px;
+      background-color: rgba($black, 0.4);
+    }
   }
 
   &__mobile-social-divider {
@@ -382,8 +547,8 @@
       height: 1px;
       background: linear-gradient(
         to right,
-        rgba($primary-color, 0.3),
-        rgba($primary-color, 0.1),
+        rgba($black, 0.3),
+        rgba($black, 0.1),
         transparent
       );
       bottom: 0;
@@ -392,22 +557,59 @@
 
   &__desktop-social-cta {
     display: none;
-
+    
     @include min-width(xl) {
       display: block;
       padding: 6rem 2rem 0;
       text-align: center;
+      position: relative;
+      
+      // Add subtle decorative element
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 5%;
+        width: 150px;
+        height: 1px;
+        background: linear-gradient(to right, rgba($black, 0.1), transparent);
+      }
+      
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 5%;
+        width: 150px;
+        height: 1px;
+        background: linear-gradient(to left, rgba($black, 0.1), transparent);
+      }
     }
 
     &-content {
       max-width: 800px;
       margin: 0 auto;
       @include flex(column, unset, center);
+      position: relative;
 
       h3 {
         margin-bottom: 2rem;
         font-size: 1.5rem;
-        color: #333;
+        color: $black;
+        position: relative;
+        display: inline-block;
+        
+        // Add subtle accent
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 50px;
+          height: 2px;
+          background-color: rgba($black, 0.2);
+        }
       }
     }
   }
