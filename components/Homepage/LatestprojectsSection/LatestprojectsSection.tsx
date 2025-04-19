@@ -7,22 +7,25 @@ import {
   panelTwoAnimation,
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
-import "./LatestProjectsSection.scss"
+import "./LatestProjectsSection.scss";
 
 const projectData = [
   {
     id: 1,
     title: "Kasino Recreativo",
-    description: "Diseño de interiores y ambientación para salón de juegos con iluminación atmosférica y elementos decorativos personalizados.",
+    description:
+      "Diseño de interiores y ambientación para salón de juegos con iluminación atmosférica y elementos decorativos personalizados.",
     category: "Interiorismo Comercial",
     location: "Madrid, España",
-    image: "/assets/img/portfolio/interiorismo-comercial/interiorismo-comercial-2.jpg",
+    image:
+      "/assets/img/portfolio/interiorismo-comercial/interiorismo-comercial-2.jpg",
     link: "/portfolio/kasino-recreativo",
   },
   {
     id: 2,
     title: "Café Modernista",
-    description: "Renovación completa de espacio gastronómico con enfoque en materiales sostenibles y diseño contemporáneo que respeta la arquitectura original.",
+    description:
+      "Renovación completa de espacio gastronómico con enfoque en materiales sostenibles y diseño contemporáneo que respeta la arquitectura original.",
     category: "Hostelería",
     location: "Barcelona, España",
     image: "/assets/img/portfolio/shop-in-shop/shop-in-shop-3.jpg",
@@ -31,7 +34,8 @@ const projectData = [
   {
     id: 3,
     title: "Boutique Eleganza",
-    description: "Conceptualización y ejecución de tienda de moda exclusiva con áreas diferenciadas y sistema de iluminación que realza cada colección.",
+    description:
+      "Conceptualización y ejecución de tienda de moda exclusiva con áreas diferenciadas y sistema de iluminación que realza cada colección.",
     category: "Retail",
     location: "Valencia, España",
     image: "/assets/img/blog/visual-storytelling.jpg",
