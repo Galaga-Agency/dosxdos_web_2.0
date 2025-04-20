@@ -1,0 +1,437 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.hero-section {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100vh;
+  margin-bottom: 48px;
+  overflow: hidden;
+
+  &__image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 130%;
+    will-change: transform;
+    @include z-index(default);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      @include transition-duration(slow);
+      will-change: transform;
+    }
+  }
+  
+  // Overlay sombre sur l'image
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    z-index: 2;
+    
+    @include container-width(mobile);
+    margin: 0 auto;
+    padding: 24px;
+    
+    @include min-width(md) {
+      @include container-width(tablet);
+      padding: 32px;
+    }
+    
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+      padding: 48px 40px;
+    }
+    
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__title {
+    @include font-size(4xl);
+    @include font-weight(bold);
+    color: $white;
+    margin-top: 120px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    
+    @include min-width(md) {
+      margin-top: 160px;
+      @include font-size(5xl);
+    }
+    
+    @include min-width(lg) {
+      margin-top: 140px;
+      @include font-size(6xl);
+    }
+  }
+  
+  &__title-underline {
+    width: 120px;
+    height: 2px;
+    background-color: $white;
+    margin-bottom: 40px;
+  }
+
+  &__description {
+    max-width: 700px;
+    margin-bottom: 40px;
+    
+    p {
+      @include font-size(lg);
+      line-height: 1.7;
+      color: $white;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      
+      @include min-width(md) {
+        @include font-size(xl);
+      }
+      
+      @include min-width(lg) {
+        @include font-size(xl);
+      }
+    }
+  }
+
+  &__stats {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px;
+    
+    @include min-width(md) {
+      gap: 80px;
+    }
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__stat-value {
+    @include font-size(5xl);
+    @include font-weight(bold);
+    color: $white;
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    
+    @include min-width(md) {
+      @include font-size(6xl);
+    }
+    
+    @include min-width(lg) {
+      @include font-size(7xl);
+    }
+  }
+
+  &__stat-label {
+    @include font-size(base);
+    color: $white;
+    margin-top: 4px;
+    
+    @include min-width(md) {
+      @include font-size(lg);
+    }
+  }
+}
+
+/* Floating Images with NESTED parallax */
+.random-images {
+  position: relative;
+  width: 100%;
+  padding: 32px 16px;
+  @include z-index(above);
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+
+  @include container-width(mobile);
+  margin-inline: auto;
+  
+  // Éléments décoratifs
+  &__decorative-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__decor-dots {
+    position: absolute;
+    left: 5%;
+    top: 30%;
+    width: 110px;
+    height: 110px;
+    background-image: radial-gradient(
+      circle,
+      rgba($black, 0.2) 1px,
+      transparent 1px
+    );
+    background-size: 10px 10px;
+    opacity: 0.3;
+  }
+
+  &__decor-line {
+    position: absolute;
+    right: 10%;
+    top: 15%;
+    width: 80px;
+    height: 1px;
+    background-color: rgba($black, 0.15);
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: -5px;
+      top: 0;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: rgba($black, 0.3);
+    }
+  }
+
+  &__decor-circle {
+    position: absolute;
+    right: 25%;
+    bottom: 30%;
+    width: 150px;
+    height: 150px;
+    border: 1px solid rgba($black, 0.05);
+    border-radius: 50%;
+  }
+
+  &__decor-grid {
+    position: absolute;
+    bottom: 10%;
+    left: 15%;
+    width: 100px;
+    height: 100px;
+    background-image: linear-gradient(rgba($black, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($black, 0.07) 1px, transparent 1px);
+    background-size: 15px 15px;
+    opacity: 0.5;
+  }
+  
+  @include min-width(md) {
+    @include container-width(tablet);
+    padding: 40px 32px;
+    min-height: 75vh;
+  }
+  
+  @include min-width(lg) {
+    @include container-width(smalldesktop);
+    min-height: 80vh;
+  }
+  
+  @include min-width(xl) {
+    @include container-width(desktop);
+  }
+
+  &__container {
+    position: relative;
+    width: 90%;
+    height: 60vw;
+    max-height: 60vh;
+    margin: 0 auto 48px;
+    overflow: hidden;
+    background-color: $white;
+    box-shadow: $shadow-lg;
+    will-change: transform;
+
+    // Cadre autour de l'image
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba($black, 0.1);
+      z-index: 2;
+    }
+
+    // Effet d'ombre décalée
+    &::after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: -15px;
+      bottom: -15px;
+      background-color: rgba($black, 0.03);
+      z-index: -1;
+    }
+
+    // Frame corners
+    .corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      z-index: 4;
+
+      &--tl {
+        top: 10px;
+        left: 10px;
+        border-top: 1px solid rgba($black, 0.4);
+        border-left: 1px solid rgba($black, 0.4);
+      }
+
+      &--tr {
+        top: 10px;
+        right: 10px;
+        border-top: 1px solid rgba($black, 0.4);
+        border-right: 1px solid rgba($black, 0.4);
+      }
+
+      &--bl {
+        bottom: 10px;
+        left: 10px;
+        border-bottom: 1px solid rgba($black, 0.4);
+        border-left: 1px solid rgba($black, 0.4);
+      }
+
+      &--br {
+        bottom: 10px;
+        right: 10px;
+        border-bottom: 1px solid rgba($black, 0.4);
+        border-right: 1px solid rgba($black, 0.4);
+      }
+    }
+
+    @include min-width(md) {
+      position: absolute;
+      margin: 0;
+    }
+
+    &--1 {
+      @include min-width(md) {
+        width: 55%;
+        height: 30vh;
+        top: -5vh;
+        left: 5%;
+      }
+
+      @include min-width(lg) {
+        width: 30%;
+        height: 65vh;
+        left: 15%;
+      }
+    }
+
+    &--2 {
+      @include min-width(md) {
+        width: 50%;
+        height: 50vh;
+        top: 15vh;
+        right: 0;
+      }
+
+      @include min-width(lg) {
+        width: 20%;
+        height: 60vh;
+        top: 5vh;
+        right: 12%;
+      }
+    }
+
+    &--3 {
+      @include min-width(md) {
+        width: 40%;
+        height: 30vh;
+        top: 45vh;
+        right: 45%;
+      }
+
+      @include min-width(lg) {
+        width: 15%;
+        height: 40vh;
+        top: 47vh;
+        right: 25%;
+      }
+    }
+  }
+
+  &__inner-container {
+    position: absolute;
+    top: -30%;
+    left: -15%;
+    width: 130%;
+    height: 160%;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  &__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    will-change: transform;
+    opacity: 0.95;
+  }
+  
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.3)
+    );
+    z-index: 3;
+  }
+  
+  &__watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 300;
+    @include font-size(2xl);
+    color: rgba($white, 0.15);
+    letter-spacing: 0.1em;
+    z-index: 1;
+    text-transform: uppercase;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+}

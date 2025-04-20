@@ -3,10 +3,10 @@
 import React from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
-import HeroSection from "@/components/AboutUsPage/HeroSection/HeroSection";
-import StorySection from "@/components/AboutUsPage/StorySection/StorySection";
-import TeamSection from "@/components/AboutUsPage/TeamSection/TeamSection";
-import CTASection from "@/components/AboutUsPage/CTASection/CTASection";
+import HeroSection from "@/components/EquipoPage/HeroSection/HeroSection";
+import StorySection from "@/components/EquipoPage/StorySection/StorySection";
+import TeamSection from "@/components/EquipoPage/TeamSection/TeamSection";
+import CTASection from "@/components/EquipoPage/CTASection/CTASection";
 import "./EquipoPage.scss";
 
 const EquipoPage: React.FC = () => {
@@ -17,21 +17,22 @@ const EquipoPage: React.FC = () => {
           <div className="equipo-page__social-sidebar">
             <div className="equipo-page__social-wrapper">
               <span className="equipo-page__social-label">Síguenos</span>
-              <SocialIcons orientation="vertical" color="primary" />
+              <SocialIcons orientation="vertical" color="white" />
             </div>
           </div>
-
+          
           <HeroSection />
           <StorySection />
           <TeamSection />
+          
           <div className="equipo-page__mobile-social-section">
             <div className="equipo-page__mobile-social-header">
               <h3 className="equipo-page__mobile-social-title">Síguenos</h3>
               <div className="equipo-page__mobile-social-divider"></div>
             </div>
-            <SocialIcons orientation="horizontal" color="primary" />
+            <SocialIcons orientation="horizontal" color="white" />
           </div>
-
+          
           <CTASection />
         </div>
       </div>
