@@ -61,7 +61,9 @@ const Home: React.FC = () => {
         </section>
 
         <AboutUsSection />
-        <LogoMarquee />
+        <div className="homepage__marquee">
+          <LogoMarquee />
+        </div>
         <ServicesSection />
         <FeaturedprojectsSection />
         {!loading && blogPosts.length > 0 && (

@@ -1,95 +1,78 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { gsap } from "gsap";
 import { SplitText } from "@/plugins";
 import { charAnimation } from "@/utils/animations/title-anim";
 import { teamMembers } from "@/data/team";
+import HoverCard from "@/components/ui/HoverCard/HoverCard";
+import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./TeamSection.scss";
 
 const TeamSection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gsap.registerPlugin(SplitText);
+    // More stable ScrollTrigger configuration
+    gsap.registerPlugin(ScrollTrigger);
+    
+    ScrollTrigger.config({
+      limitCallbacks: true,
+      syncInterval: 0.1,
+      autoRefreshEvents: "visibilitychange,DOMContentLoaded,load"
+    });
 
     // Title animation
     if (titleRef.current) {
       const timer = setTimeout(() => {
         charAnimation(titleRef.current);
       }, 500);
-      return () => clearTimeout(timer);
-    }
-
-    // Subtle card hover animations
-    cardsRef.current.forEach((card) => {
-      if (card) {
-        const cardImage = card.querySelector(".image") as HTMLImageElement;
-        const cardGlass = card.querySelector(".glass");
-        const description = cardGlass?.querySelector(".description");
-        const link = cardGlass?.querySelector(".link");
-
-        card.addEventListener("mouseenter", () => {
-          gsap.to(cardImage, {
-            scale: 1.05,
-            filter: "brightness(0.95)",
-            duration: 0.6,
-            ease: "power1.inOut",
-          });
-
-          if (cardGlass) {
-            gsap.to(cardGlass, {
-              height: "40%",
-              backdropFilter: "blur(15px)",
-              backgroundColor: "rgba(255, 255, 255, 0.6)",
-              duration: 0.6,
-              ease: "power1.inOut",
-            });
-
-            gsap.to([description, link], {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              stagger: 0.1,
-              ease: "power1.inOut",
-            });
+      
+      // Card parallax initialization
+      const parallaxTimer = setTimeout(() => {
+        initCardMouseParallax();
+      }, 1000);
+      
+      // Optional: Add scroll stability animation
+      if (sectionRef.current) {
+        gsap.fromTo(
+          sectionRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              end: "bottom 70%",
+              toggleActions: "play none reverse none"
+            }
           }
-        });
-
-        card.addEventListener("mouseleave", () => {
-          gsap.to(cardImage, {
-            scale: 1,
-            filter: "brightness(1)",
-            duration: 0.6,
-            ease: "power1.inOut",
-          });
-
-          if (cardGlass) {
-            gsap.to(cardGlass, {
-              height: "25%",
-              backdropFilter: "blur(8px)",
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
-              duration: 0.6,
-              ease: "power1.inOut",
-            });
-
-            gsap.to([description, link], {
-              opacity: 0,
-              y: 20,
-              duration: 0.6,
-              ease: "power1.inOut",
-            });
-          }
-        });
+        );
       }
-    });
+      
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(parallaxTimer);
+        
+        // Kill all ScrollTriggers
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      };
+    }
   }, []);
 
   return (
     <section className="team-section">
+      <div className="team-section__decorative-elements">
+        <div className="team-section__decor-dots"></div>
+        <div className="team-section__decor-line"></div>
+        <div className="team-section__decor-circle"></div>
+        <div className="team-section__decor-grid"></div>
+      </div>
+      
       <div className="container">
         <h2 ref={titleRef} className="title">
           Nuestro <span>Equipo</span>
@@ -98,33 +81,18 @@ const TeamSection: React.FC = () => {
           Un equipo de profesionales apasionados, comprometidos con la
           creatividad y la excelencia en cada proyecto.
         </p>
-        <div className="grid">
-          {teamMembers.map((member, index) => (
-            <Link
+        
+        <div className="team-section__grid">
+          {teamMembers.map((member: any) => (
+            <HoverCard
               key={member.id}
-              ref={(el) => (cardsRef.current[index] = el) as any}
-              href={`/equipo/${member.id}`}
-              className="card"
-            >
-              <div className="image-wrapper">
-                <Image
-                  src={member.imageUrl}
-                  alt={member.name}
-                  fill
-                  priority
-                  quality={100}
-                  sizes="(min-width: 1024px) 80vw, (min-width: 768px) 60vw, 90vw"
-                  className="image"
-                />
-              </div>
-
-              <div className="glass">
-                <span className="category">
-                  <span className="category-inner">{member.name}</span>
-                </span>
-                <p className="description">{member.position}</p>
-              </div>
-            </Link>
+              id={member.id}
+              title={member.name}
+              description={member.position}
+              imageUrl={member.imageUrl}
+              linkUrl={`/equipo/${member.id}`}
+              showLink={false} // Hide the link for team members
+            />
           ))}
         </div>
       </div>

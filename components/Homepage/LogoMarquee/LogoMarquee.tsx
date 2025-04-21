@@ -3,54 +3,19 @@
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
+import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
 
-const LogoMarquee: React.FC = () => {
-  const trackRef = useRef<HTMLDivElement>(null);
+interface LogoMarqueeProps {
+  showHeader?: boolean;
+  fullWidth?: boolean;
+}
 
-  // Define the logos array
-  const logos = [
-    {
-      id: "douglas",
-      name: "Douglas",
-      src: "/assets/img/logos-clientes/douglas.webp",
-    },
-    {
-      id: "druni",
-      name: "Druni",
-      src: "/assets/img/logos-clientes/druni.webp",
-    },
-    {
-      id: "esennia",
-      name: "Esennia",
-      src: "/assets/img/logos-clientes/esennia.webp",
-    },
-    {
-      id: "fundgrube",
-      name: "Fund Grube",
-      src: "/assets/img/logos-clientes/fundgrube.webp",
-    },
-    {
-      id: "primor",
-      name: "Primor",
-      src: "/assets/img/logos-clientes/primor.webp",
-    },
-    {
-      id: "sabina",
-      name: "Sabina",
-      src: "/assets/img/logos-clientes/sabina.webp",
-    },
-    {
-      id: "edelweiss",
-      name: "Edelweiss",
-      src: "/assets/img/logos-clientes/edelweiss.webp",
-    },
-    {
-      id: "dalia",
-      name: "Dalia",
-      src: "/assets/img/logos-clientes/dalia.webp",
-    },
-  ];
+const LogoMarquee: React.FC<LogoMarqueeProps> = ({
+  showHeader = true,
+  fullWidth = false
+}) => {
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (trackRef.current) {
@@ -68,19 +33,24 @@ const LogoMarquee: React.FC = () => {
     }
   }, []);
 
-  // Double the logos array for continuous scrolling
-  const allLogos = [...logos, ...logos];
+  const allLogos = [...clientLogos, ...clientLogos];
+  const sectionClasses = `logo-marquee ${fullWidth ? 'logo-marquee--full-width' : ''}`;
+  const containerClasses = `logo-marquee__container ${showHeader ? 'has-header' : ''}`;
 
   return (
-    <section className="logo-marquee">
-      <div className="logo-marquee__container">
-        <div className="logo-marquee__header">
-          <h2 className="logo-marquee__header-title">
-            Marcas que <span className="highlight-bg">confían en nosotros</span>
-          </h2>
-        </div>
-        
+    <section className={sectionClasses}>
+      <div className={containerClasses}>
+        {showHeader && (
+          <div className="logo-marquee__header">
+            <h2 className="logo-marquee__header-title">
+              <span className="shadow-text">Marcas que </span>
+              <span className="highlight-bg">confían en nosotros</span>
+            </h2>
+          </div>
+        )}
+
         <div className="logo-marquee__wrapper">
+          <div className="logo-marquee__gradient-left" />
           <div className="logo-marquee__track" ref={trackRef}>
             {allLogos.map((logo, index) => (
               <div key={`${logo.id}-${index}`} className="logo-marquee__item">
@@ -94,6 +64,7 @@ const LogoMarquee: React.FC = () => {
               </div>
             ))}
           </div>
+          <div className="logo-marquee__gradient-right" />
         </div>
       </div>
     </section>

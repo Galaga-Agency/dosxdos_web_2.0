@@ -86,6 +86,7 @@
     margin-bottom: 20px;
     letter-spacing: 1px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    opacity: 0; /* Start hidden for animation */
     
     @include min-width(md) {
       margin-top: 160px;
@@ -99,15 +100,17 @@
   }
   
   &__title-underline {
-    width: 120px;
+    width: 0; /* Start with 0 width for animation */
     height: 2px;
     background-color: $white;
     margin-bottom: 40px;
+    opacity: 0; /* Start hidden for animation */
   }
 
   &__description {
     max-width: 700px;
     margin-bottom: 40px;
+    opacity: 0; /* Start hidden for animation */
     
     p {
       @include font-size(lg);
@@ -139,6 +142,7 @@
   &__stat {
     display: flex;
     flex-direction: column;
+    opacity: 0; /* Start hidden for animation */
   }
 
   &__stat-value {
@@ -175,7 +179,6 @@
   padding: 32px 16px;
   @include z-index(above);
   margin-top: 3rem;
-  margin-bottom: 5rem;
 
   @include container-width(mobile);
   margin-inline: auto;
@@ -338,16 +341,16 @@
 
     &--1 {
       @include min-width(md) {
-        width: 55%;
+        width: 75%;
         height: 30vh;
         top: -5vh;
         left: 5%;
       }
 
       @include min-width(lg) {
-        width: 30%;
+        width: 50%;
         height: 65vh;
-        left: 15%;
+        left: 0;
       }
     }
 
@@ -360,10 +363,10 @@
       }
 
       @include min-width(lg) {
-        width: 20%;
-        height: 60vh;
+        width: 40%;
+        height: 50vh;
         top: 5vh;
-        right: 12%;
+        right: 0;
       }
     }
 
@@ -376,10 +379,10 @@
       }
 
       @include min-width(lg) {
-        width: 15%;
+        width: 25%;
         height: 40vh;
         top: 47vh;
-        right: 25%;
+        right: 20%;
       }
     }
   }

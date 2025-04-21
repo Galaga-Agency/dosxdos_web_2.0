@@ -8,8 +8,7 @@
   position: relative;
   background-color: $white;
   overflow: hidden;
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
+  padding: 0 auto;
 
   // The only separator - one single element
   &::after {
@@ -30,24 +29,17 @@
   }
 
   &__container {
-    @include container-width(mobile);
-    margin: 0 auto;
+    width: 100%;
+    padding: 0 auto;
     position: relative;
+    max-width: none;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 3rem;
 
     @include min-width(md) {
-      @include container-width(tablet);
-      display: grid;
-      grid-template-columns: 0.4fr 0.6fr;
-      align-items: center;
-      gap: 3rem;
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
+      flex-direction: row;
     }
   }
 
@@ -65,6 +57,7 @@
       line-height: 1.3;
       position: relative;
       display: inline-block;
+      text-wrap: nowrap;
 
       // Small decorative element
       &::before {
@@ -75,6 +68,10 @@
         width: 40px;
         height: 2px;
         background-color: $secondary-color;
+      }
+
+      .shadow-text {
+        text-shadow: 0 2px 4px rgba($black, 0.5);
       }
 
       // Random highlight effect on part of the text
@@ -112,6 +109,8 @@
     width: 100%;
     overflow: hidden;
     position: relative;
+    padding: 0 auto;
+
 
     // Fade edge mask for logo track
     &::before,
@@ -120,19 +119,19 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 5%;
+      width: 10%;
       z-index: 5;
       pointer-events: none;
     }
 
     &::before {
       left: 0;
-      background: linear-gradient(to right, $white, transparent);
+      background: linear-gradient(to right, white 0%, rgba($white, 0) 100%);
     }
 
     &::after {
       right: 0;
-      background: linear-gradient(to left, $white, transparent);
+      background: linear-gradient(to left, white 0%, rgba($white, 0) 100%);
     }
   }
 
@@ -140,8 +139,10 @@
     display: flex;
     align-items: center;
     width: max-content;
-    gap: 5rem;
+    min-width: 250%; // Make track much wider
+    gap: 6rem;
     padding: 1.5rem 0;
+    margin-left: -75%; // Offset to center the wider track
   }
 
   &__item {
@@ -151,7 +152,7 @@
     transition: all 0.3s ease;
 
     img {
-      max-height: 120px;
+      max-height: 140px;
       width: auto;
       height: auto;
       object-fit: contain;
@@ -160,11 +161,11 @@
       transition: all 0.5s ease;
 
       @include min-width(md) {
-        max-height: 100px;
+        max-height: 120px;
       }
 
       @include min-width(lg) {
-        max-height: 150px;
+        max-height: 180px;
       }
     }
 
