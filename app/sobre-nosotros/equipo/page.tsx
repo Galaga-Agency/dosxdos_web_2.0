@@ -6,6 +6,8 @@ import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import HeroSection from "@/components/EquipoPage/HeroSection/HeroSection";
 import StorySection from "@/components/EquipoPage/StorySection/StorySection";
 import TeamSection from "@/components/EquipoPage/TeamSection/TeamSection";
+import StatsSection from "@/components/EquipoPage/StatsSection/StatsSection";
+import ClientsSection from "@/components/EquipoPage/ClientsSection/ClientsSection";
 import CTASection from "@/components/EquipoPage/CTASection/CTASection";
 import "./EquipoPage.scss";
 
@@ -24,6 +26,8 @@ const EquipoPage: React.FC = () => {
           <HeroSection />
           <StorySection />
           <TeamSection />
+          <StatsSection />
+          <ClientsSection />
           
           <div className="equipo-page__mobile-social-section">
             <div className="equipo-page__mobile-social-header">

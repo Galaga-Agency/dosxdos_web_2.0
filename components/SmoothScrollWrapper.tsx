@@ -2,7 +2,7 @@
 
 import React, { useEffect, ReactNode } from "react";
 import LoadingManager from "@/utils/loading";
-import Footer from "./layout/Footer/footer";
+import Footer from "./layout/Footer/Footer";
 
 interface SmoothScrollWrapperProps {
   children: ReactNode;

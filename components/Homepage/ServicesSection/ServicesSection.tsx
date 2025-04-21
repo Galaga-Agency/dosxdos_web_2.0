@@ -4,7 +4,8 @@ import React, { useEffect, useRef } from "react";
 import { SplitText } from "@/plugins";
 import { charAnimation } from "@/utils/animations/title-anim";
 import { categoriesList } from "@/data/categories";
-import ServiceCard from "@/components/ServiceCard/ServiceCard";
+import HoverCard from "@/components/ui/HoverCard/HoverCard";
+import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import "./ServicesSection.scss";
 
 const ServicesSection: React.FC = () => {
@@ -17,7 +18,15 @@ const ServicesSection: React.FC = () => {
         charAnimation(titleRef.current);
       }, 500);
       
-      return () => clearTimeout(timer);
+      // Initialize card mouse parallax after everything is rendered
+      const parallaxTimer = setTimeout(() => {
+        initCardMouseParallax();
+      }, 1000);
+      
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(parallaxTimer);
+      };
     }
   }, []);
 
@@ -41,17 +50,18 @@ const ServicesSection: React.FC = () => {
         
         <div className="grid">
           {categoriesList.map((service) => (
-            <ServiceCard
+            <HoverCard
               key={service.id}
               id={service.id}
-              name={service.name}
-              description={service.description as any}
+              title={service.name}
+              description={service.description as string}
               imageUrl={service.imageUrl}
+              linkUrl={`/servicios/${service.id}`}
             />
           ))}
         </div>
       </div>
-
+      
       <div className="marquee-container">
         <div className="marquee-track">
           <div className="marquee-text">
