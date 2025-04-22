@@ -35,6 +35,11 @@ export default function SmoothScrollWrapper({
 
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
+        // Simple config to prevent issues
+        ScrollTrigger.config({
+          ignoreMobileResize: true,
+        });
+
         requestAnimationFrame(() => {
           smoother = ScrollSmoother.create({
             smooth: 2,
@@ -61,7 +66,6 @@ export default function SmoothScrollWrapper({
         smoother.kill();
         (window as any).__smoother__ = null;
       }
-      // Kill any lingering ScrollTriggers too
       if (typeof window !== "undefined" && (window as any).gsap) {
         import("gsap/ScrollTrigger").then((module) => {
           const ScrollTrigger = module.ScrollTrigger;

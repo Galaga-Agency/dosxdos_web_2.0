@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
-import { gsap } from "gsap";
+import Marquee from "react-fast-marquee";
 import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
 
@@ -13,29 +13,14 @@ interface LogoMarqueeProps {
 
 const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   showHeader = true,
-  fullWidth = false
+  fullWidth = false,
 }) => {
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (trackRef.current) {
-      const totalWidth = trackRef.current.offsetWidth;
-
-      gsap.to(trackRef.current, {
-        x: -totalWidth / 2,
-        duration: 30,
-        repeat: -1,
-        ease: "none",
-        modifiers: {
-          x: gsap.utils.unitize((x) => parseFloat(x) % (totalWidth / 2)),
-        },
-      });
-    }
-  }, []);
-
-  const allLogos = [...clientLogos, ...clientLogos];
-  const sectionClasses = `logo-marquee ${fullWidth ? 'logo-marquee--full-width' : ''}`;
-  const containerClasses = `logo-marquee__container ${showHeader ? 'has-header' : ''}`;
+  const sectionClasses = `logo-marquee ${
+    fullWidth ? "logo-marquee--full-width" : ""
+  }`;
+  const containerClasses = `logo-marquee__container ${
+    showHeader ? "has-header" : ""
+  }`;
 
   return (
     <section className={sectionClasses}>
@@ -50,9 +35,14 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
         )}
 
         <div className="logo-marquee__wrapper">
-          <div className="logo-marquee__gradient-left" />
-          <div className="logo-marquee__track" ref={trackRef}>
-            {allLogos.map((logo, index) => (
+          <Marquee
+            gradient={true}
+            gradientColor="rgb(255, 255, 255)"
+            gradientWidth={50}
+            speed={40}
+            pauseOnHover={true}
+          >
+            {clientLogos.map((logo, index) => (
               <div key={`${logo.id}-${index}`} className="logo-marquee__item">
                 <Image
                   src={logo.src}
@@ -63,8 +53,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
                 />
               </div>
             ))}
-          </div>
-          <div className="logo-marquee__gradient-right" />
+          </Marquee>
         </div>
       </div>
     </section>

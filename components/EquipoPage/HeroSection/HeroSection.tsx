@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { initHeroAnimations } from "@/utils/animations/equipo-page-anim";
+import { charAnimation } from "@/utils/animations/title-anim";
 import "./HeroSection.scss";
 
 const HeroSection: React.FC = () => {
@@ -36,6 +37,10 @@ const HeroSection: React.FC = () => {
 
     // Initialize animations with a small delay to ensure DOM is ready
     const timer = setTimeout(() => {
+      // Run character animation for the title
+      if (titleRef.current) { 
+        charAnimation(titleRef.current);
+      } 
       initHeroAnimations({
         titleRef,
         underlineRef,
@@ -141,7 +146,7 @@ const HeroSection: React.FC = () => {
           <div className="hero-section__overlay"></div>
 
           <div className="hero-section__content">
-            <h1 ref={titleRef} className="hero-section__title">
+            <h1 ref={titleRef} className="hero-section__title char-animation">
               Nuestro equipo de profesionales
             </h1>
 
@@ -159,7 +164,7 @@ const HeroSection: React.FC = () => {
               </p>
             </div>
 
-            <div ref={statsRef} className="hero-section__stats">
+            {/* <div ref={statsRef} className="hero-section__stats">
               <div className="hero-section__stat">
                 <span className="hero-section__stat-value" data-target="45">
                   {initialStats.professionals}
@@ -182,7 +187,7 @@ const HeroSection: React.FC = () => {
                   Proyectos completados
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

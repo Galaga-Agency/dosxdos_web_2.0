@@ -46,3 +46,21 @@ body {
   overscroll-behavior-y: none;
   overflow-x: hidden;
 }
+
+.team-section,
+.stats-section {
+  isolation: isolate;
+  contain: layout style;
+}
+
+.stats-section {
+  // Prevent layout shifts
+  min-height: 400px; 
+  position: relative;
+  z-index: 1;
+}
+
+.team-section__grid {
+  position: relative;
+  z-index: 2;
+}

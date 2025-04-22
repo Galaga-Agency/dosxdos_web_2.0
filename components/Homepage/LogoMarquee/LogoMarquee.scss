@@ -10,146 +10,48 @@
   overflow: hidden;
   padding: 0 auto;
 
-  // The only separator - one single element
-  &::after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 70%;
-    height: 1px;
-    bottom: 0;
-    left: 15%;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba($black, 0.1) 20%,
-      rgba($black, 0.1) 80%,
-      transparent 100%
-    );
-  }
-
   &__container {
     width: 100%;
-    padding: 0 auto;
     position: relative;
-    max-width: none;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 3rem;
-
-    @include min-width(md) {
-      flex-direction: row;
+    
+    &.has-header {
+      @include flex(row, flex-start, center);
+      gap: 2rem;
+      
+      @include min-width(lg) {
+        gap: 4rem;
+      }
     }
   }
 
   &__header {
-    margin-bottom: 2.5rem;
-
-    @include min-width(md) {
-      margin-bottom: 0;
-    }
-
+    flex-shrink: 0;
+    
     &-title {
       @include font-size(2xl);
-      font-weight: 600;
-      color: $secondary-color;
-      line-height: 1.3;
-      position: relative;
-      display: inline-block;
-      text-wrap: nowrap;
-
-      // Small decorative element
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: -12px;
-        width: 40px;
-        height: 2px;
-        background-color: $secondary-color;
-      }
-
-      .shadow-text {
-        text-shadow: 0 2px 4px rgba($black, 0.5);
-      }
-
-      // Random highlight effect on part of the text
-      .highlight-bg {
-        position: relative;
-        display: inline;
-        color: $black;
-        z-index: 1;
-
-        // Background highlight
-        &::after {
-          content: "";
-          position: absolute;
-          z-index: -1;
-          left: -5%;
-          top: -5%;
-          width: 110%;
-          height: 110%;
-          background-color: $secondary-color;
-          opacity: 0.3;
-        }
-      }
-
-      @include min-width(md) {
-        @include font-size(3xl);
-      }
-
+      @include font-weight(bold);
+      
       @include min-width(lg) {
-        @include font-size(4xl);
+        @include font-size(3xl);
       }
     }
   }
 
   &__wrapper {
-    width: 100%;
+    flex: 1;
     overflow: hidden;
     position: relative;
     padding: 0 auto;
-
-
-    // Fade edge mask for logo track
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 10%;
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    &::before {
-      left: 0;
-      background: linear-gradient(to right, white 0%, rgba($white, 0) 100%);
-    }
-
-    &::after {
-      right: 0;
-      background: linear-gradient(to left, white 0%, rgba($white, 0) 100%);
-    }
-  }
-
-  &__track {
-    display: flex;
-    align-items: center;
-    width: max-content;
-    min-width: 250%; // Make track much wider
-    gap: 6rem;
-    padding: 1.5rem 0;
-    margin-left: -75%; // Offset to center the wider track
   }
 
   &__item {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 3rem;
     transition: all 0.3s ease;
+    overflow: hidden;
+    height: 180px;
 
     img {
       max-height: 140px;
@@ -159,6 +61,7 @@
       opacity: 0.6;
       filter: grayscale(100%) contrast(0.8);
       transition: all 0.5s ease;
+      transform-origin: center;
 
       @include min-width(md) {
         max-height: 120px;
@@ -177,4 +80,28 @@
       }
     }
   }
+}
+
+.highlight-bg {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -5px; 
+    right: -5px; 
+    width: calc(100% + 10px);
+    height: 40%;
+    background-color: rgba($black, 0.9);
+    opacity: 0.2;
+    z-index: -1;
+    transform: skew(-10deg);
+  }
+}
+
+.shadow-text {
+  text-shadow: 2px 2px 4px rgba($black, 0.1);
 }

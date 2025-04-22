@@ -48,14 +48,14 @@ export function initHeroAnimations(refs: HeroAnimationRefs): void {
 
   const timeline = gsap.timeline({
     defaults: { ease: "power3.out" },
-    delay: 0.5
+    delay: 0.5,
   });
 
   if (titleRef.current) {
     timeline.fromTo(
       titleRef.current,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 1.2 },
+      { opacity: 0 },
+      { opacity: 1, duration: 0.7 },
       0
     );
   }
@@ -79,7 +79,7 @@ export function initHeroAnimations(refs: HeroAnimationRefs): void {
   }
 
   if (statsRef.current) {
-    const statItems = statsRef.current.querySelectorAll('.hero-section__stat');
+    const statItems = statsRef.current.querySelectorAll(".hero-section__stat");
     timeline.fromTo(
       statItems,
       { opacity: 0, y: 30 },
@@ -87,11 +87,16 @@ export function initHeroAnimations(refs: HeroAnimationRefs): void {
       0.9
     );
 
-    const statNumbers = statsRef.current.querySelectorAll('.hero-section__stat-value');
+    const statNumbers = statsRef.current.querySelectorAll(
+      ".hero-section__stat-value"
+    );
     statNumbers.forEach((element) => {
-      const targetValue = parseInt(element.getAttribute('data-target') || "0", 10);
+      const targetValue = parseInt(
+        element.getAttribute("data-target") || "0",
+        10
+      );
       const counter = { val: targetValue };
-      
+
       // Animation for counting up stats - no clearing of text content
       timeline.fromTo(
         counter,
@@ -100,9 +105,9 @@ export function initHeroAnimations(refs: HeroAnimationRefs): void {
           val: targetValue,
           duration: 1.8,
           ease: "power1.inOut",
-          onUpdate: function() {
+          onUpdate: function () {
             element.textContent = Math.round(counter.val).toString();
-          }
+          },
         },
         1.2
       );
@@ -114,7 +119,7 @@ export function initHeroAnimations(refs: HeroAnimationRefs): void {
       decorElements.dots.current,
       decorElements.line.current,
       decorElements.circle.current,
-      decorElements.grid.current
+      decorElements.grid.current,
     ].filter(Boolean);
 
     timeline.fromTo(
@@ -125,7 +130,7 @@ export function initHeroAnimations(refs: HeroAnimationRefs): void {
         scale: 1,
         y: 0,
         duration: 1.2,
-        stagger: 0.15
+        stagger: 0.15,
       },
       1
     );
@@ -133,7 +138,7 @@ export function initHeroAnimations(refs: HeroAnimationRefs): void {
 
   floatingImages.forEach(({ container }) => {
     if (container.current) {
-      const corners = container.current.querySelectorAll('.corner');
+      const corners = container.current.querySelectorAll(".corner");
       timeline.fromTo(
         corners,
         { opacity: 0, scale: 0 },
@@ -226,22 +231,22 @@ function setupFloatingImagesParallax(floatingImages: FloatingImage[]): void {
 // Animate EquipoPage decorations
 export function animateDecorations(elements: (HTMLElement | null)[]): void {
   if (!elements.length) return;
-  
+
   // Filter out null elements
   const validElements = elements.filter(Boolean) as HTMLElement[];
-  
+
   gsap.fromTo(
     validElements,
-    { 
-      opacity: 0, 
-      scale: 0.8 
+    {
+      opacity: 0,
+      scale: 0.8,
     },
-    { 
-      opacity: 0.3, 
-      scale: 1, 
-      duration: 1.5, 
+    {
+      opacity: 0.3,
+      scale: 1,
+      duration: 1.5,
       stagger: 0.2,
-      ease: "power3.out" 
+      ease: "power3.out",
     }
   );
 
@@ -251,18 +256,18 @@ export function animateDecorations(elements: (HTMLElement | null)[]): void {
 // Animate social sidebar
 export function animateSocialSidebar(sidebar: HTMLElement): void {
   if (!sidebar) return;
-  
+
   gsap.fromTo(
     sidebar,
-    { 
-      opacity: 0, 
-      x: -30 
+    {
+      opacity: 0,
+      x: -30,
     },
-    { 
-      opacity: 1, 
-      x: 0, 
-      duration: 1, 
-      ease: "power2.out" 
+    {
+      opacity: 1,
+      x: 0,
+      duration: 1,
+      ease: "power2.out",
     }
   );
 
@@ -279,65 +284,77 @@ interface StoryAnimationRefs {
 
 export function animateStorySection(refs: StoryAnimationRefs): void {
   if (typeof window === "undefined") return;
-  
+
   gsap.registerPlugin(ScrollTrigger);
-  
+
   const { section, title, text, services, decor } = refs;
-  
+
   if (!section || !title || !text || !services) return;
-  
+
   // Floating decoration animations
   if (decor) {
     gsap.to(".story-section__decor", {
       y: -10,
-      duration: 2.5,
+      duration: 2,
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",
       stagger: 0.3,
     });
   }
-  
+
   // Main content animations triggered by scroll
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
-      start: "top 90%",
+      start: "top 60%", // Changed from 90% to 60% - starts later when more of the section is visible
       toggleActions: "play none none none",
-      markers: false
-    }
+      markers: false,
+    },
   });
 
-  // Prepare the highlight element by ensuring it starts with 0% width
+  // Prepare the highlight element
   const highlightEl = title.querySelector(".highlight");
   if (highlightEl) {
-    gsap.set(highlightEl, { 
-      backgroundSize: "0% 100%"
+    gsap.set(highlightEl, {
+      backgroundSize: "0% 100%",
     });
   }
 
-  tl.from(title, { opacity: 0, y: 50, duration: 0.8 })
-    .from(title.querySelectorAll(".word"), { 
-      opacity: 0, 
-      y: 20, 
-      stagger: 0.1,
-      duration: 0.6
-    }, "-=0.4")
-    // Add highlight animation for "identidad propia"
-    .to(highlightEl, {
-      backgroundSize: "100% 100%",
-      duration: 1,
-      ease: "power2.inOut"
-    }, "-=0.2") // Slightly delayed from the word animation
-    .from(text, { opacity: 0, y: 30, duration: 0.8 }, "-=0.5")
-    .from(services.querySelectorAll("li"), {
-      opacity: 0,
-      y: 20,
-      stagger: 0.1,
-      duration: 0.6
-    }, "-=0.5");
+  // Add a slight initial delay to the timeline
+  tl.from(title, { opacity: 0, y: 50, duration: 0.6 }, "+=0.2") // Added +=0.2 delay
+    .from(
+      title.querySelectorAll(".word"),
+      {
+        opacity: 0,
+        y: 20,
+        stagger: 0.05,
+        duration: 0.4,
+      },
+      "<0.2"
+    )
+    .to(
+      highlightEl,
+      {
+        backgroundSize: "100% 100%",
+        duration: 0.8,
+        ease: "power2.inOut",
+      },
+      "<"
+    )
+    .from(text, { opacity: 0, y: 30, duration: 0.4 }, "<0.3")
+    .from(
+      services.querySelectorAll("li"),
+      {
+        opacity: 0,
+        y: 20,
+        stagger: 0.05,
+        duration: 0.3,
+      },
+      "<0.2"
+    );
 
-    ScrollTrigger.refresh();
+  ScrollTrigger.refresh();
 }
 
 // Animation refs interface for Stats Section
@@ -350,105 +367,157 @@ export interface StatAnimationRefs {
 // Stats section animation
 export function animateStatsSection(refs: StatAnimationRefs): void {
   if (typeof window === "undefined") return;
-  
+
   gsap.registerPlugin(ScrollTrigger);
 
   const { section, title, statsRefs } = refs;
 
-  // Cleanup existing animations
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  // Kill existing ScrollTriggers for this section
+  ScrollTrigger.getAll()
+    .filter((trigger) => trigger.trigger === section)
+    .forEach((trigger) => trigger.kill());
+
+  // Create a single timeline for all stats animations
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top 75%",
+      end: "top 25%",
+      toggleActions: "play none none none",
+      once: true,
+    },
+  });
 
   // Title animation
   if (title) {
-    gsap.fromTo(
+    tl.fromTo(
       title,
       { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: title,
-          start: "top 85%",
-          toggleActions: "play none none none"
-        }
-      }
+      { opacity: 1, y: 0, duration: 0.8 }
     );
   }
 
   // Stats animations
-  if (section && statsRefs.length) {
+  if (statsRefs.length) {
     statsRefs.forEach((statRef, index) => {
       if (!statRef) return;
 
-      // 1. Animate the stat container
-      gsap.fromTo(
+      // Container animation
+      tl.fromTo(
         statRef,
         { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: index * 0.2,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 75%",
-            toggleActions: "play none none none"
-          }
-        }
+        { opacity: 1, y: 0, duration: 0.8 },
+        index * 0.2
       );
 
-      // 2. Animate the number counting
+      // Number counting
       const valueElement = statRef.querySelector(".stats-section__number");
       if (valueElement) {
-        const targetValue = parseInt(valueElement.getAttribute('data-value') || "0", 10);
-        const startValue = 0;
-        const obj = { value: startValue };
+        const targetValue = parseInt(
+          valueElement.getAttribute("data-value") || "0",
+          10
+        );
 
-        gsap.to(obj, {
-          value: targetValue,
-          duration: 2,
-          delay: 0.3 + index * 0.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 75%",
-            toggleActions: "play none none none"
+        tl.to(
+          { value: 0 },
+          {
+            value: targetValue,
+            duration: 2,
+            ease: "power2.out",
+            onUpdate: function () {
+              const num = Math.floor(this.targets()[0].value);
+              valueElement.textContent =
+                num + (valueElement.getAttribute("data-suffix") || "");
+            },
           },
-          onUpdate: () => {
-            valueElement.textContent = Math.floor(obj.value).toString() + (valueElement.getAttribute('data-suffix') || '');
-          }
-        });
+          index * 0.2
+        );
       }
 
-      // 3. Animate the separator line
+      // Separator line
       const separatorLine = statRef.querySelector(".stats-section__separator");
       if (separatorLine) {
-        gsap.fromTo(
+        tl.fromTo(
           separatorLine,
           { width: "0%" },
-          {
-            width: "100%",
-            duration: 1.2,
-            delay: 0.5 + index * 0.2,
-            ease: "power2.inOut",
-            scrollTrigger: {
-              trigger: section,
-              start: "top 75%",
-              toggleActions: "play none none none"
-            }
-          }
+          { width: "100%", duration: 1.2, ease: "power2.inOut" },
+          index * 0.2
         );
       }
     });
   }
-
-  ScrollTrigger.refresh();
 }
 
 // Cleanup function to kill all ScrollTrigger instances
 export function cleanupStatsAnimations(): void {
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+}
+
+interface ClientsAnimationRefs {
+  section: HTMLDivElement | null;
+  title: HTMLHeadingElement | null;
+  text: HTMLParagraphElement | null;
+  logos: HTMLDivElement | null;
+  cta: HTMLDivElement | null;
+  decor: HTMLDivElement | null;
+}
+
+export function animateClientsSection(refs: ClientsAnimationRefs): void {
+  if (typeof window === "undefined") return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const { section, title, text, cta, decor } = refs;
+
+  if (!section) return;
+
+  // Use a single ScrollTrigger for the whole section
+  ScrollTrigger.create({
+    trigger: section,
+    start: "top 85%",
+    end: "bottom 15%",
+    toggleActions: "play none none reverse",
+    onEnter: () => {
+      // Title animation
+      if (title) {
+        gsap.fromTo(
+          title,
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 0.8 }
+        );
+      }
+
+      // Text animation
+      if (text) {
+        gsap.fromTo(
+          text,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.8, delay: 0.3 }
+        );
+      }
+
+      // CTA animation
+      if (cta) {
+        gsap.fromTo(
+          cta,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, delay: 0.5 }
+        );
+      }
+    },
+  });
+
+  // Separate decoration animation
+  if (decor) {
+    gsap.to(".clients-section__decor", {
+      y: -10,
+      duration: 2.5,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      stagger: 0.3,
+    });
+  }
 }
 
 // CTASection animation refs interface
@@ -462,111 +531,118 @@ interface CTAAnimationRefs {
 
 export function animateCTASection(refs: CTAAnimationRefs): void {
   if (typeof window === "undefined") return;
-  
+
   gsap.registerPlugin(ScrollTrigger);
-  
+
   const { section, content, title, text, decor } = refs;
-  
+
   if (!section || !content || !title || !text) return;
-  
+
   // Floating decoration animations
   if (decor) {
-    const decorElements = decor.querySelectorAll('.cta-section__decor');
-    
+    const decorElements = decor.querySelectorAll(".cta-section__decor");
+
     // Initial setup
     gsap.set(decorElements, {
       opacity: 0,
-      y: 20
+      y: 20,
     });
-    
+
     // Animate in decorative elements
     gsap.to(decorElements, {
-      opacity: (i) => i === 0 || i === 4 ? 0.3 : 1,
+      opacity: (i) => (i === 0 || i === 4 ? 0.3 : 1),
       y: 0,
       duration: 1.2,
       stagger: 0.15,
       scrollTrigger: {
         trigger: section,
         start: "top 80%",
-        toggleActions: "play none none none"
-      }
+        toggleActions: "play none none none",
+      },
     });
-    
+
     // Add subtle floating animation
     gsap.to(".cta-section__decor", {
-      y: (i) => i % 2 === 0 ? -8 : -12,
+      y: (i) => (i % 2 === 0 ? -8 : -12),
       duration: (i) => 2 + i * 0.5,
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",
       stagger: 0.3,
-      delay: 1
+      delay: 1,
     });
   }
-  
+
   // Main content animations triggered by scroll
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
       start: "top 85%",
-      toggleActions: "play none none none"
-    }
+      toggleActions: "play none none none",
+    },
   });
 
   // Prepare the highlight element
   const highlightEl = title.querySelector(".highlight");
   if (highlightEl) {
-    gsap.set(highlightEl, { 
-      backgroundSize: "0% 100%"
+    gsap.set(highlightEl, {
+      backgroundSize: "0% 100%",
     });
   }
 
   // Main animation sequence
-  tl.fromTo(content, 
-    { 
-      y: 50, 
+  tl.fromTo(
+    content,
+    {
+      y: 50,
       opacity: 0,
-      scale: 0.95
+      scale: 0.95,
     },
     {
       y: 0,
       opacity: 1,
       scale: 1,
       duration: 0.8,
-      ease: "power2.out"
+      ease: "power2.out",
     }
   )
-  .fromTo(title.querySelectorAll(".word"), 
-    { 
-      opacity: 0, 
-      y: 20
-    },
-    { 
-      opacity: 1, 
-      y: 0, 
-      stagger: 0.1,
-      duration: 0.6
-    }, 
-    "-=0.4"
-  )
-  .to(highlightEl, {
-    backgroundSize: "100% 100%",
-    duration: 0.7,
-    delay: 0.5,
-    ease: "power2.inOut"
-  }, "-=0.2")
-  .fromTo(text, 
-    { 
-      opacity: 0, 
-      y: 20
-    },
-    {
-      opacity: 1, 
-      y: 0, 
-      duration: 0.7
-    }, 
-    "-=0.7"
-  );
+    .fromTo(
+      title.querySelectorAll(".word"),
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
+        duration: 0.6,
+      },
+      "-=0.4"
+    )
+    .to(
+      highlightEl,
+      {
+        backgroundSize: "100% 100%",
+        duration: 0.7,
+        delay: 0.5,
+        ease: "power2.inOut",
+      },
+      "-=0.2"
+    )
+    .fromTo(
+      text,
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+      },
+      "-=0.7"
+    );
 
   // Ensure ScrollTrigger is refreshed
   ScrollTrigger.refresh();
