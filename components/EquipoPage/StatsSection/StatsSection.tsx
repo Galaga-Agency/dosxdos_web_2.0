@@ -10,18 +10,19 @@ const StatsSection: React.FC = () => {
   const statsRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    // Prepare refs for animation
-    const refs = {
-      section: sectionRef.current,
-      title: titleRef.current,
-      statsRefs: statsRefs.current
-    };
+    // Delay animation initialization to prevent conflicts
+    const timer = setTimeout(() => {
+      const refs = {
+        section: sectionRef.current,
+        title: titleRef.current,
+        statsRefs: statsRefs.current,
+      };
 
-    // Initialize animations
-    animateStatsSection(refs);
+      animateStatsSection(refs);
+    }, 100);
 
-    // Cleanup function
     return () => {
+      clearTimeout(timer);
       cleanupStatsAnimations();
     };
   }, []);
@@ -30,41 +31,42 @@ const StatsSection: React.FC = () => {
     {
       number: 250,
       suffix: "+",
-      label: "PROYECTOS COMPLETADOS"
+      label: "PROYECTOS COMPLETADOS",
     },
     {
       number: 37,
       suffix: "+",
-      label: "AÑOS DE EXPERIENCIA"
+      label: "AÑOS DE EXPERIENCIA",
     },
     {
       number: 45,
       suffix: "+",
-      label: "PROFESIONALES"
+      label: "PROFESIONALES",
     },
     {
       number: 94,
       suffix: "%",
-      label: "SATISFACCIÓN DE CLIENTES"
-    }
+      label: "SATISFACCIÓN DE CLIENTES",
+    },
   ];
 
   return (
     <section className="stats-section" ref={sectionRef}>
       <div className="stats-section__container">
         <h2 ref={titleRef} className="stats-section__title">
-          <span className="stats-section__title-icon">✕</span> DosxDos en Números
+          <span className="stats-section__title-icon">✕</span> DosxDos en
+          Números
         </h2>
-        
+
         <div className="stats-section__grid">
           {stats.map((stat, index) => (
-            <div 
+            <div
               key={index}
               className="stats-section__item"
-              ref={el => statsRefs.current[index] = el as any}
+              ref={(el) => (statsRefs.current[index] = el as any)}
             >
-              <div 
-                className="stats-section__number" 
+              <div
+                className="stats-section__number"
                 data-value={stat.number}
                 data-suffix={stat.suffix}
               >

@@ -4,7 +4,9 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
 import "./ClientsSection.scss";
-import { animateClientsSection } from "@/utils/animations/card-hover-anim";
+import { animateClientsSection } from "@/utils/animations/equipo-page-anim";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const ClientsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -14,20 +16,31 @@ const ClientsSection: React.FC = () => {
   const decorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      requestAnimationFrame(() => {
-        animateClientsSection({
-          section: sectionRef.current,
-          title: titleRef.current,
-          text: textRef.current,
-          cta: ctaRef.current,
-          decor: decorRef.current,
-          logos: null
-        });
-      });
-    }, 300);
+    gsap.registerPlugin(ScrollTrigger);
 
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => {
+      animateClientsSection({
+        section: sectionRef.current,
+        title: titleRef.current,
+        text: textRef.current,
+        cta: ctaRef.current,
+        decor: decorRef.current,
+        logos: null,
+      });
+
+      // Refresh ScrollTrigger after animations are set up
+      ScrollTrigger.refresh();
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+      // Cleanup ScrollTrigger instances for this section
+      if (sectionRef.current) {
+        ScrollTrigger.getAll()
+          .filter((trigger) => trigger.trigger === sectionRef.current)
+          .forEach((trigger) => trigger.kill());
+      }
+    };
   }, []);
 
   return (
@@ -44,7 +57,7 @@ const ClientsSection: React.FC = () => {
           <div className="clients-section__label">
             <span>COLABORACIONES</span>
           </div>
-          
+
           <h2 ref={titleRef} className="clients-section__title">
             <span className="word">Nuestros</span>{" "}
             <span className="word">clientes</span>
@@ -59,14 +72,15 @@ const ClientsSection: React.FC = () => {
       <div className="clients-section__container">
         <div className="clients-section__content-wrapper">
           <p ref={textRef} className="clients-section__text">
-            Creemos en construir relaciones basadas en la honestidad y 
-            la conexión genuina. Es por eso que algunas de las empresas 
-            más importantes han permanecido con nosotros durante años.
+            Creemos en construir relaciones basadas en la honestidad y la
+            conexión genuina. Es por eso que algunas de las empresas más
+            importantes han permanecido con nosotros durante años.
           </p>
 
           <div ref={ctaRef} className="clients-section__cta">
             <Link href="/sobre-nosotros" className="clients-section__cta-link">
-              <span className="clients-section__cta-icon">○</span> Más sobre nosotros
+              <span className="clients-section__cta-icon">○</span> Más sobre
+              nosotros
             </Link>
           </div>
         </div>

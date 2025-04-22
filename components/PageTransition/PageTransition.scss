@@ -1,9 +1,12 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
 .page-transition {
   position: relative;
   width: 100%;
   height: 100%;
 
-  
   &__panels {
     position: fixed;
     top: 0;
@@ -13,32 +16,34 @@
     z-index: 999;
     pointer-events: none;
   }
-  
+
   &__content {
     position: relative;
     width: 100%;
     height: 100%;
   }
-  
+
   &__logo-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw; /* Full viewport width */
-    height: 100vh; /* Full viewport height */
+    width: 100vw;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1002;
     pointer-events: none;
   }
-  
+
   &__logo {
-    width: 120px; /* Adjust based on your logo size */
+    width: 120px;
     height: auto;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    position: relative;
+    z-index: 2;
   }
-  
+
   &__cover-layer {
     position: fixed;
     top: 0;
@@ -47,12 +52,190 @@
     height: 100vh;
     z-index: 1000;
     pointer-events: none;
-    background-color: transparent; /* Important! Keep it transparent */
-    backdrop-filter: blur(0px); /* Initial state - no blur */
+    background-color: transparent;
+    backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
     will-change: backdrop-filter;
   }
-  
+
+  /* Decorative elements - balanced version closer to logo */
+  &__decor-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    opacity: 0.2;
+    pointer-events: none;
+    
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      background-color: rgba($black,0.5);
+    }
+    
+    &::before {
+      width: 100%;
+      height: 1px;
+    }
+    
+    &::after {
+      width: 1px;
+      height: 100%;
+    }
+    
+    &--tl {
+      top: calc(50% - 40px);
+      left: calc(50% - 80px);
+      
+      &::before {
+        top: 0;
+        left: 0;
+      }
+      
+      &::after {
+        top: 0;
+        left: 0;
+      }
+    }
+    
+    &--tr {
+      top: calc(50% - 40px);
+      right: calc(50% - 80px);
+      
+      &::before {
+        top: 0;
+        right: 0;
+      }
+      
+      &::after {
+        top: 0;
+        right: 0;
+      }
+    }
+    
+    &--bl {
+      bottom: calc(50% - 40px);
+      left: calc(50% - 80px);
+      
+      &::before {
+        bottom: 0;
+        left: 0;
+      }
+      
+      &::after {
+        bottom: 0;
+        left: 0;
+      }
+    }
+    
+    &--br {
+      bottom: calc(50% - 40px);
+      right: calc(50% - 80px);
+      
+      &::before {
+        bottom: 0;
+        right: 0;
+      }
+      
+      &::after {
+        bottom: 0;
+        right: 0;
+      }
+    }
+  }
+
+  &__decor-circle {
+    position: absolute;
+    top: calc(50% - 90px);
+    right: calc(50% - 90px);
+    width: 90px;
+    height: 90px;
+    border: 1px solid rgba($black, 0.12);
+    border-radius: 50%;
+    opacity: 0.8;
+    pointer-events: none;
+    @include z-index(modal);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      border: 1px solid rgba($black, 0.08);
+      border-radius: 50%;
+    }
+  }
+
+  &__decor-square {
+    position: absolute;
+    bottom: calc(50% - 80px);
+    left: calc(50% - 90px);
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba($black, 0.1);
+    transform: rotate(45deg);
+    opacity: 0.6;
+    pointer-events: none;
+    @include z-index(modal);
+  }
+
+  &__decor-line {
+    position: absolute;
+    left: calc(50% - 60px);
+    top: calc(50% + 45px);
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($black, 0.2),
+      transparent
+    );
+    opacity: 0.8;
+    pointer-events: none;
+    @include z-index(modal);
+    
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background-color: rgba($black, 0.2);
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    &::before {
+      left: -8px;
+    }
+    
+    &::after {
+      right: -8px;
+    }
+  }
+
+  &__decor-dots {
+    position: absolute;
+    top: calc(50% + 60px);
+    left: calc(50% - 30px);
+    width: 60px;
+    height: 20px;
+    background-image: radial-gradient(
+      circle,
+      rgba($black, 0.15) 1.5px,
+      transparent 1.5px
+    );
+    background-size: 10px 10px;
+    opacity: 0.7;
+    pointer-events: none;
+    @include z-index(modal);
+  }
+
   .glass-layer {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
@@ -60,8 +243,6 @@
     border-left: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     z-index: 1001;
-    
-    /* Ensure smooth animation performance */
     will-change: transform;
     transform: translateZ(0);
   }

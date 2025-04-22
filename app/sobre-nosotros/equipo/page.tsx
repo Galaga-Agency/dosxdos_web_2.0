@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import HeroSection from "@/components/EquipoPage/HeroSection/HeroSection";
@@ -10,8 +10,20 @@ import StatsSection from "@/components/EquipoPage/StatsSection/StatsSection";
 import ClientsSection from "@/components/EquipoPage/ClientsSection/ClientsSection";
 import CTASection from "@/components/EquipoPage/CTASection/CTASection";
 import "./EquipoPage.scss";
+import {
+  cleanupScrollTriggers,
+  initScrollTriggerConfig,
+} from "@/utils/animations/scrolltrigger-config";
 
 const EquipoPage: React.FC = () => {
+  useEffect(() => {
+    initScrollTriggerConfig();
+
+    return () => {
+      cleanupScrollTriggers();
+    };
+  }, []);
+
   return (
     <SmoothScrollWrapper>
       <div className="equipo-page">
@@ -22,13 +34,14 @@ const EquipoPage: React.FC = () => {
               <SocialIcons orientation="vertical" color="white" />
             </div>
           </div>
-          
+
           <HeroSection />
           <StorySection />
           <TeamSection />
           <StatsSection />
           <ClientsSection />
-          
+          <CTASection />
+
           <div className="equipo-page__mobile-social-section">
             <div className="equipo-page__mobile-social-header">
               <h3 className="equipo-page__mobile-social-title">Síguenos</h3>
@@ -36,8 +49,6 @@ const EquipoPage: React.FC = () => {
             </div>
             <SocialIcons orientation="horizontal" color="white" />
           </div>
-          
-          <CTASection />
         </div>
       </div>
     </SmoothScrollWrapper>

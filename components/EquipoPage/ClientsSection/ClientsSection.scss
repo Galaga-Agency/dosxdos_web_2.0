@@ -176,9 +176,11 @@
     position: relative;
     padding: 0 auto;
     margin-bottom: 3rem;
-    overflow: visible;
-    z-index: 2; // ✅ this is the fix
-    pointer-events: none; // optional, ensures no interference
+    overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
+    min-height: 200px;
+    will-change: transform;
   }
 
   &__text {
