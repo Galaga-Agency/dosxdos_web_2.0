@@ -1,45 +1,61 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/animations" as *;
 
 .accion-social-hero {
   position: relative;
-  width: 100%;
-  min-height: 95vh;
-  margin-block: 2rem;
-  padding: 1rem;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100vh;
+  margin-bottom: 3rem;
+  overflow: hidden;
 
-  @include min-width(md) {
-    padding: 2rem;
+  &__bg-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    transform-origin: center;
   }
 
-  @include min-width(lg) {
-    padding: 4rem;
-  }
-
-  &__bg {
+  &__image-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    z-index: 1;
+    will-change: transform;
+    @include z-index(default);
 
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba($black, 0.1),
-        rgba($black, 0.3)
-      );
-      z-index: 2;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      @include transition-duration(slow);
+      will-change: transform;
     }
   }
+  
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba($black, 0.5) 0%,
+      rgba($black, 0.3) 50%,
+      rgba($black, 0.1) 80%
+    );
+    z-index: 1;
+  }
 
-  // Add decorative elements
   &__decorative-elements {
     position: absolute;
     top: 0;
@@ -54,8 +70,8 @@
     position: absolute;
     right: 5%;
     top: 15%;
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     background-image: radial-gradient(
       circle,
       rgba($white, 0.2) 1px,
@@ -64,7 +80,7 @@
     background-size: 10px 10px;
     opacity: 0.3;
     display: none;
-
+    
     @include min-width(md) {
       display: block;
     }
@@ -89,7 +105,7 @@
       border-radius: 50%;
       background-color: rgba($white, 0.3);
     }
-
+    
     @include min-width(md) {
       display: block;
     }
@@ -99,13 +115,13 @@
     position: absolute;
     right: 8%;
     bottom: 35%;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border: 1px solid rgba($white, 0.05);
     border-radius: 50%;
     opacity: 0.6;
     display: none;
-
+    
     @include min-width(md) {
       display: block;
     }
@@ -115,117 +131,132 @@
     position: absolute;
     left: 8%;
     top: 30%;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     background-image: linear-gradient(rgba($white, 0.07) 1px, transparent 1px),
       linear-gradient(90deg, rgba($white, 0.07) 1px, transparent 1px);
     background-size: 15px 15px;
     opacity: 0.5;
     display: none;
-
+    
     @include min-width(md) {
       display: block;
     }
   }
 
-  &__content-wrapper {
-    position: relative;
-    z-index: 3;
-    height: 100%;
+  &__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 1rem;
-
+    justify-content: center; 
+    z-index: 3;
+    
+    @include container-width(mobile);
+    margin: 0 auto;
+    padding: 1.5rem;
+    
     @include min-width(md) {
+      @include container-width(tablet);
       padding: 2rem;
     }
-
+    
     @include min-width(lg) {
-      padding: 4rem;
+      @include container-width(smalldesktop);
+      padding: 3rem 2.5rem;
+    }
+    
+    @include min-width(xl) {
+      @include container-width(desktop);
     }
   }
 
-  &__title-box {
-    margin-bottom: 1rem;
+  &__label {
+    margin-bottom: 1.5rem;
+    
+    span {
+      display: inline-block;
+      @include font-size(sm);
+      @include font-weight(semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba($white, 0.6);
+      position: relative;
+      padding-left: 2rem;
 
-    @include min-width(md) {
-      margin-bottom: 1.5rem;
-    }
-
-    @include min-width(lg) {
-      margin-bottom: 2rem;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.5rem;
+        height: 1px;
+        background-color: rgba($white, 0.4);
+      }
     }
   }
 
   &__title {
-    @include font-size(3xl);
+    @include font-size(6xl);
     @include font-weight(bold);
-    line-height: 1;
-    margin: 0;
+    line-height: 1.1;
     color: $white;
-    // Fix: Remove default opacity: 0 from here
+    margin-bottom: 0.5rem;
+    opacity: 0; 
     
     @include min-width(md) {
-      @include font-size(5xl);
+      @include font-size(7xl);
     }
     
     @include min-width(lg) {
-      @include font-size(6xl);
+      @include font-size(8xl);
     }
-
-    &.text-1 {
-      // Let animation handle opacity
-    }
-
+    
     &.text-2 {
-      color: $primary-color;
-      margin-top: 0.5rem;
-      // Let animation handle opacity
+      color: $secondary-color;
+      margin-bottom: 2rem;
       
       span {
-        display: inline-block;
-        position: relative;
-
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: -4px;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background-color: $primary-color;
-          transform: scaleX(0);
-          transform-origin: right;
-          transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        margin-left: 6rem;
+        
+        @include min-width(md) {
+          margin-left: 10rem;
         }
-
-        &:hover::after {
-          transform: scaleX(1);
-          transform-origin: left;
+        
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
         }
       }
     }
   }
 
-  &__content {
-    max-width: 100%;
-    // Let animation handle opacity
-
+  &__description {
+    max-width: 700px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    
     p {
-      @include font-size(base);
+      @include font-size(lg);
+      line-height: 1.7;
       color: $white;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      
       @include min-width(md) {
-        @include font-size(lg);
+        @include font-size(xl);
       }
-
+      
       @include min-width(lg) {
-        max-width: 600px;
+        @include font-size(xl);
       }
     }
+  }
+
+  &__cta {
+    opacity: 0; 
   }
 
   &__btn {
@@ -240,11 +271,28 @@
     border-radius: 0.5rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($black, 0.05);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
 
     &:hover {
-      background-color: $primary-color;
-      color: $white;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba($black, 0.2);
+      
+      &::before {
+        transform: translateX(0);
+      }
     }
   }
 }

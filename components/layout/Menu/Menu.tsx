@@ -19,7 +19,7 @@ const Menu: React.FC = () => {
   // Get session status
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
-  
+
   // State management
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -228,7 +228,7 @@ const Menu: React.FC = () => {
 
           {/* Desktop Social Icons */}
           <div className="menu__social-desktop">
-            <SocialIcons iconSize="small" />
+            <SocialIcons iconSize="small" color="white" />
           </div>
 
           {/* Mobile Hamburger */}
@@ -325,7 +325,11 @@ const Menu: React.FC = () => {
 
             {/* Mobile Social Icons */}
             <div className="menu__social-mobile">
-              <SocialIcons iconSize="medium" className="menu__social-icons" />
+              <SocialIcons
+                iconSize="medium"
+                color="white"
+                className="menu__social-icons"
+              />
             </div>
 
             <div className="menu__mobile-cta">

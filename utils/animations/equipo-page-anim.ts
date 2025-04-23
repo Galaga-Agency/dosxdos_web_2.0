@@ -280,6 +280,7 @@ interface StoryAnimationRefs {
   text: HTMLDivElement | null;
   services: HTMLDivElement | null;
   decor: HTMLDivElement | null;
+  originStory?: HTMLDivElement | null;
 }
 
 export function animateStorySection(refs: StoryAnimationRefs): void {
@@ -287,7 +288,7 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const { section, title, text, services, decor } = refs;
+  const { section, title, text, services, decor, originStory } = refs;
 
   if (!section || !title || !text || !services) return;
 
@@ -307,7 +308,7 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
-      start: "top 60%", // Changed from 90% to 60% - starts later when more of the section is visible
+      start: "top 60%",
       toggleActions: "play none none none",
       markers: false,
     },
@@ -322,7 +323,7 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
   }
 
   // Add a slight initial delay to the timeline
-  tl.from(title, { opacity: 0, y: 50, duration: 0.6 }, "+=0.2") // Added +=0.2 delay
+  tl.from(title, { opacity: 0, y: 50, duration: 0.6 }, "+=0.2")
     .from(
       title.querySelectorAll(".word"),
       {
@@ -353,6 +354,34 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
       },
       "<0.2"
     );
+
+  // Animate origin story if it exists
+  if (originStory) {
+    const originStoryParagraphs = originStory.querySelectorAll("p");
+
+    gsap.from(originStory, {
+      scrollTrigger: {
+        trigger: originStory,
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
+      opacity: 0,
+      y: 50,
+      duration: 0.6,
+    });
+
+    gsap.from(originStoryParagraphs, {
+      scrollTrigger: {
+        trigger: originStory,
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
+      opacity: 0,
+      y: 30,
+      stagger: 0.2,
+      duration: 0.5,
+    });
+  }
 
   ScrollTrigger.refresh();
 }
