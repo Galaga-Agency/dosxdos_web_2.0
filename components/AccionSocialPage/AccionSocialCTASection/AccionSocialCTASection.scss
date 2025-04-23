@@ -2,11 +2,12 @@
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
 
-.cta-section {
+.accion-social-cta-section {
   position: relative;
   overflow: hidden;
   padding: 0 0 2rem;
   margin: 0 auto;
+  margin-top: 5rem; // Added margin to separate from previous sections
 
   @include container-width(mobile);
 
@@ -55,7 +56,7 @@
 
     @include min-width(lg) {
       padding: 4rem;
-      text-align: left;
+      text-align: center; // Keep it centered for this specific CTA
     }
 
     &::before {
@@ -71,6 +72,21 @@
         rgba($secondary-color, 0.1) 100%
       );
       z-index: -1;
+    }
+
+    // Subtle red accent on the left side
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba($primary-color, 0.7),
+        rgba($primary-color, 0.1)
+      );
     }
 
     &:hover {
@@ -110,7 +126,7 @@
     margin-bottom: 2rem;
 
     @include min-width(lg) {
-      max-width: 70%;
+      max-width: 80%;
       margin: 0 auto 2.5rem;
     }
   }
@@ -128,7 +144,6 @@
 
     @include min-width(xl) {
       @include font-size(5xl);
-      text-wrap: nowrap;
     }
 
     .word {
@@ -159,7 +174,7 @@
     margin: 0 auto;
 
     @include min-width(lg) {
-      max-width: 100%;
+      max-width: 80%;
     }
   }
 
@@ -168,5 +183,11 @@
     display: inline-block;
     width: auto;
     margin: 0 auto;
+
+    // Add subtle animation on hover
+    &:hover {
+      transform: translateY(-2px);
+      transition: transform 0.3s ease;
+    }
   }
 }

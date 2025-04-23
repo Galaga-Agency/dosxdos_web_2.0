@@ -10,7 +10,11 @@ import {
 } from "@/utils/animations/scrolltrigger-config";
 import HeroSection from "@/components/AccionSocialPage/HeroSection/HeroSection";
 import ValuesSection from "@/components/AccionSocialPage/ValuesSection/ValuesSection";
+import SustainabilityImagesSection from "@/components/AccionSocialPage/SustainabilityImagesSection/SustainabilityImagesSection";
+import ExperienciaSection from "@/components/AccionSocialPage/ExperienciaSection/ExperienciaSection";
 import CollaborationsSection from "@/components/AccionSocialPage/CollaborationsSection/CollaborationsSection";
+import AccionSocialCTASection from "@/components/AccionSocialPage/AccionSocialCTASection/AccionSocialCTASection";
+import { cleanupAccionSocialAnimations } from "@/utils/animations/accion-social-page-anim";
 
 const AccionSocialPage: React.FC = () => {
   useEffect(() => {
@@ -18,6 +22,7 @@ const AccionSocialPage: React.FC = () => {
 
     return () => {
       cleanupScrollTriggers();
+      cleanupAccionSocialAnimations();
     };
   }, []);
 
@@ -35,7 +40,10 @@ const AccionSocialPage: React.FC = () => {
           <div className="accion-social-page__container">
             <HeroSection />
             <ValuesSection />
+            <SustainabilityImagesSection />
+            <ExperienciaSection />
             <CollaborationsSection />
+            <AccionSocialCTASection />
 
             <div className="accion-social-page__mobile-social-section">
               <div className="accion-social-page__mobile-social-header">

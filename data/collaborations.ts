@@ -33,6 +33,6 @@ export const collaborationData: Collaboration[] = [
       "Colaboramos anualmente con Mil Caminos. Asociación que trabaja para mejorar las condiciones de vida y promover oportunidades para comunidades vulnerables a través de proyectos educativos y sociales.",
     image: "/assets/img/about-us-page/mil-caminos-logo.webp",
     illustration: "/assets/img/about-us-page/mil-caminos-illustration.jpg",
-    link: "https://milcaminos.org/",
+    link: "https://milcaminos.es/",
   },
 ];

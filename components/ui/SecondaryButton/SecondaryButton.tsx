@@ -17,6 +17,8 @@ interface SecondaryButtonProps {
   disabled?: boolean;
   isOutlined?: boolean;
   ref?: any;
+  target?: string; // Add target property for links
+  rel?: string; // Add rel property for security when using target="_blank"
 }
 
 const SecondaryButton = ({
@@ -30,6 +32,8 @@ const SecondaryButton = ({
   disabled = false,
   isOutlined = false,
   ref,
+  target,
+  rel,
 }: SecondaryButtonProps) => {
   const baseClass = "secondary-button";
 
@@ -46,8 +50,27 @@ const SecondaryButton = ({
 
   // If href is provided, render as a Link
   if (href && !disabled) {
+    // Add target and rel attributes when provided
+    const linkProps: any = {
+      href,
+      className: buttonClasses,
+      onClick,
+    };
+
+    // Only add target and rel if they are provided
+    if (target) {
+      linkProps.target = target;
+
+      // Automatically add noopener and noreferrer when target="_blank" for security
+      if (target === "_blank") {
+        linkProps.rel = rel || "noopener noreferrer";
+      } else if (rel) {
+        linkProps.rel = rel;
+      }
+    }
+
     return (
-      <Link href={href} className={buttonClasses} onClick={onClick}>
+      <Link {...linkProps}>
         <span className={`${baseClass}__content`}>{children}</span>
       </Link>
     );
