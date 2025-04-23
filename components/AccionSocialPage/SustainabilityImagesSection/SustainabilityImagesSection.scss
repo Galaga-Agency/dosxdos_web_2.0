@@ -1,0 +1,51 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.sustainability-images-section {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 5rem 0;
+
+  @include container-width(mobile);
+
+  @include min-width(md) {
+    @include container-width(tablet);
+  }
+
+  @include min-width(lg) {
+    @include container-width(smalldesktop);
+  }
+
+  @include min-width(xl) {
+    @include container-width(desktop);
+  }
+
+  &__container {
+    position: relative;
+    z-index: 1;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    @include font-size(3xl);
+    @include font-weight(bold);
+    color: $black;
+    margin-bottom: 1rem;
+
+    @include min-width(md) {
+      @include font-size(4xl);
+    }
+  }
+
+  &__cards {
+    @include flex(column, center, center);
+    gap: 2rem;
+
+    @include min-width(md) {
+    @include flex(row, center, center);
+    }
+  }
+}

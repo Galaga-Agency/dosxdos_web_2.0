@@ -43,9 +43,9 @@ function panelOneAnimation() {
   //
   let pj = gsap.matchMedia();
   pj.add("(min-width: 992px)", () => {
-    if (document.querySelector(".tp-project-2-area")) {
-      let sections = gsap.utils.toArray(".tp-project-2-area");
-      let listItem = gsap.utils.toArray(".tpproject");
+    if (document.querySelector(".project-2-area")) {
+      let sections = gsap.utils.toArray(".project-2-area");
+      let listItem = gsap.utils.toArray(".project");
       sections.forEach((section, index) => {
         ScrollTrigger.create({
           trigger: section,
@@ -159,13 +159,13 @@ function studioPanel() {
         }
       });
 
-      const services_items = gsap.utils.toArray(".tp-studio-service-item");
+      const services_items = gsap.utils.toArray(".studio-service-item");
 
       services_items.forEach(function (item: any) {
         gsap.to(item, {
           marginLeft: '0',
           scrollTrigger: {
-            trigger: '.tp-studio-service-area',
+            trigger: '.studio-service-area',
             containerAnimation: scrollTween,
             start: "left center",
             end: "400px 200px",

@@ -16,7 +16,6 @@ import {
 
 const TeamSection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -40,13 +39,6 @@ const TeamSection: React.FC = () => {
 
   return (
     <section className="team-section">
-      <div className="team-section__decorative-elements">
-        <div className="team-section__decor-dots"></div>
-        <div className="team-section__decor-line"></div>
-        <div className="team-section__decor-circle"></div>
-        <div className="team-section__decor-grid"></div>
-      </div>
-
       <div className="container">
         <h2 ref={titleRef} className="title">
           Nuestro <span>Equipo</span>

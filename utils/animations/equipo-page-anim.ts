@@ -280,8 +280,8 @@ interface StoryAnimationRefs {
   text: HTMLDivElement | null;
   services: HTMLDivElement | null;
   decor: HTMLDivElement | null;
-  originStory?: HTMLDivElement | null;
-  originImage?: HTMLDivElement | null;
+  originStory: HTMLDivElement | null;
+  originImage: HTMLDivElement | null;
 }
 
 export function animateStorySection(refs: StoryAnimationRefs): void {
@@ -289,7 +289,8 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const { section, title, text, services, decor, originStory, originImage } = refs;
+  const { section, title, text, services, decor, originStory, originImage } =
+    refs;
 
   if (!section || !title || !text || !services || !originImage) return;
 
@@ -384,45 +385,46 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
     });
   }
 
-  // Animate floating image with parallax if it exists
+  // Animate image with fixed parallax effect
   if (originImage) {
     const innerContainer = originImage.querySelector(
       ".story-section__image-frame-inner"
     );
-    const container = originImage;
+    const imageElement = originImage.querySelector(".story-section__image");
 
-    // Parallax for container
-    gsap.fromTo(
-      container,
-      { y: "0%" },
-      {
-        y: "-20%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.8,
+    // Initial reveal animation for the image container
+    gsap.from(originImage, {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: originImage,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Fixed parallax for the inner container - more stable approach
+    if (innerContainer && imageElement) {
+      // Set initial scale to prevent edges from showing during animation
+      gsap.set(imageElement, { scale: 1.1 });
+
+      // Create smoother parallax with reduced movement
+      ScrollTrigger.create({
+        trigger: originImage,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5, // Smoother scrub for more natural parallax
+        onUpdate: (self) => {
+          // Apply a gentle parallax effect to the image
+          gsap.to(imageElement, {
+            y: self.progress * 25, // Limit movement to 25px to avoid excessive movement
+            duration: 0.1,
+            ease: "none",
+            overwrite: "auto",
+          });
         },
-      }
-    );
-
-    // Parallax for inner container
-    if (innerContainer) {
-      gsap.fromTo(
-        innerContainer,
-        { y: "0%" },
-        {
-          y: "15%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: container,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2,
-          },
-        }
-      );
+      });
     }
 
     // Add corner animations
@@ -443,6 +445,7 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
     );
   }
 
+  // Ensure ScrollTrigger is refreshed for accurate positioning
   ScrollTrigger.refresh();
 }
 

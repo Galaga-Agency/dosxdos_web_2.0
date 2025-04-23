@@ -9,7 +9,6 @@ const ValuesSection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const valuesRef = useRef<HTMLDivElement>(null);
-  const decorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,8 +18,7 @@ const ValuesSection: React.FC = () => {
           title: titleRef.current,
           text: textRef.current,
           values: valuesRef.current,
-          decor: decorRef.current,
-        });
+        } as any);
       });
     }, 300);
 
@@ -77,14 +75,6 @@ const ValuesSection: React.FC = () => {
 
   return (
     <section className="values-section" ref={sectionRef}>
-      <div className="values-section__decorative-elements" ref={decorRef}>
-        <div className="values-section__decor values-section__decor-dots"></div>
-        <div className="values-section__decor values-section__decor-line-1"></div>
-        <div className="values-section__decor values-section__decor-line-2"></div>
-        <div className="values-section__decor values-section__decor-circle"></div>
-        <div className="values-section__decor values-section__decor-grid"></div>
-      </div>
-
       <div className="values-section__container">
         <div className="values-section__content-wrapper">
           <div className="values-section__label">
@@ -102,10 +92,10 @@ const ValuesSection: React.FC = () => {
           <div ref={textRef} className="values-section__text">
             <div className="values-section__intro">
               <p>
-                Siendo conscientes de la suerte que tenemos, estamos
-                sensibilizados con las necesidades de nuestro entorno y con las
-                de las zonas menos favorecidos, por ello aportamos cada año
-                nuestro granito de arena.
+                Siendo <strong>conscientes</strong> de la suerte que tenemos,
+                estamos sensibilizados con las necesidades de nuestro entorno y
+                con las de las zonas menos favorecidos, por ello aportamos cada
+                año nuestro granito de arena.
               </p>
             </div>
 

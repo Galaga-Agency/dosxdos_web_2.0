@@ -30,14 +30,6 @@ const CTASection: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="cta-section">
-      <div className="cta-section__decorative-elements" ref={decorRef}>
-        <div className="cta-section__decor cta-section__decor-dots"></div>
-        <div className="cta-section__decor cta-section__decor-line-1"></div>
-        <div className="cta-section__decor cta-section__decor-line-2"></div>
-        <div className="cta-section__decor cta-section__decor-circle"></div>
-        <div className="cta-section__decor cta-section__decor-grid"></div>
-      </div>
-
       <div className="cta-section__container">
         <div ref={contentRef} className="cta-section__glass-card">
           <div className="cta-section__label">

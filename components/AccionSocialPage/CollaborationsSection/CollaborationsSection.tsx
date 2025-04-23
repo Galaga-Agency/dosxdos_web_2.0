@@ -9,6 +9,7 @@ import {
 } from "@/utils/animations/panel-animation";
 import "./CollaborationsSection.scss";
 import { collaborationData } from "@/data/collaborations";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const CollaborationsSection: React.FC = () => {
   const initialized = useRef<boolean>(false);
@@ -56,37 +57,45 @@ const CollaborationsSection: React.FC = () => {
       <div className="project-panel-area">
         {collaborationData.map((collaboration) => (
           <div key={collaboration.id} className="project-panel">
-            <div className="project-panel__image">
-              <Image
-                src={collaboration.illustration}
-                alt={collaboration.title}
-                width={1920}
-                height={1080}
-                className="project-panel__image-file"
-                priority={collaboration.id === 1}
-              />
-              <div className="project-panel__overlay"></div>
-              <div className="project-panel__logo">
+            <div className="project-panel__split-container">
+              <div className="project-panel__image-side">
                 <Image
-                  src={collaboration.image}
-                  alt={`Logo de ${collaboration.title}`}
-                  width={120}
-                  height={80}
-                  className="project-panel__logo-image"
+                  src={collaboration.illustration}
+                  alt={collaboration.title}
+                  fill
+                  className="project-panel__image-file"
+                  priority={collaboration.id === 1}
                 />
+                <div className="project-panel__logo">
+                  <Image
+                    src={collaboration.image}
+                    alt={`Logo de ${collaboration.title}`}
+                    width={180}
+                    height={120}
+                    className="project-panel__logo-image"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="project-panel__content">
-              <h3 className="project-panel__title">{collaboration.title}</h3>
-              <Link
-                href={collaboration.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="project-panel__link"
-              >
-                Ver Colaboración
-              </Link>
+              <div className="project-panel__content-side">
+                <div className="project-panel__content">
+                  <h3 className="project-panel__title">
+                    {collaboration.title}
+                  </h3>
+                  <p className="project-panel__description">
+                    {collaboration.description}
+                  </p>
+                  <PrimaryButton
+                    href={collaboration.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="project-panel__link"
+                  >
+                    Visitar Web Oficial
+                    <span className="project-panel__link-arrow">→</span>
+                  </PrimaryButton>
+                </div>
+              </div>
             </div>
           </div>
         ))}
