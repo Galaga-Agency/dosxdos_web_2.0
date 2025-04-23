@@ -8,15 +8,10 @@ import {
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
 import "./CollaborationsSection.scss";
-
 import { collaborationData } from "@/data/collaborations";
 
 const CollaborationsSection: React.FC = () => {
-  const initialized = useRef(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const collaborationsRef = useRef<HTMLDivElement>(null);
+  const initialized = useRef<boolean>(false);
 
   useEffect(() => {
     // Only initialize once
@@ -43,57 +38,54 @@ const CollaborationsSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="latest-collaborations" ref={sectionRef}>
+    <section className="latest-projects">
       {/* Header section with title and subtitle */}
-      <div className="latest-collaborations__header-container">
-        <div className="latest-collaborations__header">
-          <h2 ref={titleRef} className="latest-collaborations__title">
+      <div className="latest-projects__header-container">
+        <div className="latest-projects__header">
+          <h2 className="latest-projects__title">
             FUNDACIONES <span className="highlight">COLABORADORAS</span>
           </h2>
-          <p ref={subtitleRef} className="latest-collaborations__subtitle">
+          <p className="latest-projects__subtitle">
             Nuestro compromiso social con organizaciones que marcan la
             diferencia
           </p>
         </div>
       </div>
 
-      {/* Collaborations panel area */}
-      <div className="latest-collaborations__panels" ref={collaborationsRef}>
+      {/* Projects panel area */}
+      <div className="project-panel-area">
         {collaborationData.map((collaboration) => (
-          <div key={collaboration.id} className="collaboration-panel">
-            <div className="collaboration-panel__illustration-container">
-              <div
-                className="collaboration-panel__illustration"
-                style={{
-                  backgroundImage: `url(${collaboration.illustration})`,
-                }}
-              >
-                <div className="collaboration-panel__logo-container">
-                  <Image
-                    src={collaboration.image}
-                    alt={`${collaboration.title} logo`}
-                    width={120}
-                    height={80}
-                    className="collaboration-panel__logo"
-                  />
-                </div>
+          <div key={collaboration.id} className="project-panel">
+            <div className="project-panel__image">
+              <Image
+                src={collaboration.illustration}
+                alt={collaboration.title}
+                width={1920}
+                height={1080}
+                className="project-panel__image-file"
+                priority={collaboration.id === 1}
+              />
+              <div className="project-panel__overlay"></div>
+              <div className="project-panel__logo">
+                <Image
+                  src={collaboration.image}
+                  alt={`Logo de ${collaboration.title}`}
+                  width={120}
+                  height={80}
+                  className="project-panel__logo-image"
+                />
               </div>
             </div>
-            <div className="collaboration-panel__content">
-              <h3 className="collaboration-panel__title">
-                {collaboration.title}
-              </h3>
-              <p className="collaboration-panel__description">
-                {collaboration.description}
-              </p>
+
+            <div className="project-panel__content">
+              <h3 className="project-panel__title">{collaboration.title}</h3>
               <Link
                 href={collaboration.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="collaboration-panel__link"
+                className="project-panel__link"
               >
                 Ver Colaboración
-                <span className="collaboration-panel__link-arrow">→</span>
               </Link>
             </div>
           </div>
