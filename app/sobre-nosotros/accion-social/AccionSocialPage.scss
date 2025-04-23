@@ -4,7 +4,7 @@
 @use "base/animations" as *;
 
 .accion-social-page {
-    position: relative;
+  position: relative;
   margin-inline: auto;
   min-height: 100vh;
   width: 100%;
@@ -13,6 +13,7 @@
   &__container {
     @include container-width(mobile);
     margin: 0 auto;
+    position: relative;
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -32,8 +33,9 @@
     left: 2rem;
     top: 50vh;
     transform: translateY(-50%);
-    z-index: 10;
+    z-index: 9999; // Very high z-index to ensure it stays on top
     display: none;
+    pointer-events: auto; // Ensure it's clickable
 
     @include min-width(xl) {
       display: block;
@@ -45,18 +47,19 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    position: relative;
 
     &::after {
       content: "";
       position: absolute;
       bottom: -12rem;
+      left: 50%;
+      transform: translateX(-50%);
       width: 3px;
       height: 10rem;
       background: linear-gradient(
         to bottom,
-        rgba($secondary-color, 0.3),
-        rgba($secondary-color, 0.1),
+        rgba($black, 0.3),
+        rgba($black, 0.1),
         transparent
       );
     }
@@ -68,7 +71,7 @@
     transform: rotate(180deg);
     font-weight: 600;
     letter-spacing: 1px;
-    color: $white;
+    color: $black;
     mix-blend-mode: difference;
     margin-bottom: 1rem;
   }

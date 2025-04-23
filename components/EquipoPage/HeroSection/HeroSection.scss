@@ -37,7 +37,6 @@
     }
   }
   
-  // Overlay sombre sur l'image
   &__overlay {
     position: absolute;
     top: 0;
@@ -90,12 +89,11 @@
     
     @include min-width(md) {
       margin-top: 160px;
-      @include font-size(5xl);
+      @include font-size(7xl);
     }
     
     @include min-width(lg) {
       margin-top: 140px;
-      @include font-size(6xl);
     }
   }
   
