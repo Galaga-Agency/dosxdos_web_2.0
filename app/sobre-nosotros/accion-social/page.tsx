@@ -10,6 +10,7 @@ import {
 } from "@/utils/animations/scrolltrigger-config";
 import HeroSection from "@/components/AccionSocialPage/HeroSection/HeroSection";
 import ValuesSection from "@/components/AccionSocialPage/ValuesSection/ValuesSection";
+import CollaborationsSection from "@/components/AccionSocialPage/CollaborationsSection/CollaborationsSection";
 
 const AccionSocialPage: React.FC = () => {
   useEffect(() => {
@@ -34,6 +35,7 @@ const AccionSocialPage: React.FC = () => {
           <div className="accion-social-page__container">
             <HeroSection />
             <ValuesSection />
+            <CollaborationsSection />
 
             <div className="accion-social-page__mobile-social-section">
               <div className="accion-social-page__mobile-social-header">

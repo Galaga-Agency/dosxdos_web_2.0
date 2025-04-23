@@ -130,7 +130,7 @@ const HeroSection: React.FC = () => {
         >
           <div ref={heroImageRef} className="hero-section__image-wrapper">
             <Image
-              src="/assets/img/about-us-page/family.jpg"
+              src="/assets/img/about-us-page/family.webp"
               alt="Equipo dosxdos"
               fill
               quality={100}

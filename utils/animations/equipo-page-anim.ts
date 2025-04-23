@@ -281,6 +281,7 @@ interface StoryAnimationRefs {
   services: HTMLDivElement | null;
   decor: HTMLDivElement | null;
   originStory?: HTMLDivElement | null;
+  originImage?: HTMLDivElement | null;
 }
 
 export function animateStorySection(refs: StoryAnimationRefs): void {
@@ -288,9 +289,9 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const { section, title, text, services, decor, originStory } = refs;
+  const { section, title, text, services, decor, originStory, originImage } = refs;
 
-  if (!section || !title || !text || !services) return;
+  if (!section || !title || !text || !services || !originImage) return;
 
   // Floating decoration animations
   if (decor) {
@@ -381,6 +382,65 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
       stagger: 0.2,
       duration: 0.5,
     });
+  }
+
+  // Animate floating image with parallax if it exists
+  if (originImage) {
+    const innerContainer = originImage.querySelector(
+      ".story-section__image-frame-inner"
+    );
+    const container = originImage;
+
+    // Parallax for container
+    gsap.fromTo(
+      container,
+      { y: "0%" },
+      {
+        y: "-20%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.8,
+        },
+      }
+    );
+
+    // Parallax for inner container
+    if (innerContainer) {
+      gsap.fromTo(
+        innerContainer,
+        { y: "0%" },
+        {
+          y: "15%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: container,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2,
+          },
+        }
+      );
+    }
+
+    // Add corner animations
+    const corners = originImage.querySelectorAll(
+      ".story-section__image-corner"
+    );
+    tl.fromTo(
+      corners,
+      { opacity: 0, scale: 0 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        stagger: 0.1,
+        delay: 0.2,
+      },
+      1.5
+    );
   }
 
   ScrollTrigger.refresh();
