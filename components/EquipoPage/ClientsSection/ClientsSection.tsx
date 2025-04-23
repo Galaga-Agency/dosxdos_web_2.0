@@ -78,7 +78,7 @@ const ClientsSection: React.FC = () => {
           </p>
 
           <div ref={ctaRef} className="clients-section__cta">
-            <Link href="/sobre-nosotros" className="clients-section__cta-link">
+            <Link href="/sobre-nosotros/accion-social" className="clients-section__cta-link">
               <span className="clients-section__cta-icon">○</span> Más sobre
               nosotros
             </Link>

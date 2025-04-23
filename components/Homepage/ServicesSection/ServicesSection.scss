@@ -150,6 +150,7 @@
 
     @include min-width(lg) {
       grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 8rem;
     }
 
     @media screen and (max-width: 480px) {
