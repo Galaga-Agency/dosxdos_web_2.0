@@ -17,12 +17,12 @@ const ServicesSection: React.FC = () => {
       const timer = setTimeout(() => {
         charAnimation(titleRef.current);
       }, 500);
-      
+
       // Initialize card mouse parallax after everything is rendered
       const parallaxTimer = setTimeout(() => {
         initCardMouseParallax();
       }, 1000);
-      
+
       return () => {
         clearTimeout(timer);
         clearTimeout(parallaxTimer);
@@ -32,13 +32,6 @@ const ServicesSection: React.FC = () => {
 
   return (
     <section className="services-section">
-      <div className="services-section__decorative-elements">
-        <div className="services-section__decor-dots"></div>
-        <div className="services-section__decor-line"></div>
-        <div className="services-section__decor-circle"></div>
-        <div className="services-section__decor-grid"></div>
-      </div>
-      
       <div className="container">
         <h2 ref={titleRef} className="title">
           Nuestros <span>servicios</span>
@@ -47,7 +40,7 @@ const ServicesSection: React.FC = () => {
           Nuestros equipos en <strong>Canarias</strong> y{" "}
           <strong>Madrid</strong>. Nuestros servicios donde los necesites.
         </p>
-        
+
         <div className="grid">
           {categoriesList.map((service) => (
             <HoverCard
@@ -61,12 +54,12 @@ const ServicesSection: React.FC = () => {
           ))}
         </div>
       </div>
-      
+
       <div className="marquee-container">
         <div className="marquee-track">
           <div className="marquee-text">
             {Array.from({ length: 50 }).map((_, i) => (
-              <span key={i}>OUR WORK&nbsp;</span>
+              <span key={i}>our work&nbsp;</span>
             ))}
           </div>
         </div>

@@ -1,6 +1,5 @@
-"use client";
-
 import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import { animateStorySection } from "@/utils/animations/equipo-page-anim";
 import "./StorySection.scss";
@@ -13,6 +12,7 @@ const StorySection: React.FC = () => {
   const servicesRef = useRef<HTMLDivElement>(null);
   const decorRef = useRef<HTMLDivElement>(null);
   const originStoryRef = useRef<HTMLDivElement>(null);
+  const originImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,6 +24,7 @@ const StorySection: React.FC = () => {
           services: servicesRef.current,
           decor: decorRef.current,
           originStory: originStoryRef.current,
+          originImage: originImageRef.current,
         });
       });
     }, 300);
@@ -60,14 +61,6 @@ const StorySection: React.FC = () => {
 
   return (
     <section className="story-section" ref={sectionRef}>
-      <div className="story-section__decorative-elements" ref={decorRef}>
-        <div className="story-section__decor story-section__decor-dots"></div>
-        <div className="story-section__decor story-section__decor-line-1"></div>
-        <div className="story-section__decor story-section__decor-line-2"></div>
-        <div className="story-section__decor story-section__decor-circle"></div>
-        <div className="story-section__decor story-section__decor-grid"></div>
-      </div>
-
       <div className="story-section__container">
         <div className="story-section__content-wrapper">
           <div className="story-section__label">
@@ -127,8 +120,8 @@ const StorySection: React.FC = () => {
           </div>
         </div>
 
-        <div ref={originStoryRef} className="story-section__origin-wrapper">
-          <div className="story-section__origin">
+        <div className="story-section__origin-wrapper">
+          <div ref={originStoryRef} className="story-section__origin">
             <h3>Nuestros Orígenes</h3>
             <p>
               Actualmente, somos un gran equipo formado por más de 45
@@ -168,6 +161,26 @@ const StorySection: React.FC = () => {
               con la misma ilusión y esencia de entonces, hace ya más de 36
               años.
             </p>
+          </div>
+
+          <div ref={originImageRef} className="story-section__origin-image">
+            <div className="story-section__image-frame">
+              <div className="story-section__image-frame-inner">
+                <Image
+                  src="/assets/img/about-us-page/family.jpg"
+                  alt="Fundadores de Dos Por Dos"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  className="story-section__image"
+                  priority
+                />
+                <div className="story-section__image-overlay"></div>
+                <div className="story-section__image-corner tl"></div>
+                <div className="story-section__image-corner tr"></div>
+                <div className="story-section__image-corner bl"></div>
+                <div className="story-section__image-corner br"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

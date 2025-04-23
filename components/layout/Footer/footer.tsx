@@ -84,7 +84,7 @@ const Footer = () => {
                 />
               </Link>
               <p className="footer__tagline">
-                Creamos espacios que conectan, emocionan y venden.
+                Creamos espacios que inspiran.
               </p>
             </div>
             <div className="footer__contact" ref={contactRef}>

@@ -5,7 +5,7 @@
 .cta-section {
   position: relative;
   overflow: hidden;
-  padding:0 0 2rem;
+  padding: 0 0 2rem;
   margin: 0 auto;
 
   @include container-width(mobile);
@@ -20,93 +20,6 @@
 
   @include min-width(xl) {
     @include container-width(desktop);
-  }
-
-  &__decorative-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  &__decor {
-    position: absolute;
-    z-index: 1;
-    opacity: 0; // Start hidden for animation
-
-    @include min-width(md) {
-      display: block;
-    }
-
-    &-dots {
-      position: absolute;
-      left: 10%;
-      top: 15%;
-      width: 100px;
-      height: 100px;
-      background-image: radial-gradient(
-        circle,
-        rgba($black, 0.2) 1px,
-        transparent 1px
-      );
-      background-size: 10px 10px;
-      opacity: 0;
-    }
-
-    &-line-1 {
-      position: absolute;
-      right: 10%;
-      top: 35%;
-      width: 100px;
-      height: 1px;
-      background-color: rgba($black, 0.25);
-
-      &::after {
-        content: "";
-        position: absolute;
-        right: -5px;
-        top: -2px;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background-color: rgba($black, 0.5);
-      }
-    }
-
-    &-line-2 {
-      position: absolute;
-      left: 15%;
-      bottom: 30%;
-      width: 120px;
-      height: 1px;
-      background-color: rgba($black, 0.25);
-      transform: rotate(-45deg);
-    }
-
-    &-circle {
-      position: absolute;
-      right: 8%;
-      bottom: 15%;
-      width: 150px;
-      height: 150px;
-      border: 1px solid rgba($black, 0.15);
-      border-radius: 50%;
-    }
-
-    &-grid {
-      position: absolute;
-      top: 50%;
-      left: 5%;
-      width: 100px;
-      height: 100px;
-      background-image: linear-gradient(rgba($black, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba($black, 0.1) 1px, transparent 1px);
-      background-size: 20px 20px;
-      opacity: 0;
-    }
   }
 
   &__container {
@@ -124,7 +37,7 @@
   &__glass-card {
     background: rgba($white, 0.6);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba($white, 0.3);
+    border: 1px solid rgba($black, 0.1);
     box-shadow: $shadow-lg;
     @include border-radius(lg);
     padding: 2rem;
@@ -134,6 +47,7 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    margin: 2rem ;
 
     @include min-width(md) {
       padding: 3rem;
@@ -187,7 +101,7 @@
         transform: translateY(-50%);
         width: 20px;
         height: 1px;
-        background-color: rgba($black, 0.6);
+        background-color: rgba($primary-color, 0.3);
       }
     }
   }
@@ -204,7 +118,7 @@
   &__title {
     @include font-size(3xl);
     font-weight: 800;
-    color: rgba($black, 0.3);
+    color: rgba($black, 0.8);
     line-height: 1.15;
     margin-bottom: 1.5rem;
 
@@ -223,12 +137,12 @@
     }
 
     .highlight {
-      color: $black;
+      color: rgba($black, 0.7);
       position: relative;
       display: inline-block;
       background-image: linear-gradient(
-        rgba($black, 0.2) 70%,
-        rgba($black, 0.2) 100%
+        transparent 70%,
+        rgba($primary-color, 0.1) 100%
       );
       background-repeat: no-repeat;
       background-size: 0% 100%;
@@ -254,28 +168,5 @@
     display: inline-block;
     width: auto;
     margin: 0 auto;
-
-    // Glass effect behind button
-    &::before {
-      content: "";
-      position: absolute;
-      top: -15px;
-      left: -15px;
-      right: -15px;
-      bottom: -15px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      background-color: rgba($white, 0.3);
-      box-shadow: 0 5px 15px rgba($black, 0.03);
-      z-index: -1;
-      opacity: 0;
-      transform: scale(0.95);
-      transition: all 0.4s ease;
-    }
-
-    &:hover::before {
-      opacity: 1;
-      transform: scale(1);
-    }
   }
 }

@@ -13,24 +13,37 @@
   &__container {
     width: 100%;
     position: relative;
-    
+
     &.has-header {
-      @include flex(row, flex-start, center);
-      gap: 2rem;
-      
+      @include flex(column, flex-start, unset);
+
       @include min-width(lg) {
         gap: 4rem;
+        @include flex(row, flex-start, center);
       }
     }
   }
 
   &__header {
     flex-shrink: 0;
-    
+    position: relative;
+
+    // Subtle red accent line
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: rgba($primary-color, 0.3);
+    }
+
     &-title {
       @include font-size(2xl);
       @include font-weight(bold);
-      
+      color: $black;
+
       @include min-width(lg) {
         @include font-size(3xl);
       }
@@ -86,22 +99,22 @@
   position: relative;
   display: inline-block;
   z-index: 1;
-  
+
   &::after {
     content: "";
     position: absolute;
     bottom: 0;
-    left: -5px; 
-    right: -5px; 
+    left: -5px;
+    right: -5px;
     width: calc(100% + 10px);
     height: 40%;
-    background-color: rgba($black, 0.9);
-    opacity: 0.2;
+    background-color: rgba($black, 0.2);
+    opacity: 0.3;
     z-index: -1;
     transform: skew(-10deg);
   }
 }
 
 .shadow-text {
-  text-shadow: 2px 2px 4px rgba($black, 0.1);
+  text-shadow: 2px 2px 4px rgba($primary-color, 0.05);
 }

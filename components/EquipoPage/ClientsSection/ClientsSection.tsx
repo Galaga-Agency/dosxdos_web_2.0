@@ -60,7 +60,7 @@ const ClientsSection: React.FC = () => {
 
           <h2 ref={titleRef} className="clients-section__title">
             <span className="word">Nuestros</span>{" "}
-            <span className="word">clientes</span>
+            <span className="word highlight">clientes</span>
           </h2>
         </div>
       </div>
