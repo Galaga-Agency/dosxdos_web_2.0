@@ -69,7 +69,7 @@ const AboutUsSection: React.FC = () => {
               cada proyecto un <strong>espacio con esencia propia</strong>.
             </p>
             <div ref={ctaRef} className="aboutus-section__cta">
-              <PrimaryButton href="/servicios" size="medium">
+              <PrimaryButton href="/sobre-nosotros/equipo" size="medium">
                 Sobre Nosotros
               </PrimaryButton>
             </div>
