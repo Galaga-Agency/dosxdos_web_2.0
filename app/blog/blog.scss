@@ -11,24 +11,6 @@
   width: 100%;
   padding-block: 8rem;
 
-  // Subtle decorative element for the entire page
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 35%;
-    height: 400px;
-    background-image: radial-gradient(
-      circle,
-      rgba($black, 0.03) 1px,
-      transparent 1px
-    );
-    background-size: 15px 15px;
-    opacity: 0.5;
-    z-index: -1;
-  }
-
   @include min-width(lg) {
     padding-block: 10rem;
   }

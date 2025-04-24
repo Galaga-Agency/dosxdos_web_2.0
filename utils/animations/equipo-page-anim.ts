@@ -1,6 +1,26 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
+// Store all ScrollTrigger instances for cleanup
+const scrollTriggerInstances: ScrollTrigger[] = [];
+
+// Helper to safely add ScrollTrigger instances to our cleanup array
+const trackScrollTrigger = (instance: ScrollTrigger): ScrollTrigger => {
+  scrollTriggerInstances.push(instance);
+  return instance;
+};
+
+// Function to clean up all ScrollTrigger instances
+export function cleanupAllAnimations(): void {
+  // Kill all tracked ScrollTrigger instances
+  scrollTriggerInstances.forEach((trigger) => {
+    if (trigger) trigger.kill();
+  });
+
+  // Clear the array
+  scrollTriggerInstances.length = 0;
+}
+
 // Types for animation references
 interface HeroAnimationRefs {
   titleRef: React.RefObject<HTMLHeadingElement>;
@@ -28,6 +48,10 @@ interface FloatingImage {
 
 // Hero section animations initialization
 export function initHeroAnimations(refs: HeroAnimationRefs): void {
+  if (typeof window === "undefined") return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
   const {
     titleRef,
     underlineRef,
@@ -38,10 +62,6 @@ export function initHeroAnimations(refs: HeroAnimationRefs): void {
     decorElements,
     floatingImages,
   } = refs;
-
-  if (typeof window === "undefined") return;
-
-  gsap.registerPlugin(ScrollTrigger);
 
   // Set up parallax for hero image
   setupParallax(heroImageContainerRef, heroImageRef);
@@ -167,21 +187,25 @@ function setupParallax(
   setTimeout(() => {
     if (!containerRef.current || !targetRef.current) return;
 
-    gsap.to(targetRef.current, {
-      y: "-20%",
-      ease: "none",
-      scrollTrigger: {
-        id: "hero-parallax",
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1.2,
-        invalidateOnRefresh: true,
+    const instance = ScrollTrigger.create({
+      id: "hero-parallax",
+      trigger: containerRef.current,
+      start: "top top",
+      end: "bottom top",
+      scrub: 1.2,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        gsap.to(targetRef.current, {
+          y: `-${self.progress * 20}%`,
+          ease: "none",
+          overwrite: "auto",
+        });
       },
     });
-  }, 200);
 
-  ScrollTrigger.refresh();
+    // Track this ScrollTrigger instance for cleanup
+    trackScrollTrigger(instance);
+  }, 200);
 }
 
 function setupFloatingImagesParallax(floatingImages: FloatingImage[]): void {
@@ -189,43 +213,45 @@ function setupFloatingImagesParallax(floatingImages: FloatingImage[]): void {
     const { container, inner, offset, innerOffset } = image;
 
     if (container.current) {
-      gsap.fromTo(
-        container.current,
-        { y: "0%" },
-        {
-          y: `${offset}%`,
-          ease: "none",
-          scrollTrigger: {
-            id: `floating-container-${index}`,
-            trigger: container.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.8,
-          },
-        }
-      );
+      const containerInstance = ScrollTrigger.create({
+        id: `floating-container-${index}`,
+        trigger: container.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.8,
+        onUpdate: (self) => {
+          gsap.to(container.current, {
+            y: `${self.progress * offset}%`,
+            ease: "none",
+            overwrite: "auto",
+          });
+        },
+      });
+
+      // Track this ScrollTrigger instance for cleanup
+      trackScrollTrigger(containerInstance);
     }
 
     if (inner.current && inner.current.parentElement) {
-      gsap.fromTo(
-        inner.current,
-        { y: "0%" },
-        {
-          y: `${innerOffset}%`,
-          ease: "none",
-          scrollTrigger: {
-            id: `floating-inner-${index}`,
-            trigger: inner.current.parentElement,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2,
-          },
-        }
-      );
+      const innerInstance = ScrollTrigger.create({
+        id: `floating-inner-${index}`,
+        trigger: inner.current.parentElement,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.2,
+        onUpdate: (self) => {
+          gsap.to(inner.current, {
+            y: `${self.progress * innerOffset}%`,
+            ease: "none",
+            overwrite: "auto",
+          });
+        },
+      });
+
+      // Track this ScrollTrigger instance for cleanup
+      trackScrollTrigger(innerInstance);
     }
   });
-
-  ScrollTrigger.refresh();
 }
 
 // Animate EquipoPage decorations
@@ -249,8 +275,6 @@ export function animateDecorations(elements: (HTMLElement | null)[]): void {
       ease: "power3.out",
     }
   );
-
-  ScrollTrigger.refresh();
 }
 
 // Animate social sidebar
@@ -270,8 +294,6 @@ export function animateSocialSidebar(sidebar: HTMLElement): void {
       ease: "power2.out",
     }
   );
-
-  ScrollTrigger.refresh();
 }
 
 interface StoryAnimationRefs {
@@ -307,14 +329,18 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
   }
 
   // Main content animations triggered by scroll
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top 60%",
-      toggleActions: "play none none none",
-      markers: false,
-    },
+  const tl = gsap.timeline();
+
+  const mainTrigger = ScrollTrigger.create({
+    trigger: section,
+    start: "top 60%",
+    toggleActions: "play none none none",
+    markers: false,
+    animation: tl,
   });
+
+  // Track this ScrollTrigger instance for cleanup
+  trackScrollTrigger(mainTrigger);
 
   // Prepare the highlight element
   const highlightEl = title.querySelector(".highlight");
@@ -361,28 +387,27 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
   if (originStory) {
     const originStoryParagraphs = originStory.querySelectorAll("p");
 
-    gsap.from(originStory, {
-      scrollTrigger: {
-        trigger: originStory,
-        start: "top 80%",
-        toggleActions: "play none none none",
+    const originStoryTrigger = ScrollTrigger.create({
+      trigger: originStory,
+      start: "top 80%",
+      toggleActions: "play none none none",
+      onEnter: () => {
+        gsap.fromTo(
+          originStory,
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 0.6 }
+        );
+
+        gsap.fromTo(
+          originStoryParagraphs,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, stagger: 0.2, duration: 0.5 }
+        );
       },
-      opacity: 0,
-      y: 50,
-      duration: 0.6,
     });
 
-    gsap.from(originStoryParagraphs, {
-      scrollTrigger: {
-        trigger: originStory,
-        start: "top 80%",
-        toggleActions: "play none none none",
-      },
-      opacity: 0,
-      y: 30,
-      stagger: 0.2,
-      duration: 0.5,
-    });
+    // Track this ScrollTrigger instance for cleanup
+    trackScrollTrigger(originStoryTrigger);
   }
 
   // Animate image with fixed parallax effect
@@ -393,16 +418,21 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
     const imageElement = originImage.querySelector(".story-section__image");
 
     // Initial reveal animation for the image container
-    gsap.from(originImage, {
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: originImage,
-        start: "top 85%",
-        toggleActions: "play none none none",
+    const imageRevealTrigger = ScrollTrigger.create({
+      trigger: originImage,
+      start: "top 85%",
+      toggleActions: "play none none none",
+      onEnter: () => {
+        gsap.fromTo(
+          originImage,
+          { opacity: 0, y: 40 },
+          { opacity: 1, y: 0, duration: 0.8 }
+        );
       },
     });
+
+    // Track this ScrollTrigger instance for cleanup
+    trackScrollTrigger(imageRevealTrigger);
 
     // Fixed parallax for the inner container - more stable approach
     if (innerContainer && imageElement) {
@@ -410,7 +440,7 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
       gsap.set(imageElement, { scale: 1.1 });
 
       // Create smoother parallax with reduced movement
-      ScrollTrigger.create({
+      const parallaxTrigger = ScrollTrigger.create({
         trigger: originImage,
         start: "top bottom",
         end: "bottom top",
@@ -425,6 +455,9 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
           });
         },
       });
+
+      // Track this ScrollTrigger instance for cleanup
+      trackScrollTrigger(parallaxTrigger);
     }
 
     // Add corner animations
@@ -444,9 +477,6 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
       1.5
     );
   }
-
-  // Ensure ScrollTrigger is refreshed for accurate positioning
-  ScrollTrigger.refresh();
 }
 
 // Animation refs interface for Stats Section
@@ -464,21 +494,22 @@ export function animateStatsSection(refs: StatAnimationRefs): void {
 
   const { section, title, statsRefs } = refs;
 
-  // Kill existing ScrollTriggers for this section
-  ScrollTrigger.getAll()
-    .filter((trigger) => trigger.trigger === section)
-    .forEach((trigger) => trigger.kill());
+  if (!section) return;
 
   // Create a single timeline for all stats animations
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top 75%",
-      end: "top 25%",
-      toggleActions: "play none none none",
-      once: true,
-    },
+  const tl = gsap.timeline();
+
+  const statsTrigger = ScrollTrigger.create({
+    trigger: section,
+    start: "top 75%",
+    end: "top 25%",
+    toggleActions: "play none none none",
+    once: true,
+    animation: tl,
   });
+
+  // Track this ScrollTrigger instance for cleanup
+  trackScrollTrigger(statsTrigger);
 
   // Title animation
   if (title) {
@@ -540,11 +571,6 @@ export function animateStatsSection(refs: StatAnimationRefs): void {
   }
 }
 
-// Cleanup function to kill all ScrollTrigger instances
-export function cleanupStatsAnimations(): void {
-  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-}
-
 interface ClientsAnimationRefs {
   section: HTMLDivElement | null;
   title: HTMLHeadingElement | null;
@@ -564,7 +590,7 @@ export function animateClientsSection(refs: ClientsAnimationRefs): void {
   if (!section) return;
 
   // Use a single ScrollTrigger for the whole section
-  ScrollTrigger.create({
+  const clientsTrigger = ScrollTrigger.create({
     trigger: section,
     start: "top 85%",
     end: "bottom 15%",
@@ -598,6 +624,9 @@ export function animateClientsSection(refs: ClientsAnimationRefs): void {
       }
     },
   });
+
+  // Track this ScrollTrigger instance for cleanup
+  trackScrollTrigger(clientsTrigger);
 
   // Separate decoration animation
   if (decor) {
@@ -641,38 +670,47 @@ export function animateCTASection(refs: CTAAnimationRefs): void {
     });
 
     // Animate in decorative elements
-    gsap.to(decorElements, {
-      opacity: (i) => (i === 0 || i === 4 ? 0.3 : 1),
-      y: 0,
-      duration: 1.2,
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: section,
-        start: "top 80%",
-        toggleActions: "play none none none",
+    const decorTrigger = ScrollTrigger.create({
+      trigger: section,
+      start: "top 80%",
+      toggleActions: "play none none none",
+      onEnter: () => {
+        gsap.to(decorElements, {
+          opacity: (i) => (i === 0 || i === 4 ? 0.3 : 1),
+          y: 0,
+          duration: 1.2,
+          stagger: 0.15,
+        });
+
+        // Add subtle floating animation
+        gsap.to(".cta-section__decor", {
+          y: (i) => (i % 2 === 0 ? -8 : -12),
+          duration: (i) => 2 + i * 0.5,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          stagger: 0.3,
+          delay: 1,
+        });
       },
     });
 
-    // Add subtle floating animation
-    gsap.to(".cta-section__decor", {
-      y: (i) => (i % 2 === 0 ? -8 : -12),
-      duration: (i) => 2 + i * 0.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: 0.3,
-      delay: 1,
-    });
+    // Track this ScrollTrigger instance for cleanup
+    trackScrollTrigger(decorTrigger);
   }
 
   // Main content animations triggered by scroll
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top 85%",
-      toggleActions: "play none none none",
-    },
+  const tl = gsap.timeline();
+
+  const mainTrigger = ScrollTrigger.create({
+    trigger: section,
+    start: "top 85%",
+    toggleActions: "play none none none",
+    animation: tl,
   });
+
+  // Track this ScrollTrigger instance for cleanup
+  trackScrollTrigger(mainTrigger);
 
   // Prepare the highlight element
   const highlightEl = title.querySelector(".highlight");
@@ -735,7 +773,4 @@ export function animateCTASection(refs: CTAAnimationRefs): void {
       },
       "-=0.7"
     );
-
-  // Ensure ScrollTrigger is refreshed
-  ScrollTrigger.refresh();
 }
