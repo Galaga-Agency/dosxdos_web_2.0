@@ -1,59 +1,28 @@
 "use client";
 
 import { useEffect } from "react";
-import gsap from "gsap";
+import {
+  initLoadingAnimations,
+  cleanupLoadingAnimations,
+} from "@/utils/animations/loading-anim";
 import "./Loading.scss";
 
 export default function Loading() {
   useEffect(() => {
+    // Scroll to top when loading is shown
     window.scrollTo(0, 0);
 
-    // Animation for bounce effect
-    const elements = document.querySelectorAll(".bounce-item");
-    const tl = gsap.timeline({ repeat: -1 });
+    // Initialize animations
+    initLoadingAnimations();
 
-    elements.forEach((el, i) => {
-      tl.to(
-        el,
-        {
-          y: -12,
-          duration: 0.4,
-          ease: "sine.inOut",
-        },
-        i * 0.12
-      ).to(
-        el,
-        {
-          y: 0,
-          duration: 0.4,
-          ease: "sine.inOut",
-        },
-        i * 0.12 + 0.4
-      );
-    });
-
-    // Add subtle rotation animation to the decorative elements
-    gsap.to(".loading__decor-circle", {
-      rotation: 360,
-      duration: 20,
-      repeat: -1,
-      ease: "none"
-    });
-
-    // Clean up function
+    // Cleanup animations when component unmounts
     return () => {
-      tl.kill();
+      cleanupLoadingAnimations();
     };
   }, []);
 
   return (
     <div className="loading">
-      {/* Decorative elements */}
-      <div className="loading__decor-circle"></div>
-      <div className="loading__decor-square"></div>
-      <div className="loading__decor-line"></div>
-      <div className="loading__decor-dots"></div>
-      
       <div className="loading__container">
         <div className="loading__line">
           <div className="loading__svg-block">
@@ -65,7 +34,7 @@ export default function Loading() {
             >
               <g
                 transform="translate(0,951) scale(0.1,-0.1)"
-                fill="#281528"
+                fill="#e63322"
                 stroke="none"
               >
                 <path d="M895 6862 c-49 -23 -79 -55 -100 -104 -12 -30 -15 -83 -15 -280 0 -282 3 -291 91 -373 30 -28 413 -363 851 -744 698 -607 798 -698 798 -722 0 -24 -105 -119 -847 -763 -467 -404 -857 -750 -868 -768 -19 -31 -20 -51 -20 -305 l0 -271 30 -43 c17 -23 48 -51 70 -63 47 -24 127 -27 167 -5 27 15 2077 1790 2185 1892 38 36 70 78 85 110 21 48 23 65 23 222 0 165 -1 171 -27 220 -14 28 -44 66 -65 86 -115 110 -2182 1903 -2203 1911 -48 20 -113 20 -155 0z" />
@@ -91,8 +60,12 @@ export default function Loading() {
           <span className="dot bounce-item"></span>
           <span className="dot bounce-item"></span>
         </div>
-        
+
         <div className="loading__line-decor"></div>
+
+        <div className="loading__text">
+          <span>Cargando Datos</span>
+        </div>
       </div>
     </div>
   );
