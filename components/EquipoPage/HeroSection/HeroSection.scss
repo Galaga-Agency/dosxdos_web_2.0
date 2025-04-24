@@ -164,7 +164,6 @@
                 0 2px 4px -1px rgba($primary-color, 0.06);
     will-change: transform;
 
-    // Cadre autour de l'image
     &::before {
       content: "";
       position: absolute;
@@ -173,7 +172,6 @@
       z-index: 2;
     }
 
-    // Effet d'ombre décalée
     &::after {
       content: "";
       position: absolute;
@@ -185,7 +183,6 @@
       z-index: -1;
     }
 
-    // Frame corners
     .corner {
       position: absolute;
       width: 20px;

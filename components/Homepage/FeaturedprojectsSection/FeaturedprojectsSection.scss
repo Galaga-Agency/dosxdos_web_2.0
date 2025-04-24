@@ -5,23 +5,126 @@
 
 .latest-projects {
   position: relative;
-  background-color: $secondary-color;
   width: 100%;
-  overflow: hidden;
-  
-  &__header-container {
+  overflow: visible;
+
+  // Corner elements for header - like blog-item
+  &__corner {
+    position: absolute;
+    z-index: 5;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    
+    &.top-left {
+      top: 0;
+      left: 0;
+      border-top: 2px solid rgba($primary-color, 0.7);
+      border-left: 2px solid rgba($primary-color, 0.7);
+    }
+    
+    &.bottom-right {
+      bottom: 0;
+      right: 0;
+      border-bottom: 2px solid rgba($primary-color, 0.7);
+      border-right: 2px solid rgba($primary-color, 0.7);
+    }
+  }
+
+  .marquee-container {
     position: relative;
     width: 100%;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 4rem 1rem;
+    z-index: 1;
+    overflow: hidden;
+    padding: 1rem 0;
+    margin-bottom: -2rem;
+
+    .marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: scroll-marquee 30s linear infinite;
+    }
+
+    .marquee-text {
+      @include font-size(lg);
+      font-weight: 800;
+      color: rgba($secondary-color, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 8px;
+      font-family: var(--font-display);
+      display: inline-block;
+      line-height: 1;
+
+      @include min-width(md) {
+        font-size: 100px;
+      }
+
+      @include min-width(lg) {
+        font-size: 120px;
+      }
+
+      @media screen and (max-width: 768px) {
+        font-size: 80px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 60px;
+      }
+
+      span {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+      }
+    }
+  }
+
+  &__header-container {
+    position: absolute;
+    top: -4rem;
+    left: 30%;
+    transform: translateX(-30%);
+    background: rgba($white, 0.7);
+    backdrop-filter: blur(5px);
+    @include container-width(mobile);
+    margin: 0 auto;
+    z-index: 10;
+    @include flex(column, center, center);
+    gap: 2rem;
+    padding: 2rem;
+    box-shadow: $shadow-lg;
+    border-radius: 4px;
+    overflow: hidden;
+    
+    &:hover {
+      .latest-projects__corner {
+        animation: expand-corner 0.5s forwards;
+      }
+      
+      .latest-projects__title {
+        .highlight::after {
+          transform: scaleX(1);
+        }
+      }
+    }
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
   }
 
   &__header {
     text-align: center;
-    max-width: 800px;
     margin: 0 auto;
     position: relative;
   }
@@ -37,7 +140,6 @@
     display: inline-block;
     text-transform: uppercase;
 
-    // Enhanced underline styling with subtle primary color
     &::after {
       content: "";
       position: absolute;
@@ -49,15 +151,13 @@
       background-color: rgba($primary-color, 0.3);
       transition: width 0.3s ease;
     }
-    
-    // Subtle highlight for title
+
     .highlight {
       color: rgba($primary-color, 0.8);
-          @include font-weight(medium);
-
+      @include font-weight(medium);
       position: relative;
       display: inline-block;
-      
+
       &::after {
         content: "";
         position: absolute;
@@ -71,22 +171,20 @@
         transition: transform 0.3s ease;
       }
     }
-    
+
     @include min-width(md) {
       @include font-size(3xl);
     }
-    
+
     @include min-width(lg) {
       @include font-size(4xl);
     }
   }
-  
-  &:hover &__title {
-    &::after {
-      width: 100px;
-    }
+
+  &:hover &__title::after {
+    width: 100px;
   }
-  
+
   &__subtitle {
     @include font-size(lg);
     color: rgba($black, 0.75);
@@ -96,8 +194,7 @@
     position: relative;
     padding-left: 2rem;
     padding-right: 2rem;
-    
-    // Subtle vertical line with primary color
+
     &::before {
       content: "";
       position: absolute;
@@ -105,9 +202,13 @@
       top: 0;
       width: 1px;
       height: 90%;
-      background: linear-gradient(to bottom, rgba($primary-color, 0.2), transparent);
+      background: linear-gradient(
+        to bottom,
+        rgba($primary-color, 0.2),
+        transparent
+      );
     }
-    
+
     &::after {
       content: "";
       position: absolute;
@@ -115,16 +216,20 @@
       top: 0;
       width: 1px;
       height: 90%;
-      background: linear-gradient(to bottom, transparent, rgba($primary-color, 0.2));
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba($primary-color, 0.2)
+      );
     }
-    
+
     @include min-width(md) {
       @include font-size(xl);
     }
   }
 }
 
-// Project panel area - required for animation
+// IMPORTANT: No changes to the project panel styling below
 .project-panel-area {
   position: relative;
   width: 100%;
@@ -181,7 +286,7 @@
     &:hover {
       transform: translateY(-5px);
     }
-    
+
     @include min-width(md) {
       bottom: 12%;
       left: 10%;
@@ -198,9 +303,8 @@
     padding-bottom: 0.6rem;
     text-shadow: 0 2px 4px rgba($black, 0.3);
 
-    // Decorative underline with subtle primary color
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: 0;
       left: 0;
@@ -228,13 +332,13 @@
     gap: 0.5rem;
     text-decoration: none;
     position: relative;
-    transition: transform 0.3s ease;
-    
+    transition: transform 0.2s ease;
+
     &::after {
       content: "→";
       transition: transform 0.2s ease;
     }
-    
+
     &:hover {
       transform: translateX(5px);
     }

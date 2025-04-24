@@ -15,6 +15,8 @@
     
     .blog-item__glass {
       box-shadow: $shadow-md;
+          background: rgba($white, 0.7);
+    backdrop-filter: blur(5px);
     }
 
     .blog-item__title a {
@@ -131,8 +133,8 @@
   &__glass {
     position: relative;
     padding: 1.25rem;
-    background-color: $white;
-    border: none;
+    background: rgba($white, 0.7);
+    backdrop-filter: blur(5px);    border: none;
     box-shadow: $shadow-sm;
     transition: all 0.4s ease;
     height: 100%;

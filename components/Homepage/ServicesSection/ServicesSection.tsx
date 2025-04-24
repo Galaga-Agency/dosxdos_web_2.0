@@ -54,16 +54,6 @@ const ServicesSection: React.FC = () => {
           ))}
         </div>
       </div>
-
-      <div className="marquee-container">
-        <div className="marquee-track">
-          <div className="marquee-text">
-            {Array.from({ length: 50 }).map((_, i) => (
-              <span key={i}>our work&nbsp;</span>
-            ))}
-          </div>
-        </div>
-      </div>
     </section>
   );
 };

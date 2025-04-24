@@ -8,6 +8,7 @@ import {
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
 import "./FeaturedprojectsSection.scss";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const projectData = [
   {
@@ -45,6 +46,7 @@ const projectData = [
 
 const FeaturedprojectsSection: React.FC = () => {
   const initialized = useRef<boolean>(false);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Only initialize once
@@ -73,7 +75,10 @@ const FeaturedprojectsSection: React.FC = () => {
   return (
     <section className="latest-projects">
       {/* Header section with title and subtitle */}
-      <div className="latest-projects__header-container">
+      <div className="latest-projects__header-container" ref={headerRef}>
+        {/* Added corner elements for animation */}
+        <div className="latest-projects__corner top-left"></div>
+        <div className="latest-projects__corner bottom-right"></div>
         <div className="latest-projects__header">
           <h2 className="latest-projects__title">
             NUESTRO <span className="highlight">TRABAJO</span>
@@ -81,10 +86,23 @@ const FeaturedprojectsSection: React.FC = () => {
           <p className="latest-projects__subtitle">
             Una selección de nuestros proyectos más recientes
           </p>
+        </div>{" "}
+        <PrimaryButton href="/portfolio" size="large">
+          Ver Nuestro Portfolio →
+        </PrimaryButton>
+      </div>
+
+      <div className="marquee-container">
+        <div className="marquee-track">
+          <div className="marquee-text">
+            {Array.from({ length: 50 }).map((_, i) => (
+              <span key={i}>our work&nbsp;</span>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Projects panel area */}
+      {/* Projects panel area - NO CHANGES HERE */}
       <div className="project-panel-area">
         {projectData.map((project) => (
           <div key={project.id} className="project-panel">

@@ -4,6 +4,46 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 // Always register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
+// Store all ScrollTrigger instances for cleanup
+const scrollTriggerInstances: ScrollTrigger[] = [];
+const eventListeners: {
+  element: HTMLElement;
+  type: string;
+  handler: EventListener;
+}[] = [];
+
+// Helper to safely add ScrollTrigger instances to our cleanup array
+const trackScrollTrigger = (instance: ScrollTrigger): ScrollTrigger => {
+  scrollTriggerInstances.push(instance);
+  return instance;
+};
+
+// Helper to track event listeners for cleanup
+const trackEventListener = (
+  element: HTMLElement,
+  type: string,
+  handler: EventListener
+): void => {
+  eventListeners.push({ element, type, handler });
+};
+
+// Function to clean up all ScrollTrigger instances and event listeners
+export function cleanupHomepageAnimations(): void {
+  // Kill all tracked ScrollTrigger instances
+  scrollTriggerInstances.forEach((trigger) => {
+    if (trigger) trigger.kill();
+  });
+
+  // Remove all tracked event listeners
+  eventListeners.forEach(({ element, type, handler }) => {
+    element.removeEventListener(type, handler);
+  });
+
+  // Clear the arrays
+  scrollTriggerInstances.length = 0;
+  eventListeners.length = 0;
+}
+
 interface AboutUsSectionElements {
   section?: HTMLElement;
   label?: HTMLElement;
@@ -21,24 +61,28 @@ export const animateAboutUsSection = ({
   text,
   cta,
   decor,
-  image
+  image,
 }: AboutUsSectionElements) => {
   // Create a timeline for better control
-  const tl = gsap.timeline({
-    scrollTrigger: {
+  const tl = gsap.timeline();
+
+  // Create and track ScrollTrigger
+  const trigger = trackScrollTrigger(
+    ScrollTrigger.create({
       trigger: section || title,
       start: "top 80%",
       toggleActions: "play none none none",
-    },
-  });
+      animation: tl,
+    })
+  );
 
   // Animate decorative elements if present
   if (decor) {
-    const dots = decor.querySelector('.aboutus-section__decor-dots');
-    const line1 = decor.querySelector('.aboutus-section__decor-line-1');
-    const line2 = decor.querySelector('.aboutus-section__decor-line-2');
-    const circle = decor.querySelector('.aboutus-section__decor-circle');
-    const grid = decor.querySelector('.aboutus-section__decor-grid');
+    const dots = decor.querySelector(".aboutus-section__decor-dots");
+    const line1 = decor.querySelector(".aboutus-section__decor-line-1");
+    const line2 = decor.querySelector(".aboutus-section__decor-line-2");
+    const circle = decor.querySelector(".aboutus-section__decor-circle");
+    const grid = decor.querySelector(".aboutus-section__decor-grid");
 
     if (dots) {
       tl.fromTo(
@@ -146,8 +190,8 @@ export const animateAboutUsSection = ({
 
   // Animate pre-wrapped title words
   if (title) {
-    const wordElements = title.querySelectorAll('.word, .highlight');
-    
+    const wordElements = title.querySelectorAll(".word, .highlight");
+
     tl.fromTo(
       wordElements,
       {
@@ -219,12 +263,16 @@ export const animateAboutUsSection = ({
   }
 
   // Find and animate image frame and stats if they exist
-  const imageColumn = section?.querySelector('.aboutus-section__image-column');
+  const imageColumn = section?.querySelector(".aboutus-section__image-column");
   if (imageColumn) {
-    const imageFrame = imageColumn.querySelector('.aboutus-section__image-frame');
-    const stats = imageColumn.querySelector('.aboutus-section__stats');
-    const corners = imageColumn.querySelectorAll('.aboutus-section__image-corner');
-    
+    const imageFrame = imageColumn.querySelector(
+      ".aboutus-section__image-frame"
+    );
+    const stats = imageColumn.querySelector(".aboutus-section__stats");
+    const corners = imageColumn.querySelectorAll(
+      ".aboutus-section__image-corner"
+    );
+
     if (imageFrame) {
       tl.fromTo(
         imageFrame,
@@ -241,7 +289,7 @@ export const animateAboutUsSection = ({
         0.5
       );
     }
-    
+
     if (corners && corners.length) {
       tl.fromTo(
         corners,
@@ -259,9 +307,9 @@ export const animateAboutUsSection = ({
         0.8
       );
     }
-    
+
     if (stats) {
-      const statItems = stats.querySelectorAll('.aboutus-section__stat-item');
+      const statItems = stats.querySelectorAll(".aboutus-section__stat-item");
       tl.fromTo(
         statItems,
         {
@@ -297,13 +345,13 @@ export const animateHeroSlider = ({
 }: HeroSliderElements) => {
   // Create a master timeline
   const tl = gsap.timeline();
-  
+
   // Title animation
   tl.fromTo(
     title,
-    { 
-      opacity: 0, 
-      y: -30 
+    {
+      opacity: 0,
+      y: -30,
     },
     {
       opacity: 1,
@@ -312,12 +360,12 @@ export const animateHeroSlider = ({
       ease: "power3.out",
     }
   );
-  
+
   // CTA button animation - special handling to prevent glassmorphism glitch
   tl.fromTo(
     cta,
     {
-      opacity: 0, 
+      opacity: 0,
       y: 30,
     },
     {
@@ -329,7 +377,7 @@ export const animateHeroSlider = ({
     },
     "-=0.8" // Overlap with title animation
   );
-  
+
   return tl;
 };
 
@@ -350,22 +398,26 @@ export const animateBlogCarouselSection = ({
   cta,
 }: BlogCarouselSectionElements) => {
   if (!section) return;
-  
+
   // First ensure all blog items are visible
-  const blogItems = section.querySelectorAll('.blog-item');
+  const blogItems = section.querySelectorAll(".blog-item");
   gsap.set(blogItems, { opacity: 1, y: 0 });
-  
+
   // Create a timeline for section elements
-  const tl = gsap.timeline({
-    scrollTrigger: {
+  const tl = gsap.timeline();
+
+  // Create and track ScrollTrigger
+  const trigger = trackScrollTrigger(
+    ScrollTrigger.create({
       trigger: section,
       start: "top 90%",
       toggleActions: "play none none none",
-    },
-  });
+      animation: tl,
+    })
+  );
 
   // Animate decorative line if present
-  const decorLine = section.querySelector('.section-header__decorative-line');
+  const decorLine = section.querySelector(".section-header__decorative-line");
   if (decorLine) {
     tl.fromTo(
       decorLine,
@@ -384,8 +436,8 @@ export const animateBlogCarouselSection = ({
 
   // Animate title if it exists
   if (title) {
-    const titleElements = title.querySelectorAll('span');
-    
+    const titleElements = title.querySelectorAll("span");
+
     if (titleElements.length) {
       tl.fromTo(
         title,
@@ -401,7 +453,7 @@ export const animateBlogCarouselSection = ({
         },
         0.3
       );
-      
+
       tl.fromTo(
         titleElements,
         {
@@ -477,19 +529,19 @@ export const animateBlogCarouselSection = ({
 // Blog Item Corner Animation
 export const animateBlogItemCorners = (card: HTMLElement) => {
   if (!card) return;
-  
-  const corners = card.querySelectorAll('.blog-item__corner');
+
+  const corners = card.querySelectorAll(".blog-item__corner");
   if (!corners.length) return;
-  
+
   // Set initial state
   gsap.set(corners, {
     width: 0,
     height: 0,
     opacity: 0,
   });
-  
+
   // Create hover entry/exit animations using event listeners
-  card.addEventListener('mouseenter', () => {
+  const handleMouseEnter = () => {
     gsap.to(corners, {
       width: 15,
       height: 15,
@@ -497,9 +549,9 @@ export const animateBlogItemCorners = (card: HTMLElement) => {
       duration: 0.3,
       ease: "power2.out",
     });
-  });
-  
-  card.addEventListener('mouseleave', () => {
+  };
+
+  const handleMouseLeave = () => {
     gsap.to(corners, {
       width: 0,
       height: 0,
@@ -507,5 +559,12 @@ export const animateBlogItemCorners = (card: HTMLElement) => {
       duration: 0.3,
       ease: "power2.in",
     });
-  });
+  };
+
+  // Add and track event listeners for cleanup
+  card.addEventListener("mouseenter", handleMouseEnter);
+  trackEventListener(card, "mouseenter", handleMouseEnter);
+
+  card.addEventListener("mouseleave", handleMouseLeave);
+  trackEventListener(card, "mouseleave", handleMouseLeave);
 };

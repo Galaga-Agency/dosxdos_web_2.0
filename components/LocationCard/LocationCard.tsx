@@ -5,6 +5,7 @@ import { Mail, Phone, Clock, ExternalLink, MapPin } from "lucide-react";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import { setupMouseMoveAnimation } from "@/utils/animations/mouse-move-anim";
 import "./LocationCard.scss";
+import PrimaryButton from "../ui/PrimaryButton/PrimaryButton";
 
 interface LocationCardProps {
   city: string;
@@ -34,8 +35,8 @@ const LocationCard: React.FC<LocationCardProps> = ({
       const cleanup = setupMouseMoveAnimation({
         element: cardRef.current,
         highlightSelector: ".location-card__highlight",
-        sensitivity: 25,
-        highlightOpacity: 0.1,
+        sensitivity: 20,
+        highlightOpacity: 0.15,
       });
 
       return cleanup;
@@ -80,7 +81,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
             <h3>{city}</h3>
           </div>
           <div className="location-card__timezone">
-            <Clock size={16} />
+            <Clock size={14} />
             <span>
               {timezone} {currentTime && `• ${currentTime}`}
             </span>
@@ -95,10 +96,10 @@ const LocationCard: React.FC<LocationCardProps> = ({
           </div>
 
           <div className="location-card__contact">
-            {/* <a href={`mailto:${email}`} className="location-card__contact-item">
+            <a href={`mailto:${email}`} className="location-card__contact-item">
               <Mail size={16} />
               <span>{email}</span>
-            </a> */}
+            </a>
 
             {phones.map((phone, index) => (
               <a
@@ -114,14 +115,13 @@ const LocationCard: React.FC<LocationCardProps> = ({
         </div>
 
         <div className="location-card__footer">
-          <SecondaryButton
+          <PrimaryButton
             href={mapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            icon={<ExternalLink size={16} />}
           >
             Ver en Google Maps
-          </SecondaryButton>
+          </PrimaryButton>
         </div>
       </div>
     </div>

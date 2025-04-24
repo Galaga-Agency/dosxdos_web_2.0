@@ -13,6 +13,7 @@ import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const CollaborationsSection: React.FC = () => {
   const initialized = useRef<boolean>(false);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Only initialize once
@@ -41,7 +42,10 @@ const CollaborationsSection: React.FC = () => {
   return (
     <section className="latest-projects">
       {/* Header section with title and subtitle */}
-      <div className="latest-projects__header-container">
+      <div className="latest-projects__header-container" ref={headerRef}>
+        {/* Added corner elements for animation */}
+        <div className="latest-projects__corner top-left"></div>
+        <div className="latest-projects__corner bottom-right"></div>
         <div className="latest-projects__header">
           <h2 className="latest-projects__title">
             FUNDACIONES <span className="highlight">COLABORADORAS</span>

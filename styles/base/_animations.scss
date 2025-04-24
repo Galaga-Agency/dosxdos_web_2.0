@@ -345,9 +345,22 @@
   }
 }
 
+@keyframes expand-corner {
+  from {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+  }
+}
+
 @keyframes scroll-marquee {
   from {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
   to {
     transform: translateX(-50%);

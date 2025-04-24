@@ -7,16 +7,72 @@
   position: relative;
   background-color: $secondary-color;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
+  
+  // Added corner elements for header styling
+  &__corner {
+    position: absolute;
+    z-index: 5;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    
+    &.top-left {
+      top: 0;
+      left: 0;
+      border-top: 2px solid rgba($primary-color, 0.7);
+      border-left: 2px solid rgba($primary-color, 0.7);
+    }
+    
+    &.bottom-right {
+      bottom: 0;
+      right: 0;
+      border-bottom: 2px solid rgba($primary-color, 0.7);
+      border-right: 2px solid rgba($primary-color, 0.7);
+    }
+  }
   
   &__header-container {
-    position: relative;
-    width: 100%;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 4rem 1rem;
+    position: absolute;
+    top: -4rem;
+    left: 30%;
+    transform: translateX(-30%);
+    background: rgba($white, 0.7);
+    backdrop-filter: blur(5px);
+    @include container-width(mobile);
+    margin: 0 auto;
+    z-index: 10;
+    @include flex(column, center, center);
+    gap: 2rem;
+    padding: 2rem;
+    box-shadow: $shadow-lg;
+    border-radius: 4px;
+    overflow: hidden;
+    
+    &:hover {
+      .latest-projects__corner {
+        animation: expand-corner 0.5s forwards;
+      }
+      
+      .latest-projects__title {
+        .highlight::after {
+          transform: scaleX(1);
+        }
+      }
+    }
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
   }
 
   &__header {
@@ -258,5 +314,4 @@
     line-height: 1.6;
     margin-bottom: 2rem;
   }
-
 }
