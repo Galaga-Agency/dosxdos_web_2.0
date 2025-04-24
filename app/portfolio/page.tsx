@@ -121,7 +121,7 @@ const PortfolioPage: React.FC = () => {
 
   // Project click handler
   const handleProjectClick = (projectSlug: string) => {
-    router.push(`/proyectos/${projectSlug}`);
+    router.push(`/portfolio/${projectSlug}`);
   };
 
   return (
