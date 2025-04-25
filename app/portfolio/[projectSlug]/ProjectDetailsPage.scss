@@ -10,23 +10,6 @@
   width: 100%;
   padding-bottom: 6rem;
 
-  &__container {
-    @include container-width(mobile);
-    margin: 0 auto;
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
   &__social-sidebar {
     position: fixed;
     left: 2rem;

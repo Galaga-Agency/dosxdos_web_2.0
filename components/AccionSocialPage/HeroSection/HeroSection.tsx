@@ -80,7 +80,7 @@ const HeroSection: React.FC = () => {
       <div className="accion-social-hero__bg-container" ref={bgContainerRef}>
         <div className="accion-social-hero__image-wrapper">
           <Image
-            src="/assets/img/blog/default-blog-image.jpg"
+            src="/assets/img/about-us-page/vicente-ferrer-illustration.jpg"
             alt="Acción Social"
             fill
             quality={100}
@@ -94,28 +94,6 @@ const HeroSection: React.FC = () => {
         </div>
 
         <div className="accion-social-hero__overlay"></div>
-
-        <div
-          className="accion-social-hero__decorative-elements"
-          ref={decorElementsRef}
-        >
-          <div
-            ref={decorDotsRef}
-            className="accion-social-hero__decor-dots"
-          ></div>
-          <div
-            ref={decorLineRef}
-            className="accion-social-hero__decor-line"
-          ></div>
-          <div
-            ref={decorCircleRef}
-            className="accion-social-hero__decor-circle"
-          ></div>
-          <div
-            ref={decorGridRef}
-            className="accion-social-hero__decor-grid"
-          ></div>
-        </div>
 
         <div className="accion-social-hero__content">
           <div className="accion-social-hero__label">

@@ -3,7 +3,7 @@
 import React, { useEffect, useState, use } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
-import HeroSection from "@/components/ProjectDetailsPage/HeroSection";
+import HeroSection from "@/components/ProjectDetailsPage/HeroSection/HeroSection";
 import { allProjects } from "@/data/projects";
 import { Project } from "@/types/project-types";
 import {
@@ -12,6 +12,9 @@ import {
 } from "@/utils/animations/scrolltrigger-config";
 import "./ProjectDetailsPage.scss";
 import Loading from "@/components/ui/Loading/Loading";
+import ProjectObjectiveSection from "@/components/ProjectDetailsPage/ProjectObjectiveSection/ProjectObjectiveSection";
+import ProjectProcessSection from "@/components/ProjectDetailsPage/ProjectProcessSection/ProjectProcessSection";
+import ProjectCTASection from "@/components/ProjectDetailsPage/ProjectCTASection/ProjectCTASection";
 
 interface ProjectDetailsPageProps {
   params: {
@@ -63,15 +66,13 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
           </div>
 
           {loading ? (
-            <div className="project-details-page__loading">
-              <Loading/>
-              Cargando detalles del proyecto...
-            </div>
+            <Loading />
           ) : project ? (
             <>
               <HeroSection project={project} />
-
-              {/* More sections will be added here in future updates */}
+              <ProjectObjectiveSection project={project} />
+              <ProjectProcessSection project={project} />
+              <ProjectCTASection project={project} />
             </>
           ) : (
             <div className="project-details-page__not-found">
