@@ -163,31 +163,6 @@ const HeroSection: React.FC = () => {
                 espacios únicos con personalidad propia.
               </p>
             </div>
-
-            {/* <div ref={statsRef} className="hero-section__stats">
-              <div className="hero-section__stat">
-                <span className="hero-section__stat-value" data-target="45">
-                  {initialStats.professionals}
-                </span>
-                <span className="hero-section__stat-label">Profesionales</span>
-              </div>
-              <div className="hero-section__stat">
-                <span className="hero-section__stat-value" data-target="37">
-                  {initialStats.experience}
-                </span>
-                <span className="hero-section__stat-label">
-                  Años de experiencia
-                </span>
-              </div>
-              <div className="hero-section__stat">
-                <span className="hero-section__stat-value" data-target="250">
-                  {initialStats.projects}
-                </span>
-                <span className="hero-section__stat-label">
-                  Proyectos completados
-                </span>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

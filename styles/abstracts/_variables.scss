@@ -18,6 +18,7 @@ $container: (
   smalldesktop: clamp(950px, 92vw, 1140px),
   tablet: 85vw,
   mobile: clamp(280px, 90vw, 540px),
+  unset: 100vw,
 );
 
 // -----------------------------------------------------------------------------
@@ -35,7 +36,7 @@ $breakpoints: (
   // Medium desktops
   xxl: 1400px,
   // Large desktops
-  xxxl: 1600px // Extra large desktops,,,,
+  xxxl: 1600px // Extra large desktops,,,,,
 );
 
 // -----------------------------------------------------------------------------

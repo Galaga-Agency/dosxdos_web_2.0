@@ -1,52 +1,39 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/animations" as *;
 
 .values-section {
   background-color: $white;
   position: relative;
   overflow: hidden;
   margin: 0 auto;
-  padding: 5rem 0;
+  padding-block: 6rem;
   width: 100%; 
   max-width: 100%;
 
-  // Removed container-width mixins to allow full width
-  padding-left: 2rem;
-  padding-right: 2rem;
-
-  @include min-width(md) {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-
-  @include min-width(lg) {
-    padding-left: 4rem;
-    padding-right: 4rem;
-  }
-
   &__container {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem; // Reduced gap to decrease height
-    width: 100%;
-    max-width: 100%; // Full width container
+    @include container-width(mobile);
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
 
     @include min-width(lg) {
-      gap: 4rem;
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
     }
   }
 
   &__content-wrapper {
     position: relative;
-    max-width: 1400px; // Much wider content
-    width: 100%;
-    margin: 0 auto;
+    margin-bottom: 3rem;
 
-    // Accent line with primary color
+    // Subtle accent line 
     &::before {
       content: "";
       position: absolute;
@@ -54,19 +41,18 @@
       left: 0;
       width: 40px;
       height: 2px;
-      background-color: rgba($primary-color, 0.3); // Added primary color
+      background-color: rgba($primary-color, 0.7);
     }
   }
 
   &__label {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     position: relative;
-    text-align: left; // Left-aligned to match column style
 
     span {
       display: inline-block;
-      @include font-size(sm);
-      @include font-weight(semibold);
+      @include font-size(xs);
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.2em;
       color: rgba($black, 0.6);
@@ -81,19 +67,18 @@
         transform: translateY(-50%);
         width: 20px;
         height: 1px;
-        background-color: rgba($primary-color, 0.4);
+        background-color: rgba($secondary-color, 0.7);
       }
     }
   }
 
   &__title {
     @include font-size(3xl);
-    @include font-weight(bold);
+    font-weight: 800;
     color: $black;
     line-height: 1.15;
     margin-bottom: 2.5rem;
     max-width: 36ch;
-    text-align: left; // Left-aligned to match the column style
 
     @include min-width(md) {
       @include font-size(4xl);
@@ -109,34 +94,40 @@
     }
 
     .highlight {
-      color: $black;
       position: relative;
       display: inline-block;
+      font-weight: 400;
+      color: $primary-color;
 
       &::after {
         content: "";
         position: absolute;
-        bottom: 0.1em;
+        bottom: -4px;
         left: 0;
+        height: 3px;
         width: 100%;
-        height: 0.15em;
-        background-color: rgba($primary-color, 0.15);
-        z-index: -1;
+        background-color: rgba($primary-color, 0.4);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s ease;
       }
     }
+  }
+
+  &:hover .highlight::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   &__text {
     @include font-size(lg);
     line-height: 1.8;
     color: rgba($black, 0.75);
-    width: 100%;
+    max-width: 55ch;
     position: relative;
     padding-left: 2rem;
-    margin: 0 0 3.5rem 0; // Left-aligned to match column style
-    text-align: left;
+    margin-bottom: 3rem;
 
-    // Vertical line with primary color gradient
     &::before {
       content: "";
       position: absolute;
@@ -146,31 +137,21 @@
       height: 90%;
       background: linear-gradient(
         to bottom,
-        rgba($primary-color, 0.5),
+        rgba($primary-color, 0.4),
         transparent
       );
     }
 
     p {
       margin-bottom: 1.5rem;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
-  }
-
-  &__intro {
-    @include font-size(xl);
-    @include font-weight(semibold);
-    margin-bottom: 1.5rem;
 
     strong {
       color: $black;
       font-weight: 700;
       position: relative;
 
-      // Subtle highlight with primary color
+      // Subtle highlight 
       &::after {
         content: "";
         position: absolute;
@@ -178,85 +159,185 @@
         left: 0;
         width: 100%;
         height: 4px;
-        background-color: rgba($primary-color, 0.1);
+        background-color: rgba($secondary-color, 0.1);
         z-index: -1;
       }
     }
   }
 
-  &__description {
-    margin-top: 1.5rem;
+  &__tabs-wrapper {
+    border-bottom: 1px solid rgba($black, 0.1);
+    margin-bottom: 2.5rem;
   }
 
-  &__values-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 4rem;
-    margin-block: 5rem;
-    position: relative;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: -2.5rem;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(
-        to right,
-        transparent,
-        rgba($black, 0.1),
-        transparent
-      );
-    }
+  &__tabs {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    margin-bottom: -1px;
 
     @include min-width(md) {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4rem;
-    }
-
-    @include min-width(xl) {
-      gap: 6rem;
+      gap: 3.5rem;
     }
   }
 
-  &__value-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  &__value-icon {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 2rem;
+  &__tab {
+    background: none;
+    border: none;
+    padding: 0.75rem 0;
+    font-size: 1.125rem;
+    color: rgba($black, 0.6);
+    cursor: pointer;
+    transition: color 0.3s ease;
     position: relative;
 
-    .values-section__icon {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+    @include min-width(md) {
+      font-size: 1.25rem;
+    }
 
-      &::before {
-        content: "";
+    &:hover {
+      color: $black;
+    }
+
+    &.active {
+      color: $black;
+      font-weight: 600;
+
+      &::after {
+        content: '';
         position: absolute;
-        top: -10px;
-        left: -10px;
-        width: calc(100% + 20px);
-        height: calc(100% + 20px);
-        border: 1px solid rgba($primary-color, 0.15);
-        border-radius: 50%;
-      }
-
-      &-image {
+        bottom: -1px;
+        left: 0;
         width: 100%;
-        height: 100%;
-        object-fit: contain;
+        height: 2px;
+        background-color: $black;
       }
+    }
+
+    &:not(.active)::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: rgba($secondary-color, 0.3);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+    
+    &:hover::after {
+      transform: scaleX(0.7);
+    }
+  }
+
+  &__tab-text {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__content {
+    padding-top: 2rem;
+    min-height: 400px;
+    transition: opacity 0.3s ease;
+  }
+
+  &__content-header {
+    max-width: 50rem;
+    margin-bottom: 3rem;
+  }
+
+  &__content-subtitle {
+    display: inline-block;
+    @include font-size(sm);
+    font-weight: 500;
+    color: rgba($black, 0.6);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  &__content-title {
+    @include font-size(2xl);
+    @include font-weight(bold);
+    color: $black;
+    margin-bottom: 1rem;
+    position: relative;
+    
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: rgba($primary-color, 0.4);
+      transition: width 0.4s ease;
+    }
+  }
+  
+  &__content:hover &__content-title::after {
+    width: 60px;
+  }
+
+  &__content-description {
+    @include font-size(lg);
+    line-height: 1.6;
+    color: rgba($black, 0.75);
+  }
+
+  &__values-wrapper {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    
+    @include min-width(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include min-width(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include min-width(xl) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  &__value-item {
+    position: relative;
+    padding: 1.5rem;
+    background-color: $white;
+    box-shadow: 0 5px 20px rgba($black, 0.05);
+    border-radius: 4px;
+    border: 1px solid rgba($secondary-color, 0.1);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba($black, 0.08);
+      border-color: rgba($secondary-color, 0.2);
+      
+      .values-section__value-title::after {
+        width: 50px;
+      }
+    }
+  }
+
+  &__value-number {
+    @include font-size(sm);
+    color: rgba($black, 0.7);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    
+    &::before {
+      content: "";
+      width: 20px;
+      height: 1px;
+      background-color: rgba($primary-color, 0.3);
+      margin-right: 0.75rem;
     }
   }
 
@@ -264,38 +345,169 @@
     @include font-size(xl);
     @include font-weight(semibold);
     color: $black;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    
+    // Decorative underline 
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background-color: rgba($secondary-color, 0.3);
+      transition: width 0.4s ease;
+    }
+  }
+
+  &__value-description {
+    @include font-size(base);
+    line-height: 1.6;
+    color: rgba($black, 0.7);
+  }
+  
+  &__social-responsibility {
+    margin: 5rem auto 0 auto;
+    padding: 3rem;
+    width: fit-content;
+    background-color: rgba($white, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 4px;
+    box-shadow: $shadow-lg;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba($secondary-color, 0.1);
+    
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    
+    &::before {
+      top: 0;
+      left: 0;
+      border-top: 2px solid rgba($primary-color, 0.5);
+      border-left: 2px solid rgba($primary-color, 0.5);
+    }
+    
+    &::after {
+      bottom: 0;
+      right: 0;
+      border-bottom: 2px solid rgba($primary-color, 0.5);
+      border-right: 2px solid rgba($primary-color, 0.5);
+    }
+    
+    &:hover {
+      &::before,
+      &::after {
+        width: 60px;
+        height: 60px;
+        opacity: 1;
+      }
+    }
+  }
+  
+  &__social-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  &__social-title {
+    @include font-size(2xl);
+    @include font-weight(bold);
+    color: $black;
+    letter-spacing: 0.1em;
     position: relative;
     padding-bottom: 1rem;
-
+    margin-bottom: 1rem;
+    display: inline-block;
+    text-transform: uppercase;
+    
     &::after {
       content: "";
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 40px;
+      width: 60px;
       height: 2px;
-      background-color: $primary-color;
-      opacity: 0.4;
+      background-color: rgba($secondary-color, 0.7);
+      transition: width 0.3s ease;
     }
   }
-
-  &__value-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem 1.5rem;
+  
+  &__social-responsibility:hover &__social-title::after {
+    width: 100px;
   }
-
-  &__value-item {
-    color: rgba($black, 0.75);
-    @include font-size(base);
-    position: relative;
-    transition: color 0.3s ease;
-
-    &:hover {
-      color: $primary-color;
+  
+  &__social-subtitle {
+    @include font-size(xl);
+    color: rgba($black, 0.8);
+    @include font-weight(medium);
+    margin-bottom: 2rem;
+  }
+  
+  &__social-content {
+    max-width: 60rem;
+    margin: 0 auto;
+    
+    p {
+      @include font-size(lg);
+      line-height: 1.7;
+      color: rgba($black, 0.75);
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      
+      // Vertical lines
+      &:first-child::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1px;
+        height: 90%;
+        background: linear-gradient(to bottom, rgba($secondary-color, 0.4), transparent);
+      }
+      
+      &:last-child::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1px;
+        height: 90%;
+        background: linear-gradient(to bottom, transparent, rgba($secondary-color, 0.4));
+      }
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    strong {
+      color: $black;
+      @include font-weight(bold);
+      position: relative;
+      
+      // Subtle highlight using secondary color
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: rgba($secondary-color, 0.1);
+        z-index: -1;
+      }
     }
   }
 }

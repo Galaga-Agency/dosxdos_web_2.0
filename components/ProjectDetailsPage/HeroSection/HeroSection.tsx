@@ -59,12 +59,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
       className="portfolio-hero"
       style={{ backgroundImage: `url(${project.image})` }}
     >
-      <div className="portfolio-hero__website-link">
+      {/* <div className="portfolio-hero__website-link">
         <a href="#" className="portfolio-hero__link">
           Ver Proyecto
           <span>→</span>
         </a>
-      </div>
+      </div> */}
 
       <div ref={heroImageRef} className="portfolio-hero__wrapper">
         <div className="portfolio-hero__container">

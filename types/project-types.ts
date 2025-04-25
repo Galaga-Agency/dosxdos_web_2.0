@@ -13,6 +13,7 @@ export interface Project {
   services: string[];
   featured: boolean;
   tags?: string[];
+  process?: string;
 }
 
 export interface ProjectCategory {

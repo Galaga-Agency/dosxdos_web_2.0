@@ -1,0 +1,359 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.project-process-section {
+  position: relative;
+  background-color: $white;
+  overflow: hidden;
+  @include spacing(lg, padding-top);
+
+  &__container {
+    margin: 0 auto;
+    position: relative;
+    z-index: 3; // Higher z-index to appear above images
+    @include container-width(mobile);
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__content-wrapper {
+    position: relative;
+    margin-bottom: 3rem;
+
+    // Accent line with subtle primary color
+    &::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: rgba($primary-color, 0.3);
+    }
+
+    @include min-width(md) {
+      max-width: 80%;
+      margin-bottom: 4rem;
+    }
+
+    @include min-width(lg) {
+      max-width: 70%;
+    }
+  }
+
+  &__label {
+    margin-bottom: 1.5rem;
+    position: relative;
+
+    span {
+      display: inline-block;
+      @include font-size(sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba($black, 0.6);
+      position: relative;
+      padding-left: 30px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 1px;
+        background-color: rgba($primary-color, 0.4);
+      }
+    }
+  }
+
+  &__title {
+    @include font-size(3xl);
+    font-weight: 800;
+    color: $black;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    max-width: 28ch;
+
+    @include min-width(md) {
+      @include font-size(4xl);
+    }
+
+    @include min-width(lg) {
+      @include font-size(5xl);
+    }
+  }
+
+  &__text {
+    @include font-size(lg);
+    line-height: 1.8;
+    color: rgba($black, 0.75);
+    position: relative;
+    margin-bottom: 2rem;
+
+    @include min-width(md) {
+      max-width: 80%;
+    }
+  }
+
+  // Full-width image
+  &__full-image {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 400px;
+    margin-bottom: 6rem; // Extra space for floating images
+    overflow: hidden;
+    z-index: 1;
+    
+    @include min-width(md) {
+      height: 80vh;
+      min-height: 500px;
+      margin-bottom: 0; 
+    }
+  }
+
+  &__image-container {
+    position: relative;
+    width: 100%;
+    height: 130%;
+    overflow: hidden;
+    will-change: transform;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      @include transition-duration(slow);
+      will-change: transform;
+    }
+  }
+
+  // Floating images section - matching the hero style
+  &__floating-images {
+    position: relative;
+    width: 100%;
+    padding: 32px 16px;
+    margin-top: 3rem;
+    min-height: 60vh;
+    z-index: 2;
+
+    @include container-width(mobile);
+    margin-inline: auto;
+    
+    @include min-width(md) {
+      @include container-width(tablet);
+      padding: 40px 32px;
+      min-height: 65vh;
+      margin-top: -8rem; 
+    }
+    
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+      min-height: 55vh;
+      margin-top: 0rem;
+    }
+    
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__floating-image {
+    position: relative;
+    width: 90%;
+    height: 60vw;
+    max-height: 60vh;
+    margin: 0 auto 48px;
+    overflow: hidden;
+    background-color: $white;
+    box-shadow: 0 4px 6px -1px rgba($primary-color, 0.1),
+                0 2px 4px -1px rgba($primary-color, 0.06);
+    will-change: transform;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba($primary-color, 0.1);
+      z-index: 2;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: -15px;
+      bottom: -15px;
+      background-color: rgba($primary-color, 0.03);
+      z-index: -1;
+    }
+
+    .corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      z-index: 4;
+
+      &--tl {
+        top: 10px;
+        left: 10px;
+        border-top: 1px solid rgba($primary-color, 0.3);
+        border-left: 1px solid rgba($primary-color, 0.3);
+      }
+
+      &--tr {
+        top: 10px;
+        right: 10px;
+        border-top: 1px solid rgba($primary-color, 0.3);
+        border-right: 1px solid rgba($primary-color, 0.3);
+      }
+
+      &--bl {
+        bottom: 10px;
+        left: 10px;
+        border-bottom: 1px solid rgba($primary-color, 0.3);
+        border-left: 1px solid rgba($primary-color, 0.3);
+      }
+
+      &--br {
+        bottom: 10px;
+        right: 10px;
+        border-bottom: 1px solid rgba($primary-color, 0.3);
+        border-right: 1px solid rgba($primary-color, 0.3);
+      }
+    }
+
+    @include min-width(md) {
+      position: absolute;
+      margin: 0;
+    }
+
+    &--1 {
+      @include min-width(md) {
+        width: 55%;
+        height: 45vh;
+        top: 0;
+        left: 0;
+      }
+
+      @include min-width(lg) {
+        width: 40%;
+        height: 50vh;
+        top: -5vh;
+        left: 5%;
+      }
+    }
+
+    &--2 {
+      @include min-width(md) {
+        width: 45%;
+        height: 40vh;
+        top: 20vh;
+        right: 5%;
+      }
+
+      @include min-width(lg) {
+        width: 35%;
+        height: 45vh;
+        top: 15vh;
+        right: 10%;
+      }
+    }
+  }
+
+  &__floating-image-inner {
+    position: absolute;
+    top: -30%;
+    left: -15%;
+    width: 130%;
+    height: 160%;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  &__floating-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba($black, 0),
+      rgba($black, 0.5)
+    );
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  &__floating-image-content {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 4;
+    color: $white;
+    pointer-events: none;
+    
+    span {
+      display: block;
+      @include font-size(sm);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 30px;
+      
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 1px;
+        background-color: $primary-color;
+      }
+    }
+    
+    h3 {
+      @include font-size(xl);
+      font-weight: 700;
+      
+      @include min-width(md) {
+        @include font-size(2xl);
+      }
+    }
+  }
+  
+  &__floating-image-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 300;
+    @include font-size(2xl);
+    color: rgba($primary-color, 0.05);
+    letter-spacing: 0.1em;
+    z-index: 1;
+    text-transform: uppercase;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+}
