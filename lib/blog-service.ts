@@ -6,6 +6,7 @@ import path from "path";
 import matter from "gray-matter";
 import { v4 as uuidv4 } from "uuid";
 import { BlogPost } from "@/types/blog-post-types";
+import { generateUniqueSlug } from "@/utils/slug-generator";
 
 const POSTS_DIRECTORY = path.join(process.cwd(), "data/blog-articles");
 
@@ -22,6 +23,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
     const fileNames = await fs.readdir(POSTS_DIRECTORY);
 
     const allPostsData: BlogPost[] = [];
+    const existingSlugs: string[] = [];
 
     for (const fileName of fileNames) {
       if (!fileName.endsWith(".md")) continue;
@@ -40,10 +42,17 @@ export async function getAllPosts(): Promise<BlogPost[]> {
           : matterResult.data.date
         : new Date().toISOString();
 
+      // Generate or use existing slug
+      const slug =
+        matterResult.data.slug ||
+        generateUniqueSlug(matterResult.data.title, existingSlugs);
+      existingSlugs.push(slug);
+
       // Create blog post object
       const post: BlogPost = {
         id: matterResult.data.id || uuidv4(),
         title: matterResult.data.title || "Untitled",
+        slug,
         date,
         excerpt: matterResult.data.excerpt || "",
         content: matterResult.content,
@@ -69,14 +78,47 @@ export async function getAllPosts(): Promise<BlogPost[]> {
   }
 }
 
-export async function getPostById(id: string): Promise<BlogPost | null> {
+export async function getPostById(postId: string): Promise<BlogPost | null> {
+  try {
+    const fullPath = path.join(POSTS_DIRECTORY, `${postId}.md`);
+
+    // Check if file exists
+    await fs.access(fullPath);
+
+    const fileContents = await fs.readFile(fullPath, "utf8");
+    const matterResult = matter(fileContents);
+
+    const post: BlogPost = {
+      id: matterResult.data.id || postId,
+      title: matterResult.data.title || "Untitled",
+      slug: matterResult.data.slug || "",
+      date: matterResult.data.date || new Date().toISOString(),
+      excerpt: matterResult.data.excerpt || "",
+      content: matterResult.content || "",
+      category: matterResult.data.category || "Uncategorized",
+      coverImage:
+        matterResult.data.coverImage || "/assets/img/default-blog-image.jpg",
+      author: matterResult.data.author || "Admin",
+      published: matterResult.data.published !== false,
+      tags: matterResult.data.tags || [],
+      editorBlocks: matterResult.data.editorBlocks || "",
+    };
+
+    return post;
+  } catch (error) {
+    console.error(`Error getting post by ID "${postId}":`, error);
+    return null;
+  }
+}
+
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
     const allPosts = await getAllPosts();
-    const post = allPosts.find((post) => post.id === id);
+    const post = allPosts.find((post) => post.slug === slug);
 
     return post || null;
   } catch (error) {
-    console.error(`Error getting post by ID "${id}":`, error);
+    console.error(`Error getting post by slug "${slug}":`, error);
     return null;
   }
 }
@@ -86,13 +128,23 @@ export async function createOrUpdatePost(post: BlogPost): Promise<BlogPost> {
     // Ensure we have an id
     const id = post.id || uuidv4();
 
-    // Update the post with the id
-    const updatedPost = { ...post, id };
+    // Get all existing posts to generate unique slug
+    const allPosts = await getAllPosts();
+    const existingSlugs = allPosts
+      .map((p) => p.slug)
+      .filter((slug) => slug !== post.slug);
 
-    // Prepare frontmatter — ✅ now includes editorBlocks
+    // Generate or use existing slug
+    const slug = post.slug || generateUniqueSlug(post.title, existingSlugs);
+
+    // Update the post with the id and slug
+    const updatedPost = { ...post, id, slug };
+
+    // Prepare frontmatter
     const frontmatter = {
       id: updatedPost.id,
       title: updatedPost.title,
+      slug: updatedPost.slug,
       date: updatedPost.date || new Date().toISOString(),
       excerpt: updatedPost.excerpt || "",
       category: updatedPost.category || "Uncategorized",
@@ -114,27 +166,27 @@ export async function createOrUpdatePost(post: BlogPost): Promise<BlogPost> {
     const fullPath = path.join(POSTS_DIRECTORY, `${id}.md`);
     await fs.writeFile(fullPath, markdown);
 
-    return { ...updatedPost, id };
+    return { ...updatedPost, id, slug };
   } catch (error) {
     console.error("Error creating/updating post:", error);
     throw error;
   }
 }
 
-export async function deletePost(id: string): Promise<boolean> {
+export async function deletePost(postId: string): Promise<boolean> {
   try {
-    const fullPath = path.join(POSTS_DIRECTORY, `${id}.md`);
+    const fullPath = path.join(POSTS_DIRECTORY, `${postId}.md`);
 
-    try {
-      await fs.access(fullPath);
-    } catch {
-      return false;
-    }
+    // Check if file exists
+    await fs.access(fullPath);
 
+    // Delete the file
     await fs.unlink(fullPath);
+
+    console.log(`Deleted post with ID: ${postId}`);
     return true;
   } catch (error) {
-    console.error(`Error deleting post with id "${id}":`, error);
-    throw error;
+    console.error(`Error deleting post with ID ${postId}:`, error);
+    return false;
   }
 }

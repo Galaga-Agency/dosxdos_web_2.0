@@ -9,7 +9,7 @@ import TeamSection from "@/components/EquipoPage/TeamSection/TeamSection";
 import StatsSection from "@/components/EquipoPage/StatsSection/StatsSection";
 import ClientsSection from "@/components/EquipoPage/ClientsSection/ClientsSection";
 import CTASection from "@/components/EquipoPage/CTASection/CTASection";
-import "./EquipoPage.scss";
+import "./equipo-page.scss";
 import {
   cleanupScrollTriggers,
   initScrollTriggerConfig,

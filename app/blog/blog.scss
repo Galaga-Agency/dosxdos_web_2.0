@@ -5,19 +5,22 @@
 @use "base/animations" as *;
 
 .blog-page {
+  background-color: $white;
   position: relative;
-  margin-inline: auto;
-  min-height: 100vh;
-  width: 100%;
-  padding-block: 8rem;
+  overflow: visible; // Main container allows overflow
+  margin: 0 auto;
+  padding-block: 6rem;
 
   @include min-width(lg) {
-    padding-block: 10rem;
+    padding-block: 8rem;
   }
 
   &__container {
     @include container-width(mobile);
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    overflow: visible; // Allow container to show the offset background
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -37,7 +40,7 @@
     left: 2rem;
     top: 50vh;
     transform: translateY(-50%);
-    z-index: 10;
+    @include z-index(header);
     display: none;
 
     @include min-width(xl) {
@@ -77,54 +80,40 @@
     margin-bottom: 1rem;
   }
 
-  &__header {
-    width: 100%;
-    @include flex(column, unset, unset);
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-  }
-
-  &__subtitle {
-    @include font-size(base);
-    @include font-weight(light);
-    color: $secondary-color;
-    display: block;
-    max-width: 50vw;
-    margin-left: 0.5rem;
-  }
-
   &__featured-section {
     position: relative;
     width: 100%;
     height: 80vh;
     margin-bottom: 3rem;
-    overflow: hidden;
+    overflow: visible; // Allow the offset background to be visible
     z-index: 1;
 
-    // Stylish frame around featured image
+    // Bottom gradient overlay
     &::before {
       content: "";
       position: absolute;
-      top: -10px;
-      left: -10px;
-      right: -10px;
-      bottom: -10px;
-      background: linear-gradient(135deg, rgba($black, 0.05) 0%, transparent 70%);
-      z-index: -1;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 35%;
+      background: linear-gradient(
+        to bottom,
+        rgba($black, 0),
+        rgba($black, 0.8)
+      );
+      @include z-index(above);
       pointer-events: none;
     }
 
-    // Decorative corner element
     &::after {
       content: "";
       position: absolute;
-      top: -20px;
-      right: -20px;
-      width: 120px;
-      height: 120px;
-      border-top: 2px solid rgba($black, 0.1);
-      border-right: 2px solid rgba($black, 0.1);
-      z-index: -1;
+      top: 15px;
+      left: 15px;
+      right: -15px;
+      bottom: -15px;
+      background-color: rgba($primary-color, 0.03);
+      @include z-index(below);
       pointer-events: none;
     }
 
@@ -133,21 +122,26 @@
     }
   }
 
+  &__featured-offset-background {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: -15px;
+    bottom: -15px;
+    background-color: rgba($primary-color, 0.03);
+    @include z-index(below);
+    pointer-events: none;
+  }
+
   &__featured-image-container {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    border: 1px solid rgba($primary-color, 0.1);
+    @include z-index(default);
     overflow: hidden;
-    
-    // Add a subtle frame
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border: 1px solid rgba($white, 0.2);
-      z-index: 6;
-      pointer-events: none;
-    }
   }
 
   &__featured-image-wrapper {
@@ -155,9 +149,9 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 130%; // Increased height to allow for parallax movement
-    will-change: transform; // Performance optimization for animations
-    z-index: 1;
+    height: 130%;
+    will-change: transform;
+    @include z-index(default);
 
     img {
       position: absolute;
@@ -171,30 +165,8 @@
     }
   }
 
-  &__featured-content-link {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 5;
-    color: $white;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding-bottom: 2rem;
-
-    &:hover {
-      .blog-page__featured-read-more {
-        .arrow {
-          transform: translateX(5px);
-        }
-      }
-    }
-  }
-
-  &__featured-overlay {
+  /* Image overlay */
+  &__featured-image-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -205,14 +177,90 @@
       rgba(0, 0, 0, 0.1),
       rgba(0, 0, 0, 0.7)
     );
-    z-index: -1;
+    @include z-index(above); // z-index: 1
   }
 
+  &__featured-content-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @include z-index(modal);
+    pointer-events: none; // Allow clicks to pass through to the link
+  }
+
+  &__featured-content-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: $white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 2rem;
+    pointer-events: auto; // Restore pointer events for the link
+
+    &:hover {
+      .blog-page__featured-read-more {
+        .arrow {
+          transform: translateX(5px);
+        }
+      }
+
+      .blog-page__featured-image-title .highlight::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+    }
+  }
+
+  // Corner elements like in aboutus section
+  &__featured-image-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    @include z-index(overlay); // z-index: 10
+    pointer-events: none;
+
+    &.tl {
+      top: 10px;
+      left: 10px;
+      border-top: 1px solid rgba($primary-color, 0.3);
+      border-left: 1px solid rgba($primary-color, 0.3);
+    }
+
+    &.tr {
+      top: 10px;
+      right: 10px;
+      border-top: 1px solid rgba($primary-color, 0.3);
+      border-right: 1px solid rgba($primary-color, 0.3);
+    }
+
+    &.bl {
+      bottom: 10px;
+      left: 10px;
+      border-bottom: 1px solid rgba($primary-color, 0.3);
+      border-left: 1px solid rgba($primary-color, 0.3);
+    }
+
+    &.br {
+      bottom: 10px;
+      right: 10px;
+      border-bottom: 1px solid rgba($primary-color, 0.3);
+      border-right: 1px solid rgba($primary-color, 0.3);
+    }
+  }
+
+  /* Rest of the code remains the same */
   &__featured-category {
     position: absolute;
     top: 2rem;
     right: 2rem;
-    z-index: 10;
+    pointer-events: auto;
 
     span {
       display: inline-block;
@@ -223,7 +271,19 @@
       font-size: 0.875rem;
       text-transform: uppercase;
       @include border-radius(md);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+
+      // Subtle accent line
+      &::before {
+        content: "";
+        position: absolute;
+        left: -10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 1px;
+        background-color: rgba($primary-color, 0.4);
+      }
     }
   }
 
@@ -236,36 +296,32 @@
     padding: 0.5rem 1rem;
     font-weight: 600;
     text-transform: uppercase;
-    z-index: 10; // Keep above the moving image
-    border-radius: 4px;
+    @include border-radius(sm);
+    pointer-events: auto;
     // Subtle accent
-    border-left: 3px solid rgba($primary-color, 0.7);
+    border-left: 5px solid $primary-color;
   }
 
   &__featured-image-title {
     position: relative;
     margin: 0 2rem;
     margin-bottom: 1rem;
+
     color: white;
     @include font-size(3xl);
-    @include font-weight(semibold);
-    z-index: 10; // Keep above the moving image
+    @include font-weight(bold);
+    line-height: 1.15;
+    max-width: 28ch;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    
-    // Add stylish underline
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -7px;
-      width: 90px;
-      height: 3px;
-      background: linear-gradient(90deg, rgba($white, 0.8), transparent);
+    pointer-events: auto;
+
+    .word {
+      display: inline-block;
+      position: relative;
     }
 
     @include min-width(md) {
       @include font-size(4xl);
-      max-width: 800px;
     }
 
     @include min-width(lg) {
@@ -276,9 +332,24 @@
   &__featured-excerpt {
     position: relative;
     margin: 0 2rem;
-    color: rgba($white, 0.85);
-    max-width: 800px;
-    z-index: 10;
+    color: rgba($white, 0.95);
+    max-width: 55ch;
+    pointer-events: auto;
+
+    // Vertical line similar to aboutus section
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 90%;
+      background: linear-gradient(
+        to bottom,
+        rgba($primary-color, 0.2),
+        transparent
+      );
+    }
 
     @include min-width(lg) {
       max-width: 60%;
@@ -286,11 +357,25 @@
 
     p {
       margin-bottom: 1.5rem;
-      font-size: 1rem;
-      line-height: 1.6;
+      @include font-size(lg);
+      line-height: 1.8;
 
-      @include min-width(md) {
-        font-size: 1.125rem;
+      strong {
+        color: $white;
+        font-weight: 700;
+        position: relative;
+
+        // Subtle highlight with primary color
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 4px;
+          background-color: rgba($primary-color, 0.1);
+          z-index: -1;
+        }
       }
     }
   }
@@ -302,8 +387,10 @@
     font-weight: 600;
     font-size: 1rem;
     padding-bottom: 0.25rem;
-    border-bottom: 2px solid rgba($white, 0.3);
+    border-bottom: 1px solid rgba($white, 0.3);
     transition: all 0.3s ease;
+    position: relative;
+    pointer-events: auto;
 
     .arrow {
       margin-left: 0.5rem;
@@ -319,40 +406,16 @@
     padding-top: 4rem;
     width: 100%;
     position: relative;
-    
-    // Add decorative element
+
+    // Accent line with subtle primary color similar to aboutus
     &::before {
       content: "";
       position: absolute;
-      left: -50px;
-      top: 50%;
-      width: 100px;
-      height: 1px;
-      background-color: rgba($black, 0.1);
-      
-      @include min-width(md) {
-        width: 150px;
-      }
-    }
-    
-    // Add subtle decorative circle
-    &::after {
-      content: "";
-      position: absolute;
-      right: -80px;
-      bottom: 100px;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      border: 1px solid rgba($black, 0.05);
-      z-index: -1;
-      
-      @include min-width(md) {
-        right: -100px;
-        bottom: 150px;
-        width: 250px;
-        height: 250px;
-      }
+      top: 40px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: rgba($primary-color, 0.3);
     }
 
     .posts-title {
@@ -361,28 +424,20 @@
       margin-bottom: 3rem;
       position: relative;
       display: inline-block;
-      
-      // Add stylish decorative element
+      color: $black;
+      line-height: 1.15;
+      padding-left: 30px;
+
+      // Label line similar to aboutus label
       &::before {
         content: "";
         position: absolute;
-        left: -40px;
+        left: 0;
         top: 50%;
         transform: translateY(-50%);
-        width: 25px;
-        height: 3px;
-        background-color: $black;
-      }
-      
-      // Add subtle decorative square
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(90deg, $black, rgba($black, 0.05));
+        width: 20px;
+        height: 1px;
+        background-color: rgba($primary-color, 0.4);
       }
     }
 
@@ -391,22 +446,6 @@
       grid-template-columns: 1fr;
       gap: 2rem;
       position: relative;
-      
-      // Add fun decorative element
-      &::before {
-        content: "";
-        position: absolute;
-        right: -40px;
-        top: 30%;
-        width: 80px;
-        height: 80px;
-        background-image: 
-          linear-gradient(to right, rgba($black, 0.05) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba($black, 0.05) 1px, transparent 1px);
-        background-size: 10px 10px;
-        z-index: -1;
-        opacity: 0.7;
-      }
 
       @include min-width(md) {
         grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -438,7 +477,6 @@
     justify-content: center;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba($black, 0.08);
 
     @include min-width(md) {
       margin-top: 2rem;
@@ -464,23 +502,6 @@
     margin-top: 3rem;
     width: 100%;
     position: relative;
-    
-    // decorative dot pattern
-    &::before {
-      content: "";
-      position: absolute;
-      top: -30px;
-      left: 20%;
-      width: 50px;
-      height: 50px;
-      background-image: radial-gradient(
-        circle,
-        rgba($black, 0.1) 1px,
-        transparent 1px
-      );
-      background-size: 5px 5px;
-      z-index: -1;
-    }
 
     @include min-width(lg) {
       display: none;
@@ -502,17 +523,19 @@
     margin-bottom: 1rem;
     position: relative;
     z-index: 1;
-    
-    // Add subtle accent element
-    &::after {
+    display: inline-block;
+    padding-left: 30px;
+
+    // Label line similar to aboutus label
+    &::before {
       content: "";
       position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 2px;
-      background-color: rgba($black, 0.4);
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 1px;
+      background-color: rgba($primary-color, 0.4);
     }
   }
 
@@ -527,45 +550,19 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(
-        to right,
-        rgba($black, 0.3),
-        rgba($black, 0.1),
-        transparent
-      );
+      background: rgba($primary-color, 0.1);
       bottom: 0;
     }
   }
 
   &__desktop-social-cta {
     display: none;
-    
+
     @include min-width(xl) {
       display: block;
       padding: 6rem 2rem 0;
       text-align: center;
       position: relative;
-      
-      // Add subtle decorative element
-      &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 5%;
-        width: 150px;
-        height: 1px;
-        background: linear-gradient(to right, rgba($black, 0.1), transparent);
-      }
-      
-      &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        right: 5%;
-        width: 150px;
-        height: 1px;
-        background: linear-gradient(to left, rgba($black, 0.1), transparent);
-      }
     }
 
     &-content {
@@ -580,8 +577,23 @@
         color: $black;
         position: relative;
         display: inline-block;
-        
-        // Add subtle accent
+
+        .highlight {
+          color: $primary-color;
+          position: relative;
+          display: inline-block;
+          @include font-weight(medium);
+          background-image: linear-gradient(
+            transparent 70%,
+            rgba($black, 0.1) 100%
+          );
+          background-repeat: no-repeat;
+          background-size: 0% 100%; // Initially hidden, will be animated by GSAP
+          background-position: 0 0;
+          transition: background-size 0.3s ease; // Keep this for fallback transitions
+        }
+
+        // Subtle underline with primary color
         &::after {
           content: "";
           position: absolute;
@@ -590,7 +602,7 @@
           transform: translateX(-50%);
           width: 50px;
           height: 2px;
-          background-color: rgba($black, 0.2);
+          background-color: rgba($primary-color, 0.2);
         }
       }
     }

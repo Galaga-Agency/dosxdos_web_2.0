@@ -8,7 +8,7 @@ import { signOut, useSession } from "next-auth/react";
 import { BlogPost } from "@/types/blog-post-types";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import gsap from "gsap";
-import "./BlogList.scss";
+import "./blog-list.scss";
 import AdminBlogCard from "@/components/AdminBlogCard/AdminBlogCard";
 import { deletePost, getAllPosts } from "@/lib/blog-service";
 import Loading from "@/components/ui/Loading/Loading";
@@ -282,7 +282,7 @@ function BlogListPage() {
                         ref={paginationRef}
                       >
                         <Pagination
-                          handlePageClick={handlePageClick}
+                          handlePageClick={handlePageClick as any}
                           pageCount={pageCount}
                           currentPage={currentPage}
                         />

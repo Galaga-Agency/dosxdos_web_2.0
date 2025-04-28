@@ -28,9 +28,8 @@
     }
 
     &.active {
-      background-color: $black;
+      background-color: $primary-color;
       color: $white;
-      border-color: $black;
       font-weight: 600;
     }
   }
