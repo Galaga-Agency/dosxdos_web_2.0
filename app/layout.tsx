@@ -5,6 +5,7 @@ import Menu from "@/components/layout/Menu/Menu";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
 import PageTransition from "@/components/PageTransition/PageTransition";
+import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
 
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",
@@ -204,6 +205,7 @@ export default function RootLayout({
           <Menu />
           <PageTransition>{children}</PageTransition>
           <BackToTop />
+          <CookieConsentBanner />
         </body>
       </AuthProvider>
     </html>

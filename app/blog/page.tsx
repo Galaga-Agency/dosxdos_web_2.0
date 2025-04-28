@@ -3,8 +3,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { charAnimation } from "@/utils/animations/title-anim";
 import { useParallax } from "@/utils/animations/parallax-image";
+import {
+  initBlogPageAnimations,
+  cleanupBlogPageAnimations,
+} from "@/utils/animations/blog-page-anim";
 import "./blog.scss";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
@@ -12,7 +15,6 @@ import BlogItem from "@/components/BlogItem/BlogItem";
 import Pagination from "@/components/ui/Pagination/Pagination";
 import usePagination from "@/hooks/usePagination";
 import { formatDate } from "@/utils/formatting/dateFormatting";
-import gsap from "gsap";
 import { BlogPost } from "@/types/blog-post-types";
 import Loading from "@/components/ui/Loading/Loading";
 
@@ -24,6 +26,7 @@ const BlogPage: React.FC = () => {
   const featuredCategoryRef = useRef<HTMLDivElement>(null);
   const postsSectionRef = useRef<HTMLDivElement>(null);
   const postsGridRef = useRef<HTMLDivElement>(null);
+  const desktopSocialCtaRef = useRef<HTMLDivElement>(null);
 
   const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,43 +70,27 @@ const BlogPage: React.FC = () => {
     fetchPosts();
   }, []);
 
-  // Enhanced animations
+  // Initialize animations when page is loaded
   useEffect(() => {
     if (!loading) {
-      // Title animation
-      if (titleRef.current) {
-        gsap.set(titleRef.current, { visibility: "hidden" });
-        setTimeout(() => {
-          charAnimation(titleRef.current!);
-        }, 1500);
-      }
+      const timer = setTimeout(() => {
+        initBlogPageAnimations({
+          imageContainer: imageContainerRef.current,
+          image: imageRef.current,
+          title: titleRef.current,
+          featuredDate: featuredDateRef.current,
+          featuredCategory: featuredCategoryRef.current,
+          postsSection: postsSectionRef.current,
+          postsGrid: postsGridRef.current,
+          desktopSocialCta: desktopSocialCtaRef.current,
+        });
+      }, 100);
 
-      // Animate featured date badge
-      if (featuredDateRef.current) {
-        gsap.fromTo(
-          featuredDateRef.current,
-          { x: -50, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.9 }
-        );
-      }
-
-      // Animate featured category
-      if (featuredCategoryRef.current) {
-        gsap.fromTo(
-          featuredCategoryRef.current,
-          { x: 50, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 1 }
-        );
-      }
-
-      // Animate posts section
-      if (postsSectionRef.current) {
-        gsap.fromTo(
-          postsSectionRef.current.querySelector('.posts-title'),
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
-        );
-      }
+      return () => {
+        clearTimeout(timer);
+        // Clean up animations when component unmounts
+        cleanupBlogPageAnimations();
+      };
     }
   }, [loading]);
 
@@ -131,10 +118,15 @@ const BlogPage: React.FC = () => {
           </div>
 
           <div className="blog-page__featured-section">
+            {/* Separate offset background */}
+            <div className="blog-page__featured-offset-background"></div>
+
+            {/* Background Image Container */}
             <div
               ref={imageContainerRef}
               className="blog-page__featured-image-container"
             >
+              {/* Image wrapper with the background image */}
               <div ref={imageRef} className="blog-page__featured-image-wrapper">
                 <Image
                   src={
@@ -152,15 +144,31 @@ const BlogPage: React.FC = () => {
                 />
               </div>
 
+              {/* Image overlay that darkens the image */}
+              <div className="blog-page__featured-image-overlay"></div>
+            </div>
+
+            {/* Corner elements */}
+            <div className="blog-page__featured-image-corner tl"></div>
+            <div className="blog-page__featured-image-corner tr"></div>
+            <div className="blog-page__featured-image-corner bl"></div>
+            <div className="blog-page__featured-image-corner br"></div>
+
+            <div className="blog-page__featured-content-container">
               <Link
-                href={`/blog/${first_blog.id}`}
+                href={`/blog/${first_blog.slug}`}
                 className="blog-page__featured-content-link"
               >
-                <div className="blog-page__featured-overlay"></div>
-                <div ref={featuredDateRef} className="blog-page__featured-image-date">
+                <div
+                  ref={featuredDateRef}
+                  className="blog-page__featured-image-date"
+                >
                   {formatDate(first_blog.date)}
                 </div>
-                <div ref={featuredCategoryRef} className="blog-page__featured-category">
+                <div
+                  ref={featuredCategoryRef}
+                  className="blog-page__featured-category"
+                >
                   <span>{first_blog.category}</span>
                 </div>
                 <h1
@@ -179,7 +187,11 @@ const BlogPage: React.FC = () => {
             </div>
           </div>
 
-          <div ref={postsSectionRef} className="blog-page__posts-section" id="pagination-section">
+          <div
+            ref={postsSectionRef}
+            className="blog-page__posts-section"
+            id="pagination-section"
+          >
             <h2 className="posts-title">Artículos Recientes</h2>
 
             <div ref={postsGridRef} className="posts-grid">
@@ -207,10 +219,14 @@ const BlogPage: React.FC = () => {
             <SocialIcons orientation="horizontal" />
           </div>
 
-          <div className="blog-page__desktop-social-cta">
+          <div
+            className="blog-page__desktop-social-cta"
+            ref={desktopSocialCtaRef}
+          >
             <div className="blog-page__desktop-social-cta-content">
               <h3>
-                Mantente actualizado con nuestros últimos contenidos y proyectos
+                Mantente actualizado con nuestros últimos{" "}
+                <span className="highlight">contenidos y proyectos</span>
               </h3>
               <div className="blog-page__desktop-social-icons">
                 <SocialIcons orientation="horizontal" />

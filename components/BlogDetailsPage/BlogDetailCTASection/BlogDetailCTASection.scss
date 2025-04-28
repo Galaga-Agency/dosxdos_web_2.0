@@ -1,0 +1,88 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.blog-detail__cta-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 5rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: rgba($primary-color, 0.2);
+  }
+
+  &-content {
+    position: relative;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    z-index: 2;
+    padding: 0 1rem; // Ensure content doesn't touch edges on small screens
+  }
+
+  &-title {
+    @include font-size(3xl);
+    @include font-weight(bold);
+    color: $black;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+
+    @include min-width(md) {
+      @include font-size(4xl);
+      margin-bottom: 2rem;
+    }
+
+    .highlight {
+      position: relative;
+      color: $primary-color;
+      background-image: linear-gradient(
+        transparent 70%,
+        rgba($primary-color, 0.1) 100%
+      );
+      background-repeat: no-repeat;
+      background-size: 0% 100%;
+      background-position: 0 0;
+      transition: background-size 0.3s ease;
+      @include font-weight(medium);
+
+      &:hover {
+        background-size: 100% 100%;
+      }
+    }
+  }
+
+  &-text {
+    @include font-size(lg);
+    color: rgba($black, 0.75);
+    max-width: 550px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+
+    @include min-width(md) {
+      margin-bottom: 3rem;
+    }
+  }
+
+  &-button {
+    .button-text {
+      font-weight: 600;
+    }
+
+    .button-icon {
+      margin-left: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover .button-icon {
+      transform: translateX(5px);
+    }
+  }
+}

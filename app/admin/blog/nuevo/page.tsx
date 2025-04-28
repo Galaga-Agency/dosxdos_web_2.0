@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { createOrUpdatePost } from "@/lib/blog-service";
 import { BlogPost } from "@/types/blog-post-types";
 import { processEditorContent, calculateReadTime } from "@/utils/editor";
-import "./NewBlogPostPage.scss";
+import "./new-blog-post-page.scss";
 import { useRouter } from "next/navigation";
 import { Trash2, Upload, Image } from "lucide-react";
 import gsap from "gsap";

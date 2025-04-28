@@ -7,7 +7,8 @@
   overflow: hidden;
   padding: 0 0 2rem;
   margin: 0 auto;
-  margin-top: 5rem; // Added margin to separate from previous sections
+  margin-top: 5rem;
+  text-align: center;
 
   @include container-width(mobile);
 
@@ -29,6 +30,7 @@
     padding: 0 1rem;
     margin: 0 auto;
     max-width: 1280px;
+    @include flex(column, center, center);
 
     @include min-width(md) {
       padding: 0 2rem;
@@ -36,68 +38,14 @@
   }
 
   &__glass-card {
-    background: rgba($white, 0.6);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba($black, 0.1);
-    box-shadow: $shadow-lg;
-    @include border-radius(lg);
-    padding: 2rem;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-
-    @include min-width(md) {
-      padding: 3rem;
-      margin: 2rem;
-    }
-
-    @include min-width(lg) {
-      padding: 4rem;
-      text-align: center; // Keep it centered for this specific CTA
-    }
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        135deg,
-        rgba($white, 0.2) 0%,
-        rgba($secondary-color, 0.1) 100%
-      );
-      z-index: -1;
-    }
-
-    // Subtle red accent on the left side
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba($primary-color, 0.7),
-        rgba($primary-color, 0.1)
-      );
-    }
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba($black, 0.1);
-    }
+    width: 100%;
+    @include flex(column, center, center);
   }
 
   &__label {
     margin-bottom: 1.5rem;
     position: relative;
+    text-align: left;
 
     span {
       display: inline-block;
@@ -124,6 +72,8 @@
 
   &__content {
     margin-bottom: 2rem;
+    text-align: center;
+    width: 100%;
 
     @include min-width(lg) {
       max-width: 80%;
@@ -137,6 +87,7 @@
     color: rgba($black, 0.8);
     line-height: 1.15;
     margin-bottom: 1.5rem;
+    text-align: center;
 
     @include min-width(md) {
       @include font-size(4xl);
@@ -172,6 +123,7 @@
     color: rgba($black, 0.75);
     max-width: 90%;
     margin: 0 auto;
+    text-align: center;
 
     @include min-width(lg) {
       max-width: 80%;
@@ -180,11 +132,11 @@
 
   &__action {
     position: relative;
-    display: inline-block;
-    width: auto;
+    display: flex;
+    justify-content: center;
+    width: 100%;
     margin: 0 auto;
 
-    // Add subtle animation on hover
     &:hover {
       transform: translateY(-2px);
       transition: transform 0.3s ease;

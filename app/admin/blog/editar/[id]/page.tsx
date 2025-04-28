@@ -11,7 +11,7 @@ import {
   parseHtmlContentToBlocks,
   lexicalToEditorBlocks,
 } from "@/utils/editor";
-import "./EditBlogPostPage.scss";
+import "./edit-blog-post-page.scss";
 import { useRouter, useParams } from "next/navigation";
 import { Trash2, Upload, Image } from "lucide-react";
 import gsap from "gsap";

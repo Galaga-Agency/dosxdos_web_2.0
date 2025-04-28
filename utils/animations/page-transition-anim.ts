@@ -86,7 +86,7 @@ export const createPageTransitionAnimation = (
 
     glassLayer.className = "page-transition__panel glass-layer";
     logo.className = "page-transition__logo";
-    logo.src = "/assets/img/logo/logo-rojo-fondo-gris.png";
+    logo.src = "/assets/img/logo/logo_fondo_rojo.png";
     logo.alt = "Dos x Dos Logo";
 
     containerRef.current.appendChild(glassLayer);
