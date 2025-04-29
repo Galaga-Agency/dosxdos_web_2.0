@@ -7,7 +7,7 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 50vh;
+  min-height: 600px;
   overflow: hidden;
 
   // Navigation Buttons
@@ -15,53 +15,37 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
-    background-color: rgba($black, 0.35);
+    z-index: 20;
+    background-color: transparent;
     color: $white;
     border: none;
-    width: 32px;
-    height: 32px;
+    width: 3rem;
+    height: 3rem;
     @include flex(row, center, center);
     cursor: pointer;
     @include transition-duration(normal);
-    backdrop-filter: blur(5px);
-    @include border-radius(full);
-    border: 1px solid rgba($white, 0.1);
 
     &--prev {
-      left: 0.5rem;
+      left: 1rem;
     }
 
     &--next {
-      right: 0.5rem;
-    }
-
-    &:hover {
-      background-color: rgba($black, 0.5);
-      transform: translateY(-50%) scale(1.1);
+      right: 1rem;
     }
 
     svg {
       stroke: $white;
-      width: 18px;
-      height: 18px;
+      width: 2rem;
+      height: 2rem;
     }
 
     @include min-width(md) {
-      width: 40px;
-      height: 40px;
-
-      &--prev {
-        left: 1rem;
-      }
-
-      &--next {
-        right: 1rem;
-      }
+      width: 4rem;
+      height: 4rem;
 
       svg {
-        width: 24px;
-        height: 24px;
+        width: 2.5rem;
+        height: 2.5rem;
       }
     }
   }
@@ -94,69 +78,57 @@
     will-change: transform;
   }
 
-  // Content wrapper to properly center all elements
+  // Content wrapper 
   &__content {
     position: absolute;
     top: 50%;
-    left: 15%;
-    transform: translateY(-50%);
-    z-index: 5;
-    width: 90%;
+    left: 5%;
+    transform: translateY(-30%);
+    z-index: 10;
+    width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    
-    @include min-width(sm) {
-      width: 80%;
+    justify-content: center;
+    height: auto;
+    gap: 1rem;
+
+    @include min-width(md) {
       left: 10%;
     }
-    
-    @include min-width(md) {
-      width: 70%;
-      gap: 2.5rem;
-    }
-    
-    @include min-width(xl) {
-      width: 60%;
-    }
+  }
+
+  // Preheading / Subtitle
+  &__preheading {
+    color: $white;
+    @include font-size(lg);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
   }
 
   // Title Styling - Left-aligned
   &__title {
     color: $white;
-    @include font-size(4xl);
+    @include font-size(6xl);
     @include font-weight(bold);
     text-align: left;
-    width: auto;
-    letter-spacing: -1px;
     line-height: 1.2;
     margin: 0;
     padding: 0;
-    
-    @include min-width(sm) {
-      @include font-size(5xl);
-    }
 
     @include min-width(md) {
-      @include font-size(5xl);
+      @include font-size(7xl);
     }
 
     @include min-width(lg) {
       @include font-size(8xl);
-    }
-    
-    @include min-width(xl) {
-      @include font-size(6xl);
     }
   }
 
   // CTA Button
   &__cta {
     width: fit-content;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    margin-top: 1rem;
   }
 
   // Indicator dots
@@ -167,8 +139,8 @@
     width: 100%;
     @include flex(row, center, center);
     gap: 0.75rem;
-    z-index: 4;
-    
+    z-index: 15;
+
     @include min-width(md) {
       bottom: 1.5rem;
     }
@@ -191,7 +163,6 @@
     }
   }
 
-  // Add a darker overlay to improve text readability and contrast
   &::after {
     content: "";
     position: absolute;
@@ -200,12 +171,11 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(
-      to bottom,
-      rgba($black, 0.2) 0%,
-      rgba($black, 0.4) 50%,
-      rgba($black, 0.5) 100%
+      to top,
+      rgba($black, 0.6) 0%,
+      rgba($black, 0) 100%
     );
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
   }
 }

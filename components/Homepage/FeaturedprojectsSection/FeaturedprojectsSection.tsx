@@ -7,90 +7,72 @@ import {
   panelTwoAnimation,
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
+import { animateAboutUsSection } from "@/utils/animations/homepage-anim";
 import "./FeaturedprojectsSection.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
-
-const projectData = [
-  {
-    id: 1,
-    title: "Kasino Recreativo",
-    description:
-      "Diseño de interiores y ambientación para salón de juegos con iluminación atmosférica y elementos decorativos personalizados.",
-    category: "Interiorismo Comercial",
-    location: "Madrid, España",
-    image:
-      "/assets/img/portfolio/interiorismo-comercial/interiorismo-comercial-2.jpg",
-    link: "/portfolio/kasino-recreativo",
-  },
-  {
-    id: 2,
-    title: "Café Modernista",
-    description:
-      "Renovación completa de espacio gastronómico con enfoque en materiales sostenibles y diseño contemporáneo que respeta la arquitectura original.",
-    category: "Hostelería",
-    location: "Barcelona, España",
-    image: "/assets/img/portfolio/shop-in-shop/shop-in-shop-3.jpg",
-    link: "/portfolio/cafe-modernista",
-  },
-  {
-    id: 3,
-    title: "Boutique Eleganza",
-    description:
-      "Conceptualización y ejecución de tienda de moda exclusiva con áreas diferenciadas y sistema de iluminación que realza cada colección.",
-    category: "Retail",
-    location: "Valencia, España",
-    image: "/assets/img/blog/visual-storytelling.jpg",
-    link: "/portfolio/boutique-eleganza",
-  },
-];
+import { featuredProjects } from "@/data/projects";
 
 const FeaturedprojectsSection: React.FC = () => {
   const initialized = useRef<boolean>(false);
-  const headerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Only initialize once
+    // Initialize panel animation
     if (!initialized.current) {
-      // Clean up any existing ScrollTrigger instances first
       clearScrollTriggers();
-
-      // Short timeout to ensure DOM is fully rendered
       const timer = setTimeout(() => {
         panelTwoAnimation();
+        const forceAnimation = () => {
+          if (titleRef.current && textRef.current) {
+            animateAboutUsSection({
+              section: sectionRef.current,
+              label: labelRef.current,
+              title: titleRef.current,
+              text: textRef.current,
+              cta: ctaRef.current,
+            } as any);
+          }
+        };
+        forceAnimation();
         initialized.current = true;
-      }, 100);
+      }, 1500);
 
       return () => {
         clearTimeout(timer);
         clearScrollTriggers();
       };
     }
-
-    // Cleanup when component unmounts
-    return () => {
-      clearScrollTriggers();
-    };
   }, []);
 
   return (
-    <section className="latest-projects">
-      {/* Header section with title and subtitle */}
-      <div className="latest-projects__header-container" ref={headerRef}>
-        {/* Added corner elements for animation */}
-        <div className="latest-projects__corner top-left"></div>
-        <div className="latest-projects__corner bottom-right"></div>
-        <div className="latest-projects__header">
-          <h2 className="latest-projects__title">
-            NUESTRO <span className="highlight">TRABAJO</span>
-          </h2>
-          <p className="latest-projects__subtitle">
-            Una selección de nuestros proyectos más recientes
+    <section ref={sectionRef} className="latest-projects">
+      {/* <div className="latest-projects__intro">
+        <div ref={labelRef} className="latest-projects__label">
+          <span>Experiencias Visuales</span>
+        </div>
+        <h2 ref={titleRef} className="latest-projects__title">
+          <span className="word">El</span> <span className="word">diseño</span>{" "}
+          <span className="word">como</span>{" "}
+          <span className="highlight">lenguaje visual</span>
+        </h2>
+        <div ref={textRef} className="latest-projects__description">
+          <p>
+            Interpretamos cada espacio como un lienzo donde la arquitectura, la
+            luz y el material conversan. Transformamos entornos comerciales en
+            experiencias que capturan la esencia de cada marca, invitando a
+            explorar y descubrir.
           </p>
-        </div>{" "}
-        <PrimaryButton href="/portfolio" size="large">
-          Ver Nuestro Portfolio →
-        </PrimaryButton>
-      </div>
+          <div ref={ctaRef} className="latest-projects__cta">
+            <PrimaryButton href="/portfolio" size="medium">
+              Descubrir Portfolio
+            </PrimaryButton>
+          </div>
+        </div>
+      </div> */}
 
       <div className="marquee-container">
         <div className="marquee-track">
@@ -102,9 +84,8 @@ const FeaturedprojectsSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Projects panel area - NO CHANGES HERE */}
       <div className="project-panel-area">
-        {projectData.map((project) => (
+        {featuredProjects.map((project) => (
           <div key={project.id} className="project-panel">
             <div className="project-panel__image">
               <Image
@@ -113,15 +94,18 @@ const FeaturedprojectsSection: React.FC = () => {
                 width={1920}
                 height={1080}
                 className="project-panel__image-file"
-                priority={project.id === 1}
+                priority={project.id === "01"}
               />
               <div className="project-panel__overlay"></div>
             </div>
 
             <div className="project-panel__content">
               <h3 className="project-panel__title">{project.title}</h3>
-              <Link href={project.link} className="project-panel__link">
-                Ver Proyecto
+              <Link
+                href={`/portfolio/${project.slug}`}
+                className="project-panel__link"
+              >
+                Explorar proyecto
               </Link>
             </div>
           </div>
