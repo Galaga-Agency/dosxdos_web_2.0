@@ -2,15 +2,13 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import { featuredProjects } from "@/data/projects";
 import {
   initPortfolioPageAnimations,
   cleanupAllAnimations,
 } from "@/utils/animations/portfolio-page-anim";
-import "./PortfolioPage.scss";
-import SocialIcons from "@/components/SocialIcons/SocialIcons";
+import "./portfolio-page.scss";
 
 const PortfolioPage: React.FC = () => {
   const [activeProject, setActiveProject] = useState<string | null>(null);
@@ -19,10 +17,7 @@ const PortfolioPage: React.FC = () => {
 
   const bgWrapperRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
   const projectsRef = useRef<HTMLDivElement>(null);
-  const infoSectionRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Clear backgrounds and rebuild them on every component mount
@@ -59,22 +54,15 @@ const PortfolioPage: React.FC = () => {
                 setIsLoaded(true);
 
                 // Animate container after image is loaded
-                if (
-                  containerRef.current &&
-                  titleRef.current &&
-                  projectsRef.current &&
-                  infoSectionRef.current &&
-                  ctaRef.current
-                ) {
+                if (containerRef.current && projectsRef.current) {
                   containerRef.current.classList.add("loaded");
 
                   // Initialize page animations
                   initPortfolioPageAnimations({
                     section: sectionRef.current,
-                    title: titleRef.current,
                     projects: projectsRef.current,
-                    infoSection: infoSectionRef.current,
-                    ctaButton: ctaRef.current,
+                    infoSection: null,
+                    ctaButton: null,
                   });
                 }
               }, 100);
@@ -129,23 +117,8 @@ const PortfolioPage: React.FC = () => {
       <div className="portfolio-page" ref={sectionRef}>
         {/* Background container */}
         <div ref={bgWrapperRef} className="portfolio-page__background"></div>
-
-        {/* Social sidebar */}
-        <div className="portfolio-page__social-sidebar">
-          <div className="portfolio-page__social-wrapper">
-            <span className="portfolio-page__social-label">Síguenos</span>
-            <SocialIcons orientation="vertical" color="white" />
-          </div>
-        </div>
-
         {/* Main container */}
         <div ref={containerRef} className="portfolio-page__container">
-          {/* Title */}
-          <h1 className="portfolio-page__title" ref={titleRef}>
-            Proyectos que hablan por si solos
-            <span className="portfolio-page__title-accent"></span>
-          </h1>
-
           {/* Projects list */}
           <div ref={projectsRef} className="portfolio-page__projects">
             {featuredProjects.map((project, index) => (
@@ -157,58 +130,19 @@ const PortfolioPage: React.FC = () => {
                 onMouseEnter={() => handleProjectHover(project.id)}
                 onClick={() => handleProjectClick(project.slug)}
               >
-                <div className="portfolio-page__project-number">
-                  {(index + 1).toString().padStart(2, "0")}
-                </div>
-                <div className="portfolio-page__project-content">
-                  <h2 className="portfolio-page__project-title">
-                    {project.title}
-                  </h2>
-                  <div className="portfolio-page__project-meta">
-                    <span className="portfolio-page__project-client">
-                      {project.client}
-                    </span>
-                    <span className="portfolio-page__project-separator">·</span>
-                    <span className="portfolio-page__project-category">
-                      {project.category}
-                    </span>
-                  </div>
-                </div>
-                <div className="portfolio-page__project-arrow">
-                  <span>→</span>
-                </div>
+                <h2 className="portfolio-page__project-title">
+                  <span className="text-outline">{project.title}</span>
+                </h2>
               </div>
             ))}
           </div>
-
-          {/* Info section */}
-          <div className="portfolio-page__info-section" ref={infoSectionRef}>
-            <div className="portfolio-page__info-text">
-              <p>
-                Nos encargamos de la{" "}
-                <strong>gestión integral de las firmas</strong>. Estudiamos las
-                necesidades específicas de cada proyecto y diseñamos basándonos
-                en las especificaciones de la firma. Posteriormente, realizamos
-                los planos técnicos, producción de materiales e instalación en
-                el punto de venta.
-              </p>
-              <p>
-                Ya son muchos los{" "}
-                <strong>proyectos que hemos llevado a cabo</strong> para marcas
-                de prestigio. Escaparates, diseño de interiores para tiendas,
-                impresiones, stands, muebles comerciales, mostradores o
-                góndolas… Aquí podéis ver algunos ejemplos de trabajos
-                realizados por el equipo de Dos por Dos Grupo Imagen:
-              </p>
-            </div>
-          </div>
-
-          {/* CTA section */}
-          <div className="portfolio-page__cta" ref={ctaRef}>
-            <PrimaryButton href="/proyectos/todos" size="large">
-              Explore nuestra colección completa de trabajos
-            </PrimaryButton>
-          </div>
+          {/* Call to action */}
+        </div>
+        <div className="portfolio-page__cta">
+          <a href="/portfolio/all" className="portfolio-page__cta-link">
+            <span className="portfolio-page__cta-text">Ver más proyectos</span>
+            <span className="portfolio-page__cta-arrow">→</span>
+          </a>
         </div>
       </div>
     </SmoothScrollWrapper>
