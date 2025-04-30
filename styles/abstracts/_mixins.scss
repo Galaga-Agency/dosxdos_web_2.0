@@ -1,21 +1,96 @@
-// These mixins are sort of functions i use to map through the sort of variable arrays i have in _variables.scss, and make the syntax easier to use throughout the app
-// For example, without mixin, for font-size, i would need to write font-size: map-get($font-size, 2xl); but with mixin, i can just write @include font-size(2xl);,
-// which is much easier to read and write
-// some other mixins are for redudant css code i wanted to avoid, such as flex, flex-driection etc which tend to always come together
+// These mixins are sort of functions I use to map through the sort of variable arrays I have in _variables.scss
+// For example, without mixin, for font-size, I would need to write font-size: map-get($font-size, 2xl); 
+// but with mixin, I can just write @include font-size(2xl);, which is much easier to read and write
+// Some other mixins are for redundant CSS code I wanted to avoid, such as flex, flex-direction etc which tend to always come together
 
 @use "../abstracts/variables" as *;
 
 // -----------------------------------------------------------------------------
 // Spacing
-// Usage: padding: spacing(sm);
+// Usage: @include spacing(md);
 // -----------------------------------------------------------------------------
 @mixin spacing($size, $property: padding) {
   #{$property}: map-get($spacing, $size);
 }
 
 // -----------------------------------------------------------------------------
+// Margin helpers
+// Usage: @include margin(md, top);
+// -----------------------------------------------------------------------------
+@mixin margin($size, $direction: all) {
+  @if $direction == all {
+    margin: map-get($spacing, $size);
+  } @else if $direction == top {
+    margin-top: map-get($spacing, $size);
+  } @else if $direction == right {
+    margin-right: map-get($spacing, $size);
+  } @else if $direction == bottom {
+    margin-bottom: map-get($spacing, $size);
+  } @else if $direction == left {
+    margin-left: map-get($spacing, $size);
+  } @else if $direction == x {
+    margin-left: map-get($spacing, $size);
+    margin-right: map-get($spacing, $size);
+  } @else if $direction == y {
+    margin-top: map-get($spacing, $size);
+    margin-bottom: map-get($spacing, $size);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Padding helpers
+// Usage: @include padding(md, top);
+// -----------------------------------------------------------------------------
+@mixin padding($size, $direction: all) {
+  @if $direction == all {
+    padding: map-get($spacing, $size);
+  } @else if $direction == top {
+    padding-top: map-get($spacing, $size);
+  } @else if $direction == right {
+    padding-right: map-get($spacing, $size);
+  } @else if $direction == bottom {
+    padding-bottom: map-get($spacing, $size);
+  } @else if $direction == left {
+    padding-left: map-get($spacing, $size);
+  } @else if $direction == x {
+    padding-left: map-get($spacing, $size);
+    padding-right: map-get($spacing, $size);
+  } @else if $direction == y {
+    padding-top: map-get($spacing, $size);
+    padding-bottom: map-get($spacing, $size);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Gap helpers
+// Usage: @include gap(md);
+// -----------------------------------------------------------------------------
+@mixin gap($size) {
+  gap: map-get($gap, $size);
+}
+
+// -----------------------------------------------------------------------------
+// Section spacing
+// Usage: @include section-spacing;
+// -----------------------------------------------------------------------------
+@mixin section-spacing {
+  padding-top: map-get($spacing, 'section-y');
+  padding-bottom: map-get($spacing, 'section-y');
+  
+  @include min-width(md) {
+    padding-top: map-get($spacing, 'section-y');
+    padding-bottom: map-get($spacing, 'section-y');
+  }
+  
+  @media screen and (max-width: 576px) {
+    padding-top: map-get($spacing, 'section-y-sm');
+    padding-bottom: map-get($spacing, 'section-y-sm');
+  }
+}
+
+// -----------------------------------------------------------------------------
 // Container width
-// Usage: max-width: container-width(max);
+// Usage: @include container-width(desktop);
 // -----------------------------------------------------------------------------
 @mixin container-width($size, $property: max-width) {
   #{$property}: map-get($container, $size);
@@ -60,6 +135,16 @@
 }
 
 // -----------------------------------------------------------------------------
+// Transition
+// Usage: @include transition(transform, normal, ease-in-out);
+// -----------------------------------------------------------------------------
+@mixin transition($property, $speed, $easing: ease) {
+  transition-property: $property;
+  transition-duration: map-get($durations, $speed);
+  transition-timing-function: $easing;
+}
+
+// -----------------------------------------------------------------------------
 // Font size
 // Usage: @include font-size(2xl);
 // -----------------------------------------------------------------------------
@@ -95,6 +180,16 @@
 }
 
 // -----------------------------------------------------------------------------
+// Grid
+// Usage: @include grid(3, md);
+// -----------------------------------------------------------------------------
+@mixin grid($columns, $gap-size) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: map-get($gap, $gap-size);
+}
+
+// -----------------------------------------------------------------------------
 // Text truncate
 // Usage: @include text-truncate;
 // -----------------------------------------------------------------------------
@@ -114,6 +209,29 @@
   @media screen and (max-width: 1280px) {
     font-size: $small-screen;
   }
+}
+
+// -----------------------------------------------------------------------------
+// Shadow helpers
+// Usage: @include shadow(md);
+// -----------------------------------------------------------------------------
+@mixin shadow($size) {
+  @if $size == sm {
+    box-shadow: $shadow-sm;
+  } @else if $size == md {
+    box-shadow: $shadow-md;
+  } @else if $size == lg {
+    box-shadow: $shadow-lg;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Component container
+// Usage: @include component-container;
+// -----------------------------------------------------------------------------
+@mixin component-container {
+  padding: map-get($component, 'padding-y') map-get($component, 'padding-x');
+  margin-bottom: map-get($component, 'margin-bottom');
 }
 
 // -----------------------------------------------------------------------------
@@ -143,6 +261,10 @@
   }
 }
 
+// -----------------------------------------------------------------------------
+// Touch device detection
+// Usage: @include touch-device { ... }
+// -----------------------------------------------------------------------------
 @mixin touch-device {
   @media (hover: none) and (pointer: coarse) {
     @content;

@@ -3,6 +3,11 @@
 import React, { useEffect, ReactNode } from "react";
 import LoadingManager from "@/utils/loading";
 import Footer from "./layout/Footer/footer";
+import {
+  initScrollTriggerConfig,
+  cleanupScrollTriggers,
+  refreshScrollTrigger,
+} from "@/utils/animations/scrolltrigger-config";
 
 interface SmoothScrollWrapperProps {
   children: ReactNode;
@@ -35,12 +40,11 @@ export default function SmoothScrollWrapper({
 
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-        // Simple config to prevent issues
-        ScrollTrigger.config({
-          ignoreMobileResize: true,
-        });
+        // Initialize ScrollTrigger config
+        initScrollTriggerConfig();
 
-        requestAnimationFrame(() => {
+        // Initialize ScrollSmoother with a short delay to ensure DOM is ready
+        setTimeout(() => {
           smoother = ScrollSmoother.create({
             smooth: 2,
             effects: true,
@@ -53,7 +57,10 @@ export default function SmoothScrollWrapper({
           if (LoadingManager.isLoading) {
             smoother.paused(true);
           }
-        });
+
+          // Important: Refresh ScrollTrigger to coordinate with ScrollSmoother
+          refreshScrollTrigger();
+        }, 200);
       } catch (error) {
         console.error("Error initializing ScrollSmoother:", error);
       }
@@ -66,16 +73,23 @@ export default function SmoothScrollWrapper({
         smoother.kill();
         (window as any).__smoother__ = null;
       }
-      if (typeof window !== "undefined" && (window as any).gsap) {
-        import("gsap/ScrollTrigger").then((module) => {
-          const ScrollTrigger = module.ScrollTrigger;
-          if (ScrollTrigger) {
-            ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-          }
-        });
-      }
+
+      // Clean up all ScrollTrigger instances
+      cleanupScrollTriggers();
     };
   }, []);
+
+  // Refresh ScrollTrigger when children change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Use setTimeout to ensure DOM is updated before refreshing
+      const timer = setTimeout(() => {
+        refreshScrollTrigger();
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [children]);
 
   return (
     <div id="smooth-wrapper">

@@ -55,6 +55,11 @@
     overflow: hidden;
     position: relative;
     padding: 0 auto;
+    width: 100%;
+    pointer-events: none;
+    min-height: 180px; // Fixed height to prevent jumping
+    will-change: transform;
+    z-index: 2;
   }
 
   &__item {

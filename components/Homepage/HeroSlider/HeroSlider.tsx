@@ -161,9 +161,9 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           animate="visible"
           variants={ctaVariants}
         >
-          <PrimaryButton href="/portfolio" size="large">
+          <SecondaryButton href="/portfolio" size="large">
             Descubrir Proyectos
-          </PrimaryButton>
+          </SecondaryButton>
         </motion.div>
       </div>
 

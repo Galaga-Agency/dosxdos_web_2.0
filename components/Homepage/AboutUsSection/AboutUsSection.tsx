@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
@@ -8,12 +7,13 @@ import "./AboutUsSection.scss";
 
 const AboutUsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const decorRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Enhanced animation implementation
@@ -25,8 +25,7 @@ const AboutUsSection: React.FC = () => {
           title: titleRef.current,
           text: textRef.current,
           cta: ctaRef.current,
-          decor: decorRef.current,
-          image: imageRef.current,
+          image: visualRef.current,
         } as any);
       }
     };
@@ -46,66 +45,53 @@ const AboutUsSection: React.FC = () => {
   return (
     <section ref={sectionRef} className="aboutus-section">
       <div className="aboutus-section__container">
-        <div className="aboutus-section__content-wrapper">
+        {/* Header section that spans full width */}
+        <div ref={headerRef} className="aboutus-section__header">
           <div ref={labelRef} className="aboutus-section__label">
-            <span>QUIÉNES SOMOS</span>
+            <span>PROYECTAMOS SENSACIONES</span>
           </div>
 
           <h2 ref={titleRef} className="aboutus-section__title">
-            <span className="word">Diseñamos</span>{" "}
-            <span className="word">historias</span>{" "}
-            <span className="word">visuales</span>
-            <br />
-            <span className="word">a</span> <span className="word">través</span>{" "}
-            <span className="word">de</span>{" "}
-            <span className="highlight">espacios únicos</span>
+            Creamos <span className="highlight">experiencias únicas</span> en
+            espacios comerciales
           </h2>
-
-          <div ref={textRef} className="aboutus-section__text">
-            <p>
-              Llevamos más de <strong>30 años</strong> dedicados al diseño de
-              espacios comerciales. Gracias a nuestro equipo de arquitectos,
-              interioristas y diseñadores gráficos, hacemos posible crear en
-              cada proyecto un <strong>espacio con esencia propia</strong>.
-            </p>
-            <div ref={ctaRef} className="aboutus-section__cta">
-              <PrimaryButton href="/sobre-nosotros/equipo" size="medium">
-                Sobre Nosotros
-              </PrimaryButton>
-            </div>
-          </div>
         </div>
 
-        <div className="aboutus-section__image-column">
-          <div className="aboutus-section__image-frame" ref={imageRef}>
-            <div className="aboutus-section__image-frame-inner">
+        {/* Content area with two columns */}
+        <div className="aboutus-section__content">
+          {/* Left column with logo */}
+          <div ref={visualRef} className="aboutus-section__visual-column">
+            <div className="aboutus-section__animated-logo">
               <Image
-                src="/assets/img/blog/default-blog-image.jpg"
-                alt="Espacio diseñado por dosxdos"
+                src="/assets/img/logo/logo-svg.svg"
+                alt="Dos por Dos Grupo Imagen"
                 fill
-                sizes="(max-width: 768px) 100vw, 400px"
-                className="aboutus-section__image"
+                sizes="(max-width: 768px) 150px, 200px"
                 priority
               />
-              <div className="aboutus-section__image-overlay"></div>
-              <div className="aboutus-section__image-corner tl"></div>
-              <div className="aboutus-section__image-corner tr"></div>
-              <div className="aboutus-section__image-corner bl"></div>
-              <div className="aboutus-section__image-corner br"></div>
             </div>
           </div>
-          <div className="aboutus-section__stats">
-            <div className="aboutus-section__stat-item">
-              <span className="aboutus-section__stat-number">37</span>
-              <span className="aboutus-section__stat-label">
-                Años de experiencia
-              </span>
+
+          {/* Right column with content */}
+          <div className="aboutus-section__content-column">
+            <div ref={textRef} className="aboutus-section__text">
+              <p>
+                Más de <strong>35 años de experiencia</strong> en el sector del
+                diseño de interiores en espacios comerciales. Especialistas en
+                el servicio integral a firmas de lujo de la cosmética y
+                perfumería.
+              </p>
+              <p>
+                Con un gran equipo de más de 45 profesionales, formado por
+                arquitectos, interioristas, diseñadores y expertos en producción
+                e instalación, te acompañamos durante todo el proceso.
+              </p>
             </div>
-            <div className="aboutus-section__stat-item">
-              <span className="aboutus-section__stat-number">250+</span>
-              <span className="aboutus-section__stat-label">
-                Proyectos completados
-              </span>
+
+            <div ref={ctaRef} className="aboutus-section__cta">
+              <PrimaryButton href="/sobre-nosotros/equipo" size="medium">
+                Conocenos &rarr;
+              </PrimaryButton>
             </div>
           </div>
         </div>

@@ -4,321 +4,134 @@
 @use "base/animations" as *;
 
 .aboutus-section {
-  background-color: $white;
   position: relative;
   overflow: hidden;
-  margin: 0 auto;
-  padding-block: 6rem;
-
-  @include container-width(mobile);
-
-  @include min-width(md) {
-    @include container-width(tablet);
-  }
-
-  @include min-width(lg) {
-    @include container-width(smalldesktop);
-  }
-
-  @include min-width(xl) {
-    @include container-width(desktop);
-  }
+  @include section-spacing;
 
   &__container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 4rem;
-    max-width: 1600px;
+    @include container-width(mobile);
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    @include gap(xl);
 
     @include min-width(md) {
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 3rem;
+      @include container-width(tablet);
     }
 
     @include min-width(lg) {
-      gap: 5rem;
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+      max-width: 1280px;
     }
   }
 
-  &__content-wrapper {
-    position: relative;
-    max-width: 650px;
-    margin: auto 0;
-
-    // Accent line with subtle primary color
-    &::before {
-      content: "";
-      position: absolute;
-      top: -40px;
-      left: 0;
-      width: 40px;
-      height: 2px;
-      background-color: rgba($primary-color, 0.3);
-    }
+  // Header section - spans full width
+  &__header {
+    width: 100%;
   }
 
   &__label {
-    margin-bottom: 2rem;
+    display: inline-block;
     position: relative;
-
-    span {
-      display: inline-block;
-      @include font-size(xs);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba($black, 0.6);
-      position: relative;
-      padding-left: 30px;
-
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 20px;
-        height: 1px;
-        background-color: rgba($primary-color, 0.4);
-      }
-    }
+    @include font-size(sm);
+    color: rgba($black, 0.7);
+    @include letter-spacing(wide);
+    text-transform: uppercase;
+    @include padding(sm);
+    @include margin(lg, bottom);
+    background-color: #f8f8f8;
+    @include border-radius(full);
   }
 
   &__title {
-    @include font-size(3xl);
-    font-weight: 800;
+    @include font-size(5xl);
+    @include font-weight(bold);
     color: $black;
-    line-height: 1.15;
-    margin-bottom: 2.5rem;
-    max-width: 28ch;
+    line-height: 1;
+    @include margin(lg, bottom);
 
-    @include min-width(md) {
+    @include min-width(sm) {
       @include font-size(4xl);
     }
 
+    @include min-width(md) {
+      @include font-size(6xl);
+    }
+
     @include min-width(lg) {
-      @include font-size(5xl);
-    }
-
-    .word {
-      display: inline-block;
-      position: relative;
-    }
-
-    .highlight {
-      position: relative;
-      display: inline-block;
-      font-weight: 400;
-      color: rgba($primary-color, 0.8);
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        height: 2px;
-        width: 100%;
-        background-color: rgba($primary-color, 0.2);
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.3s ease;
-      }
+      @include font-size(8xl);
     }
   }
 
-  &:hover .highlight::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    height: 2px;
+  &__content {
     width: 100%;
-    background-color: rgba($primary-color, 0.2);
-    transform: scaleX(1);
-    transform-origin: left;
+    @include grid(1, md);
+
+    @include min-width(md) {
+      grid-template-columns: 1fr 1.5fr;
+      @include gap(xl);
+    }
+  }
+
+  // Left column - logo
+  &__visual-column {
+    position: relative;
+    @include flex(row, center, flex-start);
+    order: 2;
+
+    @include min-width(md) {
+      order: 1;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+
+  &__animated-logo {
+    width: 150px;
+    height: 150px;
+    position: relative;
+  }
+
+  &__content-column {
+    position: relative;
+    order: 1;
+    @include flex(column, flex-start, flex-start);
+    @include gap(lg);
+
+    @include min-width(md) {
+      order: 2;
+    }
   }
 
   &__text {
-    @include font-size(lg);
-    line-height: 1.8;
-    color: rgba($black, 0.75);
-    max-width: 55ch;
-    position: relative;
-    padding-left: 2rem;
-    margin-bottom: 3rem;
-
-    // Vertical line with subtle primary color
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1px;
-      height: 90%;
-      background: linear-gradient(
-        to bottom,
-        rgba($primary-color, 0.2),
-        transparent
-      );
-    }
+    @include font-size(base);
+    line-height: 1.7;
+    color: rgba($black, 0.7);
+    max-width: 50ch;
 
     p {
-      margin-bottom: 2.5rem;
+      @include margin(md, bottom);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     strong {
       color: $black;
-      font-weight: 700;
-      position: relative;
-
-      // Subtle highlight with primary color
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background-color: rgba($primary-color, 0.1);
-        z-index: -1;
-      }
+      @include font-weight(semibold);
     }
   }
 
-  // Right column with image frame and stats
-  &__image-column {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
+  &__cta {
+    @include margin(lg, top);
 
     @include min-width(md) {
-      align-self: center;
+      @include margin(xl, bottom);
     }
-  }
-
-  &__image-frame {
-    aspect-ratio: 3/4;
-    height: 100%;
-    width: 100%;
-    max-width: 400px;
-    max-height: 540px;
-    position: relative;
-    margin: 0 auto;
-    border: 1px solid rgba($primary-color, 0.1);
-
-    @include min-width(md) {
-      margin: 0;
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      right: -15px;
-      bottom: -15px;
-      background-color: rgba($primary-color, 0.03);
-      z-index: -1;
-    }
-  }
-
-  &__image-frame-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: rgba($primary-color, 0.04);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &::before {
-      content: "dosxdos";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-weight: 300;
-      @include font-size(3xl);
-      color: rgba($primary-color, 0.05);
-      letter-spacing: 0.1em;
-    }
-  }
-
-  &__image-corner {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-
-    &.tl {
-      top: 10px;
-      left: 10px;
-      border-top: 1px solid rgba($primary-color, 0.3);
-      border-left: 1px solid rgba($primary-color, 0.3);
-    }
-
-    &.tr {
-      top: 10px;
-      right: 10px;
-      border-top: 1px solid rgba($primary-color, 0.3);
-      border-right: 1px solid rgba($primary-color, 0.3);
-    }
-
-    &.bl {
-      bottom: 10px;
-      left: 10px;
-      border-bottom: 1px solid rgba($primary-color, 0.3);
-      border-left: 1px solid rgba($primary-color, 0.3);
-    }
-
-    &.br {
-      bottom: 10px;
-      right: 10px;
-      border-bottom: 1px solid rgba($primary-color, 0.3);
-      border-right: 1px solid rgba($primary-color, 0.3);
-    }
-  }
-
-  &__stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin-top: 1rem;
-
-    @include min-width(md) {
-      margin-left: 1rem;
-    }
-  }
-
-  &__stat-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  &__stat-number {
-    @include font-size(3xl);
-    font-weight: 700;
-    color: $black;
-    line-height: 1;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 30px;
-      height: 2px;
-      background-color: rgba($primary-color, 0.2);
-    }
-  }
-
-  &__stat-label {
-    @include font-size(sm);
-    color: rgba($black, 0.6);
-    line-height: 1.4;
   }
 }

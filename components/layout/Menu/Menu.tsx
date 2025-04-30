@@ -218,13 +218,13 @@ const Menu: React.FC = () => {
         {/* Actions Area */}
         <div className="menu__actions">
           {/* CTA Button */}
-          <PrimaryButton
+          <SecondaryButton
             href={ctaButton.href}
             className="menu__cta"
             size="medium"
           >
             {ctaButton.label}
-          </PrimaryButton>
+          </SecondaryButton>
 
           {/* Desktop Social Icons */}
           <div className="menu__social-desktop">

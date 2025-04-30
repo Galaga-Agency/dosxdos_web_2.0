@@ -37,6 +37,13 @@
       stroke: $white;
       width: 2rem;
       height: 2rem;
+      transition: all 0.3s ease;
+      will-change: transform, stroke;
+
+      &:hover {
+        stroke: rgba($white, 0.5);
+        transform: scale(1.1);
+      }
     }
 
     @include min-width(md) {

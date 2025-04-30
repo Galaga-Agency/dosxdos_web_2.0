@@ -1,19 +1,15 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
-@use "base/animations" as *;
 
 .blog-carousel-section {
   position: relative;
-  padding: 5rem 0 7rem 0;
-  background-color: $white;
-  overflow: hidden;
+  @include section-spacing;
 
   .container {
     @include container-width(mobile);
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
+    @include gap(sm);
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -29,109 +25,68 @@
   }
 
   .section-header {
-    text-align: left;
-    margin-bottom: 3.5rem;
-    position: relative;
-    padding-left: 2rem;
-    
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.8rem;
-      width: 10px;
-      height: 10px;
-      background-color: rgba($primary-color, 0.3);
-      opacity: 0.8;
-    }
-  }
+    margin-bottom: 3rem;
 
-  .title {
-    @include font-size(3xl);
-    @include font-weight(bold);
-    color: $black;
-    margin-bottom: 1.5rem;
-    position: relative;
-    line-height: 1.2;
-    will-change: opacity, transform;
-    display: inline-block;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    .title {
+      @include font-size(5xl);
+      @include font-weight(bold);
+      color: $black;
+      line-height: 1;
+      @include margin(lg, bottom);
 
-    span {
-      position: relative;
-      display: inline-block;
-      margin-left: 0.5rem;
-      font-weight: 400;
-      color: rgba($primary-color, 0.8);
-      
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: rgba($primary-color, 0.2);
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.3s ease;
+      @include min-width(sm) {
+        @include font-size(4xl);
+      }
+
+      @include min-width(md) {
+        @include font-size(6xl);
+      }
+
+      @include min-width(lg) {
+        @include font-size(8xl);
+      }
+
+      span {
+        display: inline;
       }
     }
-  }
 
-  &:hover .title span::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
+    .subtitle {
+      @include font-size(base);
+      line-height: 1.6;
+      color: rgba($black, 0.75);
+      @include margin(3xl, bottom);
+      max-width: 500px;
 
-  .subtitle {
-    @include font-size(lg);
-    line-height: 1.7;
-    color: rgba($black, 0.8);
-    will-change: opacity, transform;
-    max-width: 600px;
-    position: relative;
-    padding-left: 2rem;
+      @include min-width(md) {
+        @include padding(md, left);
+      }
 
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1px;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba($primary-color, 0.2),
-        transparent
-      );
+      strong {
+        color: $black;
+        @include font-weight(semibold);
+      }
     }
   }
 
   .carousel-container {
     position: relative;
-    margin: 0 auto;
-    overflow: hidden;
-    padding: 1rem 0;
+    margin-bottom: 3rem;
   }
 
   .carousel-track-container {
     overflow: hidden;
     width: 100%;
-    padding: 0.5rem 0;
+    margin: 0 auto;
   }
 
   .carousel-track {
     display: flex;
-    transition: transform 0.6s ease;
-    will-change: transform;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
-    // Create proper widths for responsive slides
     .carousel-slide {
       flex: 0 0 100%;
       padding: 0 1rem;
-      box-sizing: border-box;
 
       @include min-width(md) {
         flex: 0 0 50%;
@@ -144,52 +99,37 @@
   }
 
   .carousel-navigation {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-    z-index: 5;
-    // Move the navigation outside the carousel
-    left: 0;
-    padding: 0 1rem;
-    
+    display: none;
+
     @include min-width(md) {
-      padding: 0 2.5rem;
-      width: calc(100% + 2rem);
-      left: -1rem;
-    }
-    
-    @include min-width(lg) {
-      padding: 0 3rem;
-      width: calc(100% + 3rem);
-      left: -1.5rem;
+      display: flex;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      justify-content: space-between;
+      z-index: 5;
+      pointer-events: none;
+      padding: 0;
     }
   }
 
   .nav-button {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba($white, 0.9);
-    border: 1px solid rgba($black, 0.2);
+    background-color: $white;
+    border: 1px solid rgba($black, 0.1);
     color: $black;
     cursor: pointer;
     transition: all 0.3s ease;
     pointer-events: auto;
+    opacity: 0.8;
 
     &:hover {
-      background-color: rgba($primary-color, 0.8);
-      color: $white;
-      border-color: rgba($primary-color, 0.8);
-    }
-
-    &:active {
-      transform: scale(0.95);
+      opacity: 1;
     }
 
     svg {
@@ -205,27 +145,26 @@
     gap: 0.5rem;
 
     .dot {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
       background-color: rgba($black, 0.2);
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
 
       &.active {
-        background-color: rgba($primary-color, 0.8);
-        transform: scale(1.2);
+        background-color: $primary-color;
       }
 
-      &:hover {
-        background-color: rgba($primary-color, 0.6);
+      &:hover:not(.active) {
+        background-color: rgba($black, 0.4);
       }
     }
   }
 
   .cta-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 3.5rem;
+    margin-top: 2rem;
+    text-align: center;
   }
 }

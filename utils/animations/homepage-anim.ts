@@ -1,394 +1,206 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  trackScrollTrigger,
+  createScrollAnimation,
+  refreshScrollTrigger,
+} from "@/utils/animations/scrolltrigger-config";
+import { SplitText } from "@/plugins";
 
-// Always register ScrollTrigger
-gsap.registerPlugin(ScrollTrigger);
+// Title Animation Utility
+export function charAnimation(current?: HTMLElement) {
+  if (!current) return;
 
-// Store all ScrollTrigger instances for cleanup
-const scrollTriggerInstances: ScrollTrigger[] = [];
-const eventListeners: {
-  element: HTMLElement;
-  type: string;
-  handler: EventListener;
-}[] = [];
-
-// Helper to safely add ScrollTrigger instances to our cleanup array
-const trackScrollTrigger = (instance: ScrollTrigger): ScrollTrigger => {
-  scrollTriggerInstances.push(instance);
-  return instance;
-};
-
-// Helper to track event listeners for cleanup
-const trackEventListener = (
-  element: HTMLElement,
-  type: string,
-  handler: EventListener
-): void => {
-  eventListeners.push({ element, type, handler });
-};
-
-// Function to clean up all ScrollTrigger instances and event listeners
-export function cleanupHomepageAnimations(): void {
-  // Kill all tracked ScrollTrigger instances
-  scrollTriggerInstances.forEach((trigger) => {
-    if (trigger) trigger.kill();
+  gsap.set(current, {
+    visibility: "hidden",
+    perspective: 300,
   });
 
-  // Remove all tracked event listeners
-  eventListeners.forEach(({ element, type, handler }) => {
-    element.removeEventListener(type, handler);
+  const itemSplitted = new SplitText(current, {
+    type: "chars, words",
   });
 
-  // Clear the arrays
-  scrollTriggerInstances.length = 0;
-  eventListeners.length = 0;
+  gsap.set(current, {
+    visibility: "visible",
+    opacity: 1,
+  });
+
+  const tl = gsap.timeline();
+  tl.from(itemSplitted.chars, {
+    duration: 1,
+    x: 100,
+    autoAlpha: 0,
+    stagger: 0.05,
+  });
+
+  return tl;
 }
 
-interface AboutUsSectionElements {
-  section?: HTMLElement;
-  label?: HTMLElement;
-  title: HTMLElement;
-  text: HTMLElement;
-  cta?: HTMLElement;
-  decor?: HTMLElement;
-  image?: HTMLElement;
+interface SectionAnimationElements {
+  section?: HTMLElement | null;
+  label?: HTMLElement | null;
+  title?: HTMLElement | null;
+  text?: HTMLElement | null;
+  subtitle?: HTMLElement | null;
+  cta?: HTMLElement | null;
+  image?: HTMLElement | null;
+  grid?: HTMLElement | null;
+  container?: HTMLElement | null;
+  carousel?: HTMLElement | null;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// About us Section Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const animateAboutUsSection = ({
   section,
   label,
   title,
   text,
   cta,
-  decor,
   image,
-}: AboutUsSectionElements) => {
-  // Create a timeline for better control
-  const tl = gsap.timeline();
+}: SectionAnimationElements) => {
+  if (typeof window === "undefined" || !section) return null;
 
-  // Create and track ScrollTrigger
-  const trigger = trackScrollTrigger(
-    ScrollTrigger.create({
-      trigger: section || title,
-      start: "top 80%",
-      toggleActions: "play none none none",
-      animation: tl,
-    })
-  );
+  const tl = gsap.timeline({ paused: true });
 
-  // Animate decorative elements if present
-  if (decor) {
-    const dots = decor.querySelector(".aboutus-section__decor-dots");
-    const line1 = decor.querySelector(".aboutus-section__decor-line-1");
-    const line2 = decor.querySelector(".aboutus-section__decor-line-2");
-    const circle = decor.querySelector(".aboutus-section__decor-circle");
-    const grid = decor.querySelector(".aboutus-section__decor-grid");
+  // Prepare section
+  gsap.set(section, {
+    visibility: "visible",
+    opacity: 1,
+  });
 
-    if (dots) {
-      tl.fromTo(
-        dots,
-        {
-          opacity: 0,
-          scale: 0.8,
-        },
-        {
-          opacity: 0.3,
-          scale: 1,
-          duration: 1.2,
-          ease: "power2.out",
-        },
-        0.4
-      );
+  // Animate elements with consistent pattern
+  const animationSequence = [
+    { el: label, props: { x: -30 }, index: 0 },
+    { el: title, props: { y: 0 }, index: 0.3, charAnim: true },
+    { el: text, props: { y: 30 }, index: 1.5 },
+    { el: image, props: { scale: 0.5 }, index: 1.0 },
+    { el: cta, props: { y: 30 }, index: 1.9 },
+  ];
+
+  animationSequence.forEach(({ el, props, index, charAnim }) => {
+    if (!el) return;
+
+    // Initial state
+    gsap.set(el, {
+      opacity: 0,
+      ...props,
+    });
+
+    // Char animation for title if specified
+    if (charAnim && title) {
+      tl.add(() => {
+        charAnimation(title);
+      }, index);
     }
 
-    if (line1) {
-      tl.fromTo(
-        line1,
-        {
-          width: 0,
-          opacity: 0,
-        },
-        {
-          width: 80,
-          opacity: 1,
-          duration: 1,
-          ease: "power2.inOut",
-        },
-        0.6
-      );
-    }
-
-    if (line2) {
-      tl.fromTo(
-        line2,
-        {
-          width: 0,
-          opacity: 0,
-        },
-        {
-          width: 120,
-          opacity: 1,
-          duration: 1,
-          ease: "power2.inOut",
-        },
-        0.8
-      );
-    }
-
-    if (circle) {
-      tl.fromTo(
-        circle,
-        {
-          scale: 0,
-          opacity: 0,
-        },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 1.4,
-          ease: "elastic.out(1, 0.5)",
-        },
-        0.5
-      );
-    }
-
-    if (grid) {
-      tl.fromTo(
-        grid,
-        {
-          opacity: 0,
-          x: 20,
-        },
-        {
-          opacity: 0.5,
-          x: 0,
-          duration: 1,
-          ease: "power2.out",
-        },
-        0.7
-      );
-    }
-  }
-
-  // Animate the label
-  if (label) {
-    tl.fromTo(
-      label,
-      {
-        opacity: 0,
-        x: -20,
-      },
+    // Animate to visible state
+    tl.to(
+      el,
       {
         opacity: 1,
-        x: 0,
+        ...(props.x !== undefined ? { x: 0 } : {}),
+        ...(props.y !== undefined ? { y: 0 } : {}),
+        ...(props.scale !== undefined ? { scale: 1 } : {}),
         duration: 0.8,
-        ease: "power3.out",
+        ease: props.scale
+          ? "power3.out"
+          : props.y === 30
+          ? "back.out(1.4)"
+          : "power2.out",
       },
-      0
+      index
     );
-  }
+  });
 
-  // Animate pre-wrapped title words
-  if (title) {
-    const wordElements = title.querySelectorAll(".word, .highlight");
+  // Create ScrollTrigger using the utility function
+  const trigger = createScrollAnimation(section, tl, {
+    start: "top 80%",
+    toggleActions: "play none none none",
+    once: true,
+    id: "about-us-section",
+  });
 
-    tl.fromTo(
-      wordElements,
-      {
-        opacity: 0,
-        y: 20,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        stagger: 0.1,
-        ease: "power3.out",
-      },
-      0.3
-    );
-  }
+  // Refresh ScrollTrigger after animation setup
+  refreshScrollTrigger();
 
-  // Animate the text
-  if (text) {
-    tl.fromTo(
-      text,
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out",
-      },
-      0.6
-    );
+  return tl;
+};
 
-    // Additional animation for the left vertical line
-    const verticalLine = text.querySelector("::before");
-    if (verticalLine) {
-      tl.fromTo(
-        verticalLine,
-        {
-          scaleY: 0,
-        },
-        {
-          scaleY: 1,
-          duration: 1.2,
-          ease: "power3.inOut",
-        },
-        0.8
-      );
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Service Section Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const animateServicesSection = ({
+  section,
+  title,
+  subtitle,
+  grid,
+}: SectionAnimationElements) => {
+  if (typeof window === "undefined" || !section) return null;
+
+  const tl = gsap.timeline({ paused: true });
+
+  // Prepare section
+  gsap.set(section, {
+    visibility: "visible",
+    opacity: 1,
+  });
+
+  // Animate elements with consistent pattern
+  const animationSequence = [
+    { el: title, props: { y: 30 }, index: 0.3, charAnim: true },
+    { el: subtitle, props: { y: 30 }, index: 0.6 },
+    { el: grid, props: { y: 30 }, index: 0.9 },
+  ];
+
+  animationSequence.forEach(({ el, props, index, charAnim }) => {
+    if (!el) return;
+
+    // Initial state
+    gsap.set(el, {
+      opacity: 0,
+      ...props,
+    });
+
+    // Char animation for title if specified
+    if (charAnim && title) {
+      tl.add(() => {
+        charAnimation(title);
+      }, index);
     }
-  }
 
-  // Animate the CTA
-  if (cta) {
-    tl.fromTo(
-      cta,
-      {
-        opacity: 0,
-        y: 20,
-      },
+    // Animate to visible state
+    tl.to(
+      el,
       {
         opacity: 1,
         y: 0,
         duration: 0.8,
         ease: "back.out(1.4)",
       },
-      0.9
+      index
     );
-  }
+  });
 
-  // Find and animate image frame and stats if they exist
-  const imageColumn = section?.querySelector(".aboutus-section__image-column");
-  if (imageColumn) {
-    const imageFrame = imageColumn.querySelector(
-      ".aboutus-section__image-frame"
-    );
-    const stats = imageColumn.querySelector(".aboutus-section__stats");
-    const corners = imageColumn.querySelectorAll(
-      ".aboutus-section__image-corner"
-    );
+  // Create ScrollTrigger using the utility function
+  const trigger = createScrollAnimation(section, tl, {
+    start: "top 80%",
+    toggleActions: "play none none none",
+    once: true,
+    id: "services-section",
+  });
 
-    if (imageFrame) {
-      tl.fromTo(
-        imageFrame,
-        {
-          opacity: 0,
-          y: 40,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-        },
-        0.5
-      );
-    }
-
-    if (corners && corners.length) {
-      tl.fromTo(
-        corners,
-        {
-          opacity: 0,
-          scale: 0,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "back.out(1.7)",
-        },
-        0.8
-      );
-    }
-
-    if (stats) {
-      const statItems = stats.querySelectorAll(".aboutus-section__stat-item");
-      tl.fromTo(
-        statItems,
-        {
-          opacity: 0,
-          y: 20,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: "power2.out",
-        },
-        1
-      );
-    }
-  }
+  // Refresh ScrollTrigger after animation setup
+  refreshScrollTrigger();
 
   return tl;
 };
 
-// HeroSlider animation
-interface HeroSliderElements {
-  container: HTMLElement;
-  title: HTMLElement;
-  cta: HTMLElement;
-}
-
-export const animateHeroSlider = ({
-  container,
-  title,
-  cta,
-}: HeroSliderElements) => {
-  // Create a master timeline
-  const tl = gsap.timeline();
-
-  // Title animation
-  tl.fromTo(
-    title,
-    {
-      opacity: 0,
-      y: -30,
-    },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      ease: "power3.out",
-    }
-  );
-
-  // CTA button animation - special handling to prevent glassmorphism glitch
-  tl.fromTo(
-    cta,
-    {
-      opacity: 0,
-      y: 30,
-    },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power2.out",
-      clearProps: "transform", // Important: clear transform after animation to prevent glitches
-    },
-    "-=0.8" // Overlap with title animation
-  );
-
-  return tl;
-};
-
-// Blog Carousel Section animation
-interface BlogCarouselSectionElements {
-  section?: HTMLElement;
-  title?: HTMLElement;
-  subtitle?: HTMLElement;
-  carousel?: HTMLElement;
-  cta?: HTMLElement;
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Blog Carousel Section Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const animateBlogCarouselSection = ({
   section,
@@ -396,35 +208,31 @@ export const animateBlogCarouselSection = ({
   subtitle,
   carousel,
   cta,
-}: BlogCarouselSectionElements) => {
-  if (!section) return;
+}: SectionAnimationElements) => {
+  if (typeof window === "undefined" || !section) return null;
 
-  // First ensure all blog items are visible
-  const blogItems = section.querySelectorAll(".blog-item");
-  gsap.set(blogItems, { opacity: 1, y: 0 });
+  const tl = gsap.timeline({ paused: true });
 
-  // Create a timeline for section elements
-  const tl = gsap.timeline();
+  // Prepare section
+  gsap.set(section, {
+    visibility: "visible",
+    opacity: 1,
+  });
 
-  // Create and track ScrollTrigger
-  const trigger = trackScrollTrigger(
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top 90%",
-      toggleActions: "play none none none",
-      animation: tl,
-    })
-  );
+  // Animate elements with consistent pattern
+  const animationSequence = [
+    { el: title, props: { x: -20 }, index: 0.3, charAnim: true },
+    { el: subtitle, props: { x: -15 }, index: 0.5 },
+    { el: carousel, props: { y: 30 }, index: 0.7 },
+    { el: cta, props: { y: 20 }, index: 0.9 },
+  ];
 
-  // Animate decorative line if present
+  // Decorative line animation
   const decorLine = section.querySelector(".section-header__decorative-line");
   if (decorLine) {
-    tl.fromTo(
+    gsap.set(decorLine, { scaleY: 0, transformOrigin: "top" });
+    tl.to(
       decorLine,
-      {
-        scaleY: 0,
-        transformOrigin: "top",
-      },
       {
         scaleY: 1,
         duration: 0.8,
@@ -434,137 +242,55 @@ export const animateBlogCarouselSection = ({
     );
   }
 
-  // Animate title if it exists
-  if (title) {
-    const titleElements = title.querySelectorAll("span");
+  animationSequence.forEach(({ el, props, index, charAnim }) => {
+    if (!el) return;
 
-    if (titleElements.length) {
-      tl.fromTo(
-        title,
-        {
-          opacity: 0,
-          x: -20,
-        },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          ease: "power3.out",
-        },
-        0.3
-      );
+    // Initial state
+    gsap.set(el, {
+      opacity: 0,
+      ...props,
+    });
 
-      tl.fromTo(
-        titleElements,
-        {
-          opacity: 0,
-          y: 10,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: "power2.out",
-        },
-        0.4
-      );
-    } else {
-      tl.fromTo(
-        title,
-        {
-          opacity: 0,
-          x: -20,
-        },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          ease: "power3.out",
-        },
-        0.3
-      );
+    // Char animation for title if specified
+    if (charAnim && title) {
+      tl.add(() => {
+        charAnimation(title);
+      }, index);
     }
-  }
 
-  // Animate subtitle
-  if (subtitle) {
-    tl.fromTo(
-      subtitle,
-      {
-        opacity: 0,
-        x: -15,
-      },
+    // Animate to visible state
+    tl.to(
+      el,
       {
         opacity: 1,
-        x: 0,
+        ...(props.x !== undefined ? { x: 0 } : {}),
+        ...(props.y !== undefined ? { y: 0 } : {}),
         duration: 0.8,
-        ease: "power2.out",
+        ease: props.y === 20 || props.y === 30 ? "back.out(1.4)" : "power3.out",
       },
-      0.5
+      index
     );
-  }
+  });
 
-  // Animate CTA
-  if (cta) {
-    tl.fromTo(
-      cta,
-      {
-        opacity: 0,
-        y: 20,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: "back.out(1.4)",
-      },
-      0.9
-    );
-  }
+  // Create ScrollTrigger using the utility function
+  createScrollAnimation(section, tl, {
+    start: "top 85%",
+    toggleActions: "play none none none",
+    once: true,
+    id: "blog-carousel-section",
+  });
+
+  // Refresh ScrollTrigger after animation setup
+  refreshScrollTrigger();
 
   return tl;
 };
 
-// Blog Item Corner Animation
-export const animateBlogItemCorners = (card: HTMLElement) => {
-  if (!card) return;
-
-  const corners = card.querySelectorAll(".blog-item__corner");
-  if (!corners.length) return;
-
-  // Set initial state
-  gsap.set(corners, {
-    width: 0,
-    height: 0,
-    opacity: 0,
-  });
-
-  // Create hover entry/exit animations using event listeners
-  const handleMouseEnter = () => {
-    gsap.to(corners, {
-      width: 15,
-      height: 15,
-      opacity: 1,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-  };
-
-  const handleMouseLeave = () => {
-    gsap.to(corners, {
-      width: 0,
-      height: 0,
-      opacity: 0,
-      duration: 0.3,
-      ease: "power2.in",
-    });
-  };
-
-  // Add and track event listeners for cleanup
-  card.addEventListener("mouseenter", handleMouseEnter);
-  trackEventListener(card, "mouseenter", handleMouseEnter);
-
-  card.addEventListener("mouseleave", handleMouseLeave);
-  trackEventListener(card, "mouseleave", handleMouseLeave);
-};
+// Global Cleanup Function
+export function cleanupHomepageAnimations() {
+  // Kill specific timelines
+  gsap.killTweensOf([
+    ".aboutus-section__title .highlight",
+    ".blog-carousel-section .carousel-track",
+  ]);
+}

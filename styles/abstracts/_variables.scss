@@ -8,6 +8,18 @@ $spacing: (
   lg: 32px,
   xl: 40px,
   xxl: 48px,
+  // Additional spacings for more granular control
+  2xs: 4px,
+  3xs: 2px,
+  3xl: 56px,
+  4xl: 64px,
+  5xl: 80px,
+  6xl: 96px,
+  // Section specific spacings
+  section-y: 120px,
+  section-y-sm: 48px,
+  header-y: 24px,
+  content-x: 24px,
 );
 
 // -----------------------------------------------------------------------------
@@ -23,20 +35,15 @@ $container: (
 
 // -----------------------------------------------------------------------------
 // Breakpoints (mobile-first)
+// -----------------------------------------------------------------------------
 $breakpoints: (
-  xs: 375px,
-  // Extra small phones
-  sm: 576px,
-  // Small phones
-  md: 768px,
-  // Tablets
-  lg: 992px,
-  // Small desktops
-  xl: 1200px,
-  // Medium desktops
-  xxl: 1400px,
-  // Large desktops
-  xxxl: 1600px // Extra large desktops,,,,,
+  xs: 375px,   // Extra small phones
+  sm: 576px,   // Small phones
+  md: 768px,   // Tablets
+  lg: 992px,   // Small desktops
+  xl: 1200px,  // Medium desktops
+  xxl: 1400px, // Large desktops
+  xxxl: 1600px // Extra large desktops
 );
 
 // -----------------------------------------------------------------------------
@@ -72,10 +79,13 @@ $durations: (
   fast: 150ms,
   normal: 300ms,
   slow: 500ms,
+  very-slow: 800ms,
 );
 
 // -----------------------------------------------------------------------------
-// Shadows / I use this $ syntax instead because it break the code otherwise using the arrray since i have two comas "," in the definition
+// Shadows
+// I use this $ syntax instead because it breaks the code otherwise using the
+// array since I have two commas "," in the definition
 // -----------------------------------------------------------------------------
 $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -83,7 +93,7 @@ $shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
 $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
   0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
-// -------------------------light----------------------------------------------------
+// -----------------------------------------------------------------------------
 // Typography
 // -----------------------------------------------------------------------------
 $font-size: (
@@ -112,4 +122,31 @@ $font-weight: (
 
 $letter-spacing: (
   tight: -0.025em,
+  wide: 0.05em,
+  wider: 0.1em,
+);
+
+// -----------------------------------------------------------------------------
+// Gaps and Layout Spacing
+// -----------------------------------------------------------------------------
+$gap: (
+  xs: 8px,
+  sm: 16px,
+  md: 24px,
+  lg: 32px,
+  xl: 40px,
+  xxl: 48px,
+  2xl: 56px,
+  3xl: 64px,
+  4xl: 80px,
+);
+
+// -----------------------------------------------------------------------------
+// Component Spacing
+// -----------------------------------------------------------------------------
+$component: (
+  padding-y: 16px,
+  padding-x: 24px,
+  margin-bottom: 24px,
+  gap: 16px,
 );

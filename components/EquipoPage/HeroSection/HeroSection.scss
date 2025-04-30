@@ -78,31 +78,25 @@
   }
 
   &__title {
-    @include font-size(4xl);
+    @include font-size(5xl);
     @include font-weight(bold);
     color: $white;
-    margin-top: 120px;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    opacity: 0; /* Start hidden for animation */
-    
+    line-height: 1;
+    @include margin(lg, bottom);
+    @include margin(section-y, top);
+
+    @include min-width(sm) {
+      @include font-size(4xl);
+    }
+
     @include min-width(md) {
-      margin-top: 160px;
-      @include font-size(7xl);
+      @include font-size(6xl);
     }
-    
+
     @include min-width(lg) {
-      margin-top: 140px;
+      @include font-size(8xl);
+      max-width: 50%;
     }
-  }
-  
-  &__title-underline {
-    width: 0; /* Start with 0 width for animation */
-    height: 2px;
-    background-color: rgba($primary-color, 0.7);
-    margin-bottom: 40px;
-    opacity: 0; /* Start hidden for animation */
   }
 
   &__description {
