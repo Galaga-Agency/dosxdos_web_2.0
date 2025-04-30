@@ -1,341 +1,141 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/animations" as *;
 
 .story-section {
-  background-color: $white;
   position: relative;
   overflow: hidden;
-  padding: 2.5rem 0;
-
-  // Mobile-first approach using your container width mixins
-  @include container-width(mobile);
-
-  @include min-width(md) {
-    @include container-width(tablet);
-  }
-
-  @include min-width(lg) {
-    @include container-width(smalldesktop);
-  }
-
-  @include min-width(xl) {
-    @include container-width(desktop);
-  }
+  @include margin(6xl, bottom);
 
   &__container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas: 
-      "content"
-      "services"
-      "origin";
-    gap: 2.5rem;
-    width: 100%;
+    @include container-width(mobile);
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    @include gap(xl);
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
 
     @include min-width(lg) {
-      grid-template-columns: 1fr 1fr;
-      grid-template-areas: 
-        "content services"
-        "origin origin";
-      gap: 3rem;
+      @include container-width(smalldesktop);
     }
 
     @include min-width(xl) {
+      @include container-width(desktop);
+      max-width: 1280px;
+    }
+  }
+
+  // Header section
+  &__header {
+    display: flex;
+    flex-direction: column;
+    max-width: 860px;
+    margin-bottom: 2rem;
+  }
+
+  &__label {
+    position: relative;
+    @include font-size(sm);
+    color: rgba($black, 0.7);
+    width: fit-content;
+    @include letter-spacing(wide);
+    text-transform: uppercase;
+    @include padding(sm);
+    @include margin(lg, bottom);
+    background-color: #f8f8f8;
+    @include border-radius(full);
+  }
+
+  &__title {
+    @include font-size(5xl);
+    @include font-weight(bold);
+    color: $black;
+    line-height: 1;
+    @include margin(lg, bottom);
+
+    @include min-width(sm) {
+      @include font-size(4xl);
+    }
+
+    @include min-width(md) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(lg) {
+      @include font-size(8xl);
+    }
+  }
+
+  // Main content section with two columns
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    width: 100%;
+
+    @include min-width(lg) {
+      grid-template-columns: 1fr 1fr;
       gap: 5rem;
     }
   }
 
-  &__content-wrapper {
-    grid-area: content;
-    position: relative;
-    max-width: 650px;
-    margin: 0;
-
-    @include min-width(lg) {
-      margin-right: auto;
-    }
-
-    // Accent line with subtle primary color
-    &::before {
-      content: "";
-      position: absolute;
-      top: -2.5rem;
-      left: 0;
-      width: 40px;
-      height: 2px;
-      background-color: rgba($primary-color, 0.3);
-    }
-  }
-
-  &__services-column {
-    grid-area: services;
+  // Left column with text content
+  &__content-column {
     display: flex;
     flex-direction: column;
-    position: relative;
-    width: 100%;
-
-    @include min-width(lg) {
-      margin-left: auto;
-      align-self: center;
-      max-width: 500px;
-    }
-  }
-
-  &__origin-wrapper {
-    grid-area: origin;
-    display: grid;
-    grid-template-columns: 1fr;
     gap: 2rem;
-    width: 100%;
-    margin-top: 2rem;
-
-    @include min-width(lg) {
-      grid-template-columns: 3fr 2fr;
-      gap: 4rem;
-      align-items: center;
-    }
-  }
-
-  &__origin {
-    background-color: rgba($secondary-color, 0.1);
-    padding: 2rem;
-    border-radius: 0.5rem;
-    position: relative;
-
-    @include min-width(lg) {
-      height: 100%;
-    }
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      right: -10px;
-      bottom: -10px;
-      background-color: rgba($secondary-color, 0.05);
-      border-radius: 0.75rem;
-      z-index: -1;
-      opacity: 0.5;
-    }
-  }
-
-  &__origin-image {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @include min-width(lg) {
-      height: 100%;
-    }
-  }
-
-  &__image-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3/4;
-    max-width: 400px;
-    margin: 0 auto;
-    border: 1px solid rgba($primary-color, 0.1);
-    overflow: hidden;
-
-    @include min-width(lg) {
-      max-width: 350px;
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      right: -15px;
-      bottom: -15px;
-      background-color: rgba($primary-color, 0.03);
-      z-index: -1;
-    }
-  }
-
-  &__image-frame-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    will-change: transform;
-    background-color: rgba($primary-color, 0.04);
-    
-    &::before {
-      content: "dosxdos";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-weight: 300;
-      @include font-size(3xl);
-      color: rgba($primary-color, 0.05);
-      letter-spacing: 0.1em;
-      z-index: 1;
-    }
-  }
-
-  &__image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center !important;
-    will-change: transform;
-    opacity: 0.95;
-  }
-
-  &__image-corner {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    z-index: 3;
-
-    &.tl {
-      top: 10px;
-      left: 10px;
-      border-top: 1px solid rgba($primary-color, 0.3);
-      border-left: 1px solid rgba($primary-color, 0.3);
-    }
-
-    &.tr {
-      top: 10px;
-      right: 10px;
-      border-top: 1px solid rgba($primary-color, 0.3);
-      border-right: 1px solid rgba($primary-color, 0.3);
-    }
-
-    &.bl {
-      bottom: 10px;
-      left: 10px;
-      border-bottom: 1px solid rgba($primary-color, 0.3);
-      border-left: 1px solid rgba($primary-color, 0.3);
-    }
-
-    &.br {
-      bottom: 10px;
-      right: 10px;
-      border-bottom: 1px solid rgba($primary-color, 0.3);
-      border-right: 1px solid rgba($primary-color, 0.3);
-    }
-  }
-
-  &__label {
-    margin-bottom: 2rem;
-    position: relative;
-
-    span {
-      display: inline-block;
-      @include font-size(sm);
-      @include font-weight(semibold);
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba($black, 0.6);
-      position: relative;
-      padding-left: 30px;
-
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 20px;
-        height: 1px;
-        background-color: rgba($primary-color, 0.4);
-      }
-    }
-  }
-
-  &__title {
-    @include font-size(3xl);
-    @include font-weight(bold);
-    color: $black;
-    line-height: 1.15;
-    margin-bottom: 2.5rem;
-    max-width: 28ch;
-
-    @include min-width(md) {
-      @include font-size(4xl);
-    }
-
-    @include min-width(lg) {
-      @include font-size(5xl);
-    }
-
-    .word {
-      display: inline-block;
-      position: relative;
-    }
-
-    .highlight {
-      position: relative;
-      display: inline-block;
-      font-weight: 400;
-      color: rgba($primary-color, 0.8);
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        height: 2px;
-        width: 100%;
-        background-color: rgba($primary-color, 0.2);
-        transform: scaleX(0);
-        transform-origin: right;
-        transition-duration: 0.3s;
-      }
-    }
-  }
-
-  &:hover .highlight::after {
-    transform: scaleX(1);
-    transform-origin: left;
   }
 
   &__text {
     @include font-size(lg);
     line-height: 1.8;
-    color: rgba($black, 0.75);
+    color: rgba($black, 0.8);
     max-width: 55ch;
     position: relative;
-    padding-left: 2rem;
-    margin-bottom: 2.5rem;
+    padding-left: 1.5rem;
 
-    // Vertical line with subtle primary color
     &::before {
       content: "";
       position: absolute;
       left: 0;
       top: 0;
       width: 1px;
-      height: 90%;
+      height: 100%;
       background: linear-gradient(
         to bottom,
-        rgba($primary-color, 0.2),
+        rgba($primary-color, 0.3),
         transparent
       );
     }
+  }
+
+  &__intro-text {
+    @include font-size(xl);
+    @include font-weight(medium);
+    margin-bottom: 2rem;
+    color: $black;
+  }
+
+  &__philosophy {
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+
+    h3 {
+      @include font-size(xl);
+      @include font-weight(semibold);
+      color: $black;
+      margin-bottom: 1rem;
+      position: relative;
+    }
 
     p {
-      margin-bottom: 2rem;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+      @include font-size(lg);
+      color: rgba($black, 0.8);
+      line-height: 1.7;
     }
 
     strong {
@@ -343,7 +143,6 @@
       @include font-weight(bold);
       position: relative;
 
-      // Subtle highlight with primary color
       &::after {
         content: "";
         position: absolute;
@@ -357,28 +156,115 @@
     }
   }
 
-  &__intro {
-    @include font-size(xl);
-    @include font-weight(semibold);
-    margin-bottom: 2rem;
+  &__cta {
+    margin-top: 2rem;
   }
 
-  &__philosophy,
-  &__origin {
-    margin-top: 2rem;
-    margin-bottom: 2.5rem;
+  // Right column with services
+  &__services-column {
+    display: flex;
+    flex-direction: column;
+  }
 
-    &:last-child {
-      margin-bottom: 0;
-    }
+  &__services-container {
+    background-color: rgba($secondary-color, 0.1);
+    border-radius: 0.5rem;
+    padding: 2.5rem;
+    height: 100%;
 
     h3 {
       @include font-size(xl);
       @include font-weight(semibold);
       color: $black;
+      position: relative;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background-color: rgba($primary-color, 0.3);
+      }
+    }
+  }
+
+  &__services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__service-item {
+    position: relative;
+    padding-left: 1.5rem;
+    transition: transform 0.3s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: rgba($primary-color, 0.7);
+    }
+
+    &:hover {
+      transform: translateX(5px);
+    }
+  }
+
+  &__service-title {
+    display: block;
+    @include font-size(lg);
+    @include font-weight(semibold);
+    color: $black;
+    margin-bottom: 0.25rem;
+  }
+
+  &__service-description {
+    display: block;
+    @include font-size(base);
+    color: rgba($black, 0.7);
+    line-height: 1.5;
+  }
+
+  // Our origins section with two columns
+  &__origins {
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba($black, 0.05);
+    width: 100%;
+  }
+
+  &__origins-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+
+    @include min-width(lg) {
+      grid-template-columns: 1.5fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+  }
+
+  &__origin-text {
+    h3 {
+      @include font-size(2xl);
+      @include font-weight(semibold);
+      color: $black;
       margin-bottom: 1.5rem;
       position: relative;
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.75rem;
 
       &::after {
         content: "";
@@ -393,7 +279,7 @@
 
     p {
       @include font-size(lg);
-      color: rgba($black, 0.75);
+      color: rgba($black, 0.8);
       line-height: 1.8;
       margin-bottom: 1.5rem;
 
@@ -403,81 +289,98 @@
     }
   }
 
-  &__cta {
-    position: relative;
-    display: inline-block;
+  &__origin-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  &__services-container {
-    padding: 2rem 2rem 4rem;
-    background-color: rgba($white, 0.6);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba($black, 0.1);
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 30px rgba($black, 0.05);
-    height: 100%;
+  &__image-frame {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 3/4;
+    margin: 0 auto;
+    box-shadow: $shadow-lg;
 
-    h3 {
-      @include font-size(xl);
-      @include font-weight(semibold);
-      color: $black;
-      position: relative;
-      padding-bottom: 1.5rem;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 50px;
-        height: 2px;
-        background-color: rgba($black, 0.3);
-      }
+    @include min-width(lg) {
+      margin: 0;
     }
   }
 
-  &__services-list {
-    list-style: none;
-    padding: 0;
-    margin: 2rem 0 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  &__service-item {
+  &__image-frame-inner {
     position: relative;
-    padding-left: 24px;
-    transition: transform 0.3s ease;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 
     &::before {
-      content: "";
+      content: "dosxdos";
       position: absolute;
-      left: 0;
-      top: 10px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: rgba($primary-color, 0.5);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      @include font-size(4xl);
+      @include font-weight(light);
+      color: rgba($white, 0.1);
+      letter-spacing: 0.1em;
+      z-index: 2;
+      opacity: 0.5;
     }
+  }
+
+  &__image {
+    object-fit: cover;
+    filter: grayscale(20%) contrast(110%);
+    transition: transform 0.6s ease;
 
     &:hover {
-      transform: translateX(5px);
+      transform: scale(1.05);
     }
   }
 
-  &__service-title {
-    display: block;
-    @include font-size(lg);
-    @include font-weight(semibold);
-    color: $black;
-    margin-bottom: 0.2rem;
+  &__image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($primary-color, 0.1);
+    z-index: 1;
   }
 
-  &__service-description {
-    display: block;
-    @include font-size(base);
-    color: rgba($black, 0.75);
-    line-height: 1.5;
+  &__image-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    z-index: 3;
+
+    &.tl {
+      top: 10px;
+      left: 10px;
+      border-top: 1px solid rgba($white, 0.6);
+      border-left: 1px solid rgba($white, 0.6);
+    }
+
+    &.tr {
+      top: 10px;
+      right: 10px;
+      border-top: 1px solid rgba($white, 0.6);
+      border-right: 1px solid rgba($white, 0.6);
+    }
+
+    &.bl {
+      bottom: 10px;
+      left: 10px;
+      border-bottom: 1px solid rgba($white, 0.6);
+      border-left: 1px solid rgba($white, 0.6);
+    }
+
+    &.br {
+      bottom: 10px;
+      right: 10px;
+      border-bottom: 1px solid rgba($white, 0.6);
+      border-right: 1px solid rgba($white, 0.6);
+    }
   }
 }

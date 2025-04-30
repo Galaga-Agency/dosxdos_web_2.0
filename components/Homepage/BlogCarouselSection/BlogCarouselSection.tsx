@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { gsap } from "gsap";
+import { animateBlogCarouselSection } from "@/utils/animations/homepage-anim";
 import BlogItem from "@/components/BlogItem/BlogItem";
 import { BlogPost } from "@/types/blog-post-types";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
@@ -47,6 +47,31 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
     setTotalSlides(Math.max(1, Math.ceil(posts.length / itemsPerView)));
   }, [posts, itemsPerView]);
 
+  // Animation useEffect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (
+        sectionRef.current &&
+        titleRef.current &&
+        subtitleRef.current &&
+        carouselRef.current &&
+        ctaRef.current
+      ) {
+        animateBlogCarouselSection({
+          section: sectionRef.current,
+          title: titleRef.current,
+          subtitle: subtitleRef.current,
+          carousel: carouselRef.current,
+          cta: ctaRef.current,
+        });
+      }
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   // Update carousel position
   useEffect(() => {
     if (carouselRef.current) {
@@ -68,27 +93,15 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
     setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
   };
 
-  // Fix for animation issues - manually initialize basic visibility
-  useEffect(() => {
-    // Make sure items are visible regardless of animation
-    const blogItems = document.querySelectorAll('.blog-item');
-    if (blogItems.length) {
-      gsap.set(blogItems, { opacity: 1, y: 0 });
-    }
-    
-    // Let the homepage-anim.ts handle the rest of the animations
-  }, []);
-
   return (
     <section ref={sectionRef} className="blog-carousel-section">
       <div className="container">
         <div className="section-header">
-          <div className="section-header__decorative-line"></div>
           <h2 ref={titleRef} className="title">
-            NUESTRO <span>BLOG</span>
+            Nuestro Blog
           </h2>
           <p ref={subtitleRef} className="subtitle">
-            Descubre las últimas tendencias y noticias en nuestro blog especializado
+            Descubre nuestras últimas ideas y estrategias
           </p>
         </div>
 
@@ -115,6 +128,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
                 />
               </svg>
             </button>
+
             <button
               className="nav-button next"
               onClick={handleNext}
