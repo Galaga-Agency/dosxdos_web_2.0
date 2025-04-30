@@ -8,12 +8,16 @@ import {
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
 import { animateAboutUsSection } from "@/utils/animations/homepage-anim";
+import {
+  initScrollTriggerConfig,
+  refreshScrollTrigger,
+} from "@/utils/animations/scrolltrigger-config";
 import "./FeaturedprojectsSection.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import { featuredProjects } from "@/data/projects";
 
 const FeaturedprojectsSection: React.FC = () => {
-  const initialized = useRef<boolean>(false);
+  const animatedRef = useRef<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -21,59 +25,46 @@ const FeaturedprojectsSection: React.FC = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Initialize panel animation
-    if (!initialized.current) {
-      clearScrollTriggers();
-      const timer = setTimeout(() => {
-        panelTwoAnimation();
-        const forceAnimation = () => {
-          if (titleRef.current && textRef.current) {
-            animateAboutUsSection({
-              section: sectionRef.current,
-              label: labelRef.current,
-              title: titleRef.current,
-              text: textRef.current,
-              cta: ctaRef.current,
-            } as any);
-          }
-        };
-        forceAnimation();
-        initialized.current = true;
-      }, 1500);
+    // Make sure we only animate once per component instance
+    if (animatedRef.current) return;
 
-      return () => {
-        clearTimeout(timer);
-        clearScrollTriggers();
-      };
-    }
+    // Ensure ScrollTrigger is configured
+    initScrollTriggerConfig();
+
+    // Initialize panel animation with proper delay
+    const timer = setTimeout(() => {
+      // Clean any existing scroll triggers for this section first
+      clearScrollTriggers();
+
+      // Initialize the panel animation
+      panelTwoAnimation();
+
+      // Also animate the content section if available
+      if (titleRef.current && textRef.current) {
+        animateAboutUsSection({
+          section: sectionRef.current,
+          label: labelRef.current,
+          title: titleRef.current,
+          text: textRef.current,
+          cta: ctaRef.current,
+        });
+      }
+
+      // Mark as animated
+      animatedRef.current = true;
+
+      // Force refresh ScrollTrigger
+      refreshScrollTrigger();
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
     <section ref={sectionRef} className="latest-projects">
-      {/* <div className="latest-projects__intro">
-        <div ref={labelRef} className="latest-projects__label">
-          <span>Experiencias Visuales</span>
-        </div>
-        <h2 ref={titleRef} className="latest-projects__title">
-          <span className="word">El</span> <span className="word">diseño</span>{" "}
-          <span className="word">como</span>{" "}
-          <span className="highlight">lenguaje visual</span>
-        </h2>
-        <div ref={textRef} className="latest-projects__description">
-          <p>
-            Interpretamos cada espacio como un lienzo donde la arquitectura, la
-            luz y el material conversan. Transformamos entornos comerciales en
-            experiencias que capturan la esencia de cada marca, invitando a
-            explorar y descubrir.
-          </p>
-          <div ref={ctaRef} className="latest-projects__cta">
-            <PrimaryButton href="/portfolio" size="medium">
-              Descubrir Portfolio
-            </PrimaryButton>
-          </div>
-        </div>
-      </div> */}
-
+      {/* Marquee container */}
       <div className="marquee-container">
         <div className="marquee-track">
           <div className="marquee-text">
@@ -84,6 +75,7 @@ const FeaturedprojectsSection: React.FC = () => {
         </div>
       </div>
 
+      {/* Project panels */}
       <div className="project-panel-area">
         {featuredProjects.map((project) => (
           <div key={project.id} className="project-panel">

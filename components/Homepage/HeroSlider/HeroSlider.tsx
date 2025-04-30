@@ -60,7 +60,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       transition: { 
         duration: 1.4,
         ease: [0.25, 0.1, 0.25, 1],
-        delay: 0.2
+        delay: 1.5
       }
     }
   };
@@ -73,7 +73,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       transition: { 
         duration: 1.2, 
         ease: [0.25, 0.1, 0.25, 1],
-        delay: 0.4
+        delay: 1.5
       }
     }
   };

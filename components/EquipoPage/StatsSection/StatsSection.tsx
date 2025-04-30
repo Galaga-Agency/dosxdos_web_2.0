@@ -6,64 +6,44 @@ import "./StatsSection.scss";
 
 const StatsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const statsRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
-    // Delay animation initialization to prevent conflicts
-    const timer = setTimeout(() => {
-      const refs = {
-        section: sectionRef.current,
-        title: titleRef.current,
-        statsRefs: statsRefs.current,
-      };
+    // Don't re-run animation if already animated
+    if (animatedRef.current) return;
 
-      animateStatsSection(refs);
+    const timer = setTimeout(() => {
+      animateStatsSection({
+        section: sectionRef.current,
+        stats: statsRef.current,
+      });
+
+      // Mark as animated
+      animatedRef.current = true;
     }, 100);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   const stats = [
-    {
-      number: 250,
-      suffix: "+",
-      label: "PROYECTOS COMPLETADOS",
-    },
-    {
-      number: 37,
-      suffix: "+",
-      label: "AÑOS DE EXPERIENCIA",
-    },
-    {
-      number: 45,
-      suffix: "+",
-      label: "PROFESIONALES",
-    },
-    {
-      number: 94,
-      suffix: "%",
-      label: "SATISFACCIÓN DE CLIENTES",
-    },
+    { number: 250, suffix: "+", label: "PROYECTOS COMPLETADOS" },
+    { number: 37, suffix: "+", label: "AÑOS DE EXPERIENCIA" },
+    { number: 45, suffix: "+", label: "PROFESIONALES" },
+    { number: 94, suffix: "%", label: "SATISFACCIÓN DE CLIENTES" },
   ];
 
   return (
     <section className="stats-section" ref={sectionRef}>
       <div className="stats-section__container">
-        <h2 ref={titleRef} className="stats-section__title">
-          <span className="stats-section__title-icon">✕</span> DosxDos en
+        <h2 className="stats-section__title">
+          <span className="stats-section__title-icon">✕</span> Dos x Dos en
           Números
         </h2>
 
-        <div className="stats-section__grid">
+        <div className="stats-section__grid" ref={statsRef}>
           {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="stats-section__item"
-              ref={(el) => (statsRefs.current[index] = el as any)}
-            >
+            <div key={index} className="stats-section__item">
               <div
                 className="stats-section__number"
                 data-value={stat.number}

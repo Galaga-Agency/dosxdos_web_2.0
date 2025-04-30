@@ -36,7 +36,7 @@
       will-change: transform;
     }
   }
-  
+
   &__overlay {
     position: absolute;
     top: 0;
@@ -49,31 +49,55 @@
 
   &__content {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 0;
     right: 0;
-    bottom: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     z-index: 2;
-    
+    transform: translateY(-50%);
+
     @include container-width(mobile);
     margin: 0 auto;
-    padding: 24px;
-    
+
     @include min-width(md) {
       @include container-width(tablet);
-      padding: 32px;
     }
-    
+
     @include min-width(lg) {
       @include container-width(smalldesktop);
-      padding: 48px 40px;
     }
-    
+
     @include min-width(xl) {
       @include container-width(desktop);
+    }
+  }
+
+   &__label {
+    margin-bottom: 2rem;
+    position: relative;
+
+    span {
+      display: inline-block;
+      @include font-size(sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: $white;
+      position: relative;
+      padding-left: 30px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 1px;
+        background-color: $white;
+      }
     }
   }
 
@@ -83,7 +107,6 @@
     color: $white;
     line-height: 1;
     @include margin(lg, bottom);
-    @include margin(section-y, top);
 
     @include min-width(sm) {
       @include font-size(4xl);
@@ -94,8 +117,8 @@
     }
 
     @include min-width(lg) {
-      @include font-size(8xl);
-      max-width: 50%;
+      @include font-size(9xl);
+      max-width: 70%;
     }
   }
 
@@ -103,17 +126,17 @@
     max-width: 700px;
     margin-bottom: 40px;
     opacity: 0; /* Start hidden for animation */
-    
+
     p {
       @include font-size(lg);
       line-height: 1.7;
       color: $white;
       text-shadow: 0 1px 2px rgba($primary-color, 0.2);
-      
+
       @include min-width(md) {
         @include font-size(xl);
       }
-      
+
       @include min-width(lg) {
         @include font-size(xl);
       }
@@ -130,18 +153,18 @@
 
   @include container-width(mobile);
   margin-inline: auto;
-  
+
   @include min-width(md) {
     @include container-width(tablet);
     padding: 40px 32px;
     min-height: 75vh;
   }
-  
+
   @include min-width(lg) {
     @include container-width(smalldesktop);
     min-height: 80vh;
   }
-  
+
   @include min-width(xl) {
     @include container-width(desktop);
   }
@@ -155,7 +178,7 @@
     overflow: hidden;
     background-color: $white;
     box-shadow: 0 4px 6px -1px rgba($primary-color, 0.1),
-                0 2px 4px -1px rgba($primary-color, 0.06);
+      0 2px 4px -1px rgba($primary-color, 0.06);
     will-change: transform;
 
     &::before {
@@ -260,7 +283,7 @@
         width: 25%;
         height: 40vh;
         top: 47vh;
-        right: 20%;
+        right: 10%;
       }
     }
   }
@@ -286,7 +309,7 @@
     will-change: transform;
     opacity: 0.95;
   }
-  
+
   &__overlay {
     position: absolute;
     top: 0;
@@ -300,7 +323,7 @@
     );
     z-index: 3;
   }
-  
+
   &__watermark {
     position: absolute;
     top: 50%;

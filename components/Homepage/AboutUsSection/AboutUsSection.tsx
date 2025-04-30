@@ -1,8 +1,13 @@
 "use client";
+
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import { animateAboutUsSection } from "@/utils/animations/homepage-anim";
+import {
+  initScrollTriggerConfig,
+  refreshScrollTrigger,
+} from "@/utils/animations/scrolltrigger-config";
 import "./AboutUsSection.scss";
 
 const AboutUsSection: React.FC = () => {
@@ -14,11 +19,20 @@ const AboutUsSection: React.FC = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const animatedRef = useRef(false);
 
+  // Initialize animations
   useEffect(() => {
-    // Enhanced animation implementation
-    const forceAnimation = () => {
-      if (titleRef.current && textRef.current) {
+    // Make sure we only animate once per component instance
+    if (animatedRef.current) return;
+
+    // Ensure ScrollTrigger is configured
+    initScrollTriggerConfig();
+
+    // Ensure refs are populated before running animations
+    if (sectionRef.current && titleRef.current && textRef.current) {
+      // Delay animation slightly to allow DOM to fully render
+      const timer = setTimeout(() => {
         animateAboutUsSection({
           section: sectionRef.current,
           label: labelRef.current,
@@ -26,20 +40,17 @@ const AboutUsSection: React.FC = () => {
           text: textRef.current,
           cta: ctaRef.current,
           image: visualRef.current,
-        } as any);
-      }
-    };
+        });
 
-    // Trigger animation on mount
-    forceAnimation();
+        // Mark as animated
+        animatedRef.current = true;
 
-    // Handle any late-loading scenarios
-    const loadTimer = setTimeout(forceAnimation, 500);
+        // Force refresh ScrollTrigger
+        refreshScrollTrigger();
+      }, 100);
 
-    // Cleanup
-    return () => {
-      clearTimeout(loadTimer);
-    };
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (

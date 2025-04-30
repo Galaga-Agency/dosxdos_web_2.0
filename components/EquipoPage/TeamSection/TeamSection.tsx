@@ -1,54 +1,70 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { SplitText } from "@/plugins";
-import { charAnimation } from "@/utils/animations/title-anim";
 import { teamMembers } from "@/data/team";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { animateTeamSection } from "@/utils/animations/equipo-page-anim";
 import "./TeamSection.scss";
-import {
-  cleanupScrollTriggers,
-  initScrollTriggerConfig,
-} from "@/utils/animations/scrolltrigger-config";
 
 const TeamSection: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
+    // Don't re-run animation if already animated
+    if (animatedRef.current) return;
+
+    // Ensure GSAP plugins are registered
     gsap.registerPlugin(ScrollTrigger);
 
-    // Title animation only
-    if (titleRef.current) {
-      const timer = setTimeout(() => {
-        charAnimation(titleRef.current);
-      }, 500);
+    const timer = setTimeout(() => {
+      if (
+        sectionRef.current &&
+        titleRef.current &&
+        subtitleRef.current &&
+        gridRef.current
+      ) {
+        animateTeamSection({
+          section: sectionRef.current,
+          title: titleRef.current,
+          subtitle: subtitleRef.current,
+          grid: gridRef.current,
+        });
+      }
 
-      const parallaxTimer = setTimeout(() => {
-        initCardMouseParallax();
-      }, 1000);
+      // Mark as animated
+      animatedRef.current = true;
+    }, 100);
 
-      return () => {
-        clearTimeout(timer);
-        clearTimeout(parallaxTimer);
-      };
-    }
+    // Card mouse parallax
+    const parallaxTimer = setTimeout(() => {
+      initCardMouseParallax();
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(parallaxTimer);
+    };
   }, []);
 
   return (
-    <section className="team-section">
+    <section ref={sectionRef} className="team-section">
       <div className="container">
         <h2 ref={titleRef} className="title">
           Nuestro <span>Equipo</span>
         </h2>
-        <p className="subtitle">
+        <p ref={subtitleRef} className="subtitle">
           Un equipo de profesionales apasionados, comprometidos con la
           creatividad y la excelencia en cada proyecto.
         </p>
 
-        <div className="team-section__grid">
+        <div ref={gridRef} className="team-section__grid">
           {teamMembers.map((member: any) => (
             <HoverCard
               key={member.id}

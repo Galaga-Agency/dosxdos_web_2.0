@@ -123,6 +123,7 @@
     background-color: $white;
     border: 1px solid rgba($black, 0.1);
     color: $black;
+    @include border-radius(full);
     cursor: pointer;
     transition: all 0.3s ease;
     pointer-events: auto;

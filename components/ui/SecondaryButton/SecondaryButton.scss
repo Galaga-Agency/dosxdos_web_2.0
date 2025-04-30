@@ -7,8 +7,8 @@
   align-items: center;
   justify-content: center;
   padding: 0.6rem 1.5rem;
-  background-color: rgba($white, 0.1); // Transparent background
-  color: $white; // White text for contrast with darker backgrounds
+  background-color: rgba($white, 0.1); 
+  color: $white;
   @include border-radius(lg);
   @include font-weight(medium);
   @include font-size(base);

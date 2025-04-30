@@ -38,7 +38,7 @@
       will-change: transform;
     }
   }
-  
+
   &__overlay {
     position: absolute;
     top: 0;
@@ -47,100 +47,8 @@
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      to bottom,
-      rgba($black, 0),
-      rgba($black, 0.9)
-    );
+    background: linear-gradient(to bottom, rgba($black, 0), rgba($black, 0.9));
     z-index: 1;
-  }
-
-  &__decorative-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  &__decor-dots {
-    position: absolute;
-    right: 5%;
-    top: 15%;
-    width: 110px;
-    height: 110px;
-    background-image: radial-gradient(
-      circle,
-      rgba($white, 0.2) 1px,
-      transparent 1px
-    );
-    background-size: 10px 10px;
-    opacity: 0.3;
-    display: none;
-    
-    @include min-width(md) {
-      display: block;
-    }
-  }
-
-  &__decor-line {
-    position: absolute;
-    left: 5%;
-    bottom: 20%;
-    width: 80px;
-    height: 1px;
-    background-color: rgba($white, 0.15);
-    display: none;
-
-    &::after {
-      content: "";
-      position: absolute;
-      left: 80px;
-      top: 0;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: rgba($white, 0.3);
-    }
-    
-    @include min-width(md) {
-      display: block;
-    }
-  }
-
-  &__decor-circle {
-    position: absolute;
-    right: 8%;
-    bottom: 35%;
-    width: 150px;
-    height: 150px;
-    border: 1px solid rgba($white, 0.05);
-    border-radius: 50%;
-    opacity: 0.6;
-    display: none;
-    
-    @include min-width(md) {
-      display: block;
-    }
-  }
-
-  &__decor-grid {
-    position: absolute;
-    left: 8%;
-    top: 30%;
-    width: 100px;
-    height: 100px;
-    background-image: linear-gradient(rgba($white, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba($white, 0.07) 1px, transparent 1px);
-    background-size: 15px 15px;
-    opacity: 0.5;
-    display: none;
-    
-    @include min-width(md) {
-      display: block;
-    }
   }
 
   &__content {
@@ -151,23 +59,23 @@
     bottom: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     z-index: 3;
-    
+
     @include container-width(mobile);
     margin: 0 auto;
     padding: 1.5rem;
-    
+
     @include min-width(md) {
       @include container-width(tablet);
       padding: 2rem;
     }
-    
+
     @include min-width(lg) {
       @include container-width(smalldesktop);
       padding: 3rem 2.5rem;
     }
-    
+
     @include min-width(xl) {
       @include container-width(desktop);
     }
@@ -175,14 +83,14 @@
 
   &__label {
     margin-bottom: 1.5rem;
-    
+
     span {
       display: inline-block;
       @include font-size(sm);
       @include font-weight(semibold);
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      color: rgba($white, 0.6);
+      color: $white;
       position: relative;
       padding-left: 2rem;
 
@@ -194,7 +102,7 @@
         transform: translateY(-50%);
         width: 1.5rem;
         height: 1px;
-        background-color: rgba($white, 0.4);
+        background-color: $white;
       }
     }
   }
@@ -205,27 +113,27 @@
     line-height: 1.1;
     color: $white;
     margin-bottom: 0.5rem;
-    opacity: 0; 
-    
+    opacity: 0;
+
     @include min-width(md) {
       @include font-size(7xl);
     }
-    
+
     @include min-width(lg) {
       @include font-size(8xl);
     }
-    
+
     &.text-2 {
       color: $secondary-color;
       margin-bottom: 2rem;
-      
+
       span {
         margin-left: 6rem;
-        
+
         @include min-width(md) {
           margin-left: 10rem;
         }
-        
+
         @media screen and (max-width: 768px) {
           margin-left: 0;
         }
@@ -237,17 +145,17 @@
     max-width: 700px;
     margin-bottom: 2.5rem;
     opacity: 0;
-    
+
     p {
       @include font-size(lg);
       line-height: 1.7;
       color: $white;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-      
+
       @include min-width(md) {
         @include font-size(xl);
       }
-      
+
       @include min-width(lg) {
         @include font-size(xl);
       }
@@ -255,7 +163,7 @@
   }
 
   &__cta {
-    opacity: 0; 
+    opacity: 0;
   }
 
   &__btn {
@@ -288,7 +196,7 @@
     &:hover {
       transform: translateY(-3px);
       box-shadow: 0 5px 15px rgba($black, 0.2);
-      
+
       &::before {
         transform: translateX(0);
       }
