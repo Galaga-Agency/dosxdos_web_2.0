@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import { animateCTASection } from "@/utils/animations/equipo-page-anim";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import "./CTASection.scss";
 
 const CTASection: React.FC = () => {
@@ -10,9 +10,13 @@ const CTASection: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
-  const decorRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
+    // Don't re-run animation if already animated
+    if (animatedRef.current) return;
+
     const timer = setTimeout(() => {
       requestAnimationFrame(() => {
         animateCTASection({
@@ -20,40 +24,38 @@ const CTASection: React.FC = () => {
           content: contentRef.current,
           title: titleRef.current,
           text: textRef.current,
-          decor: decorRef.current
         });
+
+        // Mark as animated
+        animatedRef.current = true;
       });
-    }, 300);
-  
+    }, 100);
+
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <section ref={sectionRef} className="cta-section">
+    <section className="cta-section" ref={sectionRef}>
       <div className="cta-section__container">
-        <div ref={contentRef} className="cta-section__glass-card">
-          <div className="cta-section__label">
-            <span>HABLEMOS</span>
-          </div>
-          
-          <div className="cta-section__content">
-            <h2 ref={titleRef} className="cta-section__title">
-              <span className="word">¿Listo</span>{" "}
-              <span className="word">para</span>{" "}
-              <span className="word">comenzar</span>{" "}
-              <span className="word highlight">tu próximo proyecto</span>?
-            </h2>
-            
-            <p ref={textRef} className="cta-section__subtitle">
-              Contáctanos hoy y descubre cómo podemos ayudarte a crear 
-              espacios comerciales con personalidad única y experiencias 
-              memorables para tus clientes.
-            </p>
-          </div>
+        <div ref={contentRef} className="cta-section__content">
+          <div className="cta-section__label">ACCIÓN SOCIAL</div>
 
-          <div className="cta-section__action">
-            <PrimaryButton href="/contacto" size="large">
-              Contáctanos
+          <h2 ref={titleRef} className="cta-section__title">
+            Nuestro <span className="highlight">Compromiso</span>
+          </h2>
+
+          <p ref={textRef} className="cta-section__description">
+            Más allá de los proyectos comerciales, creemos en el impacto social.
+            Cada proyecto es una oportunidad para contribuir positivamente a
+            nuestra comunidad y generar un cambio significativo.
+          </p>
+
+          <div ref={ctaRef} className="cta-section__actions">
+            <PrimaryButton
+              href="/sobre-nosotros/accion-social"
+              size="large"
+            >
+              Descubre Nuestra Labor Social
             </PrimaryButton>
           </div>
         </div>

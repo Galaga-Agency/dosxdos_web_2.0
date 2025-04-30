@@ -48,6 +48,8 @@ export default function SmoothScrollWrapper({
           smoother = ScrollSmoother.create({
             smooth: 2,
             effects: true,
+            // Enable normalized scroll to help with tab visibility issues
+            normalizeScroll: true,
           });
 
           (window as any).__smoother__ = smoother;

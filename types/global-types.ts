@@ -1,12 +1,12 @@
 import { EditorBlock } from "./blog-post-types";
 
+interface Window {
+  __smoother__: any;
+}
+
 declare global {
   interface Window {
-    __smoother__?: {
-      scrollTop: () => number;
-      scrollTo: (position: number, smooth: boolean) => void;
-    };
-    editorContent?: EditorBlock[];
+    __smoother__: any;
   }
 }
 

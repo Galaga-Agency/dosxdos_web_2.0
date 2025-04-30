@@ -1,15 +1,17 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  trackScrollTrigger,
-  createScrollAnimation,
-  refreshScrollTrigger,
-} from "@/utils/animations/scrolltrigger-config";
+"use client";
+
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from "@/plugins";
+
+// Ensure GSAP plugins are registered
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Title Animation Utility
 export function charAnimation(current?: HTMLElement) {
-  if (!current) return;
+  if (!current) return null;
 
   gsap.set(current, {
     visibility: "hidden",
@@ -61,6 +63,20 @@ export const animateAboutUsSection = ({
   image,
 }: SectionAnimationElements) => {
   if (typeof window === "undefined" || !section) return null;
+
+  // Create a unique ID for this animation
+  const animationId = `about-us-section-${Date.now()}`;
+
+  // First, kill any existing ScrollTriggers for this section
+  ScrollTrigger.getAll().forEach((trigger) => {
+    if (
+      trigger.vars.id &&
+      typeof trigger.vars.id === "string" &&
+      trigger.vars.id.includes("about-us-section")
+    ) {
+      trigger.kill();
+    }
+  });
 
   const tl = gsap.timeline({ paused: true });
 
@@ -114,16 +130,20 @@ export const animateAboutUsSection = ({
     );
   });
 
-  // Create ScrollTrigger using the utility function
-  const trigger = createScrollAnimation(section, tl, {
+  // Create ScrollTrigger
+  ScrollTrigger.create({
+    trigger: section,
+    animation: tl,
     start: "top 80%",
     toggleActions: "play none none none",
     once: true,
-    id: "about-us-section",
+    id: animationId,
   });
 
-  // Refresh ScrollTrigger after animation setup
-  refreshScrollTrigger();
+  // Force refresh ScrollTrigger
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 100);
 
   return tl;
 };
@@ -139,6 +159,20 @@ export const animateServicesSection = ({
   grid,
 }: SectionAnimationElements) => {
   if (typeof window === "undefined" || !section) return null;
+
+  // Create a unique ID for this animation
+  const animationId = `services-section-${Date.now()}`;
+
+  // First, kill any existing ScrollTriggers for this section
+  ScrollTrigger.getAll().forEach((trigger) => {
+    if (
+      trigger.vars.id &&
+      typeof trigger.vars.id === "string" &&
+      trigger.vars.id.includes("services-section")
+    ) {
+      trigger.kill();
+    }
+  });
 
   const tl = gsap.timeline({ paused: true });
 
@@ -184,16 +218,20 @@ export const animateServicesSection = ({
     );
   });
 
-  // Create ScrollTrigger using the utility function
-  const trigger = createScrollAnimation(section, tl, {
+  // Create ScrollTrigger
+  ScrollTrigger.create({
+    trigger: section,
+    animation: tl,
     start: "top 80%",
     toggleActions: "play none none none",
     once: true,
-    id: "services-section",
+    id: animationId,
   });
 
-  // Refresh ScrollTrigger after animation setup
-  refreshScrollTrigger();
+  // Force refresh ScrollTrigger
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 100);
 
   return tl;
 };
@@ -210,6 +248,20 @@ export const animateBlogCarouselSection = ({
   cta,
 }: SectionAnimationElements) => {
   if (typeof window === "undefined" || !section) return null;
+
+  // Create a unique ID for this animation
+  const animationId = `blog-carousel-section-${Date.now()}`;
+
+  // First, kill any existing ScrollTriggers for this section
+  ScrollTrigger.getAll().forEach((trigger) => {
+    if (
+      trigger.vars.id &&
+      typeof trigger.vars.id === "string" &&
+      trigger.vars.id.includes("blog-carousel-section")
+    ) {
+      trigger.kill();
+    }
+  });
 
   const tl = gsap.timeline({ paused: true });
 
@@ -272,25 +324,48 @@ export const animateBlogCarouselSection = ({
     );
   });
 
-  // Create ScrollTrigger using the utility function
-  createScrollAnimation(section, tl, {
+  // Create ScrollTrigger
+  ScrollTrigger.create({
+    trigger: section,
+    animation: tl,
     start: "top 85%",
     toggleActions: "play none none none",
     once: true,
-    id: "blog-carousel-section",
+    id: animationId,
   });
 
-  // Refresh ScrollTrigger after animation setup
-  refreshScrollTrigger();
+  // Force refresh ScrollTrigger
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 100);
 
   return tl;
 };
 
-// Global Cleanup Function
+// Clean up homepage animations in a selective way
 export function cleanupHomepageAnimations() {
-  // Kill specific timelines
-  gsap.killTweensOf([
-    ".aboutus-section__title .highlight",
-    ".blog-carousel-section .carousel-track",
-  ]);
+  if (typeof window === "undefined") return;
+
+  // Get all ScrollTrigger instances
+  const triggers = ScrollTrigger.getAll();
+
+  // Kill only homepage-related ScrollTriggers
+  triggers.forEach((trigger) => {
+    if (trigger.vars.id && typeof trigger.vars.id === "string") {
+      const id = trigger.vars.id as string;
+      if (
+        id.includes("about-us-section") ||
+        id.includes("services-section") ||
+        id.includes("blog-carousel-section") ||
+        id.includes("featured-projects-section") ||
+        id.includes("hero-slider-section") ||
+        id.includes("logo-marquee-section")
+      ) {
+        trigger.kill();
+      }
+    }
+  });
+
+  // Refresh ScrollTrigger
+  ScrollTrigger.refresh();
 }

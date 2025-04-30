@@ -10,6 +10,14 @@ import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogC
 import "./page.scss";
 import { BlogPost } from "@/types/blog-post-types";
 import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSection/FeaturedprojectsSection";
+import { cleanupHomepageAnimations } from "@/utils/animations/homepage-anim";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+// Make sure GSAP plugins are registered
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Slider images data
 const heroSlides = [
@@ -30,17 +38,16 @@ const heroSlides = [
 const Home: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [key, setKey] = useState(Date.now());
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const res = await fetch("/api/blog");
         const data = await res.json();
-        // Filter to only published posts
         const publishedPosts = data.filter(
           (post: BlogPost) => post.published === true
         );
-        // Get the latest 6 posts for the carousel
         const latestPosts = publishedPosts.slice(0, 6);
         setBlogPosts(latestPosts);
       } catch (error) {
@@ -51,23 +58,29 @@ const Home: React.FC = () => {
     };
 
     fetchPosts();
+
+
+    // ⬅️ CLEANUP on unmount
+    return () => {
+      cleanupHomepageAnimations();
+    };
   }, []);
 
   return (
     <SmoothScrollWrapper showBackToTop={false}>
-      <div className="homepage">
+      <div className="homepage" key={key}>
         <section className="homepage__hero">
           <HeroSlider slides={heroSlides} autoplaySpeed={3000} />
         </section>
 
-        <AboutUsSection />
+        <AboutUsSection key={`about-${key}`} />
         <div className="homepage__marquee">
-          <LogoMarquee />
+          <LogoMarquee key={`marquee-${key}`} />
         </div>
-        <ServicesSection />
-        <FeaturedprojectsSection />
+        <ServicesSection key={`services-${key}`} />
+        <FeaturedprojectsSection key={`featured-${key}`} />
         {!loading && blogPosts.length > 0 && (
-          <BlogCarouselSection posts={blogPosts} />
+          <BlogCarouselSection key={`blog-${key}`} posts={blogPosts} />
         )}
       </div>
     </SmoothScrollWrapper>

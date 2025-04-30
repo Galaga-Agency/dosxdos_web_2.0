@@ -5,10 +5,8 @@
 
 .clients-section {
   position: relative;
-  padding: 6rem 0;
-  background-color: $white;
+  @include section-spacing;
   overflow: hidden;
-  margin: 0 auto;
 
   @include container-width(mobile);
 
@@ -34,17 +32,6 @@
   &__content-wrapper {
     position: relative;
     max-width: 800px;
-
-    // Accent line with subtle primary color
-    &::before {
-      content: "";
-      position: absolute;
-      top: -40px;
-      left: 0;
-      width: 40px;
-      height: 2px;
-      background-color: rgba($primary-color, 0.3);
-    }
   }
 
   &__label {
@@ -75,44 +62,22 @@
   }
 
   &__title {
-    @include font-size(3xl);
-    font-weight: 800;
+    @include font-size(5xl);
+    @include font-weight(bold);
     color: $black;
-    line-height: 1.15;
-    margin-bottom: 3.5rem;
-    max-width: 30ch;
+    line-height: 1;
+    @include margin(lg, bottom);
 
-    @include min-width(md) {
+    @include min-width(sm) {
       @include font-size(4xl);
     }
 
+    @include min-width(md) {
+      @include font-size(6xl);
+    }
+
     @include min-width(lg) {
-      @include font-size(5xl);
-    }
-
-    .word {
-      display: inline-block;
-      position: relative;
-    }
-
-     .highlight {
-      position: relative;
-      display: inline-block;
-      font-weight: 400;
-      color: rgba($primary-color, 0.8);
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        height: 2px;
-        width: 100%;
-        background-color: rgba($primary-color, 0.2);
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.3s ease;
-      }
+      @include font-size(8xl);
     }
   }
 

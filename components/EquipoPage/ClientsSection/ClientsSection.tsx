@@ -14,8 +14,13 @@ const ClientsSection: React.FC = () => {
   const textRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const decorRef = useRef<HTMLDivElement>(null);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
+    // Don't re-run animation if already animated
+    if (animatedRef.current) return;
+
+    // Ensure ScrollTrigger is configured
     gsap.registerPlugin(ScrollTrigger);
 
     const timer = setTimeout(() => {
@@ -28,18 +33,15 @@ const ClientsSection: React.FC = () => {
         logos: null,
       });
 
+      // Mark as animated
+      animatedRef.current = true;
+
       // Refresh ScrollTrigger after animations are set up
       ScrollTrigger.refresh();
-    }, 500);
+    }, 100);
 
     return () => {
       clearTimeout(timer);
-      // Cleanup ScrollTrigger instances for this section
-      if (sectionRef.current) {
-        ScrollTrigger.getAll()
-          .filter((trigger) => trigger.trigger === sectionRef.current)
-          .forEach((trigger) => trigger.kill());
-      }
     };
   }, []);
 
@@ -78,7 +80,10 @@ const ClientsSection: React.FC = () => {
           </p>
 
           <div ref={ctaRef} className="clients-section__cta">
-            <Link href="/sobre-nosotros/accion-social" className="clients-section__cta-link">
+            <Link
+              href="/sobre-nosotros/accion-social"
+              className="clients-section__cta-link"
+            >
               <span className="clients-section__cta-icon">○</span> Más sobre
               nosotros
             </Link>

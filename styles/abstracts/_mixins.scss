@@ -74,17 +74,12 @@
 // Usage: @include section-spacing;
 // -----------------------------------------------------------------------------
 @mixin section-spacing {
-  padding-top: map-get($spacing, 'section-y');
-  padding-bottom: map-get($spacing, 'section-y');
+  padding-top: map-get($spacing, 'section-y-sm');
+  padding-bottom: map-get($spacing, 'section-y-sm');
   
-  @include min-width(md) {
+  @include min-width(lg) {
     padding-top: map-get($spacing, 'section-y');
     padding-bottom: map-get($spacing, 'section-y');
-  }
-  
-  @media screen and (max-width: 576px) {
-    padding-top: map-get($spacing, 'section-y-sm');
-    padding-bottom: map-get($spacing, 'section-y-sm');
   }
 }
 

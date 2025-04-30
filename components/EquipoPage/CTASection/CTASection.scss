@@ -1,145 +1,100 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/animations" as *;
 
 .cta-section {
   position: relative;
   overflow: hidden;
-  padding: 0 0 2rem;
-  margin: 0 auto;
-
-  @include container-width(mobile);
-
-  @include min-width(md) {
-    @include container-width(tablet);
-  }
-
-  @include min-width(lg) {
-    @include container-width(smalldesktop);
-  }
-
-  @include min-width(xl) {
-    @include container-width(desktop);
-  }
 
   &__container {
-    position: relative;
-    z-index: 2;
-    padding: 0 1rem;
+    @include container-width(mobile);
     margin: 0 auto;
-    max-width: 1280px;
 
     @include min-width(md) {
-      padding: 0 2rem;
-    }
-  }
-
-  &__glass-card {
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-
-    @include min-width(md) {
-      margin: 2rem;
+      @include container-width(tablet);
     }
 
     @include min-width(lg) {
-      text-align: left;
+      @include container-width(smalldesktop);
     }
-  }
 
-  &__label {
-    margin-bottom: 1.5rem;
-    position: relative;
-
-    span {
-      display: inline-block;
-      @include font-size(sm);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba($black, 0.8);
-      position: relative;
-      padding-left: 30px;
-
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 20px;
-        height: 1px;
-        background-color: rgba($primary-color, 0.3);
-      }
+    @include min-width(xl) {
+      @include container-width(desktop);
     }
   }
 
   &__content {
-    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
-    @include min-width(lg) {
-      max-width: 70%;
-      margin: 0 auto 2.5rem;
+  &__label {
+    @include font-size(sm);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba($black, 0.6);
+    margin-bottom: 1.5rem;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background-color: rgba($primary-color, 0.3);
     }
   }
 
   &__title {
-    @include font-size(3xl);
-    font-weight: 800;
-    color: rgba($black, 0.8);
-    line-height: 1.15;
+    @include font-size(6xl);
+    @include font-weight(bold);
+    color: $black;
     margin-bottom: 1.5rem;
-
-    @include min-width(md) {
-      @include font-size(4xl);
-    }
-
-    @include min-width(xl) {
-      @include font-size(5xl);
-      text-wrap: nowrap;
-    }
-
-    .word {
-      display: inline-block;
-      position: relative;
-    }
+    line-height: 1.2;
 
     .highlight {
-      color: $primary-color;
       position: relative;
       display: inline-block;
-      @include font-weight(medium);
-      background-image: linear-gradient(
-        transparent 70%,
-        rgba($black, 0.1) 100%
-      );
-      background-repeat: no-repeat;
-      background-size: 0% 100%;
-      background-position: 0 0;
-      transition: background-size 0.3s ease;
-    }
-  }
+      z-index: 1;
 
-  &__subtitle {
-    @include font-size(lg);
-    line-height: 1.8;
-    color: rgba($black, 0.75);
-    max-width: 90%;
-    margin: 0 auto;
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: -5px;
+        right: -5px;
+        width: calc(100% + 10px);
+        height: 40%;
+        background-color: rgba($black, 0.2);
+        opacity: 0.3;
+        z-index: -1;
+        transform: skew(-10deg);
+      }
+    }
 
     @include min-width(lg) {
-      max-width: 100%;
+      @include font-size(8xl);
     }
   }
 
-  &__action {
-    position: relative;
-    display: inline-block;
-    width: auto;
-    margin: 0 auto;
+  &__description {
+    @include font-size(lg);
+    color: rgba($black, 0.75);
+    max-width: 700px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
   }
 }

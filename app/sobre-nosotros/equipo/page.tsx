@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import HeroSection from "@/components/EquipoPage/HeroSection/HeroSection";
@@ -10,23 +10,30 @@ import StatsSection from "@/components/EquipoPage/StatsSection/StatsSection";
 import ClientsSection from "@/components/EquipoPage/ClientsSection/ClientsSection";
 import CTASection from "@/components/EquipoPage/CTASection/CTASection";
 import "./equipo-page.scss";
-import {
-  cleanupScrollTriggers,
-  initScrollTriggerConfig,
-} from "@/utils/animations/scrolltrigger-config";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { cleanupEquipoAnimations } from "@/utils/animations/equipo-page-anim";
+
+// Register GSAP plugins
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const EquipoPage: React.FC = () => {
-  useEffect(() => {
-    initScrollTriggerConfig();
+  const [mountKey, setMountKey] = useState(Date.now());
 
+  useEffect(() => {
+
+
+    // Cleanup on unmount
     return () => {
-      cleanupScrollTriggers();
+      cleanupEquipoAnimations();
     };
   }, []);
 
   return (
     <SmoothScrollWrapper>
-      <div className="equipo-page">
+      <div className="equipo-page" key={mountKey}>
         <div className="equipo-page__container">
           <div className="equipo-page__social-sidebar">
             <div className="equipo-page__social-wrapper">
@@ -35,19 +42,19 @@ const EquipoPage: React.FC = () => {
             </div>
           </div>
 
-          <HeroSection />
-          <StorySection />
-          <TeamSection />
-          <StatsSection />
-          <ClientsSection />
-          <CTASection />
+          <HeroSection key={`hero-${mountKey}`} />
+          <StorySection key={`story-${mountKey}`} />
+          <TeamSection key={`team-${mountKey}`} />
+          <StatsSection key={`stats-${mountKey}`} />
+          <ClientsSection key={`clients-${mountKey}`} />
+          <CTASection key={`cta-${mountKey}`} />
 
           <div className="equipo-page__mobile-social-section">
             <div className="equipo-page__mobile-social-header">
               <h3 className="equipo-page__mobile-social-title">Síguenos</h3>
               <div className="equipo-page__mobile-social-divider"></div>
             </div>
-            <SocialIcons orientation="horizontal" color="white" />
+            <SocialIcons orientation="horizontal" color="primary" />
           </div>
         </div>
       </div>

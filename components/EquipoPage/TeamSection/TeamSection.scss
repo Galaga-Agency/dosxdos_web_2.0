@@ -6,7 +6,7 @@
 
 .team-section {
   position: relative;
-  background-color: $white;
+  @include section-spacing;
   overflow: hidden;
 
   .container {
@@ -29,12 +29,23 @@
   }
 
   .title {
-    @include font-size(3xl);
+    @include font-size(5xl);
     @include font-weight(bold);
     color: $black;
-    margin-bottom: 2rem;
-    position: relative;
-    line-height: 1.2;
+    line-height: 1;
+    @include margin(lg, bottom);
+
+    @include min-width(sm) {
+      @include font-size(4xl);
+    }
+
+    @include min-width(md) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(lg) {
+      @include font-size(8xl);
+    }
 
     // Updated underline styling with subtle primary color
     &::after {
@@ -70,22 +81,6 @@
         transform: scaleX(1);
         transform-origin: left;
       }
-    }
-    
-    @include min-width(md) {
-      @include font-size(4xl);
-    }
-    
-    @include min-width(lg) {
-      @include font-size(5xl);
-    }
-    
-    @media screen and (max-width: 768px) {
-      @include font-size(3xl);
-    }
-    
-    @media screen and (max-width: 480px) {
-      @include font-size(2xl);
     }
   }
 
@@ -130,12 +125,12 @@
         z-index: -1;
       }
     }
-    
+
     @media screen and (max-width: 768px) {
       @include font-size(base);
       padding-left: 1.5rem;
     }
-    
+
     @media screen and (max-width: 480px) {
       padding-left: 1rem;
     }
@@ -155,7 +150,7 @@
     @include min-width(lg) {
       grid-template-columns: repeat(4, 1fr);
     }
-    
+
     @media screen and (max-width: 480px) {
       gap: 1.5rem;
     }

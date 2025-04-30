@@ -1,10 +1,14 @@
 "use client";
+
 import React, { useEffect, useRef } from "react";
-import { SplitText } from "@/plugins";
 import { animateServicesSection } from "@/utils/animations/homepage-anim";
 import { categoriesList } from "@/data/categories";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
+import {
+  initScrollTriggerConfig,
+  refreshScrollTrigger,
+} from "@/utils/animations/scrolltrigger-config";
 import "./ServicesSection.scss";
 
 const ServicesSection: React.FC = () => {
@@ -12,34 +16,49 @@ const ServicesSection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
-    // Animate Services Section
-    const timer = setTimeout(() => {
-      if (
-        sectionRef.current &&
-        titleRef.current &&
-        subtitleRef.current &&
-        gridRef.current
-      ) {
+    // Make sure we only animate once per component instance
+    if (animatedRef.current) return;
+
+    // Ensure ScrollTrigger is configured
+    initScrollTriggerConfig();
+
+    // Ensure refs are populated before running animations
+    if (
+      sectionRef.current &&
+      titleRef.current &&
+      subtitleRef.current &&
+      gridRef.current
+    ) {
+      // Delay animation slightly to allow DOM to fully render
+      const timer = setTimeout(() => {
         animateServicesSection({
           section: sectionRef.current,
           title: titleRef.current,
           subtitle: subtitleRef.current,
           grid: gridRef.current,
         });
-      }
-    }, 500);
 
-    // Initialize card mouse parallax
-    const parallaxTimer = setTimeout(() => {
-      initCardMouseParallax();
-    }, 1000);
+        // Initialize card mouse parallax after animations
+        const parallaxTimer = setTimeout(() => {
+          initCardMouseParallax();
+        }, 500);
 
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(parallaxTimer);
-    };
+        // Mark as animated
+        animatedRef.current = true;
+
+        // Force refresh ScrollTrigger
+        refreshScrollTrigger();
+
+        return () => {
+          clearTimeout(parallaxTimer);
+        };
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
