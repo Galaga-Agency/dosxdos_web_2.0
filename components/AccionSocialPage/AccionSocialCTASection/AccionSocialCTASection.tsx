@@ -14,14 +14,11 @@ const AccionSocialCTASection: React.FC = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      requestAnimationFrame(() => {
-        animateAccionSocialCTASection({
-          section: sectionRef.current,
-          content: contentRef.current,
-          title: titleRef.current,
-          text: textRef.current,
-          decor: decorRef.current,
-        });
+      animateAccionSocialCTASection({
+        section: sectionRef.current,
+        content: contentRef.current,
+        title: titleRef.current,
+        text: textRef.current,
       });
     }, 300);
 

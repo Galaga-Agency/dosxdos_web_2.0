@@ -4,32 +4,18 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import { animateAboutUsSection } from "@/utils/animations/homepage-anim";
-import {
-  initScrollTriggerConfig,
-  refreshScrollTrigger,
-} from "@/utils/animations/scrolltrigger-config";
 import "./AboutUsSection.scss";
 
 const AboutUsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const animatedRef = useRef(false);
 
   // Initialize animations
   useEffect(() => {
-    // Make sure we only animate once per component instance
-    if (animatedRef.current) return;
-
-    // Ensure ScrollTrigger is configured
-    initScrollTriggerConfig();
-
-    // Ensure refs are populated before running animations
     if (sectionRef.current && titleRef.current && textRef.current) {
       // Delay animation slightly to allow DOM to fully render
       const timer = setTimeout(() => {
@@ -41,12 +27,6 @@ const AboutUsSection: React.FC = () => {
           cta: ctaRef.current,
           image: visualRef.current,
         });
-
-        // Mark as animated
-        animatedRef.current = true;
-
-        // Force refresh ScrollTrigger
-        refreshScrollTrigger();
       }, 100);
 
       return () => clearTimeout(timer);
@@ -57,7 +37,7 @@ const AboutUsSection: React.FC = () => {
     <section ref={sectionRef} className="aboutus-section">
       <div className="aboutus-section__container">
         {/* Header section that spans full width */}
-        <div ref={headerRef} className="aboutus-section__header">
+        <div className="aboutus-section__header">
           <div ref={labelRef} className="aboutus-section__label">
             <span>PROYECTAMOS SENSACIONES</span>
           </div>

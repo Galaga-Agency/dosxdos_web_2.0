@@ -5,49 +5,56 @@
 
 .story-section {
   position: relative;
-  @include section-spacing;
   overflow: hidden;
+  @include section-spacing;
 
   &__container {
-    @include container-width(mobile);
+    width: 100%;
+    max-width: 1600px;
     margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 4rem);
     display: flex;
     flex-direction: column;
-    @include gap(xl);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
+    gap: 4rem;
   }
 
   &__title {
-    @include font-size(5xl);
-    @include font-weight(bold);
+    @include font-size(7xl);
+    @include font-weight(extra-bold);
     color: $black;
-    line-height: 1.2;
-    max-width: 900px;
+    line-height: 1.1;
+    max-width: none;
+    letter-spacing: -0.02em;
 
     .highlight {
-      color: rgba($black, 0.7);
+      position: relative;
+      display: inline-block;
+      z-index: 1;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: -5px;
+        right: -5px;
+        width: calc(100% + 10px);
+        height: 40%;
+        background-color: rgba($black, 0.5);
+        opacity: 0.3;
+        z-index: -1;
+        transform: skew(-10deg);
+      }
     }
   }
 
   &__description {
-    @include font-size(lg);
+    @include font-size(xl);
     color: rgba($black, 0.8);
-    max-width: 700px;
+    max-width: 1000px;
+    line-height: 1.7;
 
     p {
-      margin-bottom: 1rem;
-      line-height: 1.6;
+      margin-bottom: 1.75rem;
 
       strong {
         color: $black;
@@ -57,54 +64,71 @@
   }
 
   &__services {
-    @include flex(column, center, start);
-    @include gap(sm);
+    @include flex(column, unset, flex-start);
+    gap: 2rem;
 
     @include min-width(lg) {
-      @include flex(row, center, start);
-      @include gap(4xl);
+      @include flex(row, flex-end, space-between);
+      gap: 5rem;
     }
 
     &-title {
-      @include font-size(xl);
+      @include font-size(4xl);
       text-transform: uppercase;
-      color: rgba($black, 0.5);
-      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      color: $black;
+      padding-bottom: 0.5rem;
       position: relative;
-      padding-bottom: 0.75rem;
+
+      @include min-width(lg) {
+        max-width: 50%;
+      }
 
       &::after {
         content: "";
         position: absolute;
         bottom: 0;
         left: 0;
-        width: 50px;
+        width: 60px;
         height: 2px;
-        background-color: rgba($primary-color, 0.3);
+        background-color: rgba($primary-color, 0.4);
       }
     }
 
     &-grid {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
-      @include gap(sm);
+      gap: 1.25rem;
 
       @include min-width(md) {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      @include min-width(xl) {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     &-item {
-      @include font-size(base);
-      color: rgba($black, 0.8);
+      @include font-size(lg);
+      color: rgba($black, 0.85);
       position: relative;
-      padding-left: 1rem;
+      padding-left: 1.5rem;
 
       &::before {
-        content: "•";
+        content: "";
+        width: 8px;
+        height: 8px;
         position: absolute;
         left: 0;
-        color: rgba($primary-color, 0.7);
+        top: 0.5rem;
+        background-color: $primary-color;
+      }
+
+      &:hover {
+        &::before {
+          background-color: darken($primary-color, 10%);
+        }
       }
     }
   }

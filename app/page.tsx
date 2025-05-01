@@ -13,6 +13,7 @@ import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSecti
 import { cleanupHomepageAnimations } from "@/utils/animations/homepage-anim";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 
 // Make sure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -38,7 +39,13 @@ const heroSlides = [
 const Home: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [key, setKey] = useState(Date.now());
+  // Force component remount on each page visit
+  const [key] = useState(() => Date.now());
+
+  // Initialize ScrollTrigger configuration once
+  useEffect(() => {
+    initScrollTriggerConfig();
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -58,8 +65,7 @@ const Home: React.FC = () => {
     };
 
     fetchPosts();
-
-
+    
     // ⬅️ CLEANUP on unmount
     return () => {
       cleanupHomepageAnimations();
@@ -70,9 +76,9 @@ const Home: React.FC = () => {
     <SmoothScrollWrapper showBackToTop={false}>
       <div className="homepage" key={key}>
         <section className="homepage__hero">
-          <HeroSlider slides={heroSlides} autoplaySpeed={3000} />
+          <HeroSlider key={`hero-${key}`} slides={heroSlides} autoplaySpeed={3000} />
         </section>
-
+        
         <AboutUsSection key={`about-${key}`} />
         <div className="homepage__marquee">
           <LogoMarquee key={`marquee-${key}`} />

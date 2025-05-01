@@ -7,59 +7,31 @@ import {
   panelTwoAnimation,
   clearScrollTriggers,
 } from "@/utils/animations/panel-animation";
-import { animateAboutUsSection } from "@/utils/animations/homepage-anim";
-import {
-  initScrollTriggerConfig,
-  refreshScrollTrigger,
-} from "@/utils/animations/scrolltrigger-config";
+import { refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
 import "./FeaturedprojectsSection.scss";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import { featuredProjects } from "@/data/projects";
 
 const FeaturedprojectsSection: React.FC = () => {
-  const animatedRef = useRef<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Make sure we only animate once per component instance
-    if (animatedRef.current) return;
+    if (sectionRef.current) {
+      // Delay animation slightly to allow DOM to fully render
+      const timer = setTimeout(() => {
+        // Clean any existing scroll triggers for this section first
+        clearScrollTriggers();
 
-    // Ensure ScrollTrigger is configured
-    initScrollTriggerConfig();
+        // Initialize the panel animation
+        panelTwoAnimation();
 
-    // Initialize panel animation with proper delay
-    const timer = setTimeout(() => {
-      // Clean any existing scroll triggers for this section first
-      clearScrollTriggers();
+        // Force refresh ScrollTrigger
+        refreshScrollTrigger();
+      }, 100);
 
-      // Initialize the panel animation
-      panelTwoAnimation();
-
-      // Also animate the content section if available
-      if (titleRef.current && textRef.current) {
-        animateAboutUsSection({
-          section: sectionRef.current,
-          label: labelRef.current,
-          title: titleRef.current,
-          text: textRef.current,
-          cta: ctaRef.current,
-        });
-      }
-
-      // Mark as animated
-      animatedRef.current = true;
-
-      // Force refresh ScrollTrigger
-      refreshScrollTrigger();
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-    };
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, []);
 
   return (

@@ -4,8 +4,6 @@ import React, { useEffect, useRef } from "react";
 import { teamMembers } from "@/data/team";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { animateTeamSection } from "@/utils/animations/equipo-page-anim";
 import "./TeamSection.scss";
 
@@ -14,15 +12,9 @@ const TeamSection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const animatedRef = useRef(false);
 
   useEffect(() => {
-    // Don't re-run animation if already animated
-    if (animatedRef.current) return;
-
-    // Ensure GSAP plugins are registered
-    gsap.registerPlugin(ScrollTrigger);
-
+    // Initialize animation
     const timer = setTimeout(() => {
       if (
         sectionRef.current &&
@@ -37,9 +29,6 @@ const TeamSection: React.FC = () => {
           grid: gridRef.current,
         });
       }
-
-      // Mark as animated
-      animatedRef.current = true;
     }, 100);
 
     // Card mouse parallax

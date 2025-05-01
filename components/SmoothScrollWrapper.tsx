@@ -20,11 +20,15 @@ export default function SmoothScrollWrapper({
 }: SmoothScrollWrapperProps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
-
+    
+    // Reset scroll position
     window.scrollTo(0, 0);
-
+    
+    // Initialize ScrollTrigger ONCE
+    initScrollTriggerConfig();
+    
     let smoother: any = null;
-
+    
     const initScrollSmoother = async () => {
       try {
         const gsapModule = await import("gsap");
@@ -32,34 +36,38 @@ export default function SmoothScrollWrapper({
         const ScrollSmootherModule = await import(
           "@/plugins/gsap-scroll-smoother"
         );
-
+        
         const gsap = gsapModule.default || gsapModule;
         const ScrollTrigger =
           ScrollTriggerModule.ScrollTrigger || ScrollTriggerModule.default;
         const ScrollSmoother = ScrollSmootherModule.default;
-
+        
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-        // Initialize ScrollTrigger config
-        initScrollTriggerConfig();
-
-        // Initialize ScrollSmoother with a short delay to ensure DOM is ready
+        
+        // Create ScrollSmoother after a delay to ensure DOM is ready
         setTimeout(() => {
+          // Check if smoother already exists and destroy it first
+          if ((window as any).__smoother__) {
+            (window as any).__smoother__.kill();
+            (window as any).__smoother__ = null;
+          }
+          
+          // Create new smoother
           smoother = ScrollSmoother.create({
             smooth: 2,
             effects: true,
-            // Enable normalized scroll to help with tab visibility issues
             normalizeScroll: true,
           });
-
+          
           (window as any).__smoother__ = smoother;
-
+          console.log("Created new ScrollSmoother");
+          
           LoadingManager.smootherInitialized();
-
+          
           if (LoadingManager.isLoading) {
             smoother.paused(true);
           }
-
+          
           // Important: Refresh ScrollTrigger to coordinate with ScrollSmoother
           refreshScrollTrigger();
         }, 200);
@@ -67,32 +75,20 @@ export default function SmoothScrollWrapper({
         console.error("Error initializing ScrollSmoother:", error);
       }
     };
-
+    
     initScrollSmoother();
-
+    
+    // Clean up on unmount
     return () => {
-      if (smoother) {
-        smoother.kill();
+      cleanupScrollTriggers();
+      
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.kill();
         (window as any).__smoother__ = null;
       }
-
-      // Clean up all ScrollTrigger instances
-      cleanupScrollTriggers();
     };
   }, []);
-
-  // Refresh ScrollTrigger when children change
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Use setTimeout to ensure DOM is updated before refreshing
-      const timer = setTimeout(() => {
-        refreshScrollTrigger();
-      }, 300);
-
-      return () => clearTimeout(timer);
-    }
-  }, [children]);
-
+  
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">

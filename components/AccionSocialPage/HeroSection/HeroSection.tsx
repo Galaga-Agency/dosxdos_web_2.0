@@ -42,36 +42,6 @@ const HeroSection: React.FC = () => {
     // Clean up function
     return () => {
       clearTimeout(timer);
-
-      // Clean up any GSAP animations when component unmounts
-      if (typeof window !== "undefined") {
-        try {
-          const { gsap } = require("gsap");
-          const { ScrollTrigger } = require("gsap/dist/ScrollTrigger");
-
-          // Kill all ScrollTrigger instances
-          if (ScrollTrigger) {
-            ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill());
-          }
-
-          // Kill tweens targeting our elements
-          if (gsap && gsap.killTweensOf) {
-            const elements = [
-              titleRef1.current,
-              titleRef2.current,
-              descriptionRef.current,
-              ctaRef.current,
-              bgContainerRef.current,
-            ].filter(Boolean);
-
-            elements.forEach((el) => {
-              if (el) gsap.killTweensOf(el);
-            });
-          }
-        } catch (err) {
-          console.warn("Error cleaning up GSAP animations:", err);
-        }
-      }
     };
   }, []);
 

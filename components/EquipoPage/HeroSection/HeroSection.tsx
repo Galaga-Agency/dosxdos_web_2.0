@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import { charAnimation } from "@/utils/animations/title-anim";
 import { animateHeroSection } from "@/utils/animations/equipo-page-anim";
 import "./HeroSection.scss";
 
@@ -29,51 +28,38 @@ const HeroSection: React.FC = () => {
   const floatingImageInner2Ref = useRef<HTMLDivElement>(null);
   const floatingImageInner3Ref = useRef<HTMLDivElement>(null);
 
-  const animatedRef = useRef(false);
-
   useEffect(() => {
-    // Don't re-run animation if already animated
-    if (animatedRef.current) return;
-
     const timer = setTimeout(() => {
-      if (titleRef.current) {
-        // Add unique ID to each animation
-        charAnimation(titleRef.current);
-
-        animateHeroSection({
-          section: heroImageContainerRef.current,
-          label: labelRef.current,
-          title: titleRef.current,
-          underline: underlineRef.current,
-          description: descriptionRef.current,
-          stats: statsRef.current,
-          decor: decorElementsRef.current,
-          image: heroImageRef.current,
-          floatingImages: [
-            {
-              container: floatingImage1Ref,
-              inner: floatingImageInner1Ref,
-              offset: -25,
-              innerOffset: 15,
-            },
-            {
-              container: floatingImage2Ref,
-              inner: floatingImageInner2Ref,
-              offset: -20,
-              innerOffset: -15,
-            },
-            {
-              container: floatingImage3Ref,
-              inner: floatingImageInner3Ref,
-              offset: -65,
-              innerOffset: 25,
-            },
-          ],
-        } as any);
-
-        // Mark as animated
-        animatedRef.current = true;
-      }
+      animateHeroSection({
+        section: heroImageContainerRef.current,
+        label: labelRef.current,
+        title: titleRef.current,
+        underline: underlineRef.current,
+        description: descriptionRef.current,
+        stats: statsRef.current,
+        decor: decorElementsRef.current,
+        image: heroImageRef.current,
+        floatingImages: [
+          {
+            container: floatingImage1Ref,
+            inner: floatingImageInner1Ref,
+            offset: -25,
+            innerOffset: 15,
+          },
+          {
+            container: floatingImage2Ref,
+            inner: floatingImageInner2Ref,
+            offset: -20,
+            innerOffset: -15,
+          },
+          {
+            container: floatingImage3Ref,
+            inner: floatingImageInner3Ref,
+            offset: -65,
+            innerOffset: 25,
+          },
+        ],
+      });
     }, 100);
 
     return () => {

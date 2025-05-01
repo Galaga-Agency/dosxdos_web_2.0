@@ -13,23 +13,23 @@ const SustainabilityImagesSection: React.FC = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      requestAnimationFrame(() => {
-        animateSustainabilityImagesSection({
-          section: sectionRef.current,
-          title: titleRef.current,
-          cards: cardsRef.current,
-        });
+      animateSustainabilityImagesSection({
+        section: sectionRef.current,
+        title: titleRef.current,
+        cards: cardsRef.current,
       });
+      
+      // Initialize card hover parallax effects
+      const parallaxTimer = setTimeout(() => {
+        initCardMouseParallax();
+      }, 500);
+      
+      return () => {
+        clearTimeout(parallaxTimer);
+      };
     }, 300);
 
-    const parallaxTimer = setTimeout(() => {
-      initCardMouseParallax();
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(parallaxTimer);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   // Sample data for the hover cards
