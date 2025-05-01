@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
+import { animateLogoMarquee } from "@/utils/animations/homepage-anim";
 
 interface LogoMarqueeProps {
   showHeader?: boolean;
@@ -15,6 +16,10 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   showHeader = true,
   fullWidth = false,
 }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  
   const sectionClasses = `logo-marquee ${
     fullWidth ? "logo-marquee--full-width" : ""
   }`;
@@ -22,11 +27,27 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
     showHeader ? "has-header" : ""
   }`;
 
+  // Initialize animation
+  useEffect(() => {
+    if (sectionRef.current) {
+      // Delay animation slightly to allow DOM to fully render
+      const timer = setTimeout(() => {
+        animateLogoMarquee({
+          section: sectionRef.current,
+          header: headerRef.current,
+          marquee: marqueeRef.current,
+        });
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
-    <section className={sectionClasses}>
+    <section ref={sectionRef} className={sectionClasses}>
       <div className={containerClasses}>
         {showHeader && (
-          <div className="logo-marquee__header">
+          <div ref={headerRef} className="logo-marquee__header">
             <h2 className="logo-marquee__header-title">
               <span className="shadow-text">Marcas que </span>
               <span className="highlight-bg">confían en nosotros</span>
@@ -34,7 +55,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
           </div>
         )}
 
-        <div className="logo-marquee__wrapper">
+        <div ref={marqueeRef} className="logo-marquee__wrapper">
           <Marquee
             gradient={true}
             gradientColor="rgb(255, 255, 255)"

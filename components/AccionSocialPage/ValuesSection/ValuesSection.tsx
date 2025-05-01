@@ -15,21 +15,19 @@ const ValuesSection: React.FC = () => {
   const tabsRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Only animate on initial load, not on tab changes
+  // Animate on initial load
   useEffect(() => {
-    if (sectionRef.current) {
-      const timer = setTimeout(() => {
-        animateValuesSection({
-          section: sectionRef.current,
-          title: titleRef.current,
-          text: textRef.current,
-          tabs: tabsRef.current,
-          content: contentRef.current,
-        });
-      }, 300);
+    const timer = setTimeout(() => {
+      animateValuesSection({
+        section: sectionRef.current,
+        title: titleRef.current,
+        text: textRef.current,
+        tabs: tabsRef.current,
+        content: contentRef.current,
+      });
+    }, 300);
 
-      return () => clearTimeout(timer);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
   const handleTabChange = (tab: string) => {

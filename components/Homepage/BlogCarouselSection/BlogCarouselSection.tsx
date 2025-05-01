@@ -3,10 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { animateBlogCarouselSection } from "@/utils/animations/homepage-anim";
-import {
-  initScrollTriggerConfig,
-  refreshScrollTrigger,
-} from "@/utils/animations/scrolltrigger-config";
 import BlogItem from "@/components/BlogItem/BlogItem";
 import { BlogPost } from "@/types/blog-post-types";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
@@ -22,7 +18,6 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const animatedRef = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [totalSlides, setTotalSlides] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(3);
@@ -54,13 +49,6 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
 
   // Animation useEffect
   useEffect(() => {
-    // Make sure we only animate once per component instance
-    if (animatedRef.current) return;
-
-    // Ensure ScrollTrigger is configured
-    initScrollTriggerConfig();
-
-    // Ensure refs are populated before running animations
     if (
       sectionRef.current &&
       titleRef.current &&
@@ -77,12 +65,6 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
           carousel: carouselRef.current,
           cta: ctaRef.current,
         });
-
-        // Mark as animated
-        animatedRef.current = true;
-
-        // Force refresh ScrollTrigger
-        refreshScrollTrigger();
       }, 100);
 
       return () => clearTimeout(timer);

@@ -12,35 +12,33 @@ import { collaborationData } from "@/data/collaborations";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const CollaborationsSection: React.FC = () => {
-  const initialized = useRef<boolean>(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Only initialize once
-    if (!initialized.current) {
-      // Clean up any existing ScrollTrigger instances first
-      clearScrollTriggers();
-
-      // Short timeout to ensure DOM is fully rendered
-      const timer = setTimeout(() => {
-        panelTwoAnimation();
-        initialized.current = true;
-      }, 100);
-
-      return () => {
-        clearTimeout(timer);
-        clearScrollTriggers();
-      };
-    }
-
-    // Cleanup when component unmounts
+    // Clean up any existing ScrollTrigger instances first
+    clearScrollTriggers();
+    
+    // Short timeout to ensure DOM is fully rendered
+    const timer = setTimeout(() => {
+      panelTwoAnimation();
+      
+      // Force refresh ScrollTrigger
+      if (typeof window !== "undefined") {
+        const { ScrollTrigger } = require("gsap/dist/ScrollTrigger");
+        if (ScrollTrigger && ScrollTrigger.refresh) {
+          ScrollTrigger.refresh();
+        }
+      }
+    }, 300);
+    
     return () => {
-      clearScrollTriggers();
+      clearTimeout(timer);
     };
   }, []);
 
   return (
-    <section className="latest-projects">
+    <section ref={sectionRef} className="latest-projects">
       {/* Header section with title and subtitle */}
       <div className="latest-projects__header-container" ref={headerRef}>
         {/* Added corner elements for animation */}

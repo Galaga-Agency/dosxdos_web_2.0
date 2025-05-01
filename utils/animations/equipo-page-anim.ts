@@ -2,12 +2,8 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import {
-  createScrollAnimation,
-  refreshScrollTrigger,
-  trackScrollTrigger,
-} from "@/utils/animations/scrolltrigger-config";
 import { SplitText } from "@/plugins";
+import { refreshScrollTrigger } from "./scrolltrigger-config";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -16,7 +12,7 @@ if (typeof window !== "undefined") {
 
 // Title Animation Utility
 export function charAnimation(current?: HTMLElement) {
-  if (!current) return;
+  if (!current) return null;
 
   gsap.set(current, {
     visibility: "hidden",
@@ -43,79 +39,78 @@ export function charAnimation(current?: HTMLElement) {
   return tl;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// HERO SECTION ANIMATION /////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-interface FloatingImage {
-  container: React.RefObject<HTMLDivElement>;
-  inner: React.RefObject<HTMLDivElement>;
-  offset: number;
-  innerOffset: number;
-}
-
-export function animateHeroSection({
-  section,
-  title,
-  underline,
-  description,
-  stats,
-  decor,
-  image,
-  floatingImages = [],
-}: {
+// Define animation elements interface
+interface SectionAnimationElements {
   section?: HTMLElement | null;
+  label?: HTMLElement | null;
   title?: HTMLElement | null;
+  text?: HTMLElement | null;
+  subtitle?: HTMLElement | null;
+  cta?: HTMLElement | null;
+  image?: HTMLElement | null;
+  grid?: HTMLElement | null;
+  container?: HTMLElement | null;
+  carousel?: HTMLElement | null;
+  header?: HTMLElement | null;
+  marquee?: HTMLElement | null;
   underline?: HTMLElement | null;
   description?: HTMLElement | null;
   stats?: HTMLElement | null;
   decor?: HTMLElement | null;
-  image?: HTMLElement | null;
-  floatingImages?: FloatingImage[];
-}) {
-  if (typeof window === "undefined" || !section) return null;
+  logos?: HTMLElement | null;
+  content?: HTMLElement | null;
+  services?: HTMLElement | null;
+  originStory?: HTMLElement | null;
+  originImage?: HTMLElement | null;
+  floatingImages?: any[];
+}
 
-  // Create a unique ID for this animation
-  const animationId = `equipo-hero-section-${Date.now()}`;
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+// HERO SECTION ANIMATION /////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("equipo-hero-section")
-    ) {
-      trigger.kill();
-    }
-  });
+export function animateHeroSection(elements: SectionAnimationElements) {
+  if (typeof window === "undefined" || !elements.section) return null;
 
-  const tl = gsap.timeline({ paused: true });
+  console.log("Animating Hero Section");
+
+  const tl = gsap.timeline();
 
   // Prepare section
-  gsap.set(section, {
+  gsap.set(elements.section, {
     visibility: "visible",
     opacity: 1,
   });
 
-  const elements = [
-    { el: title, props: { y: 0 }, index: 1.5, charAnim: true },
-    { el: underline, props: { width: 0 }, index: 1.7 },
-    { el: description, props: { y: 20 }, index: 1.7 },
-    { el: stats, props: { y: 20 }, index: 0.9 },
-    { el: decor, props: { scale: 0.8 }, index: 1.2 },
-    { el: image, props: { scale: 1.05 }, index: 0 },
+  const animationSequence = [
+    { el: elements.label, props: { y: -30 }, index: 0.3 },
+    { el: elements.title, props: { y: 0 }, index: 0.6, charAnim: true },
+    { el: elements.underline, props: { width: 0 }, index: 1.0 },
+    { el: elements.description, props: { y: 20 }, index: 1.2 },
+    { el: elements.stats, props: { y: 20 }, index: 1.4 },
+    { el: elements.decor, props: { scale: 0.8 }, index: 1.6 },
+    { el: elements.image, props: { scale: 1.05 }, index: 0 },
   ];
 
-  elements.forEach(({ el, props, index, charAnim }) => {
+  animationSequence.forEach(({ el, props, index, charAnim }) => {
     if (!el) return;
-    gsap.set(el, { opacity: 0, ...props });
 
-    if (title) {
+    // Initial state
+    gsap.set(el, {
+      opacity: 0,
+      ...props,
+    });
+
+    // Char animation for title if specified
+    if (charAnim && elements.title) {
       tl.add(() => {
-        charAnimation(title);
+        if (elements.title) {
+          charAnimation(elements.title);
+        }
       }, index);
     }
 
+    // Animate to visible state
     tl.to(
       el,
       {
@@ -137,16 +132,20 @@ export function animateHeroSection({
 
   // Create ScrollTrigger
   ScrollTrigger.create({
-    trigger: section,
+    trigger: elements.section,
     animation: tl,
     start: "top 85%",
-    toggleActions: "play none none none",
     once: true,
-    id: animationId,
   });
 
-  setupFloatingImagesParallax(floatingImages);
-  setupHeroParallax(section, image as any);
+  // Setup floating images parallax if available
+  if (elements.floatingImages && elements.floatingImages.length) {
+    setupFloatingImagesParallax(elements.floatingImages);
+  }
+
+  if (elements.section && elements.image) {
+    setupHeroParallax(elements.section, elements.image);
+  }
 
   // Force refresh ScrollTrigger
   setTimeout(() => {
@@ -156,110 +155,49 @@ export function animateHeroSection({
   return tl;
 }
 
-// Ultra silky parallax using ONLY ScrollSmoother's built-in parallax
+// Parallax for hero section
 function setupHeroParallax(
-  container: HTMLElement | null,
-  target: HTMLElement | null
+  container: HTMLElement,
+  target: HTMLElement
 ) {
   if (!container || !target) return;
-
-  // Remove any existing data-speed attributes
-  target.removeAttribute("data-speed");
-
-  // Kill any existing ScrollTriggers for this parallax
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("equipo-hero-parallax")
-    ) {
-      trigger.kill();
-    }
-  });
-
-  // Use pure ScrollSmoother parallax
-  // Values between 0 and 1 create a parallax effect (slower than scroll)
-  // For smoother effect, use a value closer to 1 (e.g., 0.8-0.95)
+  
   target.setAttribute("data-speed", "0.9");
-
-  // Force refresh ScrollTrigger to ensure ScrollSmoother picks up the new attribute
+  
+  // Force refresh ScrollTrigger
   setTimeout(() => {
-    if (window.__smoother__) {
-      window.__smoother__.refresh();
+    if ((window as any).__smoother__) {
+      (window as any).__smoother__.refresh();
     }
     ScrollTrigger.refresh();
   }, 100);
 }
 
-// Ultra silky floating images parallax using ONLY ScrollSmoother
-function setupFloatingImagesParallax(floatingImages: FloatingImage[]): void {
-  floatingImages.forEach((img, index) => {
-    const { container, inner, offset, innerOffset } = img;
-
-    if (container.current) {
-      // Kill existing ScrollTriggers
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (
-          trigger.vars.id &&
-          typeof trigger.vars.id === "string" &&
-          trigger.vars.id.includes(`floating-container-${index}`)
-        ) {
-          trigger.kill();
-        }
-      });
-
-      // Remove existing data attributes
-      container.current.removeAttribute("data-speed");
-
+// Parallax for floating images
+function setupFloatingImagesParallax(floatingImages: any[]): void {
+  floatingImages.forEach(({ container, inner, offset, innerOffset }, index) => {
+    if (container && container.current) {
       // Calculate smoother speed value
-      // For upward movement (negative offset), use value > 1
-      // For downward movement (positive offset), use value < 1
-      // Adjust these calculations based on desired effect
-      let containerSpeed;
-      if (offset < 0) {
-        // Map negative offsets to values > 1 (faster than scroll)
-        // The more negative the offset, the higher the speed value
-        containerSpeed = 1 + Math.abs(offset) / 100;
-      } else {
-        // Map positive offsets to values < 1 (slower than scroll)
-        // The more positive the offset, the lower the speed value
-        containerSpeed = 1 - offset / 100;
-      }
-
+      let containerSpeed = offset < 0
+        ? 1 + Math.abs(offset) / 100
+        : 1 - offset / 100;
+      
       // Keep values in reasonable range
       containerSpeed = Math.max(0.5, Math.min(1.5, containerSpeed));
-
+      
       // Apply data-speed attribute
       container.current.setAttribute("data-speed", containerSpeed.toString());
     }
 
-    if (inner.current) {
-      // Kill existing ScrollTriggers
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (
-          trigger.vars.id &&
-          typeof trigger.vars.id === "string" &&
-          trigger.vars.id.includes(`floating-inner-${index}`)
-        ) {
-          trigger.kill();
-        }
-      });
-
-      // Remove existing data attributes
-      inner.current.removeAttribute("data-speed");
-
+    if (inner && inner.current) {
       // Calculate speed value for inner element
-      // Similar logic but inversed for offsetting the container movement
-      let innerSpeed;
-      if (innerOffset < 0) {
-        innerSpeed = 1 + Math.abs(innerOffset) / 200;
-      } else {
-        innerSpeed = 1 - innerOffset / 200;
-      }
-
+      let innerSpeed = innerOffset < 0
+        ? 1 + Math.abs(innerOffset) / 200
+        : 1 - innerOffset / 200;
+      
       // Keep values in reasonable range
       innerSpeed = Math.max(0.7, Math.min(1.3, innerSpeed));
-
+      
       // Apply data-speed attribute
       inner.current.setAttribute("data-speed", innerSpeed.toString());
     }
@@ -267,8 +205,8 @@ function setupFloatingImagesParallax(floatingImages: FloatingImage[]): void {
 
   // Force refresh to ensure ScrollSmoother picks up the new attributes
   setTimeout(() => {
-    if (window.__smoother__) {
-      window.__smoother__.refresh();
+    if ((window as any).__smoother__) {
+      (window as any).__smoother__.refresh();
     }
     ScrollTrigger.refresh();
   }, 100);
@@ -278,150 +216,117 @@ function setupFloatingImagesParallax(floatingImages: FloatingImage[]): void {
 // STORY SECTION ANIMATION ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export interface StoryAnimationRefs {
-  section: HTMLElement | null;
-  label?: HTMLElement | null;
-  title: HTMLElement | null;
-  text: HTMLElement | null;
-  services: HTMLElement | null;
-  decor?: HTMLElement | null;
-  originStory: HTMLElement | null;
-  originImage: HTMLElement | null;
-}
+export function animateStorySection(elements: any): void {
+  if (typeof window === "undefined" || !elements.section) return;
 
-export function animateStorySection(refs: StoryAnimationRefs): void {
-  if (typeof window === "undefined") return;
+  console.log("Animating Story Section");
 
-  const tl = gsap.timeline({ paused: true });
+  const tl = gsap.timeline();
 
-  const { section, title, text, services, decor, originStory, originImage } =
-    refs;
-
-  if (!section || !title || !text || !services || !originImage) return;
-
-  // Create unique IDs for these animations
-  const mainId = `story-main-${Date.now()}`;
-  const originId = `story-origin-${Date.now()}`;
-  const revealId = `story-reveal-${Date.now()}`;
-  const parallaxId = `story-parallax-${Date.now()}`;
-
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      (trigger.vars.id.includes("story-main") ||
-        trigger.vars.id.includes("story-origin") ||
-        trigger.vars.id.includes("story-reveal") ||
-        trigger.vars.id.includes("story-parallax"))
-    ) {
-      trigger.kill();
+  // Set initial visibility
+  gsap.set(elements.section, { visibility: "visible", opacity: 1 });
+  
+  // Main section animation
+  if (elements.title) {
+    tl.from(elements.title, { opacity: 0, y: 50, duration: 0.6 }, "+=0.2");
+    
+    const words = elements.title.querySelectorAll(".word");
+    if (words.length > 0) {
+      tl.from(
+        words,
+        { opacity: 0, y: 20, stagger: 0.05, duration: 0.4 },
+        "<0.2"
+      );
     }
-  });
-
-  gsap.set(section, {
-    visibility: "visible",
-    opacity: 1,
-  });
-
-  // Floating decoration animations
-  if (decor) {
-    gsap.to(decor.querySelectorAll(".story-section__decor"), {
-      y: -10,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: 0.3,
-    });
+    
+    const highlight = elements.title.querySelector(".highlight");
+    if (highlight) {
+      gsap.set(highlight, { backgroundSize: "0% 100%" });
+      tl.to(
+        highlight,
+        { backgroundSize: "100% 100%", duration: 0.8, ease: "power2.inOut" },
+        "<"
+      );
+    }
+  }
+  
+  if (elements.text) {
+    tl.from(elements.text, { opacity: 0, y: 30, duration: 0.4 }, "<0.3");
+  }
+  
+  if (elements.services) {
+    const items = elements.services.querySelectorAll("li");
+    if (items.length > 0) {
+      tl.from(
+        items,
+        { opacity: 0, y: 20, stagger: 0.05, duration: 0.3 },
+        "<0.2"
+      );
+    }
   }
 
-  const mainTrigger = ScrollTrigger.create({
-    trigger: section,
-    start: "top 60%",
-    toggleActions: "play none none none",
-    markers: false,
+  // Create ScrollTrigger for main animation
+  ScrollTrigger.create({
+    trigger: elements.section,
     animation: tl,
-    id: mainId,
+    start: "top 80%",
+    once: true,
   });
 
-  trackScrollTrigger(mainTrigger);
-
-  const highlightEl = title.querySelector(".highlight");
-  if (highlightEl) {
-    gsap.set(highlightEl, { backgroundSize: "0% 100%" });
-  }
-
-  tl.from(title, { opacity: 0, y: 50, duration: 0.6 }, "+=0.2")
-    .from(
-      title.querySelectorAll(".word"),
-      { opacity: 0, y: 20, stagger: 0.05, duration: 0.4 },
-      "<0.2"
-    )
-    .to(
-      highlightEl,
-      { backgroundSize: "100% 100%", duration: 0.8, ease: "power2.inOut" },
-      "<"
-    )
-    .from(text, { opacity: 0, y: 30, duration: 0.4 }, "<0.3")
-    .from(
-      services.querySelectorAll("li"),
-      { opacity: 0, y: 20, stagger: 0.05, duration: 0.3 },
-      "<0.2"
-    );
-
-  if (originStory) {
-    const paragraphs = originStory.querySelectorAll("p");
-    const originTrigger = ScrollTrigger.create({
-      trigger: originStory,
+  // Origin story animation if it exists
+  if (elements.originStory) {
+    const originTl = gsap.timeline();
+    const paragraphs = elements.originStory.querySelectorAll("p");
+    
+    gsap.set(elements.originStory, { opacity: 0, y: 50 });
+    
+    ScrollTrigger.create({
+      trigger: elements.originStory,
       start: "top 80%",
-      toggleActions: "play none none none",
-      id: originId,
+      once: true,
       onEnter: () => {
-        gsap.fromTo(
-          originStory,
-          { opacity: 0, y: 50 },
-          { opacity: 1, y: 0, duration: 0.6 }
-        );
-        gsap.fromTo(
-          paragraphs,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, stagger: 0.2, duration: 0.5 }
-        );
-      },
+        originTl.to(elements.originStory, { opacity: 1, y: 0, duration: 0.6 })
+          .to(paragraphs, { opacity: 1, y: 0, stagger: 0.2, duration: 0.5 }, "<0.2");
+      }
     });
-    trackScrollTrigger(originTrigger);
   }
 
-  if (originImage) {
-    const inner = originImage.querySelector(
-      ".story-section__image-frame-inner"
-    );
-    const image = originImage.querySelector(".story-section__image");
-
-    const revealTrigger = ScrollTrigger.create({
-      trigger: originImage,
+  // Image animation if it exists
+  if (elements.originImage) {
+    const imageTl = gsap.timeline();
+    const inner = elements.originImage.querySelector(".story-section__image-frame-inner");
+    const image = elements.originImage.querySelector(".story-section__image");
+    const corners = elements.originImage.querySelectorAll(".story-section__image-corner");
+    
+    gsap.set(elements.originImage, { opacity: 0, y: 40 });
+    
+    ScrollTrigger.create({
+      trigger: elements.originImage,
       start: "top 85%",
-      toggleActions: "play none none none",
-      id: revealId,
+      once: true,
       onEnter: () => {
-        gsap.fromTo(
-          originImage,
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 0.8 }
-        );
-      },
+        imageTl.to(elements.originImage, { opacity: 1, y: 0, duration: 0.8 });
+        
+        if (corners.length > 0) {
+          imageTl.fromTo(
+            corners,
+            { opacity: 0, scale: 0 },
+            { opacity: 1, scale: 1, duration: 0.5, stagger: 0.1 },
+            "<0.3"
+          );
+        }
+      }
     });
-    trackScrollTrigger(revealTrigger);
-
+    
+    // Parallax effect for image
     if (inner && image) {
       gsap.set(image, { scale: 1.1 });
-      const parallaxTrigger = ScrollTrigger.create({
-        trigger: originImage,
+      
+      ScrollTrigger.create({
+        trigger: elements.originImage,
         start: "top bottom",
         end: "bottom top",
         scrub: 1.5,
-        id: parallaxId,
         onUpdate: (self) => {
           gsap.to(image, {
             y: self.progress * 25,
@@ -429,20 +334,9 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
             ease: "none",
             overwrite: "auto",
           });
-        },
+        }
       });
-      trackScrollTrigger(parallaxTrigger);
     }
-
-    const corners = originImage.querySelectorAll(
-      ".story-section__image-corner"
-    );
-    tl.fromTo(
-      corners,
-      { opacity: 0, scale: 0 },
-      { opacity: 1, scale: 1, duration: 0.5, stagger: 0.1, delay: 0.2 },
-      1.5
-    );
   }
 
   // Force refresh ScrollTrigger
@@ -455,49 +349,34 @@ export function animateStorySection(refs: StoryAnimationRefs): void {
 // TEAM SECTION ANIMATION ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export interface TeamAnimationRefs {
-  section: HTMLElement | null;
-  title: HTMLElement | null;
-  subtitle: HTMLElement | null;
-  grid: HTMLElement | null;
-}
+export function animateTeamSection(elements: SectionAnimationElements) {
+  if (typeof window === "undefined" || !elements.section) return;
 
-export function animateTeamSection({
-  section,
-  title,
-  subtitle,
-  grid,
-}: TeamAnimationRefs) {
-  if (typeof window === "undefined" || !section) return;
+  console.log("Animating Team Section");
 
-  // Create a unique ID for this animation
-  const animationId = `equipo-team-section-${Date.now()}`;
+  const tl = gsap.timeline();
 
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("equipo-team-section")
-    ) {
-      trigger.kill();
-    }
-  });
+  // Set initial visibility
+  gsap.set(elements.section, { visibility: "visible", opacity: 1 });
 
-  const tl = gsap.timeline({ paused: true });
-
-  gsap.set(section, { visibility: "visible", opacity: 1 });
-
-  // if (title) {
-  //   tl.add(() => {
-  //     charAnimation(title);
-  //   }, 0.2);
-  // }
+  // Animate title
+  if (elements.title) {
+    tl.from(
+      elements.title,
+      {
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        ease: "back.out(1.4)",
+      },
+      0.2
+    );
+  }
 
   // Animate subtitle
-  if (subtitle) {
+  if (elements.subtitle) {
     tl.from(
-      subtitle,
+      elements.subtitle,
       {
         opacity: 0,
         y: 30,
@@ -509,8 +388,8 @@ export function animateTeamSection({
   }
 
   // Animate team grid
-  if (grid) {
-    const gridItems = grid.querySelectorAll(".hover-card");
+  if (elements.grid) {
+    const gridItems = elements.grid.querySelectorAll(".hover-card");
 
     tl.from(
       gridItems,
@@ -527,12 +406,10 @@ export function animateTeamSection({
 
   // Create ScrollTrigger
   ScrollTrigger.create({
-    trigger: section,
+    trigger: elements.section,
     animation: tl,
     start: "top 80%",
-    toggleActions: "play none none none",
     once: true,
-    id: animationId,
   });
 
   // Force refresh ScrollTrigger
@@ -547,54 +424,33 @@ export function animateTeamSection({
 // STATS SECTION ANIMATION ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface StatsAnimationRefs {
-  section?: HTMLElement | null;
-  title?: HTMLElement | null;
-  stats?: HTMLElement | null;
-}
+export function animateStatsSection(elements: SectionAnimationElements) {
+  if (typeof window === "undefined" || !elements.section) return;
 
-export function animateStatsSection({ section, stats }: StatsAnimationRefs) {
-  if (typeof window === "undefined" || !section) return;
+  console.log("Animating Stats Section");
 
-  // Create a unique ID for this animation
-  const animationId = `equipo-stats-section-${Date.now()}`;
+  const tl = gsap.timeline();
 
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("equipo-stats-section")
-    ) {
-      trigger.kill();
-    }
-  });
+  // Set initial visibility
+  gsap.set(elements.section, { visibility: "visible", opacity: 1 });
 
-  const tl = gsap.timeline({ paused: true });
-
-  gsap.set(section, { visibility: "visible", opacity: 1 });
-
-  const sequence = [{ el: stats, props: { y: 30 }, index: 0.5 }];
-
-  sequence.forEach(({ el, props, index }) => {
-    if (!el) return;
-    gsap.set(el, { opacity: 0, ...props });
-
+  // Animate stats container
+  if (elements.stats) {
+    gsap.set(elements.stats, { opacity: 0, y: 30 });
+    
     tl.to(
-      el,
+      elements.stats,
       {
         opacity: 1,
         y: 0,
         duration: 0.8,
         ease: "back.out(1.4)",
       },
-      index
+      0.5
     );
-  });
-
-  // Animate each stat number
-  if (stats) {
-    const statItems = stats.querySelectorAll(".stats-section__item");
+    
+    // Animate each stat number
+    const statItems = elements.stats.querySelectorAll(".stats-section__item");
     statItems.forEach((el, i) => {
       const valueEl = el.querySelector(".stats-section__number");
       const target = parseInt(valueEl?.getAttribute("data-value") || "0", 10);
@@ -629,12 +485,10 @@ export function animateStatsSection({ section, stats }: StatsAnimationRefs) {
 
   // Create ScrollTrigger
   ScrollTrigger.create({
-    trigger: section,
+    trigger: elements.section,
     animation: tl,
     start: "top 80%",
-    toggleActions: "play none none none",
     once: true,
-    id: animationId,
   });
 
   // Force refresh ScrollTrigger
@@ -649,59 +503,26 @@ export function animateStatsSection({ section, stats }: StatsAnimationRefs) {
 // CLIENTS SECTION ANIMATION //////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export interface ClientsAnimationRefs {
-  section: HTMLElement | null;
-  title: HTMLElement | null;
-  text: HTMLElement | null;
-  logos: HTMLElement | null;
-  cta: HTMLElement | null;
-  decor: HTMLElement | null;
-}
+export function animateClientsSection(elements: SectionAnimationElements) {
+  if (typeof window === "undefined" || !elements.section) return;
 
-export function animateClientsSection({
-  section,
-  title,
-  text,
-  logos,
-  cta,
-  decor,
-}: ClientsAnimationRefs) {
-  if (typeof window === "undefined" || !section) return;
+  console.log("Animating Clients Section");
 
-  // Create a unique ID for this animation
-  const animationId = `equipo-clients-section-${Date.now()}`;
+  const tl = gsap.timeline();
 
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("equipo-clients-section")
-    ) {
-      trigger.kill();
-    }
-  });
-
-  const tl = gsap.timeline({ paused: true });
-
-  gsap.set(section, { visibility: "visible", opacity: 1 });
+  // Set initial visibility
+  gsap.set(elements.section, { visibility: "visible", opacity: 1 });
 
   const sequence = [
-    { el: title, props: { y: 30 }, index: 0.1, charAnim: true },
-    { el: text, props: { y: 20 }, index: 0.4 },
-    { el: logos, props: { y: 20 }, index: 0.6 },
-    { el: cta, props: { y: 20 }, index: 0.9 },
+    { el: elements.title, props: { y: 30 }, index: 0.1 },
+    { el: elements.text, props: { y: 20 }, index: 0.4 },
+    { el: elements.logos, props: { y: 20 }, index: 0.6 },
+    { el: elements.cta, props: { y: 20 }, index: 0.9 },
   ];
 
-  sequence.forEach(({ el, props, index, charAnim }) => {
+  sequence.forEach(({ el, props, index }) => {
     if (!el) return;
     gsap.set(el, { opacity: 0, ...props });
-
-    // if (charAnim && title) {
-    //   tl.add(() => {
-    //     charAnimation(title);
-    //   }, index);
-    // }
 
     tl.to(
       el,
@@ -717,17 +538,15 @@ export function animateClientsSection({
 
   // Create ScrollTrigger
   ScrollTrigger.create({
-    trigger: section,
+    trigger: elements.section,
     animation: tl,
     start: "top 85%",
-    toggleActions: "play none none none",
     once: true,
-    id: animationId,
   });
 
-  // Floating decor loop
-  if (decor) {
-    gsap.to(decor, {
+  // Floating decor loop animation
+  if (elements.decor) {
+    gsap.to(elements.decor, {
       y: -10,
       duration: 2.5,
       repeat: -1,
@@ -748,54 +567,29 @@ export function animateClientsSection({
 // CTA SECTION ANIMATION /////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface CTAAnimationRefs {
-  section?: HTMLElement | null;
-  content?: HTMLElement | null;
-  title?: HTMLElement | null;
-  text?: HTMLElement | null;
-  decor?: HTMLElement | null;
-}
+export function animateCTASection(elements: any) {
+  if (typeof window === "undefined" || !elements.section) return;
 
-export function animateCTASection({
-  section,
-  content,
-  title,
-  text,
-  decor,
-}: CTAAnimationRefs) {
-  if (typeof window === "undefined" || !section) return;
+  console.log("Animating CTA Section");
 
-  // Create a unique ID for this animation
-  const animationId = `equipo-cta-section-${Date.now()}`;
+  const tl = gsap.timeline();
 
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("equipo-cta-section")
-    ) {
-      trigger.kill();
-    }
-  });
-
-  const tl = gsap.timeline({ paused: true });
-
-  gsap.set(section, { visibility: "visible", opacity: 1 });
+  // Set initial visibility
+  gsap.set(elements.section, { visibility: "visible", opacity: 1 });
 
   const sequence = [
-    { el: content, props: { y: 40, scale: 0.95 }, index: 0 },
-    { el: title, props: { y: 30 }, index: 0.4, charAnim: true },
-    { el: text, props: { y: 20 }, index: 0.7 },
+    { el: elements.content, props: { y: 40, scale: 0.95 }, index: 0 },
+    { el: elements.title, props: { y: 30 }, index: 0.4, charAnim: true },
+    { el: elements.text, props: { y: 20 }, index: 0.7 },
   ];
 
   sequence.forEach(({ el, props, index, charAnim }) => {
     if (!el) return;
     gsap.set(el, { opacity: 0, ...props });
 
-    if (charAnim && title) {
+    if (charAnim && elements.title) {
       tl.add(() => {
-        charAnimation(title);
+        charAnimation(elements.title);
       }, index);
     }
 
@@ -814,33 +608,33 @@ export function animateCTASection({
 
   // Create ScrollTrigger
   ScrollTrigger.create({
-    trigger: section,
+    trigger: elements.section,
     animation: tl,
     start: "top 85%",
-    toggleActions: "play none none none",
     once: true,
-    id: animationId,
   });
 
-  if (decor) {
-    gsap.set(decor.querySelectorAll(".cta-section__decor"), {
+  // Decorative elements animation
+  if (elements.decor) {
+    const decorItems = elements.decor.querySelectorAll(".cta-section__decor");
+    
+    gsap.set(decorItems, {
       opacity: 0,
       y: 20,
     });
 
-    gsap.to(decor.querySelectorAll(".cta-section__decor"), {
+    gsap.to(decorItems, {
       opacity: (i) => (i === 0 || i === 4 ? 0.3 : 1),
       y: 0,
       duration: 1.2,
       stagger: 0.15,
       scrollTrigger: {
-        trigger: section,
+        trigger: elements.section,
         start: "top 80%",
-        id: `equipo-cta-decor-${Date.now()}`,
       },
     });
 
-    gsap.to(".cta-section__decor", {
+    gsap.to(decorItems, {
       y: (i) => (i % 2 === 0 ? -8 : -12),
       duration: (i) => 2 + i * 0.5,
       repeat: -1,
@@ -863,36 +657,19 @@ export function animateCTASection({
 // CLEANUP FUNCTION ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Update the cleanup function to include team section
 export function cleanupEquipoAnimations() {
   if (typeof window === "undefined") return;
 
-  // Get all ScrollTrigger instances
-  const triggers = ScrollTrigger.getAll();
-
-  // Kill only equipo page-related ScrollTriggers
-  triggers.forEach((trigger) => {
-    if (trigger.vars.id && typeof trigger.vars.id === "string") {
-      const id = trigger.vars.id as string;
-      if (
-        id.includes("equipo-hero-section") ||
-        id.includes("story-main") ||
-        id.includes("story-origin") ||
-        id.includes("story-reveal") ||
-        id.includes("story-parallax") ||
-        id.includes("equipo-stats-section") ||
-        id.includes("equipo-clients-section") ||
-        id.includes("equipo-cta-section") ||
-        id.includes("equipo-team-section") ||
-        id.includes("floating-container") ||
-        id.includes("floating-inner") ||
-        id.includes("equipo-hero-parallax")
-      ) {
-        trigger.kill();
-      }
-    }
+  console.log("⚠️ Cleaning up all equipo page animations");
+  
+  // Kill all ScrollTriggers
+  ScrollTrigger.getAll().forEach(trigger => {
+    trigger.kill();
   });
-
+  
+  // Clear match media queries
+  ScrollTrigger.clearMatchMedia();
+  
   // Refresh ScrollTrigger
-  ScrollTrigger.refresh();
+  refreshScrollTrigger();
 }

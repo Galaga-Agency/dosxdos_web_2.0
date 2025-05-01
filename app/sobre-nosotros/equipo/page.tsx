@@ -13,6 +13,7 @@ import "./equipo-page.scss";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { cleanupEquipoAnimations } from "@/utils/animations/equipo-page-anim";
+import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -20,11 +21,13 @@ if (typeof window !== "undefined") {
 }
 
 const EquipoPage: React.FC = () => {
-  const [mountKey, setMountKey] = useState(Date.now());
+  // Force component remount on each page visit
+  const [key] = useState(() => Date.now());
 
+  // Initialize ScrollTrigger configuration once
   useEffect(() => {
-
-
+    initScrollTriggerConfig();
+    
     // Cleanup on unmount
     return () => {
       cleanupEquipoAnimations();
@@ -33,7 +36,7 @@ const EquipoPage: React.FC = () => {
 
   return (
     <SmoothScrollWrapper>
-      <div className="equipo-page" key={mountKey}>
+      <div className="equipo-page" key={key}>
         <div className="equipo-page__container">
           <div className="equipo-page__social-sidebar">
             <div className="equipo-page__social-wrapper">
@@ -42,12 +45,12 @@ const EquipoPage: React.FC = () => {
             </div>
           </div>
 
-          <HeroSection key={`hero-${mountKey}`} />
-          <StorySection key={`story-${mountKey}`} />
-          <TeamSection key={`team-${mountKey}`} />
-          <StatsSection key={`stats-${mountKey}`} />
-          <ClientsSection key={`clients-${mountKey}`} />
-          <CTASection key={`cta-${mountKey}`} />
+          <HeroSection key={`hero-${key}`} />
+          <StorySection key={`story-${key}`} />
+          <TeamSection key={`team-${key}`} />
+          <StatsSection key={`stats-${key}`} />
+          <ClientsSection key={`clients-${key}`} />
+          <CTASection key={`cta-${key}`} />
 
           <div className="equipo-page__mobile-social-section">
             <div className="equipo-page__mobile-social-header">

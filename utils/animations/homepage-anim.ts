@@ -3,6 +3,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from "@/plugins";
+import { refreshScrollTrigger } from "./scrolltrigger-config";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -49,7 +50,128 @@ interface SectionAnimationElements {
   grid?: HTMLElement | null;
   container?: HTMLElement | null;
   carousel?: HTMLElement | null;
+  header?: HTMLElement | null;
+  marquee?: HTMLElement | null;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Hero Slider Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const animateHeroSlider = ({
+  section,
+  title,
+  cta,
+}: SectionAnimationElements) => {
+  if (typeof window === "undefined" || !section) return null;
+
+  console.log("Animating Hero Slider");
+
+  const tl = gsap.timeline();
+
+  // Prepare section
+  gsap.set(section, {
+    visibility: "visible",
+    opacity: 1,
+  });
+
+  // Animate title element
+  if (title) {
+    gsap.set(title, { 
+      opacity: 0, 
+      y: -30 
+    });
+    
+    tl.to(title, { 
+      opacity: 1, 
+      y: 0, 
+      duration: 1.4, 
+      ease: "power2.out"
+    }, 0.5);
+  }
+  
+  // Animate CTA element
+  if (cta) {
+    gsap.set(cta, { 
+      opacity: 0, 
+      y: 30 
+    });
+    
+    tl.to(cta, { 
+      opacity: 1, 
+      y: 0, 
+      duration: 1.2, 
+      ease: "power2.out"
+    }, 0.7);
+  }
+
+  // Play animation immediately for hero section
+  tl.play();
+
+  return tl;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Logo Marquee Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const animateLogoMarquee = ({
+  section,
+  header,
+  marquee,
+}: SectionAnimationElements) => {
+  if (typeof window === "undefined" || !section) return null;
+
+  console.log("Animating Logo Marquee");
+
+  const tl = gsap.timeline();
+
+  // Prepare section
+  gsap.set(section, {
+    visibility: "visible",
+    opacity: 1,
+  });
+
+  // Animate header if exists
+  if (header) {
+    gsap.set(header, { 
+      opacity: 0, 
+      y: 20 
+    });
+    
+    tl.to(header, { 
+      opacity: 1, 
+      y: 0, 
+      duration: 0.8, 
+      ease: "power2.out" 
+    }, 0.3);
+  }
+  
+  // Animate marquee wrapper
+  if (marquee) {
+    gsap.set(marquee, { 
+      opacity: 0, 
+      scale: 0.95 
+    });
+    
+    tl.to(marquee, { 
+      opacity: 1, 
+      scale: 1, 
+      duration: 1, 
+      ease: "power2.out" 
+    }, 0.5);
+  }
+
+  // Create ScrollTrigger
+  ScrollTrigger.create({
+    trigger: section,
+    animation: tl,
+    start: "top 85%",
+    once: true,
+  });
+
+  return tl;
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // About us Section Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,21 +186,9 @@ export const animateAboutUsSection = ({
 }: SectionAnimationElements) => {
   if (typeof window === "undefined" || !section) return null;
 
-  // Create a unique ID for this animation
-  const animationId = `about-us-section-${Date.now()}`;
+  console.log("Animating About Us Section");
 
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("about-us-section")
-    ) {
-      trigger.kill();
-    }
-  });
-
-  const tl = gsap.timeline({ paused: true });
+  const tl = gsap.timeline();
 
   // Prepare section
   gsap.set(section, {
@@ -135,15 +245,8 @@ export const animateAboutUsSection = ({
     trigger: section,
     animation: tl,
     start: "top 80%",
-    toggleActions: "play none none none",
     once: true,
-    id: animationId,
   });
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    ScrollTrigger.refresh();
-  }, 100);
 
   return tl;
 };
@@ -160,21 +263,9 @@ export const animateServicesSection = ({
 }: SectionAnimationElements) => {
   if (typeof window === "undefined" || !section) return null;
 
-  // Create a unique ID for this animation
-  const animationId = `services-section-${Date.now()}`;
+  console.log("Animating Services Section");
 
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("services-section")
-    ) {
-      trigger.kill();
-    }
-  });
-
-  const tl = gsap.timeline({ paused: true });
+  const tl = gsap.timeline();
 
   // Prepare section
   gsap.set(section, {
@@ -223,15 +314,8 @@ export const animateServicesSection = ({
     trigger: section,
     animation: tl,
     start: "top 80%",
-    toggleActions: "play none none none",
     once: true,
-    id: animationId,
   });
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    ScrollTrigger.refresh();
-  }, 100);
 
   return tl;
 };
@@ -249,21 +333,9 @@ export const animateBlogCarouselSection = ({
 }: SectionAnimationElements) => {
   if (typeof window === "undefined" || !section) return null;
 
-  // Create a unique ID for this animation
-  const animationId = `blog-carousel-section-${Date.now()}`;
+  console.log("Animating Blog Carousel Section");
 
-  // First, kill any existing ScrollTriggers for this section
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.vars.id &&
-      typeof trigger.vars.id === "string" &&
-      trigger.vars.id.includes("blog-carousel-section")
-    ) {
-      trigger.kill();
-    }
-  });
-
-  const tl = gsap.timeline({ paused: true });
+  const tl = gsap.timeline();
 
   // Prepare section
   gsap.set(section, {
@@ -329,15 +401,8 @@ export const animateBlogCarouselSection = ({
     trigger: section,
     animation: tl,
     start: "top 85%",
-    toggleActions: "play none none none",
     once: true,
-    id: animationId,
   });
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    ScrollTrigger.refresh();
-  }, 100);
 
   return tl;
 };
@@ -346,26 +411,16 @@ export const animateBlogCarouselSection = ({
 export function cleanupHomepageAnimations() {
   if (typeof window === "undefined") return;
 
-  // Get all ScrollTrigger instances
-  const triggers = ScrollTrigger.getAll();
-
-  // Kill only homepage-related ScrollTriggers
-  triggers.forEach((trigger) => {
-    if (trigger.vars.id && typeof trigger.vars.id === "string") {
-      const id = trigger.vars.id as string;
-      if (
-        id.includes("about-us-section") ||
-        id.includes("services-section") ||
-        id.includes("blog-carousel-section") ||
-        id.includes("featured-projects-section") ||
-        id.includes("hero-slider-section") ||
-        id.includes("logo-marquee-section")
-      ) {
-        trigger.kill();
-      }
-    }
+  console.log("⚠️ Cleaning up all homepage animations");
+  
+  // Kill all ScrollTriggers
+  ScrollTrigger.getAll().forEach(trigger => {
+    trigger.kill();
   });
-
+  
+  // Clear match media queries
+  ScrollTrigger.clearMatchMedia();
+  
   // Refresh ScrollTrigger
-  ScrollTrigger.refresh();
+  refreshScrollTrigger();
 }

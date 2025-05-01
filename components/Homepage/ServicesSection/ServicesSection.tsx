@@ -5,10 +5,6 @@ import { animateServicesSection } from "@/utils/animations/homepage-anim";
 import { categoriesList } from "@/data/categories";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
-import {
-  initScrollTriggerConfig,
-  refreshScrollTrigger,
-} from "@/utils/animations/scrolltrigger-config";
 import "./ServicesSection.scss";
 
 const ServicesSection: React.FC = () => {
@@ -16,16 +12,8 @@ const ServicesSection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const animatedRef = useRef(false);
 
   useEffect(() => {
-    // Make sure we only animate once per component instance
-    if (animatedRef.current) return;
-
-    // Ensure ScrollTrigger is configured
-    initScrollTriggerConfig();
-
-    // Ensure refs are populated before running animations
     if (
       sectionRef.current &&
       titleRef.current &&
@@ -45,12 +33,6 @@ const ServicesSection: React.FC = () => {
         const parallaxTimer = setTimeout(() => {
           initCardMouseParallax();
         }, 500);
-
-        // Mark as animated
-        animatedRef.current = true;
-
-        // Force refresh ScrollTrigger
-        refreshScrollTrigger();
 
         return () => {
           clearTimeout(parallaxTimer);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { animateStorySection } from "@/utils/animations/equipo-page-anim";
 import "./StorySection.scss";
 
 const StorySection: React.FC = () => {
@@ -8,20 +9,14 @@ const StorySection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
-  const animatedRef = useRef(false);
 
   useEffect(() => {
-    if (animatedRef.current) return;
-
     const timer = setTimeout(() => {
-      requestAnimationFrame(() => {
-        [titleRef.current, textRef.current, servicesRef.current].forEach(
-          (el) => {
-            if (el) el.classList.add("animate-in");
-          }
-        );
-
-        animatedRef.current = true;
+      animateStorySection({
+        section: sectionRef.current,
+        title: titleRef.current,
+        text: textRef.current,
+        services: servicesRef.current,
       });
     }, 100);
 

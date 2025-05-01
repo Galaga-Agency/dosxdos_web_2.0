@@ -7,20 +7,13 @@ import "./StatsSection.scss";
 const StatsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const animatedRef = useRef(false);
 
   useEffect(() => {
-    // Don't re-run animation if already animated
-    if (animatedRef.current) return;
-
     const timer = setTimeout(() => {
       animateStatsSection({
         section: sectionRef.current,
         stats: statsRef.current,
       });
-
-      // Mark as animated
-      animatedRef.current = true;
     }, 100);
 
     return () => clearTimeout(timer);

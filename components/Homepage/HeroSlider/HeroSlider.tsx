@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { gsap } from "gsap";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import { animateHeroSlider } from "@/utils/animations/homepage-anim";
 
 interface SlideItem {
   id: number;
@@ -24,7 +24,22 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
   const { isTouchDevice } = useDeviceDetect();
+
+  // Initialize animations
+  useEffect(() => {
+    if (sectionRef.current && titleRef.current && ctaRef.current) {
+      // Animate the hero section
+      animateHeroSlider({
+        section: sectionRef.current,
+        title: titleRef.current,
+        cta: ctaRef.current,
+      });
+    }
+  }, []);
 
   // Autoplay timer
   useEffect(() => {
@@ -35,6 +50,31 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
     return () => clearInterval(interval);
   }, [activeSlide, autoplaySpeed, slides.length]);
+
+  // Handle slide transitions with GSAP
+  useEffect(() => {
+    slides.forEach((_, index) => {
+      const slideElement = document.querySelector(
+        `.hero-slider__slide:nth-child(${index + 1})`
+      );
+      
+      if (slideElement) {
+        if (index === activeSlide) {
+          gsap.to(slideElement, {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.inOut",
+          });
+        } else {
+          gsap.to(slideElement, {
+            opacity: 0,
+            duration: 1,
+            ease: "power2.inOut",
+          });
+        }
+      }
+    });
+  }, [activeSlide, slides]);
 
   const goToSlide = (index: number) => {
     if (index === activeSlide) return;
@@ -51,35 +91,9 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     setActiveSlide(nextSlide);
   };
 
-  // Animation variants for Framer Motion
-  const titleVariants = {
-    hidden: { opacity: 0, y: -30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 1.4,
-        ease: [0.25, 0.1, 0.25, 1],
-        delay: 1.5
-      }
-    }
-  };
-
-  const ctaVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 1.2, 
-        ease: [0.25, 0.1, 0.25, 1],
-        delay: 1.5
-      }
-    }
-  };
-
   return (
-    <div className="hero-slider">
+    <div ref={sectionRef} className="hero-slider">
+      {!isTouchDevice && (
         <>
           <button
             className="hero-slider__nav hero-slider__nav--prev"
@@ -121,6 +135,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
             </svg>
           </button>
         </>
+      )}
 
       <div className="hero-slider__container">
         {slides.map((slide, index) => (
@@ -146,25 +161,21 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       </div>
 
       <div className="hero-slider__content">
-        <motion.h1 
+        <h1 
+          ref={titleRef}
           className="hero-slider__title"
-          initial="hidden"
-          animate="visible"
-          variants={titleVariants}
         >
           Espacios Que Inspiran
-        </motion.h1>
+        </h1>
 
-        <motion.div 
+        <div 
+          ref={ctaRef}
           className="hero-slider__cta"
-          initial="hidden"
-          animate="visible"
-          variants={ctaVariants}
         >
           <SecondaryButton href="/portfolio" size="large">
             Descubrir Proyectos
           </SecondaryButton>
-        </motion.div>
+        </div>
       </div>
 
       <div className="hero-slider__indicators">

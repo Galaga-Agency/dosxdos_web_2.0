@@ -1,13 +1,10 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import "./AccionSocialPage.scss";
-import {
-  cleanupScrollTriggers,
-  initScrollTriggerConfig,
-} from "@/utils/animations/scrolltrigger-config";
+import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import HeroSection from "@/components/AccionSocialPage/HeroSection/HeroSection";
 import ValuesSection from "@/components/AccionSocialPage/ValuesSection/ValuesSection";
 import SustainabilityImagesSection from "@/components/AccionSocialPage/SustainabilityImagesSection/SustainabilityImagesSection";
@@ -17,11 +14,15 @@ import AccionSocialCTASection from "@/components/AccionSocialPage/AccionSocialCT
 import { cleanupAccionSocialAnimations } from "@/utils/animations/accion-social-page-anim";
 
 const AccionSocialPage: React.FC = () => {
+  // Force component remount on each page visit
+  const [key] = useState(() => Date.now());
+
+  // Initialize ScrollTrigger configuration once
   useEffect(() => {
     initScrollTriggerConfig();
-
+    
+    // Cleanup on unmount
     return () => {
-      cleanupScrollTriggers();
       cleanupAccionSocialAnimations();
     };
   }, []);
@@ -36,14 +37,14 @@ const AccionSocialPage: React.FC = () => {
       </div>
 
       <SmoothScrollWrapper>
-        <div className="accion-social-page">
+        <div className="accion-social-page" key={key}>
           <div className="accion-social-page__container">
-            <HeroSection />
-            <ValuesSection />
-            <SustainabilityImagesSection />
-            <ExperienciaSection />
-            <CollaborationsSection />
-            <AccionSocialCTASection />
+            <HeroSection key={`hero-${key}`} />
+            <ValuesSection key={`values-${key}`} />
+            <SustainabilityImagesSection key={`sustainability-${key}`} />
+            <ExperienciaSection key={`experiencia-${key}`} />
+            <CollaborationsSection key={`collaborations-${key}`} />
+            <AccionSocialCTASection key={`cta-${key}`} />
 
             <div className="accion-social-page__mobile-social-section">
               <div className="accion-social-page__mobile-social-header">

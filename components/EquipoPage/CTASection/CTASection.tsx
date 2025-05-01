@@ -11,23 +11,14 @@ const CTASection: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const animatedRef = useRef(false);
 
   useEffect(() => {
-    // Don't re-run animation if already animated
-    if (animatedRef.current) return;
-
     const timer = setTimeout(() => {
-      requestAnimationFrame(() => {
-        animateCTASection({
-          section: sectionRef.current,
-          content: contentRef.current,
-          title: titleRef.current,
-          text: textRef.current,
-        });
-
-        // Mark as animated
-        animatedRef.current = true;
+      animateCTASection({
+        section: sectionRef.current,
+        content: contentRef.current,
+        title: titleRef.current,
+        text: textRef.current,
       });
     }, 100);
 

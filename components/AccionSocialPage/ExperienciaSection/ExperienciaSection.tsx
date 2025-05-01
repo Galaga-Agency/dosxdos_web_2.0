@@ -11,12 +11,10 @@ const ExperienciaSection: React.FC = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      requestAnimationFrame(() => {
-        animateExperienciaSection({
-          section: sectionRef.current,
-          title: titleRef.current,
-          experiences: experiencesRef.current,
-        });
+      animateExperienciaSection({
+        section: sectionRef.current,
+        title: titleRef.current,
+        experiences: experiencesRef.current,
       });
     }, 300);
 
