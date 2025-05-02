@@ -1,7 +1,7 @@
 import { Project, ProjectCategory } from "@/types/project-types";
 
-// Featured projects for the homepage
-export const featuredProjects: Project[] = [
+// All projects in one single array
+export const projects: Project[] = [
   {
     id: "01",
     title: "Escaparate innovador para tienda de moda",
@@ -16,15 +16,11 @@ export const featuredProjects: Project[] = [
       "/assets/img/blog/minimalist-spaces.jpg",
       "/assets/img/blog/typography-design.jpg",
       "/assets/img/blog/responsive-design.jpg",
-      "/assets/img/blog/procesos-oficina.jpg",
-      "/assets/img/blog/default-blog-image.jpg",
-      "/assets/img/blog/packaging-trends.jpg",
-      "/assets/img/blog/corporate-branding.jpg",
     ],
     description:
-      "Desarrollo de elementos visuales para campaña de lanzamiento de nueva línea de productos alimenticios saludables.",
+      "Diseño y creación de escaparate conceptual con materiales sostenibles para tienda de moda urbana.",
     longDescription:
-      "Para el lanzamiento de esta nueva línea de productos, creamos una identidad visual completa que incluía fotografía de producto, materiales impresos y digitales para punto de venta, y elementos para redes sociales. El concepto visual se centró en la frescura y naturalidad de los ingredientes, utilizando una paleta de colores vivos y fotografía de alta calidad. La campaña incluyó desde grandes formatos para exterior hasta pequeños elementos para PDV y packaging especial para la promoción de lanzamiento.",
+      "Creamos un escaparate innovador que combina materiales reciclados con tecnología interactiva. El diseño incluye elementos móviles que responden a la presencia de los transeúntes, cambiando la iluminación y la disposición de las prendas destacadas. Integramos materiales sostenibles como madera reciclada y tejidos orgánicos que refuerzan el compromiso de la marca con la sostenibilidad.",
     process:
       "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
     services: [
@@ -33,7 +29,10 @@ export const featuredProjects: Project[] = [
       "Instalación",
       "Iluminación especializada",
     ],
-    featured: true,
+    display: {
+      homepage: true,
+      portfolioPage: true
+    },
     tags: ["Moda", "Innovación", "Sostenibilidad"],
   },
   {
@@ -47,18 +46,14 @@ export const featuredProjects: Project[] = [
     image: "/assets/img/blog/commercial-photography.jpg",
     images: [
       "/assets/img/blog/commercial-photography.jpg",
-      "/assets/img/blog/corporate-branding.jpg",
       "/assets/img/blog/visual-marketing.jpg",
       "/assets/img/blog/responsive-design.jpg",
-      "/assets/img/blog/procesos-oficina.jpg",
-      "/assets/img/blog/default-blog-image.jpg",
-      "/assets/img/blog/packaging-trends.jpg",
       "/assets/img/blog/color-psychology.jpg",
     ],
     description:
       "Creación de un stand modular de 50m² para presentación de productos tecnológicos en una feria internacional.",
     longDescription:
-      "Diseñamos y construimos un stand completamente personalizado que destacó entre la competencia. El espacio incluía zonas de demostración interactiva, área de reuniones privada, y un escenario central para presentaciones. Utilizamos una combinación de materiales de alta gama y tecnología audiovisual avanzada para crear una experiencia inmersiva que atrajo a más de 1,500 visitantes durante los tres días de la feria. El diseño modular permite su reutilización en futuros eventos con diferentes configuraciones.",
+      "Diseñamos y construimos un stand completamente personalizado que destacó entre la competencia. El espacio incluía zonas de demostración interactiva, área de reuniones privada, y un escenario central para presentaciones. Utilizamos una combinación de materiales de alta gama y tecnología audiovisual avanzada para crear una experiencia inmersiva que atrajo a más de 1,500 visitantes durante los tres días de la feria.",
     process:
       "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
     services: [
@@ -68,7 +63,10 @@ export const featuredProjects: Project[] = [
       "Gráfica corporativa",
       "Mobiliario personalizado",
     ],
-    featured: true,
+    display: {
+      homepage: true,
+      portfolioPage: true
+    },
     tags: ["Tecnología", "Ferias", "Experiencia interactiva"],
   },
   {
@@ -82,18 +80,14 @@ export const featuredProjects: Project[] = [
     image: "/assets/img/blog/neurodesign.jpg",
     images: [
       "/assets/img/blog/neurodesign.jpg",
-      "/assets/img/blog/packaging-trends.jpg",
-      "/assets/img/blog/sustainable-design.jpg",
-      "/assets/img/blog/mobile-ux.jpg",
+      "/assets/img/blog/minimalist-spaces.jpg",
       "/assets/img/blog/responsive-design.jpg",
-      "/assets/img/blog/procesos-oficina.jpg",
-      "/assets/img/blog/default-blog-image.jpg",
       "/assets/img/blog/color-psychology.jpg",
     ],
     description:
       "Renovación completa del interior de una tienda de cosméticos de 120m², incluyendo mobiliario a medida y nueva iluminación.",
     longDescription:
-      "Este proyecto de interiorismo comercial transformó por completo una tienda de cosméticos tradicional en un espacio contemporáneo y experiencial. Desarrollamos un concepto basado en la naturaleza y la pureza, utilizando materiales ecológicos y sistemas de iluminación que realzan los productos. Diseñamos y fabricamos mobiliario a medida que maximiza el espacio de exhibición mientras crea un flujo intuitivo para los clientes. El resultado fue un aumento del 45% en ventas y un incremento significativo en el tiempo medio que los clientes pasan en la tienda.",
+      "Este proyecto de interiorismo comercial transformó por completo una tienda de cosméticos tradicional en un espacio contemporáneo y experiencial. Desarrollamos un concepto basado en la naturaleza y la pureza, utilizando materiales ecológicos y sistemas de iluminación que realzan los productos. Diseñamos y fabricamos mobiliario a medida que maximiza el espacio de exhibición mientras crea un flujo intuitivo para los clientes.",
     process:
       "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
     services: [
@@ -103,7 +97,10 @@ export const featuredProjects: Project[] = [
       "Iluminación",
       "Dirección de obra",
     ],
-    featured: true,
+    display: {
+      homepage: true,
+      portfolioPage: true
+    },
     tags: ["Retail", "Diseño sostenible", "Experiencia de compra"],
   },
   {
@@ -117,18 +114,14 @@ export const featuredProjects: Project[] = [
     image: "/assets/img/blog/responsive-design.jpg",
     images: [
       "/assets/img/blog/responsive-design.jpg",
-      "/assets/img/blog/procesos-oficina.jpg",
-      "/assets/img/blog/default-blog-image.jpg",
-      "/assets/img/blog/packaging-trends.jpg",
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",
       "/assets/img/blog/typography-design.jpg",
-      "/assets/img/blog/corporate-branding.jpg",
     ],
     description:
       "Desarrollo de elementos visuales para campaña de lanzamiento de nueva línea de productos alimenticios saludables.",
     longDescription:
-      "Para el lanzamiento de esta nueva línea de productos, creamos una identidad visual completa que incluía fotografía de producto, materiales impresos y digitales para punto de venta, y elementos para redes sociales. El concepto visual se centró en la frescura y naturalidad de los ingredientes, utilizando una paleta de colores vivos y fotografía de alta calidad. La campaña incluyó desde grandes formatos para exterior hasta pequeños elementos para PDV y packaging especial para la promoción de lanzamiento.",
+      "Para el lanzamiento de esta nueva línea de productos, creamos una identidad visual completa que incluía fotografía de producto, materiales impresos y digitales para punto de venta, y elementos para redes sociales. El concepto visual se centró en la frescura y naturalidad de los ingredientes, utilizando una paleta de colores vivos y fotografía de alta calidad.",
     process:
       "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
     services: [
@@ -138,14 +131,12 @@ export const featuredProjects: Project[] = [
       "Producción de materiales",
       "Marketing visual",
     ],
-    featured: true,
+    display: {
+      homepage: false,
+      portfolioPage: true
+    },
     tags: ["Alimentación", "Lanzamiento", "Branding"],
   },
-];
-
-// All projects for the projects page
-export const allProjects: Project[] = [
-  ...featuredProjects,
   {
     id: "05",
     title: "Diseño interior boutique de lujo",
@@ -157,18 +148,14 @@ export const allProjects: Project[] = [
     image: "/assets/img/blog/minimalist-spaces.jpg",
     images: [
       "/assets/img/blog/minimalist-spaces.jpg",
-      "/assets/img/blog/somos-e1637149862418.png",
-      "/assets/img/blog/responsive-design.jpg",
-      "/assets/img/blog/procesos-oficina.jpg",
-      "/assets/img/blog/default-blog-image.jpg",
-      "/assets/img/blog/packaging-trends.jpg",
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/typography-design.jpg",
+      "/assets/img/blog/neurodesign.jpg",
     ],
     description:
-      "Desarrollo de elementos visuales para campaña de lanzamiento de nueva línea de productos alimenticios saludables.",
+      "Renovación integral de boutique de lujo de 200m² en zona premium comercial, incluyendo mobiliario exclusivo e iluminación personalizada.",
     longDescription:
-      "Para el lanzamiento de esta nueva línea de productos, creamos una identidad visual completa que incluía fotografía de producto, materiales impresos y digitales para punto de venta, y elementos para redes sociales. El concepto visual se centró en la frescura y naturalidad de los ingredientes, utilizando una paleta de colores vivos y fotografía de alta calidad. La campaña incluyó desde grandes formatos para exterior hasta pequeños elementos para PDV y packaging especial para la promoción de lanzamiento.",
+      "Este proyecto de interiorismo comercial elevó la experiencia de compra de una boutique de lujo mediante un diseño sofisticado y contemporáneo. Utilizamos materiales exclusivos como mármol, latón cepillado y maderas nobles para crear un ambiente de elegancia atemporal. La iluminación fue cuidadosamente diseñada para realzar las prendas y accesorios, creando diferentes ambientes según las colecciones.",
     process:
       "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
     services: [
@@ -177,7 +164,10 @@ export const allProjects: Project[] = [
       "Iluminación",
       "Materiales exclusivos",
     ],
-    featured: false,
+    display: {
+      homepage: false,
+      portfolioPage: true
+    },
     tags: ["Lujo", "Moda", "Experiencia premium"],
   },
   {
@@ -188,21 +178,17 @@ export const allProjects: Project[] = [
     client: "Sportify",
     date: "2023-04-20",
     location: "Sevilla",
-    image: "/assets/img/blog/we-are-storytelling.jpg",
+    image: "/assets/img/blog/typography-design.jpg",
     images: [
-      "/assets/img/blog/we-are-storytelling.jpg",
       "/assets/img/blog/typography-design.jpg",
-      "/assets/img/blog/packaging-trends.jpg",
-      "/assets/img/blog/responsive-design.jpg",
-      "/assets/img/blog/procesos-oficina.jpg",
-      "/assets/img/blog/default-blog-image.jpg",
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",
+      "/assets/img/blog/responsive-design.jpg",
     ],
     description:
-      "Desarrollo de elementos visuales para campaña de lanzamiento de nueva línea de productos alimenticios saludables.",
+      "Diseño y producción de expositor interactivo para nueva línea de zapatillas deportivas en centro comercial.",
     longDescription:
-      "Para el lanzamiento de esta nueva línea de productos, creamos una identidad visual completa que incluía fotografía de producto, materiales impresos y digitales para punto de venta, y elementos para redes sociales. El concepto visual se centró en la frescura y naturalidad de los ingredientes, utilizando una paleta de colores vivos y fotografía de alta calidad. La campaña incluyó desde grandes formatos para exterior hasta pequeños elementos para PDV y packaging especial para la promoción de lanzamiento.",
+      "Creamos un expositor interactivo que permitía a los visitantes experimentar con las características de las nuevas zapatillas a través de una pantalla táctil y elementos físicos. El diseño incluía un sistema de iluminación específico que destacaba las tecnologías de los productos y un área de prueba donde los clientes podían experimentar la sensación de los diferentes modelos.",
     process:
       "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
     services: [
@@ -211,7 +197,10 @@ export const allProjects: Project[] = [
       "Instalación",
       "Gráfica promocional",
     ],
-    featured: false,
+    display: {
+      homepage: false,
+      portfolioPage: true
+    },
     tags: ["Deportes", "Promoción", "Interactivo"],
   },
   {
@@ -226,17 +215,13 @@ export const allProjects: Project[] = [
     images: [
       "/assets/img/blog/visual-marketing.jpg",
       "/assets/img/blog/typography-design.jpg",
-      "/assets/img/blog/packaging-trends.jpg",
-      "/assets/img/blog/corporate-branding.jpg",
-      "/assets/img/blog/responsive-design.jpg",
-      "/assets/img/blog/procesos-oficina.jpg",
-      "/assets/img/blog/default-blog-image.jpg",
       "/assets/img/blog/color-psychology.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
     ],
     description:
-      "Desarrollo de elementos visuales para campaña de lanzamiento de nueva línea de productos alimenticios saludables.",
+      "Creación de escaparate temático navideño para joyería de lujo, combinando elementos tradicionales con innovación tecnológica.",
     longDescription:
-      "Para el lanzamiento de esta nueva línea de productos, creamos una identidad visual completa que incluía fotografía de producto, materiales impresos y digitales para punto de venta, y elementos para redes sociales. El concepto visual se centró en la frescura y naturalidad de los ingredientes, utilizando una paleta de colores vivos y fotografía de alta calidad. La campaña incluyó desde grandes formatos para exterior hasta pequeños elementos para PDV y packaging especial para la promoción de lanzamiento.",
+      "Diseñamos un concepto de escaparate navideño único que transformó la fachada de esta prestigiosa joyería en una experiencia visual memorable. Combinamos elementos tradicionales navideños reinterpretados con materiales de lujo como cristal, terciopelo y oro, con tecnología LED programable que creaba diferentes escenas a lo largo del día. El diseño incluía pedestales flotantes y vitrinas giratorias que destacaban las piezas más exclusivas de la colección.",
     process:
       "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
     services: [
@@ -245,7 +230,10 @@ export const allProjects: Project[] = [
       "Iluminación especializada",
       "Instalación",
     ],
-    featured: false,
+    display: {
+      homepage: false,
+      portfolioPage: false
+    },
     tags: ["Navidad", "Lujo", "Joyería"],
   },
   {
@@ -259,18 +247,14 @@ export const allProjects: Project[] = [
     image: "/assets/img/blog/typography-design.jpg",
     images: [
       "/assets/img/blog/typography-design.jpg",
-      "/assets/img/blog/packaging-trends.jpg",
       "/assets/img/blog/responsive-design.jpg",
-      "/assets/img/blog/procesos-oficina.jpg",
-      "/assets/img/blog/default-blog-image.jpg",
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",
-      "/assets/img/blog/corporate-branding.jpg",
     ],
     description:
-      "Desarrollo de elementos visuales para campaña de lanzamiento de nueva línea de productos alimenticios saludables.",
+      "Desarrollo de sistema de señalética para cadena de restaurantes, incluyendo exteriores, interiores y elementos digitales.",
     longDescription:
-      "Para el lanzamiento de esta nueva línea de productos, creamos una identidad visual completa que incluía fotografía de producto, materiales impresos y digitales para punto de venta, y elementos para redes sociales. El concepto visual se centró en la frescura y naturalidad de los ingredientes, utilizando una paleta de colores vivos y fotografía de alta calidad. La campaña incluyó desde grandes formatos para exterior hasta pequeños elementos para PDV y packaging especial para la promoción de lanzamiento.",
+      "Creamos un sistema completo de señalética para esta cadena nacional de restaurantes, abarcando desde la rotulación exterior hasta la señalización de espacios interiores y menús digitales. El proyecto incluyó el diseño de una familia tipográfica exclusiva y un sistema coherente de pictogramas que reforzaban la identidad de marca. La implementación se realizó en 12 establecimientos distribuidos por toda España.",
     process:
       "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
     services: [
@@ -279,7 +263,10 @@ export const allProjects: Project[] = [
       "Instalación",
       "Señalética digital",
     ],
-    featured: false,
+    display: {
+      homepage: false,
+      portfolioPage: false
+    },
     tags: ["Restauración", "Identidad corporativa", "Señalética"],
   },
 ];

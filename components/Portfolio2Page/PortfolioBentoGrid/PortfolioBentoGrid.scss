@@ -1,0 +1,161 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.portfolio-bento {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 1rem;
+  min-height: 250vh;
+
+  @include min-width(lg) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: auto;
+    grid-auto-flow: dense;
+  }
+
+  &__item {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+
+    @include min-width(lg) {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+
+    &--1 {
+      @include min-width(lg) {
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 1;
+      }
+    }
+    &--2 {
+      @include min-width(lg) {
+        grid-column: 3 / span 2;
+        grid-row: 1 / span 1;
+      }
+    }
+    &--3 {
+      @include min-width(lg) {
+        grid-column: 1 / span 2;
+        grid-row: 2 / span 2;
+      }
+    }
+    &--4 {
+      @include min-width(lg) {
+        grid-column: 3 / span 2;
+        grid-row: 2 / span 1;
+      }
+    }
+    &--5 {
+      @include min-width(lg) {
+        grid-column: 3 / span 2;
+        grid-row: 3 / span 1;
+      }
+    }
+    &--6 {
+      @include min-width(lg) {
+        grid-column: 1 / span 4;
+        grid-row: 4 / span 1;
+      }
+    }
+
+    // Only apply hover effects on non-touch devices
+    @media (hover: hover) {
+      &:hover .portfolio-bento__image {
+        transform: scale(1.05);
+      }
+
+      &:hover .portfolio-bento__hover-info {
+        opacity: 1;
+      }
+
+      &:hover .portfolio-bento__label {
+        transform: translateX(0);
+        opacity: 1;
+        transition-delay: 0.2s;
+      }
+
+      &:hover .portfolio-bento__title {
+        transform: translateX(0);
+        opacity: 1;
+        transition-delay: 0.1s;
+      }
+    }
+  }
+
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__image {
+    object-fit: cover;
+    transition: transform 0.6s linear;
+  }
+
+  &__hover-info {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    @include flex(column, start, left);
+    gap: 0.5rem;
+    color: $black;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    z-index: 2;
+    
+    // Only apply transitions for hover devices
+    @media (hover: hover) {
+      opacity: 0;
+      transition: opacity 0.2s ease-in;
+    }
+    
+    // For touch devices, GSAP will handle the animations
+    @media (hover: none) {
+      // Remove any transitions so GSAP has full control
+      transition: none;
+    }
+  }
+
+  &__label,
+  &__title {
+    background-color: $white;
+    width: fit-content;
+    
+    // Only apply transforms and transitions for hover devices
+    @media (hover: hover) {
+      transform: translateX(-50px);
+      opacity: 0;
+      transition: transform 0.5s ease-out, opacity 0.2s ease-out;
+    }
+    
+    // For touch devices, GSAP will handle the animations
+    @media (hover: none) {
+      // Remove any transitions so GSAP has full control
+      transition: none;
+      @include margin(md, bottom);
+    }
+  }
+
+  &__label {
+    @include font-size(sm);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1rem;
+    @include margin(xxs, bottom);
+  }
+
+  &__title {
+    @include font-size(xl);
+    @include font-weight(bold);
+    line-height: 1.2;
+    padding: 1.5rem;
+  }
+}

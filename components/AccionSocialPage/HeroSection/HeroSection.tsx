@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
-import { initAccionSocialHeroAnimations } from "@/utils/animations/accion-social-page-anim";
+import { initAccionSocialHeroAnimations } from "@/utils/animations/pages/accion-social-page-anim";
 import "./HeroSection.scss";
 
 const HeroSection: React.FC = () => {

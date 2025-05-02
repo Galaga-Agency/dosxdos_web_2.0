@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { teamMembers } from "@/data/team";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
-import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
+import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
 import { animateTeamSection } from "@/utils/animations/equipo-page-anim";
 import "./TeamSection.scss";
 

@@ -2,9 +2,9 @@
 
 import React, { useEffect, useRef } from "react";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
-import { animateSustainabilityImagesSection } from "@/utils/animations/accion-social-page-anim";
+import { animateSustainabilityImagesSection } from "@/utils/animations/pages/accion-social-page-anim";
 import "./SustainabilityImagesSection.scss";
-import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
+import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
 
 const SustainabilityImagesSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -18,12 +18,12 @@ const SustainabilityImagesSection: React.FC = () => {
         title: titleRef.current,
         cards: cardsRef.current,
       });
-      
+
       // Initialize card hover parallax effects
       const parallaxTimer = setTimeout(() => {
         initCardMouseParallax();
       }, 500);
-      
+
       return () => {
         clearTimeout(parallaxTimer);
       };

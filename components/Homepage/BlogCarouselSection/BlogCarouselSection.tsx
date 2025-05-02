@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { animateBlogCarouselSection } from "@/utils/animations/homepage-anim";
+import { animateBlogCarouselSection } from "@/utils/animations/pages/homepage-anim";
 import BlogItem from "@/components/BlogItem/BlogItem";
 import { BlogPost } from "@/types/blog-post-types";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";

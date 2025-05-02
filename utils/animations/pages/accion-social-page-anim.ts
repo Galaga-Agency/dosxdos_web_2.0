@@ -2,7 +2,7 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { refreshScrollTrigger } from "./scrolltrigger-config";
+import { refreshScrollTrigger } from "../scrolltrigger-config";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -37,7 +37,9 @@ interface SectionAnimationElements {
 // Hero Section Animations
 // ==========================================================================
 
-export function initAccionSocialHeroAnimations(elements: SectionAnimationElements): void {
+export function initAccionSocialHeroAnimations(
+  elements: SectionAnimationElements
+): void {
   if (typeof window === "undefined") return;
 
   console.log("Animating Accion Social Hero");
@@ -59,7 +61,7 @@ export function initAccionSocialHeroAnimations(elements: SectionAnimationElement
     defaults: {
       duration: 1.7,
       ease: "power2.out",
-    }
+    },
   });
 
   // Background container animation
@@ -135,7 +137,7 @@ export function animateValuesSection(elements: SectionAnimationElements): void {
     defaults: {
       duration: 0.8,
       ease: "power2.out",
-    }
+    },
   });
 
   // Animate title words
@@ -244,7 +246,7 @@ export function animateValuesSection(elements: SectionAnimationElements): void {
     trigger: elements.section,
     start: "top 80%",
     once: true,
-    animation: masterTimeline
+    animation: masterTimeline,
   });
 
   // Force refresh ScrollTrigger
@@ -266,7 +268,7 @@ export function animateTabContentChange(
     defaults: {
       ease: "power2.out",
       duration: 0.4,
-    }
+    },
   });
 
   // Simple fade transition to avoid jarring changes
@@ -295,14 +297,18 @@ export function animateTabContentChange(
 // Sustainability Images Section Animations
 // ==========================================================================
 
-export function animateSustainabilityImagesSection(elements: SectionAnimationElements): void {
+export function animateSustainabilityImagesSection(
+  elements: SectionAnimationElements
+): void {
   if (typeof window === "undefined") return;
 
   console.log("Animating Sustainability Images Section");
 
   // Make sure we have the essential elements
   if (!elements.section || !elements.cards) {
-    console.warn("Missing essential elements for sustainability images animation");
+    console.warn(
+      "Missing essential elements for sustainability images animation"
+    );
     return;
   }
 
@@ -311,7 +317,7 @@ export function animateSustainabilityImagesSection(elements: SectionAnimationEle
     defaults: {
       duration: 0.8,
       ease: "power2.out",
-    }
+    },
   });
 
   // Set initial states
@@ -339,7 +345,7 @@ export function animateSustainabilityImagesSection(elements: SectionAnimationEle
     trigger: elements.section,
     start: "top 80%",
     once: true,
-    animation: tl
+    animation: tl,
   });
 
   // Force refresh ScrollTrigger
@@ -352,14 +358,18 @@ export function animateSustainabilityImagesSection(elements: SectionAnimationEle
 // Experiencia Section Animations
 // ==========================================================================
 
-export function animateExperienciaSection(elements: SectionAnimationElements): void {
+export function animateExperienciaSection(
+  elements: SectionAnimationElements
+): void {
   if (typeof window === "undefined") return;
 
   console.log("Animating Experiencia Section");
 
   // Make sure we have the essential elements
   if (!elements.section || !elements.title || !elements.experiences) {
-    console.warn("Missing essential elements for experiencia section animation");
+    console.warn(
+      "Missing essential elements for experiencia section animation"
+    );
     return;
   }
 
@@ -368,7 +378,7 @@ export function animateExperienciaSection(elements: SectionAnimationElements): v
     defaults: {
       duration: 0.8,
       ease: "power2.out",
-    }
+    },
   });
 
   // Set initial states
@@ -382,7 +392,9 @@ export function animateExperienciaSection(elements: SectionAnimationElements): v
     });
   }
 
-  const experienceItems = elements.experiences.querySelectorAll(".experiencia-section__item");
+  const experienceItems = elements.experiences.querySelectorAll(
+    ".experiencia-section__item"
+  );
   if (experienceItems.length > 0) {
     gsap.set(experienceItems, { opacity: 0, y: 50 });
     tl.to(
@@ -401,7 +413,7 @@ export function animateExperienciaSection(elements: SectionAnimationElements): v
     trigger: elements.section,
     start: "top 80%",
     once: true,
-    animation: tl
+    animation: tl,
   });
 
   // Force refresh ScrollTrigger
@@ -414,7 +426,9 @@ export function animateExperienciaSection(elements: SectionAnimationElements): v
 // CTA Section Animations
 // ==========================================================================
 
-export function animateAccionSocialCTASection(elements: SectionAnimationElements): void {
+export function animateAccionSocialCTASection(
+  elements: SectionAnimationElements
+): void {
   if (typeof window === "undefined") return;
 
   console.log("Animating CTA Section");
@@ -431,7 +445,7 @@ export function animateAccionSocialCTASection(elements: SectionAnimationElements
     defaults: {
       duration: 0.8,
       ease: "power2.out",
-    }
+    },
   });
 
   // Get elements to animate
@@ -509,7 +523,7 @@ export function animateAccionSocialCTASection(elements: SectionAnimationElements
     trigger: section,
     start: "top 80%",
     once: true,
-    animation: tl
+    animation: tl,
   });
 
   // Force refresh ScrollTrigger
@@ -526,15 +540,15 @@ export function cleanupAccionSocialAnimations(): void {
   if (typeof window === "undefined") return;
 
   console.log("⚠️ Cleaning up all accion social page animations");
-  
+
   // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach(trigger => {
+  ScrollTrigger.getAll().forEach((trigger) => {
     trigger.kill();
   });
-  
+
   // Clear match media queries
   ScrollTrigger.clearMatchMedia();
-  
+
   // Refresh ScrollTrigger
   refreshScrollTrigger();
 }

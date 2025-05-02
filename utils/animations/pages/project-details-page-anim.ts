@@ -1,12 +1,20 @@
+"use client";
+
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "@/plugins";
+import { refreshScrollTrigger } from "../scrolltrigger-config";
+
+// Ensure GSAP plugins are registered
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Store all ScrollTrigger instances for cleanup
 const scrollTriggerInstances: ScrollTrigger[] = [];
 
 // Interface for animation references
-interface HeroAnimationRefs {
+export interface HeroAnimationRefs {
   heroSection: HTMLElement | null;
   heroImage: HTMLElement | null;
   heroTitle: HTMLElement | null;
@@ -17,7 +25,7 @@ interface HeroAnimationRefs {
 }
 
 // Interface for objective section animations
-interface ObjectiveSectionRefs {
+export interface ObjectiveSectionRefs {
   section: HTMLElement | null;
   label: HTMLElement | null;
   title: HTMLElement | null;
@@ -27,7 +35,7 @@ interface ObjectiveSectionRefs {
 }
 
 // Interface for process section animations
-interface ProcessSectionRefs {
+export interface ProcessSectionRefs {
   section: HTMLElement | null;
   label: HTMLElement | null;
   title: HTMLElement | null;
@@ -40,7 +48,7 @@ interface ProcessSectionRefs {
 }
 
 // Interface for CTA section animations
-interface CTASectionRefs {
+export interface CTASectionRefs {
   section: HTMLElement | null;
   title: HTMLElement | null;
   text: HTMLElement | null;
@@ -48,11 +56,86 @@ interface CTASectionRefs {
   [key: string]: HTMLElement | null;
 }
 
-/**
- * Initialize hero section animations for project details page
- */
+// Track ScrollTrigger instances for cleanup
+function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
+  scrollTriggerInstances.push(instance);
+  return instance;
+}
+
+// Character animation using SplitText
+export function animateChars(current: HTMLElement | null = null) {
+  if (typeof window === "undefined") return;
+
+  console.log("Animating Characters");
+
+  // Register GSAP plugins
+  gsap.registerPlugin(SplitText);
+
+  // If a specific element is passed, only animate that
+  if (current) {
+    const splitTextLine = current;
+
+    gsap.set(splitTextLine, {
+      visibility: "hidden",
+      perspective: 300,
+    });
+
+    const itemSplitted = new SplitText(splitTextLine, {
+      type: "chars, words",
+    });
+
+    gsap.set(splitTextLine, { visibility: "visible" });
+
+    const tl = gsap.timeline();
+    tl.from(itemSplitted.chars, {
+      duration: 1,
+      x: 100,
+      autoAlpha: 0,
+      stagger: 0.05,
+    });
+
+    return;
+  }
+
+  // Original behavior for multiple elements
+  let char_come = gsap.utils.toArray(".char-animation");
+  char_come.forEach((splitTextLine: any) => {
+    gsap.set(splitTextLine, {
+      visibility: "hidden",
+      perspective: 300,
+    });
+
+    const itemSplitted = new SplitText(splitTextLine, {
+      type: "chars, words",
+    });
+
+    gsap.set(splitTextLine, { visibility: "visible" });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: splitTextLine,
+        start: "top 90%",
+        end: "bottom 60%",
+        scrub: false,
+        markers: false,
+        toggleActions: "play none none none",
+      },
+    });
+
+    tl.from(itemSplitted.chars, {
+      duration: 1,
+      x: 100,
+      autoAlpha: 0,
+      stagger: 0.05,
+    });
+  });
+}
+
+// Initialize hero section animations for project details page
 export function initHeroAnimations(refs: HeroAnimationRefs) {
   if (typeof window === "undefined") return;
+
+  console.log("Initializing Hero Animations");
 
   // Register GSAP plugins
   gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -128,13 +211,11 @@ export function initHeroAnimations(refs: HeroAnimationRefs) {
 
   // Refresh ScrollTrigger to ensure all is registered correctly
   setTimeout(() => {
-    ScrollTrigger.refresh();
+    refreshScrollTrigger();
   }, 300);
 }
 
-/**
- * Sets up parallax effect for hero section
- */
+// Sets up parallax effect for hero section
 function setupHeroParallax(
   sectionEl: HTMLElement,
   targetEl: HTMLElement
@@ -162,55 +243,79 @@ function setupHeroParallax(
   trackScrollTrigger(instance);
 }
 
-/**
- * Track ScrollTrigger instances for cleanup
- */
-function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
-  scrollTriggerInstances.push(instance);
-  return instance;
-}
+// Animate the objective section elements
+export function animateObjectiveSection(refs: ObjectiveSectionRefs) {
+  if (typeof window === "undefined") return;
 
-/**
- * Clean up all ScrollTrigger instances
- */
-export function cleanupProjectDetailsAnimations(): void {
-  // Kill all tracked ScrollTrigger instances
-  scrollTriggerInstances.forEach((trigger) => {
-    if (trigger) trigger.kill();
-  });
+  console.log("Animating Objective Section");
 
-  // Clear the array
-  scrollTriggerInstances.length = 0;
+  // Register GSAP plugins if not already registered
+  gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  // Clear any other GSAP animations
-  if (typeof window !== "undefined") {
-    gsap.killTweensOf(".portfolio-hero__title");
-    gsap.killTweensOf(".portfolio-hero__subtitle");
-    gsap.killTweensOf(".portfolio-hero__description");
-    gsap.killTweensOf(".portfolio-hero__meta");
-    gsap.killTweensOf(".char");
-    gsap.killTweensOf(".project-objective-section__title .word");
-    gsap.killTweensOf(".project-objective-section__title .highlight");
-    gsap.killTweensOf(".project-objective-section__label");
-    gsap.killTweensOf(".project-objective-section__text");
-    gsap.killTweensOf(".project-process-section__title");
-    gsap.killTweensOf(".project-process-section__label");
-    gsap.killTweensOf(".project-process-section__text");
-    gsap.killTweensOf(".project-process-section__steps");
-    gsap.killTweensOf(".project-process-section__full-image");
-    gsap.killTweensOf(".project-process-section__image-left");
-    gsap.killTweensOf(".project-process-section__image-right");
-    gsap.killTweensOf(".project-cta-section__title");
-    gsap.killTweensOf(".project-cta-section__text");
-    gsap.killTweensOf(".project-cta-section__cta");
+  // Label animation
+  if (refs.label) {
+    gsap.fromTo(
+      refs.label,
+      { opacity: 0, x: -20 },
+      { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }
+    );
   }
+
+  // Title animation - using SplitText for char animation
+  if (refs.title) {
+    // Add the char-animation class before animating
+    refs.title.classList.add("char-animation");
+
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+      animateChars(refs.title);
+
+      // Animate highlight separately
+      const highlight = refs.title
+        ? refs.title.querySelector(".highlight")
+        : null;
+      if (highlight) {
+        gsap.fromTo(
+          highlight,
+          { opacity: 0, scale: 0.9 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.8,
+          }
+        );
+      }
+    }, 100);
+  }
+
+  // Text animation
+  if (refs.text) {
+    gsap.fromTo(
+      refs.text,
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        delay: 0.5,
+      }
+    );
+  }
+
+  // Force refresh ScrollTrigger
+  setTimeout(() => {
+    refreshScrollTrigger();
+  }, 100);
 }
 
-/**
- * Initialize moving image slider for project galleries
- */
+// Initialize moving image slider for project galleries
 export function movingImageSlider() {
   if (typeof window === "undefined") return;
+
+  console.log("Initializing Moving Image Slider");
 
   // Register GSAP plugins if not already registered
   gsap.registerPlugin(ScrollTrigger);
@@ -254,11 +359,11 @@ export function movingImageSlider() {
   });
 }
 
-/**
- * Animate gallery items with reveal effect
- */
+// Animate gallery items with reveal effect
 export function imageRevealAnimation() {
   if (typeof window === "undefined") return;
+
+  console.log("Running Image Reveal Animation");
 
   // Register GSAP plugins if not already registered
   gsap.registerPlugin(ScrollTrigger);
@@ -300,147 +405,19 @@ export function imageRevealAnimation() {
   }
 }
 
-/**
- * Character animation using SplitText
- * @param current - A specific element to animate, or null to animate all .char-animation elements
- */
-export function animateChars(current: HTMLElement | null = null) {
-  if (typeof window === "undefined") return;
-
-  // Register GSAP plugins
-  gsap.registerPlugin(SplitText);
-
-  // If a specific element is passed, only animate that
-  if (current) {
-    const splitTextLine = current;
-
-    gsap.set(splitTextLine, {
-      visibility: "hidden",
-      perspective: 300,
-    });
-
-    const itemSplitted = new SplitText(splitTextLine, {
-      type: "chars, words",
-    });
-
-    gsap.set(splitTextLine, { visibility: "visible" });
-
-    const tl = gsap.timeline();
-    tl.from(itemSplitted.chars, {
-      duration: 1,
-      x: 100,
-      autoAlpha: 0,
-      stagger: 0.05,
-    });
-
-    return;
-  }
-
-  // Original behavior for multiple elements
-  let char_come = gsap.utils.toArray(".char-animation");
-  char_come.forEach((splitTextLine: any) => {
-    gsap.set(splitTextLine, {
-      visibility: "hidden",
-      perspective: 300,
-    });
-
-    const itemSplitted = new SplitText(splitTextLine, {
-      type: "chars, words",
-    });
-
-    gsap.set(splitTextLine, { visibility: "visible" });
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: splitTextLine,
-        start: "top 90%",
-        end: "bottom 60%",
-        scrub: false,
-        markers: false,
-        toggleActions: "play none none none",
-      },
-    });
-
-    tl.from(itemSplitted.chars, {
-      duration: 1,
-      x: 100,
-      autoAlpha: 0,
-      stagger: 0.05,
-    });
-  });
-}
-
-/**
- * Animate the objective section elements
- */
-export function animateObjectiveSection(refs: ObjectiveSectionRefs) {
-  if (typeof window === "undefined") return;
-
-  // Register GSAP plugins if not already registered
-  gsap.registerPlugin(ScrollTrigger, SplitText);
-
-  // Label animation
-  if (refs.label) {
-    gsap.fromTo(
-      refs.label,
-      { opacity: 0, x: -20 },
-      { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }
-    );
-  }
-
-  // Title animation - now using SplitText for char animation
-  if (refs.title) {
-    // We'll add the char-animation class before animating
-    refs.title.classList.add("char-animation");
-
-    // Small delay to ensure DOM is ready
-    setTimeout(() => {
-      animateChars(refs.title);
-
-      // Animate highlight separately
-      const highlight = refs.title
-        ? refs.title.querySelector(".highlight")
-        : null;
-      if (highlight) {
-        gsap.fromTo(
-          highlight,
-          { opacity: 0, scale: 0.9 },
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 1,
-            ease: "power3.out",
-            delay: 0.8,
-          }
-        );
-      }
-    }, 100);
-  }
-
-  // Text animation
-  if (refs.text) {
-    gsap.fromTo(
-      refs.text,
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        delay: 0.5,
-      }
-    );
-  }
-}
-
-/**
- * Initialize process section animations with floating effect for dual images
- */
+// Initialize process section animations with floating effect for dual images
 export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
   if (typeof window === "undefined") return;
 
+  console.log("Initializing Process Section Animations");
+
   // Register GSAP plugins if not already registered
   gsap.registerPlugin(ScrollTrigger);
+
+  // Title animation with SplitText if it has char-animation class
+  if (refs.title && refs.title.classList.contains("char-animation")) {
+    animateChars(refs.title);
+  }
 
   // Label animation
   if (refs.label) {
@@ -452,31 +429,8 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
         x: 0,
         duration: 0.6,
         ease: "power3.out",
-        scrollTrigger: {
-          trigger: refs.section,
-          start: "top 75%",
-          toggleActions: "play none none none",
-        },
       }
     );
-  }
-
-  // Title animation with SplitText
-  if (refs.title && refs.title.classList.contains("char-animation")) {
-    const trigger = {
-      trigger: refs.title,
-      start: "top 85%",
-      toggleActions: "play none none none",
-    };
-
-    // Create a ScrollTrigger for the title
-    const titleTrigger = ScrollTrigger.create(trigger);
-    trackScrollTrigger(titleTrigger);
-
-    // When the ScrollTrigger fires, animate the chars
-    titleTrigger.vars.onEnter = () => {
-      animateChars(refs.title);
-    };
   }
 
   // Text animation
@@ -489,11 +443,7 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
         y: 0,
         duration: 0.8,
         ease: "power3.out",
-        scrollTrigger: {
-          trigger: refs.text,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
+        delay: 0.5,
       }
     );
   }
@@ -520,12 +470,45 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
       }
     );
 
-    // Then add the parallax effect
-    setupParallaxImage(refs.fullImage);
+    // Container parallax
+    const instance1 = ScrollTrigger.create({
+      trigger: refs.fullImage,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1.5,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        gsap.to(refs.fullImage, {
+          y: `-${self.progress * 10}%`,
+          ease: "none",
+          overwrite: "auto",
+        });
+      },
+    });
+    trackScrollTrigger(instance1);
+
+    // Image parallax
+    const img = refs.fullImage.querySelector("img");
+    if (img) {
+      const instance2 = ScrollTrigger.create({
+        trigger: refs.fullImage,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          gsap.to(img, {
+            y: `-${self.progress * 15}%`,
+            ease: "none",
+            overwrite: "auto",
+          });
+        },
+      });
+      trackScrollTrigger(instance2);
+    }
   }
 
-  // Dual images floating animation and reveal
-  // For a better floating effect, we'll animate them coming up from below
+  // Left floating image
   if (refs.imageLeft) {
     // Make sure the image is visible
     gsap.set(refs.imageLeft, { opacity: 1 });
@@ -535,8 +518,8 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
       refs.imageLeft,
       {
         opacity: 0,
-        y: 100, // Start from further down
-        scale: 0.95, // Start slightly smaller
+        y: 100,
+        scale: 0.95,
       },
       {
         opacity: 1,
@@ -545,8 +528,8 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
         duration: 1,
         ease: "power3.out",
         scrollTrigger: {
-          trigger: refs.fullImage, // Trigger based on the full image
-          start: "bottom 70%", // Start when bottom of full image is at 70% of viewport
+          trigger: refs.fullImage,
+          start: "bottom 70%",
           toggleActions: "play none none none",
         },
       }
@@ -554,16 +537,50 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
 
     // Add subtle continuous floating animation
     gsap.to(refs.imageLeft, {
-      y: "-=10", // Move slightly up
+      y: "-=10",
       duration: 2,
-      repeat: -1, // Infinite repeats
-      yoyo: true, // Go back and forth
+      repeat: -1,
+      yoyo: true,
       ease: "power1.inOut",
-      delay: 1, // Start after the reveal animation
+      delay: 1,
     });
 
-    // Add parallax effect
-    setupParallaxImage(refs.imageLeft);
+    // Container parallax
+    const instance3 = ScrollTrigger.create({
+      trigger: refs.imageLeft,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1.5,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        gsap.to(refs.imageLeft, {
+          y: `-${self.progress * 25}%`,
+          ease: "none",
+          overwrite: "auto",
+        });
+      },
+    });
+    trackScrollTrigger(instance3);
+
+    // Image parallax
+    const innerImg = refs.imageLeft.querySelector("img");
+    if (innerImg) {
+      const instance4 = ScrollTrigger.create({
+        trigger: refs.imageLeft,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          gsap.to(innerImg, {
+            y: `${self.progress * 15}%`,
+            ease: "none",
+            overwrite: "auto",
+          });
+        },
+      });
+      trackScrollTrigger(instance4);
+    }
   }
 
   if (refs.imageRight) {
@@ -575,7 +592,7 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
       refs.imageRight,
       {
         opacity: 0,
-        y: 100, // Start from further down
+        y: 100,
         scale: 0.95,
       },
       {
@@ -586,8 +603,8 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
         ease: "power3.out",
         delay: 0.2,
         scrollTrigger: {
-          trigger: refs.fullImage, // Trigger based on the full image
-          start: "bottom 70%", // Start when bottom of full image is at 70% of viewport
+          trigger: refs.fullImage,
+          start: "bottom 70%",
           toggleActions: "play none none none",
         },
       }
@@ -595,22 +612,54 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
 
     // Add subtle continuous floating animation (slightly out of sync with the left image)
     gsap.to(refs.imageRight, {
-      y: "-=10", // Move slightly up
-      duration: 2.3, // Slightly different duration for out-of-sync effect
-      repeat: -1, // Infinite repeats
-      yoyo: true, // Go back and forth
+      y: "-=10",
+      duration: 2.3,
+      repeat: -1,
+      yoyo: true,
       ease: "power1.inOut",
-      delay: 1.3, // Different delay than the left image
+      delay: 1.3,
     });
 
-    // Add parallax effect
-    setupParallaxImage(refs.imageRight);
+    // Container parallax
+    const instance5 = ScrollTrigger.create({
+      trigger: refs.imageRight,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1.5,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        gsap.to(refs.imageRight, {
+          y: `-${self.progress * 20}%`,
+          ease: "none",
+          overwrite: "auto",
+        });
+      },
+    });
+    trackScrollTrigger(instance5);
+
+    // Image parallax
+    const innerImg = refs.imageRight.querySelector("img");
+    if (innerImg) {
+      const instance6 = ScrollTrigger.create({
+        trigger: refs.imageRight,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          gsap.to(innerImg, {
+            y: `-${self.progress * 15}%`,
+            ease: "none",
+            overwrite: "auto",
+          });
+        },
+      });
+      trackScrollTrigger(instance6);
+    }
   }
 }
 
-/**
- * Setup parallax effect for images
- */
+// Setup parallax effect for images
 function setupParallaxImage(imageEl: HTMLElement): void {
   // Find the actual image element inside
   const img = imageEl.querySelector("img");
@@ -639,11 +688,11 @@ function setupParallaxImage(imageEl: HTMLElement): void {
   trackScrollTrigger(instance);
 }
 
-/**
- * Animate the CTA section elements
- */
+// Animate the CTA section elements
 export function animateCTASection(refs: CTASectionRefs) {
   if (typeof window === "undefined") return;
+
+  console.log("Animating CTA Section");
 
   // Register GSAP plugins if not already registered
   gsap.registerPlugin(ScrollTrigger);
@@ -724,4 +773,25 @@ export function animateCTASection(refs: CTASectionRefs) {
       }
     );
   }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+// CLEANUP FUNCTION ///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export function cleanupProjectDetailsAnimations(): void {
+  if (typeof window === "undefined") return;
+
+  console.log("⚠️ Cleaning up all project details page animations");
+
+  // Kill all ScrollTriggers
+  ScrollTrigger.getAll().forEach((trigger) => {
+    trigger.kill();
+  });
+
+  // Clear match media queries
+  ScrollTrigger.clearMatchMedia();
+
+  // Refresh ScrollTrigger
+  refreshScrollTrigger();
 }

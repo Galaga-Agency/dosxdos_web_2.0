@@ -7,7 +7,8 @@ import { useParallax } from "@/utils/animations/parallax-image";
 import {
   initBlogPageAnimations,
   cleanupBlogPageAnimations,
-} from "@/utils/animations/blog-page-anim";
+} from "@/utils/animations/pages/blog-page-anim";
+import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import "./blog.scss";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
@@ -19,6 +20,9 @@ import { BlogPost } from "@/types/blog-post-types";
 import Loading from "@/components/ui/Loading/Loading";
 
 const BlogPage: React.FC = () => {
+  // Force component remount on each page visit
+  const [key] = useState(() => Date.now());
+
   const imageContainerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -30,6 +34,22 @@ const BlogPage: React.FC = () => {
 
   const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Initialize ScrollTrigger configuration once
+  useEffect(() => {
+    initScrollTriggerConfig();
+  }, []);
+
+  // Setup parallax effect for featured image
+  useParallax(
+    imageContainerRef as React.RefObject<HTMLElement>,
+    imageRef as React.RefObject<HTMLElement>,
+    {
+      intensity: 0.25,
+      scrubAmount: 1.2,
+      delay: 500,
+    }
+  );
 
   // Get only published blog posts
   const publishedBlogItems = blogItems.filter(
@@ -44,16 +64,7 @@ const BlogPage: React.FC = () => {
       itemsPerPage: 3,
     });
 
-  useParallax(
-    imageContainerRef as React.RefObject<HTMLElement>,
-    imageRef as React.RefObject<HTMLElement>,
-    {
-      intensity: 0.25,
-      scrubAmount: 1.2,
-      delay: 500,
-    }
-  );
-
+  // Fetch blog posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -68,6 +79,11 @@ const BlogPage: React.FC = () => {
     };
 
     fetchPosts();
+
+    // Cleanup when unmounting
+    return () => {
+      cleanupBlogPageAnimations();
+    };
   }, []);
 
   // Initialize animations when page is loaded
@@ -84,12 +100,10 @@ const BlogPage: React.FC = () => {
           postsGrid: postsGridRef.current,
           desktopSocialCta: desktopSocialCtaRef.current,
         });
-      }, 100);
+      }, 300);
 
       return () => {
         clearTimeout(timer);
-        // Clean up animations when component unmounts
-        cleanupBlogPageAnimations();
       };
     }
   }, [loading]);
@@ -108,7 +122,7 @@ const BlogPage: React.FC = () => {
 
   return (
     <SmoothScrollWrapper>
-      <div className="blog-page">
+      <div className="blog-page" key={key}>
         <div className="blog-page__container">
           <div className="blog-page__social-sidebar">
             <div className="blog-page__social-wrapper">
@@ -197,7 +211,11 @@ const BlogPage: React.FC = () => {
             <div ref={postsGridRef} className="posts-grid">
               {currentItems.map((item, index) => (
                 <div key={item.id} className="blog-page__post-item">
-                  <BlogItem item={item} index={index} />
+                  <BlogItem
+                    key={`blog-item-${key}-${item.id}`}
+                    item={item}
+                    index={index}
+                  />
                 </div>
               ))}
             </div>

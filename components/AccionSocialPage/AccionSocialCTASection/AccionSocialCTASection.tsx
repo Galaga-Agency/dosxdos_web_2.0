@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
-import { animateAccionSocialCTASection } from "@/utils/animations/accion-social-page-anim";
+import { animateAccionSocialCTASection } from "@/utils/animations/pages/accion-social-page-anim";
 import "./AccionSocialCTASection.scss";
 
 const AccionSocialCTASection: React.FC = () => {

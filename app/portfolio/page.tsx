@@ -3,11 +3,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
-import { featuredProjects } from "@/data/projects";
+import { projects } from "@/data/projects";
 import {
   initPortfolioPageAnimations,
-  cleanupAllAnimations,
-} from "@/utils/animations/portfolio-page-anim";
+  animateProjectHover,
+  cleanupPortfolioAnimations,
+} from "@/utils/animations/pages/portfolio-page-anim";
+import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import "./portfolio-page.scss";
 
 const PortfolioPage: React.FC = () => {
@@ -15,10 +17,23 @@ const PortfolioPage: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
 
+  // Force component remount on each page visit
+  const [key] = useState(() => Date.now());
+
   const bgWrapperRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const projectsRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  const featuredProjects = projects.filter(
+    (project) => project.display.portfolioPage === true
+  );
+
+  // Initialize ScrollTrigger configuration once
+  useEffect(() => {
+    initScrollTriggerConfig();
+  }, []);
 
   // Clear backgrounds and rebuild them on every component mount
   useEffect(() => {
@@ -62,7 +77,8 @@ const PortfolioPage: React.FC = () => {
                     section: sectionRef.current,
                     projects: projectsRef.current,
                     infoSection: null,
-                    ctaButton: null,
+                    ctaButton: ctaRef.current,
+                    bgWrapper: bgWrapperRef.current,
                   });
                 }
               }, 100);
@@ -82,8 +98,7 @@ const PortfolioPage: React.FC = () => {
 
     // Cleanup function
     return () => {
-      // Call cleanup function to remove any lingering ScrollTriggers
-      cleanupAllAnimations();
+      cleanupPortfolioAnimations();
     };
   }, []);
 
@@ -96,14 +111,22 @@ const PortfolioPage: React.FC = () => {
     const targetBg = bgWrapperRef.current.querySelector(
       `[data-project-id="${projectId}"]`
     );
-    if (!targetBg) return;
 
     // Find current active background
     const currentBg = bgWrapperRef.current.querySelector(".active");
-    if (currentBg) currentBg.classList.remove("active");
 
-    // Activate new background
+    if (!targetBg || !currentBg) return;
+
+    // Remove active class from current background
+    currentBg.classList.remove("active");
+
+    // Add active class to new background
     targetBg.classList.add("active");
+
+    // Animate the transition
+    animateProjectHover(currentBg as HTMLElement, targetBg as HTMLElement);
+
+    // Update active project state
     setActiveProject(projectId);
   };
 
@@ -114,9 +137,10 @@ const PortfolioPage: React.FC = () => {
 
   return (
     <SmoothScrollWrapper>
-      <div className="portfolio-page" ref={sectionRef}>
+      <div className="portfolio-page" ref={sectionRef} key={key}>
         {/* Background container */}
         <div ref={bgWrapperRef} className="portfolio-page__background"></div>
+
         {/* Main container */}
         <div ref={containerRef} className="portfolio-page__container">
           {/* Projects list */}
@@ -136,9 +160,10 @@ const PortfolioPage: React.FC = () => {
               </div>
             ))}
           </div>
-          {/* Call to action */}
         </div>
-        <div className="portfolio-page__cta">
+
+        {/* Call to action */}
+        <div ref={ctaRef} className="portfolio-page__cta">
           <a href="/portfolio/all" className="portfolio-page__cta-link">
             <span className="portfolio-page__cta-text">Ver más proyectos</span>
             <span className="portfolio-page__cta-arrow">→</span>

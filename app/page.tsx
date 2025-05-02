@@ -10,7 +10,7 @@ import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogC
 import "./page.scss";
 import { BlogPost } from "@/types/blog-post-types";
 import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSection/FeaturedprojectsSection";
-import { cleanupHomepageAnimations } from "@/utils/animations/homepage-anim";
+import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-anim";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";

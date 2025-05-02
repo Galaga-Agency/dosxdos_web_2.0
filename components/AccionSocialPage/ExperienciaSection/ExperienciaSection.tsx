@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { animateExperienciaSection } from "@/utils/animations/accion-social-page-anim";
+import { animateExperienciaSection } from "@/utils/animations/pages/accion-social-page-anim";
 import "./ExperienciaSection.scss";
 
 const ExperienciaSection: React.FC = () => {

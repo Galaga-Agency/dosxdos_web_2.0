@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import { animateHeroSlider } from "@/utils/animations/homepage-anim";
+import { animateHeroSlider } from "@/utils/animations/pages/homepage-anim";
 
 interface SlideItem {
   id: number;
@@ -57,7 +57,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       const slideElement = document.querySelector(
         `.hero-slider__slide:nth-child(${index + 1})`
       );
-      
+
       if (slideElement) {
         if (index === activeSlide) {
           gsap.to(slideElement, {
@@ -161,17 +161,11 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       </div>
 
       <div className="hero-slider__content">
-        <h1 
-          ref={titleRef}
-          className="hero-slider__title"
-        >
+        <h1 ref={titleRef} className="hero-slider__title">
           Espacios Que Inspiran
         </h1>
 
-        <div 
-          ref={ctaRef}
-          className="hero-slider__cta"
-        >
+        <div ref={ctaRef} className="hero-slider__cta">
           <SecondaryButton href="/portfolio" size="large">
             Descubrir Proyectos
           </SecondaryButton>

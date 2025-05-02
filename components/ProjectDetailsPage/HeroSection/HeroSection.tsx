@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/types/project-types";
-import { initHeroAnimations } from "@/utils/animations/project-details-page-anim";
+import { initHeroAnimations } from "@/utils/animations/pages/project-details-page-anim";
 import "./HeroSection.scss";
 
 interface HeroSectionProps {
@@ -59,13 +59,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
       className="portfolio-hero"
       style={{ backgroundImage: `url(${project.image})` }}
     >
-      {/* <div className="portfolio-hero__website-link">
-        <a href="#" className="portfolio-hero__link">
-          Ver Proyecto
-          <span>→</span>
-        </a>
-      </div> */}
-
       <div ref={heroImageRef} className="portfolio-hero__wrapper">
         <div className="portfolio-hero__container">
           <div className="portfolio-hero__row">

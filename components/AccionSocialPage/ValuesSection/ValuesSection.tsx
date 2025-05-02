@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import {
   animateValuesSection,
   animateTabContentChange,
-} from "@/utils/animations/accion-social-page-anim";
+} from "@/utils/animations/pages/accion-social-page-anim";
 import "./ValuesSection.scss";
 
 const ValuesSection: React.FC = () => {
