@@ -55,6 +55,7 @@
     @include font-size(5xl);
     @include font-weight(bold);
     color: $black;
+    visibility: hidden;
     line-height: 1;
     @include margin(lg, bottom);
 
@@ -73,6 +74,7 @@
 
   &__description {
     @include font-size(lg);
+    visibility: hidden;
     margin-left: 20%;
     color: $black;
     max-width: 60ch;
