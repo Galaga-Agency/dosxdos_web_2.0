@@ -20,24 +20,26 @@ export interface Portfolio2PageAnimationRefs {
   ctaButton?: HTMLElement | null;
 }
 
-export function initBentoRevealForTouchDevices(gridEl: HTMLElement | null): void {
+export function initBentoRevealForTouchDevices(
+  gridEl: HTMLElement | null
+): void {
   if (!gridEl) return;
-  
+
   console.log("Initializing bento reveal for touch devices");
   const items = gridEl.querySelectorAll(".portfolio-bento__item");
-  
+
   items.forEach((item) => {
     const hoverInfo = item.querySelector(".portfolio-bento__hover-info");
     const label = item.querySelector(".portfolio-bento__label");
     const title = item.querySelector(".portfolio-bento__title");
-    
+
     if (!hoverInfo || !label || !title) return;
-    
+
     // Set initial states - elements start hidden and to the left
     gsap.set(hoverInfo, { opacity: 0 });
     gsap.set(label, { x: -50, opacity: 0 });
     gsap.set(title, { x: -50, opacity: 0 });
-    
+
     // Create the ScrollTrigger
     ScrollTrigger.create({
       trigger: item,
@@ -50,23 +52,23 @@ export function initBentoRevealForTouchDevices(gridEl: HTMLElement | null): void
         gsap.to(hoverInfo, {
           opacity: 1,
           duration: 0.3,
-          ease: "power2.out"
+          ease: "power2.out",
         });
-        
+
         gsap.to(label, {
           x: 0,
           opacity: 1,
           duration: 0.4,
           delay: 0.1,
-          ease: "power2.out"
+          ease: "power2.out",
         });
-        
+
         gsap.to(title, {
           x: 0,
           opacity: 1,
           duration: 0.4,
           delay: 0.2,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       },
       onLeave: () => {
@@ -75,22 +77,22 @@ export function initBentoRevealForTouchDevices(gridEl: HTMLElement | null): void
           x: -50,
           opacity: 0,
           duration: 0.3,
-          ease: "power2.in"
+          ease: "power2.in",
         });
-        
+
         gsap.to(label, {
           x: -50,
           opacity: 0,
           duration: 0.3,
           delay: 0.05,
-          ease: "power2.in"
+          ease: "power2.in",
         });
-        
+
         gsap.to(hoverInfo, {
           opacity: 0,
           duration: 0.3,
           delay: 0.1,
-          ease: "power2.in"
+          ease: "power2.in",
         });
       },
       onEnterBack: () => {
@@ -98,23 +100,23 @@ export function initBentoRevealForTouchDevices(gridEl: HTMLElement | null): void
         gsap.to(hoverInfo, {
           opacity: 1,
           duration: 0.3,
-          ease: "power2.out"
+          ease: "power2.out",
         });
-        
+
         gsap.to(label, {
           x: 0,
           opacity: 1,
           duration: 0.4,
           delay: 0.1,
-          ease: "power2.out"
+          ease: "power2.out",
         });
-        
+
         gsap.to(title, {
           x: 0,
           opacity: 1,
           duration: 0.4,
           delay: 0.2,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       },
       onLeaveBack: () => {
@@ -123,27 +125,27 @@ export function initBentoRevealForTouchDevices(gridEl: HTMLElement | null): void
           x: -50,
           opacity: 0,
           duration: 0.3,
-          ease: "power2.in"
+          ease: "power2.in",
         });
-        
+
         gsap.to(label, {
           x: -50,
           opacity: 0,
           duration: 0.3,
           delay: 0.05,
-          ease: "power2.in"
+          ease: "power2.in",
         });
-        
+
         gsap.to(hoverInfo, {
           opacity: 0,
           duration: 0.3,
           delay: 0.1,
-          ease: "power2.in"
+          ease: "power2.in",
         });
-      }
+      },
     });
   });
-  
+
   // Force refresh ScrollTrigger
   ScrollTrigger.refresh();
 }
@@ -187,7 +189,7 @@ export function initPortfolioPage2Animations(
 
       if (descriptionEl) {
         const splitDesc = new SplitText(descriptionEl, { type: "lines" });
-        gsap.set(descriptionEl, { perspective: 400 });
+        gsap.set(descriptionEl, { visibility: "visible", perspective: 400 });
 
         const descTl = gsap.timeline({
           scrollTrigger: {

@@ -7,98 +7,75 @@
   width: 100%;
   background-color: $white;
   margin-top: 4rem;
-  
+
   &__container {
-    @include container-width(mobile);
+    width: 100%;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
+    @include flex(column, center, center);
+
+    @include container-width(mobile);
+
     @include min-width(md) {
       @include container-width(tablet);
     }
-    
+
     @include min-width(lg) {
       @include container-width(smalldesktop);
     }
-    
+
     @include min-width(xl) {
       @include container-width(desktop);
     }
   }
 
   &__more-button {
-margin-bottom: 4rem;  }
-  
+    margin-bottom: 4rem;
+  }
+
   &__top-labels {
     width: 100%;
+    max-width: 1400px;
+    padding: 0 1rem;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2rem;
-    
+    margin: 0 auto 2rem auto;
+
     @include min-width(md) {
       margin-bottom: 3rem;
     }
   }
-  
+
   &__label {
     @include font-size(sm);
     font-weight: 500;
     letter-spacing: 0.02em;
     color: $black;
-    
+
     @include min-width(md) {
       @include font-size(base);
     }
-    
+
     @include min-width(lg) {
       @include font-size(lg);
     }
   }
-  
+
   &__title {
-    @include font-size(9xl);
-    @include font-weight(bold);
+    width: 90vw;
+    display: flex;
+    visibility: hidden;
+    justify-content: space-between;
     color: $black;
     line-height: 1;
-    margin-bottom: 4rem;
-    text-align: center;
-    width: 100%;
-    letter-spacing: 1.5px;
-    visibility: hidden; // Initially hidden for character animation
-    
-    @include min-width(md) {
-      @include font-size(7xl);
-    }
-    
-    @include min-width(lg) {
-      @include font-size(8xl);
-    }
-    
-    @include min-width(xl) {
-      @include font-size(9xl);
-    }
-    
-    .highlight {
-      position: relative;
-      display: inline-block;
-      
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0.1em;
-        left: 0;
-        width: 100%;
-        height: 0.1em;
-        background-color: rgba($primary-color, 0.3);
-        transform-origin: left;
-      }
-    }
+    font-size: 20vw;
+    font-weight: 700;
+    @include margin(lg, bottom);
   }
-  
+
   &__content {
     text-align: center;
     margin-top: 2rem;
+    padding: 0 2rem;
+    margin: 0 auto;
   }
 }
