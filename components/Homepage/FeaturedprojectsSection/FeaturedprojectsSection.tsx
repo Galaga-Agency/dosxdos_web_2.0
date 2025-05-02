@@ -9,10 +9,13 @@ import {
 } from "@/utils/animations/panel-animation";
 import { refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
 import "./FeaturedprojectsSection.scss";
-import { featuredProjects } from "@/data/projects";
+import { projects } from "@/data/projects";
 
 const FeaturedprojectsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const featuredProjects = projects.filter(
+    (project) => project.display.homepage === true
+  );
 
   useEffect(() => {
     if (sectionRef.current) {

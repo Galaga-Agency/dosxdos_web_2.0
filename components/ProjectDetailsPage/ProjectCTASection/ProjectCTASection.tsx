@@ -5,10 +5,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Project } from "@/types/project-types";
-import {
-  animateCTASection,
-  cleanupProjectDetailsAnimations,
-} from "@/utils/animations/project-details-page-anim";
+import { animateCTASection } from "@/utils/animations/pages/project-details-page-anim";
 import "./ProjectCTASection.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
@@ -41,12 +38,6 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
       text: textRef.current,
       cta: ctaRef.current,
     });
-
-    // Cleanup function
-    return () => {
-      // Use the shared cleanup function
-      cleanupProjectDetailsAnimations();
-    };
   }, []);
 
   return (

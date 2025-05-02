@@ -4,17 +4,18 @@ import React, { useEffect, useState, use } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import HeroSection from "@/components/ProjectDetailsPage/HeroSection/HeroSection";
-import { allProjects } from "@/data/projects";
+import { projects } from "@/data/projects";
 import { Project } from "@/types/project-types";
 import {
-  cleanupScrollTriggers,
   initScrollTriggerConfig,
+  cleanupScrollTriggers,
 } from "@/utils/animations/scrolltrigger-config";
 import "./ProjectDetailsPage.scss";
 import Loading from "@/components/ui/Loading/Loading";
 import ProjectObjectiveSection from "@/components/ProjectDetailsPage/ProjectObjectiveSection/ProjectObjectiveSection";
 import ProjectProcessSection from "@/components/ProjectDetailsPage/ProjectProcessSection/ProjectProcessSection";
 import ProjectCTASection from "@/components/ProjectDetailsPage/ProjectCTASection/ProjectCTASection";
+import { cleanupProjectDetailsAnimations } from "@/utils/animations/pages/project-details-page-anim";
 
 interface ProjectDetailsPageProps {
   params: {
@@ -23,6 +24,9 @@ interface ProjectDetailsPageProps {
 }
 
 const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
+  // Force component remount on each page visit
+  const [key] = useState(() => Date.now());
+
   // Use React.use() to unwrap the params promise
   const resolvedParams = use(params as any);
   const { projectSlug } = resolvedParams as any;
@@ -32,7 +36,7 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
 
   // Find the project data when component mounts
   useEffect(() => {
-    const foundProject: Project | undefined = allProjects.find(
+    const foundProject: Project | undefined = projects.find(
       (p) => p.slug === projectSlug
     );
 
@@ -47,14 +51,16 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
   useEffect(() => {
     initScrollTriggerConfig();
 
+    // Cleanup on unmount
     return () => {
+      cleanupProjectDetailsAnimations();
       cleanupScrollTriggers();
     };
   }, []);
 
   return (
     <SmoothScrollWrapper>
-      <div className="project-details-page">
+      <div className="project-details-page" key={key}>
         <div className="project-details-page__container">
           <div className="project-details-page__social-sidebar">
             <div className="project-details-page__social-wrapper">
@@ -69,10 +75,13 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
             <Loading />
           ) : project ? (
             <>
-              <HeroSection project={project} />
-              <ProjectObjectiveSection project={project} />
-              <ProjectProcessSection project={project} />
-              <ProjectCTASection project={project} />
+              <HeroSection project={project} key={`hero-${key}`} />
+              <ProjectObjectiveSection
+                project={project}
+                key={`objective-${key}`}
+              />
+              <ProjectProcessSection project={project} key={`process-${key}`} />
+              <ProjectCTASection project={project} key={`cta-${key}`} />
             </>
           ) : (
             <div className="project-details-page__not-found">

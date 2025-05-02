@@ -11,7 +11,11 @@ export interface Project {
   description: string;
   longDescription?: string;
   services: string[];
-  featured: boolean;
+  display: {
+    homepage: boolean;
+    portfolioPage: boolean;
+    [key: string]: boolean; // For future display options
+  };
   tags?: string[];
   process?: string;
 }

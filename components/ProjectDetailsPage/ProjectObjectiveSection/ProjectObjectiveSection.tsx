@@ -8,9 +8,8 @@ import { Project } from "@/types/project-types";
 import {
   movingImageSlider,
   imageRevealAnimation,
-  cleanupProjectDetailsAnimations,
   animateObjectiveSection,
-} from "@/utils/animations/project-details-page-anim";
+} from "@/utils/animations/pages/project-details-page-anim";
 import "./ProjectObjectiveSection.scss";
 
 interface ProjectObjectiveSectionProps {
@@ -50,7 +49,6 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
     // Cleanup function
     return () => {
       clearTimeout(galleryTimer);
-      cleanupProjectDetailsAnimations();
     };
   }, []);
 

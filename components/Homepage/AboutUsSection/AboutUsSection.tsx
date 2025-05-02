@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
-import { animateAboutUsSection } from "@/utils/animations/homepage-anim";
+import { animateAboutUsSection } from "@/utils/animations/pages/homepage-anim";
 import "./AboutUsSection.scss";
 
 const AboutUsSection: React.FC = () => {

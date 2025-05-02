@@ -5,7 +5,7 @@ import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
-import { animateLogoMarquee } from "@/utils/animations/homepage-anim";
+import { animateLogoMarquee } from "@/utils/animations/pages/homepage-anim";
 
 interface LogoMarqueeProps {
   showHeader?: boolean;
@@ -19,7 +19,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
-  
+
   const sectionClasses = `logo-marquee ${
     fullWidth ? "logo-marquee--full-width" : ""
   }`;

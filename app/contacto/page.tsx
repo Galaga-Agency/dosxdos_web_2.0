@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ContactForm from "@/components/ContactForm/ContactForm";
@@ -8,20 +8,19 @@ import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import LocationCard from "@/components/LocationCard/LocationCard";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import {
-  charAnimation,
-  animateSubtitle,
-  animateContactSections,
-  animateLocationCards,
-  setupOfficesSectionAnimation,
-  animateSocialCTA,
+  initContactPageAnimations,
   cleanupContactPageAnimations,
-} from "@/utils/animations/contact-page-anim";
+} from "@/utils/animations/pages/contact-page-anim";
+import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import "./ContactPage.scss";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
 const ContactPage: React.FC = () => {
+  // Force component remount on each page visit
+  const [key] = useState(() => Date.now());
+
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLHeadingElement>(null);
   const leftSectionRef = useRef<HTMLDivElement>(null);
@@ -30,17 +29,25 @@ const ContactPage: React.FC = () => {
   const officesGridRef = useRef<HTMLDivElement>(null);
   const socialCtaRef = useRef<HTMLDivElement>(null);
 
+  // Initialize ScrollTrigger configuration once
+  useEffect(() => {
+    initScrollTriggerConfig();
+  }, []);
+
   useEffect(() => {
     // Ensure animations run after component mount
     const timer = setTimeout(() => {
-      // Run animations
-      charAnimation(titleRef.current);
-      animateSubtitle(subtitleRef.current);
-      animateContactSections(leftSectionRef.current, rightSectionRef.current);
-      animateLocationCards(officesGridRef.current);
-      setupOfficesSectionAnimation(officesSectionRef.current);
-      animateSocialCTA(socialCtaRef.current);
-    }, 1500);
+      // Initialize all animations
+      initContactPageAnimations({
+        title: titleRef.current,
+        subtitle: subtitleRef.current,
+        leftSection: leftSectionRef.current,
+        rightSection: rightSectionRef.current,
+        officesSection: officesSectionRef.current,
+        officesGrid: officesGridRef.current,
+        socialCta: socialCtaRef.current,
+      });
+    }, 300);
 
     // Cleanup function
     return () => {
@@ -51,7 +58,7 @@ const ContactPage: React.FC = () => {
 
   return (
     <SmoothScrollWrapper>
-      <div className="contact-page">
+      <div className="contact-page" key={key}>
         <div className="contact-page__container">
           <div className="contact-page__social-sidebar">
             <div className="contact-page__social-wrapper">
@@ -97,6 +104,7 @@ const ContactPage: React.FC = () => {
 
             <div ref={officesGridRef} className="offices-grid">
               <LocationCard
+                key={`location-canarias-${key}`}
                 city="Gran Canaria"
                 timezone="GMT+0"
                 timeZoneIdentifier="Atlantic/Canary"
@@ -107,6 +115,7 @@ const ContactPage: React.FC = () => {
               />
 
               <LocationCard
+                key={`location-madrid-${key}`}
                 city="Madrid"
                 timezone="GMT+1"
                 timeZoneIdentifier="Europe/Madrid"

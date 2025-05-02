@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { animateServicesSection } from "@/utils/animations/homepage-anim";
+import { animateServicesSection } from "@/utils/animations/pages/homepage-anim";
 import { categoriesList } from "@/data/categories";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
-import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
+import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
 import "./ServicesSection.scss";
 
 const ServicesSection: React.FC = () => {

@@ -11,7 +11,7 @@ import SustainabilityImagesSection from "@/components/AccionSocialPage/Sustainab
 import ExperienciaSection from "@/components/AccionSocialPage/ExperienciaSection/ExperienciaSection";
 import CollaborationsSection from "@/components/AccionSocialPage/CollaborationsSection/CollaborationsSection";
 import AccionSocialCTASection from "@/components/AccionSocialPage/AccionSocialCTASection/AccionSocialCTASection";
-import { cleanupAccionSocialAnimations } from "@/utils/animations/accion-social-page-anim";
+import { cleanupAccionSocialAnimations } from "@/utils/animations/pages/accion-social-page-anim";
 
 const AccionSocialPage: React.FC = () => {
   // Force component remount on each page visit
@@ -20,7 +20,7 @@ const AccionSocialPage: React.FC = () => {
   // Initialize ScrollTrigger configuration once
   useEffect(() => {
     initScrollTriggerConfig();
-    
+
     // Cleanup on unmount
     return () => {
       cleanupAccionSocialAnimations();

@@ -1,33 +1,13 @@
+"use client";
+
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { charAnimation } from "./title-anim";
+import { charAnimation } from "../title-anim";
+import { refreshScrollTrigger } from "../scrolltrigger-config";
 
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
-
-// Store all ScrollTrigger instances for cleanup
-const scrollTriggerInstances: any[] = [];
-
-// Helper to safely add ScrollTrigger instances to our cleanup array
-const trackScrollTrigger = (instance: globalThis.ScrollTrigger) => {
-  scrollTriggerInstances.push(instance);
-  return instance;
-};
-
-// Function to clean up all animations when navigating away
-export function cleanupBlogPageAnimations() {
-  // Kill all tracked ScrollTrigger instances
-  scrollTriggerInstances.forEach((trigger) => {
-    if (trigger) trigger.kill();
-  });
-
-  // Clear the array
-  scrollTriggerInstances.length = 0;
-
-  // Kill any timeline animations that might be running
-  gsap.killTweensOf(".blog-page__desktop-social-cta-content .highlight");
-  gsap.killTweensOf(".blog-page__featured-content-link");
-  gsap.killTweensOf(".blog-page__featured-image-wrapper");
+// Ensure GSAP plugins are registered
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 // Animation interface for blog page elements
@@ -43,6 +23,7 @@ export interface BlogPageAnimElements {
   desktopSocialCta?: HTMLElement | null;
 }
 
+// Main animation function for blog page
 export const animateBlogPage = ({
   section,
   imageContainer,
@@ -54,8 +35,9 @@ export const animateBlogPage = ({
   postsGrid,
   desktopSocialCta,
 }: BlogPageAnimElements) => {
-  // Clean up any existing animations first
-  cleanupBlogPageAnimations();
+  if (typeof window === "undefined") return null;
+
+  console.log("Animating Blog Page");
 
   // Set initial states
   if (title) {
@@ -67,32 +49,23 @@ export const animateBlogPage = ({
 
   // Featured image section animations
   if (imageContainer) {
-    tl.fromTo(
-      imageContainer,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
-      0
-    );
+    gsap.set(imageContainer, { y: 50, opacity: 0 });
+
+    tl.to(imageContainer, { y: 0, opacity: 1, duration: 1 }, 0);
   }
 
   // Animate featured date badge
   if (featuredDate) {
-    tl.fromTo(
-      featuredDate,
-      { x: -50, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.8 },
-      0.5
-    );
+    gsap.set(featuredDate, { x: -50, opacity: 0 });
+
+    tl.to(featuredDate, { x: 0, opacity: 1, duration: 0.8 }, 0.5);
   }
 
   // Animate featured category
   if (featuredCategory) {
-    tl.fromTo(
-      featuredCategory,
-      { x: 50, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.8 },
-      0.6
-    );
+    gsap.set(featuredCategory, { x: 50, opacity: 0 });
+
+    tl.to(featuredCategory, { x: 0, opacity: 1, duration: 0.8 }, 0.6);
   }
 
   // Title animation using charAnimation
@@ -106,12 +79,9 @@ export const animateBlogPage = ({
   if (postsSection) {
     const postsTitle = postsSection.querySelector(".posts-title");
     if (postsTitle) {
-      tl.fromTo(
-        postsTitle,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
-        1.2
-      );
+      gsap.set(postsTitle, { y: 30, opacity: 0 });
+
+      tl.to(postsTitle, { y: 0, opacity: 1, duration: 0.8 }, 1.2);
     }
   }
 
@@ -119,9 +89,10 @@ export const animateBlogPage = ({
   if (postsGrid) {
     const postItems = postsGrid.querySelectorAll(".blog-page__post-item");
     if (postItems.length > 0) {
-      tl.fromTo(
+      gsap.set(postItems, { y: 30, opacity: 0 });
+
+      tl.to(
         postItems,
-        { y: 30, opacity: 0 },
         {
           y: 0,
           opacity: 1,
@@ -143,9 +114,10 @@ export const animateBlogPage = ({
       gsap.set(highlightElements, { backgroundSize: "0% 100%" });
 
       // Create ScrollTrigger for this section
-      const socialCtaTrigger = ScrollTrigger.create({
+      ScrollTrigger.create({
         trigger: desktopSocialCta,
         start: "top 80%",
+        once: true,
         onEnter: () => {
           gsap.to(highlightElements, {
             backgroundSize: "100% 100%",
@@ -153,11 +125,7 @@ export const animateBlogPage = ({
             ease: "power2.out",
           });
         },
-        once: true,
       });
-
-      // Track the trigger for cleanup
-      trackScrollTrigger(socialCtaTrigger);
     }
   }
 
@@ -227,20 +195,47 @@ export const setupBlogHoverEffects = () => {
 export const initBlogPageAnimations = (refs: BlogPageAnimElements) => {
   if (typeof window === "undefined") return;
 
+  console.log("Initializing Blog Page Animations");
+
   // Run the main animations
   const timeline = animateBlogPage(refs);
 
   // Setup hover effects after initial animations
-  timeline.call(
-    () => {
-      setupBlogHoverEffects();
-    },
-    [],
-    1.8
-  );
+  if (timeline) {
+    timeline.call(
+      () => {
+        setupBlogHoverEffects();
+      },
+      [],
+      1.8
+    );
+  }
 
   // Refresh ScrollTrigger to ensure all is registered properly
   setTimeout(() => {
-    ScrollTrigger.refresh();
+    refreshScrollTrigger();
   }, 300);
 };
+
+// Function to clean up all animations when navigating away
+export function cleanupBlogPageAnimations() {
+  if (typeof window === "undefined") return;
+
+  console.log("⚠️ Cleaning up all blog page animations");
+
+  // Kill all ScrollTriggers
+  ScrollTrigger.getAll().forEach((trigger) => {
+    trigger.kill();
+  });
+
+  // Clear match media queries
+  ScrollTrigger.clearMatchMedia();
+
+  // Kill any specific animations that might be running
+  gsap.killTweensOf(".blog-page__desktop-social-cta-content .highlight");
+  gsap.killTweensOf(".blog-page__featured-content-link");
+  gsap.killTweensOf(".blog-page__featured-image-wrapper");
+
+  // Refresh ScrollTrigger
+  refreshScrollTrigger();
+}

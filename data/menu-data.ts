@@ -68,7 +68,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "portfolio",
     label: "Portfolio",
-    href: "/portfolio",
+    href: "/portfolio-2",
   },
   {
     id: "blog",
