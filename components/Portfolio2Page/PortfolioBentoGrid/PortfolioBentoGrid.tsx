@@ -43,7 +43,6 @@ const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
     // Cleanup function
     return () => {
       isAnimationInitialized.current = false;
-      // You might want to add a cleanup function for ScrollTrigger instances here
     };
   }, [bentoGridRef, isTouchDevice]);
 
