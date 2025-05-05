@@ -37,13 +37,19 @@ $container: (
 // Breakpoints (mobile-first)
 // -----------------------------------------------------------------------------
 $breakpoints: (
-  xs: 375px,   // Extra small phones
-  sm: 576px,   // Small phones
-  md: 768px,   // Tablets
-  lg: 992px,   // Small desktops
-  xl: 1200px,  // Medium desktops
-  xxl: 1400px, // Large desktops
-  xxxl: 1600px // Extra large desktops
+  xs: 375px,
+  // Extra small phones
+  sm: 576px,
+  // Small phones
+  md: 768px,
+  // Tablets
+  lg: 992px,
+  // Small desktops
+  xl: 1200px,
+  // Medium desktops
+  xxl: 1400px,
+  // Large desktops
+  xxxl: 1600px // Extra large desktops,
 );
 
 // -----------------------------------------------------------------------------
@@ -96,6 +102,7 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
 // -----------------------------------------------------------------------------
 // Typography
 // -----------------------------------------------------------------------------
+// Add to your $font-size map
 $font-size: (
   sm: 0.875rem,
   base: 1rem,
@@ -110,6 +117,14 @@ $font-size: (
   8xl: 6rem,
   9xl: 8rem,
   10xl: 10rem,
+  // Custom hero sizes
+  hero-xs: 70px,
+  hero-sm: 110px,
+  hero-md: 135px,
+  hero-lg: 120px,
+  hero-xl: 150px,
+  hero-xxl: 175px,
+  hero-xxxl: 220px,
 );
 
 $font-weight: (
@@ -139,7 +154,12 @@ $gap: (
   2xl: 56px,
   3xl: 64px,
   4xl: 80px,
-);
+  5xl: 100px,
+  6xl: 120px,
+  7xl: 140px,
+  8xl: 160px,
+  9xl: 180px,
+  10xl: 200px,);
 
 // -----------------------------------------------------------------------------
 // Component Spacing

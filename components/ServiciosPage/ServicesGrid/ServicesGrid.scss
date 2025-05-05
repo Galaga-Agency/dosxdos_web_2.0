@@ -1,0 +1,216 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+@use "base/animations" as *;
+
+.services-grid {
+  position: relative;
+  width: 100%;
+  background-color: $black;
+  overflow: hidden;
+
+  // Marquee styling
+  &__marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 2rem 0;
+
+    &-track {
+      display: flex;
+      white-space: nowrap;
+      animation: scroll-marquee 20s linear infinite;
+      width: 100%;
+    }
+
+    &-text {
+      @include font-weight(semibold);
+      color: rgba($white, 0.15);
+      text-transform: capitalize;
+      letter-spacing: -0.025em;
+      @include font-size(hero-xs);
+
+      @include min-width(sm) {
+        @include font-size(hero-sm);
+      }
+
+      @include min-width(md) {
+        @include font-size(hero-md);
+      }
+
+      @include min-width(lg) {
+        @include font-size(hero-lg);
+      }
+
+      @include min-width(xl) {
+        @include font-size(hero-xl);
+      }
+
+      @include min-width(xxl) {
+        @include font-size(hero-xxl);
+      }
+
+      @include min-width(xxxl) {
+        @include font-size(hero-xxxl);
+      }
+
+      span {
+        display: inline-block;
+      }
+    }
+  }
+
+  &__container {
+    margin: 0 auto;
+    @include container-width(mobile);
+    @include padding(content-x, x);
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    @include gap(xl);
+
+    @include min-width(md) {
+      grid-template-columns: repeat(2, 1fr);
+      @include gap(lg);
+    }
+
+    @include min-width(lg) {
+      grid-template-columns: repeat(2, 1fr);
+      @include gap(8xl);
+    }
+
+    @include min-width(xl) {
+      max-width: 80%;
+      margin: 0 auto;
+    }
+  }
+
+  &__item {
+    position: relative;
+    cursor: none;
+    aspect-ratio: 0.8;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+
+    .img_reveal {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      visibility: hidden;
+
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      &__overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 35%; // Default height
+        background: linear-gradient(
+          to top,
+          rgba($black, 0.8) 0%,
+          rgba($black, 0.3) 50%,
+          rgba($black, 0) 100%
+        );
+        z-index: 2;
+        transition: height 0.4s ease;
+      }
+    }
+  }
+
+  &__button-container {
+    @include flex(column, center, center);
+    width: 100%;
+    margin: 0 auto;
+    @include margin(4xl, y);
+  }
+
+  &__category {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: $white;
+    font-size: 16px;
+    font-weight: 400;
+    z-index: 3;
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 3;
+  }
+
+  &__year {
+    color: $white;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+
+  &__title {
+    color: $white;
+    @include font-size(3xl);
+    @include font-weight(semibold);
+    margin: 0;
+  }
+}
+
+// View Demo bubble that follows the cursor with smoother animation
+.view-demo {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+
+  // Use transform for smoother animation
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  span {
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+  }
+}

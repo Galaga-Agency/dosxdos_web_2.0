@@ -52,11 +52,11 @@ export default function SmoothScrollWrapper({
             (window as any).__smoother__ = null;
           }
           
-          // Create new smoother
+          // Create new smoother - fixed configuration
           smoother = ScrollSmoother.create({
             smooth: 2,
             effects: true,
-            normalizeScroll: true,
+            // Removed the normalizeScroll option that was causing the error
           });
           
           (window as any).__smoother__ = smoother;

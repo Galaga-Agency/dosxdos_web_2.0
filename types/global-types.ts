@@ -7,6 +7,7 @@ interface Window {
 declare global {
   interface Window {
     __smoother__: any;
+    cursorAnimationFrame?: number;
   }
 }
 

@@ -70,16 +70,30 @@
 }
 
 // -----------------------------------------------------------------------------
-// Section spacing
+// Section spacing (optimized for better screen size proportions)
 // Usage: @include section-spacing;
 // -----------------------------------------------------------------------------
 @mixin section-spacing {
-  padding-top: map-get($spacing, 'section-y-sm');
-  padding-bottom: map-get($spacing, 'section-y-sm');
+  // Mobile spacing
+  padding-top: map-get($spacing, 'xl');
+  padding-bottom: map-get($spacing, 'xl');
   
+  // Tablet spacing
+  @include min-width(md) {
+    padding-top: map-get($spacing, '3xl');
+    padding-bottom: map-get($spacing, '3xl');
+  }
+  
+  // Small desktop spacing
   @include min-width(lg) {
-    padding-top: map-get($spacing, 'section-y');
-    padding-bottom: map-get($spacing, 'section-y');
+    padding-top: map-get($spacing, '4xl');
+    padding-bottom: map-get($spacing, '4xl');
+  }
+  
+  // Large desktop spacing
+  @include min-width(xl) {
+    padding-top: map-get($spacing, '5xl');
+    padding-bottom: map-get($spacing, '5xl');
   }
 }
 

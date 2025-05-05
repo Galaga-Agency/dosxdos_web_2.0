@@ -1,0 +1,10 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+@use "base/animations" as *;
+
+.servicios-page {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+}
