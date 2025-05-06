@@ -1,6 +1,6 @@
 "use client";
 
-import { gsap, Power2 } from "gsap";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
@@ -28,182 +28,241 @@ export interface ServiciosHeroRefs {
   [key: string]: HTMLElement | null;
 }
 
-// Initialize fade animations
+// Common fade animation setup
+function setupFadeAnimation(
+  selector: string,
+  initialProps: gsap.TweenVars,
+  animProps: gsap.TweenVars,
+  startPosition: string = "top center+=100"
+) {
+  const elements = document.querySelectorAll(selector);
+  if (elements.length === 0) return;
+
+  gsap.set(selector, initialProps);
+  const elementsArray = gsap.utils.toArray(selector);
+
+  elementsArray.forEach((item: any) => {
+    const tl = gsap.timeline({
+      scrollTrigger: trackScrollTrigger(
+        ScrollTrigger.create({
+          trigger: item,
+          start: startPosition,
+        })
+      ),
+    });
+
+    tl.to(item, { ...animProps, ease: "power2.out" });
+  });
+}
+
 export function initFadeAnimations(): void {
   if (typeof window === "undefined") return;
 
   // Fade Bottom animations
-  if (document.querySelectorAll(".fade_bottom").length > 0) {
-    gsap.set(".fade_bottom", { y: 100, opacity: 0 });
-    const fadeArray = gsap.utils.toArray(".fade_bottom");
-    fadeArray.forEach((item: any) => {
-      const fadeTl = gsap.timeline({
-        scrollTrigger: trackScrollTrigger(ScrollTrigger.create({
-          trigger: item,
-          start: "top center+=400",
-        }))
-      });
-      
-      fadeTl.to(item, {
-        y: 0,
-        opacity: 1,
-        ease: "power2.out",
-        duration: 1.5,
-      });
-    });
-  }
+  setupFadeAnimation(
+    ".fade_bottom",
+    { y: 100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1.5 },
+    "top center+=400"
+  );
 
   // Fade Top animations
-  if (document.querySelectorAll(".fade_top").length > 0) {
-    gsap.set(".fade_top", { y: -100, opacity: 0 });
-    const fadetopArray = gsap.utils.toArray(".fade_top");
-    fadetopArray.forEach((item: any) => {
-      const fadeTl = gsap.timeline({
-        scrollTrigger: trackScrollTrigger(ScrollTrigger.create({
-          trigger: item,
-          start: "top center+=100",
-        }))
-      });
-      
-      fadeTl.to(item, {
-        y: 0,
-        opacity: 1,
-        ease: "power2.out",
-        duration: 2.5,
-      });
-    });
-  }
+  setupFadeAnimation(
+    ".fade_top",
+    { y: -100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 2.5 }
+  );
 
   // Fade Left animations
-  if (document.querySelectorAll(".fade_left").length > 0) {
-    gsap.set(".fade_left", { x: -100, opacity: 0 });
-    const fadeleftArray = gsap.utils.toArray(".fade_left");
-    fadeleftArray.forEach((item: any) => {
-      const fadeTl = gsap.timeline({
-        scrollTrigger: trackScrollTrigger(ScrollTrigger.create({
-          trigger: item,
-          start: "top center+=100",
-        }))
-      });
-      
-      fadeTl.to(item, {
-        x: 0,
-        opacity: 1,
-        ease: "power2.out",
-        duration: 2.5,
-      });
-    });
-  }
+  setupFadeAnimation(
+    ".fade_left",
+    { x: -100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 2.5 }
+  );
 
   // Fade Right animations
-  if (document.querySelectorAll(".fade_right").length > 0) {
-    gsap.set(".fade_right", { x: 100, opacity: 0 });
-    const faderightArray = gsap.utils.toArray(".fade_right");
-    faderightArray.forEach((item: any) => {
-      const fadeTl = gsap.timeline({
-        scrollTrigger: trackScrollTrigger(ScrollTrigger.create({
-          trigger: item,
-          start: "top center+=100",
-        }))
-      });
-      
-      fadeTl.to(item, {
-        x: 0,
-        opacity: 1,
-        ease: "power2.out",
-        duration: 2.5,
-      });
-    });
+  setupFadeAnimation(
+    ".fade_right",
+    { x: 100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 2.5 }
+  );
+}
+
+export function animateRecentProjects(): void {
+  if (typeof window === "undefined") return;
+
+  // Skip on desktop - only run on mobile
+  if (window.innerWidth >= 768) return;
+
+  console.log("Initializing mobile recent projects animations");
+
+  // Simple approach - add classes to elements when they enter the viewport
+  const projectItems = document.querySelectorAll(
+    ".servicios-recent-projects__item"
+  );
+
+  if (projectItems.length === 0) {
+    console.log("No project items found");
+    return;
   }
+
+  console.log(`Found ${projectItems.length} project items`);
+
+  // Create an Intersection Observer
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        // Get the elements we want to animate
+        const item = entry.target;
+        const infoElement = item.querySelector(
+          ".servicios-recent-projects__hover-info"
+        );
+        const labelElement = item.querySelector(
+          ".servicios-recent-projects__label"
+        );
+        const titleElement = item.querySelector(
+          ".servicios-recent-projects__project-title"
+        );
+
+        if (!infoElement || !labelElement || !titleElement) return;
+
+        if (entry.isIntersecting) {
+          console.log("Item in view:", item);
+          // When the item is in the viewport
+          infoElement.classList.add("info-visible");
+          labelElement.classList.add("label-visible");
+          titleElement.classList.add("title-visible");
+        } else {
+          console.log("Item out of view:", item);
+          // When the item is out of the viewport
+          infoElement.classList.remove("info-visible");
+          labelElement.classList.remove("label-visible");
+          titleElement.classList.remove("title-visible");
+        }
+      });
+    },
+    {
+      threshold: 0.5, // Trigger when 50% of the item is visible
+      rootMargin: "0px",
+    }
+  );
+
+  // Observe all project items
+  projectItems.forEach((item) => {
+    observer.observe(item);
+    console.log("Observing item:", item);
+  });
 }
 
 export function imageRevealAnimation() {
-  const img_reveal = document.querySelectorAll(".img_reveal");
+  if (typeof window === "undefined") return;
 
-	if(img_reveal.length > 0) {
-    img_reveal.forEach((img_reveal) => {
-      let image = img_reveal.querySelector("img");
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: img_reveal,
+  const imgRevealElements = document.querySelectorAll(".img_reveal");
+  if (imgRevealElements.length === 0) return;
+
+  imgRevealElements.forEach((imgReveal) => {
+    const image = imgReveal.querySelector("img");
+    const overlay = imgReveal.querySelector(".img_reveal__overlay");
+    const gridItem = imgReveal.closest(".services-grid__item");
+    const content = gridItem?.querySelector(".services-grid__content");
+
+    if (!image) return;
+
+    // Initially hide overlay and content
+    if (overlay) gsap.set(overlay, { autoAlpha: 0 });
+    if (content) gsap.set(content, { autoAlpha: 0 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: trackScrollTrigger(
+        ScrollTrigger.create({
+          trigger: imgReveal,
           start: "top 70%",
-        }
-      });
-  
-      tl.set(img_reveal, { autoAlpha: 1 });
-      tl.from(img_reveal, 1.5, {
+        })
+      ),
+    });
+
+    // Keep your original animation
+    tl.set(imgReveal, { autoAlpha: 1 })
+      .from(imgReveal, {
+        duration: 1.5,
         xPercent: -100,
-        ease: Power2.easeOut
-      } as any);
-      tl.from(image, 1.5, {
+        ease: "power2.out",
+      })
+      .from(image, {
+        duration: 1.5,
         xPercent: 100,
         scale: 1.5,
         delay: -1.5,
-        ease: Power2.easeOut
-      } as any);
-    });
-  }
-};
+        ease: "power2.out",
+      });
 
-// Initialize hero section animations
+    // After main animation completes, show overlay and content
+    if (overlay) {
+      tl.to(overlay, {
+        autoAlpha: 1,
+        duration: 0.3,
+      });
+    }
+
+    if (content) {
+      tl.to(
+        content,
+        {
+          autoAlpha: 1,
+          duration: 0.3,
+        },
+        "-=0.1"
+      ); // Slightly overlap with overlay animation
+    }
+  });
+}
+
 export function animateServiciosHero(refs: ServiciosHeroRefs) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || !refs.title) return;
 
-  console.log("Initializing Servicios Hero Animations");
+  // Make elements visible
+  const elements = [refs.title, refs.subtitle, refs.button].filter(Boolean);
+  gsap.set(elements, { visibility: "visible" });
 
-  // Title animation
-  if (refs.title) {
-    // Make the title visible for animation
-    gsap.set(refs.title, {
-      visibility: "visible"
+  // Title character animation
+  const splitText = new SplitText(refs.title, { type: "chars, words" });
+  gsap.from(splitText.chars, {
+    duration: 1,
+    x: 100,
+    autoAlpha: 0,
+    stagger: 0.05,
+  });
+
+  // Horizontal scroll animation for tablets and above - with improved debugging
+  if (window.innerWidth >= 1025) {
+    gsap.set(refs.title, { x: "0%" });
+
+    // SECOND: Create the scroll animation timeline with more explicit configuration
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: refs.section,
+        start: "top 30%",
+        end: "bottom 20%",
+        scrub: 1.5,
+        invalidateOnRefresh: true,
+        onEnter: () => console.log("ScrollTrigger entered"),
+        onLeave: () => console.log("ScrollTrigger left"),
+        onEnterBack: () => console.log("ScrollTrigger entered back"),
+        onLeaveBack: () => console.log("ScrollTrigger left back"),
+      },
     });
-    
-    // Character animation
-    const splitText = new SplitText(refs.title, {
-      type: "chars, words",
-    });
 
-    gsap.from(splitText.chars, {
+    // Add the scroll animation with easing
+    tl.to(refs.title, {
+      x: "-25%",
+      ease: "power2.inOut",
       duration: 1,
-      x: 100,
-      autoAlpha: 0,
-      stagger: 0.05,
     });
-    
-    // Create a match media for tablets and above
-    let mm = gsap.matchMedia();
-    
-    // Only apply animations on tablets and up
-    mm.add("(min-width: 576px)", () => {
-      // FIRST: Create the scroll animation timeline 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: refs.section,
-          start: "top 30%",
-          end: "bottom 20%",
-          scrub: 1.5, // Higher value for smoother scrubbing
-          invalidateOnRefresh: true
-        }
-      });
-      
-      // Add the scroll animation with easing
-      tl.to(refs.title, {
-        x: "-25%",
-        ease: "power2.inOut" // Smooth easing for better transition
-      });
-      
-      // SECOND: Set the initial position
-      gsap.set(refs.title, {
-        x: "0%"
-      });
-      
-      // Track for cleanup
-      if (tl.scrollTrigger) {
-        trackScrollTrigger(tl.scrollTrigger);
-      }
-      
-      return () => {};
-    });
+
+    // Track for cleanup
+    if (tl.scrollTrigger) {
+      trackScrollTrigger(tl.scrollTrigger);
+    }
   }
 
   // Subtitle animation
@@ -211,7 +270,7 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
     gsap.fromTo(
       refs.subtitle,
       { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, delay: 1.8, ease: "power2.out" }
+      { opacity: 1, y: 0, duration: 0.8, delay: 1.6, ease: "power2.out" }
     );
   }
 
@@ -220,102 +279,78 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
     gsap.fromTo(
       refs.button,
       { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, delay: 2, ease: "power2.out" }
+      { opacity: 1, y: 0, duration: 0.8, delay: 1.8, ease: "power2.out" }
     );
   }
-}
-
-// Initialize all animations for the servicios page
-export function initServiciosAnimations(): void {
-  if (typeof window === "undefined") return;
-  
-  console.log("Initializing all servicios page animations");
-  
-  // Initialize fade animations
-  initFadeAnimations();
-  
-  // Refresh ScrollTrigger
-  refreshScrollTrigger();
 }
 
 // Cursor bubble animation
 export function initCursorBubbleAnimation() {
   if (typeof window === "undefined") return;
-  
-  // Create the viewDemo bubble that follows cursor
+
+  // Create the viewDemo bubble
   const viewDemo = document.createElement("div");
   viewDemo.className = "view-demo";
-  viewDemo.innerHTML = "<span>View<br>Demo</span>";
+  viewDemo.innerHTML = "<span>Ver<br>Más</span>";
   document.body.appendChild(viewDemo);
-  
+
   // Variables for smooth following
-  let mouseX = 0;
-  let mouseY = 0;
-  let bubbleX = 0;
-  let bubbleY = 0;
-  
+  let mouseX = 0,
+    mouseY = 0,
+    bubbleX = 0,
+    bubbleY = 0;
+
   // Handle mouse movement
-  const handleMouseMove = (e: MouseEvent) => {
+  document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-  };
-  
-  document.addEventListener("mousemove", handleMouseMove);
-  
-  // Animate bubble position with requestAnimationFrame for smoother movement
+  });
+
+  // Animate bubble with requestAnimationFrame
   const animateBubble = () => {
-    // Smoothly interpolate the bubble position to follow the mouse
-    const speed = 0.15; // Lower value = smoother/slower follow
-    
-    // Calculate the distance between current position and target (mouse) position
-    const distX = mouseX - bubbleX;
-    const distY = mouseY - bubbleY;
-    
-    // Move the bubble a portion of the way to the mouse
-    bubbleX += distX * speed;
-    bubbleY += distY * speed;
-    
-    // Apply position with a small offset for more natural feel
+    const speed = 0.15;
+    bubbleX += (mouseX - bubbleX) * speed;
+    bubbleY += (mouseY - bubbleY) * speed;
+
     viewDemo.style.left = `${bubbleX + 10}px`;
     viewDemo.style.top = `${bubbleY - 10}px`;
-    
+
     window.cursorAnimationFrame = requestAnimationFrame(animateBubble);
   };
-  
-  // Start animation loop
   window.cursorAnimationFrame = requestAnimationFrame(animateBubble);
-  
-  // Add event listeners to service items
+
+  // Add hover events
   setTimeout(() => {
-    const itemSelectors = ['.services-grid__item', '.portfolio-item'];
-    
-    itemSelectors.forEach(selector => {
-      const items = document.querySelectorAll(selector);
-      
-      items.forEach(item => {
-        item.addEventListener("mouseenter", () => {
-          viewDemo.classList.add("active");
-        });
-        
-        item.addEventListener("mouseleave", () => {
-          viewDemo.classList.remove("active");
-        });
+    [".services-grid__item", ".portfolio-item"].forEach((selector) => {
+      document.querySelectorAll(selector).forEach((item) => {
+        item.addEventListener("mouseenter", () =>
+          viewDemo.classList.add("active")
+        );
+        item.addEventListener("mouseleave", () =>
+          viewDemo.classList.remove("active")
+        );
       });
     });
   }, 300);
 }
 
+// Initialize all animations for the servicios page
+export function initServiciosAnimations(): void {
+  if (typeof window === "undefined") return;
+  initFadeAnimations();
+  animateRecentProjects();
+  refreshScrollTrigger();
+}
+
 // Clean up cursor bubble animation
 export function cleanupCursorBubbleAnimation() {
   if (typeof window === "undefined") return;
-  
-  // Remove the view demo bubble
-  const viewDemo = document.querySelector('.view-demo');
+
+  const viewDemo = document.querySelector(".view-demo");
   if (viewDemo && document.body.contains(viewDemo)) {
     document.body.removeChild(viewDemo);
   }
-  
-  // Cancel the animation frame
+
   if (window.cursorAnimationFrame) {
     cancelAnimationFrame(window.cursorAnimationFrame);
   }
@@ -325,19 +360,12 @@ export function cleanupCursorBubbleAnimation() {
 export function cleanupServiciosAnimations(): void {
   if (typeof window === "undefined") return;
 
-  console.log("⚠️ Cleaning up all servicios page animations");
-
   // Kill all ScrollTriggers
-  scrollTriggerInstances.forEach((trigger) => {
-    trigger.kill();
-  });
-
-  // Clear the array
+  scrollTriggerInstances.forEach((trigger) => trigger.kill());
   scrollTriggerInstances.length = 0;
-  
+
   // Clear match media
   ScrollTrigger.clearMatchMedia();
 
-  // Refresh ScrollTrigger
   refreshScrollTrigger();
 }

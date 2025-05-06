@@ -12,7 +12,7 @@ import CTASection from "@/components/EquipoPage/CTASection/CTASection";
 import "./equipo-page.scss";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { cleanupEquipoAnimations } from "@/utils/animations/equipo-page-anim";
+import { cleanupEquipoAnimations } from "@/utils/animations/pages/equipo-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 
 // Register GSAP plugins

@@ -11,7 +11,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  @include z-index(above);
+  @include z-index(modal);
   transition: opacity 0.3s ease, visibility 0s linear 0.3s; // Delay visibility change
   transform: translateY(10px); // Start slightly down
   

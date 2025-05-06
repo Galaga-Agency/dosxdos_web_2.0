@@ -2,24 +2,22 @@
 // Spacing
 // -----------------------------------------------------------------------------
 $spacing: (
+  2xs: 4px,
+  3xs: 2px,
   xs: 8px,
   sm: 16px,
   md: 24px,
   lg: 32px,
   xl: 40px,
-  xxl: 48px,
-  // Additional spacings for more granular control
-  2xs: 4px,
-  3xs: 2px,
-  3xl: 56px,
-  4xl: 64px,
-  5xl: 80px,
-  6xl: 96px,
-  // Section specific spacings
-  section-y: 120px,
-  section-y-sm: 48px,
-  header-y: 24px,
-  content-x: 24px,
+  2xl: 48px,
+  3xl: 64px,
+  4xl: 80px,
+  5xl: 96px,
+  6xl: 120px,
+  7xl: 144px,
+  8xl: 168px,
+  9xl: 180px,
+  10xl: 200px,
 );
 
 // -----------------------------------------------------------------------------
@@ -49,7 +47,7 @@ $breakpoints: (
   // Medium desktops
   xxl: 1400px,
   // Large desktops
-  xxxl: 1600px // Extra large desktops,
+  xxxl: 1600px // Extra large desktops,,,
 );
 
 // -----------------------------------------------------------------------------
@@ -120,7 +118,7 @@ $font-size: (
   // Custom hero sizes
   hero-xs: 70px,
   hero-sm: 110px,
-  hero-md: 135px,
+  hero-md: 125px,
   hero-lg: 120px,
   hero-xl: 150px,
   hero-xxl: 175px,
@@ -159,7 +157,8 @@ $gap: (
   7xl: 140px,
   8xl: 160px,
   9xl: 180px,
-  10xl: 200px,);
+  10xl: 200px,
+);
 
 // -----------------------------------------------------------------------------
 // Component Spacing
