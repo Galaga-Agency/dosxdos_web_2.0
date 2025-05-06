@@ -10,6 +10,7 @@ declare global {
     cursorAnimationFrame?: number;
     ScrollTrigger: any;
     gsap?: any;
+    projectsObserver?: IntersectionObserver;
   }
 }
 
