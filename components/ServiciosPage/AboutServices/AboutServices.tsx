@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { initFadeAnimations, cleanupServiciosAnimations } from "@/utils/animations/pages/servicios-page-anim";
+import {
+  initFadeAnimations,
+  cleanupServiciosAnimations,
+} from "@/utils/animations/pages/servicios-page-anim";
 import "./AboutServices.scss";
 
 const AboutServices: React.FC = () => {
@@ -9,14 +12,14 @@ const AboutServices: React.FC = () => {
 
   useEffect(() => {
     console.log("AboutServices mounted");
-    
+
     // Larger delay to ensure DOM is fully rendered
     const timer = setTimeout(() => {
       console.log("Initializing animations");
       // Initialize fade animations
       initFadeAnimations();
     }, 300);
-    
+
     return () => {
       console.log("AboutServices unmounting");
       // Clear the timeout on unmount
@@ -31,16 +34,16 @@ const AboutServices: React.FC = () => {
       <div className="about-services__container">
         <div className="about-services__header">
           <div className="about-services__subtitle fade_left">
-            140+ projects closed
+            Más de 35 años de experiencia
           </div>
           <h2 className="about-services__title">
             <div className="title-row fade_bottom">
-              AS A DIGITAL DESIGNER, I FOCUS ON
+              COMO ESPECIALISTAS EN DISEÑO DE INTERIORES,
             </div>
             <div className="title-row fade_bottom">
-              PRODUCING TOP NOTCH AND IMPACTFUL DIGITAL
+              CREAMOS ESPACIOS COMERCIALES DE LUJO QUE
             </div>
-            <div className="title-row fade_bottom">EXPERIENCES.</div>
+            <div className="title-row fade_bottom">CAUTIVAN Y VENDEN.</div>
           </h2>
         </div>
 
@@ -68,18 +71,21 @@ const AboutServices: React.FC = () => {
 
           <div className="about-services__description">
             <p className="about-services__text fade_bottom">
-              Together, we construct tailored marketing campaigns that engage
-              and resonate with customers on a deeper level. Adaptiv's approach
-              amplifies brand awareness and loyalty and paves the way for
-              sustainable business growth and success.
+              En Dos por Dos creamos ambientes comerciales que transforman la
+              experiencia del cliente en el punto de venta. Nuestro enfoque
+              integral potencia la identidad de marcas de lujo en el sector de
+              la cosmética y perfumería con espacios que reflejan su
+              exclusividad.
             </p>
             <p className="about-services__text fade_bottom">
-              We believe that understanding and solving clients issues is the
-              key to success. Now It's your time to overcome challenges, face
-              fresh perspective and realize full potential.
+              Creemos que entender las necesidades específicas de cada marca es
+              la clave del éxito. Es momento de elevar la presentación de sus
+              productos, ofrecer una nueva perspectiva y realizar todo el
+              potencial de su espacio comercial.
             </p>
             <p className="about-services__text fade_bottom">
-              Based on strong expertise and a battle-tested business.!
+              Respaldados por más de tres décadas de experiencia y un proceso de
+              diseño probado para las marcas más exigentes del sector.
             </p>
           </div>
         </div>

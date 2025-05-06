@@ -15,7 +15,7 @@
     @include padding(2xl, y);
 
     @include min-width(md) {
-      @include padding(10xl, bottom);
+      @include padding(4xl, bottom);
     }
 
     @include min-width(xl) {
@@ -120,6 +120,14 @@
     height: 100%;
     overflow: hidden;
     will-change: transform;
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      object-position: center;
+      will-change: transform;
+    }
   }
 
   &__text-wrap {
@@ -140,25 +148,16 @@
   &__middle-image {
     position: absolute;
     display: none;
-    text-align: center;
     width: 50%;
+    height: 300px; /* Fixed height */
     @include z-index(above);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 
-    @include min-width(md) {
-      display: block;
-      left: 25%;
-      bottom: -50%;
-      transform: translate(-50%, 0);
-      text-align: center;
-      margin: 0 auto;
-    }
-
     @include min-width(xl) {
       display: block;
       left: 100%;
-      bottom: -50%;
+      bottom: -150px;
       transform: translate(-50%, 0);
       margin: 0;
       width: 25%;
@@ -167,10 +166,18 @@
 
   &__middle-image-inner {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 150%;
+    height: 150%;
     overflow: hidden;
     will-change: transform;
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      object-position: center;
+      will-change: transform;
+    }
   }
 
   &__bottom {
@@ -179,16 +186,13 @@
     @include padding(2xl, y);
 
     @include min-width(md) {
-      @include padding(8xl, top);
+      padding-top: 0;
       @include padding(2xl, bottom);
-    }
-
-    @include min-width(md) {
-      @include padding(8xl, top);
     }
 
     @include min-width(xl) {
       @include padding(5xl, top);
+      margin-top: 150px;
     }
   }
 

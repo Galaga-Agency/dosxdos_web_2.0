@@ -104,7 +104,9 @@ const ServiciosRecentProjects: React.FC = () => {
       <div className="servicios-recent-projects__container">
         <div className="servicios-recent-projects__layout">
           <div className="servicios-recent-projects__header">
-            <h2 className="servicios-recent-projects__title">RECENT PROJECT</h2>
+            <h2 className="servicios-recent-projects__title">
+              PROYECTOS RECIENTES
+            </h2>
           </div>
 
           <div

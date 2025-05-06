@@ -37,19 +37,20 @@ const ServiciosHero: React.FC = () => {
     <section ref={sectionRef} className="servicios-hero">
       <div className="servicios-hero__container">
         <h1 ref={titleRef} className="servicios-hero__title char-animation">
-          <span className="experience">Experience </span>
+          <span className="experience">Experiencia </span>
           <span className="plus">+</span>
-          <span className="creatividad">Creativity</span>
+          <span className="creatividad"> Creatividad</span>
         </h1>
 
         <p ref={subtitleRef} className="servicios-hero__subtitle">
-          We're an innovative global ui/ux design agency building high-end
-          products and experiences that grow your business exponentially.
+          Somos una agencia de diseño de interiores especializada en crear
+          espacios comerciales de lujo para firmas de cosmética y perfumería que
+          elevan su marca y potencian sus ventas.
         </p>
 
         <div ref={buttonRef} className="servicios-hero__button-wrapper">
           <Link href="/portfolio" className="servicios-hero__button">
-            <span className="servicios-hero__button-text">View Our Works </span>
+            <span className="servicios-hero__button-text">Ver Proyectos </span>
             <span className="servicios-hero__button-icon">
               <GoArrowUpRight />
             </span>
