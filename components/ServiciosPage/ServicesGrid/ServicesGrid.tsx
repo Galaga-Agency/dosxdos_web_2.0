@@ -61,17 +61,24 @@ const ServicesGrid: React.FC = () => {
 
   useEffect(() => {
     console.log("ServicesGrid mounted");
+    
+    // First ensure all animations are cleaned up
+    cleanupServiciosAnimations();
+    cleanupCursorBubbleAnimation();
 
-    if (sectionRef.current) {
-      setTimeout(() => {
+    // Allow the DOM to fully update before initializing animations
+    const timer = setTimeout(() => {
+      if (sectionRef.current) {
+        console.log("Initializing animations");
         initFadeAnimations();
         imageRevealAnimation();
         initCursorBubbleAnimation();
-      }, 400);
-    }
+      }
+    }, 300);
 
     return () => {
       console.log("ServicesGrid unmounting");
+      clearTimeout(timer);
       cleanupServiciosAnimations();
       cleanupCursorBubbleAnimation();
     };
