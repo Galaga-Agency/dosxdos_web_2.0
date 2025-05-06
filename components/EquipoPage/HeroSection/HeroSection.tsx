@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import { animateHeroSection } from "@/utils/animations/equipo-page-anim";
+import { animateHeroSection } from "@/utils/animations/pages/equipo-page-anim";
 import "./HeroSection.scss";
 
 const HeroSection: React.FC = () => {

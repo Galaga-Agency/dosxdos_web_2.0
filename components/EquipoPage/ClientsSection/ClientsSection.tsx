@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
 import "./ClientsSection.scss";
-import { animateClientsSection } from "@/utils/animations/equipo-page-anim";
+import { animateClientsSection } from "@/utils/animations/pages/equipo-page-anim";
 
 const ClientsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);

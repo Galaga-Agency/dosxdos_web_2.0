@@ -3,6 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { animateServiciosHero } from "@/utils/animations/pages/servicios-page-anim";
+import { GoArrowUpRight } from "react-icons/go";
+
 import "./ServiciosHero.scss";
 
 const ServiciosHero: React.FC = () => {
@@ -12,9 +14,7 @@ const ServiciosHero: React.FC = () => {
   const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log("ServiciosHero mounted");
-    
-    if (sectionRef.current && titleRef.current) {      
+    if (sectionRef.current && titleRef.current) {
       // Small delay to ensure DOM is ready
       setTimeout(() => {
         animateServiciosHero({
@@ -33,26 +33,26 @@ const ServiciosHero: React.FC = () => {
     };
   }, []);
 
-  // Debug rendering
-  console.log("ServiciosHero rendering");
-
   return (
     <section ref={sectionRef} className="servicios-hero">
       <div className="servicios-hero__container">
         <h1 ref={titleRef} className="servicios-hero__title char-animation">
-          <span className="experience">Experience</span> 
-          <span className="plus">+</span> 
+          <span className="experience">Experience </span>
+          <span className="plus">+</span>
           <span className="creatividad">Creativity</span>
         </h1>
-        
+
         <p ref={subtitleRef} className="servicios-hero__subtitle">
-          We're an innovative global ui/ux design agency building high-end products 
-          and experiences that grow your business exponentially.
+          We're an innovative global ui/ux design agency building high-end
+          products and experiences that grow your business exponentially.
         </p>
-        
+
         <div ref={buttonRef} className="servicios-hero__button-wrapper">
           <Link href="/portfolio" className="servicios-hero__button">
-            View Our Works →
+            <span className="servicios-hero__button-text">View Our Works </span>
+            <span className="servicios-hero__button-icon">
+              <GoArrowUpRight />
+            </span>
           </Link>
         </div>
       </div>

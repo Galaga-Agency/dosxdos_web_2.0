@@ -6,121 +6,121 @@
 .servicios-hero {
   position: relative;
   width: 100%;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  @include padding(6xl, top);
-  
+  @include flex(row, center, center);
+  @include padding(7xl, top);
+  @include padding(4xl, bottom);
+
   &__container {
-    margin: 0 auto; // Keeping your important margin setting
+    margin: 0 auto;
     @include container-width(mobile);
-    
+
     @include min-width(md) {
       @include container-width(tablet);
       overflow-x: visible;
     }
-    
+
     @include min-width(lg) {
       @include container-width(smalldesktop);
     }
-    
+
     @include min-width(xl) {
       @include container-width(desktop);
     }
   }
-  
+
   &__title {
     @include font-size(hero-xs);
     line-height: 1;
     @include margin(lg, bottom);
     will-change: transform;
     visibility: hidden; // Will be made visible by animation
-    
-    // Wrap text on mobile
-    white-space: normal;
-    
-    // For tablets and above, use nowrap
-    @include min-width(md) {
-      white-space: nowrap;
-    }
-    
+    white-space: normal; // Wrap text on mobile
+
     @include min-width(sm) {
       @include font-size(hero-sm);
     }
-    
+
     @include min-width(md) {
       @include font-size(hero-md);
     }
-    
+
     @include min-width(lg) {
       @include font-size(hero-lg);
+      @include letter-spacing(wide);
     }
-    
+
     @include min-width(xl) {
+      white-space: nowrap;
       @include font-size(hero-xl);
     }
-    
+
     @include min-width(xxl) {
       @include font-size(hero-xxl);
     }
-    
+
     @include min-width(xxxl) {
       @include font-size(hero-xxxl);
     }
-    
+
     .experience {
       color: $black;
     }
-    
+
     .plus {
       margin: 0 0.1rem;
     }
-    
+
     .creatividad {
-      color: rgba(128, 128, 128, 0.7);
-      
-      // Create line break on mobile
+      color: rgba($black, 0.3);
+
       @media (max-width: 767px) {
         display: block;
-        margin-top: 0.2em;
+        @include margin(2xs, top);
       }
     }
   }
-  
+
   &__subtitle {
     @include font-size(lg);
     color: rgba($black, 0.7);
     max-width: 40rem;
+    visibility: hidden;
     @include margin(xl, bottom);
-    
+
     @include min-width(md) {
       @include font-size(xl);
     }
-    
+
     @include min-width(lg) {
       @include font-size(2xl);
       max-width: 50rem;
     }
   }
-  
+
   &__button-wrapper {
     display: inline-block;
+    visibility: hidden;
   }
-  
+
   &__button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    @include flex(row, center, center);
+    @include gap(2xs);
     border: 1px solid rgba($black, 0.2);
-    @include padding(md, y);
+    @include padding(sm, y);
     @include padding(lg, x);
     color: $black;
     text-decoration: none;
-    transition: all 0.3s ease;
-    
+    @include transition(all, normal, ease);
+    @include font-size(xl);
+
     &:hover {
       background-color: $black;
       color: $white;
     }
+  }
+
+  &__button-icon {
+    @include z-index(above);
+    @include margin(xs, top);
   }
 }

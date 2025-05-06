@@ -8,6 +8,8 @@ declare global {
   interface Window {
     __smoother__: any;
     cursorAnimationFrame?: number;
+    ScrollTrigger: any;
+    gsap?: any;
   }
 }
 

@@ -375,3 +375,15 @@
     background-position: 100% 0;
   }
 }
+
+@keyframes scroll-indicator-pulse {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

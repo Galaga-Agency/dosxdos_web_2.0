@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { animateStatsSection } from "@/utils/animations/equipo-page-anim";
+import { animateStatsSection } from "@/utils/animations/pages/equipo-page-anim";
 import "./StatsSection.scss";
 
 const StatsSection: React.FC = () => {

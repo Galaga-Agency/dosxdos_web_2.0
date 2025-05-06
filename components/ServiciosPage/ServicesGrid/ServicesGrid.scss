@@ -8,6 +8,7 @@
   width: 100%;
   background-color: $black;
   overflow: hidden;
+  overscroll-behavior: none; // Add this to prevent scroll jumps
 
   // Marquee styling
   &__marquee {
@@ -15,12 +16,16 @@
     width: 100%;
     overflow: hidden;
     padding: 2rem 0;
+    pointer-events: none; // Prevent interaction with marquee
 
     &-track {
       display: flex;
       white-space: nowrap;
       animation: scroll-marquee 20s linear infinite;
       width: 100%;
+      pointer-events: none; // Fix for scrolling issue
+      touch-action: none; // Prevent touch events
+      user-select: none; // Prevent text selection
     }
 
     &-text {
@@ -56,6 +61,7 @@
 
       span {
         display: inline-block;
+        pointer-events: none; // Prevent interaction with text
       }
     }
   }
@@ -63,7 +69,8 @@
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
-    @include padding(content-x, x);
+    position: relative; 
+    z-index: 2;
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -82,6 +89,9 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     @include gap(xl);
+    will-change: transform; // Performance optimization for animations
+    position: relative; // Establish stacking context
+    z-index: 2; // Higher z-index than marquee
 
     @include min-width(md) {
       grid-template-columns: repeat(2, 1fr);
@@ -106,13 +116,16 @@
     overflow: hidden;
     display: block;
     text-decoration: none;
+    transform: translateZ(0); // Force GPU acceleration
+    backface-visibility: hidden; // Prevent flickering
+    perspective: 1000px; // 3D acceleration
 
     .img_reveal {
       position: relative;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      visibility: hidden;
+      visibility: hidden; // Initially hidden for GSAP animation
 
       img {
         position: absolute;
@@ -128,7 +141,8 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 35%; // Default height
+        width: 102%; /* Make slightly wider */
+        height: 35%;
         background: linear-gradient(
           to top,
           rgba($black, 0.8) 0%,
@@ -136,7 +150,8 @@
           rgba($black, 0) 100%
         );
         z-index: 2;
-        transition: height 0.4s ease;
+        pointer-events: none;
+        transform: translateX(-1%);
       }
     }
   }
@@ -146,16 +161,8 @@
     width: 100%;
     margin: 0 auto;
     @include margin(4xl, y);
-  }
-
-  &__category {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: $white;
-    font-size: 16px;
-    font-weight: 400;
-    z-index: 3;
+    position: relative; 
+    z-index: 2; 
   }
 
   &__content {
@@ -163,13 +170,7 @@
     bottom: 20px;
     left: 20px;
     z-index: 3;
-  }
-
-  &__year {
-    color: $white;
-    font-size: 16px;
-    font-weight: 400;
-    margin-bottom: 10px;
+    pointer-events: none; 
   }
 
   &__title {
@@ -199,6 +200,7 @@
   // Use transform for smoother animation
   transform: translate(-50%, -50%) scale(0.8);
   transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+  will-change: transform, opacity; // Performance optimization
 
   &.active {
     opacity: 1;

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { animateCTASection } from "@/utils/animations/equipo-page-anim";
+import { animateCTASection } from "@/utils/animations/pages/equipo-page-anim";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import "./CTASection.scss";
 

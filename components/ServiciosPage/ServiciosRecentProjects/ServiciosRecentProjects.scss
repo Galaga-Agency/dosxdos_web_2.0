@@ -6,134 +6,203 @@
 .servicios-recent-projects {
   position: relative;
   width: 100%;
-  @include padding(6xl, bottom); // Using your 6xl value (96px) for top padding
-  
+
   &__container {
     margin: 0 auto;
-    overflow: visible;
     @include container-width(mobile);
-    
+
     @include min-width(md) {
       @include container-width(tablet);
+      padding-right: 0;
+      max-width: none;
+      width: 100%;
     }
-    
+
     @include min-width(lg) {
       @include container-width(smalldesktop);
+      padding-right: 1.5rem;
     }
-    
+
     @include min-width(xl) {
-      @include container-width(desktop);
+      @include container-width(unset);
+      width: 100vw;
+      max-width: 100vw;
+      @include padding(md, y)
     }
   }
-  
+
   &__layout {
     display: flex;
     flex-direction: column;
-    
+
     @include min-width(md) {
       flex-direction: row;
       align-items: flex-end;
     }
+
+    @include min-width(xl) {
+      justify-content: flex-end;
+      padding-left: auto;
+    }
   }
-  
+
   &__header {
-    @include margin(xl, bottom);
-    
+    margin-bottom: 2rem;
+
     @include min-width(md) {
       width: 180px;
       flex-shrink: 0;
       margin-bottom: 0;
       padding-top: 0.5rem;
+      padding-left: 1.5rem;
     }
-    
+
     @include min-width(lg) {
       width: 220px;
     }
   }
-  
+
   &__title {
-    @include font-size(lg);
+    @include font-size(2xl);
     @include font-weight(semibold);
     letter-spacing: 0.05em;
     color: $black;
     text-transform: uppercase;
-    
+    text-align: center;
+
     @include min-width(md) {
       @include font-size(xl);
+      text-align: left;
     }
   }
-  
+
+  &__scroll-indicator {
+    display: none;
+
+    @include min-width(md) {
+      @include flex(row, flex-start, center);
+      gap: 0.5rem;
+      margin-top: 1rem;
+      opacity: 0.7;
+      font-size: 0.875rem;
+
+      svg {
+        animation: scroll-indicator-pulse 1.5s infinite;
+      }
+    }
+
+    @include min-width(lg) {
+      display: none;
+    }
+  }
+
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    @include gap(lg);
-    
+    gap: 2rem;
+
     @include min-width(md) {
-      flex-grow: 1;
       display: flex;
       grid-template-columns: none;
-      overflow: visible;
+      overflow-x: auto; // Enable horizontal scrolling
+      scroll-snap-type: x mandatory; // Add snap behavior
+      scroll-padding-left: 1.5rem; // Add padding for snap points
+      padding-left: 1.5rem; // Match padding
+      padding-right: 1.5rem; // Add right padding
+      padding-bottom: 1rem; // Add space for scrollbar
+      margin-right: -2rem; // Extend beyond container
+      -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
       gap: 1.5rem;
-      
-      /* Hide scrollbar but keep functionality */
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+
+      // Hide scrollbar for different browsers
+      scrollbar-width: none; // Firefox
+      -ms-overflow-style: none; // IE/Edge
+
       &::-webkit-scrollbar {
-        display: none;
+        display: none; // Chrome/Safari/Opera
       }
     }
+
+    @include min-width(lg) {
+      overflow-x: visible; // Disable scrolling on desktop
+      margin-right: 0; // Reset margin
+      padding-right: 0; // Reset padding
+    }
   }
-  
+
   &__item {
     position: relative;
     display: block;
     width: 100%;
     overflow: hidden;
     cursor: pointer;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1;
     text-decoration: none;
-    
+
     @include min-width(md) {
+      aspect-ratio: 16/9;
       flex: 0 0 auto;
       width: 400px;
       max-width: 400px;
+      scroll-snap-align: start; // Snap alignment
     }
-    
-    // Only apply hover effects on non-touch devices
-    @media (hover: hover) {
+
+    // Desktop hover animations
+    @media (hover: hover) and (min-width: 768px) {
       &:hover .servicios-recent-projects__image {
         transform: scale(1.05);
       }
-      
+
       &:hover .servicios-recent-projects__hover-info {
         opacity: 1;
       }
-      
+
       &:hover .servicios-recent-projects__label {
         transform: translateX(0);
         opacity: 1;
         transition-delay: 0.2s;
       }
-      
+
       &:hover .servicios-recent-projects__project-title {
         transform: translateX(0);
         opacity: 1;
         transition-delay: 0.1s;
       }
     }
+
+    // Mobile animations
+    @media (max-width: 767px) {
+      &.in-view {
+        .servicios-recent-projects__hover-info {
+          opacity: 1;
+        }
+
+        .servicios-recent-projects__label {
+          transform: translateX(0);
+          opacity: 1;
+          transition-delay: 0.1s;
+        }
+
+        .servicios-recent-projects__project-title {
+          transform: translateX(0);
+          opacity: 1;
+          transition-delay: 0.2s;
+        }
+      }
+    }
   }
-  
+
   &__image-wrapper {
     position: relative;
     width: 100%;
     height: 100%;
   }
-  
+
   &__image {
     object-fit: cover;
     transition: transform 0.6s linear;
   }
-  
+
   &__hover-info {
     position: absolute;
     bottom: 1rem;
@@ -142,48 +211,46 @@
     gap: 0.5rem;
     color: $black;
     z-index: 2;
-    
-    // Only apply transitions for hover devices
-    @media (hover: hover) {
+
+    @media (hover: hover) and (min-width: 768px) {
       opacity: 0;
       transition: opacity 0.2s ease-in;
     }
-    
-    // For touch devices, always visible
-    @media (hover: none) {
-      opacity: 1;
+
+    @media (max-width: 767px) {
+      opacity: 0;
+      transition: opacity 0.3s ease-in;
     }
   }
-  
+
   &__label,
   &__project-title {
     background-color: $white;
     width: fit-content;
     max-width: 90%;
-    
-    // Only apply transforms and transitions for hover devices
-    @media (hover: hover) {
+
+    @media (hover: hover) and (min-width: 768px) {
       transform: translateX(-50px);
       opacity: 0;
       transition: transform 0.5s ease-out, opacity 0.2s ease-out;
     }
-    
-    // For touch devices, always visible
-    @media (hover: none) {
-      transform: translateX(0);
-      opacity: 1;
+
+    @media (max-width: 767px) {
+      transform: translateX(-50px);
+      opacity: 0;
+      transition: transform 0.5s ease-out, opacity 0.3s ease-out;
     }
   }
-  
+
   &__label {
     @include font-size(sm);
     text-transform: uppercase;
     font-weight: 500;
     letter-spacing: 0.05em;
     padding: 0.5rem 1rem;
-    @include margin(xxs, bottom);
+    margin-bottom: 0.25rem;
   }
-  
+
   &__project-title {
     @include font-size(xl);
     @include font-weight(bold);
