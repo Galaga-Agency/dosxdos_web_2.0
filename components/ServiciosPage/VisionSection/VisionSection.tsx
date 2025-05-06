@@ -46,13 +46,13 @@ const VisionSection: React.FC = () => {
         <div className="vision-section__container">
           <div className="vision-section__title-box">
             <span className="vision-section__label fade_bottom">
-              our vision
+              nuestra visión
             </span>
             <h2 className="vision-section__title fade_bottom">
-              WE HELP CREATE
+              CREAMOS ESPACIOS
               <br />
               <span className="vision-section__title-row-2">
-                AND SUPERCHARGE BRANDS
+                QUE POTENCIAN MARCAS DE LUJO
               </span>
             </h2>
           </div>
@@ -66,28 +66,24 @@ const VisionSection: React.FC = () => {
               <div className="vision-section__image-inner" data-speed="1.2">
                 <Image
                   src="/assets/img/blog/corporate-branding.jpg"
-                  alt="Branding"
+                  alt="Diseño de interiores"
                   width={600}
                   height={750}
                   priority
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    willChange: "transform",
-                  }}
                 />
               </div>
             </div>
             <div className="vision-section__text-wrap">
               <p className="vision-section__text fade_left">
-                This is where data, know-how, and creativity meet design and
-                walk the path to success. Thinking as one, acting as one, always
-                by your side pushing boundaries. Our highly specialized approach
-                offers a wide spectrum of services!
+                Aquí es donde el conocimiento, la creatividad y la experiencia
+                se fusionan con el diseño para crear espacios únicos. Pensamos y
+                actuamos como un solo equipo, siempre a su lado, superando
+                límites. Nuestro enfoque altamente especializado ofrece un
+                amplio espectro de servicios para el sector de la cosmética y
+                perfumería.
               </p>
               <div className="vision-section__button fade_bottom">
-                <HoverCircleButton href="/about" label="About us" />
+                <HoverCircleButton href="/sobre-nosotros" label="Conócenos" />
               </div>
             </div>
           </div>
@@ -95,24 +91,16 @@ const VisionSection: React.FC = () => {
           {/* Middle floating image with parallax effect */}
           <div
             className="vision-section__middle-image fade_right"
-            data-speed="1.15"
+            data-speed="1.3"
           >
-            <div
-              className="vision-section__middle-image-inner"
-              data-speed="0.8"
-            >
+            <div className="vision-section__middle-image-inner">
               <Image
                 src="/assets/img/blog/visual-storytelling.jpg"
-                alt="Team working together"
+                alt="Equipo trabajando juntos"
                 width={500}
                 height={400}
                 priority
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  willChange: "transform",
-                }}
+                data-speed=".9"
               />
             </div>
           </div>
@@ -123,8 +111,9 @@ const VisionSection: React.FC = () => {
         <div className="vision-section__container">
           <div className="vision-section__bottom-content">
             <h3 className="vision-section__statement fade_bottom">
-              We strongly believe that only design reinforced by strategy can
-              provide real results.
+              Creemos firmemente que solo el diseño reforzado por una estrategia
+              sólida puede proporcionar resultados reales en espacios
+              comerciales de lujo.
             </h3>
 
             <div className="vision-section__services">
@@ -132,15 +121,18 @@ const VisionSection: React.FC = () => {
                 <div className="vision-section__service-icon">
                   <Image
                     src="/assets/img/icons/service-icon-2.webp"
-                    alt="Branding icon"
+                    alt="Icono de diseño"
                     width={80}
                     height={80}
                   />
                 </div>
-                <h4 className="vision-section__service-title">Branding</h4>
+                <h4 className="vision-section__service-title">
+                  Diseño de interiores
+                </h4>
                 <p className="vision-section__service-text">
-                  Branding is one of the most important ingredients for the
-                  success of any business.
+                  El diseño de espacios comerciales es uno de los ingredientes
+                  más importantes para el éxito de cualquier marca de lujo en el
+                  sector de la cosmética.
                 </p>
               </div>
 
@@ -148,17 +140,18 @@ const VisionSection: React.FC = () => {
                 <div className="vision-section__service-icon">
                   <Image
                     src="/assets/img/icons/service-icon-1.webp"
-                    alt="Website design icon"
+                    alt="Icono de producción"
                     width={80}
                     height={80}
                   />
                 </div>
                 <h4 className="vision-section__service-title">
-                  Website design
+                  Producción integral
                 </h4>
                 <p className="vision-section__service-text">
-                  The perfect cocktail should still look and taste perfect no
-                  matter the size of the glass you serve it in.
+                  La perfecta implementación debe verse y sentirse perfecta sin
+                  importar el tamaño o la ubicación del espacio comercial en el
+                  que se presente.
                 </p>
               </div>
 
@@ -166,15 +159,18 @@ const VisionSection: React.FC = () => {
                 <div className="vision-section__service-icon">
                   <Image
                     src="/assets/img/icons/service-icon-3.webp"
-                    alt="Marketing icon"
+                    alt="Icono de instalación"
                     width={80}
                     height={80}
                   />
                 </div>
-                <h4 className="vision-section__service-title">Marketing</h4>
+                <h4 className="vision-section__service-title">
+                  Instalación profesional
+                </h4>
                 <p className="vision-section__service-text">
-                  We take that same approach with the apps & websites we create:
-                  you go there because of the overall experience.
+                  Aplicamos ese mismo enfoque con los espacios que creamos: el
+                  cliente acude a ellos por la experiencia general que ofrecen y
+                  que potencia la marca.
                 </p>
               </div>
             </div>

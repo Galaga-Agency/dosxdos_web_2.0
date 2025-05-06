@@ -62,7 +62,7 @@
     }
 
     @include min-width(md) {
-      @include font-size(8xl);
+      @include font-size(7xl);
       text-align: center;
     }
   }
@@ -129,6 +129,10 @@
   &__description {
     @include min-width(md) {
       width: 60%;
+    }
+
+    @include min-width(xl) {
+      width: 40%;
     }
   }
 

@@ -106,8 +106,6 @@ export function animateRecentProjects(): void {
     return;
   }
 
-  console.log(`Found ${projectItems.length} project items`);
-
   // Create an Intersection Observer
   const observer = new IntersectionObserver(
     (entries) => {
@@ -245,10 +243,6 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
         end: "bottom 20%",
         scrub: 1.5,
         invalidateOnRefresh: true,
-        onEnter: () => console.log("ScrollTrigger entered"),
-        onLeave: () => console.log("ScrollTrigger left"),
-        onEnterBack: () => console.log("ScrollTrigger entered back"),
-        onLeaveBack: () => console.log("ScrollTrigger left back"),
       },
     });
 
@@ -270,7 +264,7 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
     gsap.fromTo(
       refs.subtitle,
       { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, delay: 1.6, ease: "power2.out" }
+      { opacity: 1, y: 0, duration: 0.8, delay: 1, ease: "power2.out" }
     );
   }
 
@@ -279,7 +273,7 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
     gsap.fromTo(
       refs.button,
       { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, delay: 1.8, ease: "power2.out" }
+      { opacity: 1, y: 0, duration: 0.8, delay: 1.3, ease: "power2.out" }
     );
   }
 }

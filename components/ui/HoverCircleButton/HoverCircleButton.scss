@@ -11,9 +11,8 @@
 }
 
 .hover-circle-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex(row, center, center);
+  flex-wrap: wrap;
   width: 149px;
   height: 149px;
   border-radius: 50%;
@@ -30,16 +29,17 @@
 
   &__text {
     z-index: 2;
-    text-align: left;
+    text-align: center;
     line-height: 1.2;
     max-width: 60%;
-    padding-left: 1rem;
+    margin-right: 5px;
   }
 
   &__icon {
-    transform: translateY(10px);
-    margin: 0 0.5rem 0.5rem 0;
     z-index: 2;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
   }
 
   &__dot {
@@ -68,16 +68,16 @@
       color: $black;
     }
   }
-  
+
   // Dark background variant
   &.dark-bg {
     border: 1px solid rgba(255, 255, 255, 0.14);
     color: $white;
-    
+
     .hover-circle-button__dot {
       background-color: $white;
     }
-    
+
     &:hover {
       .hover-circle-button__text,
       .hover-circle-button__icon {
