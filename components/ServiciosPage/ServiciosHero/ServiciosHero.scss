@@ -10,6 +10,10 @@
   @include padding(7xl, top);
   @include padding(4xl, bottom);
 
+  @include min-width(xl) {
+    @include padding(10xl, top);
+  }
+
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
@@ -46,7 +50,6 @@
 
     @include min-width(lg) {
       @include font-size(hero-lg);
-      @include letter-spacing(wide);
     }
 
     @include min-width(xl) {
@@ -64,10 +67,6 @@
 
     .experience {
       color: $black;
-    }
-
-    .plus {
-      margin: 0 0.1rem;
     }
 
     .creatividad {

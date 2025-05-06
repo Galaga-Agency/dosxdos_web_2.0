@@ -248,7 +248,7 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
 
     // Add the scroll animation with easing
     tl.to(refs.title, {
-      x: "-25%",
+      x: "-60%",
       ease: "power2.inOut",
       duration: 1,
     });

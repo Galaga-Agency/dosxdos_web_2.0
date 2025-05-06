@@ -76,6 +76,7 @@
 
     @include min-width(xl) {
       position: absolute;
+      max-width: 10%;
     }
   }
 
@@ -102,7 +103,11 @@
     }
 
     @include min-width(xl) {
-      width: 30%;
+      width: 35%;
+    }
+
+    @include min-width(xxxl) {
+      width: 35%;
     }
   }
 
