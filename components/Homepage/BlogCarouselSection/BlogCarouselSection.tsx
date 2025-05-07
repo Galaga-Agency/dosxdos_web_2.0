@@ -96,13 +96,13 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
     <section ref={sectionRef} className="blog-carousel-section">
       <div className="blog-carousel-section__container">
         <div className="blog-carousel-section__header">
-          <div className="blog-carousel-section__label fade_bottom">
+          <div className="blog-carousel-section__label fade_top">
             <span>Nuestro Blog</span>
           </div>
 
           <h2 className="blog-carousel-section__title">
-            <div className="title-row fade_bottom">ESTRATEGIAS E IDEAS</div>
-            <div className="title-row fade_bottom">
+            <div className="title-row fade_top">ESTRATEGIAS E IDEAS</div>
+            <div className="title-row fade_top">
               PARA ESPACIOS COMERCIALES
             </div>
           </h2>
@@ -113,7 +113,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
           el sector de la <strong>cosmética y perfumería</strong>
         </p>
 
-        <div className="blog-carousel-section__carousel-container fade_bottom">
+        <div className="blog-carousel-section__carousel-container fade_top">
           <div className="blog-carousel-section__carousel-navigation">
             <button
               className="blog-carousel-section__nav-button blog-carousel-section__nav-button--prev"
@@ -192,7 +192,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
           )}
         </div>
 
-        <div className="blog-carousel-section__cta-container fade_bottom">
+        <div className="blog-carousel-section__cta-container fade_top">
           <HoverCircleButton href="/sobre-nosotros" label="Ver Más Artículos" />
         </div>
       </div>
