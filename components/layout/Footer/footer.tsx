@@ -32,7 +32,7 @@ const Footer = () => {
         contact: contactRef.current,
         nav: navRef.current,
         cta: ctaRef.current,
-        bottom: bottomRef.current
+        bottom: bottomRef.current,
       });
 
       // Cleanup on unmount
@@ -70,7 +70,7 @@ const Footer = () => {
     <footer className="footer" ref={footerRef}>
       <div className="footer__decor-circle"></div>
       <div className="footer__decor-line"></div>
-      
+
       <div className="footer__container">
         <div className="footer__main">
           {/* Brand Section */}
@@ -83,9 +83,7 @@ const Footer = () => {
                   className="footer__logo"
                 />
               </Link>
-              <p className="footer__tagline">
-                Creamos espacios que inspiran.
-              </p>
+              <p className="footer__tagline">Creamos espacios que inspiran.</p>
             </div>
             <div className="footer__contact" ref={contactRef}>
               <a href="mailto:hola@dospordosgrupoimagen.com">
@@ -144,12 +142,12 @@ const Footer = () => {
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="/servicios/pergolas">
                     <span>Pérgolas</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="footer__nav-column">

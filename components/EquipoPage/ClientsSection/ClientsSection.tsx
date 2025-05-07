@@ -3,74 +3,61 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
+import { initFadeAnimations } from "@/utils/animations/pages/homepage-anim";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import "./ClientsSection.scss";
-import { animateClientsSection } from "@/utils/animations/pages/equipo-page-anim";
 
 const ClientsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const decorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      animateClientsSection({
-        section: sectionRef.current,
-        title: titleRef.current,
-        text: textRef.current,
-        cta: ctaRef.current,
-        decor: decorRef.current,
-        logos: null,
-      });
-    }, 100);
+    if (sectionRef.current) {
+      // Initialize animation
+      const timer = setTimeout(() => {
+        // Initialize fade animations
+        initFadeAnimations();
 
-    return () => {
-      clearTimeout(timer);
-    };
+        // Force refresh to ensure ScrollTrigger works properly
+        setTimeout(() => {
+          if ((window as any).__smoother__) {
+            console.log("Refreshing ScrollSmoother");
+            (window as any).__smoother__.refresh();
+          }
+          ScrollTrigger.refresh();
+        }, 100);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
     <section className="clients-section" ref={sectionRef}>
-      <div className="clients-section__decorative-elements" ref={decorRef}>
-        <div className="clients-section__decor clients-section__decor-dots"></div>
-        <div className="clients-section__decor clients-section__decor-line"></div>
-        <div className="clients-section__decor clients-section__decor-circle"></div>
-        <div className="clients-section__decor clients-section__decor-grid"></div>
-      </div>
-
       <div className="clients-section__container">
-        <div className="clients-section__content-wrapper">
-          <div className="clients-section__label">
-            <span>COLABORACIONES</span>
-          </div>
-
-          <h2 ref={titleRef} className="clients-section__title">
-            <span className="word">Nuestros</span>{" "}
-            <span className="word highlight">clientes</span>
-          </h2>
-        </div>
+        <h2 className="clients-section__title fade_bottom">
+          Nuestros clientes
+        </h2>
       </div>
 
       <div className="clients-section__marquee-wrapper">
-        <LogoMarquee showHeader={false} />
+        <LogoMarquee showHeader={false} darkMode={true} />
       </div>
 
       <div className="clients-section__container">
-        <div className="clients-section__content-wrapper">
-          <p ref={textRef} className="clients-section__text">
+        <div className="clients-section__content">
+          <p className="clients-section__text fade_left">
             Creemos en construir relaciones basadas en la honestidad y la
-            conexión genuina. Es por eso que algunas de las empresas más
-            importantes han permanecido con nosotros durante años.
+            conexión genuina. Por eso, algunas de las marcas más prestigiosas
+            del sector han confiado en nosotros durante décadas.
           </p>
 
-          <div ref={ctaRef} className="clients-section__cta">
+          <div className="clients-section__cta fade_bottom">
             <Link
               href="/sobre-nosotros/accion-social"
               className="clients-section__cta-link"
             >
-              <span className="clients-section__cta-icon">○</span> Más sobre
-              nosotros
+              <span className="clients-section__cta-icon">○</span> Conócenos
+              mejor
             </Link>
           </div>
         </div>

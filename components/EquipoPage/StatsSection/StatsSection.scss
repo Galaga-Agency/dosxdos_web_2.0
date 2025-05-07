@@ -5,16 +5,15 @@
 
 .stats-section {
   position: relative;
-  padding: 8rem 0;
-  background-color: $black; // Using your $black variable
-  width: 100vw; // Full viewport width
-  left: 50%; // Centering trick for full width
-  right: 50%;
-  margin-left: -50vw; // Negative margin to break out of container
-  margin-right: -50vw;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  
+  width: 100%;
+  @include padding(6xl, bottom);
+  background-color: $white;
+  overflow: hidden;
+
+  @include min-width(lg) {
+    @include padding(8xl, bottom);
+  }
+
   &__container {
     @include container-width(mobile);
     margin: 0 auto;
@@ -27,102 +26,94 @@
 
     @include min-width(lg) {
       @include container-width(smalldesktop);
+      @include flex(row, space-around, start);
+      gap: 4rem;
     }
 
     @include min-width(xl) {
       @include container-width(desktop);
     }
   }
-  
+
   &__title {
-    @include font-size(xl);
-    color: $white;
-    margin-bottom: 6rem;
-    font-weight: 400;
+    @include font-size(2xl);
+    color: $black;
+    margin-bottom: 4rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    letter-spacing: 0.5px;
-    
+    letter-spacing: -0.02em;
+
     @include min-width(md) {
-      @include font-size(2xl);
+      @include font-size(3xl);
     }
-    
+
     &-icon {
       display: inline-block;
       margin-right: 1rem;
       font-weight: 300;
     }
   }
-  
+
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 5rem;
-    
-    @include min-width(sm) {
+    gap: 4rem;
+
+    @include min-width(md) {
       grid-template-columns: repeat(2, 1fr);
-      gap: 4rem 2rem;
+      gap: 4rem 3rem;
     }
-    
+
     @include min-width(lg) {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0; // Remove gap for desktop as stats are side by side
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5rem 4rem;
     }
   }
-  
+
   &__item {
     display: flex;
     flex-direction: column;
-    position: relative;
-    
-    // Add separator line between items on desktop
-    @include min-width(lg) {
-      &:not(:last-child)::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 1px;
-        height: 100%;
-        background-color: rgba($white, 0.1);
-      }
-    }
   }
-  
+
   &__number {
     @include font-size(6xl);
-    color: $white;
-    font-weight: 700;
+    color: $black;
+    @include font-weight(semibold);
     line-height: 1;
-    margin-bottom: 2rem;
-    
+    margin-bottom: 1.5rem;
+    padding-right: 4rem;
+
     @include min-width(md) {
       @include font-size(7xl);
     }
-    
+
     @include min-width(lg) {
+      @include font-size(9xl);
+    }
+
+    @include min-width(xl) {
       @include font-size(8xl);
     }
   }
-  
+
   &__separator {
     width: 100%;
     height: 1px;
-    background-color: rgba($white, 0.2);
+    background-color: rgba($black, 0.1);
     margin-bottom: 1.5rem;
   }
-  
+
   &__label {
-    @include font-size(xs);
-    color: $white;
-    letter-spacing: 1px;
-    font-weight: 500;
+    @include font-size(sm);
+    color: rgba($black, 0.7);
+    letter-spacing: 0.025em;
+    @include font-weight(medium);
     text-transform: uppercase;
-    max-width: 180px;
     line-height: 1.5;
-    
-    @include min-width(md) {
-      @include font-size(sm);
+
+    @include min-width(lg) {
+      @include font-size(md);
     }
   }
 }

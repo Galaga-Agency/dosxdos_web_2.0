@@ -8,11 +8,37 @@
   position: relative;
   background-color: $white;
   overflow: hidden;
-  padding: 0 auto;
+  padding: 3rem 0;
+
+  // Dark mode variant
+  &--dark-mode {
+  background-color: $black;
+  
+  .logo-marquee__header-title {
+    color: $white;
+  }
+  
+  .highlight-bg::after {
+    background-color: rgba($white, 0.2);
+  }
+  
+  .logo-marquee__item img {
+    // Enhanced filter to ensure all logos appear white
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+    
+    &:hover {
+      filter: brightness(0) invert(1);
+      opacity: 1;
+    }
+  }
+}
 
   &__container {
     width: 100%;
     position: relative;
+    max-width: 100%;
+    margin: 0 auto;
 
     &.has-header {
       @include flex(column, flex-start, unset);
@@ -27,16 +53,10 @@
   &__header {
     flex-shrink: 0;
     position: relative;
-
-    // Subtle red accent line
-    &::before {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      width: 40px;
-      height: 2px;
-      background-color: rgba($primary-color, 0.3);
+    padding: 0 1.5rem;
+    
+    @include min-width(md) {
+      padding: 0 3rem;
     }
 
     &-title {
@@ -54,12 +74,15 @@
     flex: 1;
     overflow: hidden;
     position: relative;
-    padding: 0 auto;
     width: 100%;
     pointer-events: none;
-    min-height: 180px; // Fixed height to prevent jumping
+    min-height: 120px;
     will-change: transform;
     z-index: 2;
+    
+    @include min-width(md) {
+      min-height: 150px;
+    }
   }
 
   &__item {
@@ -69,10 +92,14 @@
     padding: 0 3rem;
     transition: all 0.3s ease;
     overflow: hidden;
-    height: 180px;
+    height: 100px;
+    
+    @include min-width(md) {
+      height: 120px;
+    }
 
     img {
-      max-height: 140px;
+      max-height: 60px;
       width: auto;
       height: auto;
       object-fit: contain;
@@ -82,11 +109,11 @@
       transform-origin: center;
 
       @include min-width(md) {
-        max-height: 120px;
+        max-height: 80px;
       }
 
       @include min-width(lg) {
-        max-height: 180px;
+        max-height: 100px;
       }
     }
 

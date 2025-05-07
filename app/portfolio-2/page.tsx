@@ -46,7 +46,7 @@ const Portfolio2Page: React.FC = () => {
         ctaText: ctaTextRef.current,
         ctaButton: ctaButtonRef.current,
       });
-    }, 1500);
+    }, 300);
 
     // Cleanup function
     return () => {

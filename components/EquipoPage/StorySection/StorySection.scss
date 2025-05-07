@@ -19,12 +19,19 @@
   }
 
   &__title {
-    @include font-size(7xl);
+    @include font-size(4xl);
     @include font-weight(extra-bold);
     color: $black;
     line-height: 1.1;
     max-width: none;
-    letter-spacing: -0.02em;
+
+    @include min-width(md) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(lg) {
+      @include font-size(7xl);
+    }
 
     .highlight {
       position: relative;
@@ -83,16 +90,6 @@
       @include min-width(lg) {
         max-width: 50%;
       }
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 2px;
-        background-color: rgba($primary-color, 0.4);
-      }
     }
 
     &-grid {
@@ -122,13 +119,7 @@
         position: absolute;
         left: 0;
         top: 0.5rem;
-        background-color: $primary-color;
-      }
-
-      &:hover {
-        &::before {
-          background-color: darken($primary-color, 10%);
-        }
+        background-color: $black;
       }
     }
   }

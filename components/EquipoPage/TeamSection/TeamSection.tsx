@@ -4,66 +4,78 @@ import React, { useEffect, useRef } from "react";
 import { teamMembers } from "@/data/team";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
-import { animateTeamSection } from "@/utils/animations/pages/equipo-page-anim";
+import { initFadeAnimations } from "@/utils/animations/pages/homepage-anim";
 import "./TeamSection.scss";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const TeamSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Initialize animation
-    const timer = setTimeout(() => {
-      if (
-        sectionRef.current &&
-        titleRef.current &&
-        subtitleRef.current &&
-        gridRef.current
-      ) {
-        animateTeamSection({
-          section: sectionRef.current,
-          title: titleRef.current,
-          subtitle: subtitleRef.current,
-          grid: gridRef.current,
-        });
-      }
-    }, 100);
+    if (sectionRef.current) {
+      // Initialize animation
+      const timer = setTimeout(() => {
+        // Initialize fade animations
+        initFadeAnimations();
 
-    // Card mouse parallax
-    const parallaxTimer = setTimeout(() => {
-      initCardMouseParallax();
-    }, 500);
+        // Card mouse parallax
+        const parallaxTimer = setTimeout(() => {
+          initCardMouseParallax();
+        }, 500);
 
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(parallaxTimer);
-    };
+        // Force refresh to ensure ScrollTrigger works properly
+        setTimeout(() => {
+          if ((window as any).__smoother__) {
+            console.log("Refreshing ScrollSmoother");
+            (window as any).__smoother__.refresh();
+          }
+          ScrollTrigger.refresh();
+        }, 100);
+
+        return () => {
+          clearTimeout(parallaxTimer);
+        };
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
     <section ref={sectionRef} className="team-section">
-      <div className="container">
-        <h2 ref={titleRef} className="title">
-          Nuestro <span>Equipo</span>
-        </h2>
-        <p ref={subtitleRef} className="subtitle">
-          Un equipo de profesionales apasionados, comprometidos con la
-          creatividad y la excelencia en cada proyecto.
+      <div className="team-section__container">
+        <div className="team-section__header">
+          <div className="team-section__label fade_bottom">
+            <span>Nuestro equipo</span>
+          </div>
+
+          <h2 className="team-section__title">
+            <div className="title-row fade_bottom">PROFESIONALES</div>
+            <div className="title-row fade_bottom">APASIONADOS</div>
+          </h2>
+        </div>
+
+        <p className="team-section__subtitle fade_left">
+          Un equipo comprometido con la creatividad y la excelencia en cada
+          proyecto, con experiencia en el diseño de{" "}
+          <strong>espacios comerciales</strong> para marcas de lujo.
         </p>
 
-        <div ref={gridRef} className="team-section__grid">
-          {teamMembers.map((member: any) => (
-            <HoverCard
+        <div className="team-section__grid">
+          {teamMembers.map((member: any, index) => (
+            <div
               key={member.id}
-              id={member.id}
-              title={member.name}
-              description={member.position}
-              imageUrl={member.imageUrl}
-              linkUrl={`/equipo/${member.id}`}
-              showLink={false} // Hide the link for team members
-            />
+              className="team-section__card-wrapper fade_bottom"
+            >
+              <HoverCard
+                id={member.id}
+                title={member.name}
+                description={member.position}
+                imageUrl={member.imageUrl}
+                linkUrl={`/equipo/${member.id}`}
+                showLink={false} // Hide the link for team members
+              />
+            </div>
           ))}
         </div>
       </div>

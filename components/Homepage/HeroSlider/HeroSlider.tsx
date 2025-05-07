@@ -162,7 +162,9 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
       <div className="hero-slider__content">
         <h1 ref={titleRef} className="hero-slider__title">
-          Espacios Que Inspiran
+          DISEÑAMOS ESPACIOS
+          <br />
+          QUE INSPIRAN
         </h1>
 
         <div ref={ctaRef} className="hero-slider__cta">

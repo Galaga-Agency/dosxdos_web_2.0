@@ -1,6 +1,6 @@
 @use "abstracts/variables" as *;
-@use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/colors" as *;
 @use "base/animations" as *;
 
 .hero-slider {
@@ -10,12 +10,29 @@
   min-height: 600px;
   overflow: hidden;
 
+  // Dark overlay gradient - positioned before any animations
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to top,
+      rgba($black, 0.6) 0%,
+      rgba($black, 0) 100%
+    );
+    @include z-index(above);
+    pointer-events: none;
+  }
+
   // Navigation Buttons
   &__nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 20;
+    @include z-index(above);
     background-color: transparent;
     color: $white;
     border: none;
@@ -85,43 +102,50 @@
     will-change: transform;
   }
 
-  // Content wrapper 
+  // Content wrapper
   &__content {
     position: absolute;
     top: 50%;
     left: 5%;
-    transform: translateY(-30%);
-    z-index: 10;
-    width: 50%;
+    transform: translateY(-50%);
+    @include z-index(overlay);
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: auto;
     gap: 1rem;
 
     @include min-width(md) {
       left: 10%;
+      width: 80%;
     }
   }
 
-  // Preheading / Subtitle
-  &__preheading {
-    color: $white;
-    @include font-size(lg);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-  }
-
-  // Title Styling - Left-aligned
+  // Title Styling - Updated to match VisionSection and AboutServices
   &__title {
     color: $white;
-    @include font-size(6xl);
-    @include font-weight(bold);
+    @include font-size(4xl);
+    @include font-weight(semibold);
+    line-height: 1.1;
+    @include letter-spacing(tight);
+    text-transform: uppercase;
     text-align: left;
-    line-height: 1.2;
     margin: 0;
     padding: 0;
+
+    br {
+      display: block;
+      content: "";
+      @include margin(3xs, bottom);
+    }
+
+    @include min-width(xs) {
+      @include font-size(5xl);
+    }
+
+    @include min-width(sm) {
+      @include font-size(6xl);
+    }
 
     @include min-width(md) {
       @include font-size(7xl);
@@ -135,7 +159,7 @@
   // CTA Button
   &__cta {
     width: fit-content;
-    margin-top: 1rem;
+    @include margin(md, top);
   }
 
   // Indicator dots
@@ -146,7 +170,7 @@
     width: 100%;
     @include flex(row, center, center);
     gap: 0.75rem;
-    z-index: 15;
+    @include z-index(overlay);
 
     @include min-width(md) {
       bottom: 1.5rem;
@@ -168,21 +192,5 @@
       background-color: $white;
       transform: scale(1.2);
     }
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      to top,
-      rgba($black, 0.6) 0%,
-      rgba($black, 0) 100%
-    );
-    z-index: 2;
-    pointer-events: none;
   }
 }

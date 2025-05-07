@@ -76,11 +76,41 @@ export function animateHeroSection(elements: SectionAnimationElements) {
 
   const tl = gsap.timeline();
 
-  // Prepare section
-  gsap.set(elements.section, {
-    visibility: "visible",
-    opacity: 1,
-  });
+  if (elements.section) {
+    gsap.set(elements.section, {
+      visibility: "visible",
+      opacity: 1,
+    });
+  }
+
+  // Set image visibility without animating it
+  if (elements.image) {
+    gsap.set(elements.image, {
+      visibility: "visible",
+      opacity: 1,
+    });
+  }
+
+  if (elements.label) {
+    gsap.set(elements.label, {
+      visibility: "visible",
+      opacity: 1,
+    });
+  }
+
+  if (elements.title) {
+    gsap.set(elements.title, {
+      visibility: "visible",
+      opacity: 1,
+    });
+  }
+
+  if (elements.description) {
+    gsap.set(elements.description, {
+      visibility: "visible",
+      opacity: 1,
+    });
+  }
 
   const animationSequence = [
     { el: elements.label, props: { y: -30 }, index: 0.3 },
@@ -89,7 +119,6 @@ export function animateHeroSection(elements: SectionAnimationElements) {
     { el: elements.description, props: { y: 20 }, index: 1.2 },
     { el: elements.stats, props: { y: 20 }, index: 1.4 },
     { el: elements.decor, props: { scale: 0.8 }, index: 1.6 },
-    { el: elements.image, props: { scale: 1.05 }, index: 0 },
   ];
 
   animationSequence.forEach(({ el, props, index, charAnim }) => {
@@ -156,14 +185,11 @@ export function animateHeroSection(elements: SectionAnimationElements) {
 }
 
 // Parallax for hero section
-function setupHeroParallax(
-  container: HTMLElement,
-  target: HTMLElement
-) {
+function setupHeroParallax(container: HTMLElement, target: HTMLElement) {
   if (!container || !target) return;
-  
+
   target.setAttribute("data-speed", "0.9");
-  
+
   // Force refresh ScrollTrigger
   setTimeout(() => {
     if ((window as any).__smoother__) {
@@ -178,26 +204,26 @@ function setupFloatingImagesParallax(floatingImages: any[]): void {
   floatingImages.forEach(({ container, inner, offset, innerOffset }, index) => {
     if (container && container.current) {
       // Calculate smoother speed value
-      let containerSpeed = offset < 0
-        ? 1 + Math.abs(offset) / 100
-        : 1 - offset / 100;
-      
+      let containerSpeed =
+        offset < 0 ? 1 + Math.abs(offset) / 100 : 1 - offset / 100;
+
       // Keep values in reasonable range
       containerSpeed = Math.max(0.5, Math.min(1.5, containerSpeed));
-      
+
       // Apply data-speed attribute
       container.current.setAttribute("data-speed", containerSpeed.toString());
     }
 
     if (inner && inner.current) {
       // Calculate speed value for inner element
-      let innerSpeed = innerOffset < 0
-        ? 1 + Math.abs(innerOffset) / 200
-        : 1 - innerOffset / 200;
-      
+      let innerSpeed =
+        innerOffset < 0
+          ? 1 + Math.abs(innerOffset) / 200
+          : 1 - innerOffset / 200;
+
       // Keep values in reasonable range
       innerSpeed = Math.max(0.7, Math.min(1.3, innerSpeed));
-      
+
       // Apply data-speed attribute
       inner.current.setAttribute("data-speed", innerSpeed.toString());
     }
@@ -225,11 +251,11 @@ export function animateStorySection(elements: any): void {
 
   // Set initial visibility
   gsap.set(elements.section, { visibility: "visible", opacity: 1 });
-  
+
   // Main section animation
   if (elements.title) {
     tl.from(elements.title, { opacity: 0, y: 50, duration: 0.6 }, "+=0.2");
-    
+
     const words = elements.title.querySelectorAll(".word");
     if (words.length > 0) {
       tl.from(
@@ -238,7 +264,7 @@ export function animateStorySection(elements: any): void {
         "<0.2"
       );
     }
-    
+
     const highlight = elements.title.querySelector(".highlight");
     if (highlight) {
       gsap.set(highlight, { backgroundSize: "0% 100%" });
@@ -249,11 +275,11 @@ export function animateStorySection(elements: any): void {
       );
     }
   }
-  
+
   if (elements.text) {
     tl.from(elements.text, { opacity: 0, y: 30, duration: 0.4 }, "<0.3");
   }
-  
+
   if (elements.services) {
     const items = elements.services.querySelectorAll("li");
     if (items.length > 0) {
@@ -277,36 +303,45 @@ export function animateStorySection(elements: any): void {
   if (elements.originStory) {
     const originTl = gsap.timeline();
     const paragraphs = elements.originStory.querySelectorAll("p");
-    
+
     gsap.set(elements.originStory, { opacity: 0, y: 50 });
-    
+
     ScrollTrigger.create({
       trigger: elements.originStory,
       start: "top 80%",
       once: true,
       onEnter: () => {
-        originTl.to(elements.originStory, { opacity: 1, y: 0, duration: 0.6 })
-          .to(paragraphs, { opacity: 1, y: 0, stagger: 0.2, duration: 0.5 }, "<0.2");
-      }
+        originTl
+          .to(elements.originStory, { opacity: 1, y: 0, duration: 0.6 })
+          .to(
+            paragraphs,
+            { opacity: 1, y: 0, stagger: 0.2, duration: 0.5 },
+            "<0.2"
+          );
+      },
     });
   }
 
   // Image animation if it exists
   if (elements.originImage) {
     const imageTl = gsap.timeline();
-    const inner = elements.originImage.querySelector(".story-section__image-frame-inner");
+    const inner = elements.originImage.querySelector(
+      ".story-section__image-frame-inner"
+    );
     const image = elements.originImage.querySelector(".story-section__image");
-    const corners = elements.originImage.querySelectorAll(".story-section__image-corner");
-    
+    const corners = elements.originImage.querySelectorAll(
+      ".story-section__image-corner"
+    );
+
     gsap.set(elements.originImage, { opacity: 0, y: 40 });
-    
+
     ScrollTrigger.create({
       trigger: elements.originImage,
       start: "top 85%",
       once: true,
       onEnter: () => {
         imageTl.to(elements.originImage, { opacity: 1, y: 0, duration: 0.8 });
-        
+
         if (corners.length > 0) {
           imageTl.fromTo(
             corners,
@@ -315,13 +350,13 @@ export function animateStorySection(elements: any): void {
             "<0.3"
           );
         }
-      }
+      },
     });
-    
+
     // Parallax effect for image
     if (inner && image) {
       gsap.set(image, { scale: 1.1 });
-      
+
       ScrollTrigger.create({
         trigger: elements.originImage,
         start: "top bottom",
@@ -334,7 +369,7 @@ export function animateStorySection(elements: any): void {
             ease: "none",
             overwrite: "auto",
           });
-        }
+        },
       });
     }
   }
@@ -437,7 +472,7 @@ export function animateStatsSection(elements: SectionAnimationElements) {
   // Animate stats container
   if (elements.stats) {
     gsap.set(elements.stats, { opacity: 0, y: 30 });
-    
+
     tl.to(
       elements.stats,
       {
@@ -448,7 +483,7 @@ export function animateStatsSection(elements: SectionAnimationElements) {
       },
       0.5
     );
-    
+
     // Animate each stat number
     const statItems = elements.stats.querySelectorAll(".stats-section__item");
     statItems.forEach((el, i) => {
@@ -617,7 +652,7 @@ export function animateCTASection(elements: any) {
   // Decorative elements animation
   if (elements.decor) {
     const decorItems = elements.decor.querySelectorAll(".cta-section__decor");
-    
+
     gsap.set(decorItems, {
       opacity: 0,
       y: 20,
@@ -661,15 +696,15 @@ export function cleanupEquipoAnimations() {
   if (typeof window === "undefined") return;
 
   console.log("⚠️ Cleaning up all equipo page animations");
-  
+
   // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach(trigger => {
+  ScrollTrigger.getAll().forEach((trigger) => {
     trigger.kill();
   });
-  
+
   // Clear match media queries
   ScrollTrigger.clearMatchMedia();
-  
+
   // Refresh ScrollTrigger
   refreshScrollTrigger();
 }
