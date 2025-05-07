@@ -17,6 +17,7 @@
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
+    @include padding(content-x, x);
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -32,23 +33,8 @@
   }
 
   &__header {
-    position: relative;
-    width: 100%;
     @include margin(3xl, bottom);
-  }
-
-  &__label {
-    @include font-size(lg);
-    @include font-weight(medium);
-    @include margin(md, bottom);
-    color: $black;
-    display: block;
-
-    @include min-width(xl) {
-      position: absolute;
-      left: 0;
-      top: -2rem;
-    }
+    position: relative;
   }
 
   &__title {
@@ -62,6 +48,10 @@
     .title-row {
       display: block;
       @include margin(3xs, bottom);
+
+      @include min-width(xl) {
+        white-space: nowrap;
+      }
     }
 
     @include min-width(xs) {
@@ -74,10 +64,20 @@
 
     @include min-width(md) {
       @include font-size(7xl);
+      margin-left: 10%;
     }
+  }
 
-    @include min-width(lg) {
-      @include font-size(8xl);
+  &__label {
+    @include font-size(lg);
+    @include font-weight(medium);
+    @include margin(md, bottom);
+    color: $black;
+    display: block;
+
+    @include min-width(xl) {
+      position: absolute;
+      max-width: 10%;
     }
   }
 
@@ -87,6 +87,10 @@
     color: rgba($black, 0.75);
     @include margin(4xl, bottom);
     max-width: 600px;
+
+    @include min-width(md) {
+      margin-left: 10%;
+    }
 
     strong {
       color: $black;
