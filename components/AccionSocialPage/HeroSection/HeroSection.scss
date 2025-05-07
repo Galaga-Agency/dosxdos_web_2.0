@@ -1,6 +1,6 @@
 @use "abstracts/variables" as *;
-@use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/colors" as *;
 @use "base/animations" as *;
 
 .accion-social-hero {
@@ -57,23 +57,18 @@
     left: 0;
     right: 0;
     bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    @include flex(column, center, flex-start);
     z-index: 3;
-
-    @include container-width(mobile);
     margin: 0 auto;
-    padding: 1.5rem;
+    @include container-width(mobile);
+    @include padding(md, x);
 
     @include min-width(md) {
       @include container-width(tablet);
-      padding: 2rem;
     }
 
     @include min-width(lg) {
       @include container-width(smalldesktop);
-      padding: 3rem 2.5rem;
     }
 
     @include min-width(xl) {
@@ -82,124 +77,69 @@
   }
 
   &__label {
-    margin-bottom: 1.5rem;
+    @include margin(md, bottom);
+    opacity: 0;
 
     span {
       display: inline-block;
       @include font-size(sm);
-      @include font-weight(semibold);
+      @include font-weight(medium);
       text-transform: uppercase;
       letter-spacing: 0.2em;
       color: $white;
       position: relative;
-      padding-left: 2rem;
 
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 1.5rem;
-        height: 1px;
-        background-color: $white;
+      @include min-width(xl) {
+        position: relative;
+        display: block;
       }
     }
   }
 
   &__title {
-    @include font-size(6xl);
-    @include font-weight(bold);
+    @include font-size(5xl);
+    @include font-weight(semibold);
     line-height: 1.1;
+    @include letter-spacing(tight);
+    text-transform: uppercase;
     color: $white;
     margin-bottom: 0.5rem;
     opacity: 0;
 
-    @include min-width(md) {
+    @include min-width(xs) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(sm) {
       @include font-size(7xl);
     }
 
-    @include min-width(lg) {
+    @include min-width(md) {
       @include font-size(8xl);
-    }
-
-    &.text-2 {
-      color: $secondary-color;
-      margin-bottom: 2rem;
-
-      span {
-        margin-left: 6rem;
-
-        @include min-width(md) {
-          margin-left: 10rem;
-        }
-
-        @media screen and (max-width: 768px) {
-          margin-left: 0;
-        }
-      }
     }
   }
 
   &__description {
     max-width: 700px;
-    margin-bottom: 2.5rem;
+    @include margin(xl, bottom);
     opacity: 0;
 
     p {
       @include font-size(lg);
-      line-height: 1.7;
+      line-height: 1.6;
       color: $white;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 
       @include min-width(md) {
         @include font-size(xl);
       }
 
       @include min-width(lg) {
-        @include font-size(xl);
+        @include font-size(2xl);
       }
     }
   }
 
   &__cta {
     opacity: 0;
-  }
-
-  &__btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background-color: $white;
-    color: $black;
-    @include font-weight(semibold);
-    border: none;
-    border-radius: 0.5rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba($black, 0.05);
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-    }
-
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba($black, 0.2);
-
-      &::before {
-        transform: translateX(0);
-      }
-    }
   }
 }

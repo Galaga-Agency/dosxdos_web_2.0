@@ -64,6 +64,8 @@ const BlogPage: React.FC = () => {
       itemsPerPage: 3,
     });
 
+  console.log("first_blog", first_blog);
+
   // Fetch blog posts
   useEffect(() => {
     const fetchPosts = async () => {
@@ -88,7 +90,7 @@ const BlogPage: React.FC = () => {
 
   // Initialize animations when page is loaded
   useEffect(() => {
-    if (!loading) {
+    if (loading) {
       const timer = setTimeout(() => {
         initBlogPageAnimations({
           imageContainer: imageContainerRef.current,
@@ -108,150 +110,140 @@ const BlogPage: React.FC = () => {
     }
   }, [loading]);
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (!first_blog) {
-    return (
-      <div className="blog-page__empty-state">
-        <h2>No hay entradas de blog disponibles.</h2>
-      </div>
-    );
-  }
-
   return (
     <SmoothScrollWrapper>
       <div className="blog-page" key={key}>
-        <div className="blog-page__container">
-          <div className="blog-page__social-sidebar">
-            <div className="blog-page__social-wrapper">
-              <span className="blog-page__social-label">Síguenos</span>
-              <SocialIcons orientation="vertical" />
-            </div>
-          </div>
+        {loading || !first_blog ? (
+          <Loading />
+        ) : (
+          <div className="blog-page__container">
+            <div className="blog-page__featured-section">
+              {/* Separate offset background */}
+              <div className="blog-page__featured-offset-background"></div>
 
-          <div className="blog-page__featured-section">
-            {/* Separate offset background */}
-            <div className="blog-page__featured-offset-background"></div>
-
-            {/* Background Image Container */}
-            <div
-              ref={imageContainerRef}
-              className="blog-page__featured-image-container"
-            >
-              {/* Image wrapper with the background image */}
-              <div ref={imageRef} className="blog-page__featured-image-wrapper">
-                <Image
-                  src={
-                    first_blog.coverImage ||
-                    "/assets/img/default-blog-image.jpg"
-                  }
-                  alt={first_blog.title}
-                  fill
-                  priority
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    willChange: "transform",
-                  }}
-                />
-              </div>
-
-              {/* Image overlay that darkens the image */}
-              <div className="blog-page__featured-image-overlay"></div>
-            </div>
-
-            {/* Corner elements */}
-            <div className="blog-page__featured-image-corner tl"></div>
-            <div className="blog-page__featured-image-corner tr"></div>
-            <div className="blog-page__featured-image-corner bl"></div>
-            <div className="blog-page__featured-image-corner br"></div>
-
-            <div className="blog-page__featured-content-container">
-              <Link
-                href={`/blog/${first_blog.slug}`}
-                className="blog-page__featured-content-link"
+              {/* Background Image Container */}
+              <div
+                ref={imageContainerRef}
+                className="blog-page__featured-image-container"
               >
+                {/* Image wrapper with the background image */}
                 <div
-                  ref={featuredDateRef}
-                  className="blog-page__featured-image-date"
+                  ref={imageRef}
+                  className="blog-page__featured-image-wrapper"
                 >
-                  {formatDate(first_blog.date)}
-                </div>
-                <div
-                  ref={featuredCategoryRef}
-                  className="blog-page__featured-category"
-                >
-                  <span>{first_blog.category}</span>
-                </div>
-                <h1
-                  ref={titleRef}
-                  className="blog-page__featured-image-title char-animation"
-                >
-                  {first_blog.title}
-                </h1>
-                <div className="blog-page__featured-excerpt">
-                  <p>{first_blog.excerpt}</p>
-                  <span className="blog-page__featured-read-more">
-                    Leer más <span className="arrow">→</span>
-                  </span>
-                </div>
-              </Link>
-            </div>
-          </div>
-
-          <div
-            ref={postsSectionRef}
-            className="blog-page__posts-section"
-            id="pagination-section"
-          >
-            <h2 className="posts-title">Artículos Recientes</h2>
-
-            <div ref={postsGridRef} className="posts-grid">
-              {currentItems.map((item, index) => (
-                <div key={item.id} className="blog-page__post-item">
-                  <BlogItem
-                    key={`blog-item-${key}-${item.id}`}
-                    item={item}
-                    index={index}
+                  <Image
+                    src={
+                      first_blog?.coverImage ||
+                      "/assets/img/default-blog-image.jpg"
+                    }
+                    alt={first_blog?.title}
+                    fill
+                    priority
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      willChange: "transform",
+                    }}
                   />
                 </div>
-              ))}
+
+                {/* Image overlay that darkens the image */}
+                <div className="blog-page__featured-image-overlay"></div>
+              </div>
+
+              {/* Corner elements */}
+              <div className="blog-page__featured-image-corner tl"></div>
+              <div className="blog-page__featured-image-corner tr"></div>
+              <div className="blog-page__featured-image-corner bl"></div>
+              <div className="blog-page__featured-image-corner br"></div>
+
+              <div className="blog-page__featured-content-container">
+                <Link
+                  href={`/blog/${first_blog?.slug}`}
+                  className="blog-page__featured-content-link"
+                >
+                  <div
+                    ref={featuredDateRef}
+                    className="blog-page__featured-image-date"
+                  >
+                    {formatDate(first_blog?.date)}
+                  </div>
+                  <div
+                    ref={featuredCategoryRef}
+                    className="blog-page__featured-category"
+                  >
+                    <span>{first_blog?.category}</span>
+                  </div>
+                  <h1
+                    ref={titleRef}
+                    className="blog-page__featured-image-title char-animation"
+                  >
+                    {first_blog?.title}
+                  </h1>
+                  <div className="blog-page__featured-excerpt">
+                    <p>{first_blog?.excerpt}</p>
+                    <span className="blog-page__featured-read-more">
+                      Leer más <span className="arrow">→</span>
+                    </span>
+                  </div>
+                </Link>
+              </div>
             </div>
 
-            <div className="blog-page__pagination">
-              <Pagination
-                handlePageClick={(page) => handlePageClick({ selected: page })}
-                pageCount={pageCount}
-                currentPage={currentPage}
-              />
-            </div>
-          </div>
+            <div
+              ref={postsSectionRef}
+              className="blog-page__posts-section"
+              id="pagination-section"
+            >
+              <h2 className="posts-title">Artículos Recientes</h2>
 
-          <div className="blog-page__mobile-social-section">
-            <div className="blog-page__mobile-social-header">
-              <h3 className="blog-page__mobile-social-title">Síguenos</h3>
-              <div className="blog-page__mobile-social-divider"></div>
-            </div>
-            <SocialIcons orientation="horizontal" />
-          </div>
+              <div ref={postsGridRef} className="posts-grid">
+                {currentItems.map((item, index) => (
+                  <div key={item.id} className="blog-page__post-item">
+                    <BlogItem
+                      key={`blog-item-${key}-${item.id}`}
+                      item={item}
+                      index={index}
+                    />
+                  </div>
+                ))}
+              </div>
 
-          <div
-            className="blog-page__desktop-social-cta"
-            ref={desktopSocialCtaRef}
-          >
-            <div className="blog-page__desktop-social-cta-content">
-              <h3>
-                Mantente actualizado con nuestros últimos{" "}
-                <span className="highlight">contenidos y proyectos</span>
-              </h3>
-              <div className="blog-page__desktop-social-icons">
-                <SocialIcons orientation="horizontal" />
+              <div className="blog-page__pagination">
+                <Pagination
+                  handlePageClick={(page) =>
+                    handlePageClick({ selected: page })
+                  }
+                  pageCount={pageCount}
+                  currentPage={currentPage}
+                />
+              </div>
+            </div>
+
+            <div className="blog-page__mobile-social-section">
+              <div className="blog-page__mobile-social-header">
+                <h3 className="blog-page__mobile-social-title">Síguenos</h3>
+                <div className="blog-page__mobile-social-divider"></div>
+              </div>
+              <SocialIcons orientation="horizontal" />
+            </div>
+
+            <div
+              className="blog-page__desktop-social-cta"
+              ref={desktopSocialCtaRef}
+            >
+              <div className="blog-page__desktop-social-cta-content">
+                <h3>
+                  Mantente actualizado con nuestros últimos{" "}
+                  <span className="highlight">contenidos y proyectos</span>
+                </h3>
+                <div className="blog-page__desktop-social-icons">
+                  <SocialIcons orientation="horizontal" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </SmoothScrollWrapper>
   );
