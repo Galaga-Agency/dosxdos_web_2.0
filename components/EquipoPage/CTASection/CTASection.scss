@@ -10,7 +10,7 @@
   background-color: $white;
 
   @include min-width(lg) {
-    @include padding(8xl, y);
+    @include padding(8xl, top);
   }
 
   &__container {

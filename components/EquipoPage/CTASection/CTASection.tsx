@@ -78,7 +78,7 @@ const CTASection: React.FC = () => {
 
             <div className="cta-section__cta fade_bottom">
               <PrimaryButton href="/sobre-nosotros/accion-social" size="medium">
-                Descubre Nuestra Labor
+                Nuestro Compromiso Social
               </PrimaryButton>
             </div>
           </div>

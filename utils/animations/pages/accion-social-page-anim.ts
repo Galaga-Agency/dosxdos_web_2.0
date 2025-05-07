@@ -16,6 +16,7 @@ interface SectionAnimationElements {
   bgContainer?: HTMLElement | null;
   titleRef1?: HTMLElement | null;
   titleRef2?: HTMLElement | null;
+  labelRef?: HTMLElement | null;
   descriptionRef?: HTMLElement | null;
   ctaRef?: HTMLElement | null;
   decorElements?: {
@@ -49,6 +50,7 @@ export function initAccionSocialHeroAnimations(
     !elements.heroArea ||
     !elements.bgContainer ||
     !elements.titleRef1 ||
+    !elements.labelRef ||
     !elements.titleRef2 ||
     !elements.descriptionRef
   ) {
@@ -74,6 +76,9 @@ export function initAccionSocialHeroAnimations(
 
   gsap.set(elements.titleRef2, { x: -300, opacity: 0 });
   masterTimeline.to(elements.titleRef2, { x: 0, opacity: 1 }, 0);
+
+  gsap.set(elements.labelRef, { x: -300, opacity: 0 });
+  masterTimeline.to(elements.labelRef, { x: 0, opacity: 1 }, 0);
 
   gsap.set(elements.descriptionRef, { x: -500, opacity: 0 });
   masterTimeline.to(elements.descriptionRef, { x: 0, opacity: 1 }, 0);

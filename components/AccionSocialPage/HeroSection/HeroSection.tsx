@@ -12,7 +12,7 @@ const HeroSection: React.FC = () => {
   const titleRef2 = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-
+  const labelRef = useRef<HTMLDivElement>(null);
   const decorElementsRef = useRef<HTMLDivElement>(null);
   const decorDotsRef = useRef<HTMLDivElement>(null);
   const decorLineRef = useRef<HTMLDivElement>(null);
@@ -27,6 +27,7 @@ const HeroSection: React.FC = () => {
         bgContainer: bgContainerRef.current,
         titleRef1: titleRef1.current,
         titleRef2: titleRef2.current,
+        labelRef: labelRef.current,
         descriptionRef: descriptionRef.current,
         ctaRef: ctaRef.current,
         decorElements: {
@@ -66,7 +67,7 @@ const HeroSection: React.FC = () => {
         <div className="accion-social-hero__overlay"></div>
 
         <div className="accion-social-hero__content">
-          <div className="accion-social-hero__label">
+          <div ref={labelRef} className="accion-social-hero__label">
             <span>IMPACTO COMUNITARIO</span>
           </div>
 
