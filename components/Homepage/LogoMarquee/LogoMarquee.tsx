@@ -5,49 +5,59 @@ import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
-import { animateLogoMarquee } from "@/utils/animations/pages/homepage-anim";
+import { initFadeAnimations } from "@/utils/animations/pages/homepage-anim";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 interface LogoMarqueeProps {
   showHeader?: boolean;
   fullWidth?: boolean;
+  darkMode?: boolean;
 }
 
 const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   showHeader = true,
   fullWidth = false,
+  darkMode = false,
 }) => {
   const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const marqueeRef = useRef<HTMLDivElement>(null);
-
-  const sectionClasses = `logo-marquee ${
-    fullWidth ? "logo-marquee--full-width" : ""
-  }`;
-  const containerClasses = `logo-marquee__container ${
-    showHeader ? "has-header" : ""
-  }`;
 
   // Initialize animation
   useEffect(() => {
     if (sectionRef.current) {
-      // Delay animation slightly to allow DOM to fully render
       const timer = setTimeout(() => {
-        animateLogoMarquee({
-          section: sectionRef.current,
-          header: headerRef.current,
-          marquee: marqueeRef.current,
-        });
-      }, 100);
+        // Initialize fade animations
+        initFadeAnimations();
+
+        // Force refresh to ensure ScrollTrigger works properly
+        setTimeout(() => {
+          if ((window as any).__smoother__) {
+            console.log("Refreshing ScrollSmoother");
+            (window as any).__smoother__.refresh();
+          }
+          ScrollTrigger.refresh();
+        }, 100);
+      }, 300);
 
       return () => clearTimeout(timer);
     }
   }, []);
 
+  const sectionClasses = `logo-marquee ${
+    fullWidth ? "logo-marquee--full-width" : ""
+  } ${darkMode ? "logo-marquee--dark-mode" : ""}`;
+
+  const containerClasses = `logo-marquee__container ${
+    showHeader ? "has-header" : ""
+  }`;
+
+  // Set gradient color based on dark mode
+  const gradientColor = darkMode ? "#281528" : "rgb(255, 255, 255)";
+
   return (
     <section ref={sectionRef} className={sectionClasses}>
       <div className={containerClasses}>
         {showHeader && (
-          <div ref={headerRef} className="logo-marquee__header">
+          <div className="logo-marquee__header fade_bottom">
             <h2 className="logo-marquee__header-title">
               <span className="shadow-text">Marcas que </span>
               <span className="highlight-bg">confían en nosotros</span>
@@ -55,13 +65,14 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
           </div>
         )}
 
-        <div ref={marqueeRef} className="logo-marquee__wrapper">
+        <div className="logo-marquee__wrapper fade_bottom">
           <Marquee
             gradient={true}
-            gradientColor="rgb(255, 255, 255)"
-            gradientWidth={50}
+            gradientColor={gradientColor}
+            gradientWidth={100} // Increased width for a smoother fade
             speed={40}
             pauseOnHover={true}
+            direction="right"
           >
             {clientLogos.map((logo, index) => (
               <div key={`${logo.id}-${index}`} className="logo-marquee__item">

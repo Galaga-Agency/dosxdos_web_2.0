@@ -203,7 +203,7 @@ export default function RootLayout({
           suppressHydrationWarning
         >
           <Menu />
-          <PageTransition>{children}</PageTransition>
+          {children}
           <BackToTop />
           <CookieConsentBanner />
         </body>

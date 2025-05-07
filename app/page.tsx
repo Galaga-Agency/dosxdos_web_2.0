@@ -7,15 +7,15 @@ import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
 import AboutUsSection from "@/components/Homepage/AboutUsSection/AboutUsSection";
 import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSection";
 import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
-import "./page.scss";
-import { BlogPost } from "@/types/blog-post-types";
 import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSection/FeaturedprojectsSection";
-import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-anim";
+import { BlogPost } from "@/types/blog-post-types";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
+import "./page.scss";
 
-// Make sure GSAP plugins are registered
+// Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -39,15 +39,14 @@ const heroSlides = [
 const Home: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
 
-  // Initialize ScrollTrigger configuration once
   useEffect(() => {
+    // Initialize ScrollTrigger configuration once
     initScrollTriggerConfig();
-  }, []);
 
-  useEffect(() => {
     const fetchPosts = async () => {
       try {
         const res = await fetch("/api/blog");
@@ -65,8 +64,8 @@ const Home: React.FC = () => {
     };
 
     fetchPosts();
-    
-    // ⬅️ CLEANUP on unmount
+
+    // Cleanup on unmount
     return () => {
       cleanupHomepageAnimations();
     };
@@ -76,17 +75,24 @@ const Home: React.FC = () => {
     <SmoothScrollWrapper showBackToTop={false}>
       <div className="homepage" key={key}>
         <section className="homepage__hero">
-          <HeroSlider key={`hero-${key}`} slides={heroSlides} autoplaySpeed={3000} />
+          <HeroSlider
+            slides={heroSlides}
+            autoplaySpeed={3000}
+            key={`hero-${key}`}
+          />
         </section>
-        
+
         <AboutUsSection key={`about-${key}`} />
+
         <div className="homepage__marquee">
           <LogoMarquee key={`marquee-${key}`} />
         </div>
+
         <ServicesSection key={`services-${key}`} />
-        <FeaturedprojectsSection key={`featured-${key}`} />
+        <FeaturedprojectsSection key={`projects-${key}`} />
+
         {!loading && blogPosts.length > 0 && (
-          <BlogCarouselSection key={`blog-${key}`} posts={blogPosts} />
+          <BlogCarouselSection posts={blogPosts} key={`blog-${key}`} />
         )}
       </div>
     </SmoothScrollWrapper>

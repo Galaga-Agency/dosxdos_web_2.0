@@ -40,6 +40,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ item, index = 0 }) => {
         <h3 className="blog-item__title">
           <Link href={`/blog/${item.slug}`}>{item.title}</Link>
         </h3>
+        {item.excerpt && <p className="blog-item__excerpt">{item.excerpt}</p>}
         <Link href={`/blog/${item.slug}`} className="blog-item__read-more">
           Leer más
         </Link>

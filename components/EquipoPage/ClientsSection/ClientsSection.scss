@@ -5,71 +5,41 @@
 
 .clients-section {
   position: relative;
-  @include section-spacing;
+  width: 100%;
+  @include padding(6xl, y);
+  background-color: $black; 
   overflow: hidden;
 
-  @include container-width(mobile);
-
-  @include min-width(md) {
-    @include container-width(tablet);
-  }
-
   @include min-width(lg) {
-    @include container-width(smalldesktop);
-  }
-
-  @include min-width(xl) {
-    @include container-width(desktop);
+    @include padding(8xl, y);
   }
 
   &__container {
-    max-width: 1600px;
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
+    @include container-width(mobile);
 
-  &__content-wrapper {
-    position: relative;
-    max-width: 800px;
-  }
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
 
-  &__label {
-    margin-bottom: 2rem;
-    position: relative;
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
 
-    span {
-      display: inline-block;
-      @include font-size(sm);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba($black, 0.6);
-      position: relative;
-      padding-left: 30px;
-
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 20px;
-        height: 1px;
-        background-color: rgba($primary-color, 0.4);
-      }
+    @include min-width(xl) {
+      @include container-width(desktop);
     }
   }
 
   &__title {
-    @include font-size(5xl);
-    @include font-weight(bold);
-    color: $black;
-    line-height: 1;
-    @include margin(lg, bottom);
+    @include font-size(4xl);
+    @include font-weight(regular);
+    color: $white;
+    line-height: 1.1;
+    text-align: left;
 
     @include min-width(sm) {
-      @include font-size(4xl);
+      @include font-size(5xl);
     }
 
     @include min-width(md) {
@@ -77,46 +47,36 @@
     }
 
     @include min-width(lg) {
-      @include font-size(8xl);
+      @include font-size(7xl);
     }
   }
 
   &__marquee-wrapper {
     width: 100%;
     position: relative;
-    padding: 0 auto;
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
     overflow: hidden;
     z-index: 2;
-    pointer-events: none;
-    min-height: 200px;
-    will-change: transform;
+    min-height: 120px;
+
+    @include min-width(md) {
+      min-height: 150px;
+    }
+  }
+
+  &__content {
+    max-width: 800px;
   }
 
   &__text {
     @include font-size(lg);
-    line-height: 1.8;
-    color: rgba($black, 0.75);
-    margin-top: 3rem;
+    line-height: 1.6;
+    color: $white;
     margin-bottom: 2.5rem;
     max-width: 650px;
-    position: relative;
-    padding-left: 2rem;
+    text-align: left;
+        margin-top: -5rem;
 
-    // Vertical line with subtle primary color
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1px;
-      height: 90%;
-      background: linear-gradient(
-        to bottom,
-        rgba($primary-color, 0.2),
-        transparent
-      );
-    }
 
     @include min-width(lg) {
       @include font-size(xl);
@@ -124,37 +84,22 @@
   }
 
   &__cta {
-    margin-top: 1.5rem;
     position: relative;
+    text-align: left;
 
     &-link {
       @include font-size(base);
-      color: $black;
+      color: $white;
       text-decoration: none;
       position: relative;
       display: inline-flex;
       align-items: center;
-      font-weight: 600;
+      font-weight: 500;
       transition: all 0.3s ease;
-      padding-left: 2rem;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 1.5rem;
-        height: 1px;
-        width: 0;
-        background-color: rgba($primary-color, 0.5);
-        transition: width 0.3s ease;
-      }
+      padding-left: 1.5rem;
 
       &:hover {
-        color: rgba($primary-color, 0.8);
-
-        &::after {
-          width: calc(100% - 1.5rem);
-        }
+        opacity: 0.8;
       }
     }
 
@@ -163,8 +108,8 @@
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      @include font-size(lg);
-      color: rgba($primary-color, 0.5);
+      @include font-size(base);
+      color: $white;
     }
   }
 }

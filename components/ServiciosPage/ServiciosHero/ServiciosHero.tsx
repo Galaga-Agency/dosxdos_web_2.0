@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { animateServiciosHero } from "@/utils/animations/pages/servicios-page-anim";
 import { GoArrowUpRight } from "react-icons/go";
-
 import "./ServiciosHero.scss";
 
 const ServiciosHero: React.FC = () => {
@@ -23,7 +22,7 @@ const ServiciosHero: React.FC = () => {
           subtitle: subtitleRef.current,
           button: buttonRef.current,
         });
-      }, 1500);
+      }, 300);
     } else {
       console.error("Required refs not available");
     }

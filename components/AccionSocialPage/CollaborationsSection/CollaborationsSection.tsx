@@ -3,13 +3,10 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  panelTwoAnimation,
-  clearScrollTriggers,
-} from "@/utils/animations/panel-animation";
 import "./CollaborationsSection.scss";
 import { collaborationData } from "@/data/collaborations";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import { clearScrollTriggers, panelAnimation } from "@/utils/animations/components/panel-animation";
 
 const CollaborationsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -18,11 +15,11 @@ const CollaborationsSection: React.FC = () => {
   useEffect(() => {
     // Clean up any existing ScrollTrigger instances first
     clearScrollTriggers();
-    
+
     // Short timeout to ensure DOM is fully rendered
     const timer = setTimeout(() => {
-      panelTwoAnimation();
-      
+      panelAnimation();
+
       // Force refresh ScrollTrigger
       if (typeof window !== "undefined") {
         const { ScrollTrigger } = require("gsap/dist/ScrollTrigger");
@@ -31,7 +28,7 @@ const CollaborationsSection: React.FC = () => {
         }
       }
     }, 300);
-    
+
     return () => {
       clearTimeout(timer);
     };

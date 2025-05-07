@@ -3,61 +3,67 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
-import { animateAboutUsSection } from "@/utils/animations/pages/homepage-anim";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import {
+  initFadeAnimations,
+  initImageParallax,
+} from "@/utils/animations/pages/homepage-anim";
 import "./AboutUsSection.scss";
+
+// Ensure GSAP plugins are registered
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const AboutUsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const visualRef = useRef<HTMLDivElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const imageInnerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize animations
   useEffect(() => {
-    if (sectionRef.current && titleRef.current && textRef.current) {
-      // Delay animation slightly to allow DOM to fully render
-      const timer = setTimeout(() => {
-        animateAboutUsSection({
-          section: sectionRef.current,
-          label: labelRef.current,
-          title: titleRef.current,
-          text: textRef.current,
-          cta: ctaRef.current,
-          image: visualRef.current,
-        });
-      }, 100);
+    if (sectionRef.current) {
+      setTimeout(() => {
+        // Initialize fade animations
+        initFadeAnimations();
 
-      return () => clearTimeout(timer);
+        // Initialize parallax effect separately
+        if (imageContainerRef.current && imageInnerRef.current) {
+          initImageParallax(imageContainerRef.current, imageInnerRef.current);
+        }
+      }, 300);
     }
   }, []);
 
   return (
     <section ref={sectionRef} className="aboutus-section">
       <div className="aboutus-section__container">
-        {/* Header section that spans full width */}
+        {/* Header section */}
         <div className="aboutus-section__header">
-          <div ref={labelRef} className="aboutus-section__label">
-            <span>PROYECTAMOS SENSACIONES</span>
+          <div className="aboutus-section__label fade_bottom">
+            <span>Quienes Somos</span>
           </div>
 
-          <h2 ref={titleRef} className="aboutus-section__title">
-            Creamos <span className="highlight">experiencias únicas</span> en
-            espacios comerciales
+          <h2 className="aboutus-section__title fade_bottom">
+            CREAMOS ESPACIOS
+            <br />
+            QUE INSPIRAN
           </h2>
         </div>
 
         {/* Content area with two columns */}
         <div className="aboutus-section__content">
-          {/* Left column with logo */}
-          <div ref={visualRef} className="aboutus-section__visual-column">
-            <div className="aboutus-section__animated-logo">
+          {/* Left column with image with parallax effect */}
+          <div
+            ref={imageContainerRef}
+            className="aboutus-section__visual-column"
+          >
+            <div ref={imageInnerRef} className="aboutus-section__animated-logo">
               <Image
-                src="/assets/img/logo/logo-svg.svg"
-                alt="Dos por Dos Grupo Imagen"
+                src="/assets/img/blog/corporate-branding.jpg"
+                alt="Diseño de interiores"
                 fill
-                sizes="(max-width: 768px) 150px, 200px"
+                sizes="(max-width: 768px) 100vw, 50vw"
                 priority
               />
             </div>
@@ -65,7 +71,7 @@ const AboutUsSection: React.FC = () => {
 
           {/* Right column with content */}
           <div className="aboutus-section__content-column">
-            <div ref={textRef} className="aboutus-section__text">
+            <div className="aboutus-section__text fade_left">
               <p>
                 Más de <strong>35 años de experiencia</strong> en el sector del
                 diseño de interiores en espacios comerciales. Especialistas en
@@ -79,9 +85,9 @@ const AboutUsSection: React.FC = () => {
               </p>
             </div>
 
-            <div ref={ctaRef} className="aboutus-section__cta">
+            <div className="aboutus-section__cta fade_bottom">
               <PrimaryButton href="/sobre-nosotros/equipo" size="medium">
-                Conocenos &rarr;
+                Conócenos
               </PrimaryButton>
             </div>
           </div>

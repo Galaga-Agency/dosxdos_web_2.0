@@ -4,10 +4,151 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
+import { isTouchDevice } from "@/utils/device";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+}
+
+// Store all ScrollTrigger instances for cleanup
+const scrollTriggerInstances: ScrollTrigger[] = [];
+
+// Track ScrollTrigger instances for cleanup
+function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
+  scrollTriggerInstances.push(instance);
+  return instance;
+}
+
+interface SectionAnimationElements {
+  section?: HTMLElement | null;
+  label?: HTMLElement | null;
+  title?: HTMLElement | null;
+  text?: HTMLElement | null;
+  subtitle?: HTMLElement | null;
+  cta?: HTMLElement | null;
+  image?: HTMLElement | null;
+  grid?: HTMLElement | null;
+  container?: HTMLElement | null;
+  carousel?: HTMLElement | null;
+  header?: HTMLElement | null;
+  marquee?: HTMLElement | null;
+}
+
+// Common fade animation setup
+function setupFadeAnimation(
+  selector: string,
+  initialProps: gsap.TweenVars,
+  animProps: gsap.TweenVars,
+  startPosition: string = "top center+=100"
+) {
+  const elements = document.querySelectorAll(selector);
+  if (elements.length === 0) return;
+
+  gsap.set(selector, initialProps);
+  const elementsArray = gsap.utils.toArray(selector);
+
+  elementsArray.forEach((item: any) => {
+    const tl = gsap.timeline({
+      scrollTrigger: trackScrollTrigger(
+        ScrollTrigger.create({
+          trigger: item,
+          start: startPosition,
+        })
+      ),
+    });
+
+    tl.to(item, { ...animProps, ease: "power2.out" });
+  });
+}
+
+export function initFadeAnimations(): void {
+  if (typeof window === "undefined") return;
+
+  // Fade Bottom animations
+  setupFadeAnimation(
+    ".fade_bottom",
+    { y: 100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1.5 },
+    "top center+=400"
+  );
+
+  // Fade Top animations
+  setupFadeAnimation(
+    ".fade_top",
+    { y: -100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 2.5 }
+  );
+
+  // Fade Left animations
+  setupFadeAnimation(
+    ".fade_left",
+    { x: -100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 2.5 }
+  );
+
+  // Fade Right animations
+  setupFadeAnimation(
+    ".fade_right",
+    { x: 100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 2.5 }
+  );
+}
+
+// Ultra-smooth parallax effect
+export function initImageParallax(
+  containerElement: HTMLDivElement,
+  innerElement: HTMLDivElement
+): void {
+  if (typeof window === "undefined" || !containerElement || !innerElement)
+    return;
+
+  console.log("Initializing ultra-smooth parallax");
+
+  // Prepare inner element with scale to prevent white edges
+  gsap.set(innerElement, {
+    scale: 1.25, // Increased scale for larger movement
+    transformOrigin: "center center",
+  });
+
+  // Create a proxy object to track scroll progress
+  const proxy = { progress: 0 };
+
+  // Main ScrollTrigger to track scroll position
+  const scrollTrigger = ScrollTrigger.create({
+    trigger: containerElement,
+    start: "top bottom",
+    end: "bottom top",
+    scrub: 3, // Much higher scrub value for ultra-smooth movement
+    onUpdate: (self) => {
+      // Update proxy value
+      gsap.to(proxy, {
+        progress: self.progress,
+        duration: 0.6, // Longer duration for smoother updating
+        overwrite: "auto",
+        ease: "sine.out", // Very subtle easing
+        onUpdate: () => {
+          // Apply smooth movement to container
+          gsap.set(containerElement, {
+            y: proxy.progress * (isTouchDevice() ? 0 : -150),
+          });
+
+          // Apply stronger movement to inner element
+          gsap.set(innerElement, {
+            y: proxy.progress * -110,
+          });
+        },
+      });
+    },
+  });
+
+  // Force refresh for immediate effect
+  setTimeout(() => {
+    if ((window as any).__smoother__) {
+      (window as any).__smoother__.refresh();
+    }
+    ScrollTrigger.refresh();
+  }, 100);
 }
 
 // Title Animation Utility
@@ -39,21 +180,6 @@ export function charAnimation(current?: HTMLElement) {
   return tl;
 }
 
-interface SectionAnimationElements {
-  section?: HTMLElement | null;
-  label?: HTMLElement | null;
-  title?: HTMLElement | null;
-  text?: HTMLElement | null;
-  subtitle?: HTMLElement | null;
-  cta?: HTMLElement | null;
-  image?: HTMLElement | null;
-  grid?: HTMLElement | null;
-  container?: HTMLElement | null;
-  carousel?: HTMLElement | null;
-  header?: HTMLElement | null;
-  marquee?: HTMLElement | null;
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Hero Slider Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,32 +203,40 @@ export const animateHeroSlider = ({
 
   // Animate title element
   if (title) {
-    gsap.set(title, { 
-      opacity: 0, 
-      y: -30 
+    gsap.set(title, {
+      opacity: 0,
+      y: -30,
     });
-    
-    tl.to(title, { 
-      opacity: 1, 
-      y: 0, 
-      duration: 1.4, 
-      ease: "power2.out"
-    }, 0.5);
+
+    tl.to(
+      title,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.4,
+        ease: "power2.out",
+      },
+      0.5
+    );
   }
-  
+
   // Animate CTA element
   if (cta) {
-    gsap.set(cta, { 
-      opacity: 0, 
-      y: 30 
+    gsap.set(cta, {
+      opacity: 0,
+      y: 30,
     });
-    
-    tl.to(cta, { 
-      opacity: 1, 
-      y: 0, 
-      duration: 1.2, 
-      ease: "power2.out"
-    }, 0.7);
+
+    tl.to(
+      cta,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power2.out",
+      },
+      0.7
+    );
   }
 
   // Play animation immediately for hero section
@@ -134,32 +268,40 @@ export const animateLogoMarquee = ({
 
   // Animate header if exists
   if (header) {
-    gsap.set(header, { 
-      opacity: 0, 
-      y: 20 
+    gsap.set(header, {
+      opacity: 0,
+      y: 20,
     });
-    
-    tl.to(header, { 
-      opacity: 1, 
-      y: 0, 
-      duration: 0.8, 
-      ease: "power2.out" 
-    }, 0.3);
+
+    tl.to(
+      header,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+      },
+      0.3
+    );
   }
-  
+
   // Animate marquee wrapper
   if (marquee) {
-    gsap.set(marquee, { 
-      opacity: 0, 
-      scale: 0.95 
+    gsap.set(marquee, {
+      opacity: 0,
+      scale: 0.95,
     });
-    
-    tl.to(marquee, { 
-      opacity: 1, 
-      scale: 1, 
-      duration: 1, 
-      ease: "power2.out" 
-    }, 0.5);
+
+    tl.to(
+      marquee,
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        ease: "power2.out",
+      },
+      0.5
+    );
   }
 
   // Create ScrollTrigger
@@ -190,63 +332,9 @@ export const animateAboutUsSection = ({
 
   const tl = gsap.timeline();
 
-  // Prepare section
-  gsap.set(section, {
-    visibility: "visible",
-    opacity: 1,
-  });
-
-  // Animate elements with consistent pattern
-  const animationSequence = [
-    { el: label, props: { x: -30 }, index: 0 },
-    { el: title, props: { y: 0 }, index: 0.3, charAnim: true },
-    { el: text, props: { y: 30 }, index: 1.5 },
-    { el: image, props: { scale: 0.5 }, index: 1.0 },
-    { el: cta, props: { y: 30 }, index: 1.9 },
-  ];
-
-  animationSequence.forEach(({ el, props, index, charAnim }) => {
-    if (!el) return;
-
-    // Initial state
-    gsap.set(el, {
-      opacity: 0,
-      ...props,
-    });
-
-    // Char animation for title if specified
-    if (charAnim && title) {
-      tl.add(() => {
-        charAnimation(title);
-      }, index);
-    }
-
-    // Animate to visible state
-    tl.to(
-      el,
-      {
-        opacity: 1,
-        ...(props.x !== undefined ? { x: 0 } : {}),
-        ...(props.y !== undefined ? { y: 0 } : {}),
-        ...(props.scale !== undefined ? { scale: 1 } : {}),
-        duration: 0.8,
-        ease: props.scale
-          ? "power3.out"
-          : props.y === 30
-          ? "back.out(1.4)"
-          : "power2.out",
-      },
-      index
-    );
-  });
-
-  // Create ScrollTrigger
-  ScrollTrigger.create({
-    trigger: section,
-    animation: tl,
-    start: "top 80%",
-    once: true,
-  });
+  // Just initialize fade animations here, don't do any additional animations
+  // This matches how the VisionSection works
+  initFadeAnimations();
 
   return tl;
 };
@@ -411,16 +499,14 @@ export const animateBlogCarouselSection = ({
 export function cleanupHomepageAnimations() {
   if (typeof window === "undefined") return;
 
-  console.log("⚠️ Cleaning up all homepage animations");
-  
   // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach(trigger => {
+  scrollTriggerInstances.forEach((trigger) => {
     trigger.kill();
   });
-  
+
   // Clear match media queries
   ScrollTrigger.clearMatchMedia();
-  
+
   // Refresh ScrollTrigger
   refreshScrollTrigger();
 }

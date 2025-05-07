@@ -3,13 +3,14 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  panelTwoAnimation,
-  clearScrollTriggers,
-} from "@/utils/animations/panel-animation";
+
 import { refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
 import "./FeaturedprojectsSection.scss";
 import { projects } from "@/data/projects";
+import {
+  clearScrollTriggers,
+  panelAnimation,
+} from "@/utils/animations/components/panel-animation";
 
 const FeaturedprojectsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -24,8 +25,7 @@ const FeaturedprojectsSection: React.FC = () => {
         // Clean any existing scroll triggers for this section first
         clearScrollTriggers();
 
-        // Initialize the panel animation
-        panelTwoAnimation();
+        panelAnimation();
 
         // Force refresh ScrollTrigger
         refreshScrollTrigger();
@@ -44,7 +44,7 @@ const FeaturedprojectsSection: React.FC = () => {
         <div className="marquee-track">
           <div className="marquee-text">
             {Array.from({ length: 50 }).map((_, i) => (
-              <span key={i}>our work&nbsp;</span>
+              <span key={i}>Nuestros Trabajos&nbsp;&nbsp;</span>
             ))}
           </div>
         </div>

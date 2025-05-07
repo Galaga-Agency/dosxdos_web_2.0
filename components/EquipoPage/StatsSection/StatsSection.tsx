@@ -20,7 +20,7 @@ const StatsSection: React.FC = () => {
   }, []);
 
   const stats = [
-    { number: 250, suffix: "+", label: "PROYECTOS COMPLETADOS" },
+    { number: 50, suffix: "+", label: "PROYECTOS COMPLETADOS" },
     { number: 37, suffix: "+", label: "AÑOS DE EXPERIENCIA" },
     { number: 45, suffix: "+", label: "PROFESIONALES" },
     { number: 94, suffix: "%", label: "SATISFACCIÓN DE CLIENTES" },
@@ -42,7 +42,7 @@ const StatsSection: React.FC = () => {
                 data-value={stat.number}
                 data-suffix={stat.suffix}
               >
-                0{stat.suffix}
+                00{stat.suffix}
               </div>
               <div className="stats-section__separator"></div>
               <div className="stats-section__label">{stat.label}</div>

@@ -27,7 +27,7 @@ const EquipoPage: React.FC = () => {
   // Initialize ScrollTrigger configuration once
   useEffect(() => {
     initScrollTriggerConfig();
-    
+
     // Cleanup on unmount
     return () => {
       cleanupEquipoAnimations();
@@ -38,12 +38,12 @@ const EquipoPage: React.FC = () => {
     <SmoothScrollWrapper>
       <div className="equipo-page" key={key}>
         <div className="equipo-page__container">
-          <div className="equipo-page__social-sidebar">
+          {/* <div className="equipo-page__social-sidebar">
             <div className="equipo-page__social-wrapper">
               <span className="equipo-page__social-label">Síguenos</span>
               <SocialIcons orientation="vertical" color="white" />
             </div>
-          </div>
+          </div> */}
 
           <HeroSection key={`hero-${key}`} />
           <StorySection key={`story-${key}`} />
