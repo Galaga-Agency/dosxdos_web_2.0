@@ -5,15 +5,11 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
 
-// Ensure GSAP plugins are registered
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-// Contact page animation interface
-interface ContactPageAnimationElements {
-  title?: HTMLElement | null;
+// Define interface for animation elements
+export interface ContactPageAnimElements {
   subtitle?: HTMLElement | null;
+  title?: HTMLElement | null;
+  content?: HTMLElement | null;
   leftSection?: HTMLElement | null;
   rightSection?: HTMLElement | null;
   officesSection?: HTMLElement | null;
@@ -21,243 +17,252 @@ interface ContactPageAnimationElements {
   socialCta?: HTMLElement | null;
 }
 
+// Register GSAP plugins if in browser environment
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 // Character animation with SplitText
 export const charAnimation = (current: HTMLElement | null = null) => {
   if (!current || typeof window === "undefined") return null;
 
-  console.log("Animating Characters");
+  console.log("Animating Characters for:", current);
 
   gsap.set(current, {
-    visibility: "hidden",
+    visibility: "visible", // Ensure it's visible for the split to work
+    opacity: 0, // But hidden visually
     perspective: 300,
   });
 
+  // Create new SplitText instance
   const itemSplitted = new SplitText(current, {
-    type: "chars, words",
+    type: "chars",
   });
 
-  gsap.set(current, { visibility: "visible" });
+  // Make sure the split characters are visible (but the container might still be hidden)
+  gsap.set(itemSplitted.chars, { opacity: 1 });
 
+  // Animate the characters in
   const tl = gsap.timeline();
-  tl.from(itemSplitted.chars, {
-    duration: 1,
-    x: 100,
-    autoAlpha: 0,
-    stagger: 0.05,
-  });
+  tl.to(current, { opacity: 1, duration: 0.1 }) // First make the container visible
+    .from(itemSplitted.chars, {
+      duration: 1,
+      x: 100,
+      opacity: 0,
+      stagger: 0.05,
+      ease: "power3.out",
+    });
 
   return tl;
 };
 
-// Function to animate the subtitle
-export const animateSubtitle = (element: HTMLElement | null) => {
-  if (!element || typeof window === "undefined") return null;
+// Main animation function
+export const animateContactPage = ({
+  subtitle,
+  title,
+  content,
+  leftSection,
+  rightSection,
+  officesSection,
+  officesGrid,
+  socialCta,
+}: ContactPageAnimElements) => {
+  if (typeof window === "undefined") return null;
 
-  console.log("Animating Subtitle");
+  console.log("Animating Contact Page");
 
-  return gsap.fromTo(
-    element,
-    {
-      y: 20,
-      opacity: 0,
-    },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power3.out",
-    }
-  );
-};
+  // Create main timeline
+  const mainTl = gsap.timeline({
+    defaults: { ease: "power3.out" },
+    delay: 0.3,
+  });
 
-// Function to animate the contact form and info sections
-export const animateContactSections = (
-  leftSection: HTMLElement | null,
-  rightSection: HTMLElement | null
-) => {
-  if ((!leftSection && !rightSection) || typeof window === "undefined")
-    return null;
-
-  console.log("Animating Contact Sections");
-
-  const tl = gsap.timeline();
-
-  // Animate left section
-  if (leftSection) {
-    gsap.set(leftSection, { x: -50, opacity: 0 });
-    tl.to(
-      leftSection,
+  // Subtitle animation
+  if (subtitle) {
+    mainTl.fromTo(
+      subtitle,
       {
-        x: 0,
-        opacity: 1,
-        duration: 0.7,
-        ease: "power3.out",
+        opacity: 0,
+        x: -50,
       },
-      0.4
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+      },
+      0
     );
   }
 
-  // Animate right section
-  if (rightSection) {
-    gsap.set(rightSection, { x: 50, opacity: 0 });
-    tl.to(
-      rightSection,
+  // Title animation - directly applied to the title element
+  if (title) {
+    mainTl.add(() => {
+      charAnimation(title);
+    }, 0.3);
+  }
+
+  // Left section animation
+  if (leftSection) {
+    mainTl.fromTo(
+      leftSection,
       {
-        x: 0,
+        opacity: 0,
+        y: 50,
+      },
+      {
         opacity: 1,
-        duration: 0.7,
-        ease: "power3.out",
+        y: 0,
+        duration: 0.8,
       },
       0.6
     );
   }
 
-  return tl;
-};
-
-// Function to animate location cards
-export const animateLocationCards = (container: HTMLElement | null) => {
-  if (!container || typeof window === "undefined") return null;
-
-  console.log("Animating Location Cards");
-
-  const cards = container.querySelectorAll(".location-card");
-  if (cards.length === 0) return null;
-
-  gsap.set(cards, { y: 50, opacity: 0 });
-
-  return gsap.to(cards, {
-    y: 0,
-    opacity: 1,
-    duration: 0.8,
-    stagger: 0.2,
-    ease: "power3.out",
-  });
-};
-
-// Function to set up scroll triggers for office section
-export const setupOfficesSectionAnimation = (section: HTMLElement | null) => {
-  if (!section || typeof window === "undefined") return null;
-
-  console.log("Animating Offices Section");
-
-  const title = section.querySelector(".offices-title");
-  if (!title) return null;
-
-  gsap.set(title, { x: -50, opacity: 0 });
-
-  // Create ScrollTrigger
-  ScrollTrigger.create({
-    trigger: section,
-    start: "top 80%",
-    once: true,
-    onEnter: () => {
-      gsap.to(title, {
-        x: 0,
+  // Right section animation
+  if (rightSection) {
+    mainTl.fromTo(
+      rightSection,
+      {
+        opacity: 0,
+        y: 50,
+      },
+      {
         opacity: 1,
+        y: 0,
         duration: 0.8,
-        ease: "power3.out",
-      });
-    },
-  });
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    refreshScrollTrigger();
-  }, 100);
-};
-
-// Function to animate social CTA section
-export const animateSocialCTA = (section: HTMLElement | null) => {
-  if (!section || typeof window === "undefined") return null;
-
-  console.log("Animating Social CTA");
-
-  const heading = section.querySelector("h3");
-  const icons = section.querySelector(".contact-page__desktop-social-icons");
-
-  if (!heading && !icons) return null;
-
-  if (heading) gsap.set(heading, { y: 30, opacity: 0 });
-  if (icons) gsap.set(icons, { y: 30, opacity: 0 });
-
-  // Create ScrollTrigger
-  ScrollTrigger.create({
-    trigger: section,
-    start: "top 80%",
-    once: true,
-    onEnter: () => {
-      if (heading) {
-        gsap.to(heading, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-        });
-      }
-
-      if (icons) {
-        gsap.to(icons, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          delay: 0.3,
-          ease: "power3.out",
-        });
-      }
-    },
-  });
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    refreshScrollTrigger();
-  }, 100);
-};
-
-// Main animation function to initialize all animations
-export const initContactPageAnimations = (
-  elements: ContactPageAnimationElements
-) => {
-  if (typeof window === "undefined") return;
-
-  console.log("Initializing Contact Page Animations");
-
-  const {
-    title,
-    subtitle,
-    leftSection,
-    rightSection,
-    officesSection,
-    officesGrid,
-    socialCta,
-  } = elements;
-
-  // Run animations in sequence
-  if (title) charAnimation(title);
-  if (subtitle) animateSubtitle(subtitle);
-  if (leftSection !== undefined || rightSection !== undefined) {
-    animateContactSections(leftSection ?? null, rightSection ?? null);
+      },
+      0.8
+    );
   }
-  if (officesGrid) animateLocationCards(officesGrid);
-  if (officesSection) setupOfficesSectionAnimation(officesSection);
-  if (socialCta) animateSocialCTA(socialCta);
 
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    refreshScrollTrigger();
-  }, 100);
+  // Offices section animation
+  if (officesSection) {
+    ScrollTrigger.create({
+      trigger: officesSection,
+      start: "top 85%",
+      once: true,
+      onEnter: () => {
+        gsap.fromTo(
+          officesSection,
+          {
+            opacity: 0,
+            y: 50,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          }
+        );
+      },
+    });
+  }
+
+  // Offices grid animation
+  if (officesGrid) {
+    ScrollTrigger.create({
+      trigger: officesGrid,
+      start: "top 85%",
+      once: true,
+      onEnter: () => {
+        const cards = officesGrid.querySelectorAll(".location-card");
+        if (cards.length) {
+          gsap.fromTo(
+            cards,
+            {
+              opacity: 0,
+              y: 30,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.2,
+              ease: "power2.out",
+            }
+          );
+        }
+      },
+    });
+  }
+
+  // Social CTA section animation
+  if (socialCta) {
+    ScrollTrigger.create({
+      trigger: socialCta,
+      start: "top 85%",
+      once: true,
+      onEnter: () => {
+        gsap.fromTo(
+          socialCta,
+          {
+            opacity: 0,
+            y: 50,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          }
+        );
+      },
+    });
+  }
+
+  return mainTl;
 };
 
-// Clean up function
-export function cleanupContactPageAnimations(): void {
+// Initialize all contact page animations
+export const initContactPageAnimations = (refs: ContactPageAnimElements) => {
   if (typeof window === "undefined") return;
 
-  console.log("⚠️ Cleaning up all contact page animations");
+  console.log("Initializing Contact Page Animations with refs:", refs);
+
+  // Set initial states for animations
+  if (refs.subtitle) {
+    gsap.set(refs.subtitle, { opacity: 0, x: -50 });
+  }
+
+  // Title is already set to opacity: 0 in CSS
+
+  if (refs.leftSection) {
+    gsap.set(refs.leftSection, { opacity: 0, y: 50 });
+  }
+
+  if (refs.rightSection) {
+    gsap.set(refs.rightSection, { opacity: 0, y: 50 });
+  }
+
+  if (refs.officesSection) {
+    gsap.set(refs.officesSection, { opacity: 0, y: 50 });
+  }
+
+  if (refs.socialCta) {
+    gsap.set(refs.socialCta, { opacity: 0, y: 50 });
+  }
+
+  // Run the main animations
+  const timeline = animateContactPage(refs);
+
+  // Refresh ScrollTrigger to ensure all is registered properly
+  setTimeout(() => {
+    refreshScrollTrigger();
+  }, 300);
+};
+
+// Function to clean up all animations when navigating away
+export function cleanupContactPageAnimations() {
+  if (typeof window === "undefined") return;
 
   // Kill all ScrollTriggers
   ScrollTrigger.getAll().forEach((trigger) => {
     trigger.kill();
   });
+
+  // Kill all active GSAP animations
+  gsap.killTweensOf(".contact-page, .contact-page *");
 
   // Clear match media queries
   ScrollTrigger.clearMatchMedia();

@@ -4,262 +4,114 @@
 @use "base/animations" as *;
 
 .values-section {
-  background-color: $white;
   position: relative;
   overflow: hidden;
-  margin: 0 auto;
-  padding-block: 6rem;
-  width: 100%; 
-  max-width: 100%;
+  @include section-spacing;
 
   &__container {
-    @include container-width(mobile);
+    width: 100%;
+    max-width: 1600px;
     margin: 0 auto;
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__content-wrapper {
-    position: relative;
-    margin-bottom: 3rem;
-
-    // Subtle accent line 
-    &::before {
-      content: "";
-      position: absolute;
-      top: -40px;
-      left: 0;
-      width: 40px;
-      height: 2px;
-      background-color: rgba($primary-color, 0.7);
-    }
-  }
-
-  &__label {
-    margin-bottom: 2rem;
-    position: relative;
-
-    span {
-      display: inline-block;
-      @include font-size(xs);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba($black, 0.6);
-      position: relative;
-      padding-left: 30px;
-
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 20px;
-        height: 1px;
-        background-color: rgba($secondary-color, 0.7);
-      }
-    }
+    padding: 0 clamp(1rem, 5vw, 4rem);
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
   }
 
   &__title {
-    @include font-size(3xl);
-    font-weight: 800;
+    @include font-size(4xl);
+    @include font-weight(semibold);
     color: $black;
-    line-height: 1.15;
-    margin-bottom: 2.5rem;
-    max-width: 36ch;
+    line-height: 1.1;
+    max-width: none;
 
     @include min-width(md) {
-      @include font-size(4xl);
+      @include font-size(6xl);
     }
 
     @include min-width(lg) {
-      @include font-size(5xl);
-    }
-
-    .word {
-      display: inline-block;
-      position: relative;
+      @include font-size(7xl);
     }
 
     .highlight {
       position: relative;
       display: inline-block;
-      font-weight: 400;
-      color: $primary-color;
+      z-index: 1;
 
       &::after {
         content: "";
         position: absolute;
-        bottom: -4px;
-        left: 0;
-        height: 3px;
-        width: 100%;
-        background-color: rgba($primary-color, 0.4);
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.5s ease;
+        bottom: 0;
+        left: -5px;
+        right: -5px;
+        width: calc(100% + 10px);
+        height: 40%;
+        background-color: rgba($black, 0.5);
+        opacity: 0.3;
+        z-index: -1;
+        transform: skew(-10deg);
       }
     }
   }
 
-  &:hover .highlight::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-
-  &__text {
-    @include font-size(lg);
-    line-height: 1.8;
-    color: rgba($black, 0.75);
-    max-width: 55ch;
-    position: relative;
-    padding-left: 2rem;
-    margin-bottom: 3rem;
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1px;
-      height: 90%;
-      background: linear-gradient(
-        to bottom,
-        rgba($primary-color, 0.4),
-        transparent
-      );
-    }
+  &__description {
+    @include font-size(xl);
+    color: rgba($black, 0.8);
+    max-width: 1000px;
+    line-height: 1.7;
 
     p {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
+
+      strong {
+        color: $black;
+        @include font-weight(bold);
+      }
+    }
+  }
+
+  &__services {
+    @include flex(column, unset, flex-start);
+    gap: 2rem;
+
+    @include min-width(lg) {
+      @include flex(row, flex-end, space-between);
+      gap: 5rem;
     }
 
-    strong {
+    &-title {
+      @include font-size(4xl);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       color: $black;
-      font-weight: 700;
+      padding-bottom: 0.5rem;
       position: relative;
 
-      // Subtle highlight 
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background-color: rgba($secondary-color, 0.1);
-        z-index: -1;
-      }
-    }
-  }
-
-  &__tabs-wrapper {
-    border-bottom: 1px solid rgba($black, 0.1);
-    margin-bottom: 2.5rem;
-  }
-
-  &__tabs {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    margin-bottom: -1px;
-
-    @include min-width(md) {
-      gap: 3.5rem;
-    }
-  }
-
-  &__tab {
-    background: none;
-    border: none;
-    padding: 0.75rem 0;
-    font-size: 1.125rem;
-    color: rgba($black, 0.6);
-    cursor: pointer;
-    transition: color 0.3s ease;
-    position: relative;
-
-    @include min-width(md) {
-      font-size: 1.25rem;
-    }
-
-    &:hover {
-      color: $black;
-    }
-
-    &.active {
-      color: $black;
-      font-weight: 600;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: $black;
+      @include min-width(lg) {
+        max-width: 50%;
       }
     }
 
-    &:not(.active)::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background-color: rgba($secondary-color, 0.3);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s ease;
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 3rem;
+
+      @include min-width(md) {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     
-    &:hover::after {
-      transform: scaleX(0.7);
+    &-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
   }
-
-  &__tab-text {
-    position: relative;
-    z-index: 2;
-  }
-
-  &__content {
-    padding-top: 2rem;
-    min-height: 400px;
-    transition: opacity 0.3s ease;
-  }
-
-  &__content-header {
-    max-width: 50rem;
-    margin-bottom: 3rem;
-  }
-
-  &__content-subtitle {
-    display: inline-block;
-    @include font-size(sm);
-    font-weight: 500;
-    color: rgba($black, 0.6);
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.03em;
-  }
-
-  &__content-title {
+  
+  &__column-title {
     @include font-size(2xl);
-    @include font-weight(bold);
+    @include font-weight(semibold);
     color: $black;
     margin-bottom: 1rem;
     position: relative;
@@ -269,245 +121,26 @@
       position: absolute;
       bottom: -0.5rem;
       left: 0;
-      width: 40px;
+      width: 3rem;
       height: 2px;
-      background-color: rgba($primary-color, 0.4);
-      transition: width 0.4s ease;
+      background-color: rgba($black, 0.3);
     }
   }
-  
-  &__content:hover &__content-title::after {
-    width: 60px;
-  }
 
-  &__content-description {
+  &__services-item {
     @include font-size(lg);
-    line-height: 1.6;
-    color: rgba($black, 0.75);
-  }
-
-  &__values-wrapper {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 2rem;
-    
-    @include min-width(sm) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    
-    @include min-width(lg) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    
-    @include min-width(xl) {
-      grid-template-columns: repeat(5, 1fr);
-    }
-  }
-
-  &__value-item {
+    color: rgba($black, 0.85);
     position: relative;
-    padding: 1.5rem;
-    background-color: $white;
-    box-shadow: 0 5px 20px rgba($black, 0.05);
-    border-radius: 4px;
-    border: 1px solid rgba($secondary-color, 0.1);
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
-    
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba($black, 0.08);
-      border-color: rgba($secondary-color, 0.2);
-      
-      .values-section__value-title::after {
-        width: 50px;
-      }
-    }
-  }
+    padding-left: 1.5rem;
 
-  &__value-number {
-    @include font-size(sm);
-    color: rgba($black, 0.7);
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.1em;
-    display: flex;
-    align-items: center;
-    
     &::before {
       content: "";
-      width: 20px;
-      height: 1px;
-      background-color: rgba($primary-color, 0.3);
-      margin-right: 0.75rem;
-    }
-  }
-
-  &__value-title {
-    @include font-size(xl);
-    @include font-weight(semibold);
-    color: $black;
-    margin-bottom: 0.75rem;
-    position: relative;
-    
-    // Decorative underline 
-    &::after {
-      content: '';
+      width: 8px;
+      height: 8px;
       position: absolute;
-      bottom: -5px;
       left: 0;
-      width: 30px;
-      height: 2px;
-      background-color: rgba($secondary-color, 0.3);
-      transition: width 0.4s ease;
-    }
-  }
-
-  &__value-description {
-    @include font-size(base);
-    line-height: 1.6;
-    color: rgba($black, 0.7);
-  }
-  
-  &__social-responsibility {
-    margin: 5rem auto 0 auto;
-    padding: 3rem;
-    width: fit-content;
-    background-color: rgba($white, 0.7);
-    backdrop-filter: blur(5px);
-    border-radius: 4px;
-    box-shadow: $shadow-lg;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba($secondary-color, 0.1);
-    
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 0;
-      opacity: 0;
-      transition: all 0.5s ease;
-    }
-    
-    &::before {
-      top: 0;
-      left: 0;
-      border-top: 2px solid rgba($primary-color, 0.5);
-      border-left: 2px solid rgba($primary-color, 0.5);
-    }
-    
-    &::after {
-      bottom: 0;
-      right: 0;
-      border-bottom: 2px solid rgba($primary-color, 0.5);
-      border-right: 2px solid rgba($primary-color, 0.5);
-    }
-    
-    &:hover {
-      &::before,
-      &::after {
-        width: 60px;
-        height: 60px;
-        opacity: 1;
-      }
-    }
-  }
-  
-  &__social-header {
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-  
-  &__social-title {
-    @include font-size(2xl);
-    @include font-weight(bold);
-    color: $black;
-    letter-spacing: 0.1em;
-    position: relative;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-    display: inline-block;
-    text-transform: uppercase;
-    
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 2px;
-      background-color: rgba($secondary-color, 0.7);
-      transition: width 0.3s ease;
-    }
-  }
-  
-  &__social-responsibility:hover &__social-title::after {
-    width: 100px;
-  }
-  
-  &__social-subtitle {
-    @include font-size(xl);
-    color: rgba($black, 0.8);
-    @include font-weight(medium);
-    margin-bottom: 2rem;
-  }
-  
-  &__social-content {
-    max-width: 60rem;
-    margin: 0 auto;
-    
-    p {
-      @include font-size(lg);
-      line-height: 1.7;
-      color: rgba($black, 0.75);
-      margin-bottom: 1.5rem;
-      position: relative;
-      padding-left: 2rem;
-      padding-right: 2rem;
-      
-      // Vertical lines
-      &:first-child::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 1px;
-        height: 90%;
-        background: linear-gradient(to bottom, rgba($secondary-color, 0.4), transparent);
-      }
-      
-      &:last-child::after {
-        content: "";
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 1px;
-        height: 90%;
-        background: linear-gradient(to bottom, transparent, rgba($secondary-color, 0.4));
-      }
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    
-    strong {
-      color: $black;
-      @include font-weight(bold);
-      position: relative;
-      
-      // Subtle highlight using secondary color
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background-color: rgba($secondary-color, 0.1);
-        z-index: -1;
-      }
+      top: 0.5rem;
+      background-color: $black;
     }
   }
 }

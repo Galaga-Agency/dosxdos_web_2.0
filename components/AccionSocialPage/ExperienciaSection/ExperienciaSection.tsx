@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { animateExperienciaSection } from "@/utils/animations/pages/accion-social-page-anim";
+import {
+  animateExperienciaSection,
+  initFadeAnimations,
+} from "@/utils/animations/pages/accion-social-page-anim";
 import "./ExperienciaSection.scss";
 
 const ExperienciaSection: React.FC = () => {
@@ -11,6 +14,10 @@ const ExperienciaSection: React.FC = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      // Initialize the fade animations
+      initFadeAnimations();
+
+      // Also use the specific section animation
       animateExperienciaSection({
         section: sectionRef.current,
         title: titleRef.current,
@@ -50,18 +57,20 @@ const ExperienciaSection: React.FC = () => {
     <section ref={sectionRef} className="experiencia-section">
       <div className="experiencia-section__container">
         <div className="experiencia-section__header">
-          <h2 ref={titleRef} className="experiencia-section__title">
-            <span className="word">Nuestra</span>{" "}
-            <span className="word">Experiencia</span>
+          <h2 ref={titleRef} className="experiencia-section__title fade_bottom">
+            <span className="word">NUESTRA</span>{" "}
+            <span className="word">EXPERIENCIA</span>
           </h2>
-          <div className="experiencia-section__subtitle">
-            Más de 35 años transformando el retail
+          <div className="experiencia-section__subtitle fade_left">
+            Más de 35 años transformando el retail con diseños innovadores que
+            combinan funcionalidad y estética para crear espacios comerciales
+            únicos y memorables.
           </div>
         </div>
 
         <div ref={experiencesRef} className="experiencia-section__content">
           {experiencias.map((exp) => (
-            <div key={exp.id} className="experiencia-section__item">
+            <div key={exp.id} className="experiencia-section__item fade_bottom">
               <div className="experiencia-section__item-header">
                 <span className="experiencia-section__item-number">
                   {exp.id}

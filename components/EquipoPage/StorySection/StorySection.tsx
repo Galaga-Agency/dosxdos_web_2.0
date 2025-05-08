@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { animateStorySection } from "@/utils/animations/pages/equipo-page-anim";
 import "./StorySection.scss";
+import { initFadeAnimations } from "@/utils/animations/pages/equipo-page-anim";
 
 const StorySection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -12,13 +12,8 @@ const StorySection: React.FC = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      animateStorySection({
-        section: sectionRef.current,
-        title: titleRef.current,
-        text: textRef.current,
-        services: servicesRef.current,
-      });
-    }, 100);
+      initFadeAnimations();
+    }, 300);
 
     return () => clearTimeout(timer);
   }, []);
@@ -38,7 +33,7 @@ const StorySection: React.FC = () => {
   return (
     <section className="story-section" ref={sectionRef}>
       <div className="story-section__container">
-        <h2 ref={titleRef} className="story-section__title">
+        <h2 ref={titleRef} className="story-section__title fade_bottom">
           Somos un estudio creativo especializado en
           <span className="highlight">
             {" "}
@@ -47,7 +42,7 @@ const StorySection: React.FC = () => {
           con identidad propia para empresas y individuos.
         </h2>
 
-        <div ref={textRef} className="story-section__description">
+        <div ref={textRef} className="story-section__description fade_bottom">
           <p>
             Un equipo de más de 45 profesionales apasionados por transformar
             espacios comerciales. Nuestra historia es un viaje de innovación,
@@ -61,10 +56,10 @@ const StorySection: React.FC = () => {
         </div>
 
         <div ref={servicesRef} className="story-section__services">
-          <h3 className="story-section__services-title">
+          <h3 className="story-section__services-title fade_left">
             LO QUE HACEMOS
           </h3>
-          <div className="story-section__services-grid">
+          <div className="story-section__services-grid fade_bottom">
             {services.map((service, index) => (
               <div key={index} className="story-section__services-item">
                 {service}

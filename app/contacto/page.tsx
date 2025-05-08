@@ -71,7 +71,7 @@ const ContactPage: React.FC = () => {
             <h4 ref={subtitleRef} className="contact-page__subtitle">
               Solicite su presupuesto personalizado, sin compromiso
             </h4>
-            <h1 ref={titleRef} className="contact-page__title char-animation">
+            <h1 ref={titleRef} className="contact-page__title">
               Contáctenos
             </h1>
           </div>

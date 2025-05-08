@@ -35,11 +35,15 @@ const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
 
   useEffect(() => {
     // Only initialize once and only for touch devices
-    if (bentoGridRef.current && isTouchDevice && !isAnimationInitialized.current) {
+    if (
+      bentoGridRef.current &&
+      isTouchDevice &&
+      !isAnimationInitialized.current
+    ) {
       initBentoRevealForTouchDevices(bentoGridRef.current);
       isAnimationInitialized.current = true;
     }
-    
+
     // Cleanup function
     return () => {
       isAnimationInitialized.current = false;
@@ -61,8 +65,13 @@ const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
               src={project.image}
               alt={project.title}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 100vw, 
+         (max-width: 1200px) 50vw, 
+         (max-width: 1600px) 33vw, 
+         25vw"
+              quality={90} // Higher quality for important portfolio images
               className="portfolio-bento__image"
+              priority={index < 2} // Load the first two images with priority
             />
           </div>
 

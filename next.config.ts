@@ -12,6 +12,10 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840], // Include large desktop sizes
+    imageSizes: [16, 32, 64, 96, 128, 256, 384, 512, 768, 1024],
+    formats: ["image/webp", "image/avif"], // Modern formats for better quality/size ratio
+    minimumCacheTTL: 60 * 60 * 24 * 30, // Cache images for longer (30 days)
     domains: ["dospordosgrupoimagen.com"],
     remotePatterns: [
       {

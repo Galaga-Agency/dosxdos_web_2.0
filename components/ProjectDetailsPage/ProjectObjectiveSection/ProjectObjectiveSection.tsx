@@ -8,7 +8,7 @@ import { Project } from "@/types/project-types";
 import {
   movingImageSlider,
   imageRevealAnimation,
-  animateObjectiveSection,
+  initFadeAnimations,
 } from "@/utils/animations/pages/project-details-page-anim";
 import "./ProjectObjectiveSection.scss";
 
@@ -31,24 +31,18 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
     // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger);
 
-    // Initialize section animations
-    animateObjectiveSection({
-      section: sectionRef.current,
-      label: labelRef.current,
-      title: titleRef.current,
-      text: textRef.current,
-      gallery: galleryRef.current,
-    });
+    // Initialize fade animations
+    setTimeout(() => {
+      initFadeAnimations();
 
-    // Initialize gallery animations after DOM is ready
-    const galleryTimer = setTimeout(() => {
+      // Initialize gallery animations
       movingImageSlider();
       imageRevealAnimation();
-    }, 500);
+    }, 300);
 
     // Cleanup function
     return () => {
-      clearTimeout(galleryTimer);
+      // Cleanup handled by parent component
     };
   }, []);
 
@@ -56,19 +50,28 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
     <section ref={sectionRef} className="project-objective-section">
       <div className="project-objective-section__container">
         <div className="project-objective-section__content-wrapper">
-          <div ref={labelRef} className="project-objective-section__label">
+          <div
+            ref={labelRef}
+            className="project-objective-section__label fade_bottom"
+          >
             <span>EL PROYECTO</span>
           </div>
 
-          <h2 ref={titleRef} className="project-objective-section__title">
+          <h2
+            ref={titleRef}
+            className="project-objective-section__title fade_bottom"
+          >
             <span className="word">Creamos</span>{" "}
             <span className="word">espacios</span>{" "}
             <span className="word">que</span>{" "}
             <span className="word">cuentan</span>{" "}
-            <span className="highlight">historias únicas</span>
+            <span className="highlight fade_bottom">historias únicas</span>
           </h2>
 
-          <div ref={textRef} className="project-objective-section__text">
+          <div
+            ref={textRef}
+            className="project-objective-section__text fade_left"
+          >
             <p>{project.longDescription}</p>
           </div>
         </div>
@@ -81,7 +84,7 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
               {project.images.slice(0, 4).map((imgSrc, i) => (
                 <div
                   key={i}
-                  className="project-objective-section__gallery-item"
+                  className="project-objective-section__gallery-item fade_bottom"
                 >
                   <div className="image-container">
                     <Image
@@ -91,11 +94,6 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       style={{ objectFit: "cover" }}
                     />
-                    <div className="image-overlay"></div>
-                    <div className="image-corner tl"></div>
-                    <div className="image-corner tr"></div>
-                    <div className="image-corner bl"></div>
-                    <div className="image-corner br"></div>
                   </div>
                 </div>
               ))}
@@ -106,7 +104,7 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
               {project.images.slice(4, 8).map((imgSrc, i) => (
                 <div
                   key={i + 4}
-                  className="project-objective-section__gallery-item"
+                  className="project-objective-section__gallery-item fade_bottom"
                 >
                   <div className="image-container">
                     <Image
@@ -116,11 +114,6 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       style={{ objectFit: "cover" }}
                     />
-                    <div className="image-overlay"></div>
-                    <div className="image-corner tl"></div>
-                    <div className="image-corner tr"></div>
-                    <div className="image-corner bl"></div>
-                    <div className="image-corner br"></div>
                   </div>
                 </div>
               ))}

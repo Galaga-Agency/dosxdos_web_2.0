@@ -7,6 +7,7 @@ import { projects } from "@/data/projects";
 import "./ServiciosRecentProjects.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { BsArrowRight } from "react-icons/bs";
+import { initFadeAnimations } from "@/utils/animations/pages/servicios-page-anim";
 
 const ServiciosRecentProjects: React.FC = () => {
   const { isDesktop } = useDeviceDetect();
@@ -94,8 +95,13 @@ const ServiciosRecentProjects: React.FC = () => {
     checkForScrollIndicator();
     window.addEventListener("resize", checkForScrollIndicator);
 
+    const timer = setTimeout(() => {
+      initFadeAnimations();
+    }, 300);
+
     return () => {
       window.removeEventListener("resize", checkForScrollIndicator);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -116,7 +122,7 @@ const ServiciosRecentProjects: React.FC = () => {
             {recentProjects.map((project) => (
               <Link
                 href={`/portfolio/${project.slug}`}
-                className="servicios-recent-projects__item"
+                className="servicios-recent-projects__item fade_right"
                 key={project.id}
               >
                 <div className="servicios-recent-projects__image-wrapper">

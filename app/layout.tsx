@@ -4,7 +4,6 @@ import "@/styles/main.scss";
 import Menu from "@/components/layout/Menu/Menu";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
-import PageTransition from "@/components/PageTransition/PageTransition";
 import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
 
 const bigShoulders = localFont({
@@ -190,6 +189,7 @@ export const metadata: Metadata = {
   category: "Interior Design Services",
 };
 
+// Update your RootLayout function in layout.tsx
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -197,6 +197,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        {/* Preload critical hero slider images */}
+        <link
+          rel="preload"
+          href="/assets/img/homepage/slider-3.webp"
+          as="image"
+          type="image/webp"
+        />
+        <link
+          rel="preload"
+          href="/assets/img/homepage/slider-1.webp"
+          as="image"
+          type="image/webp"
+        />
+        <link
+          rel="preload"
+          href="/assets/img/homepage/slider-2.webp"
+          as="image"
+          type="image/webp"
+        />
+      </head>
       <AuthProvider>
         <body
           className={`${bigShoulders.variable} ${sarabun.variable}`}

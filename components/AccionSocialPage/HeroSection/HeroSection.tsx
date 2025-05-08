@@ -38,7 +38,7 @@ const HeroSection: React.FC = () => {
           grid: decorGridRef.current,
         },
       });
-    }, 1500);
+    }, 300);
 
     // Clean up function
     return () => {

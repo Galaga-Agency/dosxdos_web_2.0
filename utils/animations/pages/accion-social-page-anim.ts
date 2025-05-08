@@ -3,10 +3,20 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
+import { isMobile, isTouchDevice } from "@/utils/device";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+}
+
+// Store all ScrollTrigger instances for cleanup
+const scrollTriggerInstances: ScrollTrigger[] = [];
+
+// Track ScrollTrigger instances for cleanup
+function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
+  scrollTriggerInstances.push(instance);
+  return instance;
 }
 
 // Define animation elements interface
@@ -32,6 +42,74 @@ interface SectionAnimationElements {
   content?: HTMLElement | null;
   cards?: HTMLElement | null;
   experiences?: HTMLElement | null;
+  services?: HTMLElement | null;
+}
+
+// Common fade animation setup
+function setupFadeAnimation(
+  selector: string,
+  initialProps: gsap.TweenVars,
+  animProps: gsap.TweenVars,
+  startPosition: string = "top center+=100"
+): void {
+  const elements = document.querySelectorAll(selector);
+  if (elements.length === 0) return;
+
+  gsap.set(selector, initialProps);
+  const elementsArray = gsap.utils.toArray(selector);
+
+  elementsArray.forEach((item: any) => {
+    const tl = gsap.timeline({
+      scrollTrigger: trackScrollTrigger(
+        ScrollTrigger.create({
+          trigger: item,
+          start: startPosition,
+        })
+      ),
+    });
+
+    tl.to(item, { ...animProps, ease: "power2.out" });
+  });
+}
+
+export function initFadeAnimations(): void {
+  if (typeof window === "undefined") return;
+
+  console.log("Initializing fade animations");
+
+  // Fade Bottom animations
+  setupFadeAnimation(
+    ".fade_bottom",
+    { y: 100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1.5 },
+    "top center+=400"
+  );
+
+  // Fade Top animations
+  setupFadeAnimation(
+    ".fade_top",
+    { y: -100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 2.5 }
+  );
+
+  // Fade Left animations
+  setupFadeAnimation(
+    ".fade_left",
+    { x: -100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 2.5 }
+  );
+
+  // Fade Right animations
+  setupFadeAnimation(
+    ".fade_right",
+    { x: 100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 2.5 }
+  );
+
+  // Force refresh ScrollTrigger
+  setTimeout(() => {
+    refreshScrollTrigger();
+  }, 100);
 }
 
 // ==========================================================================
@@ -114,188 +192,6 @@ export function initAccionSocialHeroAnimations(
 
   // Play the animation
   masterTimeline.play();
-}
-
-// ==========================================================================
-// Values Section Animations
-// ==========================================================================
-
-export function animateValuesSection(elements: SectionAnimationElements): void {
-  if (typeof window === "undefined") return;
-
-  console.log("Animating Values Section");
-
-  // Make sure we have the essential elements
-  if (
-    !elements.section ||
-    !elements.title ||
-    !elements.text ||
-    !elements.tabs ||
-    !elements.content
-  ) {
-    console.warn("Missing essential elements for values section animation");
-    return;
-  }
-
-  // Create a master timeline for the section
-  const masterTimeline = gsap.timeline({
-    defaults: {
-      duration: 0.8,
-      ease: "power2.out",
-    },
-  });
-
-  // Animate title words
-  const titleWords = elements.title.querySelectorAll(".word");
-  if (titleWords.length > 0) {
-    gsap.set(titleWords, { y: 30, opacity: 0 });
-    masterTimeline.to(
-      titleWords,
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.1,
-        ease: "power3.out",
-      },
-      0
-    );
-  }
-
-  // Highlight animation
-  const highlight = elements.title.querySelector(".highlight");
-  if (highlight) {
-    gsap.set(highlight, { backgroundSize: "0% 100%" });
-    masterTimeline.to(
-      highlight,
-      {
-        backgroundSize: "100% 100%",
-        duration: 0.6,
-      },
-      0.4
-    );
-  }
-
-  // Text animation
-  gsap.set(elements.text, { opacity: 0, y: 20 });
-  masterTimeline.to(
-    elements.text,
-    {
-      opacity: 1,
-      y: 0,
-    },
-    0.2
-  );
-
-  // Tabs animation
-  const tabs = elements.tabs.querySelectorAll(".values-section__tab");
-  if (tabs.length > 0) {
-    gsap.set(tabs, { opacity: 0, y: 15 });
-    masterTimeline.to(
-      tabs,
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.1,
-        duration: 0.6,
-      },
-      0.4
-    );
-  }
-
-  // Content animation - animate header and values
-  gsap.set(elements.content, { opacity: 0 });
-  masterTimeline.to(
-    elements.content,
-    {
-      opacity: 1,
-    },
-    0.6
-  );
-
-  // Animate value items with stagger
-  const valueItems = elements.content.querySelectorAll(
-    ".values-section__value-item"
-  );
-  if (valueItems.length > 0) {
-    gsap.set(valueItems, { y: 30, opacity: 0 });
-    masterTimeline.to(
-      valueItems,
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.1,
-      },
-      0.8
-    );
-  }
-
-  // Animate social responsibility section if it exists
-  const socialSection = elements.section.querySelector(
-    ".values-section__social-responsibility"
-  );
-  if (socialSection) {
-    gsap.set(socialSection, { opacity: 0, y: 30 });
-    masterTimeline.to(
-      socialSection,
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-      },
-      1
-    );
-  }
-
-  // Create ScrollTrigger
-  ScrollTrigger.create({
-    trigger: elements.section,
-    start: "top 80%",
-    once: true,
-    animation: masterTimeline,
-  });
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    refreshScrollTrigger();
-  }, 100);
-}
-
-// Separate function to handle tab content transitions without causing scrolling
-export function animateTabContentChange(
-  contentElement: HTMLElement | null
-): void {
-  if (!contentElement || typeof window === "undefined") return;
-
-  console.log("Animating Tab Content Change");
-
-  // Create new timeline for tab content transition
-  const tl = gsap.timeline({
-    defaults: {
-      ease: "power2.out",
-      duration: 0.4,
-    },
-  });
-
-  // Simple fade transition to avoid jarring changes
-  tl.fromTo(contentElement, { opacity: 0.7 }, { opacity: 1 });
-
-  // Find and animate value items with stagger
-  const valueItems = contentElement.querySelectorAll(
-    ".values-section__value-item"
-  );
-  if (valueItems.length > 0) {
-    gsap.set(valueItems, { y: 15, opacity: 0 });
-    tl.to(
-      valueItems,
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.08,
-        duration: 0.5,
-      },
-      0.1
-    );
-  }
 }
 
 // ==========================================================================
@@ -428,6 +324,26 @@ export function animateExperienciaSection(
 }
 
 // ==========================================================================
+// Collaborations Section Animations
+// ==========================================================================
+
+export function animateCollaborationsSection(
+  elements: SectionAnimationElements
+): void {
+  if (typeof window === "undefined") return;
+
+  console.log("Animating Collaborations Section");
+
+  // Initialize fade animations for elements with fade classes
+  initFadeAnimations();
+
+  // Force refresh ScrollTrigger
+  setTimeout(() => {
+    refreshScrollTrigger();
+  }, 100);
+}
+
+// ==========================================================================
 // CTA Section Animations
 // ==========================================================================
 
@@ -534,6 +450,63 @@ export function animateAccionSocialCTASection(
   // Force refresh ScrollTrigger
   setTimeout(() => {
     refreshScrollTrigger();
+  }, 100);
+}
+
+// ==========================================================================
+// Image Parallax Animation
+// ==========================================================================
+
+export function initImageParallax(
+  containerElement: HTMLDivElement,
+  innerElement: HTMLDivElement
+): void {
+  if (typeof window === "undefined" || !containerElement || !innerElement)
+    return;
+
+  // Prepare inner element with scale to prevent white edges
+  gsap.set(innerElement, {
+    scale: 1.25, // Increased scale for larger movement
+    transformOrigin: "center 10%",
+  });
+
+  // Create a proxy object to track scroll progress
+  const proxy = { progress: 0 };
+
+  // Main ScrollTrigger to track scroll position
+  const scrollTrigger = ScrollTrigger.create({
+    trigger: containerElement,
+    start: "top bottom",
+    end: "bottom top",
+    scrub: 3, // Much higher scrub value for ultra-smooth movement
+    onUpdate: (self) => {
+      // Update proxy value
+      gsap.to(proxy, {
+        progress: self.progress,
+        duration: 0.6, // Longer duration for smoother updating
+        overwrite: "auto",
+        ease: "sine.out", // Very subtle easing
+        onUpdate: () => {
+          // Apply smooth movement to container
+          gsap.set(containerElement, {
+            y: proxy.progress * (isTouchDevice() ? 0 : -130),
+          });
+
+          // Apply stronger movement to inner element
+          gsap.set(innerElement, {
+            y: proxy.progress * (isTouchDevice() ? -50 : -110) ,
+          });
+        },
+      });
+    },
+  });
+
+  // Force refresh for immediate effect
+  setTimeout(() => {
+    if ((window as any).__smoother__) {
+      (window as any).__smoother__.refresh();
+    }
+    ScrollTrigger.refresh();
   }, 100);
 }
 

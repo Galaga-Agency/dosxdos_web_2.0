@@ -1,3 +1,4 @@
+// BlogItem.tsx
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,14 +13,14 @@ interface BlogItemProps {
 
 const BlogItem: React.FC<BlogItemProps> = ({ item, index = 0 }) => {
   return (
-    <div className="blog-item">
+    <Link href={`/blog/${item.slug}`} className="blog-item">
       <div className="blog-item__image-container">
         <div className="blog-item__image-wrapper">
           <Image
             src={
               item.coverImage ||
               (item.img && item.img[0]) ||
-              "/assets/img/blog/default-blog-image.jpg"
+              "/assets/img/default-blog-image.jpg"
             }
             alt={item.title}
             fill
@@ -38,14 +39,14 @@ const BlogItem: React.FC<BlogItemProps> = ({ item, index = 0 }) => {
           <div className="blog-item__category">{item.category}</div>
         )}
         <h3 className="blog-item__title">
-          <Link href={`/blog/${item.slug}`}>{item.title}</Link>
+          <span className="underline-text">{item.title}</span>
         </h3>
         {item.excerpt && <p className="blog-item__excerpt">{item.excerpt}</p>}
-        <Link href={`/blog/${item.slug}`} className="blog-item__read-more">
-          Leer más
-        </Link>
+        <span className="blog-item__read-more">
+          <span className="underline-text">Leer más</span>
+        </span>
       </div>
-    </div>
+    </Link>
   );
 };
 

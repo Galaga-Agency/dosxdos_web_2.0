@@ -19,10 +19,19 @@ import { formatDate } from "@/utils/formatting/dateFormatting";
 import { BlogPost } from "@/types/blog-post-types";
 import Loading from "@/components/ui/Loading/Loading";
 
+// This section appears at the top level in your other pages
+// Register GSAP plugins if needed (this should be consistent across all pages)
+// if (typeof window !== "undefined") {
+//   gsap.registerPlugin(ScrollTrigger);
+// }
+
 const BlogPage: React.FC = () => {
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
+  const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  // Refs for animations
   const imageContainerRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -32,13 +41,19 @@ const BlogPage: React.FC = () => {
   const postsGridRef = useRef<HTMLDivElement>(null);
   const desktopSocialCtaRef = useRef<HTMLDivElement>(null);
 
-  const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Get only published blog posts
+  const publishedBlogItems = blogItems.filter(
+    (post) => post.published === true
+  );
 
-  // Initialize ScrollTrigger configuration once
-  useEffect(() => {
-    initScrollTriggerConfig();
-  }, []);
+  const first_blog = publishedBlogItems[0];
+  const other_blogs = publishedBlogItems.slice(1);
+
+  const { currentItems, handlePageClick, pageCount, currentPage } =
+    usePagination({
+      items: other_blogs,
+      itemsPerPage: 3,
+    });
 
   // Setup parallax effect for featured image
   useParallax(
@@ -51,23 +66,13 @@ const BlogPage: React.FC = () => {
     }
   );
 
-  // Get only published blog posts
-  const publishedBlogItems = blogItems.filter(
-    (post) => post.published === true
-  );
-
-  const first_blog = publishedBlogItems[0];
-  const other_blogs = publishedBlogItems.slice(1);
-  const { currentItems, handlePageClick, pageCount, currentPage } =
-    usePagination({
-      items: other_blogs,
-      itemsPerPage: 3,
-    });
-
-  console.log("first_blog", first_blog);
-
-  // Fetch blog posts
+  // Unified useEffect that handles initialization, data fetching, and cleanup
+  // This follows the pattern in your other pages
   useEffect(() => {
+    // Initialize ScrollTrigger configuration once
+    initScrollTriggerConfig();
+
+    // Fetch blog posts
     const fetchPosts = async () => {
       try {
         const res = await fetch("/api/blog");
@@ -82,16 +87,9 @@ const BlogPage: React.FC = () => {
 
     fetchPosts();
 
-    // Cleanup when unmounting
-    return () => {
-      cleanupBlogPageAnimations();
-    };
-  }, []);
-
-  // Initialize animations when page is loaded
-  useEffect(() => {
-    if (loading) {
-      const timer = setTimeout(() => {
+    // Initialize animations when data is available and component is mounted
+    const timer = setTimeout(() => {
+      if (!loading) {
         initBlogPageAnimations({
           imageContainer: imageContainerRef.current,
           image: imageRef.current,
@@ -102,12 +100,14 @@ const BlogPage: React.FC = () => {
           postsGrid: postsGridRef.current,
           desktopSocialCta: desktopSocialCtaRef.current,
         });
-      }, 300);
+      }
+    }, 300);
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }
+    // Cleanup on unmount
+    return () => {
+      clearTimeout(timer);
+      cleanupBlogPageAnimations();
+    };
   }, [loading]);
 
   return (
@@ -150,13 +150,6 @@ const BlogPage: React.FC = () => {
                 {/* Image overlay that darkens the image */}
                 <div className="blog-page__featured-image-overlay"></div>
               </div>
-
-              {/* Corner elements */}
-              <div className="blog-page__featured-image-corner tl"></div>
-              <div className="blog-page__featured-image-corner tr"></div>
-              <div className="blog-page__featured-image-corner bl"></div>
-              <div className="blog-page__featured-image-corner br"></div>
-
               <div className="blog-page__featured-content-container">
                 <Link
                   href={`/blog/${first_blog?.slug}`}

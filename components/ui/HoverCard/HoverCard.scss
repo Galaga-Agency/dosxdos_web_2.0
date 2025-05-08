@@ -12,42 +12,7 @@
   text-decoration: none;
   box-shadow: 0 4px 15px rgba($black, 0.1);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  
-  // Subtle corner decorations
-  &::before, &::after {
-    content: '';
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    z-index: 3;
-    opacity: 0.7;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-  
-  // Top-right corner
-  &::before {
-    top: 15px;
-    right: 15px;
-    border-top: 1px solid rgba($white, 0.5);
-    border-right: 1px solid rgba($white, 0.5);
-  }
-  
-  // Bottom-left corner
-  &::after {
-    bottom: 15px;
-    left: 15px;
-    border-bottom: 1px solid rgba($white, 0.5);
-    border-left: 1px solid rgba($white, 0.5);
-  }
-  
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba($black, 0.2);
-    
-    &::before, &::after {
-      opacity: 1;
-    }
-  }
+
   
   &__image-wrapper {
     position: absolute;

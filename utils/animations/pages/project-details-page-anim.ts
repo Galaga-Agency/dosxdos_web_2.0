@@ -62,6 +62,114 @@ function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
   return instance;
 }
 
+// Initialize fade animations for all marked elements
+export function initFadeAnimations(): void {
+  if (typeof window === "undefined") return;
+
+  console.log("Initializing Fade Animations");
+
+  // Fade bottom animations
+  const fadeBottomElements = document.querySelectorAll(".fade_bottom");
+  if (fadeBottomElements.length > 0) {
+    gsap.fromTo(
+      fadeBottomElements,
+      {
+        opacity: 0,
+        y: 50,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: fadeBottomElements[0],
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+  }
+
+  // Fade left animations
+  const fadeLeftElements = document.querySelectorAll(".fade_left");
+  if (fadeLeftElements.length > 0) {
+    gsap.fromTo(
+      fadeLeftElements,
+      {
+        opacity: 0,
+        x: -50,
+      },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: fadeLeftElements[0],
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+  }
+
+  // Fade right animations
+  const fadeRightElements = document.querySelectorAll(".fade_right");
+  if (fadeRightElements.length > 0) {
+    gsap.fromTo(
+      fadeRightElements,
+      {
+        opacity: 0,
+        x: 50,
+      },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: fadeRightElements[0],
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+  }
+
+  // Fade top animations
+  const fadeTopElements = document.querySelectorAll(".fade_top");
+  if (fadeTopElements.length > 0) {
+    gsap.fromTo(
+      fadeTopElements,
+      {
+        opacity: 0,
+        y: -50,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: fadeTopElements[0],
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+  }
+
+  // Register ScrollTrigger instances for cleanup
+  ScrollTrigger.getAll().forEach((instance) => {
+    trackScrollTrigger(instance);
+  });
+}
+
 // Character animation using SplitText
 export function animateChars(current: HTMLElement | null = null) {
   if (typeof window === "undefined") return;
@@ -249,60 +357,12 @@ export function animateObjectiveSection(refs: ObjectiveSectionRefs) {
 
   console.log("Animating Objective Section");
 
-  // Register GSAP plugins if not already registered
-  gsap.registerPlugin(ScrollTrigger, SplitText);
+  // Use the new fade animations instead of direct GSAP
+  initFadeAnimations();
 
-  // Label animation
-  if (refs.label) {
-    gsap.fromTo(
-      refs.label,
-      { opacity: 0, x: -20 },
-      { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }
-    );
-  }
-
-  // Title animation - using SplitText for char animation
-  if (refs.title) {
-    // Add the char-animation class before animating
-    refs.title.classList.add("char-animation");
-
-    // Small delay to ensure DOM is ready
-    setTimeout(() => {
-      animateChars(refs.title);
-
-      // Animate highlight separately
-      const highlight = refs.title
-        ? refs.title.querySelector(".highlight")
-        : null;
-      if (highlight) {
-        gsap.fromTo(
-          highlight,
-          { opacity: 0, scale: 0.9 },
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 1,
-            ease: "power3.out",
-            delay: 0.8,
-          }
-        );
-      }
-    }, 100);
-  }
-
-  // Text animation
-  if (refs.text) {
-    gsap.fromTo(
-      refs.text,
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        delay: 0.5,
-      }
-    );
+  // Initialize gallery animations if needed
+  if (refs.gallery) {
+    // Additional gallery-specific animations can be added here
   }
 
   // Force refresh ScrollTrigger
@@ -374,28 +434,7 @@ export function imageRevealAnimation() {
 
   if (!items.length) return;
 
-  const instance = gsap.fromTo(
-    items,
-    {
-      opacity: 0,
-      y: 50,
-      scale: 0.9,
-    },
-    {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: items[0].closest(".project-objective-section__gallery"),
-        start: "top 80%",
-        end: "bottom 20%",
-        toggleActions: "play none none reverse",
-      },
-    }
-  );
+  // Using fade_bottom class instead of direct GSAP animation
 
   // Track this ScrollTrigger instance for cleanup
   if (ScrollTrigger.getAll().length > 0) {
@@ -414,39 +453,8 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
   // Register GSAP plugins if not already registered
   gsap.registerPlugin(ScrollTrigger);
 
-  // Title animation with SplitText if it has char-animation class
-  if (refs.title && refs.title.classList.contains("char-animation")) {
-    animateChars(refs.title);
-  }
-
-  // Label animation
-  if (refs.label) {
-    gsap.fromTo(
-      refs.label,
-      { opacity: 0, x: -20 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.6,
-        ease: "power3.out",
-      }
-    );
-  }
-
-  // Text animation
-  if (refs.text) {
-    gsap.fromTo(
-      refs.text,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        delay: 0.5,
-      }
-    );
-  }
+  // Use fade animations for text elements
+  initFadeAnimations();
 
   // Full width image animation
   if (refs.fullImage) {
@@ -561,26 +569,6 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
       },
     });
     trackScrollTrigger(instance3);
-
-    // Image parallax
-    const innerImg = refs.imageLeft.querySelector("img");
-    if (innerImg) {
-      const instance4 = ScrollTrigger.create({
-        trigger: refs.imageLeft,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1.5,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          gsap.to(innerImg, {
-            y: `${self.progress * 15}%`,
-            ease: "none",
-            overwrite: "auto",
-          });
-        },
-      });
-      trackScrollTrigger(instance4);
-    }
   }
 
   if (refs.imageRight) {
@@ -636,56 +624,7 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
       },
     });
     trackScrollTrigger(instance5);
-
-    // Image parallax
-    const innerImg = refs.imageRight.querySelector("img");
-    if (innerImg) {
-      const instance6 = ScrollTrigger.create({
-        trigger: refs.imageRight,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1.5,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          gsap.to(innerImg, {
-            y: `-${self.progress * 15}%`,
-            ease: "none",
-            overwrite: "auto",
-          });
-        },
-      });
-      trackScrollTrigger(instance6);
-    }
   }
-}
-
-// Setup parallax effect for images
-function setupParallaxImage(imageEl: HTMLElement): void {
-  // Find the actual image element inside
-  const img = imageEl.querySelector("img");
-  if (!img) return;
-
-  // Set initial position
-  gsap.set(img, { y: 0 });
-
-  // Create ScrollTrigger for parallax effect
-  const instance = ScrollTrigger.create({
-    trigger: imageEl,
-    start: "top bottom",
-    end: "bottom top",
-    scrub: 1.5,
-    invalidateOnRefresh: true,
-    onUpdate: (self) => {
-      gsap.to(img, {
-        y: `-${self.progress * 15}%`,
-        ease: "none",
-        overwrite: "auto",
-      });
-    },
-  });
-
-  // Track this ScrollTrigger instance for cleanup
-  trackScrollTrigger(instance);
 }
 
 // Animate the CTA section elements
@@ -694,85 +633,8 @@ export function animateCTASection(refs: CTASectionRefs) {
 
   console.log("Animating CTA Section");
 
-  // Register GSAP plugins if not already registered
-  gsap.registerPlugin(ScrollTrigger);
-
-  // Title animation
-  if (refs.title) {
-    const titleTrigger = ScrollTrigger.create({
-      trigger: refs.section,
-      start: "top 75%",
-      toggleActions: "play none none reverse",
-    });
-
-    trackScrollTrigger(titleTrigger);
-
-    gsap.fromTo(
-      refs.title,
-      {
-        opacity: 0,
-        y: 50,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      }
-    );
-  }
-
-  // Text animation
-  if (refs.text) {
-    const textTrigger = ScrollTrigger.create({
-      trigger: refs.section,
-      start: "top 75%",
-      toggleActions: "play none none reverse",
-    });
-
-    trackScrollTrigger(textTrigger);
-
-    gsap.fromTo(
-      refs.text,
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power3.out",
-      }
-    );
-  }
-
-  // CTA animation
-  if (refs.cta) {
-    const ctaTrigger = ScrollTrigger.create({
-      trigger: refs.section,
-      start: "top 75%",
-      toggleActions: "play none none reverse",
-    });
-
-    trackScrollTrigger(ctaTrigger);
-
-    gsap.fromTo(
-      refs.cta,
-      {
-        opacity: 0,
-        y: 20,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.4,
-        ease: "power3.out",
-      }
-    );
-  }
+  // Use the new fade animations
+  initFadeAnimations();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
