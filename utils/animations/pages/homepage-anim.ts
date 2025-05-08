@@ -332,8 +332,6 @@ export const animateAboutUsSection = ({
 
   const tl = gsap.timeline();
 
-  // Just initialize fade animations here, don't do any additional animations
-  // This matches how the VisionSection works
   initFadeAnimations();
 
   return tl;

@@ -7,7 +7,76 @@ import { refreshScrollTrigger } from "../scrolltrigger-config";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+}
+
+// Store all ScrollTrigger instances for cleanup
+const scrollTriggerInstances: ScrollTrigger[] = [];
+
+// Track ScrollTrigger instances for cleanup
+function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
+  scrollTriggerInstances.push(instance);
+  return instance;
+}
+
+// Common fade animation setup
+function setupFadeAnimation(
+  selector: string,
+  initialProps: gsap.TweenVars,
+  animProps: gsap.TweenVars,
+  startPosition: string = "top center+=100"
+) {
+  const elements = document.querySelectorAll(selector);
+  if (elements.length === 0) return;
+
+  gsap.set(selector, initialProps);
+  const elementsArray = gsap.utils.toArray(selector);
+
+  elementsArray.forEach((item: any) => {
+    const tl = gsap.timeline({
+      scrollTrigger: trackScrollTrigger(
+        ScrollTrigger.create({
+          trigger: item,
+          start: startPosition,
+        })
+      ),
+    });
+
+    tl.to(item, { ...animProps, ease: "power2.out" });
+  });
+}
+
+export function initFadeAnimations(): void {
+  if (typeof window === "undefined") return;
+
+  // Fade Bottom animations
+  setupFadeAnimation(
+    ".fade_bottom",
+    { y: 100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1.5 },
+    "top center+=400"
+  );
+
+  // Fade Top animations
+  setupFadeAnimation(
+    ".fade_top",
+    { y: -100, opacity: 0 },
+    { y: 0, opacity: 1, duration: 2.5 }
+  );
+
+  // Fade Left animations
+  setupFadeAnimation(
+    ".fade_left",
+    { x: -100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 2.5 }
+  );
+
+  // Fade Right animations
+  setupFadeAnimation(
+    ".fade_right",
+    { x: 100, opacity: 0 },
+    { x: 0, opacity: 1, duration: 2.5 }
+  );
 }
 
 // Title Animation Utility
@@ -239,148 +308,6 @@ function setupFloatingImagesParallax(floatingImages: any[]): void {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-// STORY SECTION ANIMATION ////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export function animateStorySection(elements: any): void {
-  if (typeof window === "undefined" || !elements.section) return;
-
-  console.log("Animating Story Section");
-
-  const tl = gsap.timeline();
-
-  // Set initial visibility
-  gsap.set(elements.section, { visibility: "visible", opacity: 1 });
-
-  // Main section animation
-  if (elements.title) {
-    tl.from(elements.title, { opacity: 0, y: 50, duration: 0.6 }, "+=0.2");
-
-    const words = elements.title.querySelectorAll(".word");
-    if (words.length > 0) {
-      tl.from(
-        words,
-        { opacity: 0, y: 20, stagger: 0.05, duration: 0.4 },
-        "<0.2"
-      );
-    }
-
-    const highlight = elements.title.querySelector(".highlight");
-    if (highlight) {
-      gsap.set(highlight, { backgroundSize: "0% 100%" });
-      tl.to(
-        highlight,
-        { backgroundSize: "100% 100%", duration: 0.8, ease: "power2.inOut" },
-        "<"
-      );
-    }
-  }
-
-  if (elements.text) {
-    tl.from(elements.text, { opacity: 0, y: 30, duration: 0.4 }, "<0.3");
-  }
-
-  if (elements.services) {
-    const items = elements.services.querySelectorAll("li");
-    if (items.length > 0) {
-      tl.from(
-        items,
-        { opacity: 0, y: 20, stagger: 0.05, duration: 0.3 },
-        "<0.2"
-      );
-    }
-  }
-
-  // Create ScrollTrigger for main animation
-  ScrollTrigger.create({
-    trigger: elements.section,
-    animation: tl,
-    start: "top 80%",
-    once: true,
-  });
-
-  // Origin story animation if it exists
-  if (elements.originStory) {
-    const originTl = gsap.timeline();
-    const paragraphs = elements.originStory.querySelectorAll("p");
-
-    gsap.set(elements.originStory, { opacity: 0, y: 50 });
-
-    ScrollTrigger.create({
-      trigger: elements.originStory,
-      start: "top 80%",
-      once: true,
-      onEnter: () => {
-        originTl
-          .to(elements.originStory, { opacity: 1, y: 0, duration: 0.6 })
-          .to(
-            paragraphs,
-            { opacity: 1, y: 0, stagger: 0.2, duration: 0.5 },
-            "<0.2"
-          );
-      },
-    });
-  }
-
-  // Image animation if it exists
-  if (elements.originImage) {
-    const imageTl = gsap.timeline();
-    const inner = elements.originImage.querySelector(
-      ".story-section__image-frame-inner"
-    );
-    const image = elements.originImage.querySelector(".story-section__image");
-    const corners = elements.originImage.querySelectorAll(
-      ".story-section__image-corner"
-    );
-
-    gsap.set(elements.originImage, { opacity: 0, y: 40 });
-
-    ScrollTrigger.create({
-      trigger: elements.originImage,
-      start: "top 85%",
-      once: true,
-      onEnter: () => {
-        imageTl.to(elements.originImage, { opacity: 1, y: 0, duration: 0.8 });
-
-        if (corners.length > 0) {
-          imageTl.fromTo(
-            corners,
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.5, stagger: 0.1 },
-            "<0.3"
-          );
-        }
-      },
-    });
-
-    // Parallax effect for image
-    if (inner && image) {
-      gsap.set(image, { scale: 1.1 });
-
-      ScrollTrigger.create({
-        trigger: elements.originImage,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1.5,
-        onUpdate: (self) => {
-          gsap.to(image, {
-            y: self.progress * 25,
-            duration: 0.1,
-            ease: "none",
-            overwrite: "auto",
-          });
-        },
-      });
-    }
-  }
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    ScrollTrigger.refresh();
-  }, 100);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEAM SECTION ANIMATION ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -587,96 +514,6 @@ export function animateClientsSection(elements: SectionAnimationElements) {
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",
-    });
-  }
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    ScrollTrigger.refresh();
-  }, 100);
-
-  return tl;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// CTA SECTION ANIMATION /////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export function animateCTASection(elements: any) {
-  if (typeof window === "undefined" || !elements.section) return;
-
-  console.log("Animating CTA Section");
-
-  const tl = gsap.timeline();
-
-  // Set initial visibility
-  gsap.set(elements.section, { visibility: "visible", opacity: 1 });
-
-  const sequence = [
-    { el: elements.content, props: { y: 40, scale: 0.95 }, index: 0 },
-    { el: elements.title, props: { y: 30 }, index: 0.4, charAnim: true },
-    { el: elements.text, props: { y: 20 }, index: 0.7 },
-  ];
-
-  sequence.forEach(({ el, props, index, charAnim }) => {
-    if (!el) return;
-    gsap.set(el, { opacity: 0, ...props });
-
-    if (charAnim && elements.title) {
-      tl.add(() => {
-        charAnimation(elements.title);
-      }, index);
-    }
-
-    tl.to(
-      el,
-      {
-        opacity: 1,
-        y: 0,
-        scale: props.scale !== undefined ? 1 : undefined,
-        duration: 0.8,
-        ease: "back.out(1.4)",
-      },
-      index
-    );
-  });
-
-  // Create ScrollTrigger
-  ScrollTrigger.create({
-    trigger: elements.section,
-    animation: tl,
-    start: "top 85%",
-    once: true,
-  });
-
-  // Decorative elements animation
-  if (elements.decor) {
-    const decorItems = elements.decor.querySelectorAll(".cta-section__decor");
-
-    gsap.set(decorItems, {
-      opacity: 0,
-      y: 20,
-    });
-
-    gsap.to(decorItems, {
-      opacity: (i) => (i === 0 || i === 4 ? 0.3 : 1),
-      y: 0,
-      duration: 1.2,
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: elements.section,
-        start: "top 80%",
-      },
-    });
-
-    gsap.to(decorItems, {
-      y: (i) => (i % 2 === 0 ? -8 : -12),
-      duration: (i) => 2 + i * 0.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: 0.3,
-      delay: 1,
     });
   }
 

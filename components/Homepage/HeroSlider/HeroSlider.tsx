@@ -149,7 +149,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
               src={slide.imageUrl}
               alt={`Slide ${index + 1}`}
               fill
-              priority={index === 0}
+              priority
               sizes="100vw"
               className="hero-slider__image"
               ref={(el) => {

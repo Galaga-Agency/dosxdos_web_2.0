@@ -16,9 +16,10 @@ interface SecondaryButtonProps {
   fullWidth?: boolean;
   disabled?: boolean;
   isOutlined?: boolean;
+  lightBg?: boolean; // New prop for light background variant
   ref?: any;
-  target?: string; // Add target property for links
-  rel?: string; // Add rel property for security when using target="_blank"
+  target?: string;
+  rel?: string;
 }
 
 const SecondaryButton = ({
@@ -31,6 +32,7 @@ const SecondaryButton = ({
   fullWidth = false,
   disabled = false,
   isOutlined = false,
+  lightBg = false, // Default to false for backward compatibility
   ref,
   target,
   rel,
@@ -43,6 +45,7 @@ const SecondaryButton = ({
     fullWidth && `${baseClass}--full-width`,
     disabled && `${baseClass}--disabled`,
     isOutlined && `${baseClass}--outlined`,
+    lightBg && `${baseClass}--light-bg`, // Add the new class when lightBg is true
     className,
   ]
     .filter(Boolean)

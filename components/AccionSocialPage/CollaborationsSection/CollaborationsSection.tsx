@@ -2,15 +2,17 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import "./CollaborationsSection.scss";
 import { collaborationData } from "@/data/collaborations";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
-import { clearScrollTriggers, panelAnimation } from "@/utils/animations/components/panel-animation";
+import { refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
+import {
+  clearScrollTriggers,
+  panelAnimation,
+} from "@/utils/animations/components/panel-animation";
 
 const CollaborationsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Clean up any existing ScrollTrigger instances first
@@ -21,12 +23,7 @@ const CollaborationsSection: React.FC = () => {
       panelAnimation();
 
       // Force refresh ScrollTrigger
-      if (typeof window !== "undefined") {
-        const { ScrollTrigger } = require("gsap/dist/ScrollTrigger");
-        if (ScrollTrigger && ScrollTrigger.refresh) {
-          ScrollTrigger.refresh();
-        }
-      }
+      refreshScrollTrigger();
     }, 300);
 
     return () => {
@@ -35,21 +32,17 @@ const CollaborationsSection: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="latest-projects">
-      {/* Header section with title and subtitle */}
-      <div className="latest-projects__header-container" ref={headerRef}>
-        {/* Added corner elements for animation */}
-        <div className="latest-projects__corner top-left"></div>
-        <div className="latest-projects__corner bottom-right"></div>
-        <div className="latest-projects__header">
-          <h2 className="latest-projects__title">
-            FUNDACIONES <span className="highlight">COLABORADORAS</span>
-          </h2>
-          <p className="latest-projects__subtitle">
-            Nuestro compromiso social con organizaciones que marcan la
-            diferencia
-          </p>
-        </div>
+    <section ref={sectionRef} className="collaborations-section">
+      <div className="collaborations-section__header">
+        <span className="collaborations-section__label fade_bottom">
+          COMPROMISO SOCIAL
+        </span>
+        <h2 className="collaborations-section__title fade_bottom">
+          FUNDACIONES COLABORADORAS
+        </h2>
+        <p className="collaborations-section__subtitle fade_left">
+          Nuestro compromiso social con organizaciones que marcan la diferencia
+        </p>
       </div>
 
       {/* Projects panel area */}
@@ -65,19 +58,27 @@ const CollaborationsSection: React.FC = () => {
                   className="project-panel__image-file"
                   priority={collaboration.id === 1}
                 />
+                <div className="project-panel__overlay"></div>
                 <div className="project-panel__logo">
                   <Image
                     src={collaboration.image}
                     alt={`Logo de ${collaboration.title}`}
                     width={180}
                     height={120}
-                    className="project-panel__logo-image"
+                    className={`project-panel__logo-image ${
+                      collaboration.id === 1
+                        ? "project-panel__logo-image--first"
+                        : ""
+                    }`}
                   />
                 </div>
               </div>
 
               <div className="project-panel__content-side">
                 <div className="project-panel__content">
+                  <div className="project-panel__index">
+                    {String(collaboration.id).padStart(2, "0")}
+                  </div>
                   <h3 className="project-panel__title">
                     {collaboration.title}
                   </h3>
@@ -91,7 +92,6 @@ const CollaborationsSection: React.FC = () => {
                     className="project-panel__link"
                   >
                     Visitar Web Oficial
-                    <span className="project-panel__link-arrow">→</span>
                   </PrimaryButton>
                 </div>
               </div>

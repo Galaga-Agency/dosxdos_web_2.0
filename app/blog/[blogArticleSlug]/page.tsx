@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
@@ -16,11 +16,12 @@ import { findRelatedPosts } from "@/utils/similarity";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import {
   initBlogDetailAnimations,
-  setupHoverEffects,
   cleanupBlogDetailAnimations,
-} from "@/utils/animations/blog-detail-anim";
+  setupBlogDetailHoverEffects,
+} from "@/utils/animations/pages/blog-detail-anim";
 import "./blog-details.scss";
 import Loading from "@/components/ui/Loading/Loading";
+import BlogItem from "@/components/BlogItem/BlogItem";
 
 interface BlogDetailPageProps {
   params: Promise<{ blogArticleSlug: string }>;
@@ -28,11 +29,13 @@ interface BlogDetailPageProps {
 
 const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   const { blogArticleSlug } = React.use(params);
-  const [blogPost, setBlogPost] = React.useState<BlogPost | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [relatedPosts, setRelatedPosts] = React.useState<BlogPost[]>([]);
+  const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+  const [key] = useState(() => Date.now()); // For component remounting consistency
   const router = useRouter();
 
+  // Element refs for animations
   const heroRef = useRef<HTMLDivElement>(null);
   const heroImageRef = useRef<HTMLDivElement>(null);
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
@@ -44,6 +47,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   const relatedPostsRef = useRef<HTMLDivElement>(null);
   const ctaSectionRef = useRef<HTMLDivElement>(null);
 
+  // Fetch blog post and related posts
   useEffect(() => {
     async function fetchBlogPost() {
       try {
@@ -77,39 +81,38 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
     }
 
     fetchBlogPost();
+
+    // Cleanup animations when unmounting
+    return () => {
+      cleanupBlogDetailAnimations();
+    };
   }, [blogArticleSlug]);
 
   // Initialize animations when content is loaded
   useEffect(() => {
     if (!loading && blogPost) {
       // Register GSAP plugins
-      gsap.registerPlugin(ScrollTrigger);
+      if (typeof window !== "undefined") {
+        gsap.registerPlugin(ScrollTrigger);
+      }
 
       // Initialize animations with a slight delay to ensure DOM is ready
       const timer = setTimeout(() => {
-        requestAnimationFrame(() => {
-          initBlogDetailAnimations({
-            heroSection: heroRef.current || undefined,
-            heroImage: heroImageRef.current || undefined,
-            heroTitle: heroTitleRef.current || undefined,
-            heroCategory: heroCategoryRef.current || undefined,
-            heroDate: heroDateRef.current || undefined,
-            heroAuthor: heroAuthorRef.current || undefined,
-            backButton: backButtonRef.current || undefined,
-            content: contentRef.current || undefined,
-            relatedPosts: relatedPostsRef.current || undefined,
-            ctaSection: ctaSectionRef.current || undefined,
-          });
-
-          // Setup hover effects
-          setupHoverEffects();
+        initBlogDetailAnimations({
+          heroSection: heroRef.current,
+          heroImage: heroImageRef.current,
+          heroTitle: heroTitleRef.current,
+          heroCategory: heroCategoryRef.current,
+          heroDate: heroDateRef.current,
+          heroAuthor: heroAuthorRef.current,
+          backButton: backButtonRef.current,
+          content: contentRef.current,
+          relatedPosts: relatedPostsRef.current,
+          ctaSection: ctaSectionRef.current,
         });
       }, 300);
 
-      return () => {
-        clearTimeout(timer);
-        cleanupBlogDetailAnimations();
-      };
+      return () => clearTimeout(timer);
     }
   }, [loading, blogPost]);
 
@@ -132,14 +135,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
   return (
     <SmoothScrollWrapper>
-      <div className="blog-detail">
-        <div className="blog-detail__social-sidebar">
-          <div className="blog-detail__social-wrapper">
-            <span className="blog-detail__social-label">Síguenos</span>
-            <SocialIcons orientation="vertical" color="white" />
-          </div>
-        </div>
-
+      <div className="blog-detail" key={key}>
         <div ref={backButtonRef} className="blog-detail__back-button-wrapper">
           <PrimaryButton
             onClick={() => router.back()}
@@ -150,30 +146,25 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
           </PrimaryButton>
         </div>
 
-        {/* Hero section structured like your project details page */}
         <section
           ref={heroRef}
           className="blog-detail__hero"
           style={{ backgroundImage: `url(${getImageSource(blogPost)})` }}
         >
-          {/* This is the wrapper that will get the parallax effect */}
           <div ref={heroImageRef} className="blog-detail__hero-wrapper">
             <div className="blog-detail__hero-content">
               <div className="blog-detail__hero-meta">
-                {/* Category */}
                 <div
                   ref={heroCategoryRef}
                   className="blog-detail__hero-category"
                 >
                   <span>{blogPost.category}</span>
                 </div>
-                {/* Date */}
                 <div ref={heroDateRef} className="blog-detail__hero-date">
                   <span>{formatDate(blogPost.date)}</span>
                 </div>
               </div>
 
-              {/* Title - this won't parallax now */}
               <h1
                 ref={heroTitleRef}
                 className="blog-detail__hero-title char-animation"
@@ -181,28 +172,15 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                 {blogPost.title}
               </h1>
 
-              {/* Author info */}
               <div ref={heroAuthorRef} className="blog-detail__hero-author">
                 <span>Por {blogPost.author}</span>
               </div>
             </div>
           </div>
-
-          {/* Corner elements */}
-          <div className="blog-detail__hero-corner tl"></div>
-          <div className="blog-detail__hero-corner tr"></div>
-          <div className="blog-detail__hero-corner bl"></div>
-          <div className="blog-detail__hero-corner br"></div>
         </section>
 
         <div className="blog-detail__container">
           <div ref={contentRef} className="blog-detail__content">
-            {blogPost.excerpt && (
-              <div className="blog-detail__excerpt">
-                <p>{blogPost.excerpt}</p>
-              </div>
-            )}
-
             <div
               className="blog-detail__body"
               dangerouslySetInnerHTML={createMarkup(
@@ -231,7 +209,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
           <div className="blog-detail__share-section">
             <h3 className="blog-detail__share-title">Comparte este artículo</h3>
-            <SocialIcons orientation="horizontal" color="primary" />
+            <SocialIcons orientation="horizontal" color="primary" />{" "}
           </div>
 
           {relatedPosts.length > 0 && (
@@ -240,35 +218,14 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                 Artículos relacionados
               </h2>
               <div className="blog-detail__related-grid">
-                {relatedPosts.map((post) => (
-                  <Link
-                    key={post.id}
-                    href={`/blog/${post.slug}`}
-                    className="blog-detail__related-item"
-                  >
-                    <div className="blog-detail__related-image-container">
-                      <Image
-                        src={getImageSource(post)}
-                        alt={post.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        className="blog-detail__related-image"
-                      />
-                      <div className="blog-detail__related-image-overlay"></div>
-                      <div className="blog-detail__related-image-corner tl"></div>
-                      <div className="blog-detail__related-image-corner tr"></div>
-                      <div className="blog-detail__related-image-corner bl"></div>
-                      <div className="blog-detail__related-image-corner br"></div>
-                    </div>
-                    <div className="blog-detail__related-content">
-                      <span className="blog-detail__related-date">
-                        {formatDate(post.date)}
-                      </span>
-                      <h3 className="blog-detail__related-item-title">
-                        {post.title}
-                      </h3>
-                    </div>
-                  </Link>
+                {relatedPosts.map((post, index) => (
+                  <div key={post.id} className="blog-detail__related-item">
+                    <BlogItem
+                      key={`related-blog-item-${post.id}`}
+                      item={post}
+                      index={index}
+                    />
+                  </div>
                 ))}
               </div>
             </div>
@@ -277,7 +234,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
           <div ref={ctaSectionRef} className="blog-detail__cta-section">
             <div className="blog-detail__cta-content">
               <h2 className="blog-detail__cta-title">
-                Descubre más <span className="highlight">inspiración</span>
+                Descubre más inspiración 
               </h2>
               <p className="blog-detail__cta-text">
                 Explora nuestra colección de artículos y encuentra ideas para tu

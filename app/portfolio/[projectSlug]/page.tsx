@@ -62,15 +62,6 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
     <SmoothScrollWrapper>
       <div className="project-details-page" key={key}>
         <div className="project-details-page__container">
-          <div className="project-details-page__social-sidebar">
-            <div className="project-details-page__social-wrapper">
-              <span className="project-details-page__social-label">
-                Síguenos
-              </span>
-              <SocialIcons orientation="vertical" color="white" />
-            </div>
-          </div>
-
           {loading ? (
             <Loading />
           ) : project ? (

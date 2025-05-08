@@ -45,7 +45,7 @@ const TeamSection: React.FC = () => {
     <section ref={sectionRef} className="team-section">
       <div className="team-section__container">
         <div className="team-section__header">
-          <div className="team-section__label fade_bottom">
+          <div className="team-section__label fade_left">
             <span>Nuestro equipo</span>
           </div>
 
@@ -55,7 +55,7 @@ const TeamSection: React.FC = () => {
           </h2>
         </div>
 
-        <p className="team-section__subtitle fade_left">
+        <p className="team-section__subtitle fade_bottom">
           Un equipo comprometido con la creatividad y la excelencia en cada
           proyecto, con experiencia en el diseño de{" "}
           <strong>espacios comerciales</strong> para marcas de lujo.

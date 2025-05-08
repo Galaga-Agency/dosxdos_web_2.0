@@ -12,6 +12,21 @@
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba($black, 0.05);
+  text-decoration: none;
+  color: inherit;
+  
+  // Special class for underlined text
+  .underline-text {
+    background-image: linear-gradient(to right, $black, $black);
+    background-size: 0 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s ease;
+    padding-bottom: 2px;
+    display: inline;
+    box-decoration-break: clone; // For multi-line text
+    -webkit-box-decoration-break: clone;
+  }
   
   &:hover {
     transform: translateY(-8px);
@@ -22,20 +37,16 @@
     }
     
     .blog-item__date {
-      background-color: $primary-color;
+      background-color: $black;
       color: $white;
     }
     
-    .blog-item__title a {
-      color: $primary-color;
+    .underline-text {
+      background-size: 100% 1px; // Animate the underline width
     }
     
-    .blog-item__read-more {
-      color: $primary-color;
-      
-      &::after {
-        transform: translateX(3px);
-      }
+    .blog-item__read-more::after {
+      transform: translateX(3px);
     }
   }
   
@@ -110,28 +121,10 @@
     @include font-size(xl);
     @include font-weight(semibold);
     line-height: 1.3;
+    color: $black;
     
-    a {
-      color: $black;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      position: relative;
-      display: inline-block;
-      
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 0;
-        height: 1px;
-        background-color: $primary-color;
-        transition: width 0.3s ease;
-      }
-      
-      &:hover::after {
-        width: 100%;
-      }
+    .underline-text {
+      background-size: 0 2px; // Slightly thicker underline for title
     }
   }
   
@@ -156,8 +149,6 @@
     @include font-size(sm);
     @include font-weight(semibold);
     color: $black;
-    text-decoration: none;
-    transition: color 0.3s ease;
     display: inline-flex;
     align-items: center;
     

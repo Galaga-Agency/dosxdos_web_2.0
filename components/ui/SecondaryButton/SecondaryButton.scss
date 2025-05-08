@@ -41,6 +41,23 @@
     box-shadow: 0 2px 8px rgba($black, 0.1);
   }
   
+  // Light background variant (for dark buttons on light backgrounds)
+  &--light-bg {
+    background-color: rgba($secondary-color, 0.5);
+    color: $black;
+    border-color: rgba($black, 0.1);
+    
+    &:hover {
+      background-color: rgba($secondary-color, 0.7);
+      border-color: rgba($black, 0.15);
+    }
+    
+    &:active {
+      background-color: rgba($secondary-color, 0.8);
+      border-color: rgba($black, 0.2);
+    }
+  }
+  
   // Size variations
   &--small {
     padding: 0.4rem 1rem;
@@ -76,6 +93,22 @@
     &:active {
       background-color: rgba($white, 0.15);
     }
+    
+    // Combine with light background
+    &.secondary-button--light-bg {
+      background-color: transparent;
+      border: 1px solid rgba($black, 0.15);
+      color: $black;
+      
+      &:hover {
+        background-color: rgba($secondary-color, 0.3);
+        border-color: rgba($black, 0.25);
+      }
+      
+      &:active {
+        background-color: rgba($secondary-color, 0.4);
+      }
+    }
   }
   
   // Disabled state
@@ -88,6 +121,12 @@
     border-color: rgba($white, 0.1);
     box-shadow: none;
     backdrop-filter: blur(4px);
+    
+    &.secondary-button--light-bg {
+      background-color: rgba($secondary-color, 0.3);
+      color: rgba($black, 0.5);
+      border-color: rgba($black, 0.1);
+    }
   }
   
   &__content {

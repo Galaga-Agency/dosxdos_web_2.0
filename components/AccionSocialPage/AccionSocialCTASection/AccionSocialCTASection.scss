@@ -1,144 +1,202 @@
 @use "abstracts/variables" as *;
-@use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/colors" as *;
+@use "base/animations" as *;
 
-.accion-social-cta-section {
+.cta-section {
   position: relative;
-  overflow: hidden;
-  padding: 0 0 2rem;
-  margin: 0 auto;
-  margin-top: 5rem;
-  text-align: center;
-
-  @include container-width(mobile);
-
-  @include min-width(md) {
-    @include container-width(tablet);
-  }
+  width: 100%;
+  @include padding(6xl, top);
+  background-color: $white;
 
   @include min-width(lg) {
-    @include container-width(smalldesktop);
-  }
-
-  @include min-width(xl) {
-    @include container-width(desktop);
+    @include padding(8xl, top);
   }
 
   &__container {
-    position: relative;
-    z-index: 2;
-    padding: 0 1rem;
     margin: 0 auto;
-    max-width: 1280px;
-    @include flex(column, center, center);
+    @include container-width(mobile);
+    @include padding(content-x, x);
 
     @include min-width(md) {
-      padding: 0 2rem;
+      @include container-width(tablet);
     }
-  }
-
-  &__glass-card {
-    width: 100%;
-    @include flex(column, center, center);
-  }
-
-  &__label {
-    margin-bottom: 1.5rem;
-    position: relative;
-    text-align: left;
-
-    span {
-      display: inline-block;
-      @include font-size(sm);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba($black, 0.8);
-      position: relative;
-      padding-left: 30px;
-
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 20px;
-        height: 1px;
-        background-color: rgba($primary-color, 0.3);
-      }
-    }
-  }
-
-  &__content {
-    margin-bottom: 2rem;
-    text-align: center;
-    width: 100%;
 
     @include min-width(lg) {
-      max-width: 80%;
-      margin: 0 auto 2.5rem;
+      @include container-width(smalldesktop);
     }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__header {
+    @include margin(3xl, bottom);
+    position: relative;
   }
 
   &__title {
     @include font-size(3xl);
-    font-weight: 800;
-    color: rgba($black, 0.8);
-    line-height: 1.15;
-    margin-bottom: 1.5rem;
-    text-align: center;
+    margin: 0 auto;
+    @include font-weight(semibold);
+    width: fit-content;
+    line-height: 1.1;
+    @include letter-spacing(tight);
+    text-transform: uppercase;
+    color: $black;
 
-    @include min-width(md) {
-      @include font-size(4xl);
-    }
-
-    @include min-width(xl) {
+    @include min-width(xs) {
       @include font-size(5xl);
     }
 
-    .word {
-      display: inline-block;
-      position: relative;
+    @include min-width(sm) {
+      @include font-size(6xl);
     }
 
-    .highlight {
-      color: rgba($black, 0.7);
-      position: relative;
-      display: inline-block;
-      background-image: linear-gradient(
-        transparent 70%,
-        rgba($primary-color, 0.1) 100%
-      );
-      background-repeat: no-repeat;
-      background-size: 0% 100%;
-      background-position: 0 0;
-      transition: background-size 0.3s ease;
+    @include min-width(md) {
+      @include font-size(7xl);
+      text-align: center;
     }
   }
 
-  &__subtitle {
+  &__label {
     @include font-size(lg);
-    line-height: 1.8;
-    color: rgba($black, 0.75);
-    max-width: 90%;
-    margin: 0 auto;
+    @include font-weight(medium);
+    @include margin(md, bottom);
+    color: $black;
+    display: block;
     text-align: center;
 
-    @include min-width(lg) {
-      max-width: 80%;
+    @include min-width(xl) {
+      position: absolute;
+      left: 10%;
+      text-align: left;
     }
   }
 
-  &__action {
-    position: relative;
+  &__content {
+    @include grid(1, md);
+
+    @include min-width(md) {
+      @include grid(2, xl);
+    }
+  }
+
+  &__visual-column {
+    width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    order: 2;
+    will-change: transform;
+    perspective: 1000px; /* Add perspective for better 3D effect */
+    transform-style: preserve-3d;
+    backface-visibility: hidden; /* Prevent flickering */
+    border-radius: 4px;
+    box-shadow: $shadow-lg;
+
+    @include min-width(md) {
+      order: 1;
+      justify-content: flex-start;
+    }
+
+    @include min-width(xl) {
+      width: 90%;
+      margin: 0 auto;
+    }
+  }
+
+  &__animated-logo {
+    position: relative;
     width: 100%;
-    margin: 0 auto;
+    height: 300px;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0); /* Force GPU acceleration */
+    backface-visibility: hidden;
+
+    @include min-width(md) {
+      height: 400px;
+    }
+
+    @include min-width(lg) {
+      height: 500px;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to top,
+        rgba($black, 0.4) 0%,
+        rgba($black, 0.1) 50%,
+        rgba($black, 0) 100%
+      );
+      z-index: 1;
+    }
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      object-position: center;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+  }
+
+  &__content-column {
+    position: relative;
+    order: 1;
+    @include flex(column, flex-start, flex-start);
+
+    @include min-width(md) {
+      order: 2;
+      padding-left: 2rem;
+    }
+
+    @include min-width(xl) {
+      width: 90%;
+      padding-left: 4rem;
+    }
+  }
+
+  &__text {
+    color: rgba($black, 0.8);
+    @include margin(lg, bottom);
+    @include font-size(lg);
+    line-height: 1.6;
+    will-change: transform, opacity;
+
+    p {
+      @include margin(md, bottom);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      color: $black;
+      @include font-weight(semibold);
+    }
+  }
+
+  &__cta {
+    width: fit-content;
+    @include margin(lg, top);
+    will-change: transform, opacity;
 
     &:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       transition: transform 0.3s ease;
     }
   }

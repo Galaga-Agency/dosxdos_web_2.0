@@ -52,23 +52,36 @@
   }
 
   &__title {
-    @include font-size(5xl);
-    @include font-weight(bold);
+    position: relative;
+    @include font-weight(semibold);
     color: $black;
+    text-transform: capitalize;
+    letter-spacing: -0.025em;
     visibility: hidden;
-    line-height: 1;
-    @include margin(lg, bottom);
+    @include font-size(hero-xs);
 
     @include min-width(sm) {
-      @include font-size(4xl);
+      @include font-size(hero-sm);
     }
 
     @include min-width(md) {
-      @include font-size(8xl);
+      @include font-size(hero-md);
     }
 
     @include min-width(lg) {
-      @include font-size(8xl);
+      @include font-size(hero-lg);
+    }
+
+    @include min-width(xl) {
+      @include font-size(hero-xl);
+    }
+
+    @include min-width(xxl) {
+      @include font-size(hero-xxl);
+    }
+
+    @include min-width(xxxl) {
+      @include font-size(hero-xxxl);
     }
   }
 

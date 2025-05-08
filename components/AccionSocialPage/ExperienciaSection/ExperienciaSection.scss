@@ -1,72 +1,89 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/animations" as *;
 
 .experiencia-section {
   position: relative;
   overflow: hidden;
-  margin: 0 auto;
-  padding: 6rem 0 12rem 0;
-
-  @include container-width(mobile);
-
-  @include min-width(md) {
-    @include container-width(tablet);
-  }
-
-  @include min-width(lg) {
-    @include container-width(smalldesktop);
-  }
-
-  @include min-width(xl) {
-    @include container-width(desktop);
-  }
+  @include section-spacing;
+  width: 100%;
+  background-color: $white;
 
   &__container {
     position: relative;
-    max-width: 1200px;
-    z-index: 1;
+    max-width: 1600px;
     margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 4rem);
     display: flex;
     flex-direction: column;
     gap: 5rem;
-
+    
     @include min-width(lg) {
       flex-direction: row;
+      align-items: flex-start;
     }
   }
 
   &__header {
     position: relative;
     max-width: 800px;
+    
+    @include min-width(lg) {
+      width: 40%;
+      position: sticky;
+      top: 100px;
+    }
   }
 
   &__title {
     @include font-size(4xl);
-    @include font-weight(bold);
+    @include font-weight(semibold);
     color: $black;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     line-height: 1.1;
-
+    text-transform: uppercase;
+    
     @include min-width(md) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(lg) {
       @include font-size(6xl);
     }
-
+    
+    @include min-width(lg) {
+      @include font-size(7xl);
+    }
+    
     .word {
       display: inline-block;
       position: relative;
+      
+      &:last-child {
+        position: relative;
+        z-index: 1;
+        
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: -5px;
+          right: -5px;
+          width: calc(100% + 10px);
+          height: 40%;
+          background-color: rgba($black, 0.5);
+          opacity: 0.3;
+          z-index: -1;
+          transform: skew(-10deg);
+        }
+      }
     }
   }
 
   &__subtitle {
     @include font-size(lg);
-    color: rgba($black, 0.6);
+    color: rgba($black, 0.7);
     margin-top: 1rem;
-
+    max-width: 600px;
+    line-height: 1.6;
+    
     @include min-width(md) {
       @include font-size(xl);
     }
@@ -75,25 +92,29 @@
   &__content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
-
-    @include min-width(md) {
+    gap: 4rem;
+    
+    @include min-width(lg) {
+      width: 60%;
       gap: 5rem;
     }
   }
 
   &__item {
-    padding-top: 2rem;
+    padding: 2rem 0;
     position: relative;
     border-top: 1px solid rgba($black, 0.1);
-
-    @include min-width(md) {
-      padding-right: 2rem;
-    }
-
+    transition: transform 0.3s ease;
+    
     &:hover {
+      transform: translateY(-8px);
+      
       .experiencia-section__item-title {
-        color: $primary-color;
+        color: $black;
+        
+        &::after {
+          width: 80px;
+        }
       }
     }
   }
@@ -108,7 +129,8 @@
   &__item-number {
     @include font-size(sm);
     font-weight: 600;
-    color: rgba($primary-color, 0.8);
+    color: rgba($black, 0.4);
+    letter-spacing: 0.05em;
   }
 
   &__item-category {
@@ -116,15 +138,42 @@
     font-weight: 600;
     color: rgba($black, 0.5);
     letter-spacing: 0.05em;
+    position: relative;
+    padding-left: 1rem;
+    
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: rgba($black, 0.3);
+    }
   }
 
   &__item-title {
     @include font-size(2xl);
     @include font-weight(bold);
     color: $black;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     transition: color 0.3s ease;
-
+    position: relative;
+    padding-bottom: 1rem;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: rgba($black, 0.3);
+      transition: width 0.4s ease;
+    }
+    
     @include min-width(md) {
       @include font-size(3xl);
     }
