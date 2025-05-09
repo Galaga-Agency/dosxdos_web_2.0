@@ -94,7 +94,7 @@
     position: relative;
     @include z-index(overlay);
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
   }
 
@@ -207,7 +207,7 @@
 
   // Main content section
   &__content {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     @include margin(4xl, bottom);
   }

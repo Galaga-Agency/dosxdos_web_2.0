@@ -112,13 +112,15 @@
   }
 
   &__subtitle {
-    @include font-size(xl);
-    @include font-weight(medium);
+    @include font-size(lg);
+    @include font-weight(semibold);
+    @include margin(md, bottom);
     color: $black;
     display: block;
     max-width: 90%;
     margin: 0 auto;
     opacity: 0;
+    @include letter-spacing(wide);
 
     @include min-width(md) {
       max-width: 70%;

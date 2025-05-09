@@ -69,6 +69,7 @@ const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
          (max-width: 1200px) 50vw, 
          (max-width: 1600px) 33vw, 
          25vw"
+              unoptimized={true}
               quality={90} // Higher quality for important portfolio images
               className="portfolio-bento__image"
               priority={index < 2} // Load the first two images with priority
