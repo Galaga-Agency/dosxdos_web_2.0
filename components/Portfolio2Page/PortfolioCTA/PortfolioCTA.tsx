@@ -21,7 +21,7 @@ const PortfolioCTA: React.FC<PortfolioCTAProps> = ({
     <div className="portfolio-cta" ref={ctaSectionRef}>
       <div className="portfolio-cta__container">
         <div className="portfolio-cta__more-button">
-          <HoverCircleButton href="/portfolio/all" label={"More\nProjects"} />
+          <HoverCircleButton href="/portfolio-2/mas-proyectos" label={"More\nProjects"} />
         </div>
         <div className="portfolio-cta__top-labels">
           <span className="portfolio-cta__label">

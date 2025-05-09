@@ -6,6 +6,13 @@ import Marquee from "react-fast-marquee";
 import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { gsap } from "gsap";
+import { animateLogoMarquee } from "@/utils/animations/pages/homepage-anim";
+
+// Register plugins
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface LogoMarqueeProps {
   showHeader?: boolean;
@@ -19,23 +26,36 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   darkMode = false,
 }) => {
   const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const marqueeWrapperRef = useRef<HTMLDivElement>(null);
 
   // Initialize animation
   useEffect(() => {
-    if (sectionRef.current) {
-      const timer = setTimeout(() => {
-        // Force refresh to ensure ScrollTrigger works properly
-        setTimeout(() => {
-          if ((window as any).__smoother__) {
-            console.log("Refreshing ScrollSmoother");
-            (window as any).__smoother__.refresh();
-          }
-          ScrollTrigger.refresh();
-        }, 100);
-      }, 300);
+    if (!sectionRef.current) return;
 
-      return () => clearTimeout(timer);
-    }
+    // Use more focused animation specifically for marquee
+    // instead of general initFadeAnimations()
+    const animInstance = animateLogoMarquee({
+      section: sectionRef.current,
+      header: headerRef.current || undefined,
+      marquee: marqueeWrapperRef.current || undefined,
+    });
+
+    // More conservative refreshing approach
+    const refreshTimer = setTimeout(() => {
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.refresh();
+      }
+      ScrollTrigger.refresh();
+    }, 300);
+
+    // Cleanup function
+    return () => {
+      clearTimeout(refreshTimer);
+      if (animInstance) {
+        animInstance.kill();
+      }
+    };
   }, []);
 
   const sectionClasses = `logo-marquee ${
@@ -53,7 +73,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
     <section ref={sectionRef} className={sectionClasses}>
       <div className={containerClasses}>
         {showHeader && (
-          <div className="logo-marquee__header fade_bottom">
+          <div ref={headerRef} className="logo-marquee__header">
             <h2 className="logo-marquee__header-title">
               <span className="shadow-text">Marcas que </span>
               <span className="highlight-bg">confían en nosotros</span>
@@ -61,11 +81,11 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
           </div>
         )}
 
-        <div className="logo-marquee__wrapper fade_bottom">
+        <div ref={marqueeWrapperRef} className="logo-marquee__wrapper">
           <Marquee
             gradient={true}
             gradientColor={gradientColor}
-            gradientWidth={100} // Increased width for a smoother fade
+            gradientWidth={100}
             speed={40}
             pauseOnHover={true}
             direction="right"

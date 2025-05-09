@@ -1,0 +1,209 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.mas-proyectos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  @include gap(sm);
+  @include container-width(mobile);
+  @include section-spacing();
+  margin: 0 auto;
+  position: relative;
+  overflow: visible;
+  height: auto;
+
+  @include min-width(md) {
+    grid-template-columns: repeat(2, 1fr);
+    @include container-width(tablet);
+    @include gap(3xl);
+  }
+
+  @include min-width(lg) {
+    @include container-width(smalldesktop);
+    @include padding(5xl, y);
+  }
+
+  @include min-width(xl) {
+    @include gap(7xl);
+    @include container-width(desktop);
+  }
+}
+
+// Base grid item styling
+.item {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  height: 320px; // Default height
+  will-change: transform;
+  opacity: 0;
+
+  @include min-width(md) {
+    max-width: 100%;
+  }
+
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &-image {
+    object-fit: cover;
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1.2);
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(
+      to top,
+      rgba($black, 0.8) 0%,
+      rgba($black, 0.3) 50%,
+      rgba($black, 0) 100%
+    );
+    z-index: 1;
+    @include transition(height, normal);
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    @include padding(md);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    @include z-index(above); // Using your z-index mixin
+  }
+
+  &__title {
+    color: $white;
+    @include font-size(xl);
+    margin: 0;
+  }
+
+  // -----------------------------------------------
+  // Individual item styling - with tablet responsiveness
+  // -----------------------------------------------
+
+  // Item 1
+  &.item-1 {
+    @include min-width(md) {
+      height: 450px;
+      width: 100%;
+      transform: translate(0px, 80px);
+    }
+
+    @include min-width(xxl) {
+      width: 650px;
+    }
+  }
+
+  // Item 2
+  &.item-2 {
+    @include min-width(md) {
+      height: 820px;
+      width: 100%;
+    }
+
+    @include min-width(xxl) {
+      width: 650px;
+    }
+  }
+
+  // Item 3
+  &.item-3 {
+    @include min-width(md) {
+      height: 580px;
+      width: 100%;
+      transform: translate(0px, -120px);
+      margin-left: 0; // Remove margin on tablets
+    }
+
+    @include min-width(xxl) {
+      width: 440px;
+      margin-left: 15rem;
+    }
+  }
+
+  // Item 4
+  &.item-4 {
+    @include min-width(md) {
+      height: 399px;
+      width: 100%;
+      margin-left: 0; // Remove margin on tablets
+    }
+
+    @include min-width(xxl) {
+      width: 332px;
+      margin-left: 10rem;
+    }
+  }
+
+  // Item 5
+  &.item-5 {
+    @include min-width(md) {
+      height: 619px;
+      width: 100%;
+    }
+
+    @include min-width(xxl) {
+      width: 491px;
+    }
+  }
+
+  // Item 6
+  &.item-6 {
+    @include min-width(md) {
+      height: 455px;
+      width: 100%;
+    }
+
+    @include min-width(xxl) {
+      width: 581px;
+    }
+  }
+}
+
+// Cursor bubble
+.cursor-bubble {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  @include border-radius(full);
+  background-color: $black;
+  color: $black;
+  @include flex(row, center, center); // Using your flex mixin
+  pointer-events: none;
+  @include z-index(modal); // Using your z-index mixin
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  @include transition(transform, normal);
+  transition-property: transform, opacity;
+
+  &.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    background-color: $secondary-color;
+  }
+
+  span {
+    @include font-size(base);
+    @include font-weight(medium);
+    text-align: center;
+  }
+}

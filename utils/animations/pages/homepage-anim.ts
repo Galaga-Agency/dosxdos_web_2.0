@@ -12,7 +12,7 @@ if (typeof window !== "undefined") {
 }
 
 // Store all ScrollTrigger instances for cleanup
-const scrollTriggerInstances: ScrollTrigger[] = [];
+let scrollTriggerInstances: ScrollTrigger[] = [];
 
 // Track ScrollTrigger instances for cleanup
 function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
@@ -54,6 +54,7 @@ function setupFadeAnimation(
         ScrollTrigger.create({
           trigger: item,
           start: startPosition,
+          once: true, // Add once:true to prevent retriggering
         })
       ),
     });
@@ -115,32 +116,34 @@ export function initImageParallax(
   const proxy = { progress: 0 };
 
   // Main ScrollTrigger to track scroll position
-  const scrollTrigger = ScrollTrigger.create({
-    trigger: containerElement,
-    start: "top bottom",
-    end: "bottom top",
-    scrub: 3, // Much higher scrub value for ultra-smooth movement
-    onUpdate: (self) => {
-      // Update proxy value
-      gsap.to(proxy, {
-        progress: self.progress,
-        duration: 0.6, // Longer duration for smoother updating
-        overwrite: "auto",
-        ease: "sine.out", // Very subtle easing
-        onUpdate: () => {
-          // Apply smooth movement to container
-          gsap.set(containerElement, {
-            y: proxy.progress * (isTouchDevice() ? 0 : -150),
-          });
+  const scrollTrigger = trackScrollTrigger(
+    ScrollTrigger.create({
+      trigger: containerElement,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 3, // Much higher scrub value for ultra-smooth movement
+      onUpdate: (self) => {
+        // Update proxy value
+        gsap.to(proxy, {
+          progress: self.progress,
+          duration: 0.6, // Longer duration for smoother updating
+          overwrite: "auto",
+          ease: "sine.out", // Very subtle easing
+          onUpdate: () => {
+            // Apply smooth movement to container
+            gsap.set(containerElement, {
+              y: proxy.progress * (isTouchDevice() ? 0 : -150),
+            });
 
-          // Apply stronger movement to inner element
-          gsap.set(innerElement, {
-            y: proxy.progress * -110,
-          });
-        },
-      });
-    },
-  });
+            // Apply stronger movement to inner element
+            gsap.set(innerElement, {
+              y: proxy.progress * -110,
+            });
+          },
+        });
+      },
+    })
+  );
 
   // Force refresh for immediate effect
   setTimeout(() => {
@@ -305,12 +308,14 @@ export const animateLogoMarquee = ({
   }
 
   // Create ScrollTrigger
-  ScrollTrigger.create({
-    trigger: section,
-    animation: tl,
-    start: "top 85%",
-    once: true,
-  });
+  const trigger = trackScrollTrigger(
+    ScrollTrigger.create({
+      trigger: section,
+      animation: tl,
+      start: "top 85%",
+      once: true,
+    })
+  );
 
   return tl;
 };
@@ -332,7 +337,42 @@ export const animateAboutUsSection = ({
 
   const tl = gsap.timeline();
 
-  initFadeAnimations();
+  // Use direct animations instead of general initFadeAnimations()
+  // to avoid conflicts
+  if (label) {
+    gsap.set(label, { opacity: 0, y: 20 });
+    tl.to(label, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 0.2);
+  }
+
+  if (title) {
+    gsap.set(title, { opacity: 0, y: 30 });
+    tl.to(title, { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, 0.4);
+  }
+
+  if (text) {
+    gsap.set(text, { opacity: 0, y: 30 });
+    tl.to(text, { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, 0.6);
+  }
+
+  if (cta) {
+    gsap.set(cta, { opacity: 0, y: 30 });
+    tl.to(cta, { opacity: 1, y: 0, duration: 0.8, ease: "back.out(1.4)" }, 0.8);
+  }
+
+  if (image) {
+    gsap.set(image, { opacity: 0, x: 50 });
+    tl.to(image, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0.4);
+  }
+
+  // Create ScrollTrigger
+  const trigger = trackScrollTrigger(
+    ScrollTrigger.create({
+      trigger: section,
+      animation: tl,
+      start: "top 80%",
+      once: true,
+    })
+  );
 
   return tl;
 };
@@ -396,12 +436,14 @@ export const animateServicesSection = ({
   });
 
   // Create ScrollTrigger
-  ScrollTrigger.create({
-    trigger: section,
-    animation: tl,
-    start: "top 80%",
-    once: true,
-  });
+  const trigger = trackScrollTrigger(
+    ScrollTrigger.create({
+      trigger: section,
+      animation: tl,
+      start: "top 80%",
+      once: true,
+    })
+  );
 
   return tl;
 };
@@ -423,72 +465,102 @@ export const animateBlogCarouselSection = ({
 
   const tl = gsap.timeline();
 
-  // Prepare section
+  // Prepare section for animation
   gsap.set(section, {
     visibility: "visible",
     opacity: 1,
   });
 
-  // Animate elements with consistent pattern
-  const animationSequence = [
-    { el: title, props: { x: -20 }, index: 0.3, charAnim: true },
-    { el: subtitle, props: { x: -15 }, index: 0.5 },
-    { el: carousel, props: { y: 30 }, index: 0.7 },
-    { el: cta, props: { y: 20 }, index: 0.9 },
-  ];
+  // Find title rows if title is a container with rows
+  const titleRows = title?.querySelectorAll?.(".title-row");
 
-  // Decorative line animation
-  const decorLine = section.querySelector(".section-header__decorative-line");
-  if (decorLine) {
-    gsap.set(decorLine, { scaleY: 0, transformOrigin: "top" });
+  // Create animation sequence based on component structure
+  if (titleRows?.length) {
+    // If title has row elements, animate each row individually
+    gsap.set(titleRows, { opacity: 0, y: 30 });
+
+    titleRows.forEach((row, index) => {
+      tl.to(
+        row,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+        },
+        0.3 + index * 0.2
+      );
+    });
+  } else if (title) {
+    // Standard title animation if no rows
+    gsap.set(title, { opacity: 0, y: 30 });
     tl.to(
-      decorLine,
+      title,
       {
-        scaleY: 1,
+        opacity: 1,
+        y: 0,
         duration: 0.8,
-        ease: "power3.inOut",
+        ease: "power2.out",
       },
-      0
+      0.3
     );
   }
 
-  animationSequence.forEach(({ el, props, index, charAnim }) => {
-    if (!el) return;
-
-    // Initial state
-    gsap.set(el, {
-      opacity: 0,
-      ...props,
-    });
-
-    // Char animation for title if specified
-    if (charAnim && title) {
-      tl.add(() => {
-        charAnimation(title);
-      }, index);
-    }
-
-    // Animate to visible state
+  // Subtitle animation
+  if (subtitle) {
+    gsap.set(subtitle, { opacity: 0, x: -30 });
     tl.to(
-      el,
+      subtitle,
       {
         opacity: 1,
-        ...(props.x !== undefined ? { x: 0 } : {}),
-        ...(props.y !== undefined ? { y: 0 } : {}),
+        x: 0,
         duration: 0.8,
-        ease: props.y === 20 || props.y === 30 ? "back.out(1.4)" : "power3.out",
+        ease: "power2.out",
       },
-      index
+      0.5
     );
-  });
+  }
 
-  // Create ScrollTrigger
-  ScrollTrigger.create({
-    trigger: section,
-    animation: tl,
-    start: "top 85%",
-    once: true,
-  });
+  // Carousel content animation
+  if (carousel) {
+    gsap.set(carousel, { opacity: 0, y: 40 });
+    tl.to(
+      carousel,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+      },
+      0.7
+    );
+  }
+
+  // CTA button animation
+  if (cta) {
+    gsap.set(cta, { opacity: 0, y: 20 });
+    tl.to(
+      cta,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "back.out(1.4)",
+      },
+      0.9
+    );
+  }
+
+  // Create ScrollTrigger with a lower start point to ensure it triggers reliably
+  const trigger = trackScrollTrigger(
+    ScrollTrigger.create({
+      trigger: section,
+      animation: tl,
+      start: "top 90%", // Lower start point to ensure it triggers
+      once: true,
+      markers: false, // Enable for debugging, remove for production
+    })
+  );
 
   return tl;
 };
@@ -497,10 +569,21 @@ export const animateBlogCarouselSection = ({
 export function cleanupHomepageAnimations() {
   if (typeof window === "undefined") return;
 
+  console.log(
+    "Cleaning up homepage animations:",
+    scrollTriggerInstances.length,
+    "instances"
+  );
+
   // Kill all ScrollTriggers
   scrollTriggerInstances.forEach((trigger) => {
-    trigger.kill();
+    if (trigger && typeof trigger.kill === "function") {
+      trigger.kill();
+    }
   });
+
+  // Clear the instances array
+  scrollTriggerInstances = [];
 
   // Clear match media queries
   ScrollTrigger.clearMatchMedia();
