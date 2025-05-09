@@ -35,6 +35,8 @@ $container: (
 // Breakpoints (mobile-first)
 // -----------------------------------------------------------------------------
 $breakpoints: (
+  xxs: 320px,
+  // iPhone SE and very small phones
   xs: 375px,
   // Extra small phones
   sm: 576px,
@@ -47,7 +49,7 @@ $breakpoints: (
   // Medium desktops
   xxl: 1400px,
   // Large desktops
-  xxxl: 1600px // Extra large desktops,,,
+  xxxl: 1600px // Extra large desktops,,,,
 );
 
 // -----------------------------------------------------------------------------

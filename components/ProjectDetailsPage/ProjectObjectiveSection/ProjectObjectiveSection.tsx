@@ -31,48 +31,44 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
     // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger);
 
-    // Initialize fade animations
+    // Initialize animations after DOM is ready
     setTimeout(() => {
+      // Initialize fade animations
       initFadeAnimations();
 
       // Initialize gallery animations
       movingImageSlider();
       imageRevealAnimation();
     }, 300);
-
-    // Cleanup function
-    return () => {
-      // Cleanup handled by parent component
-    };
   }, []);
 
   return (
     <section ref={sectionRef} className="project-objective-section">
       <div className="project-objective-section__container">
         <div className="project-objective-section__content-wrapper">
-          <div
-            ref={labelRef}
-            className="project-objective-section__label fade_bottom"
-          >
-            <span>EL PROYECTO</span>
-          </div>
-
           <h2
             ref={titleRef}
             className="project-objective-section__title fade_bottom"
           >
-            <span className="word">Creamos</span>{" "}
-            <span className="word">espacios</span>{" "}
-            <span className="word">que</span>{" "}
-            <span className="word">cuentan</span>{" "}
-            <span className="highlight fade_bottom">historias únicas</span>
+            Simple & Significant
           </h2>
 
           <div
             ref={textRef}
             className="project-objective-section__text fade_left"
           >
-            <p>{project.longDescription}</p>
+            <div className="project-objective-section__text-label">
+              <div
+                ref={labelRef}
+                className="project-objective-section__label fade_bottom"
+              >
+                <span>Objective</span>
+              </div>
+              <p>
+                {project.longDescription ||
+                  "Liko website was using a generic template, felt quite outdated and not in-line with the quality of his work. The main goal was to translate his high-end photography into a digital experience that would honor and present his work in a memorable and contemporary way."}
+              </p>
+            </div>
           </div>
         </div>
       </div>

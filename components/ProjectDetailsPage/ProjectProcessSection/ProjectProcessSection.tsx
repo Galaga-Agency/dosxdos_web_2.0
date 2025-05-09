@@ -5,7 +5,10 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Project } from "@/types/project-types";
-import { initProcessSectionAnimations } from "@/utils/animations/pages/project-details-page-anim";
+import {
+  initFadeAnimations,
+  initProcessSectionAnimations,
+} from "@/utils/animations/pages/project-details-page-anim";
 import "./ProjectProcessSection.scss";
 
 interface ProjectProcessSectionProps {
@@ -30,7 +33,11 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
     gsap.registerPlugin(ScrollTrigger);
 
     // Initialize animations with a small delay to ensure DOM is ready
-    const timer = setTimeout(() => {
+    setTimeout(() => {
+      // Initialize fade animations
+      initFadeAnimations();
+
+      // Initialize specific process section animations
       initProcessSectionAnimations({
         section: sectionRef.current,
         label: labelRef.current,
@@ -41,14 +48,7 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
         imageRight: floatingImage2Ref.current,
         steps: null,
       });
-
-      // Refresh ScrollTrigger to ensure all animations are properly registered
-      ScrollTrigger.refresh();
     }, 300);
-
-    return () => {
-      clearTimeout(timer);
-    };
   }, []);
 
   // Default process description if not provided
@@ -71,26 +71,32 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
     "/assets/img/blog/default-blog-image.jpg",
   ];
 
-  // Get image sources securely
   const imageSources = hasValidImages ? project.images : defaultImages;
 
   return (
     <section ref={sectionRef} className="project-process-section">
       <div className="project-process-section__container">
         <div className="project-process-section__content-wrapper">
-          <div ref={labelRef} className="project-process-section__label">
-            <span>EL PROCESO</span>
-          </div>
-
           <h2
             ref={titleRef}
-            className="project-process-section__title char-animation"
+            className="project-process-section__title fade_bottom"
           >
-            Nuestro enfoque metodológico
+            Simple & Significant
           </h2>
 
-          <div ref={textRef} className="project-process-section__text">
-            <p>{processDescription}</p>
+          <div
+            ref={textRef}
+            className="project-process-section__text fade_left"
+          >
+            <div className="project-process-section__text-label">
+              <div
+                ref={labelRef}
+                className="project-process-section__label fade_bottom"
+              >
+                <span>El Proceso</span>
+              </div>
+              <p>{processDescription}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -111,12 +117,8 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
       <div className="project-process-section__floating-images">
         <div
           ref={floatingImage1Ref}
-          className="project-process-section__floating-image project-process-section__floating-image--1"
+          className="project-process-section__floating-image project-process-section__floating-image--1 fade_bottom"
         >
-          <div className="corner corner--tl"></div>
-          <div className="corner corner--tr"></div>
-          <div className="corner corner--bl"></div>
-          <div className="corner corner--br"></div>
 
           <div className="project-process-section__floating-image-inner">
             <Image
@@ -132,12 +134,9 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
 
         <div
           ref={floatingImage2Ref}
-          className="project-process-section__floating-image project-process-section__floating-image--2"
+          className="project-process-section__floating-image project-process-section__floating-image--2 fade_bottom"
         >
-          <div className="corner corner--tl"></div>
-          <div className="corner corner--tr"></div>
-          <div className="corner corner--bl"></div>
-          <div className="corner corner--br"></div>
+   
 
           <div className="project-process-section__floating-image-inner">
             <Image

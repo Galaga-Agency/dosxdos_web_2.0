@@ -8,9 +8,9 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding-top: 15rem;
+  padding-top: 10rem; // Default for smallest screens
   padding-bottom: 3rem;
-  height: 100vh;
+  min-height: 100vh; // Using min-height instead of fixed height
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -18,9 +18,25 @@
   left: 50%;
   transform: translateX(-50%);
 
+  // Now we can use our new xxs breakpoint
+  @include min-width(xxs) {
+    padding-top: 12rem;
+    padding-bottom: 3.5rem;
+  }
+
+  @include min-width(xs) {
+    padding-top: 15rem;
+    padding-bottom: 4rem;
+  }
+
+  @include min-width(sm) {
+    padding-top: 18rem;
+    padding-bottom: 4rem;
+  }
+
   @include min-width(md) {
     padding-top: 20rem;
-    padding-bottom: 4rem;
+    padding-bottom: 5rem;
   }
 
   @include min-width(lg) {
@@ -42,7 +58,11 @@
   &__container {
     width: 100%;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 0.75rem; // Default smaller padding for very small screens
+
+    @include min-width(xxs) {
+      padding: 0 1rem;
+    }
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -60,24 +80,27 @@
   &__row {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -1rem;
   }
 
   &__col-title {
     flex: 0 0 100%;
     max-width: 100%;
-    padding: 0 1rem;
+    padding: 0 0.75rem;
+    
 
-    @include min-width(md) {
-      flex: 0 0 66.66%;
-      max-width: 66.66%;
+        @include min-width(lg) {
+    max-width: 70%;
     }
   }
 
   &__col-desc {
     flex: 0 0 100%;
     max-width: 100%;
-    padding: 0 1rem;
+    padding: 0 0.75rem;
+
+    @include min-width(xxs) {
+      padding: 0 1rem;
+    }
 
     @include min-width(md) {
       flex: 0 0 83.33%;
@@ -94,10 +117,15 @@
 
   &__website-link {
     position: absolute;
-    top: 2rem;
-    right: 2rem;
+    top: 1.5rem;
+    right: 1.5rem;
     z-index: 3;
     opacity: 0; /* Set initial opacity to 0 for animation */
+
+    @include min-width(xxs) {
+      top: 2rem;
+      right: 2rem;
+    }
 
     @include min-width(md) {
       top: 50%;
@@ -111,13 +139,17 @@
   }
 
   &__link {
-    @include font-size(base);
+    @include font-size(sm);
     @include font-weight(bold);
     line-height: 1;
     position: relative;
     @include letter-spacing(tight);
     color: $white;
     transition: all 0.3s ease;
+
+    @include min-width(xxs) {
+      @include font-size(base);
+    }
 
     @include min-width(md) {
       @include font-size(lg);
@@ -164,7 +196,11 @@
   }
 
   &__title-box {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+
+    @include min-width(xxs) {
+      margin-bottom: 1rem;
+    }
 
     @include min-width(md) {
       margin-bottom: 1.25rem;
@@ -172,29 +208,42 @@
   }
 
   &__title {
-    @include font-size(5xl);
+    @include font-size(2xl); // Smaller size for iPhone SE
     @include font-weight(semibold);
     line-height: 1.1;
     @include letter-spacing(tight);
     color: $white;
-    margin-bottom: 1rem;
-    max-width: 24ch;
+    margin-bottom: 0.75rem;
+    max-width: 90vw;
     hyphens: manual;
     word-break: keep-all;
     overflow-wrap: normal;
     white-space: normal;
     will-change: transform;
-visibility: hidden;
+    visibility: hidden;
+
+    @include min-width(xxs) {
+      @include font-size(5xl);
+      margin-bottom: 1rem;
+    }
 
     @include min-width(xs) {
-      @include font-size(6xl);
+      @include font-size(5xl);
     }
 
     @include min-width(sm) {
-      @include font-size(7xl);
+      @include font-size(6xl);
     }
 
     @include min-width(md) {
+      @include font-size(8xl);
+    }
+
+    @include min-width(lg) {
+      @include font-size(7xl);
+    }
+
+    @include min-width(xl) {
       @include font-size(8xl);
     }
   }
@@ -203,13 +252,13 @@ visibility: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 0.75rem; // Smaller by default
     text-transform: uppercase;
     background-color: rgba($black, 0.9);
     color: $white;
     @include border-radius(lg);
     @include font-weight(semibold);
-    @include font-size(base);
+    @include font-size(sm); // Smaller by default
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
     text-align: center;
@@ -222,6 +271,15 @@ visibility: hidden;
     box-shadow: 0 4px 15px rgba($black, 0.15),
       inset 0 0 0 1px rgba($white, 0.15), inset 0 0 30px rgba($white, 0.05);
     opacity: 0; /* Set initial opacity to 0 for animation */
+
+    @include min-width(xxs) {
+      padding: 0.4rem 0.9rem;
+      @include font-size(base);
+    }
+
+    @include min-width(xs) {
+      padding: 0.5rem 1rem;
+    }
 
     // Glassmorphism highlight
     &::before {
@@ -261,9 +319,13 @@ visibility: hidden;
   }
 
   &__description {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem; // Smaller margin for smallest screens
     will-change: transform, opacity;
     opacity: 0; /* Set initial opacity to 0 for animation */
+
+    @include min-width(xxs) {
+      margin-bottom: 1.5rem;
+    }
 
     @include min-width(md) {
       margin-bottom: 2rem;
@@ -274,9 +336,14 @@ visibility: hidden;
     }
 
     p {
-      @include font-size(sm);
-      line-height: 1.6;
+      @include font-size(xs); // Even smaller for iPhone SE
+      line-height: 1.5;
       color: $white;
+
+      @include min-width(xxs) {
+        @include font-size(sm);
+        line-height: 1.6;
+      }
 
       @include min-width(sm) {
         @include font-size(base);
@@ -288,23 +355,41 @@ visibility: hidden;
     }
   }
 
+  // Hide long description on tiny screens
+  &__long-description {
+    display: none;
+
+    @include min-width(xxs) {
+      display: block;
+    }
+  }
+
   &__meta-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: 0.75rem; // Smaller by default
+
+    @include min-width(xxs) {
+      gap: 1rem;
+    }
 
     @include min-width(sm) {
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
+      gap: 1.5rem;
     }
   }
 
   &__meta {
     will-change: transform, opacity;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     opacity: 0; /* Set initial opacity to 0 for animation */
+
+    @include min-width(xxs) {
+      margin-bottom: 0.5rem;
+    }
 
     @include min-width(sm) {
       margin-bottom: 0;
@@ -312,12 +397,17 @@ visibility: hidden;
 
     span {
       display: block;
-      @include font-size(sm);
+      @include font-size(xs); // Smaller by default
       @include font-weight(medium);
       line-height: 1;
       text-transform: uppercase;
       color: rgba($white, 0.8);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
+
+      @include min-width(xxs) {
+        @include font-size(sm);
+        margin-bottom: 0.5rem;
+      }
 
       @include min-width(md) {
         @include font-size(base);
@@ -326,11 +416,15 @@ visibility: hidden;
     }
 
     h5 {
-      @include font-size(base);
+      @include font-size(sm); // Smaller by default
       @include font-weight(semibold);
       line-height: 1.4;
       color: $white;
       margin: 0;
+
+      @include min-width(xxs) {
+        @include font-size(base);
+      }
 
       @include min-width(md) {
         @include font-size(lg);

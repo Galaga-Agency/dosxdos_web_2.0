@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
+import { isMobile } from "@/utils/device";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -62,7 +63,7 @@ function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
   return instance;
 }
 
-// Initialize fade animations for all marked elements
+// Initialize fade animations for elements with fade_* classes
 export function initFadeAnimations(): void {
   if (typeof window === "undefined") return;
 
@@ -71,97 +72,76 @@ export function initFadeAnimations(): void {
   // Fade bottom animations
   const fadeBottomElements = document.querySelectorAll(".fade_bottom");
   if (fadeBottomElements.length > 0) {
-    gsap.fromTo(
-      fadeBottomElements,
-      {
-        opacity: 0,
-        y: 50,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: fadeBottomElements[0],
-          start: "top 85%",
-          toggleActions: "play none none none",
+    fadeBottomElements.forEach((element) => {
+      gsap.fromTo(
+        element,
+        {
+          opacity: 0,
+          y: 50,
         },
-      }
-    );
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 85%",
+            once: true,
+          },
+        }
+      );
+    });
   }
 
   // Fade left animations
   const fadeLeftElements = document.querySelectorAll(".fade_left");
   if (fadeLeftElements.length > 0) {
-    gsap.fromTo(
-      fadeLeftElements,
-      {
-        opacity: 0,
-        x: -50,
-      },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: fadeLeftElements[0],
-          start: "top 85%",
-          toggleActions: "play none none none",
+    fadeLeftElements.forEach((element) => {
+      gsap.fromTo(
+        element,
+        {
+          opacity: 0,
+          x: -50,
         },
-      }
-    );
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 85%",
+            once: true,
+          },
+        }
+      );
+    });
   }
 
-  // Fade right animations
+  // Fade right animations (if needed)
   const fadeRightElements = document.querySelectorAll(".fade_right");
   if (fadeRightElements.length > 0) {
-    gsap.fromTo(
-      fadeRightElements,
-      {
-        opacity: 0,
-        x: 50,
-      },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: fadeRightElements[0],
-          start: "top 85%",
-          toggleActions: "play none none none",
+    fadeRightElements.forEach((element) => {
+      gsap.fromTo(
+        element,
+        {
+          opacity: 0,
+          x: 50,
         },
-      }
-    );
-  }
-
-  // Fade top animations
-  const fadeTopElements = document.querySelectorAll(".fade_top");
-  if (fadeTopElements.length > 0) {
-    gsap.fromTo(
-      fadeTopElements,
-      {
-        opacity: 0,
-        y: -50,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: fadeTopElements[0],
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 85%",
+            once: true,
+          },
+        }
+      );
+    });
   }
 
   // Register ScrollTrigger instances for cleanup
@@ -357,13 +337,11 @@ export function animateObjectiveSection(refs: ObjectiveSectionRefs) {
 
   console.log("Animating Objective Section");
 
-  // Use the new fade animations instead of direct GSAP
-  initFadeAnimations();
+  // Register GSAP plugins if not already registered
+  gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  // Initialize gallery animations if needed
-  if (refs.gallery) {
-    // Additional gallery-specific animations can be added here
-  }
+  // Use initFadeAnimations for standard fade animations
+  initFadeAnimations();
 
   // Force refresh ScrollTrigger
   setTimeout(() => {
@@ -434,7 +412,27 @@ export function imageRevealAnimation() {
 
   if (!items.length) return;
 
-  // Using fade_bottom class instead of direct GSAP animation
+  // Create a staggered animation for all gallery items
+  gsap.fromTo(
+    items,
+    {
+      opacity: 0,
+      scale: 0.95,
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: items[0].closest(".project-objective-section__gallery"),
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none none",
+      },
+    }
+  );
 
   // Track this ScrollTrigger instance for cleanup
   if (ScrollTrigger.getAll().length > 0) {
@@ -448,35 +446,34 @@ export function imageRevealAnimation() {
 export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
   if (typeof window === "undefined") return;
 
-  console.log("Initializing Process Section Animations");
-
   // Register GSAP plugins if not already registered
   gsap.registerPlugin(ScrollTrigger);
 
-  // Use fade animations for text elements
+  // Use the fade animations
   initFadeAnimations();
+
+  // Title animation with SplitText if it has char-animation class
+  if (refs.title && refs.title.classList.contains("char-animation")) {
+    animateChars(refs.title);
+  }
 
   // Full width image animation
   if (refs.fullImage) {
-    // First make sure the image is visible
-    gsap.set(refs.fullImage, { opacity: 1 });
+    // Set initial opacity to 0
+    gsap.set(refs.fullImage, { opacity: 0 });
 
     // Add a reveal animation
-    gsap.fromTo(
-      refs.fullImage,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: refs.fullImage,
-          start: "top 90%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
+    gsap.to(refs.fullImage, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: refs.fullImage,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
+    });
 
     // Container parallax
     const instance1 = ScrollTrigger.create({
@@ -518,30 +515,22 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
 
   // Left floating image
   if (refs.imageLeft) {
-    // Make sure the image is visible
-    gsap.set(refs.imageLeft, { opacity: 1 });
+    // Set initial opacity to 0
+    gsap.set(refs.imageLeft, { opacity: 0 });
 
     // Add floating reveal animation
-    gsap.fromTo(
-      refs.imageLeft,
-      {
-        opacity: 0,
-        y: 100,
-        scale: 0.95,
+    gsap.to(refs.imageLeft, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: refs.fullImage || refs.imageLeft,
+        start: "top 80%",
+        toggleActions: "play none none none",
       },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: refs.fullImage,
-          start: "bottom 70%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
+    });
 
     // Add subtle continuous floating animation
     gsap.to(refs.imageLeft, {
@@ -558,11 +547,11 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
       trigger: refs.imageLeft,
       start: "top bottom",
       end: "bottom top",
-      scrub: 1.5,
+      scrub: 3,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         gsap.to(refs.imageLeft, {
-          y: `-${self.progress * 25}%`,
+          y: `-${self.progress * (isMobile() ? 0 : 75)}%`,
           ease: "none",
           overwrite: "auto",
         });
@@ -572,31 +561,23 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
   }
 
   if (refs.imageRight) {
-    // Make sure the image is visible
-    gsap.set(refs.imageRight, { opacity: 1 });
+    // Set initial opacity to 0
+    gsap.set(refs.imageRight, { opacity: 0 });
 
     // Add floating reveal animation with slight delay
-    gsap.fromTo(
-      refs.imageRight,
-      {
-        opacity: 0,
-        y: 100,
-        scale: 0.95,
+    gsap.to(refs.imageRight, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 1,
+      ease: "power3.out",
+      delay: 0.2,
+      scrollTrigger: {
+        trigger: refs.fullImage || refs.imageRight,
+        start: "top 80%",
+        toggleActions: "play none none none",
       },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        ease: "power3.out",
-        delay: 0.2,
-        scrollTrigger: {
-          trigger: refs.fullImage,
-          start: "bottom 70%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
+    });
 
     // Add subtle continuous floating animation (slightly out of sync with the left image)
     gsap.to(refs.imageRight, {
@@ -613,11 +594,11 @@ export function initProcessSectionAnimations(refs: ProcessSectionRefs) {
       trigger: refs.imageRight,
       start: "top bottom",
       end: "bottom top",
-      scrub: 1.5,
+      scrub: 3,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         gsap.to(refs.imageRight, {
-          y: `-${self.progress * 20}%`,
+          y: `-${self.progress * (isMobile() ? 0 : 40)}%`,
           ease: "none",
           overwrite: "auto",
         });
@@ -633,14 +614,11 @@ export function animateCTASection(refs: CTASectionRefs) {
 
   console.log("Animating CTA Section");
 
-  // Use the new fade animations
+  // Use the fade animations
   initFadeAnimations();
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// CLEANUP FUNCTION ///////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Clean up function for project details animations
 export function cleanupProjectDetailsAnimations(): void {
   if (typeof window === "undefined") return;
 

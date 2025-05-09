@@ -1,92 +1,106 @@
 @use "abstracts/variables" as *;
-@use "base/colors" as *;
 @use "abstracts/mixins" as *;
+@use "base/colors" as *;
 @use "base/animations" as *;
 
 .project-cta-section {
   position: relative;
-  width: 100%;  
+  width: 100%;
+  background-color: $white;
   overflow: hidden;
+  @include section-spacing;
 
   &__container {
-    @include container-width(mobile);
     margin: 0 auto;
+    @include container-width(mobile);
     position: relative;
-    z-index: 1;
 
     @include min-width(md) {
       @include container-width(tablet);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 250px;
     }
 
     @include min-width(lg) {
       @include container-width(smalldesktop);
-      min-height: 350px;
     }
 
     @include min-width(xl) {
       @include container-width(desktop);
-      min-height: 400px;
     }
   }
 
   &__content {
     position: relative;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    z-index: 2;
+    width: fit-content;
+    @include flex(column, start, flex-start);
+    @include margin(md, bottom);
+
+    @include min-width(md) {
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    @include min-width(xl) {
+      max-width: 800px;
+    }
+  }
+
+  &__label {
+    position: relative;
+    @include font-size(base);
+    color: rgba($black, 0.7);
+    @include margin(md, bottom);
+    display: none;
+
+    @include min-width(md) {
+      display: block;
+    }
   }
 
   &__title {
-    @include font-size(3xl);
-    @include font-weight(bold);
+    @include font-size(4xl);
+    @include font-weight(semibold);
+    line-height: 1.1;
+    @include letter-spacing(tight);
+    text-transform: uppercase;
     color: $black;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
+    @include margin(md, bottom);
 
-    @include min-width(md) {
-      @include font-size(4xl);
-      margin-bottom: 2rem;
-    }
-
-    @include min-width(lg) {
+    @include min-width(xs) {
       @include font-size(5xl);
     }
 
-    .highlight {
-      position: relative;
-      color: $primary-color;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background-color: rgba($primary-color, 0.2);
-      }
+    @include min-width(sm) {
+      @include font-size(6xl);
     }
+
+    @include min-width(md) {
+      @include font-size(7xl);
+    }
+  }
+
+  &__title-row-2 {
+    display: block;
   }
 
   &__text {
+    color: rgba($black, 0.8);
+    @include margin(lg, bottom);
     @include font-size(lg);
-    color: rgba($black, 0.75);
-    max-width: 550px;
-    margin: 0 auto 2.5rem;
     line-height: 1.6;
+    max-width: 550px;
 
     @include min-width(md) {
-      margin-bottom: 3rem;
+      max-width: 100%;
     }
   }
 
-  &__cta {
+  &__button {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
+
+    @include min-width(md) {
+      justify-content: flex-start;
+    }
   }
 }

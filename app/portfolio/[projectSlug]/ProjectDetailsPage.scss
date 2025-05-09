@@ -10,52 +10,6 @@
   width: 100%;
   padding-bottom: 6rem;
 
-  &__social-sidebar {
-    position: fixed;
-    left: 2rem;
-    top: 50vh;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: none;
-
-    @include min-width(xl) {
-      display: block;
-    }
-  }
-
-  &__social-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -12rem;
-      width: 3px;
-      height: 10rem;
-      background: linear-gradient(
-        to bottom,
-        rgba($secondary-color, 0.3),
-        rgba($secondary-color, 0.1),
-        transparent
-      );
-    }
-  }
-
-  &__social-label {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transform: rotate(180deg);
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: $white;
-    mix-blend-mode: difference;
-    margin-bottom: 1rem;
-  }
-
   // Mobile Social Section
   &__mobile-social-section {
     display: flex;
@@ -85,27 +39,6 @@
     margin-bottom: 1rem;
     position: relative;
     z-index: 1;
-  }
-
-  &__mobile-social-divider {
-    position: relative;
-    width: 100%;
-    height: 1px;
-
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(
-        to right,
-        rgba($primary-color, 0.3),
-        rgba($primary-color, 0.1),
-        transparent
-      );
-      bottom: 0;
-    }
   }
 
   &__loading {
