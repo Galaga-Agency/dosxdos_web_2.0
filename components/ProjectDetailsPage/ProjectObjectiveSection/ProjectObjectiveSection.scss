@@ -4,19 +4,16 @@
 @use "base/animations" as *;
 
 .project-objective-section {
-  background-color: $white;
   position: relative;
-  overflow: hidden;
-  margin: 0 auto;
+  width: 100%;
   @include padding(6xl, y);
+  background-color: $white;
 
   &__container {
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
-    @include padding(xl, bottom);
-
     @include container-width(mobile);
+    @include padding(content-x, x);
+    @include margin(4xl, bottom);
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -34,63 +31,55 @@
   &__content-wrapper {
     position: relative;
     margin: auto 0;
-    @include margin(3xl, bottom);
+    max-width: 1200px;
+    margin: 0 auto;
+    @include margin(4xl, bottom);
+
+    @include min-width(xl) {
+    @include margin(8xl, bottom);
+    }
   }
 
   &__label {
-    @include margin(md, bottom);
-    position: relative;
+    @include font-size(base);
+    @include font-weight(medium);
+    @include margin(lg, bottom);
+    display: flex;
+    align-items: center;
 
     span {
       display: inline-block;
-      @include font-size(sm);
-      @include font-weight(semibold);
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: $black;
+      position: relative;
     }
   }
 
   &__title {
-    @include font-size(3xl);
-    @include font-weight(bold);
+    @include font-size(5xl);
+    @include font-weight(semibold);
+    width: fit-content;
+    line-height: 1.1;
+    @include letter-spacing(tight);
+    text-transform: uppercase;
     color: $black;
-    line-height: 1.15;
-    @include margin(xl, bottom);
-    max-width: 28ch;
+    @include margin(lg, bottom);
 
     @include min-width(md) {
-      @include font-size(4xl);
+      @include font-size(7xl);
+      text-align: center;
     }
 
     @include min-width(lg) {
-      @include font-size(5xl);
-    }
-
-    .word {
-      display: inline-block;
-      position: relative;
-    }
-
-    .highlight {
-      position: relative;
-      display: inline-block;
-      @include font-weight(medium);
-      color: $black;
+      @include font-size(9xl);
+      text-align: center;
+      @include margin(4xl, bottom);
     }
   }
 
   &__text {
     @include font-size(lg);
     line-height: 1.6;
-    color: rgba($black, 0.75);
-    max-width: 100%;
-    position: relative;
-    @include margin(3xl, bottom);
-
-    @include min-width(md) {
-      max-width: 60vw;
-    }
+    color: rgba($black, 0.8);
+    width: fit-content;
 
     p {
       @include margin(md, bottom);
@@ -99,48 +88,52 @@
         margin-bottom: 0;
       }
     }
+  }
 
-    strong {
-      color: $black;
-      @include font-weight(bold);
+  &__text-label {
+    @include min-width(xl) {
+      @include flex(row, start, start);
+      gap: 8rem;
     }
   }
 
-  // Project Gallery Styles
+  &__image-column {
+    width: 100%;
+  }
+
   &__gallery {
     width: 100%;
     position: relative;
-    overflow: hidden;
-    @include container-width(mobile);
+    overflow: visible;
     margin: 0 auto;
-
-    @include min-width(md) {
-      @include container-width(unset);
-    }
 
     .moving-gallery {
       width: 100%;
-      @include margin(md, bottom);
+      margin-bottom: 2rem;
 
       &.slider-wrap-top,
       &.slider-wrap-bottom {
-        overflow: hidden;
+        overflow: visible;
+
+        @include min-width(md) {
+          overflow: hidden;
+        }
       }
 
       .wrapper-gallery {
         display: flex;
         flex-direction: column;
-        @include gap(md);
+        gap: 1rem;
         will-change: transform;
 
         @include min-width(md) {
           flex-direction: row;
-          @include gap(lg);
+          gap: 1.5rem;
           min-width: min-content;
         }
 
         @include min-width(lg) {
-          @include gap(xl);
+          gap: 1.5rem;
         }
       }
 
@@ -163,18 +156,22 @@
       width: 100%;
       border-radius: 0;
       overflow: hidden;
-      @include shadow(sm);
+      box-shadow: $shadow-sm;
       transform-origin: center;
       transition: transform 0.3s ease;
 
       @include min-width(md) {
         flex: 0 0 auto;
-        @include shadow(md);
+        box-shadow: $shadow-md;
       }
 
       &:hover {
         .image-container img {
           transform: scale(1.05);
+        }
+
+        .image-overlay {
+          background-color: rgba($primary-color, 0.05);
         }
       }
 
@@ -204,158 +201,146 @@
         }
 
         .image-corner {
-          display: none; // Hide decorative corners
-        }
-      }
+          position: absolute;
+          width: 15px;
+          height: 15px;
+          z-index: 2;
 
-      // Mobile specific sizing
-      @include min-width(md) {
-        // Top row items
-        .slider-wrap-top & {
-          &:nth-child(1) {
-            width: 25%;
-            height: 250px;
+          &.tl {
+            top: 10px;
+            left: 10px;
+            border-top: 1px solid rgba($primary-color, 0.3);
+            border-left: 1px solid rgba($primary-color, 0.3);
           }
 
-          &:nth-child(2) {
-            width: 40%;
-            height: 350px;
+          &.tr {
+            top: 10px;
+            right: 10px;
+            border-top: 1px solid rgba($primary-color, 0.3);
+            border-right: 1px solid rgba($primary-color, 0.3);
           }
 
-          &:nth-child(3) {
-            width: 20%;
-            height: 250px;
+          &.bl {
+            bottom: 10px;
+            left: 10px;
+            border-bottom: 1px solid rgba($primary-color, 0.3);
+            border-left: 1px solid rgba($primary-color, 0.3);
           }
 
-          &:nth-child(4) {
-            width: 25%;
-            height: 300px;
-          }
-        }
-
-        // Bottom row items
-        .slider-wrap-bottom & {
-          &:nth-child(1) {
-            width: 25%;
-            height: 300px;
-          }
-
-          &:nth-child(2) {
-            width: 20%;
-            height: 250px;
-          }
-
-          &:nth-child(3) {
-            width: 40%;
-            height: 350px;
-          }
-
-          &:nth-child(4) {
-            width: 25%;
-            height: 300px;
-          }
-        }
-      }
-
-      @include min-width(lg) {
-        // Top row items
-        .slider-wrap-top & {
-          &:nth-child(1) {
-            height: 250px;
-          }
-
-          &:nth-child(2) {
-            height: 400px;
-          }
-
-          &:nth-child(3) {
-            height: 300px;
-          }
-
-          &:nth-child(4) {
-            height: 250px;
-          }
-        }
-
-        // Bottom row items
-        .slider-wrap-bottom & {
-          &:nth-child(1) {
-            height: 250px;
-          }
-
-          &:nth-child(2) {
-            height: 300px;
-          }
-
-          &:nth-child(3) {
-            height: 400px;
-          }
-
-          &:nth-child(4) {
-            height: 350px;
+          &.br {
+            bottom: 10px;
+            right: 10px;
+            border-bottom: 1px solid rgba($primary-color, 0.3);
+            border-right: 1px solid rgba($primary-color, 0.3);
           }
         }
       }
     }
   }
+}
 
-  // Stats styles
-  &__stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    @include gap(xl);
-    @include margin(md, top);
+/* Set height for gallery items */
+@include min-width(md) {
+  /* Top row items */
+  .moving-gallery.slider-wrap-top .wrapper-gallery {
+    .project-objective-section__gallery-item {
+      &:nth-child(1) {
+        width: 25%;
+        height: 250px;
+      }
 
-    @include min-width(md) {
-      @include margin(md, left);
+      &:nth-child(2) {
+        width: 40%;
+        height: 350px;
+      }
+
+      &:nth-child(3) {
+        width: 20%;
+        height: 250px;
+      }
+
+      &:nth-child(4) {
+        width: 25%;
+        height: 300px;
+      }
     }
   }
 
-  &__stat-item {
-    @include flex(column, flex-start, flex-start);
-    @include gap(xs);
+  /* Bottom row items */
+  .moving-gallery.slider-wrap-bottom .wrapper-gallery {
+    .project-objective-section__gallery-item {
+      &:nth-child(1) {
+        width: 25%;
+        height: 300px;
+      }
+
+      &:nth-child(2) {
+        width: 20%;
+        height: 250px;
+      }
+
+      &:nth-child(3) {
+        width: 40%;
+        height: 350px;
+      }
+
+      &:nth-child(4) {
+        width: 25%;
+        height: 300px;
+      }
+    }
+  }
+}
+
+@include min-width(lg) {
+  /* Top row items */
+  .moving-gallery.slider-wrap-top .wrapper-gallery {
+    .project-objective-section__gallery-item {
+      &:nth-child(1) {
+        height: 250px;
+      }
+
+      &:nth-child(2) {
+        height: 400px;
+      }
+
+      &:nth-child(3) {
+        height: 300px;
+      }
+
+      &:nth-child(4) {
+        height: 250px;
+      }
+    }
   }
 
-  &__stat-number {
-    @include font-size(3xl);
-    @include font-weight(bold);
-    color: $black;
-    line-height: 1;
-    position: relative;
+  /* Bottom row items */
+  .moving-gallery.slider-wrap-bottom .wrapper-gallery {
+    .project-objective-section__gallery-item {
+      &:nth-child(1) {
+        height: 250px;
+      }
+
+      &:nth-child(2) {
+        height: 300px;
+      }
+
+      &:nth-child(3) {
+        height: 400px;
+      }
+
+      &:nth-child(4) {
+        height: 350px;
+      }
+    }
   }
-
-  &__stat-label {
-    @include font-size(sm);
-    color: rgba($black, 0.6);
-    line-height: 1.4;
-  }
 }
 
-// Here we add the fade animation classes
-.fade_bottom {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.8s, transform 0.8s;
-  will-change: opacity, transform;
-}
-
-.fade_left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: opacity 0.8s, transform 0.8s;
-  will-change: opacity, transform;
-}
-
-.fade_right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition: opacity 0.8s, transform 0.8s;
-  will-change: opacity, transform;
-}
-
+/* Animation classes */
+.fade_bottom,
+.fade_left,
+.fade_right,
 .fade_top {
   opacity: 0;
-  transform: translateY(-50px);
-  transition: opacity 0.8s, transform 0.8s;
-  will-change: opacity, transform;
+  will-change: transform, opacity;
 }

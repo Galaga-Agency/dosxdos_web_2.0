@@ -16,6 +16,10 @@ export const projects: Project[] = [
       "/assets/img/blog/minimalist-spaces.jpg",
       "/assets/img/blog/typography-design.jpg",
       "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
     ],
     description:
       "Diseño y creación de escaparate conceptual con materiales sostenibles para tienda de moda urbana.",
@@ -31,7 +35,7 @@ export const projects: Project[] = [
     ],
     display: {
       homepage: true,
-      portfolioPage: true
+      portfolioPage: true,
     },
     tags: ["Moda", "Innovación", "Sostenibilidad"],
   },
@@ -45,6 +49,10 @@ export const projects: Project[] = [
     location: "Madrid",
     image: "/assets/img/blog/commercial-photography.jpg",
     images: [
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/commercial-photography.jpg",
       "/assets/img/blog/visual-marketing.jpg",
       "/assets/img/blog/responsive-design.jpg",
@@ -65,7 +73,7 @@ export const projects: Project[] = [
     ],
     display: {
       homepage: true,
-      portfolioPage: true
+      portfolioPage: true,
     },
     tags: ["Tecnología", "Ferias", "Experiencia interactiva"],
   },
@@ -81,6 +89,10 @@ export const projects: Project[] = [
     images: [
       "/assets/img/blog/neurodesign.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
       "/assets/img/blog/responsive-design.jpg",
       "/assets/img/blog/color-psychology.jpg",
     ],
@@ -99,7 +111,7 @@ export const projects: Project[] = [
     ],
     display: {
       homepage: true,
-      portfolioPage: true
+      portfolioPage: true,
     },
     tags: ["Retail", "Diseño sostenible", "Experiencia de compra"],
   },
@@ -117,6 +129,10 @@ export const projects: Project[] = [
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",
       "/assets/img/blog/typography-design.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
     ],
     description:
       "Desarrollo de elementos visuales para campaña de lanzamiento de nueva línea de productos alimenticios saludables.",
@@ -133,7 +149,7 @@ export const projects: Project[] = [
     ],
     display: {
       homepage: false,
-      portfolioPage: true
+      portfolioPage: true,
     },
     tags: ["Alimentación", "Lanzamiento", "Branding"],
   },
@@ -151,6 +167,10 @@ export const projects: Project[] = [
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/typography-design.jpg",
       "/assets/img/blog/neurodesign.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
     ],
     description:
       "Renovación integral de boutique de lujo de 200m² en zona premium comercial, incluyendo mobiliario exclusivo e iluminación personalizada.",
@@ -166,7 +186,7 @@ export const projects: Project[] = [
     ],
     display: {
       homepage: false,
-      portfolioPage: true
+      portfolioPage: true,
     },
     tags: ["Lujo", "Moda", "Experiencia premium"],
   },
@@ -184,6 +204,10 @@ export const projects: Project[] = [
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",
       "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
     ],
     description:
       "Diseño y producción de expositor interactivo para nueva línea de zapatillas deportivas en centro comercial.",
@@ -199,7 +223,7 @@ export const projects: Project[] = [
     ],
     display: {
       homepage: false,
-      portfolioPage: true
+      portfolioPage: true,
     },
     tags: ["Deportes", "Promoción", "Interactivo"],
   },
@@ -217,6 +241,10 @@ export const projects: Project[] = [
       "/assets/img/blog/typography-design.jpg",
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
     ],
     description:
       "Creación de escaparate temático navideño para joyería de lujo, combinando elementos tradicionales con innovación tecnológica.",
@@ -232,7 +260,7 @@ export const projects: Project[] = [
     ],
     display: {
       homepage: false,
-      portfolioPage: false
+      portfolioPage: false,
     },
     tags: ["Navidad", "Lujo", "Joyería"],
   },
@@ -250,6 +278,10 @@ export const projects: Project[] = [
       "/assets/img/blog/responsive-design.jpg",
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
     ],
     description:
       "Desarrollo de sistema de señalética para cadena de restaurantes, incluyendo exteriores, interiores y elementos digitales.",
@@ -265,7 +297,7 @@ export const projects: Project[] = [
     ],
     display: {
       homepage: false,
-      portfolioPage: false
+      portfolioPage: false,
     },
     tags: ["Restauración", "Identidad corporativa", "Señalética"],
   },

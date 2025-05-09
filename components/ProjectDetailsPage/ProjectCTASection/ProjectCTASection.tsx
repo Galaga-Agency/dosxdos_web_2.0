@@ -41,21 +41,25 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
   }, []);
 
   return (
-    <div ref={sectionRef} className="project-cta-section">
+    <section ref={sectionRef} className="project-cta-section">
       <div className="project-cta-section__container">
         <div className="project-cta-section__content">
-          <h2 ref={titleRef} className="project-cta-section__title">
-            Descubre más <span className="highlight">inspiración</span>
+          <span className="project-cta-section__label fade_bottom">
+            Inspiración
+          </span>
+          <h2 ref={titleRef} className="project-cta-section__title fade_bottom">
+            DESCUBRE MÁS
+            <br />
+            <span className="project-cta-section__title-row-2">
+              PROYECTOS ESPECIALES
+            </span>
           </h2>
-          <p ref={textRef} className="project-cta-section__text">
+          <p ref={textRef} className="project-cta-section__text fade_left">
             Explora nuestra colección de {categoryName} y encuentra la
             inspiración para tu próximo proyecto.
           </p>
-          <div ref={ctaRef} className="project-cta-section__cta">
-            <PrimaryButton
-              href={`/portfolio/${categorySlug}`}
-              className="project-cta-section__button"
-            >
+          <div ref={ctaRef} className="project-cta-section__button fade_bottom">
+            <PrimaryButton href={`/portfolio/${categorySlug}`}>
               <span className="button-text">Ver más proyectos</span>
               <span className="button-icon">
                 <svg
@@ -85,7 +89,7 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
