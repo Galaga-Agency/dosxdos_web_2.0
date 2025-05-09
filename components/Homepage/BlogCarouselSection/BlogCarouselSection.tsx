@@ -3,11 +3,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { initFadeAnimations } from "@/utils/animations/pages/homepage-anim";
 import BlogItem from "@/components/BlogItem/BlogItem";
 import { BlogPost } from "@/types/blog-post-types";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import "./BlogCarouselSection.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -22,53 +22,108 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [totalSlides, setTotalSlides] = useState(0);
-  const [itemsPerView, setItemsPerView] = useState(3);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Handle responsive items per view
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setItemsPerView(1);
-      } else if (window.innerWidth < 992) {
-        setItemsPerView(2);
-      } else {
-        setItemsPerView(3);
-      }
-    };
+  // Use device detection hook
+  const { isMobile, isTablet, isDesktop } = useDeviceDetect();
 
-    // Set initial value
-    handleResize();
-
-    // Add resize listener
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  // Calculate items per view based on device detection
+  const itemsPerView = isMobile ? 1 : isTablet ? 2 : 3;
 
   // Calculate total slides
   useEffect(() => {
     setTotalSlides(Math.max(1, Math.ceil(posts.length / itemsPerView)));
   }, [posts, itemsPerView]);
 
-  // Animation useEffect with 300ms delay
+  // Direct animation approach without initFadeAnimations
   useEffect(() => {
-    if (sectionRef.current) {
-      const timer = setTimeout(() => {
-        // Initialize fade animations
-        initFadeAnimations();
+    if (!sectionRef.current) return;
 
-        // Force refresh to ensure ScrollTrigger works properly
-        setTimeout(() => {
-          if ((window as any).__smoother__) {
-            console.log("Refreshing ScrollSmoother");
-            (window as any).__smoother__.refresh();
-          }
-          ScrollTrigger.refresh();
-        }, 100);
-      }, 300);
+    console.log("Blog Carousel Section mounted");
 
-      return () => clearTimeout(timer);
+    // Get references to elements we want to animate
+    const labelEl = sectionRef.current.querySelector(
+      ".blog-carousel-section__label"
+    );
+    const titleRowEls = sectionRef.current.querySelectorAll(".title-row");
+    const subtitleEl = sectionRef.current.querySelector(
+      ".blog-carousel-section__subtitle"
+    );
+    const carouselContainerEl = sectionRef.current.querySelector(
+      ".blog-carousel-section__carousel-container"
+    );
+    const ctaContainerEl = sectionRef.current.querySelector(
+      ".blog-carousel-section__cta-container"
+    );
+
+    // Create a timeline for animations
+    const tl = gsap.timeline();
+
+    // Label animation
+    if (labelEl) {
+      gsap.set(labelEl, { opacity: 0, y: 30 });
+      tl.to(
+        labelEl,
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+        0.2
+      );
     }
+
+    // Title rows animation
+    if (titleRowEls.length) {
+      gsap.set(titleRowEls, { opacity: 0, y: 30 });
+      titleRowEls.forEach((row, index) => {
+        tl.to(
+          row,
+          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+          0.3 + index * 0.2
+        );
+      });
+    }
+
+    // Subtitle animation
+    if (subtitleEl) {
+      gsap.set(subtitleEl, { opacity: 0, x: -30 });
+      tl.to(
+        subtitleEl,
+        { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" },
+        0.5
+      );
+    }
+
+    // Carousel container animation
+    if (carouselContainerEl) {
+      gsap.set(carouselContainerEl, { opacity: 0, y: 40 });
+      tl.to(
+        carouselContainerEl,
+        { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
+        0.7
+      );
+    }
+
+    // CTA container animation
+    if (ctaContainerEl) {
+      gsap.set(ctaContainerEl, { opacity: 0, y: 20 });
+      tl.to(
+        ctaContainerEl,
+        { opacity: 1, y: 0, duration: 0.8, ease: "back.out(1.4)" },
+        0.9
+      );
+    }
+
+    // Create ScrollTrigger with a lower start point to ensure it triggers
+    const trigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      animation: tl,
+      start: "top 90%",
+      once: true,
+    });
+
+    // Clean up on unmount
+    return () => {
+      if (trigger) trigger.kill();
+      if (tl) tl.kill();
+    };
   }, []);
 
   // Update carousel position
@@ -96,24 +151,22 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
     <section ref={sectionRef} className="blog-carousel-section">
       <div className="blog-carousel-section__container">
         <div className="blog-carousel-section__header">
-          <div className="blog-carousel-section__label fade_top">
+          <div className="blog-carousel-section__label">
             <span>Nuestro Blog</span>
           </div>
 
           <h2 className="blog-carousel-section__title">
-            <div className="title-row fade_top">ESTRATEGIAS E IDEAS</div>
-            <div className="title-row fade_top">
-              PARA ESPACIOS COMERCIALES
-            </div>
+            <div className="title-row">ESTRATEGIAS E IDEAS</div>
+            <div className="title-row">PARA ESPACIOS COMERCIALES</div>
           </h2>
         </div>
 
-        <p className="blog-carousel-section__subtitle fade_left">
+        <p className="blog-carousel-section__subtitle">
           Descubre nuestras últimas publicaciones sobre diseño y tendencias en
           el sector de la <strong>cosmética y perfumería</strong>
         </p>
 
-        <div className="blog-carousel-section__carousel-container fade_top">
+        <div className="blog-carousel-section__carousel-container">
           <div className="blog-carousel-section__carousel-navigation">
             <button
               className="blog-carousel-section__nav-button blog-carousel-section__nav-button--prev"
@@ -168,7 +221,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
               {posts.map((post, index) => (
                 <div
                   className="blog-carousel-section__carousel-slide"
-                  key={post.id}
+                  key={post.id || index}
                 >
                   <BlogItem item={post} index={index} />
                 </div>
@@ -192,8 +245,8 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
           )}
         </div>
 
-        <div className="blog-carousel-section__cta-container fade_top">
-          <HoverCircleButton href="/sobre-nosotros" label="Ver Más Artículos" />
+        <div className="blog-carousel-section__cta-container">
+          <HoverCircleButton href="/blog" label="Ver Más Artículos" />
         </div>
       </div>
     </section>

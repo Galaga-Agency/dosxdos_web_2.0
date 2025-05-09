@@ -1,0 +1,87 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.mas-proyectos-header {
+  position: relative;
+
+  @include container-width(mobile);
+  margin: 3rem auto;
+
+  @include min-width(md) {
+    @include container-width(tablet);
+  }
+
+  @include min-width(lg) {
+    @include container-width(smalldesktop);
+  }
+
+  @include min-width(xl) {
+    @include container-width(desktop);
+  }
+
+  &__content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    @include flex(column, start, left);
+    gap: 0.5rem;
+  }
+
+  &__label {
+    @include font-size(sm);
+    color: $black;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    &::after {
+      content: "";
+      width: 20px;
+      height: 1px;
+      background-color: $black;
+      display: inline-block;
+    }
+  }
+
+  &__title {
+    position: relative;
+    @include font-weight(semibold);
+    color: $black;
+    text-transform: capitalize;
+    letter-spacing: -0.025em;
+    visibility: hidden;
+    @include font-size(3xl);
+
+    @include min-width(xs) {
+      @include font-size(5xl);
+    }
+
+    @include min-width(sm) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(md) {
+      @include font-size(7xl);
+    }
+
+    @include min-width(lg) {
+      @include font-size(8xl);
+    }
+  }
+
+  &__description {
+    @include font-size(lg);
+    visibility: hidden;
+    color: $black;
+    max-width: 60ch;
+    line-height: 1.6;
+
+    @include min-width(md) {
+      margin-left: 20%;
+    }
+  }
+}

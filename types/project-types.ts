@@ -14,6 +14,7 @@ export interface Project {
   display: {
     homepage: boolean;
     portfolioPage: boolean;
+    masProyectosPage: boolean;
     [key: string]: boolean; // For future display options
   };
   tags?: string[];

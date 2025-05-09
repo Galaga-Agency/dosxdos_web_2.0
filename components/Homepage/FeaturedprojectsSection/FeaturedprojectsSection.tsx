@@ -62,6 +62,7 @@ const FeaturedprojectsSection: React.FC = () => {
                 height={1080}
                 className="project-panel__image-file"
                 priority={project.id === "01"}
+                unoptimized={true}
               />
               <div className="project-panel__overlay"></div>
             </div>

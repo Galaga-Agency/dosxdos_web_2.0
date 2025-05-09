@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import HeroSlider from "@/components/Homepage/HeroSlider/HeroSlider";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
@@ -39,11 +39,14 @@ const heroSlides = [
 const Home: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const homepageRef = useRef<HTMLDivElement>(null);
 
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
 
   useEffect(() => {
+    console.log("Home component mounted");
+
     // Initialize ScrollTrigger configuration once
     initScrollTriggerConfig();
 
@@ -65,15 +68,25 @@ const Home: React.FC = () => {
 
     fetchPosts();
 
+    // Ensure the ScrollTrigger is refreshed after all components render
+    const refreshTimer = setTimeout(() => {
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.refresh();
+      }
+      ScrollTrigger.refresh();
+    }, 500);
+
     // Cleanup on unmount
     return () => {
+      console.log("Home component unmounting, cleaning up animations");
+      clearTimeout(refreshTimer);
       cleanupHomepageAnimations();
     };
   }, []);
 
   return (
     <SmoothScrollWrapper showBackToTop={false}>
-      <div className="homepage" key={key}>
+      <div ref={homepageRef} className="homepage" key={key}>
         <section className="homepage__hero">
           <HeroSlider
             slides={heroSlides}
@@ -89,6 +102,7 @@ const Home: React.FC = () => {
         </div>
 
         <ServicesSection key={`services-${key}`} />
+
         <FeaturedprojectsSection key={`projects-${key}`} />
 
         {!loading && blogPosts.length > 0 && (

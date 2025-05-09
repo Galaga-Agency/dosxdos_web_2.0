@@ -1,6 +1,5 @@
 import { Project, ProjectCategory } from "@/types/project-types";
 
-// All projects in one single array
 export const projects: Project[] = [
   {
     id: "01",
@@ -36,6 +35,7 @@ export const projects: Project[] = [
     display: {
       homepage: true,
       portfolioPage: true,
+      masProyectosPage: false,
     },
     tags: ["Moda", "Innovación", "Sostenibilidad"],
   },
@@ -74,6 +74,7 @@ export const projects: Project[] = [
     display: {
       homepage: true,
       portfolioPage: true,
+      masProyectosPage: false,
     },
     tags: ["Tecnología", "Ferias", "Experiencia interactiva"],
   },
@@ -112,6 +113,7 @@ export const projects: Project[] = [
     display: {
       homepage: true,
       portfolioPage: true,
+      masProyectosPage: false,
     },
     tags: ["Retail", "Diseño sostenible", "Experiencia de compra"],
   },
@@ -150,6 +152,7 @@ export const projects: Project[] = [
     display: {
       homepage: false,
       portfolioPage: true,
+      masProyectosPage: false,
     },
     tags: ["Alimentación", "Lanzamiento", "Branding"],
   },
@@ -187,6 +190,7 @@ export const projects: Project[] = [
     display: {
       homepage: false,
       portfolioPage: true,
+      masProyectosPage: false,
     },
     tags: ["Lujo", "Moda", "Experiencia premium"],
   },
@@ -224,6 +228,7 @@ export const projects: Project[] = [
     display: {
       homepage: false,
       portfolioPage: true,
+      masProyectosPage: false,
     },
     tags: ["Deportes", "Promoción", "Interactivo"],
   },
@@ -261,6 +266,7 @@ export const projects: Project[] = [
     display: {
       homepage: false,
       portfolioPage: false,
+      masProyectosPage: true,
     },
     tags: ["Navidad", "Lujo", "Joyería"],
   },
@@ -298,8 +304,200 @@ export const projects: Project[] = [
     display: {
       homepage: false,
       portfolioPage: false,
+      masProyectosPage: true,
     },
     tags: ["Restauración", "Identidad corporativa", "Señalética"],
+  },
+  {
+    id: "09",
+    title: "Pop-up store para marca de perfumes",
+    slug: "pop-up-perfumes",
+    category: "perfumeria",
+    client: "Esencia Natural",
+    date: "2024-03-18",
+    location: "Gran Canaria",
+    image: "/assets/img/blog/neurodesign.jpg",
+    images: [
+      "/assets/img/blog/neurodesign.jpg",
+      "/assets/img/blog/minimalist-spaces.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+    ],
+    description:
+      "Diseño y construcción de pop-up store inmersiva para lanzamiento de nueva colección de fragancias.",
+    longDescription:
+      "Creamos un espacio efímero que transportaba a los visitantes a un jardín sensorial donde podían experimentar las fragancias en un entorno único. El diseño incorporaba elementos naturales como plantas vivas y agua, combinados con tecnología que liberaba aromas sutiles según la zona donde se encontraba el visitante. La instalación incluyó un sistema de proyección interactivo que reaccionaba al movimiento de las personas.",
+    process:
+      "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
+    services: [
+      "Diseño conceptual",
+      "Producción e instalación",
+      "Experiencia sensorial",
+      "Tecnología interactiva",
+    ],
+    display: {
+      homepage: false,
+      portfolioPage: false,
+      masProyectosPage: true,
+    },
+    tags: ["Perfumería", "Experiencia inmersiva", "Pop-up"],
+  },
+  {
+    id: "10",
+    title: "Showroom virtual para fabricante de muebles",
+    slug: "showroom-virtual-muebles",
+    category: "produccion-digital",
+    client: "Hogar Design",
+    date: "2024-01-28",
+    location: "Madrid",
+    image: "/assets/img/blog/visual-marketing.jpg",
+    images: [
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/typography-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+    ],
+    description:
+      "Desarrollo de showroom virtual interactivo para presentación de nueva colección de mobiliario de diseño.",
+    longDescription:
+      "Creamos una experiencia digital inmersiva que permitía a los clientes explorar las nuevas colecciones de mobiliario en entornos virtuales realistas. El sistema incluía la posibilidad de configurar acabados y materiales en tiempo real, visualizar los muebles en diferentes ambientes y solicitar presupuestos personalizados. La plataforma se complementaba con realidad aumentada que permitía a los usuarios ver los productos en sus propios espacios a través de sus dispositivos móviles.",
+    process:
+      "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
+    services: [
+      "Modelado 3D",
+      "Diseño UX/UI",
+      "Desarrollo interactivo",
+      "Integración AR",
+    ],
+    display: {
+      homepage: false,
+      portfolioPage: false,
+      masProyectosPage: true,
+    },
+    tags: ["Mobiliario", "Realidad virtual", "Experiencia digital"],
+  },
+  {
+    id: "11",
+    title: "Rediseño flagship store electrónica",
+    slug: "rediseno-flagship-electronica",
+    category: "interiorismo-comercial",
+    client: "TechWorld",
+    date: "2023-10-05",
+    location: "Barcelona",
+    image: "/assets/img/blog/color-psychology.jpg",
+    images: [
+      "/assets/img/blog/color-psychology.jpg",
+      "/assets/img/blog/minimalist-spaces.jpg",
+      "/assets/img/blog/typography-design.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+    ],
+    description:
+      "Renovación integral de tienda insignia de 350m² para marca líder en productos electrónicos.",
+    longDescription:
+      "Transformamos completamente la flagship store de esta marca de electrónica, creando un espacio que combina áreas de exposición de productos con zonas experienciales donde los clientes pueden probar los dispositivos en situaciones reales. El diseño incluye un sistema modular de mobiliario que permite reconfigurar el espacio según las necesidades de cada temporada, pantallas interactivas integradas en las paredes y un sistema de iluminación programable que crea diferentes ambientes a lo largo del día.",
+    process:
+      "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
+    services: [
+      "Arquitectura comercial",
+      "Diseño de experiencia",
+      "Mobiliario técnico",
+      "Sistemas audiovisuales",
+      "Dirección de obra",
+    ],
+    display: {
+      homepage: false,
+      portfolioPage: false,
+      masProyectosPage: true,
+    },
+    tags: ["Tecnología", "Flagship", "Experiencia de marca"],
+  },
+  {
+    id: "12",
+    title: "Activación de marca en festival de música",
+    slug: "activacion-festival-musica",
+    category: "espacios-promocionales",
+    client: "Bebida Energética XForce",
+    date: "2023-07-22",
+    location: "Valencia",
+    image: "/assets/img/blog/responsive-design.jpg",
+    images: [
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+      "/assets/img/blog/minimalist-spaces.jpg",
+      "/assets/img/blog/typography-design.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+    ],
+    description:
+      "Diseño y producción de espacio experiencial de 80m² para activación de marca en festival de música electrónica.",
+    longDescription:
+      "Creamos un espacio inmersivo que se convirtió en uno de los puntos más fotografiados del festival. La instalación incluía una zona de chill-out con iluminación reactiva al sonido, un área de experiencias donde los asistentes podían crear contenido para redes sociales, y una barra de degustación con efectos visuales especiales. El diseño incorporaba materiales reflectantes y elementos cinéticos que creaban un ambiente dinámico en sintonía con la música electrónica del festival.",
+    process:
+      "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
+    services: [
+      "Diseño experiencial",
+      "Producción efímera",
+      "Tecnología interactiva",
+      "Activación de marca",
+    ],
+    display: {
+      homepage: false,
+      portfolioPage: false,
+      masProyectosPage: true,
+    },
+    tags: ["Música", "Evento", "Experiencia de marca"],
+  },
+  {
+    id: "13",
+    title: "Campaña visual para hotel boutique",
+    slug: "campana-hotel-boutique",
+    category: "otros-servicios",
+    client: "Oasis Urban",
+    date: "2024-04-10",
+    location: "Gran Canaria",
+    image: "/assets/img/blog/minimalist-spaces.jpg",
+    images: [
+      "/assets/img/blog/minimalist-spaces.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+      "/assets/img/blog/typography-design.jpg",
+      "/assets/img/blog/neurodesign.jpg",
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+    ],
+    description:
+      "Desarrollo de identidad visual y materiales promocionales para nuevo hotel boutique en zona histórica.",
+    longDescription:
+      "Creamos una identidad visual completa para este hotel boutique que refleja su combinación única de historia y diseño contemporáneo. El proyecto incluyó sesiones fotográficas especializadas de interiores y experiencias, desarrollo de material gráfico impreso y digital, y elementos visuales para sus canales de comunicación. El concepto creativo se basó en la idea de 'oasis urbano', contrastando elementos de naturaleza con el entorno histórico del edificio.",
+    process:
+      "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio. A partir de ahí, desarrollamos un concepto creativo alineado con la identidad visual de la marca.",
+    services: [
+      "Dirección de arte",
+      "Fotografía arquitectónica",
+      "Diseño editorial",
+      "Contenido digital",
+    ],
+    display: {
+      homepage: false,
+      portfolioPage: false,
+      masProyectosPage: true,
+    },
+    tags: ["Hostelería", "Branding", "Fotografía"],
   },
 ];
 

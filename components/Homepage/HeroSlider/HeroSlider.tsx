@@ -168,7 +168,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         </h1>
 
         <div ref={ctaRef} className="hero-slider__cta">
-          <SecondaryButton href="/portfolio" size="large">
+          <SecondaryButton href="/portfolio-2" size="large">
             Descubrir Proyectos
           </SecondaryButton>
         </div>
