@@ -5,7 +5,6 @@ import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
-import { initFadeAnimations } from "@/utils/animations/pages/homepage-anim";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 interface LogoMarqueeProps {
@@ -25,9 +24,6 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   useEffect(() => {
     if (sectionRef.current) {
       const timer = setTimeout(() => {
-        // Initialize fade animations
-        initFadeAnimations();
-
         // Force refresh to ensure ScrollTrigger works properly
         setTimeout(() => {
           if ((window as any).__smoother__) {
