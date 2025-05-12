@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signIn, useSession } from "next-auth/react";
-import "./Login.scss";
+import "./login-page.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomInput from "@/components/ui/CustomInput/CustomInput";
 
@@ -97,7 +97,8 @@ export default function LoginPage() {
             inputRef={passwordRegister.ref}
             error={errors.password}
             isLoading={loading}
-            placeholder="******"/>
+            placeholder="******"
+          />
 
           <PrimaryButton type="submit" fullWidth disabled={loading}>
             {loading ? "Iniciando sesión..." : "Iniciar Sesión"}

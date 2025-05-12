@@ -92,11 +92,11 @@
   &__content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 4rem;
+    gap: 2rem;
     
     @include min-width(lg) {
       width: 60%;
-      gap: 5rem;
+      gap: 1rem;
     }
   }
 

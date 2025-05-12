@@ -198,12 +198,13 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Preload critical hero slider images */}
+        {/* Preload critical hero slider images with high priority */}
         <link
           rel="preload"
           href="/assets/img/homepage/slider-3.webp"
           as="image"
           type="image/webp"
+          fetchPriority="high"
         />
         <link
           rel="preload"

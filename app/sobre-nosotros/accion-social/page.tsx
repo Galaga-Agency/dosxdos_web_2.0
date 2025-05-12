@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
-import "./AccionSocialPage.scss";
+import "./accion-social-page.scss";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import HeroSection from "@/components/AccionSocialPage/HeroSection/HeroSection";
 import ValuesSection from "@/components/AccionSocialPage/ValuesSection/ValuesSection";
@@ -12,6 +12,12 @@ import ExperienciaSection from "@/components/AccionSocialPage/ExperienciaSection
 import CollaborationsSection from "@/components/AccionSocialPage/CollaborationsSection/CollaborationsSection";
 import AccionSocialCTASection from "@/components/AccionSocialPage/AccionSocialCTASection/AccionSocialCTASection";
 import { cleanupAccionSocialAnimations } from "@/utils/animations/pages/accion-social-page-anim";
+import { preloadImages } from "@/utils/imagePreloader";
+
+// Preload critical accion social hero image
+if (typeof window !== "undefined") {
+  preloadImages(["/assets/img/about-us-page/vicente-ferrer-illustration.jpg"]);
+}
 
 const AccionSocialPage: React.FC = () => {
   // Force component remount on each page visit

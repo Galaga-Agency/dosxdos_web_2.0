@@ -9,7 +9,7 @@ import {
   cleanupBlogPageAnimations,
 } from "@/utils/animations/pages/blog-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
-import "./blog.scss";
+import "./blog-page.scss";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import BlogItem from "@/components/BlogItem/BlogItem";

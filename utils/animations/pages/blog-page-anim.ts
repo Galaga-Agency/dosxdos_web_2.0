@@ -9,6 +9,15 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Store blog page ScrollTrigger instances for selective cleanup
+let blogScrollTriggerInstances: any[] = [];
+
+// Track ScrollTrigger instances for cleanup
+function trackScrollTrigger(instance: globalThis.ScrollTrigger) {
+  blogScrollTriggerInstances.push(instance);
+  return instance;
+}
+
 export interface BlogPageAnimElements {
   section?: HTMLElement | null;
   imageContainer?: HTMLElement | null;
@@ -90,18 +99,20 @@ export const animateBlogPage = ({
       gsap.set(highlightElements, { backgroundSize: "0% 100%" });
 
       // Create ScrollTrigger for this section
-      ScrollTrigger.create({
-        trigger: desktopSocialCta,
-        start: "top 80%",
-        once: true,
-        onEnter: () => {
-          gsap.to(highlightElements, {
-            backgroundSize: "100% 100%",
-            duration: 0.8,
-            ease: "power2.out",
-          });
-        },
-      });
+      trackScrollTrigger(
+        ScrollTrigger.create({
+          trigger: desktopSocialCta,
+          start: "top 80%",
+          once: true,
+          onEnter: () => {
+            gsap.to(highlightElements, {
+              backgroundSize: "100% 100%",
+              duration: 0.8,
+              ease: "power2.out",
+            });
+          },
+        })
+      );
     }
   }
 
@@ -207,16 +218,22 @@ export const initBlogPageAnimations = (refs: BlogPageAnimElements) => {
 export function cleanupBlogPageAnimations() {
   if (typeof window === "undefined") return;
 
-  console.log("⚠️ Cleaning up all blog page animations");
+  console.log(
+    "⚠️ Cleaning up blog page animations:",
+    blogScrollTriggerInstances.length,
+    "instances"
+  );
 
-  // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach((trigger) => {
-    trigger.kill();
+  // Kill ONLY the blog page specific ScrollTriggers
+  blogScrollTriggerInstances.forEach((trigger) => {
+    if (trigger && typeof trigger.kill === "function") {
+      trigger.kill();
+    }
   });
 
-  // Clear match media queries
-  ScrollTrigger.clearMatchMedia();
+  // Clear the instances array
+  blogScrollTriggerInstances = [];
 
-  // Refresh ScrollTrigger
+  // Refresh ScrollTrigger without clearing match media
   refreshScrollTrigger();
 }

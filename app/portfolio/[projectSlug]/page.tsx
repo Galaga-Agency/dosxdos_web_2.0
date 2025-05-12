@@ -10,7 +10,7 @@ import {
   initScrollTriggerConfig,
   cleanupScrollTriggers,
 } from "@/utils/animations/scrolltrigger-config";
-import "./ProjectDetailsPage.scss";
+import "./project-details-page.scss";
 import Loading from "@/components/ui/Loading/Loading";
 import ProjectObjectiveSection from "@/components/ProjectDetailsPage/ProjectObjectiveSection/ProjectObjectiveSection";
 import ProjectProcessSection from "@/components/ProjectDetailsPage/ProjectProcessSection/ProjectProcessSection";

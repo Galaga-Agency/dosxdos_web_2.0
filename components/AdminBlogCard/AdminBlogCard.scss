@@ -40,7 +40,6 @@
     padding-bottom: 75%;
     overflow: hidden;
     margin-bottom: 0;
-    border-radius: 0.75rem;
   }
 
   &__image-wrapper {
@@ -83,12 +82,11 @@
     span {
       display: inline-block;
       padding: 0.4rem 1rem;
-      background-color: $primary-color;
+      background-color: $black;
       color: $white;
       font-weight: 600;
       font-size: 0.875rem;
       text-transform: uppercase;
-      border-radius: 0.5rem;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
   }
@@ -104,7 +102,6 @@
   &__glass {
     position: relative;
     padding: 1.5rem;
-    border-radius: 0.75rem;
     backdrop-filter: blur(4px);
     background-color: rgba($white, 0.1);
     border: 1px solid rgba($white, 0.12);

@@ -12,7 +12,7 @@ import {
   cleanupContactPageAnimations,
 } from "@/utils/animations/pages/contact-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
-import "./ContactPage.scss";
+import "./contact-page.scss";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);

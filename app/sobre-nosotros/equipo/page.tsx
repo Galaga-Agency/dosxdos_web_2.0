@@ -14,10 +14,19 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { cleanupEquipoAnimations } from "@/utils/animations/pages/equipo-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
+import { preloadImages } from "@/utils/imagePreloader";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+
+  // Preload critical equipo page images
+  preloadImages([
+    "/assets/img/about-us-page/family.webp",
+    "/assets/img/about-us-page/fiesta-1.jpg",
+    "/assets/img/about-us-page/fiesta-2.jpg",
+    "/assets/img/about-us-page/fiesta-3.jpg",
+  ]);
 }
 
 const EquipoPage: React.FC = () => {

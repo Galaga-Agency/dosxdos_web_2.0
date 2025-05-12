@@ -14,8 +14,6 @@
     padding-block: 10rem;
   }
 
-
-
   .login-container {
     @include container-width(mobile);
     margin: 0 auto;
@@ -42,7 +40,7 @@
         transform: translateX(-50%);
         width: 80px;
         height: 4px;
-        background-color: $primary-color;
+        background-color: $secondary-color;
       }
     }
 

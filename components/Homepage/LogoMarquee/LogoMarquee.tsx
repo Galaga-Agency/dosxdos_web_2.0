@@ -33,15 +33,14 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Use more focused animation specifically for marquee
-    // instead of general initFadeAnimations()
+    // Animation for marquee
     const animInstance = animateLogoMarquee({
       section: sectionRef.current,
       header: headerRef.current || undefined,
       marquee: marqueeWrapperRef.current || undefined,
     });
 
-    // More conservative refreshing approach
+    // Refresh ScrollTrigger
     const refreshTimer = setTimeout(() => {
       if ((window as any).__smoother__) {
         (window as any).__smoother__.refresh();
@@ -49,7 +48,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
       ScrollTrigger.refresh();
     }, 300);
 
-    // Cleanup function
+    // Cleanup
     return () => {
       clearTimeout(refreshTimer);
       if (animInstance) {
@@ -85,7 +84,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
           <Marquee
             gradient={true}
             gradientColor={gradientColor}
-            gradientWidth={100}
+            gradientWidth={80}
             speed={40}
             pauseOnHover={true}
             direction="right"
@@ -97,6 +96,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
                   alt={logo.name}
                   width={150}
                   height={80}
+                  style={{ objectFit: "contain" }}
                   className="logo-marquee__logo"
                 />
               </div>

@@ -135,11 +135,11 @@
       object-fit: contain;
 
       @include min-width(md) {
-        height: 200px;
+        height: 170px;
       }
 
       @include min-width(lg) {
-        height: 200px;
+        height: 130px;
       }
 
       &--first {
@@ -150,7 +150,7 @@
         }
 
         @include min-width(lg) {
-          height: 100px;
+          height: 80px;
         }
       }
     }

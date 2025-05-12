@@ -38,16 +38,8 @@ const Modal: React.FC<ModalProps> = ({
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
 
-    if (isOpen && contentRef.current) {
+    if (isOpen) {
       document.body.style.overflow = "hidden";
-
-      const viewportCenter = window.innerHeight / 2 + window.scrollY;
-      const viewportMiddleX = window.innerWidth / 2;
-
-      contentRef.current.style.position = "absolute";
-      contentRef.current.style.top = `${viewportCenter}px`;
-      contentRef.current.style.left = `${viewportMiddleX}px`;
-      contentRef.current.style.transform = "translate(-50%, -50%)";
     } else {
       document.body.style.overflow = originalStyle;
     }
