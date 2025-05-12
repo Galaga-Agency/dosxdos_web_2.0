@@ -124,6 +124,9 @@
     
     @include min-width(lg) {
       display: block;
+      // Fixed width to prevent overlap with actions
+      width: calc(100% - 360px);
+      max-width: 800px;
     }
   }
 
@@ -312,6 +315,10 @@
     align-items: center;
     @include gap(md);
     @include z-index(toast);
+    
+    @include min-width(lg) {
+      min-width: 200px; // Ensure minimum width for actions area
+    }
   }
 
   &__social-desktop {
@@ -333,8 +340,9 @@
   &__cta {
     display: none !important;
     
-    @include min-width(xxxl) {
+    @include min-width(xl) {
       display: inline-flex !important;
+      margin-left: 1rem; // Add some spacing to the left
     }
   }
 
@@ -591,6 +599,8 @@
 
     &__nav {
       display: block;
+      width: auto; // Let it take natural width
+      max-width: none; // Remove max-width constraint
     }
 
     &__actions {
@@ -599,6 +609,8 @@
       right: auto;
       padding: 0;
       height: auto;
+      min-width: auto; // Reset min-width
+      margin-left: 2rem; // Add left margin for separation
     }
 
     &__cta {
@@ -682,11 +694,14 @@
       flex-grow: 1;
       display: flex;
       justify-content: center;
+      max-width: 60%; // Limit nav width to prevent overlap
     }
 
     &__nav-list {
       @include gap(md);
       align-items: center;
+      flex-wrap: wrap; // Allow wrapping if needed
+      justify-content: center;
     }
 
     &__nav-link,
@@ -702,11 +717,17 @@
       @include gap(md);
       margin-left: auto;
       padding: 0;
+      min-width: 140px; // Ensure minimum width
     }
 
     &__social-desktop {
       display: block;
       margin-left: 0.5rem;
+    }
+    
+    // Ensure proper spacing between last nav item and actions
+    &__nav-item:last-child {
+      margin-right: 1rem;
     }
   }
 }
