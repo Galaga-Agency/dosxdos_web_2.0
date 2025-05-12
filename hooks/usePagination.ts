@@ -1,54 +1,48 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export interface PaginationOptions<T> {
+interface PaginationProps<T> {
   items: T[];
   itemsPerPage?: number;
-  scrollTargetId?: string;
 }
 
 export default function usePagination<T>({
   items,
   itemsPerPage = 6,
-  scrollTargetId = "pagination-section", // Keep the parameter for backwards compatibility
-}: PaginationOptions<T>) {
+}: PaginationProps<T>) {
+  // Current page state
   const [currentPage, setCurrentPage] = useState(0);
 
-  // Recalculate pages if items change
+  // Compute derived values based on currentPage
+  const pageCount = Math.max(1, Math.ceil(items.length / itemsPerPage));
+  const startIndex = currentPage * itemsPerPage;
+  const currentItems = items.slice(startIndex, startIndex + itemsPerPage);
+
+  // Reset to first page if we're on an invalid page after items change
   useEffect(() => {
-    // Reset to first page if current page is now out of bounds
-    if (currentPage >= Math.ceil(items.length / itemsPerPage)) {
+    if (currentPage >= pageCount && items.length > 0) {
       setCurrentPage(0);
     }
-  }, [items, itemsPerPage, currentPage]);
+  }, [items.length, pageCount, currentPage]);
 
-  // Calculate total pages
-  const pageCount = Math.ceil(items.length / itemsPerPage);
-
-  // Get current items
-  const currentItems = items.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
-
-  // Handle page click - IMPORTANT: No scrolling logic here!
-  const handlePageClick = useCallback((event: { selected: number }) => {
-    // Simply update the page state
+  // Handle page click
+  const handlePageClick = (event: { selected: number }) => {
+    // Set the current page
     setCurrentPage(event.selected);
 
-    // DO NOT add any scrolling logic here
-    // The scrollTargetId parameter is kept for backwards compatibility only
-  }, []);
-
-  // Reset to first page
-  const resetToFirstPage = useCallback(() => {
-    setCurrentPage(0);
-  }, []);
+    // Give React time to update before scrolling
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "auto", // Use 'auto' not 'smooth' to avoid conflict with ScrollSmoother
+      });
+    }, 0);
+  };
 
   return {
     currentItems,
     handlePageClick,
     pageCount,
     currentPage,
-    resetToFirstPage,
+    setCurrentPage,
   };
 }

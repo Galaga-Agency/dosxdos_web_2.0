@@ -15,6 +15,7 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { cleanupEquipoAnimations } from "@/utils/animations/pages/equipo-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import { preloadImages } from "@/utils/imagePreloader";
+import Footer from "@/components/layout/Footer/footer";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -70,6 +71,7 @@ const EquipoPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

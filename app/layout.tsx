@@ -5,6 +5,7 @@ import Menu from "@/components/layout/Menu/Menu";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
 import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
+import Footer from "@/components/layout/Footer/footer";
 
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",

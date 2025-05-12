@@ -12,6 +12,7 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { cleanupServiciosAnimations } from "@/utils/animations/pages/servicios-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import "./servicios-page.scss";
+import Footer from "@/components/layout/Footer/footer";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -41,6 +42,7 @@ const ServiciosPage: React.FC = () => {
         <ServicesGrid key={`grid-${key}`} />
         <VisionSection key={`vision-${key}`} />
       </main>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

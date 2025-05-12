@@ -13,6 +13,7 @@ import CollaborationsSection from "@/components/AccionSocialPage/CollaborationsS
 import AccionSocialCTASection from "@/components/AccionSocialPage/AccionSocialCTASection/AccionSocialCTASection";
 import { cleanupAccionSocialAnimations } from "@/utils/animations/pages/accion-social-page-anim";
 import { preloadImages } from "@/utils/imagePreloader";
+import Footer from "@/components/layout/Footer/footer";
 
 // Preload critical accion social hero image
 if (typeof window !== "undefined") {
@@ -55,6 +56,7 @@ const AccionSocialPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

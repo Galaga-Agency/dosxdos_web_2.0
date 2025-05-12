@@ -7,6 +7,7 @@ import { signIn, useSession } from "next-auth/react";
 import "./login-page.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomInput from "@/components/ui/CustomInput/CustomInput";
+import Footer from "@/components/layout/Footer/footer";
 
 type LoginFormValues = {
   username: string;
@@ -105,6 +106,7 @@ export default function LoginPage() {
           </PrimaryButton>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

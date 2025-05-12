@@ -11,10 +11,14 @@
   left: 0;
   width: 100%;
   height: 80px;
-  @include padding(xl, x);
+  @include padding(sm, x); 
   @include z-index(header);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: visible;
+  
+  @include min-width(xl) {
+    @include padding(xl, x);
+  }
 
   &--folded {
     height: 0;
@@ -73,16 +77,22 @@
     position: absolute;
     top: 0;
     left: 0;
-    @include padding(md);
+    padding: 0; // Eliminado para móvil
     height: 85px;
     display: flex;
     align-items: center;
     @include z-index(above);
     text-decoration: none;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    @include padding(xs, left); // Pequeño padding para no estar totalmente pegado
 
     &:hover {
       transform: translateY(-2px);
+    }
+    
+    @include min-width(md) {
+      @include padding(md); // Restaurar padding en tablet y desktop
     }
   }
 
@@ -107,12 +117,18 @@
     position: absolute;
     top: 0;
     right: 0;
-    @include padding(md);
+    padding: 0; // Eliminado para móvil
     height: 85px;
     display: flex;
     align-items: center;
     cursor: pointer;
     @include z-index(toast);
+    -webkit-tap-highlight-color: transparent;
+    @include padding(xs, right); // Pequeño padding para no estar totalmente pegado
+    
+    @include min-width(md) {
+      @include padding(md); // Restaurar padding en tablet y desktop
+    }
     
     @include min-width(lg) {
       display: none;
@@ -169,6 +185,9 @@
     @include gap(3xs);
     white-space: nowrap;
     @include letter-spacing(tight);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
     
     @include min-width(lg) {
       @include font-size(base);
@@ -200,6 +219,7 @@
 
   &__nav-icon {
     transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    @include margin(xs, left);
 
     &.rotate {
       transform: rotate(180deg);
@@ -275,6 +295,9 @@
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     position: relative;
     @include font-size(base);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
 
     &::before {
       content: "";
@@ -307,12 +330,16 @@
     position: absolute;
     top: 0;
     right: 0;
-    @include padding(md);
+    padding: 0; // Reducido para móvil
     height: 85px;
     display: flex;
     align-items: center;
     @include gap(md);
     @include z-index(toast);
+    
+    @include min-width(md) {
+      @include padding(md); // Restaurar padding en tablet y desktop
+    }
   }
 
   &__social-desktop {
@@ -448,6 +475,9 @@
     @include font-size(base);
     position: relative;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
 
     &::before {
       content: "";
@@ -476,6 +506,9 @@
     color: rgba($white, 0.6);
     cursor: pointer;
     transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
 
     &:hover {
       color: $white;
@@ -508,6 +541,9 @@
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(10px);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
 
     @for $i from 1 through 5 {
       &:nth-child(#{$i}) {
@@ -759,4 +795,9 @@ This overrides the previous styles to ensure there's no overlap
   .menu__cta {
     display: inline-flex !important;
   }
+}
+
+// Eliminar el efecto de selección azul en elementos interactivos
+* {
+  -webkit-tap-highlight-color: transparent;
 }

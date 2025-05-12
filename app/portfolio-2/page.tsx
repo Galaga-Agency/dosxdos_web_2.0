@@ -12,6 +12,7 @@ import {
 import PortfolioHeader from "@/components/Portfolio2Page/PortfolioHeader/PortfolioHeader";
 import PortfolioBentoGrid from "@/components/Portfolio2Page/PortfolioBentoGrid/PortfolioBentoGrid";
 import PortfolioCTA from "@/components/Portfolio2Page/PortfolioCTA/PortfolioCTA";
+import Footer from "@/components/layout/Footer/footer";
 
 const Portfolio2Page: React.FC = () => {
   // Force component remount on each page visit
@@ -69,6 +70,7 @@ const Portfolio2Page: React.FC = () => {
           ctaButtonRef={ctaButtonRef}
         />
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

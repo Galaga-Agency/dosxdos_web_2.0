@@ -22,6 +22,7 @@ import {
 import "./blog-details.scss";
 import Loading from "@/components/ui/Loading/Loading";
 import BlogItem from "@/components/BlogItem/BlogItem";
+import Footer from "@/components/layout/Footer/footer";
 
 interface BlogDetailPageProps {
   params: Promise<{ blogArticleSlug: string }>;
@@ -234,7 +235,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
           <div ref={ctaSectionRef} className="blog-detail__cta-section">
             <div className="blog-detail__cta-content">
               <h2 className="blog-detail__cta-title">
-                Descubre más inspiración 
+                Descubre más inspiración
               </h2>
               <p className="blog-detail__cta-text">
                 Explora nuestra colección de artículos y encuentra ideas para tu
@@ -256,6 +257,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
           <SocialIcons orientation="horizontal" color="primary" />
         </div>
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

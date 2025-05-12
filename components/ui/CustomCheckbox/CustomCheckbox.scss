@@ -26,8 +26,8 @@
     width: 0;
 
     &:checked ~ .custom-checkbox__checkmark {
-      background-color: $primary-color;
-      border-color: $primary-color;
+      background-color: $black;
+      border-color: $black;
     }
 
     &:checked ~ .custom-checkbox__checkmark::after {

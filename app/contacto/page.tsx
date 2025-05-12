@@ -13,6 +13,7 @@ import {
 } from "@/utils/animations/pages/contact-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import "./contact-page.scss";
+import Footer from "@/components/layout/Footer/footer";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -152,6 +153,7 @@ const ContactPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

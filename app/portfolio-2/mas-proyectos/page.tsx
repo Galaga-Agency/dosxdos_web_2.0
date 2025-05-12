@@ -12,6 +12,7 @@ import {
   initMasProyectosAnimations,
 } from "@/utils/animations/pages/mas-proyectos-page";
 import MasProyectosCTA from "@/components/MasProyectosPage/MasProyectosCTA/MasProyectosCTA";
+import Footer from "@/components/layout/Footer/footer";
 
 const MasProyectosPage: React.FC = () => {
   // Force component remount on each page visit
@@ -70,6 +71,7 @@ const MasProyectosPage: React.FC = () => {
           ctaButtonRef={ctaButtonRef as any}
         />
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

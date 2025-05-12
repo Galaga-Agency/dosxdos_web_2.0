@@ -108,37 +108,37 @@ const Footer = () => {
               <ul>
                 <li>
                   <Link href="/servicios/interiorismo-comercial">
-                    <span>Interiorismo comercial</span>
+                    <span>Diseño de Interiores</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
                   <Link href="/servicios/produccion-digital">
-                    <span>Producción digital</span>
+                    <span>Eventos</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
                   <Link href="/servicios/perfumeria">
-                    <span>Perfumería</span>
+                    <span>Producción</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
                   <Link href="/servicios/shop-in-shop">
-                    <span>Shop in shop</span>
+                    <span>Logística</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
                   <Link href="/servicios/escaparatismo">
-                    <span>Escaparatismo</span>
+                    <span>Comunicación</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
                   <Link href="/servicios/espacios-promocionales">
-                    <span>Espacios Promocionales</span>
+                    <span>Consultoría</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
@@ -204,7 +204,7 @@ const Footer = () => {
               </p>
             </div>
             <div className="footer__legal-links">
-              <Link href="/politica-privacidad">Política de Privacidad</Link>
+              <Link href="/politica-de-privacidad">Política de Privacidad</Link>
               <Link href="/aviso-legal">Aviso Legal</Link>
               <Link href="/politica-cookies">Política de Cookies</Link>
               <Link href="/transparencia">Transparencia</Link>

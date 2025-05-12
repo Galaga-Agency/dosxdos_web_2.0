@@ -15,6 +15,7 @@ import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-ani
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import { preloadImages, preloadImagesByIndex } from "@/utils/imagePreloader";
 import "./homepage.scss";
+import Footer from "@/components/layout/Footer/footer";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -153,6 +154,7 @@ const Home: React.FC = () => {
           </section>
         )}
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

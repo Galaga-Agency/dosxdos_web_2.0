@@ -16,6 +16,7 @@ import ProjectObjectiveSection from "@/components/ProjectDetailsPage/ProjectObje
 import ProjectProcessSection from "@/components/ProjectDetailsPage/ProjectProcessSection/ProjectProcessSection";
 import ProjectCTASection from "@/components/ProjectDetailsPage/ProjectCTASection/ProjectCTASection";
 import { cleanupProjectDetailsAnimations } from "@/utils/animations/pages/project-details-page-anim";
+import Footer from "@/components/layout/Footer/footer";
 
 interface ProjectDetailsPageProps {
   params: {
@@ -92,6 +93,7 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
           </div>
         </div>
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };
