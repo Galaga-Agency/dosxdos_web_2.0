@@ -13,7 +13,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
-import "./page.scss";
+import { preloadImages, preloadImagesByIndex } from "@/utils/imagePreloader";
+import "./homepage.scss";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -36,6 +37,14 @@ const heroSlides = [
   },
 ];
 
+// Preload critical slider images immediately when this module is imported
+if (typeof window !== "undefined") {
+  preloadImagesByIndex(
+    heroSlides.map((slide) => slide.imageUrl),
+    [0, 1, 2] // Preload all three slider images
+  );
+}
+
 const Home: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,9 +63,11 @@ const Home: React.FC = () => {
       try {
         const res = await fetch("/api/blog");
         const data = await res.json();
+        console.log("Fetched blog posts:", data);
         const publishedPosts = data.filter(
           (post: BlogPost) => post.published === true
         );
+        console.log("Published posts:", publishedPosts.length);
         const latestPosts = publishedPosts.slice(0, 6);
         setBlogPosts(latestPosts);
       } catch (error) {
@@ -67,6 +78,27 @@ const Home: React.FC = () => {
     };
 
     fetchPosts();
+
+    // Set up intersection observer for lazy loading sections
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Add a class to gradually show the section
+            entry.target.classList.add("is-visible");
+
+            // Unobserve after it becomes visible
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "100px 0px", threshold: 0.1 }
+    );
+
+    // Observe all sections except the hero (which should load immediately)
+    document.querySelectorAll(".lazy-section").forEach((section) => {
+      observer.observe(section);
+    });
 
     // Ensure the ScrollTrigger is refreshed after all components render
     const refreshTimer = setTimeout(() => {
@@ -80,9 +112,12 @@ const Home: React.FC = () => {
     return () => {
       console.log("Home component unmounting, cleaning up animations");
       clearTimeout(refreshTimer);
+      observer.disconnect();
       cleanupHomepageAnimations();
     };
   }, []);
+
+  console.log("Rendering home with blog posts:", blogPosts.length);
 
   return (
     <SmoothScrollWrapper showBackToTop={false}>
@@ -95,18 +130,27 @@ const Home: React.FC = () => {
           />
         </section>
 
-        <AboutUsSection key={`about-${key}`} />
+        <section className="lazy-section">
+          <AboutUsSection key={`about-${key}`} />
+        </section>
 
-        <div className="homepage__marquee">
+        <section className="homepage__marquee lazy-section">
           <LogoMarquee key={`marquee-${key}`} />
-        </div>
+        </section>
 
-        <ServicesSection key={`services-${key}`} />
+        <section className="lazy-section">
+          <ServicesSection key={`services-${key}`} />
+        </section>
 
-        <FeaturedprojectsSection key={`projects-${key}`} />
+        <section className="lazy-section">
+          <FeaturedprojectsSection key={`projects-${key}`} />
+        </section>
 
+        {/* Blog section - show directly without lazy loading */}
         {!loading && blogPosts.length > 0 && (
-          <BlogCarouselSection posts={blogPosts} key={`blog-${key}`} />
+          <section>
+            <BlogCarouselSection posts={blogPosts} key={`blog-${key}`} />
+          </section>
         )}
       </div>
     </SmoothScrollWrapper>

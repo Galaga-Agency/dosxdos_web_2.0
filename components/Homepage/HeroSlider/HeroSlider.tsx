@@ -7,6 +7,7 @@ import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { animateHeroSlider } from "@/utils/animations/pages/homepage-anim";
+import { preloadNextImage, extractImageUrls } from "@/utils/imagePreloader";
 
 interface SlideItem {
   id: number;
@@ -29,6 +30,14 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   const ctaRef = useRef<HTMLDivElement>(null);
   const { isTouchDevice } = useDeviceDetect();
 
+  // Extract all image URLs for preloading
+  const imageUrls = extractImageUrls(slides, "imageUrl");
+
+  // Preload next slide whenever active slide changes
+  useEffect(() => {
+    preloadNextImage(activeSlide, imageUrls);
+  }, [activeSlide, imageUrls]);
+
   // Initialize animations
   useEffect(() => {
     if (sectionRef.current && titleRef.current && ctaRef.current) {
@@ -44,15 +53,17 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   // Autoplay timer
   useEffect(() => {
     const interval = setInterval(() => {
-      const nextSlide = (activeSlide + 1) % slides.length;
-      setActiveSlide(nextSlide);
+      setActiveSlide((current) => (current + 1) % slides.length);
     }, autoplaySpeed);
 
     return () => clearInterval(interval);
-  }, [activeSlide, autoplaySpeed, slides.length]);
+  }, [autoplaySpeed, slides.length]);
 
   // Handle slide transitions with GSAP
   useEffect(() => {
+    // Create a single GSAP timeline for smoother transitions
+    const tl = gsap.timeline();
+
     slides.forEach((_, index) => {
       const slideElement = document.querySelector(
         `.hero-slider__slide:nth-child(${index + 1})`
@@ -60,17 +71,25 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
       if (slideElement) {
         if (index === activeSlide) {
-          gsap.to(slideElement, {
-            opacity: 1,
-            duration: 1,
-            ease: "power2.inOut",
-          });
+          tl.to(
+            slideElement,
+            {
+              opacity: 1,
+              duration: 1,
+              ease: "power2.inOut",
+            },
+            0
+          );
         } else {
-          gsap.to(slideElement, {
-            opacity: 0,
-            duration: 1,
-            ease: "power2.inOut",
-          });
+          tl.to(
+            slideElement,
+            {
+              opacity: 0,
+              duration: 1,
+              ease: "power2.inOut",
+            },
+            0
+          );
         }
       }
     });
@@ -149,7 +168,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
               src={slide.imageUrl}
               alt={`Slide ${index + 1}`}
               fill
-              priority
+              priority={index === 0 || index === 1} // Prioritize first two slides
               sizes="100vw"
               className="hero-slider__image"
               ref={(el) => {

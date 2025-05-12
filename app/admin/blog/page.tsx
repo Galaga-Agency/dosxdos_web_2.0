@@ -16,6 +16,8 @@ import Pagination from "@/components/ui/Pagination/Pagination";
 import usePagination from "@/hooks/usePagination";
 import Modal from "@/components/ui/Modal/Modal";
 import { AlertTriangle } from "lucide-react";
+import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 function BlogListPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -231,18 +233,19 @@ function BlogListPage() {
           <div className="blog-list-page__header" ref={headerRef}>
             <h1 ref={titleRef}>Panel de Administración</h1>
             <div className="blog-list-page__actions" ref={actionsRef}>
-              <Link
+              <PrimaryButton
                 href="/admin/blog/nuevo"
                 className="blog-list-page__new-btn"
               >
                 <PlusCircle size={16} /> Nueva Entrada
-              </Link>
-              <button
+              </PrimaryButton>
+              <SecondaryButton
                 className="blog-list-page__logout-btn"
                 onClick={handleLogout}
+                lightBg={true}
               >
                 <LogOut size={16} /> Cerrar sesión
-              </button>
+              </SecondaryButton>
             </div>
           </div>
 

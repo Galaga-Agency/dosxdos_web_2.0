@@ -23,6 +23,11 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [totalSlides, setTotalSlides] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const carouselContainerRef = useRef<HTMLDivElement>(null);
+  const ctaContainerRef = useRef<HTMLDivElement>(null);
 
   // Use device detection hook
   const { isMobile, isTablet, isDesktop } = useDeviceDetect();
@@ -30,88 +35,78 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
   // Calculate items per view based on device detection
   const itemsPerView = isMobile ? 1 : isTablet ? 2 : 3;
 
-  // Calculate total slides
+  // Calculate total slides immediately on render
   useEffect(() => {
-    setTotalSlides(Math.max(1, Math.ceil(posts.length / itemsPerView)));
+    if (posts.length > 0) {
+      setTotalSlides(Math.max(1, Math.ceil(posts.length / itemsPerView)));
+    }
   }, [posts, itemsPerView]);
 
-  // Direct animation approach without initFadeAnimations
+  // Animation setup
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    console.log("Blog Carousel Section mounted");
-
-    // Get references to elements we want to animate
-    const labelEl = sectionRef.current.querySelector(
-      ".blog-carousel-section__label"
-    );
-    const titleRowEls = sectionRef.current.querySelectorAll(".title-row");
-    const subtitleEl = sectionRef.current.querySelector(
-      ".blog-carousel-section__subtitle"
-    );
-    const carouselContainerEl = sectionRef.current.querySelector(
-      ".blog-carousel-section__carousel-container"
-    );
-    const ctaContainerEl = sectionRef.current.querySelector(
-      ".blog-carousel-section__cta-container"
-    );
+    console.log("Blog Carousel Section mounted with", posts.length, "posts");
 
     // Create a timeline for animations
     const tl = gsap.timeline();
 
-    // Label animation
-    if (labelEl) {
-      gsap.set(labelEl, { opacity: 0, y: 30 });
+    // Header animation
+    if (headerRef.current) {
+      gsap.set(headerRef.current, { opacity: 0, y: 20 });
       tl.to(
-        labelEl,
+        headerRef.current,
         { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
         0.2
       );
     }
 
-    // Title rows animation
-    if (titleRowEls.length) {
-      gsap.set(titleRowEls, { opacity: 0, y: 30 });
-      titleRowEls.forEach((row, index) => {
-        tl.to(
-          row,
-          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-          0.3 + index * 0.2
-        );
-      });
+    // Title animation - individual rows
+    if (titleRef.current) {
+      const titleRows = titleRef.current.querySelectorAll(".title-row");
+      if (titleRows.length) {
+        gsap.set(titleRows, { opacity: 0, y: 30 });
+        titleRows.forEach((row, index) => {
+          tl.to(
+            row,
+            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+            0.3 + index * 0.2
+          );
+        });
+      }
     }
 
     // Subtitle animation
-    if (subtitleEl) {
-      gsap.set(subtitleEl, { opacity: 0, x: -30 });
+    if (subtitleRef.current) {
+      gsap.set(subtitleRef.current, { opacity: 0, y: 30 });
       tl.to(
-        subtitleEl,
-        { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" },
+        subtitleRef.current,
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
         0.5
       );
     }
 
     // Carousel container animation
-    if (carouselContainerEl) {
-      gsap.set(carouselContainerEl, { opacity: 0, y: 40 });
+    if (carouselContainerRef.current) {
+      gsap.set(carouselContainerRef.current, { opacity: 0, y: 40 });
       tl.to(
-        carouselContainerEl,
+        carouselContainerRef.current,
         { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
         0.7
       );
     }
 
     // CTA container animation
-    if (ctaContainerEl) {
-      gsap.set(ctaContainerEl, { opacity: 0, y: 20 });
+    if (ctaContainerRef.current) {
+      gsap.set(ctaContainerRef.current, { opacity: 0, y: 20 });
       tl.to(
-        ctaContainerEl,
+        ctaContainerRef.current,
         { opacity: 1, y: 0, duration: 0.8, ease: "back.out(1.4)" },
         0.9
       );
     }
 
-    // Create ScrollTrigger with a lower start point to ensure it triggers
+    // Create ScrollTrigger
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
       animation: tl,
@@ -124,9 +119,9 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
       if (trigger) trigger.kill();
       if (tl) tl.kill();
     };
-  }, []);
+  }, [posts.length]);
 
-  // Update carousel position
+  // Update carousel position whenever current slide changes
   useEffect(() => {
     if (carouselRef.current) {
       const translateValue = -currentSlide * 100;
@@ -147,26 +142,36 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
     setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
   };
 
+  // Debugging check - if no posts, show message
+  if (posts.length === 0) {
+    return (
+      <div className="blog-carousel-section">No blog posts available.</div>
+    );
+  }
+
   return (
     <section ref={sectionRef} className="blog-carousel-section">
       <div className="blog-carousel-section__container">
-        <div className="blog-carousel-section__header">
+        <div ref={headerRef} className="blog-carousel-section__header">
           <div className="blog-carousel-section__label">
             <span>Nuestro Blog</span>
           </div>
 
-          <h2 className="blog-carousel-section__title">
+          <h2 ref={titleRef} className="blog-carousel-section__title">
             <div className="title-row">ESTRATEGIAS E IDEAS</div>
             <div className="title-row">PARA ESPACIOS COMERCIALES</div>
           </h2>
         </div>
 
-        <p className="blog-carousel-section__subtitle">
+        <p ref={subtitleRef} className="blog-carousel-section__subtitle">
           Descubre nuestras últimas publicaciones sobre diseño y tendencias en
           el sector de la <strong>cosmética y perfumería</strong>
         </p>
 
-        <div className="blog-carousel-section__carousel-container">
+        <div
+          ref={carouselContainerRef}
+          className="blog-carousel-section__carousel-container"
+        >
           <div className="blog-carousel-section__carousel-navigation">
             <button
               className="blog-carousel-section__nav-button blog-carousel-section__nav-button--prev"
@@ -221,7 +226,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
               {posts.map((post, index) => (
                 <div
                   className="blog-carousel-section__carousel-slide"
-                  key={post.id || index}
+                  key={post.id || `post-${index}`}
                 >
                   <BlogItem item={post} index={index} />
                 </div>
@@ -233,7 +238,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
             <div className="blog-carousel-section__carousel-dots">
               {Array.from({ length: totalSlides }).map((_, index) => (
                 <button
-                  key={index}
+                  key={`dot-${index}`}
                   className={`blog-carousel-section__dot ${
                     currentSlide === index ? "active" : ""
                   }`}
@@ -245,7 +250,10 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
           )}
         </div>
 
-        <div className="blog-carousel-section__cta-container">
+        <div
+          ref={ctaContainerRef}
+          className="blog-carousel-section__cta-container"
+        >
           <HoverCircleButton href="/blog" label="Ver Más Artículos" />
         </div>
       </div>

@@ -19,18 +19,19 @@
   }
 
   &__title {
-    @include font-size(4xl);
+    @include font-size(3xl);
     @include font-weight(extra-bold);
     color: $black;
     line-height: 1.1;
     max-width: none;
 
     @include min-width(md) {
-      @include font-size(6xl);
+      @include font-size(4xl);
     }
 
     @include min-width(lg) {
-      @include font-size(7xl);
+      @include font-size(5xl);
+      max-width: 60vw;
     }
 
     .highlight {
@@ -77,6 +78,7 @@
     @include min-width(lg) {
       @include flex(row, flex-end, space-between);
       gap: 5rem;
+      @include padding(2xl, right);
     }
 
     &-title {
