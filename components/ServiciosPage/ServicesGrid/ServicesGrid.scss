@@ -51,14 +51,6 @@
         @include font-size(hero-xl);
       }
 
-      @include min-width(xxl) {
-        @include font-size(hero-xxl);
-      }
-
-      @include min-width(xxxl) {
-        @include font-size(hero-xxxl);
-      }
-
       span {
         display: inline-block;
         pointer-events: none; // Prevent interaction with text

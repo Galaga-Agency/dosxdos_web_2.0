@@ -136,9 +136,6 @@ const ServiciosRecentProjects: React.FC = () => {
                 </div>
 
                 <div className="servicios-recent-projects__hover-info">
-                  <span className="servicios-recent-projects__label">
-                    {project.category}
-                  </span>
                   <span className="servicios-recent-projects__project-title">
                     {project.title}
                   </span>

@@ -9,98 +9,101 @@
   @include flex(row, center, center);
   @include padding(7xl, top);
   @include padding(4xl, bottom);
-
+  
   @include min-width(xl) {
     @include padding(10xl, top);
   }
-
+  
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
-
+    
     @include min-width(md) {
       @include container-width(tablet);
       overflow-x: visible;
     }
-
+    
     @include min-width(lg) {
       @include container-width(smalldesktop);
     }
-
+    
     @include min-width(xl) {
       @include container-width(desktop);
     }
   }
-
+  
   &__title {
-    @include font-size(hero-xs);
+    // Reduced title font sizes by 2 levels
+    @include font-size(5xl);
     line-height: 1;
     @include margin(lg, bottom);
     will-change: transform;
     visibility: hidden; // Will be made visible by animation
     white-space: normal; // Wrap text on mobile
-
+    
     @include min-width(sm) {
-      @include font-size(hero-sm);
+      @include font-size(6xl);
     }
-
+    
     @include min-width(md) {
-      @include font-size(hero-md);
+      @include font-size(7xl);
     }
-
+    
     @include min-width(lg) {
-      @include font-size(hero-lg);
+      @include font-size(8xl);
     }
-
+    
     @include min-width(xl) {
       white-space: nowrap;
-      @include font-size(hero-xl);
+      @include font-size(9xl);
     }
-
+    
     @include min-width(xxl) {
-      @include font-size(hero-xxl);
+      @include font-size(10xl);
     }
-
+    
     @include min-width(xxxl) {
-      @include font-size(hero-xxxl);
+      // Since hero-xxxl would be reduced by 2 levels, using a fixed size here
+      font-size: 180px;
     }
-
+    
     .experience {
       color: $black;
     }
-
+    
     .creatividad {
       color: rgba($black, 0.3);
-
+      
       @media (max-width: 767px) {
         display: block;
         @include margin(2xs, top);
       }
     }
   }
-
+  
   &__subtitle {
-    @include font-size(lg);
+    // Reduced subtitle font size by 2 levels
+    @include font-size(sm);
     color: rgba($black, 0.7);
     max-width: 40rem;
     visibility: hidden;
     @include margin(xl, bottom);
-
+    
     @include min-width(md) {
-      @include font-size(xl);
+      @include font-size(lg);
     }
-
+    
     @include min-width(lg) {
-      @include font-size(2xl);
+      @include font-size(xl);
       max-width: 50rem;
     }
   }
-
+  
   &__button-wrapper {
     display: inline-block;
     visibility: hidden;
   }
-
+  
   &__button {
     @include flex(row, center, center);
     @include gap(2xs);
@@ -110,14 +113,15 @@
     color: $black;
     text-decoration: none;
     @include transition(all, normal, ease);
-    @include font-size(xl);
-
+    // Reduced button font size by 2 levels
+    @include font-size(lg);
+    
     &:hover {
       background-color: $black;
       color: $white;
     }
   }
-
+  
   &__button-icon {
     @include z-index(above);
     @include margin(xs, top);
