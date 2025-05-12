@@ -233,7 +233,7 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
 
   // Horizontal scroll animation for tablets and above - with improved debugging
   if (window.innerWidth >= 1025) {
-    gsap.set(refs.title, { x: "0%" });
+    gsap.set(refs.title, { x: "30%" });
 
     // SECOND: Create the scroll animation timeline with more explicit configuration
     const tl = gsap.timeline({

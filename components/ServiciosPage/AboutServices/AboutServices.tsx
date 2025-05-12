@@ -49,23 +49,34 @@ const AboutServices: React.FC = () => {
 
         <div className="about-services__content">
           <div className="about-services__categories">
-            <div className="about-services__category fade_bottom">
-              Diseño de interiores
+            {/* Primera fila: Diseño de interiores y Producción */}
+            <div className="about-services__row">
+              <div className="about-services__category fade_bottom">
+                Diseño de interiores
+              </div>
+              <div className="about-services__category fade_bottom">
+                Producción
+              </div>
             </div>
-            <div className="about-services__category fade_bottom">
-              Producción
+
+            {/* Segunda fila: Instalación y Logística */}
+            <div className="about-services__row">
+              <div className="about-services__category fade_bottom">
+                Instalación
+              </div>
+              <div className="about-services__category fade_bottom">
+                logística
+              </div>
             </div>
-            <div className="about-services__category fade_bottom">
-              Instalación
-            </div>
-            <div className="about-services__category fade_bottom">
-              logística
-            </div>
-            <div className="about-services__category fade_bottom">
-              Comunicación
-            </div>
-            <div className="about-services__category fade_bottom">
-              Consultoría
+
+            {/* Tercera fila: Comunicación y Consultoría */}
+            <div className="about-services__row">
+              <div className="about-services__category fade_bottom">
+                Comunicación
+              </div>
+              <div className="about-services__category fade_bottom">
+                Consultoría
+              </div>
             </div>
           </div>
 

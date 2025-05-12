@@ -49,7 +49,7 @@ const ServiciosHero: React.FC = () => {
 
         <div ref={buttonRef} className="servicios-hero__button-wrapper">
           <Link href="/portfolio" className="servicios-hero__button">
-            <span className="servicios-hero__button-text">Ver Proyectos </span>
+            <span className="servicios-hero__button-text">Ver proyectos </span>
             <span className="servicios-hero__button-icon">
               <GoArrowUpRight />
             </span>

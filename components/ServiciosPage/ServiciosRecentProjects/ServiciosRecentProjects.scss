@@ -104,27 +104,26 @@
     @include min-width(md) {
       display: flex;
       grid-template-columns: none;
-      overflow-x: auto; // Enable horizontal scrolling
-      scroll-snap-type: x mandatory; // Add snap behavior
-      scroll-padding-left: 1.5rem; // Add padding for snap points
-      padding-left: 1.5rem; // Match padding
-      margin-right: -2rem; // Extend beyond container
-      -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-left: 1.5rem;
+      padding-left: 1.5rem;
+      margin-right: -2rem;
+      -webkit-overflow-scrolling: touch;
       gap: 1.5rem;
-
-      // Hide scrollbar for different browsers
-      scrollbar-width: none; // Firefox
-      -ms-overflow-style: none; // IE/Edge
+      
+      scrollbar-width: none;
+      -ms-overflow-style: none;
 
       &::-webkit-scrollbar {
-        display: none; // Chrome/Safari/Opera
+        display: none;
       }
     }
 
     @include min-width(lg) {
-      overflow-x: visible; // Disable scrolling on desktop
-      margin-right: 0; // Reset margin
-      padding-right: 0; // Reset padding
+      overflow-x: visible;
+      margin-right: 0;
+      padding-right: 0;
     }
   }
 
@@ -143,51 +142,7 @@
       flex: 0 0 auto;
       width: 400px;
       max-width: 400px;
-      scroll-snap-align: start; // Snap alignment
-    }
-
-    // Desktop hover animations
-    @media (hover: hover) and (min-width: 768px) {
-      &:hover .servicios-recent-projects__image {
-        transform: scale(1.05);
-      }
-
-      &:hover .servicios-recent-projects__hover-info {
-        opacity: 1;
-      }
-
-      &:hover .servicios-recent-projects__label {
-        transform: translateX(0);
-        opacity: 1;
-        transition-delay: 0.2s;
-      }
-
-      &:hover .servicios-recent-projects__project-title {
-        transform: translateX(0);
-        opacity: 1;
-        transition-delay: 0.1s;
-      }
-    }
-
-    // Mobile animations
-    @media (max-width: 767px) {
-      &.in-view {
-        .servicios-recent-projects__hover-info {
-          opacity: 1;
-        }
-
-        .servicios-recent-projects__label {
-          transform: translateX(0);
-          opacity: 1;
-          transition-delay: 0.1s;
-        }
-
-        .servicios-recent-projects__project-title {
-          transform: translateX(0);
-          opacity: 1;
-          transition-delay: 0.2s;
-        }
-      }
+      scroll-snap-align: start;
     }
   }
 
@@ -207,53 +162,56 @@
     bottom: 1rem;
     left: 1rem;
     @include flex(column, flex-start, flex-start);
-    gap: 0.5rem;
     color: $black;
     z-index: 2;
-
-    @media (hover: hover) and (min-width: 768px) {
-      opacity: 0;
-      transition: opacity 0.2s ease-in;
-    }
-
-    @media (max-width: 767px) {
-      opacity: 0;
-      transition: opacity 0.3s ease-in;
-    }
+    width: auto;
+    max-width: 90%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
   }
 
-  &__label,
   &__project-title {
     background-color: $white;
-    width: fit-content;
-    max-width: 90%;
-
-    @media (hover: hover) and (min-width: 768px) {
-      transform: translateX(-50px);
-      opacity: 0;
-      transition: transform 0.5s ease-out, opacity 0.2s ease-out;
-    }
-
-    @media (max-width: 767px) {
-      transform: translateX(-50px);
-      opacity: 0;
-      transition: transform 0.5s ease-out, opacity 0.3s ease-out;
-    }
-  }
-
-  &__label {
-    @include font-size(sm);
-    text-transform: uppercase;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.25rem;
-  }
-
-  &__project-title {
-    @include font-size(xl);
+    width: auto;
+    display: inline-block;
+    @include font-size(lg);
     @include font-weight(bold);
     line-height: 1.2;
-    padding: 1.5rem;
+    padding: 0.75rem 1rem;
+    transform: translateX(-50px);
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+  }
+
+  // Mobile animations first (mobile-first approach)
+  &__item.in-view {
+    .servicios-recent-projects__hover-info {
+      opacity: 1;
+    }
+
+    .servicios-recent-projects__project-title {
+      transform: translateX(0);
+      opacity: 1;
+      transition-delay: 0.2s;
+    }
+  }
+
+  // Then desktop hover effects
+  @media (hover: hover) and (min-width: 768px) {
+    &__item:hover {
+      .servicios-recent-projects__image {
+        transform: scale(1.05);
+      }
+
+      .servicios-recent-projects__hover-info {
+        opacity: 1;
+      }
+
+      .servicios-recent-projects__project-title {
+        transform: translateX(0);
+        opacity: 1;
+        transition-delay: 0.1s;
+      }
+    }
   }
 }
