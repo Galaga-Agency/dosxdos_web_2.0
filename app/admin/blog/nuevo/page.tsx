@@ -14,6 +14,7 @@ import RichTextEditor from "@/components/RichTextEditor/RichTextEditorWrapper";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
+import Footer from "@/components/layout/Footer/footer";
 
 export default function NewBlogPostPage() {
   const router = useRouter();
@@ -433,6 +434,7 @@ export default function NewBlogPostPage() {
               type="button"
               onClick={() => router.push("/admin/blog")}
               disabled={isSubmitting}
+              lightBg={true}
             >
               Cancelar
             </SecondaryButton>
@@ -445,6 +447,7 @@ export default function NewBlogPostPage() {
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

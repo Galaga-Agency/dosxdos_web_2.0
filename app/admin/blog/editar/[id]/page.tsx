@@ -20,6 +20,7 @@ import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import Loading from "@/components/ui/Loading/Loading";
+import Footer from "@/components/layout/Footer/footer";
 
 export default function EditBlogPostPage() {
   const router = useRouter();
@@ -534,7 +535,7 @@ export default function EditBlogPostPage() {
           <div className="form-group">
             <CustomCheckbox
               id="published"
-              label="Publicar inmediatamente"
+              label="Publicar inmediatamente (Si no marcas esta casilla, el artículo se guardará como borrador y no será visible en la página del blog hasta que lo publiques)"
               disabled={isSubmitting}
               {...register("published")}
             />
@@ -545,6 +546,7 @@ export default function EditBlogPostPage() {
               type="button"
               onClick={() => router.push("/admin/blog")}
               disabled={isSubmitting}
+              lightBg={true}
             >
               Cancelar
             </SecondaryButton>
@@ -557,6 +559,7 @@ export default function EditBlogPostPage() {
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

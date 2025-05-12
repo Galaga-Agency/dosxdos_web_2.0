@@ -335,9 +335,6 @@ export const setupBlogDetailHoverEffects = () => {
 export const initBlogDetailAnimations = (refs: BlogDetailAnimElements) => {
   if (typeof window === "undefined") return;
 
-  console.log("Initializing Blog Detail Page Animations");
-
-  // Run the main animations
   const timeline = animateBlogDetail(refs);
 
   // Setup hover effects after initial animations

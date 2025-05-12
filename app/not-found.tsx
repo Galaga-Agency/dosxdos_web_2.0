@@ -11,6 +11,7 @@ import {
   cleanupNotFoundAnimations,
 } from "@/utils/animations/not-found-anim";
 import "./not-found.scss";
+import Footer from "@/components/layout/Footer/footer";
 
 const NotFound = () => {
   const router = useRouter();
@@ -77,6 +78,7 @@ const NotFound = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

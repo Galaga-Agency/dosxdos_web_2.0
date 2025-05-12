@@ -18,6 +18,7 @@ import usePagination from "@/hooks/usePagination";
 import { formatDate } from "@/utils/formatting/dateFormatting";
 import { BlogPost } from "@/types/blog-post-types";
 import Loading from "@/components/ui/Loading/Loading";
+import Footer from "@/components/layout/Footer/footer";
 
 // This section appears at the top level in your other pages
 // Register GSAP plugins if needed (this should be consistent across all pages)
@@ -238,6 +239,7 @@ const BlogPage: React.FC = () => {
           </div>
         )}
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };

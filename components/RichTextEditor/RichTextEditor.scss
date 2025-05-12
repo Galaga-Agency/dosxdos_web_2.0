@@ -20,8 +20,8 @@
   }
 
   &:focus-within {
-    border-color: $primary-color;
-    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    border-color: $black;
+    box-shadow: 0 0 0 2px rgba($black, 0.2);
   }
 }
 
@@ -66,8 +66,8 @@
     }
 
     &.active {
-      background-color: rgba($primary-color, 0.1);
-      color: $primary-color;
+      background-color: rgba($black, 0.1);
+      color: $black;
     }
 
     &:disabled {
@@ -251,8 +251,8 @@
 
       &:focus {
         outline: none;
-        border-color: $primary-color;
-        box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+        border-color: $black;
+        box-shadow: 0 0 0 2px rgba($black, 0.2);
       }
     }
   }
@@ -271,11 +271,11 @@
       transition: all 0.2s ease;
 
       &.link-insert-button {
-        background-color: $primary-color;
+        background-color: $black;
         color: $white;
 
         &:hover {
-          background-color: darken($primary-color, 10%);
+          background-color: darken($black, 10%);
         }
       }
 
@@ -289,11 +289,11 @@
       }
 
       &.link-remove-button {
-        background-color: $primary-color;
+        background-color: $black;
         color: $white;
 
         &:hover {
-          background-color: darken($primary-color, 10%);
+          background-color: darken($black, 10%);
         }
       }
     }
@@ -382,7 +382,7 @@
   padding-left: 1.25rem;
   padding-right: 1rem;
   margin-left: 1rem;
-  border-left: 4px solid $primary-color;
+  border-left: 4px solid $black;
   color: rgba($black, 0.7);
   font-style: italic;
   @include font-size(lg);
@@ -414,7 +414,7 @@
   cursor: pointer;
 
   &:hover {
-    color: darken($primary-color, 10%);
+    color: darken($black, 10%);
   }
 }
 
@@ -487,8 +487,8 @@
 
         &:focus {
           outline: none;
-          border-color: $primary-color;
-          box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+          border-color: $black;
+          box-shadow: 0 0 0 2px rgba($black, 0.2);
         }
       }
 

@@ -1,29 +1,32 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PlusCircle, LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { BlogPost } from "@/types/blog-post-types";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import "./blog-list.scss";
 import AdminBlogCard from "@/components/AdminBlogCard/AdminBlogCard";
 import { deletePost, getAllPosts } from "@/lib/blog-service";
 import Loading from "@/components/ui/Loading/Loading";
 import Pagination from "@/components/ui/Pagination/Pagination";
-import usePagination from "@/hooks/usePagination";
 import Modal from "@/components/ui/Modal/Modal";
 import { AlertTriangle } from "lucide-react";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
+import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
+import Footer from "@/components/layout/Footer/footer";
 
 function BlogListPage() {
+  // State
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<{
     id: string;
@@ -33,6 +36,7 @@ function BlogListPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
 
+  // Refs
   const headerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const actionsRef = useRef<HTMLDivElement>(null);
@@ -42,21 +46,18 @@ function BlogListPage() {
 
   const isAuthenticated = status === "authenticated";
 
-  // Set up pagination (6 posts per page like in the blog page)
-  const { currentItems, handlePageClick, pageCount, currentPage } =
-    usePagination({
-      items: posts,
-      itemsPerPage: 6,
-    });
+  // Direct calculation without hooks
+  const itemsPerPage = 6;
+  const pageCount = Math.ceil(posts.length / itemsPerPage);
+  const startIndex = currentPage * itemsPerPage;
+  const currentItems = posts.slice(startIndex, startIndex + itemsPerPage);
 
-  // Fetch posts with 3-second minimum loading time
+  // Fetch posts
   useEffect(() => {
     if (isAuthenticated) {
       getAllPosts()
         .then((fetchedPosts) => {
           setPosts(fetchedPosts);
-
-          // Set a minimum loading time of 3 seconds
           setTimeout(() => {
             setLoading(false);
           }, 3000);
@@ -69,24 +70,58 @@ function BlogListPage() {
     }
   }, [isAuthenticated]);
 
-  // Header GSAP animation
+  // Initialize ScrollTrigger
   useEffect(() => {
+    initScrollTriggerConfig();
+    return () => {
+      // Clean up GSAP animations
+      gsap.killTweensOf(".blog-list-page, .blog-list-page *");
+    };
+  }, []);
+
+  // Handle page change
+  const handlePageClick = (pageNumber: number) => {
+    // Pause ScrollSmoother
+    if ((window as any).__smoother__) {
+      (window as any).__smoother__.paused(true);
+    }
+
+    // Update state
+    setCurrentPage(pageNumber);
+
+    // Scroll to top
+    window.scrollTo(0, 0);
+
+    // Resume ScrollSmoother after a delay
+    setTimeout(() => {
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.paused(false);
+      }
+    }, 100);
+  };
+
+  // Animate header - using useLayoutEffect to prevent flickering
+  useLayoutEffect(() => {
+    if (loading || !headerRef.current) return;
+
     const tl = gsap.timeline();
 
-    if (headerRef.current && titleRef.current && actionsRef.current) {
-      tl.fromTo(
-        headerRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: "power3.out" }
-      );
+    tl.fromTo(
+      headerRef.current,
+      { opacity: 0, y: -20 },
+      { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: "power3.out" }
+    );
 
+    if (titleRef.current) {
       tl.fromTo(
         titleRef.current,
         { opacity: 0, x: -20 },
         { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" },
         "-=0.6"
       );
+    }
 
+    if (actionsRef.current) {
       tl.fromTo(
         actionsRef.current,
         { opacity: 0, x: 20 },
@@ -94,45 +129,41 @@ function BlogListPage() {
         "-=0.6"
       );
     }
-  }, []);
+  }, [loading]);
 
-  // Animate posts or empty state
-  useEffect(() => {
+  // Animate content - using useLayoutEffect to prevent flickering
+  useLayoutEffect(() => {
     if (loading) return;
 
-    // Small delay to ensure DOM is ready
-    const timer = setTimeout(() => {
+    // Short delay to ensure DOM is ready
+    setTimeout(() => {
+      // Empty state animation
       if (posts.length === 0 && emptyStateRef.current) {
         gsap.fromTo(
           emptyStateRef.current,
           { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            onComplete: () => setHasAnimated(true),
-          }
+          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
         );
-      } else if (posts.length > 0 && postsContainerRef.current) {
+      }
+      // Posts animation
+      else if (posts.length > 0 && postsContainerRef.current) {
         const cards = gsap.utils.toArray(
           postsContainerRef.current.querySelectorAll(".blog-post-card")
         );
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 30 },
-          {
+
+        if (cards.length > 0) {
+          gsap.set(cards, { opacity: 0, y: 30 });
+          gsap.to(cards, {
             opacity: 1,
             y: 0,
             duration: 0.6,
             stagger: 0.1,
             ease: "power3.out",
-            onComplete: () => setHasAnimated(true),
-          }
-        );
+          });
+        }
 
         // Animate pagination if it exists
-        if (paginationRef.current && posts.length > 6) {
+        if (paginationRef.current && posts.length > itemsPerPage) {
           gsap.fromTo(
             paginationRef.current,
             { opacity: 0, y: 20 },
@@ -145,13 +176,9 @@ function BlogListPage() {
             }
           );
         }
-      } else {
-        setHasAnimated(true);
       }
     }, 50);
-
-    return () => clearTimeout(timer);
-  }, [loading, posts]);
+  }, [loading, currentPage, posts.length]);
 
   // Open delete confirmation modal
   const openDeleteModal = (id: string) => {
@@ -165,16 +192,12 @@ function BlogListPage() {
     }
   };
 
-  // Replace the confirmDelete function in your BlogListPage component with this:
-
+  // Handle post deletion
   const confirmDelete = async () => {
     if (!postToDelete) return;
 
     try {
-      // First close the modal
       setIsDeleteModalOpen(false);
-
-      // Then perform the deletion
       await deletePost(postToDelete.id);
 
       const postElement = document.querySelector(
@@ -188,7 +211,6 @@ function BlogListPage() {
           duration: 0.5,
           ease: "power3.out",
           onComplete: () => {
-            // Update the state after the animation
             setPosts((prevPosts) =>
               prevPosts.filter((post) => post.id !== postToDelete.id)
             );
@@ -196,7 +218,6 @@ function BlogListPage() {
           },
         });
       } else {
-        // If we can't find the element, just update the state
         setPosts((prevPosts) =>
           prevPosts.filter((post) => post.id !== postToDelete.id)
         );
@@ -228,103 +249,107 @@ function BlogListPage() {
 
   return (
     <ProtectedRoute>
-      <div className="blog-list-page">
-        <div className="blog-list-page__container">
-          <div className="blog-list-page__header" ref={headerRef}>
-            <h1 ref={titleRef}>Panel de Administración</h1>
-            <div className="blog-list-page__actions" ref={actionsRef}>
-              <PrimaryButton
-                href="/admin/blog/nuevo"
-                className="blog-list-page__new-btn"
-              >
-                <PlusCircle size={16} /> Nueva Entrada
-              </PrimaryButton>
-              <SecondaryButton
-                className="blog-list-page__logout-btn"
-                onClick={handleLogout}
-                lightBg={true}
-              >
-                <LogOut size={16} /> Cerrar sesión
-              </SecondaryButton>
-            </div>
-          </div>
-
-          <div className="blog-list-page__content-area">
-            {loading ? (
-              <div className="blog-list-page__loader">
-                <Loading />
+      <SmoothScrollWrapper>
+        <div className="blog-list-page">
+          <div className="blog-list-page__container">
+            <div className="blog-list-page__header" ref={headerRef}>
+              <h1 ref={titleRef}>Panel de Administración</h1>
+              <div className="blog-list-page__actions" ref={actionsRef}>
+                <PrimaryButton
+                  href="/admin/blog/nuevo"
+                  className="blog-list-page__new-btn"
+                >
+                  <PlusCircle size={16} /> Nueva Entrada
+                </PrimaryButton>
+                <SecondaryButton
+                  className="blog-list-page__logout-btn"
+                  onClick={handleLogout}
+                  lightBg={true}
+                >
+                  <LogOut size={16} /> Cerrar sesión
+                </SecondaryButton>
               </div>
-            ) : (
-              <div className="blog-list-page__posts">
-                {posts.length > 0 ? (
-                  <>
-                    <div
-                      className="blog-list-page__posts-grid"
-                      ref={postsContainerRef}
-                    >
-                      {currentItems.map((post, index) => (
+            </div>
+
+            <div className="blog-list-page__content-area">
+              {loading ? (
+                <div className="blog-list-page__loader">
+                  <Loading />
+                </div>
+              ) : (
+                <div className="blog-list-page__posts">
+                  {posts.length > 0 ? (
+                    <>
+                      <div
+                        className="blog-list-page__posts-grid"
+                        ref={postsContainerRef}
+                        key={`posts-grid-${currentPage}`}
+                      >
+                        {currentItems.map((post, index) => (
+                          <div
+                            key={`${
+                              post.id || post.slug || index
+                            }-page${currentPage}`}
+                            className="blog-post-card"
+                            data-id={post.id}
+                            data-slug={post.slug}
+                          >
+                            <AdminBlogCard
+                              post={post}
+                              onDelete={openDeleteModal}
+                              index={index}
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      {pageCount > 1 && (
                         <div
-                          key={post.slug || post.id || index}
-                          className="blog-post-card"
-                          data-id={post.id}
-                          data-slug={post.slug}
+                          className="blog-list-page__pagination"
+                          ref={paginationRef}
                         >
-                          <AdminBlogCard
-                            post={post}
-                            onDelete={openDeleteModal}
-                            index={index}
+                          <Pagination
+                            handlePageClick={handlePageClick}
+                            pageCount={pageCount}
+                            currentPage={currentPage}
                           />
                         </div>
-                      ))}
-                    </div>
-
-                    {/* Add pagination if there are more than 6 posts */}
-                    {posts.length > 6 && (
-                      <div
-                        className="blog-list-page__pagination"
-                        ref={paginationRef}
+                      )}
+                    </>
+                  ) : (
+                    <div className="blog-list-page__empty" ref={emptyStateRef}>
+                      <p>No hay entradas de blog disponibles.</p>
+                      <Link
+                        href="/admin/blog/nuevo"
+                        className="blog-list-page__new-btn"
                       >
-                        <Pagination
-                          handlePageClick={handlePageClick as any}
-                          pageCount={pageCount}
-                          currentPage={currentPage}
-                        />
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div className="blog-list-page__empty" ref={emptyStateRef}>
-                    <p>No hay entradas de blog disponibles.</p>
-                    <Link
-                      href="/admin/blog/nuevo"
-                      className="blog-list-page__new-btn"
-                    >
-                      <PlusCircle size={16} /> Crear primera entrada
-                    </Link>
-                  </div>
-                )}
-              </div>
-            )}
+                        <PlusCircle size={16} /> Crear primera entrada
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Delete Confirmation Modal */}
-      <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={confirmDelete}
-        confirmText="Eliminar"
-        cancelText="Cancelar"
-        size="small"
-        title="Confirmar eliminación"
-        icon={<AlertTriangle size={40} />}
-        centered
-      >
-        <p>¿Estás seguro de que quieres eliminar este artículo?</p>
-        <strong>{postToDelete?.title || "esta entrada"}</strong>
-        <p className="delete-warning">Esta acción no se puede deshacer.</p>
-      </Modal>
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={confirmDelete}
+          confirmText="Eliminar"
+          cancelText="Cancelar"
+          size="small"
+          title="Confirmar eliminación"
+          icon={<AlertTriangle size={40} />}
+          centered
+        >
+          <p>¿Estás seguro de que quieres eliminar este artículo?</p>
+          <strong>{postToDelete?.title || "esta entrada"}</strong>
+          <p className="delete-warning">Esta acción no se puede deshacer.</p>
+        </Modal>
+        <Footer />
+      </SmoothScrollWrapper>
     </ProtectedRoute>
   );
 }

@@ -212,11 +212,10 @@ const Menu: React.FC = () => {
           </ul>
         </nav>
 
-        {/* Admin Badge - Only show when authenticated */}
-        {isAuthenticated && <AdminBadge className="menu__admin-badge" />}
-
         {/* Actions Area */}
         <div className="menu__actions">
+          {/* Admin Badge - Only show when authenticated */}
+          {isAuthenticated && <AdminBadge className="menu__admin-badge" />}
           {/* CTA Button */}
           <SecondaryButton
             href={ctaButton.href}
@@ -225,12 +224,10 @@ const Menu: React.FC = () => {
           >
             {ctaButton.label}
           </SecondaryButton>
-
           {/* Desktop Social Icons */}
           <div className="menu__social-desktop">
             <SocialIcons iconSize="small" color="white" />
           </div>
-
           {/* Mobile Hamburger */}
           <div className="menu__hamburger-wrapper" onClick={toggleMobileMenu}>
             <HamburgerIcon isActive={isMobileOpen} />

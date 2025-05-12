@@ -11,6 +11,7 @@ import {
 } from "@/utils/animations/pages/portfolio-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import "./portfolio-page.scss";
+import Footer from "@/components/layout/Footer/footer";
 
 const PortfolioPage: React.FC = () => {
   const [activeProject, setActiveProject] = useState<string | null>(null);
@@ -170,6 +171,7 @@ const PortfolioPage: React.FC = () => {
           </a>
         </div>
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 };
