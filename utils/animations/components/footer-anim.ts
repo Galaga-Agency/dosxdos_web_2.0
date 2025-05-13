@@ -1,7 +1,7 @@
 "use client";
 
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -32,8 +32,16 @@ export const initFooterAnimations = (elements: FooterElements) => {
   // Mark that animations have been triggered
   (footer as any)._footerAnimationTriggered = true;
 
-  // Clean up existing ScrollTrigger instances
-  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  // Clean up existing ScrollTrigger instances for footer
+  ScrollTrigger.getAll().forEach((trigger: any) => {
+    if (
+      trigger.vars &&
+      trigger.vars.trigger &&
+      (trigger.vars.trigger === footer || footer.contains(trigger.vars.trigger))
+    ) {
+      trigger.kill();
+    }
+  });
 
   // Media query for responsive design
   const mobileQuery = window.matchMedia("(max-width: 768px)");
@@ -52,50 +60,92 @@ export const initFooterAnimations = (elements: FooterElements) => {
     setupScrollBasedShapeMovement(bgShape, footer);
   }
 
+  // Ensure contact links are visible even if the animations don't trigger
+  ensureContactLinksVisibility();
+
   // Refresh ScrollTrigger
-  ScrollTrigger.refresh();
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 100);
 
   // Return a cleanup function
   return () => {
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    gsap.killTweensOf("*");
+    // Clean up ScrollTrigger instances
+    ScrollTrigger.getAll().forEach((trigger: any) => {
+      if (
+        trigger.vars &&
+        trigger.vars.trigger &&
+        (trigger.vars.trigger === footer ||
+          footer.contains(trigger.vars.trigger))
+      ) {
+        trigger.kill();
+      }
+    });
+
+    // Kill all tweens affecting footer elements
+    gsap.killTweensOf(footer);
+    gsap.killTweensOf(brand);
+    gsap.killTweensOf(contact);
+    gsap.killTweensOf(contact.querySelectorAll("a"));
+    gsap.killTweensOf(nav);
+    gsap.killTweensOf(cta);
+    gsap.killTweensOf(bottom);
+
+    // Remove event listener
     mobileQuery.removeEventListener("change", handleResize);
+
+    // Clean up link effects
     cleanupLinkEffects();
+
+    // Ensure contact links are visible after cleanup
+    ensureContactLinksVisibility();
   };
+
+  // Ensure contact links are always visible
+  function ensureContactLinksVisibility() {
+    const contactLinks = contact ? contact.querySelectorAll("a") : [];
+    contactLinks.forEach((link) => {
+      gsap.set(link, { clearProps: "all" });
+      link.style.opacity = "1";
+      link.style.transform = "none";
+    });
+  }
 
   // Setup animations based on screen size
   function setupAnimations(isMobile: boolean) {
-    // Clean up existing ScrollTrigger instances first
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
     // Configuration variables
     const duration = isMobile ? 0.4 : 0.5; // Faster animations
     const stagger = isMobile ? 0.05 : 0.07;
     const yOffset = isMobile ? 25 : 40;
     const ease = "power3.out";
 
-    // Create main entrance timeline
-    const timeline = gsap.timeline({
+    // Create main entrance timeline with staggered animations
+    const timeline: any = gsap.timeline({
       scrollTrigger: {
         trigger: footer,
         start: isMobile ? "top bottom-=50" : "top bottom-=150",
-        toggleActions: "play none none none", // Prevent re-triggering
+        once: true, // Only play once
+        onEnter: () => {
+          console.log("Footer animation triggered");
+        },
       },
     });
 
-    // Enhanced entrance animations
-    timeline
-      // Brand animation
-      .from(brand, {
-        y: yOffset,
-        opacity: 0,
-        scale: 0.95,
-        duration,
-        ease,
-      })
-      // Contact links
-      .from(
-        contact?.querySelectorAll("a") || [],
+    // Brand animation
+    timeline.from(brand, {
+      y: yOffset,
+      opacity: 0,
+      scale: 0.95,
+      duration,
+      ease,
+      onComplete: () => { void gsap.set(brand, { clearProps: "all" }); },
+    });
+
+    // Contact links - make sure to handle each link individually
+    const contactLinks = contact ? contact.querySelectorAll("a") : [];
+    if (contactLinks.length > 0) {
+      timeline.from(
+        contactLinks,
         {
           y: yOffset / 2,
           opacity: 0,
@@ -103,44 +153,60 @@ export const initFooterAnimations = (elements: FooterElements) => {
           duration: duration - 0.1,
           ease,
           x: -10,
-        },
-        "-=0.2"
-      )
-      // Nav columns
-      .from(
-        nav?.querySelectorAll(".footer__nav-column") || [],
-        {
-          y: yOffset,
-          opacity: 0,
-          stagger: stagger,
-          duration,
-          ease,
-          x: 10,
-        },
-        "-=0.3"
-      )
-      // CTA section
-      .from(
-        cta,
-        {
-          y: yOffset * 1.5,
-          opacity: 0,
-          duration: duration + 0.1,
-          ease: "back.out(1.7)",
-        },
-        "-=0.3"
-      )
-      // Bottom section
-      .from(
-        bottom,
-        {
-          y: yOffset / 2,
-          opacity: 0,
-          duration,
-          ease,
+          onComplete: () => {
+            // Set final state explicitly
+            contactLinks.forEach((link) => {
+              gsap.set(link, { clearProps: "all" });
+              link.style.opacity = "1";
+              link.style.transform = "none";
+            });
+          },
         },
         "-=0.2"
       );
+    }
+
+    // Nav columns
+    const navColumns = nav ? nav.querySelectorAll(".footer__nav-column") : [];
+    timeline.from(
+      navColumns,
+      {
+        y: yOffset,
+        opacity: 0,
+        stagger: stagger,
+        duration,
+        ease,
+        x: 10,
+        onComplete: () => gsap.set(navColumns, { clearProps: "all" }),
+      },
+      "-=0.3"
+    );
+
+    // CTA section
+    timeline.from(
+      cta,
+      {
+        y: yOffset * 1.5,
+        opacity: 0,
+        duration: duration + 0.1,
+        ease: "back.out(1.7)",
+        onComplete: () => gsap.set(cta, { clearProps: "all" }),
+      },
+      "-=0.3"
+    );
+
+    // Bottom section
+    timeline.from(
+      bottom,
+      {
+        y: yOffset / 2,
+        opacity: 0,
+        duration,
+        ease,
+        onComplete: () => gsap.set(bottom, { clearProps: "all" }),
+      },
+      "-=0.2"
+    );
 
     // CTA button animation
     const ctaButton = cta?.querySelector(".footer__cta-button");

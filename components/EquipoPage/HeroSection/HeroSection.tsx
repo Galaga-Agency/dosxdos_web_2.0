@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import { animateHeroSection } from "@/utils/animations/pages/equipo-page-anim";
 import "./HeroSection.scss";
@@ -23,12 +23,12 @@ const HeroSection: React.FC = () => {
   const floatingImage1Ref = useRef<HTMLDivElement>(null);
   const floatingImage2Ref = useRef<HTMLDivElement>(null);
   const floatingImage3Ref = useRef<HTMLDivElement>(null);
-
+ 
   const floatingImageInner1Ref = useRef<HTMLDivElement>(null);
   const floatingImageInner2Ref = useRef<HTMLDivElement>(null);
   const floatingImageInner3Ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const timer = setTimeout(() => {
       animateHeroSection({
         section: heroImageContainerRef.current,

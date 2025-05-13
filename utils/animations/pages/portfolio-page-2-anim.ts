@@ -25,7 +25,6 @@ export function initBentoRevealForTouchDevices(
 ): void {
   if (!gridEl) return;
 
-  console.log("Initializing bento reveal for touch devices");
   const items = gridEl.querySelectorAll(".portfolio-bento__item");
 
   items.forEach((item) => {
@@ -167,7 +166,7 @@ export function initPortfolioPage2Animations(
   // Title animation with SplitText if it has class char-animation
   if (refs.title && refs.title.classList.contains("char-animation")) {
     setTimeout(() => {
-      const splitText = new SplitText(refs.title, {
+      const splitText = new SplitText(refs.title as any, {
         type: "chars, words",
       });
 
@@ -317,7 +316,7 @@ export function initPortfolioPage2Animations(
         // Animate title with character animation if it has the char-animation class
         if (refs.ctaText && refs.ctaText.classList.contains("char-animation")) {
           setTimeout(() => {
-            const splitText = new SplitText(refs.ctaText, {
+            const splitText = new SplitText(refs.ctaText as any, {
               type: "chars, words",
             });
 

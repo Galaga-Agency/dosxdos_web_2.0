@@ -7,7 +7,6 @@ import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { gsap } from "gsap";
-import { animateLogoMarquee } from "@/utils/animations/pages/homepage-anim";
 
 // Register plugins
 if (typeof window !== "undefined") {
@@ -28,34 +27,6 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const marqueeWrapperRef = useRef<HTMLDivElement>(null);
-
-  // Initialize animation
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    // Animation for marquee
-    const animInstance = animateLogoMarquee({
-      section: sectionRef.current,
-      header: headerRef.current || undefined,
-      marquee: marqueeWrapperRef.current || undefined,
-    });
-
-    // Refresh ScrollTrigger
-    const refreshTimer = setTimeout(() => {
-      if ((window as any).__smoother__) {
-        (window as any).__smoother__.refresh();
-      }
-      ScrollTrigger.refresh();
-    }, 300);
-
-    // Cleanup
-    return () => {
-      clearTimeout(refreshTimer);
-      if (animInstance) {
-        animInstance.kill();
-      }
-    };
-  }, []);
 
   const sectionClasses = `logo-marquee ${
     fullWidth ? "logo-marquee--full-width" : ""

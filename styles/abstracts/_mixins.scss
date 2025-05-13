@@ -1,5 +1,5 @@
 // These mixins are sort of functions I use to map through the sort of variable arrays I have in _variables.scss
-// For example, without mixin, for font-size, I would need to write font-size: map-get($font-size, 2xl); 
+// For example, without mixin, for font-size, I would need to write font-size: map-get($font-size, 2xl);
 // but with mixin, I can just write @include font-size(2xl);, which is much easier to read and write
 // Some other mixins are for redundant CSS code I wanted to avoid, such as flex, flex-direction etc which tend to always come together
 
@@ -74,29 +74,28 @@
 // Usage: @include section-spacing;
 // -----------------------------------------------------------------------------
 @mixin section-spacing {
-  // Mobile spacing
-  padding-top: map-get($spacing, 'xl');
-  padding-bottom: map-get($spacing, 'xl');
-  
-  // Tablet spacing
+  // Mobile spacing (reduced from xl to lg)
+  padding-top: map-get($spacing, "lg");
+  padding-bottom: map-get($spacing, "lg");
+
+  // Tablet spacing (reduced from 3xl to 2xl)
   @include min-width(md) {
-    padding-top: map-get($spacing, '3xl');
-    padding-bottom: map-get($spacing, '3xl');
+    padding-top: map-get($spacing, "2xl");
+    padding-bottom: map-get($spacing, "2xl");
   }
-  
-  // Small desktop spacing
+
+  // Small desktop spacing (reduced from 4xl to 3xl)
   @include min-width(lg) {
-    padding-top: map-get($spacing, '4xl');
-    padding-bottom: map-get($spacing, '4xl');
+    padding-top: map-get($spacing, "3xl");
+    padding-bottom: map-get($spacing, "3xl");
   }
-  
-  // Large desktop spacing
+
+  // Large desktop spacing (reduced from 5xl to 4xl)
   @include min-width(xl) {
-    padding-top: map-get($spacing, '5xl');
-    padding-bottom: map-get($spacing, '5xl');
+    padding-top: map-get($spacing, "4xl");
+    padding-bottom: map-get($spacing, "4xl");
   }
 }
-
 
 // -----------------------------------------------------------------------------
 // Container width
@@ -240,8 +239,8 @@
 // Usage: @include component-container;
 // -----------------------------------------------------------------------------
 @mixin component-container {
-  padding: map-get($component, 'padding-y') map-get($component, 'padding-x');
-  margin-bottom: map-get($component, 'margin-bottom');
+  padding: map-get($component, "padding-y") map-get($component, "padding-x");
+  margin-bottom: map-get($component, "margin-bottom");
 }
 
 // -----------------------------------------------------------------------------

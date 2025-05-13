@@ -3,7 +3,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
-import { isMobile, isTouchDevice } from "@/utils/device";
+import { isTouchDevice } from "@/utils/device";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -45,15 +45,15 @@ interface SectionAnimationElements {
   services?: HTMLElement | null;
 }
 
-// Common fade animation setup
+// Common fade animation setup - ENHANCED VERSION
 function setupFadeAnimation(
   selector: string,
   initialProps: gsap.TweenVars,
   animProps: gsap.TweenVars,
   startPosition: string = "top center+=100"
-): void {
+) {
   const elements = document.querySelectorAll(selector);
-  if (elements.length === 0) return;
+  if (elements.length === 0.0) return;
 
   gsap.set(selector, initialProps);
   const elementsArray = gsap.utils.toArray(selector);
@@ -64,52 +64,55 @@ function setupFadeAnimation(
         ScrollTrigger.create({
           trigger: item,
           start: startPosition,
+          once: true,
+          // Añadimos markers para debug (quitar en producción)
+          // markers: true,
         })
       ),
     });
 
-    tl.to(item, { ...animProps, ease: "power2.out" });
+    // Añadimos un efecto de escala para hacerlo más visible
+    tl.to(item, {
+      ...animProps,
+      // Cambiamos el ease a algo más dramático
+      ease: "back.out(1.7)",
+      // Reducimos la duración para que sea más rápido e impactante
+      duration: animProps.duration || 1.2,
+    });
   });
 }
 
 export function initFadeAnimations(): void {
   if (typeof window === "undefined") return;
 
-  console.log("Initializing fade animations");
-
-  // Fade Bottom animations
+  // Fade Bottom animations - más acentuadas
   setupFadeAnimation(
     ".fade_bottom",
-    { y: 100, opacity: 0 },
-    { y: 0, opacity: 1, duration: 1.5 },
-    "top center+=400"
+    { y: 70, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
+    { y: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.2 }, // Menor delay y duración
+    "top center+=200" // Trigger más temprano
   );
 
-  // Fade Top animations
+  // Fade Top animations - más acentuadas
   setupFadeAnimation(
     ".fade_top",
-    { y: -100, opacity: 0 },
-    { y: 0, opacity: 1, duration: 2.5 }
+    { y: -70, opacity: 0, scale: 0.95 },
+    { y: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
-  // Fade Left animations
+  // Fade Left animations - más acentuadas
   setupFadeAnimation(
-    ".fade_bottom",
-    { x: -100, opacity: 0 },
-    { x: 0, opacity: 1, duration: 2.5 }
+    ".fade_left",
+    { x: -70, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
-  // Fade Right animations
+  // Fade Right animations - más acentuadas
   setupFadeAnimation(
     ".fade_right",
-    { x: 100, opacity: 0 },
-    { x: 0, opacity: 1, duration: 2.5 }
+    { x: 70, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
-
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    refreshScrollTrigger();
-  }, 100);
 }
 
 // ==========================================================================
@@ -479,7 +482,7 @@ export function initImageParallax(
     start: "top bottom",
     end: "bottom top",
     scrub: 3, // Much higher scrub value for ultra-smooth movement
-    onUpdate: (self) => {
+    onUpdate: (self: any) => {
       // Update proxy value
       gsap.to(proxy, {
         progress: self.progress,
@@ -520,7 +523,7 @@ export function cleanupAccionSocialAnimations(): void {
   console.log("⚠️ Cleaning up all accion social page animations");
 
   // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach((trigger) => {
+  ScrollTrigger.getAll().forEach((trigger: any) => {
     trigger.kill();
   });
 

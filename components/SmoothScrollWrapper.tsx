@@ -2,7 +2,6 @@
 
 import React, { useEffect, ReactNode, useState } from "react";
 import LoadingManager from "@/utils/loading";
-import Footer from "./layout/Footer/footer";
 import {
   initScrollTriggerConfig,
   cleanupScrollTriggers,
@@ -84,34 +83,65 @@ export default function SmoothScrollWrapper({
             (window as any).__smoother__ = null;
           }
 
-          // Create new smoother with improved configuration
-          smoother = ScrollSmoother.create({
-            smooth: 2,
-            effects: true,
-            ignoreMobileResize: true,
-            normalizeScroll: true, // Add this to fix footer issues
-            paused: false,
-          });
+          // Create new smoother with fixed configuration
+          try {
+            smoother = ScrollSmoother.create({
+              wrapper: "#smooth-wrapper",
+              content: "#smooth-content",
+              smooth: 2,
+              effects: true,
+              ignoreMobileResize: true,
+              normalizeScroll: false, // Change to false to fix scrollFuncX error
+              paused: false,
+            });
 
-          (window as any).__smoother__ = smoother;
-          console.log("Created new ScrollSmoother");
+            (window as any).__smoother__ = smoother;
+            console.log("Created new ScrollSmoother");
 
-          LoadingManager.smootherInitialized();
+            LoadingManager.smootherInitialized();
 
-          if (LoadingManager.isLoading) {
-            smoother.paused(true);
-          }
-
-          // Important: Refresh ScrollTrigger to coordinate with ScrollSmoother
-          refreshScrollTrigger();
-
-          // Add another refresh after a delay to ensure content height is calculated correctly
-          setTimeout(() => {
-            if (smoother) {
-              smoother.refresh();
+            if (LoadingManager.isLoading) {
+              smoother.paused(true);
             }
-            ScrollTrigger.refresh();
-          }, 500);
+
+            // Important: Refresh ScrollTrigger to coordinate with ScrollSmoother
+            refreshScrollTrigger();
+
+            // Add another refresh after a delay to ensure content height is calculated correctly
+            setTimeout(() => {
+              if (smoother) {
+                smoother.refresh();
+              }
+              ScrollTrigger.refresh();
+            }, 500);
+          } catch (error) {
+            console.error("Error creating ScrollSmoother:", error);
+            // Fallback - try without normalizeScroll
+            if (!smoother) {
+              try {
+                smoother = ScrollSmoother.create({
+                  wrapper: "#smooth-wrapper",
+                  content: "#smooth-content",
+                  smooth: 2,
+                  effects: true,
+                  ignoreMobileResize: true,
+                  normalizeScroll: false,
+                  paused: false,
+                });
+
+                (window as any).__smoother__ = smoother;
+                console.log("Created fallback ScrollSmoother");
+
+                LoadingManager.smootherInitialized();
+                refreshScrollTrigger();
+              } catch (fallbackError) {
+                console.error(
+                  "Fallback ScrollSmoother also failed:",
+                  fallbackError
+                );
+              }
+            }
+          }
         }, 200);
       } catch (error) {
         console.error("Error initializing ScrollSmoother:", error);
@@ -156,9 +186,7 @@ export default function SmoothScrollWrapper({
 
   return (
     <div id="smooth-wrapper">
-      <div id="smooth-content">
-        {children}
-      </div>
+      <div id="smooth-content">{children}</div>
     </div>
   );
 }

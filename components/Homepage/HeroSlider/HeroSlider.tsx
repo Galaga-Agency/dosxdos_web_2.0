@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
@@ -39,7 +39,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   }, [activeSlide, imageUrls]);
 
   // Initialize animations
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (sectionRef.current && titleRef.current && ctaRef.current) {
       // Animate the hero section
       animateHeroSlider({

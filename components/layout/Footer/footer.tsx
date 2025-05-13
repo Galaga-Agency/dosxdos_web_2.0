@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { PhoneCall, Mail, ArrowRight, ChevronRight } from "lucide-react";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Image from "next/image";
-import { initFooterAnimations } from "@/utils/animations/footer-anim";
+import { initFooterAnimations } from "@/utils/animations/components/footer-anim";
 import logo from "@/public/assets/img/logo/logo_full_negro.png";
 import "./Footer.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [animationKey, setAnimationKey] = useState(0);
 
   // Refs for animations
   const footerRef = useRef<HTMLDivElement>(null);
@@ -22,9 +21,24 @@ const Footer = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Initialize animations on component mount and when key changes
+  // Initialize animations on component mount
   useEffect(() => {
-    // Small delay to ensure DOM is fully rendered
+    // First, ensure all elements are fully visible
+    const ensureVisibility = () => {
+      if (contactRef.current) {
+        // Reset any opacity or transform that might be applied
+        const contactLinks = contactRef.current.querySelectorAll("a");
+        contactLinks.forEach((link) => {
+          link.style.opacity = "1";
+          link.style.transform = "none";
+        });
+      }
+    };
+
+    // Call immediately to prevent flicker
+    ensureVisibility();
+
+    // Small delay to ensure DOM is fully rendered before animations
     const timeoutId = setTimeout(() => {
       const cleanup = initFooterAnimations({
         footer: footerRef.current,
@@ -36,34 +50,19 @@ const Footer = () => {
       });
 
       // Cleanup on unmount
-      return cleanup;
+      return () => {
+        if (typeof cleanup === "function") {
+          cleanup();
+        }
+        // Ensure visibility on cleanup
+        ensureVisibility();
+      };
     }, 100);
 
     // Return cleanup function
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [animationKey]);
-
-  // Force re-render of animations when scrolling
-  useEffect(() => {
-    const handleScroll = () => {
-      // Trigger re-animation if footer is in view
-      if (footerRef.current) {
-        const rect = footerRef.current.getBoundingClientRect();
-        const isVisible =
-          rect.top >= 0 &&
-          rect.bottom <=
-            (window.innerHeight || document.documentElement.clientHeight);
-
-        if (isVisible) {
-          setAnimationKey((prev) => prev + 1);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -86,13 +85,19 @@ const Footer = () => {
               <p className="footer__tagline">Creamos espacios que inspiran.</p>
             </div>
             <div className="footer__contact" ref={contactRef}>
-              <a href="mailto:hola@dospordosgrupoimagen.com">
+              <a
+                href="mailto:hola@dospordosgrupoimagen.com"
+                style={{ opacity: 1, transform: "none" }}
+              >
                 <span className="icon">
                   <Mail size={16} />
                 </span>
                 hola@dospordosgrupoimagen.com
               </a>
-              <a href="tel:+34928712222">
+              <a
+                href="tel:+34928712222"
+                style={{ opacity: 1, transform: "none" }}
+              >
                 <span className="icon">
                   <PhoneCall size={16} />
                 </span>
@@ -142,12 +147,6 @@ const Footer = () => {
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
-                {/* <li>
-                  <Link href="/servicios/pergolas">
-                    <span>Pérgolas</span>
-                    <ChevronRight size={14} className="link-arrow" />
-                  </Link>
-                </li> */}
               </ul>
             </div>
             <div className="footer__nav-column">
@@ -206,7 +205,7 @@ const Footer = () => {
             <div className="footer__legal-links">
               <Link href="/politica-de-privacidad">Política de Privacidad</Link>
               <Link href="/aviso-legal">Aviso Legal</Link>
-              <Link href="/politica-cookies">Política de Cookies</Link>
+              <Link href="/politica-de-cookies">Política de Cookies</Link>
               <Link href="/transparencia">Transparencia</Link>
             </div>
           </div>

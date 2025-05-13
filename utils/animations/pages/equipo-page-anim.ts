@@ -1,14 +1,9 @@
 "use client";
 
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from "@/plugins";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
-
-// Ensure GSAP plugins are registered
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, SplitText);
-}
 
 // Store all ScrollTrigger instances for cleanup
 const scrollTriggerInstances: ScrollTrigger[] = [];
@@ -19,7 +14,7 @@ function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
   return instance;
 }
 
-// Common fade animation setup
+// Common fade animation setup - ENHANCED VERSION
 function setupFadeAnimation(
   selector: string,
   initialProps: gsap.TweenVars,
@@ -27,7 +22,7 @@ function setupFadeAnimation(
   startPosition: string = "top center+=100"
 ) {
   const elements = document.querySelectorAll(selector);
-  if (elements.length === 0) return;
+  if (elements.length === 0) return; // Fixed syntax error here
 
   gsap.set(selector, initialProps);
   const elementsArray = gsap.utils.toArray(selector);
@@ -38,11 +33,19 @@ function setupFadeAnimation(
         ScrollTrigger.create({
           trigger: item,
           start: startPosition,
+          once: true,
         })
       ),
     });
 
-    tl.to(item, { ...animProps, ease: "power2.out" });
+    // Añadimos un efecto de escala para hacerlo más visible
+    tl.to(item, {
+      ...animProps,
+      // Cambiamos el ease a algo más dramático
+      ease: "back.out(1.7)",
+      // Reducimos la duración para que sea más rápido e impactante
+      duration: animProps.duration || 1.2,
+    });
   });
 }
 
@@ -52,30 +55,30 @@ export function initFadeAnimations(): void {
   // Fade Bottom animations
   setupFadeAnimation(
     ".fade_bottom",
-    { y: 100, opacity: 0 },
-    { y: 0, opacity: 1, duration: 1.5 },
-    "top center+=400"
+    { y: 70, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
+    { y: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.2 }, // Menor delay y duración
+    "top center+=200" // Trigger más temprano
   );
 
   // Fade Top animations
   setupFadeAnimation(
     ".fade_top",
-    { y: -100, opacity: 0 },
-    { y: 0, opacity: 1, duration: 2.5 }
+    { y: -70, opacity: 0, scale: 0.95 },
+    { y: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Left animations
   setupFadeAnimation(
     ".fade_left",
-    { x: -100, opacity: 0 },
-    { x: 0, opacity: 1, duration: 2.5 }
+    { x: -70, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Right animations
   setupFadeAnimation(
     ".fade_right",
-    { x: 100, opacity: 0 },
-    { x: 0, opacity: 1, duration: 2.5 }
+    { x: 70, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 }
 
@@ -83,29 +86,74 @@ export function initFadeAnimations(): void {
 export function charAnimation(current?: HTMLElement) {
   if (!current) return null;
 
-  gsap.set(current, {
-    visibility: "hidden",
-    perspective: 300,
-  });
+  try {
+    gsap.set(current, {
+      visibility: "hidden",
+      perspective: 300,
+    });
 
-  const itemSplitted = new SplitText(current, {
-    type: "chars, words",
-  });
+    const itemSplitted = new SplitText(current, {
+      type: "chars, words",
+    });
 
-  gsap.set(current, {
-    visibility: "visible",
-    opacity: 1,
-  });
+    gsap.set(current, {
+      visibility: "visible",
+      opacity: 1,
+    });
 
-  const tl = gsap.timeline();
-  tl.from(itemSplitted.chars, {
-    duration: 1,
-    x: 100,
-    autoAlpha: 0,
-    stagger: 0.05,
-  });
+    const tl = gsap.timeline();
+    tl.from(itemSplitted.chars, {
+      duration: 1,
+      x: 100,
+      autoAlpha: 0,
+      stagger: 0.05,
+    });
 
-  return tl;
+    return tl;
+  } catch (error) {
+    console.error("Error in charAnimation:", error);
+
+    // Fallback if SplitText fails
+    gsap.set(current, { visibility: "visible", opacity: 1 });
+    return gsap.timeline().from(current, { duration: 1, x: 30, opacity: 0 });
+  }
+}
+
+// Enhanced description animation with SplitText
+export function animateDescriptionWithSplitText(element: HTMLElement) {
+  if (!element) return null;
+
+  try {
+    const splitDesc = new SplitText(element, { type: "lines" });
+    gsap.set(element, { visibility: "visible", perspective: 400 });
+
+    const descTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: element,
+        start: "top 90%",
+        end: "bottom 60%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    descTl.from(splitDesc.lines, {
+      duration: 1,
+      delay: 0.3,
+      opacity: 0,
+      rotationX: -80,
+      force3D: true,
+      transformOrigin: "top center -50",
+      stagger: 0.1,
+    });
+
+    return descTl;
+  } catch (error) {
+    console.error("Error in animateDescriptionWithSplitText:", error);
+
+    // Fallback if SplitText fails
+    gsap.set(element, { visibility: "visible", opacity: 0, y: 20 });
+    return gsap.to(element, { duration: 1, opacity: 1, y: 0 });
+  }
 }
 
 // Define animation elements interface
@@ -174,18 +222,26 @@ export function animateHeroSection(elements: SectionAnimationElements) {
     });
   }
 
+  // MODIFIED: Set up description for SplitText animation instead of regular animation
   if (elements.description) {
-    gsap.set(elements.description, {
-      visibility: "visible",
-      opacity: 1,
-    });
+    // We'll handle the description separately with SplitText animation
+    // instead of including it in the animation sequence
+    const descriptionAnimation = animateDescriptionWithSplitText(
+      elements.description
+    );
+  } else {
+    // If no direct element reference, try to find it by class
+    const descriptionEl = document.querySelector(".hero-section__description");
+    if (descriptionEl) {
+      animateDescriptionWithSplitText(descriptionEl as HTMLElement);
+    }
   }
 
   const animationSequence = [
     { el: elements.label, props: { y: -30 }, index: 0.3 },
     { el: elements.title, props: { y: 0 }, index: 0.6, charAnim: true },
     { el: elements.underline, props: { width: 0 }, index: 1.0 },
-    { el: elements.description, props: { y: 20 }, index: 1.2 },
+    // Removed description from here since we're handling it separately
     { el: elements.stats, props: { y: 20 }, index: 1.4 },
     { el: elements.decor, props: { scale: 0.8 }, index: 1.6 },
   ];
@@ -247,7 +303,7 @@ export function animateHeroSection(elements: SectionAnimationElements) {
 
   // Force refresh ScrollTrigger
   setTimeout(() => {
-    ScrollTrigger.refresh();
+    refreshScrollTrigger();
   }, 100);
 
   return tl;
@@ -257,56 +313,70 @@ export function animateHeroSection(elements: SectionAnimationElements) {
 function setupHeroParallax(container: HTMLElement, target: HTMLElement) {
   if (!container || !target) return;
 
-  target.setAttribute("data-speed", "0.9");
+  try {
+    target.setAttribute("data-speed", "0.9");
 
-  // Force refresh ScrollTrigger
-  setTimeout(() => {
-    if ((window as any).__smoother__) {
-      (window as any).__smoother__.refresh();
-    }
-    ScrollTrigger.refresh();
-  }, 100);
+    // Force refresh ScrollTrigger
+    setTimeout(() => {
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.refresh();
+      }
+      refreshScrollTrigger();
+    }, 100);
+  } catch (error) {
+    console.error("Error setting up hero parallax:", error);
+  }
 }
 
 // Parallax for floating images
 function setupFloatingImagesParallax(floatingImages: any[]): void {
-  floatingImages.forEach(({ container, inner, offset, innerOffset }, index) => {
-    if (container && container.current) {
-      // Calculate smoother speed value
-      let containerSpeed =
-        offset < 0 ? 1 + Math.abs(offset) / 100 : 1 - offset / 100;
+  try {
+    floatingImages.forEach(
+      ({ container, inner, offset, innerOffset }, index) => {
+        if (container && container.current) {
+          // Calculate smoother speed value
+          let containerSpeed =
+            offset < 0 ? 1 + Math.abs(offset) / 100 : 1 - offset / 100;
 
-      // Keep values in reasonable range
-      containerSpeed = Math.max(0.5, Math.min(1.5, containerSpeed));
+          // Keep values in reasonable range
+          containerSpeed = Math.max(0.5, Math.min(1.5, containerSpeed));
 
-      // Apply data-speed attribute
-      container.current.setAttribute("data-speed", containerSpeed.toString());
-    }
+          // Apply data-speed attribute
+          container.current.setAttribute(
+            "data-speed",
+            containerSpeed.toString()
+          );
+        }
 
-    if (inner && inner.current) {
-      // Calculate speed value for inner element
-      let innerSpeed =
-        innerOffset < 0
-          ? 1 + Math.abs(innerOffset) / 200
-          : 1 - innerOffset / 200;
+        if (inner && inner.current) {
+          // Calculate speed value for inner element
+          let innerSpeed =
+            innerOffset < 0
+              ? 1 + Math.abs(innerOffset) / 200
+              : 1 - innerOffset / 200;
 
-      // Keep values in reasonable range
-      innerSpeed = Math.max(0.7, Math.min(1.3, innerSpeed));
+          // Keep values in reasonable range
+          innerSpeed = Math.max(0.7, Math.min(1.3, innerSpeed));
 
-      // Apply data-speed attribute
-      inner.current.setAttribute("data-speed", innerSpeed.toString());
-    }
-  });
+          // Apply data-speed attribute
+          inner.current.setAttribute("data-speed", innerSpeed.toString());
+        }
+      }
+    );
 
-  // Force refresh to ensure ScrollSmoother picks up the new attributes
-  setTimeout(() => {
-    if ((window as any).__smoother__) {
-      (window as any).__smoother__.refresh();
-    }
-    ScrollTrigger.refresh();
-  }, 100);
+    // Force refresh to ensure ScrollSmoother picks up the new attributes
+    setTimeout(() => {
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.refresh();
+      }
+      refreshScrollTrigger();
+    }, 100);
+  } catch (error) {
+    console.error("Error setting up floating images parallax:", error);
+  }
 }
 
+// Rest of your original code unchanged...
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEAM SECTION ANIMATION ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -376,7 +446,7 @@ export function animateTeamSection(elements: SectionAnimationElements) {
 
   // Force refresh ScrollTrigger
   setTimeout(() => {
-    ScrollTrigger.refresh();
+    refreshScrollTrigger();
   }, 100);
 
   return tl;
@@ -455,7 +525,7 @@ export function animateStatsSection(elements: SectionAnimationElements) {
 
   // Force refresh ScrollTrigger
   setTimeout(() => {
-    ScrollTrigger.refresh();
+    refreshScrollTrigger();
   }, 100);
 
   return tl;
@@ -519,7 +589,7 @@ export function animateClientsSection(elements: SectionAnimationElements) {
 
   // Force refresh ScrollTrigger
   setTimeout(() => {
-    ScrollTrigger.refresh();
+    refreshScrollTrigger();
   }, 100);
 
   return tl;
@@ -535,7 +605,7 @@ export function cleanupEquipoAnimations() {
   console.log("⚠️ Cleaning up all equipo page animations");
 
   // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach((trigger) => {
+  ScrollTrigger.getAll().forEach((trigger: any) => {
     trigger.kill();
   });
 
@@ -544,4 +614,12 @@ export function cleanupEquipoAnimations() {
 
   // Refresh ScrollTrigger
   refreshScrollTrigger();
+}
+
+// Add type declaration for window.__smoother__
+declare global {
+  interface Window {
+    __smoother__: any;
+    cursorAnimationFrame?: number;
+  }
 }

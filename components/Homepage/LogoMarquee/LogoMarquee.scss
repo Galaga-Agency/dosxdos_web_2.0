@@ -8,7 +8,6 @@
   position: relative;
   background-color: $white;
   overflow: hidden;
-  // Reduced padding as requested
   padding: 1rem 0;
 
   // Dark mode variant
@@ -83,7 +82,6 @@
     width: 100%;
     // IMPORTANT: Keeping original pointer-events setting to avoid scroll issues
     pointer-events: none;
-    // Extremely reduced height
     min-height: 60px;
     will-change: transform;
     z-index: 2;

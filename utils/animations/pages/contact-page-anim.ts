@@ -1,8 +1,8 @@
 "use client";
 
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from "@/plugins";
+import { ScrollTrigger } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
 
 // Define interface for animation elements
@@ -257,7 +257,7 @@ export function cleanupContactPageAnimations() {
   if (typeof window === "undefined") return;
 
   // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach((trigger) => {
+  ScrollTrigger.getAll().forEach((trigger: any) => {
     trigger.kill();
   });
 

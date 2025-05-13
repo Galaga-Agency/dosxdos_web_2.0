@@ -65,8 +65,6 @@ export default function EditBlogPostPage() {
     const fetchPostData = async () => {
       try {
         setIsLoading(true);
-
-        // Use the blog-service directly
         const post = await fetch(`/api/blog/${postId}`).then((res) => {
           if (!res.ok) {
             if (res.status === 404) {
@@ -77,8 +75,6 @@ export default function EditBlogPostPage() {
 
           return res.json();
         });
-
-        console.log("📦 Fetched post:", post);
 
         if (!post) {
           setNotFound(true);
@@ -116,7 +112,6 @@ export default function EditBlogPostPage() {
         ) {
           try {
             const blocks = JSON.parse(post.editorBlocks);
-            console.log("✅ Parsed editorBlocks:", blocks);
 
             if (Array.isArray(blocks)) {
               setEditorContent(blocks);
@@ -128,7 +123,6 @@ export default function EditBlogPostPage() {
             console.error("❌ Error parsing editorBlocks:", err);
           }
         } else if (post.content) {
-          console.log("📄 Falling back to content");
           const blocksFromHtml = parseHtmlContentToBlocks(post.content);
           setEditorContent(blocksFromHtml);
         }

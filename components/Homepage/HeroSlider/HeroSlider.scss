@@ -10,7 +10,7 @@
   min-height: 600px;
   overflow: hidden;
   background-color: $white;
-  
+
   // Dark overlay gradient - positioned before any animations
   &::after {
     content: "";
@@ -19,15 +19,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      to bottom,
-      rgba($black, 0),
-      rgba($black, 0.7)
-    );
+    background: linear-gradient(to bottom, rgba($black, 0), rgba($black, 0.7));
     @include z-index(above);
     pointer-events: none;
   }
-  
+
   // Navigation Buttons
   &__nav {
     position: absolute;
@@ -42,45 +38,45 @@
     @include flex(row, center, center);
     cursor: pointer;
     @include transition-duration(normal);
-    
+
     &--prev {
       left: 1rem;
     }
-    
+
     &--next {
       right: 1rem;
     }
-    
+
     svg {
       stroke: $white;
       width: 2rem;
       height: 2rem;
       transition: all 0.3s ease;
       will-change: transform, stroke;
-      
+
       &:hover {
         stroke: rgba($white, 0.5);
         transform: scale(1.1);
       }
     }
-    
+
     @include min-width(md) {
       width: 4rem;
       height: 4rem;
-      
+
       svg {
         width: 2.5rem;
         height: 2.5rem;
       }
     }
   }
-  
+
   &__container {
     position: relative;
     width: 100%;
     height: 100%;
   }
-  
+
   &__slide {
     position: absolute;
     top: 0;
@@ -90,19 +86,19 @@
     opacity: 0;
     @include transition-duration(slow);
     overflow: hidden;
-    
+
     &.active {
       opacity: 1;
       z-index: 1;
     }
   }
-  
+
   &__image {
     object-fit: cover;
     object-position: center;
     will-change: transform;
   }
-  
+
   // Content wrapper
   &__content {
     position: absolute;
@@ -115,13 +111,13 @@
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
-    
+
     @include min-width(md) {
       left: 10%;
       width: 80%;
     }
   }
-  
+
   &__title {
     color: $white;
     @include font-size(4xl);
@@ -132,36 +128,38 @@
     text-align: left;
     margin: 0;
     padding: 0;
-    
+    opacity: 0;
+
     br {
       display: block;
       content: "";
       @include margin(3xs, bottom);
     }
-    
+
     @include min-width(xs) {
       @include font-size(5xl);
     }
-    
+
     @include min-width(sm) {
       @include font-size(6xl);
     }
-    
+
     @include min-width(md) {
       @include font-size(7xl);
     }
-    
+
     @include min-width(lg) {
       @include font-size(8xl);
     }
   }
-  
+
   // CTA Button
   &__cta {
     width: fit-content;
     @include margin(md, top);
+    opacity: 0;
   }
-  
+
   // Indicator dots
   &__indicators {
     position: absolute;
@@ -171,12 +169,12 @@
     @include flex(row, center, center);
     gap: 0.75rem;
     @include z-index(overlay);
-    
+
     @include min-width(md) {
       bottom: 1.5rem;
     }
   }
-  
+
   &__indicator {
     width: 0.75rem;
     height: 0.75rem;
@@ -187,7 +185,7 @@
     @include transition-duration(normal);
     padding: 0;
     margin: 0;
-    
+
     &.active {
       background-color: $white;
       transform: scale(1.2);

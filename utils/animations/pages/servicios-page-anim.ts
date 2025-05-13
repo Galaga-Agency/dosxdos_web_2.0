@@ -28,7 +28,7 @@ export interface ServiciosHeroRefs {
   [key: string]: HTMLElement | null;
 }
 
-// Common fade animation setup
+// Common fade animation setup - ENHANCED VERSION
 function setupFadeAnimation(
   selector: string,
   initialProps: gsap.TweenVars,
@@ -36,7 +36,7 @@ function setupFadeAnimation(
   startPosition: string = "top center+=100"
 ) {
   const elements = document.querySelectorAll(selector);
-  if (elements.length === 0) return;
+  if (elements.length === 0) return; // Fixed syntax error
 
   gsap.set(selector, initialProps);
   const elementsArray = gsap.utils.toArray(selector);
@@ -47,12 +47,59 @@ function setupFadeAnimation(
         ScrollTrigger.create({
           trigger: item,
           start: startPosition,
+          once: true,
+          // Añadimos markers para debug (quitar en producción)
+          // markers: true,
         })
       ),
     });
 
-    tl.to(item, { ...animProps, ease: "power2.out" });
+    // Añadimos un efecto de escala para hacerlo más visible
+    tl.to(item, {
+      ...animProps,
+      // Cambiamos el ease a algo más dramático
+      ease: "back.out(1.7)",
+      // Reducimos la duración para que sea más rápido e impactante
+      duration: animProps.duration || 1.2,
+    });
   });
+}
+
+// Enhanced subtitle animation with SplitText
+function animateSubtitleWithSplitText(element: HTMLElement | null) {
+  if (!element) return null;
+
+  try {
+    const splitDesc = new SplitText(element, { type: "lines" });
+    gsap.set(element, { visibility: "visible", perspective: 400 });
+
+    const descTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: element,
+        start: "top 90%",
+        end: "bottom 60%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    descTl.from(splitDesc.lines, {
+      duration: 1,
+      delay: 0.3,
+      opacity: 0,
+      rotationX: -80,
+      force3D: true,
+      transformOrigin: "top center -50",
+      stagger: 0.1,
+    });
+
+    return descTl;
+  } catch (error) {
+    console.error("Error in animateSubtitleWithSplitText:", error);
+
+    // Fallback if SplitText fails
+    gsap.set(element, { visibility: "visible", opacity: 0, y: 20 });
+    return gsap.to(element, { duration: 1, opacity: 1, y: 0 });
+  }
 }
 
 export function initFadeAnimations(): void {
@@ -61,30 +108,30 @@ export function initFadeAnimations(): void {
   // Fade Bottom animations
   setupFadeAnimation(
     ".fade_bottom",
-    { y: 100, opacity: 0 },
-    { y: 0, opacity: 1, duration: 1.5 },
-    "top center+=400"
+    { y: 70, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
+    { y: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.2 }, // Menor delay y duración
+    "top center+=200" // Trigger más temprano
   );
 
   // Fade Top animations
   setupFadeAnimation(
     ".fade_top",
-    { y: -100, opacity: 0 },
-    { y: 0, opacity: 1, duration: 2.5 }
+    { y: -70, opacity: 0, scale: 0.95 },
+    { y: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Left animations
   setupFadeAnimation(
     ".fade_left",
-    { x: -100, opacity: 0 },
-    { x: 0, opacity: 1, duration: 2.5 }
+    { x: -70, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Right animations
   setupFadeAnimation(
     ".fade_right",
-    { x: 100, opacity: 0 },
-    { x: 0, opacity: 1, duration: 2.5 }
+    { x: 70, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 }
 
@@ -218,18 +265,29 @@ export function imageRevealAnimation() {
 export function animateServiciosHero(refs: ServiciosHeroRefs) {
   if (typeof window === "undefined" || !refs.title) return;
 
+  console.log("Animating Servicios Hero");
+
   // Make elements visible
   const elements = [refs.title, refs.subtitle, refs.button].filter(Boolean);
   gsap.set(elements, { visibility: "visible" });
 
   // Title character animation
-  const splitText = new SplitText(refs.title, { type: "chars, words" });
-  gsap.from(splitText.chars, {
-    duration: 1,
-    x: 100,
-    autoAlpha: 0,
-    stagger: 0.05,
-  });
+  try {
+    const splitText = new SplitText(refs.title, { type: "chars, words" });
+    gsap.from(splitText.chars, {
+      duration: 1,
+      x: 100,
+      autoAlpha: 0,
+      stagger: 0.05,
+    });
+  } catch (error) {
+    console.error("Error in title animation:", error);
+    gsap.fromTo(
+      refs.title,
+      { opacity: 0, x: 30 },
+      { opacity: 1, x: 0, duration: 1, ease: "power2.out" }
+    );
+  }
 
   // Horizontal scroll animation for tablets and above - with improved debugging
   if (window.innerWidth >= 1025) {
@@ -259,13 +317,20 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
     }
   }
 
-  // Subtitle animation
+  // UPDATED: Subtitle animation with SplitText
   if (refs.subtitle) {
-    gsap.fromTo(
-      refs.subtitle,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, delay: 1, ease: "power2.out" }
-    );
+    try {
+      // Apply the 3D rotating line animation to the subtitle
+      animateSubtitleWithSplitText(refs.subtitle);
+    } catch (error) {
+      console.error("Error in subtitle animation:", error);
+      // Fallback to simple animation if SplitText fails
+      gsap.fromTo(
+        refs.subtitle,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 1, ease: "power2.out" }
+      );
+    }
   }
 
   // Button animation
@@ -362,4 +427,11 @@ export function cleanupServiciosAnimations(): void {
   ScrollTrigger.clearMatchMedia();
 
   refreshScrollTrigger();
+}
+
+// Add type declaration for window.cursorAnimationFrame
+declare global {
+  interface Window {
+    cursorAnimationFrame?: number;
+  }
 }

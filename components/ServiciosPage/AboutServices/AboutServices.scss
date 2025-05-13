@@ -123,7 +123,6 @@
 
     @include min-width(md) {
       flex-wrap: nowrap;
-      @include margin(xl, y);
     }
   }
 
