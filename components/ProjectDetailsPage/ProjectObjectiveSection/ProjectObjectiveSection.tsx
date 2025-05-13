@@ -55,7 +55,7 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
 
           <div
             ref={textRef}
-            className="project-objective-section__text fade_left"
+            className="project-objective-section__text fade_bottom"
           >
             <div className="project-objective-section__text-label">
               <div

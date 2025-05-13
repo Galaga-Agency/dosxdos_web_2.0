@@ -63,7 +63,7 @@ const ServicesSection: React.FC = () => {
           </h2>
         </div>
 
-        <p className="services-section__subtitle fade_left">
+        <p className="services-section__subtitle fade_bottom">
           Nuestros equipos en <strong>Canarias</strong> y{" "}
           <strong>Madrid</strong>. Nuestros servicios donde los necesites.
         </p>

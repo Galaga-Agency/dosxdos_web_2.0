@@ -61,7 +61,7 @@ const AccionSocialCTASection: React.FC = () => {
 
           {/* Right column with content */}
           <div className="cta-section__content-column">
-            <div className="cta-section__text fade_left">
+            <div className="cta-section__text fade_bottom">
               <p>
                 Con un gran equipo de más de 45 profesionales, formado por
                 arquitectos, interioristas, diseñadores y expertos en producción

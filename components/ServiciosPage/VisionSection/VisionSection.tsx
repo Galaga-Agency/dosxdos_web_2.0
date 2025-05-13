@@ -74,7 +74,7 @@ const VisionSection: React.FC = () => {
               </div>
             </div>
             <div className="vision-section__text-wrap">
-              <p className="vision-section__text fade_left">
+              <p className="vision-section__text fade_bottom">
                 Aquí es donde el conocimiento, la creatividad y la experiencia
                 se fusionan con el diseño para crear espacios únicos. Pensamos y
                 actuamos como un solo equipo, siempre a su lado, superando
@@ -90,7 +90,7 @@ const VisionSection: React.FC = () => {
 
           {/* Middle floating image with parallax effect */}
           <div
-            className="vision-section__middle-image fade_right"
+            className="vision-section__middle-image fade_bottom"
             data-speed="1.3"
           >
             <div className="vision-section__middle-image-inner">

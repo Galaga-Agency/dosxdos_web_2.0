@@ -94,7 +94,7 @@ export function initFadeAnimations(): void {
 
   // Fade Left animations
   setupFadeAnimation(
-    ".fade_left",
+    ".fade_bottom",
     { x: -100, opacity: 0 },
     { x: 0, opacity: 1, duration: 2.5 }
   );
@@ -494,7 +494,7 @@ export function initImageParallax(
 
           // Apply stronger movement to inner element
           gsap.set(innerElement, {
-            y: proxy.progress * (isTouchDevice() ? -50 : -110) ,
+            y: proxy.progress * (isTouchDevice() ? -50 : -110),
           });
         },
       });

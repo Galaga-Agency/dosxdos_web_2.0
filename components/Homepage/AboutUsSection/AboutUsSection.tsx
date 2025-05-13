@@ -71,7 +71,7 @@ const AboutUsSection: React.FC = () => {
 
           {/* Right column with content */}
           <div className="aboutus-section__content-column">
-            <div className="aboutus-section__text fade_left">
+            <div className="aboutus-section__text fade_bottom">
               <p>
                 Más de <strong>35 años de experiencia</strong> en el sector del
                 diseño de interiores en espacios comerciales. Especialistas en
