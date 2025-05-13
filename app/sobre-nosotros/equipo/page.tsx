@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
@@ -14,35 +14,39 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { cleanupEquipoAnimations } from "@/utils/animations/pages/equipo-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
-import { preloadImages } from "@/utils/imagePreloader";
 import Footer from "@/components/layout/Footer/footer";
+import Loading from "@/components/ui/Loading/Loading";
+import { useInitialLoading } from "@/hooks/useInitialLoading";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
-
-  // Preload critical equipo page images
-  preloadImages([
-    "/assets/img/about-us-page/family.webp",
-    "/assets/img/about-us-page/fiesta-1.jpg",
-    "/assets/img/about-us-page/fiesta-2.jpg",
-    "/assets/img/about-us-page/fiesta-3.jpg",
-  ]);
 }
 
 const EquipoPage: React.FC = () => {
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
+  
+  // Use our custom hook to handle loading state
+  const isLoading = useInitialLoading(1500);
 
   // Initialize ScrollTrigger configuration once
   useEffect(() => {
+    // Skip if still in loading state
+    if (isLoading) return;
+    
     initScrollTriggerConfig();
 
     // Cleanup on unmount
     return () => {
       cleanupEquipoAnimations();
     };
-  }, []);
+  }, [isLoading]);
+
+  // Show loading component only on initial direct page load
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <SmoothScrollWrapper>

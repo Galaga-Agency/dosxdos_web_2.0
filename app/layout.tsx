@@ -5,7 +5,7 @@ import Menu from "@/components/layout/Menu/Menu";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
 import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
-import Footer from "@/components/layout/Footer/footer";
+import Script from "next/script";
 
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",
@@ -190,7 +190,6 @@ export const metadata: Metadata = {
   category: "Interior Design Services",
 };
 
-// Update your RootLayout function in layout.tsx
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -199,7 +198,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Preload critical hero slider images with high priority */}
+        {/* Preload ALL critical hero images across the entire site */}
+        
+        {/* Homepage hero slider images */}
         <link
           rel="preload"
           href="/assets/img/homepage/slider-3.webp"
@@ -212,12 +213,71 @@ export default function RootLayout({
           href="/assets/img/homepage/slider-1.webp"
           as="image"
           type="image/webp"
+          fetchPriority="high"
         />
         <link
           rel="preload"
           href="/assets/img/homepage/slider-2.webp"
           as="image"
           type="image/webp"
+          fetchPriority="high"
+        />
+        
+        {/* Equipo page hero images */}
+        <link
+          rel="preload"
+          href="/assets/img/about-us-page/family.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/assets/img/about-us-page/fiesta-1.jpg"
+          as="image"
+          type="image/jpg"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/assets/img/about-us-page/fiesta-2.jpg"
+          as="image"
+          type="image/jpg"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/assets/img/about-us-page/fiesta-3.jpg"
+          as="image"
+          type="image/jpg"
+          fetchPriority="high"
+        />
+        
+        {/* Services page hero images */}
+        <link
+          rel="preload"
+          href="/assets/img/servicios/hero-servicios.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
+        />
+        
+        {/* Portfolio page hero images */}
+        <link
+          rel="preload"
+          href="/assets/img/portfolio/hero-portfolio.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
+        />
+        
+        {/* Contact page hero images */}
+        <link
+          rel="preload"
+          href="/assets/img/contacto/contacto-hero.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
         />
       </head>
       <AuthProvider>

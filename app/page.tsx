@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState, useRef } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
@@ -13,9 +13,10 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
-import { preloadImages, preloadImagesByIndex } from "@/utils/imagePreloader";
 import "./homepage.scss";
 import Footer from "@/components/layout/Footer/footer";
+import Loading from "@/components/ui/Loading/Loading";
+import { useInitialLoading } from "@/hooks/useInitialLoading";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -38,14 +39,6 @@ const heroSlides = [
   },
 ];
 
-// Preload critical slider images immediately when this module is imported
-if (typeof window !== "undefined") {
-  preloadImagesByIndex(
-    heroSlides.map((slide) => slide.imageUrl),
-    [0, 1, 2] // Preload all three slider images
-  );
-}
-
 const Home: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,8 +46,14 @@ const Home: React.FC = () => {
 
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
+  
+  // Use our custom hook to handle loading state
+  const isLoading = useInitialLoading(1500);
 
   useEffect(() => {
+    // Skip initialization if still in initial loading state
+    if (isLoading) return;
+    
     console.log("Home component mounted");
 
     // Initialize ScrollTrigger configuration once
@@ -116,9 +115,14 @@ const Home: React.FC = () => {
       observer.disconnect();
       cleanupHomepageAnimations();
     };
-  }, []);
+  }, [isLoading]);
 
   console.log("Rendering home with blog posts:", blogPosts.length);
+
+  // Show loading component only on initial direct page load
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <SmoothScrollWrapper showBackToTop={false}>
