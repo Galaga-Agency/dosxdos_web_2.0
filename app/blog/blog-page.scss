@@ -324,9 +324,8 @@
   }
 
   &__post-item {
-    animation: fadeIn 0.8s ease forwards;
-    animation-delay: calc(var(--item-index, 0) * 0.2s + 1.5s);
     opacity: 0;
+    will-change: opacity, transform;
   }
 
   &__pagination {

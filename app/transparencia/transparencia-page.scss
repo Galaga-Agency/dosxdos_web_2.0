@@ -3,7 +3,7 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
-.privacidad-page {
+.transparencia-page {
   position: relative;
   overflow: hidden;
   @include section-spacing;
@@ -20,6 +20,7 @@
   }
   
   &__header {
+    @include margin(3xl, bottom);
     position: relative;
   }
   
@@ -86,7 +87,7 @@
     @include font-size(2xl);
     @include font-weight(semibold);
     color: $black;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     position: relative;
     
     &::after {
@@ -120,23 +121,85 @@
         background-color: $black;
       }
       
-      ul {
-        list-style: none;
-        margin-top: 1rem;
-        padding-left: 1rem;
-        
-        li {
-          &::before {
-            width: 6px;
-            height: 6px;
-          }
-        }
-      }
-      
       strong {
         color: $black;
         @include font-weight(semibold);
       }
+    }
+  }
+  
+  &__button-container {
+    margin: 2.5rem 0;
+    text-align: center;
+  }
+  
+  &__button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+    
+    @include min-width(md) {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+  
+  &__link {
+    color: $black;
+    text-decoration: none;
+    position: relative;
+    @include font-weight(medium);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      bottom: -2px;
+      left: 0;
+      background-color: $black;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+  
+  &__logo-container {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  &__logo-link {
+    display: block;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+  
+  &__logo {
+    max-width: 250px;
+    height: auto;
+  }
+  
+  &__admin-image {
+    @include flex(row, center, center);
+    margin: 2rem auto;
+    
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba($black, 0.1);
     }
   }
   
@@ -145,6 +208,7 @@
     overflow-x: auto;
     margin: 2rem 0;
     border: 1px solid rgba($black, 0.1);
+    border-radius: 4px;
   }
   
   &__table {

@@ -5,7 +5,14 @@ import { refreshScrollTrigger } from "../scrolltrigger-config";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+}
+
+// Define window interface for the animation frame property
+declare global {
+  interface Window {
+    cursorAnimationFrame?: number;
+  }
 }
 
 // MasProyectos page animation refs interface
@@ -32,20 +39,29 @@ export function initMasProyectosAnimations(
   // Title animation with SplitText if it has class char-animation
   if (refs.title && refs.title.classList.contains("char-animation")) {
     setTimeout(() => {
-      const splitText = new SplitText(refs.title, {
-        type: "chars, words",
-      });
-
       if (refs.title) {
-        gsap.set(refs.title, { visibility: "visible" });
-      }
+        try {
+          const splitText = new SplitText(refs.title, {
+            type: "chars, words",
+          });
 
-      gsap.from(splitText.chars, {
-        duration: 1,
-        x: 100,
-        autoAlpha: 0,
-        stagger: 0.05,
-      });
+          if (refs.title) {
+            gsap.set(refs.title, { visibility: "visible" });
+          }
+
+          // Ensure chars exists before animating
+          if (splitText.chars && splitText.chars.length > 0) {
+            gsap.from(splitText.chars, {
+              duration: 1,
+              x: 100,
+              autoAlpha: 0,
+              stagger: 0.05,
+            });
+          }
+        } catch (error) {
+          console.error("Error splitting title text:", error);
+        }
+      }
 
       // Animate description with SplitText if it exists
       const descriptionEl = document.querySelector(
@@ -53,27 +69,34 @@ export function initMasProyectosAnimations(
       );
 
       if (descriptionEl) {
-        const splitDesc = new SplitText(descriptionEl, { type: "lines" });
-        gsap.set(descriptionEl, { visibility: "visible", perspective: 400 });
+        try {
+          const splitDesc = new SplitText(descriptionEl, { type: "lines" });
+          gsap.set(descriptionEl, { visibility: "visible", perspective: 400 });
 
-        const descTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: descriptionEl,
-            start: "top 90%",
-            end: "bottom 60%",
-            toggleActions: "play none none none",
-          },
-        });
+          // Ensure lines exists before animating
+          if (splitDesc.lines && splitDesc.lines.length > 0) {
+            const descTl = gsap.timeline({
+              scrollTrigger: {
+                trigger: descriptionEl,
+                start: "top 90%",
+                end: "bottom 60%",
+                toggleActions: "play none none none",
+              },
+            });
 
-        descTl.from(splitDesc.lines, {
-          duration: 1,
-          delay: 0.3,
-          opacity: 0,
-          rotationX: -80,
-          force3D: true,
-          transformOrigin: "top center -50",
-          stagger: 0.1,
-        });
+            descTl.from(splitDesc.lines, {
+              duration: 1,
+              delay: 0.3,
+              opacity: 0,
+              rotationX: -80,
+              force3D: true,
+              transformOrigin: "top center -50",
+              stagger: 0.1,
+            });
+          }
+        } catch (error) {
+          console.error("Error splitting description text:", error);
+        }
       }
     }, 200);
   }
@@ -82,22 +105,26 @@ export function initMasProyectosAnimations(
   if (refs.projectsGrid) {
     const gridItems = refs.projectsGrid.querySelectorAll(".item");
 
-    // Set initial opacity to 0
-    gsap.set(gridItems, {
-      opacity: 0,
-    });
+    if (gridItems.length > 0) {
+      // Set initial opacity to 0
+      gsap.set(gridItems, {
+        opacity: 0,
+      });
 
-    // Reveal with stagger
-    gsap.to(gridItems, {
-      opacity: 1,
-      stagger: 0.1,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: refs.projectsGrid,
-        start: "top 85%",
-      },
-    });
+      // Reveal with stagger
+      gsap.to(gridItems, {
+        opacity: 1,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: refs.projectsGrid,
+          start: "top 85%",
+        },
+      });
+    } else {
+      console.warn("No grid items found in projectsGrid");
+    }
   }
 
   // CTA section animation
@@ -110,36 +137,48 @@ export function initMasProyectosAnimations(
         // Animate title with character animation if it has the char-animation class
         if (refs.ctaText && refs.ctaText.classList.contains("char-animation")) {
           setTimeout(() => {
-            const splitText = new SplitText(refs.ctaText, {
-              type: "chars, words",
-            });
+            try {
+              const splitText= new SplitText(refs.ctaText as any, {
+                type: "chars, words",
+              });
 
-            if (refs.ctaText) {
-              gsap.set(refs.ctaText, { visibility: "visible" });
+              if (refs.ctaText) {
+                gsap.set(refs.ctaText, { visibility: "visible" });
+              }
+
+              // Ensure chars exists before animating
+              if (splitText.chars && splitText.chars.length > 0) {
+                gsap.from(splitText.chars, {
+                  duration: 1,
+                  x: 100,
+                  autoAlpha: 0,
+                  stagger: 0.05,
+                });
+              }
+            } catch (error) {
+              console.error("Error splitting CTA text:", error);
             }
-
-            gsap.from(splitText.chars, {
-              duration: 1,
-              x: 100,
-              autoAlpha: 0,
-              stagger: 0.05,
-            });
           }, 100);
         }
 
         // Animate buttons
         if (refs.ctaButton) {
           const buttons = refs.ctaButton.querySelectorAll(".button");
-          gsap.set(buttons, { opacity: 0, y: 30 });
 
-          gsap.to(buttons, {
-            opacity: 1,
-            y: 0,
-            stagger: 0.2,
-            duration: 0.7,
-            delay: 0.8, // After title animation
-            ease: "power3.out",
-          });
+          if (buttons.length > 0) {
+            gsap.set(buttons, { opacity: 0, y: 30 });
+
+            gsap.to(buttons, {
+              opacity: 1,
+              y: 0,
+              stagger: 0.2,
+              duration: 0.7,
+              delay: 0.8, // After title animation
+              ease: "power3.out",
+            });
+          } else {
+            console.warn("No buttons found in ctaButton");
+          }
         }
       },
     });
@@ -170,8 +209,8 @@ export function cleanupMasProyectosAnimations(): void {
 
   // Remove cursor bubble if it exists
   const viewBubble = document.querySelector(".view-bubble");
-  if (viewBubble && document.body.contains(viewBubble)) {
-    document.body.removeChild(viewBubble);
+  if (viewBubble && viewBubble.parentNode) {
+    viewBubble.parentNode.removeChild(viewBubble);
   }
 
   // Clear any running animations

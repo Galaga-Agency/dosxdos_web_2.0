@@ -86,7 +86,7 @@ export const animateBlogDetail = ({
       start: "top top",
       end: "bottom top",
       scrub: 3,
-      onUpdate: (self) => {
+      onUpdate: (self: any) => {
         gsap.to(heroImage, {
           y: `-${self.progress * 50}%`,
           ease: "none",
@@ -360,7 +360,7 @@ export function cleanupBlogDetailAnimations() {
   console.log("⚠️ Cleaning up all blog detail page animations");
 
   // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach((trigger) => {
+  ScrollTrigger.getAll().forEach((trigger: any) => {
     trigger.kill();
   });
 

@@ -80,7 +80,7 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
               {project.images.slice(0, 4).map((imgSrc, i) => (
                 <div
                   key={i}
-                  className="project-objective-section__gallery-item fade_bottom"
+                  className="project-objective-section__gallery-item"
                 >
                   <div className="image-container">
                     <Image
@@ -100,7 +100,7 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
               {project.images.slice(4, 8).map((imgSrc, i) => (
                 <div
                   key={i + 4}
-                  className="project-objective-section__gallery-item fade_bottom"
+                  className="project-objective-section__gallery-item"
                 >
                   <div className="image-container">
                     <Image

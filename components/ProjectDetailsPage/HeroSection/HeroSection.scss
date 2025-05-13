@@ -40,7 +40,7 @@
   }
 
   @include min-width(lg) {
-    padding-top: 25rem;
+    padding-top: 10rem;
     padding-bottom: 5rem;
   }
 
@@ -86,7 +86,7 @@
     flex: 0 0 100%;
     max-width: 100%;
     padding: 0 0.75rem;
-    
+
 
         @include min-width(lg) {
     max-width: 70%;

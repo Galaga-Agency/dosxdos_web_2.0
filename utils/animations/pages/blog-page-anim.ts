@@ -86,7 +86,7 @@ export const animateBlogPage = ({
     const postsTitle = postsSection.querySelector(".posts-title");
     if (postsTitle) {
       gsap.set(postsTitle, { y: 30, opacity: 0 });
-      tl.to(postsTitle, { y: 0, opacity: 1, duration: 0.8 }, 1.2);
+      tl.to(postsTitle, { y: 0, opacity: 1, duration: 0.8 }, 0.2);
     }
   }
 

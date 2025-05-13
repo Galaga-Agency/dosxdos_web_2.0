@@ -3,7 +3,10 @@
 import React, { useLayoutEffect, useRef } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
-import { animateTitle } from "@/utils/animations/pages/privacidad-page-anim";
+import {
+  animateTitle,
+  cleanupPrivacidadAnimations,
+} from "@/utils/animations/pages/privacidad-page-anim";
 import "./privacidad-page.scss";
 import Footer from "@/components/layout/Footer/footer";
 
@@ -15,6 +18,11 @@ const PrivacidadPage: React.FC = () => {
     if (titleRef.current) {
       animateTitle(titleRef.current);
     }
+
+    // Cleanup function
+    return () => {
+      cleanupPrivacidadAnimations();
+    };
   }, []);
 
   return (

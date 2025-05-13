@@ -19,12 +19,7 @@ import { formatDate } from "@/utils/formatting/dateFormatting";
 import { BlogPost } from "@/types/blog-post-types";
 import Loading from "@/components/ui/Loading/Loading";
 import Footer from "@/components/layout/Footer/footer";
-
-// This section appears at the top level in your other pages
-// Register GSAP plugins if needed (this should be consistent across all pages)
-// if (typeof window !== "undefined") {
-//   gsap.registerPlugin(ScrollTrigger);
-// }
+import gsap from "gsap";
 
 const BlogPage: React.FC = () => {
   // Force component remount on each page visit
@@ -68,7 +63,6 @@ const BlogPage: React.FC = () => {
   );
 
   // Unified useEffect that handles initialization, data fetching, and cleanup
-  // This follows the pattern in your other pages
   useEffect(() => {
     // Initialize ScrollTrigger configuration once
     initScrollTriggerConfig();
@@ -110,6 +104,27 @@ const BlogPage: React.FC = () => {
       cleanupBlogPageAnimations();
     };
   }, [loading]);
+
+  useEffect(() => {
+    if (!loading && currentItems.length > 0) {
+      // Wait for DOM to update
+      const timeout = setTimeout(() => {
+        const items = document.querySelectorAll(".blog-page__post-item");
+        if (items.length > 0) {
+          gsap.set(items, { opacity: 0, y: 40 });
+          gsap.to(items, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out",
+          });
+        }
+      }, 50);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [currentItems, loading]);
 
   return (
     <SmoothScrollWrapper>
@@ -193,7 +208,11 @@ const BlogPage: React.FC = () => {
 
               <div ref={postsGridRef} className="posts-grid">
                 {currentItems.map((item, index) => (
-                  <div key={item.id} className="blog-page__post-item">
+                  <div
+                    key={item.id}
+                    className="blog-page__post-item"
+                    style={{ opacity: 0 }} // Asegurarse de que inicialmente esté oculto
+                  >
                     <BlogItem
                       key={`blog-item-${key}-${item.id}`}
                       item={item}

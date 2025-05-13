@@ -3,7 +3,7 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
-.privacidad-page {
+.cookies-page {
   position: relative;
   overflow: hidden;
   @include section-spacing;
@@ -11,7 +11,7 @@
   
   &__container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 0 clamp(1rem, 5vw, 4rem);
     display: flex;
@@ -100,9 +100,48 @@
     }
   }
   
+  &__subsection-title {
+    @include font-size(xl);
+    @include font-weight(semibold);
+    color: $black;
+    margin: 2.5rem 0 1rem;
+  }
+  
+  &__cookie-types {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+    
+    @include min-width(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &__cookie-type {
+    background-color: rgba($secondary-color, 0.5);
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba($black, 0.05);
+    }
+  }
+  
+  &__cookie-title {
+    @include font-size(lg);
+    @include font-weight(semibold);
+    color: $black;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba($black, 0.1);
+  }
+  
   &__list {
     list-style: none;
-    margin: 2rem 0;
+    margin: 1.5rem 0 2.5rem;
     
     li {
       position: relative;
@@ -120,19 +159,6 @@
         background-color: $black;
       }
       
-      ul {
-        list-style: none;
-        margin-top: 1rem;
-        padding-left: 1rem;
-        
-        li {
-          &::before {
-            width: 6px;
-            height: 6px;
-          }
-        }
-      }
-      
       strong {
         color: $black;
         @include font-weight(semibold);
@@ -140,42 +166,45 @@
     }
   }
   
-  &__table-wrapper {
-    width: 100%;
-    overflow-x: auto;
+  &__browser-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    list-style: none;
     margin: 2rem 0;
-    border: 1px solid rgba($black, 0.1);
+    
+    li {
+      flex: 1 1 40%;
+      min-width: 200px;
+      
+      @include min-width(md) {
+        flex: 0 1 auto;
+      }
+    }
   }
   
-  &__table {
-    width: 100%;
-    border-collapse: collapse;
+  &__link {
+    color: $black;
+    @include font-weight(medium);
+    text-decoration: none;
+    position: relative;
     
-    th, td {
-      padding: 12px 16px;
-      text-align: left;
-      border-bottom: 1px solid rgba($black, 0.1);
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      bottom: -2px;
+      left: 0;
+      background-color: $black;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
     }
     
-    th {
-      background-color: $secondary-color;
-      color: $black;
-      @include font-weight(semibold);
-      white-space: nowrap;
-    }
-    
-    tr {
-      &:hover {
-        background-color: rgba($black, 0.02);
-      }
-    }
-    
-    td {
-      vertical-align: top;
-      
-      &:first-child {
-        @include font-weight(medium);
-      }
+    &:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
     }
   }
   

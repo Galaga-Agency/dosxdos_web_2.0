@@ -8,7 +8,7 @@ import { isMobile } from "@/utils/device";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
 }
 
 // Store all ScrollTrigger instances for cleanup
@@ -63,91 +63,196 @@ function trackScrollTrigger(instance: ScrollTrigger): ScrollTrigger {
   return instance;
 }
 
-// Initialize fade animations for elements with fade_* classes
-export function initFadeAnimations(): void {
-  if (typeof window === "undefined") return;
+// Common fade animation setup - ENHANCED VERSION
+function setupFadeAnimation(
+  selector: string,
+  initialProps: gsap.TweenVars,
+  animProps: gsap.TweenVars,
+  startPosition: string = "top center+=100"
+) {
+  const elements = document.querySelectorAll(selector);
+  if (elements.length === 0) return; // Fixed syntax error
 
-  console.log("Initializing Fade Animations");
+  gsap.set(selector, initialProps);
+  const elementsArray = gsap.utils.toArray(selector);
 
-  // Fade bottom animations
-  const fadeBottomElements = document.querySelectorAll(".fade_bottom");
-  if (fadeBottomElements.length > 0) {
-    fadeBottomElements.forEach((element) => {
-      gsap.fromTo(
-        element,
-        {
-          opacity: 0,
-          y: 50,
+  elementsArray.forEach((item: any) => {
+    const tl = gsap.timeline({
+      scrollTrigger: trackScrollTrigger(
+        ScrollTrigger.create({
+          trigger: item,
+          start: startPosition,
+          once: true,
+          // Añadimos markers para debug (quitar en producción)
+          // markers: true,
+        })
+      ),
+    });
+
+    // Añadimos un efecto de escala para hacerlo más visible
+    tl.to(item, {
+      ...animProps,
+      // Cambiamos el ease a algo más dramático
+      ease: "back.out(1.7)",
+      // Reducimos la duración para que sea más rápido e impactante
+      duration: animProps.duration || 1.2,
+    });
+  });
+}
+
+function animateTextWithSplitText(element: any) {
+  if (!element) return null;
+
+  // Verificar si es metadatos (tienen una estructura específica)
+  const isMetaSection = element.classList.contains(
+    "portfolio-hero__meta-wrapper"
+  );
+
+  try {
+    if (isMetaSection) {
+      // Para meta, animar cada elemento meta individual directamente
+      const metaItems = element.querySelectorAll(".portfolio-hero__meta");
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: element,
+          start: "top 90%",
+          toggleActions: "play none none none",
         },
+      });
+
+      tl.fromTo(
+        metaItems,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power3.out",
+        }
+      );
+
+      return tl;
+    } else {
+      // Para la descripción u otros elementos de texto
+      const paragraphs = element.querySelectorAll("p");
+
+      if (paragraphs.length > 0) {
+        gsap.set(paragraphs, { opacity: 0, y: 20 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: element,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        });
+
+        tl.to(paragraphs, {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power3.out",
+        });
+
+        return tl;
+      } else {
+        // Si no hay párrafos, animar el elemento completo
+        gsap.set(element, { opacity: 0, y: 20 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: element,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        });
+
+        tl.to(element, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        });
+
+        return tl;
+      }
+    }
+  } catch (error) {
+    console.error("Error en animateTextWithSplitText:", error);
+
+    // Animación alternativa más simple
+    if (isMetaSection) {
+      const metaItems = element.querySelectorAll(".portfolio-hero__meta");
+      return gsap.fromTo(
+        metaItems,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    } else {
+      return gsap.fromTo(
+        element,
+        { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
           duration: 0.8,
-          ease: "power2.out",
+          ease: "power3.out",
           scrollTrigger: {
             trigger: element,
-            start: "top 85%",
-            once: true,
+            start: "top 90%",
+            toggleActions: "play none none none",
           },
         }
       );
-    });
+    }
   }
+}
 
-  // Fade left animations
-  const fadeLeftElements = document.querySelectorAll(".fade_left");
-  if (fadeLeftElements.length > 0) {
-    fadeLeftElements.forEach((element) => {
-      gsap.fromTo(
-        element,
-        {
-          opacity: 0,
-          x: -50,
-        },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: element,
-            start: "top 85%",
-            once: true,
-          },
-        }
-      );
-    });
-  }
+export function initFadeAnimations(): void {
+  if (typeof window === "undefined") return;
 
-  // Fade right animations (if needed)
-  const fadeRightElements = document.querySelectorAll(".fade_right");
-  if (fadeRightElements.length > 0) {
-    fadeRightElements.forEach((element) => {
-      gsap.fromTo(
-        element,
-        {
-          opacity: 0,
-          x: 50,
-        },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: element,
-            start: "top 85%",
-            once: true,
-          },
-        }
-      );
-    });
-  }
+  // Fade Bottom animations - más acentuadas
+  setupFadeAnimation(
+    ".fade_bottom",
+    { y: 70, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
+    { y: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.2 }, // Menor delay y duración
+    "top center+=200" // Trigger más temprano
+  );
 
-  // Register ScrollTrigger instances for cleanup
-  ScrollTrigger.getAll().forEach((instance) => {
-    trackScrollTrigger(instance);
-  });
+  // Fade Top animations - más acentuadas
+  setupFadeAnimation(
+    ".fade_top",
+    { y: -70, opacity: 0, scale: 0.95 },
+    { y: 0, opacity: 1, scale: 1, duration: 1.2 }
+  );
+
+  // Fade Left animations - más acentuadas
+  setupFadeAnimation(
+    ".fade_left",
+    { x: -70, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1.2 }
+  );
+
+  // Fade Right animations - más acentuadas
+  setupFadeAnimation(
+    ".fade_right",
+    { x: 70, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1.2 }
+  );
 }
 
 // Character animation using SplitText
@@ -219,32 +324,47 @@ export function animateChars(current: HTMLElement | null = null) {
   });
 }
 
-// Initialize hero section animations for project details page
+// Versión corregida de la función initHeroAnimations
 export function initHeroAnimations(refs: HeroAnimationRefs) {
   if (typeof window === "undefined") return;
 
-  console.log("Initializing Hero Animations");
+  console.log("Inicializando animaciones de Hero");
 
-  // Register GSAP plugins
+  // Registrar plugins de GSAP
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  // Setup hero parallax
+  // Configurar parallax para el hero
   if (refs.heroSection && refs.heroImage) {
     setupHeroParallax(refs.heroSection, refs.heroImage);
   }
 
-  // Create a timeline for hero content animations
+  // Crear timeline para animaciones del contenido del hero
   const heroTimeline = gsap.timeline({
     defaults: { ease: "power3.out" },
-    delay: 1.5,
+    delay: 0.5, // Reducir el delay para que las animaciones se vean antes
   });
 
-  // Title animation with SplitText if it has class char-animation
+  // Animación del título con SplitText si tiene la clase char-animation
   if (refs.heroTitle && refs.heroTitle.classList.contains("char-animation")) {
     animateChars(refs.heroTitle);
+  } else if (refs.heroTitle) {
+    // Animación alternativa si no tiene la clase char-animation
+    heroTimeline.fromTo(
+      refs.heroTitle,
+      {
+        opacity: 0,
+        y: 30,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+      },
+      0
+    );
   }
 
-  // Subtitle animation
+  // Animación del subtítulo
   if (refs.heroSubtitle) {
     heroTimeline.fromTo(
       refs.heroSubtitle,
@@ -260,46 +380,65 @@ export function initHeroAnimations(refs: HeroAnimationRefs) {
       0.2
     );
   }
+  
 
-  // Description animation
+  // IMPORTANTE: Añadir un pequeño retraso antes de las animaciones de descripción y meta
+  heroTimeline.add(() => {
+    console.log("Iniciando animaciones de descripción y meta");
+  }, 0.3);
+
+  // Animación de la descripción - ahora con comprobación de consola más explícita
   if (refs.heroDescription) {
-    heroTimeline.fromTo(
-      refs.heroDescription,
-      {
-        opacity: 0,
-        y: 40,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-      },
-      0.4
-    );
+    console.log("Animando descripción");
+    // Establecer opacity: 0 manualmente para asegurar estado inicial correcto
+    gsap.set(refs.heroDescription, { opacity: 0 });
+
+    // Usar setTimeout para dar tiempo a que el DOM esté listo
+    setTimeout(() => {
+      try {
+        animateTextWithSplitText(refs.heroDescription);
+      } catch (error) {
+        console.error("Error animando descripción:", error);
+        // Fallback simple
+        gsap.to(refs.heroDescription, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.4,
+        });
+      }
+    }, 100);
   }
 
-  // Meta items animation
+  // Para los metadatos:
   if (refs.heroMeta) {
+    console.log("Animando metadatos");
+    // Establecer opacity: 0 manualmente para asegurar estado inicial correcto
     const metaItems = refs.heroMeta.querySelectorAll(".portfolio-hero__meta");
-    heroTimeline.fromTo(
-      metaItems,
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.1,
-        duration: 0.6,
-      },
-      0.6
-    );
+    gsap.set(metaItems, { opacity: 0 });
+
+    // Usar setTimeout para dar tiempo a que el DOM esté listo
+    setTimeout(() => {
+      try {
+        animateTextWithSplitText(refs.heroMeta);
+      } catch (error) {
+        console.error("Error animando metadatos:", error);
+        // Fallback simple para cada item de meta
+        gsap.to(metaItems, {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          duration: 0.6,
+          delay: 0.6,
+        });
+      }
+    }, 100);
   }
 
-  // Refresh ScrollTrigger to ensure all is registered correctly
+  // Refrescar ScrollTrigger para asegurar que todo está registrado correctamente
   setTimeout(() => {
     refreshScrollTrigger();
+    console.log("ScrollTrigger refrescado");
   }, 300);
 }
 
@@ -401,8 +540,6 @@ export function movingImageSlider() {
 export function imageRevealAnimation() {
   if (typeof window === "undefined") return;
 
-  console.log("Running Image Reveal Animation");
-
   // Register GSAP plugins if not already registered
   gsap.registerPlugin(ScrollTrigger);
 
@@ -417,11 +554,9 @@ export function imageRevealAnimation() {
     items,
     {
       opacity: 0,
-      scale: 0.95,
     },
     {
       opacity: 1,
-      scale: 1,
       duration: 0.8,
       stagger: 0.1,
       ease: "power2.out",
