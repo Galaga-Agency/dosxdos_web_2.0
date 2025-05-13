@@ -56,7 +56,7 @@ const StorySection: React.FC = () => {
         </div>
 
         <div ref={servicesRef} className="story-section__services">
-          <h3 className="story-section__services-title fade_left">
+          <h3 className="story-section__services-title fade_bottom">
             LO QUE HACEMOS
           </h3>
           <div className="story-section__services-grid fade_bottom">

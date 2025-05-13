@@ -99,7 +99,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    
+
     @include min-width(md) {
       width: 40%;
       margin-bottom: 0;
@@ -120,9 +120,10 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
-    
+
     @include min-width(md) {
       flex-wrap: nowrap;
+      @include margin(xl, y);
     }
   }
 

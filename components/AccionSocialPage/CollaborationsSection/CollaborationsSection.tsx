@@ -40,7 +40,7 @@ const CollaborationsSection: React.FC = () => {
         <h2 className="collaborations-section__title fade_bottom">
           FUNDACIONES COLABORADORAS
         </h2>
-        <p className="collaborations-section__subtitle fade_left">
+        <p className="collaborations-section__subtitle fade_bottom">
           Nuestro compromiso social con organizaciones que marcan la diferencia
         </p>
       </div>

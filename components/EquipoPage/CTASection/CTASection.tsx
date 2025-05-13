@@ -68,7 +68,7 @@ const CTASection: React.FC = () => {
 
           {/* Right column with content */}
           <div className="cta-section__content-column">
-            <div className="cta-section__text fade_left">
+            <div className="cta-section__text fade_bottom">
               <p>
                 Transformando comunidades a través de iniciativas sociales que
                 generan un impacto real y duradero. Creamos oportunidades para

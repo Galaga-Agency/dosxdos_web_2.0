@@ -45,7 +45,7 @@ const ClientsSection: React.FC = () => {
 
       <div className="clients-section__container">
         <div className="clients-section__content">
-          <p className="clients-section__text fade_left">
+          <p className="clients-section__text fade_bottom">
             Creemos en construir relaciones basadas en la honestidad y la
             conexión genuina. Por eso, algunas de las marcas más prestigiosas
             del sector han confiado en nosotros durante décadas.

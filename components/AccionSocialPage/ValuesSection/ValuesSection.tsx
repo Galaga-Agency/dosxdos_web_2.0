@@ -67,7 +67,7 @@ const ValuesSection: React.FC = () => {
         </div>
 
         <div ref={servicesRef} className="values-section__services">
-          <h3 className="values-section__services-title fade_left">
+          <h3 className="values-section__services-title fade_bottom">
             NUESTROS PRINCIPIOS
           </h3>
           <div className="values-section__services-grid">

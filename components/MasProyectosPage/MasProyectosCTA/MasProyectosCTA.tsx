@@ -49,7 +49,7 @@ const MasProyectosCTA: React.FC<MasProyectosCTAProps> = ({
               TU ESPACIO ÚNICO?
             </span>
           </h2>
-          <p className="mas-proyectos-cta__text fade_left">
+          <p className="mas-proyectos-cta__text fade_bottom">
             Más de 35 años de experiencia en el sector del diseño de interiores
             en espacios comerciales y puntos de venta.
           </p>

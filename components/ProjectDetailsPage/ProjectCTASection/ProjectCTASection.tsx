@@ -54,7 +54,7 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
               PROYECTOS ESPECIALES
             </span>
           </h2>
-          <p ref={textRef} className="project-cta-section__text fade_left">
+          <p ref={textRef} className="project-cta-section__text fade_bottom">
             Explora nuestra colección de {categoryName} y encuentra la
             inspiración para tu próximo proyecto.
           </p>

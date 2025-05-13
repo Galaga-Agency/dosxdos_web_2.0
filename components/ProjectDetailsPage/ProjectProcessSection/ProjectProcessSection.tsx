@@ -86,7 +86,7 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
 
           <div
             ref={textRef}
-            className="project-process-section__text fade_left"
+            className="project-process-section__text fade_bottom"
           >
             <div className="project-process-section__text-label">
               <div
@@ -119,7 +119,6 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
           ref={floatingImage1Ref}
           className="project-process-section__floating-image project-process-section__floating-image--1 fade_bottom"
         >
-
           <div className="project-process-section__floating-image-inner">
             <Image
               src={imageSources[1]}
@@ -136,8 +135,6 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
           ref={floatingImage2Ref}
           className="project-process-section__floating-image project-process-section__floating-image--2 fade_bottom"
         >
-   
-
           <div className="project-process-section__floating-image-inner">
             <Image
               src={imageSources[2]}

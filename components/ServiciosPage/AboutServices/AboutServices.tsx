@@ -33,7 +33,7 @@ const AboutServices: React.FC = () => {
     <section className="about-services" ref={sectionRef}>
       <div className="about-services__container">
         <div className="about-services__header">
-          <div className="about-services__subtitle fade_left">
+          <div className="about-services__subtitle fade_bottom">
             Más de 35 años de experiencia
           </div>
           <h2 className="about-services__title">
