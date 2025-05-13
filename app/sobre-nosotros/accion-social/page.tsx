@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import "./accion-social-page.scss";
@@ -12,27 +12,35 @@ import ExperienciaSection from "@/components/AccionSocialPage/ExperienciaSection
 import CollaborationsSection from "@/components/AccionSocialPage/CollaborationsSection/CollaborationsSection";
 import AccionSocialCTASection from "@/components/AccionSocialPage/AccionSocialCTASection/AccionSocialCTASection";
 import { cleanupAccionSocialAnimations } from "@/utils/animations/pages/accion-social-page-anim";
-import { preloadImages } from "@/utils/imagePreloader";
 import Footer from "@/components/layout/Footer/footer";
-
-// Preload critical accion social hero image
-if (typeof window !== "undefined") {
-  preloadImages(["/assets/img/about-us-page/vicente-ferrer-illustration.jpg"]);
-}
+import Loading from "@/components/ui/Loading/Loading";
+import { useInitialLoading } from "@/hooks/useInitialLoading";
+import { useEffect, useState } from "react";
 
 const AccionSocialPage: React.FC = () => {
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
+  
+  // Use our custom hook to handle loading state
+  const isLoading = useInitialLoading(1500);
 
   // Initialize ScrollTrigger configuration once
   useEffect(() => {
+    // Skip if still in loading state
+    if (isLoading) return;
+    
     initScrollTriggerConfig();
 
     // Cleanup on unmount
     return () => {
       cleanupAccionSocialAnimations();
     };
-  }, []);
+  }, [isLoading]);
+
+  // Show loading component only on initial direct page load
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <SmoothScrollWrapper>

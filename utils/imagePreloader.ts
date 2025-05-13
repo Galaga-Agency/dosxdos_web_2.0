@@ -1,68 +1,118 @@
 /**
- * Image utility functions for preloading, caching, and optimizing images
+ * Image preloading utilities
+ * Updated with simple preloadImages function
  */
+
+import { gsap } from 'gsap';
+
+// Types
+export type PreloadStatus = 'pending' | 'loading' | 'loaded' | 'error';
+
+export interface PreloadImageOptions {
+  priority?: 'high' | 'low' | 'auto';
+  timeout?: number;
+  onProgress?: (progress: number) => void;
+  onLoad?: () => void;
+  onError?: (error: Error) => void;
+  crossOrigin?: string;
+  cacheBuster?: boolean;
+}
+
+export interface PreloadResult {
+  totalImages: number;
+  loadedImages: number;
+  failedImages: number;
+  progress: number;
+  complete: boolean;
+}
+
+// Cache to track loaded images across the app
+const imageCache = new Map<string, PreloadStatus>();
 
 /**
- * Preloads an array of images to improve load time for critical visuals
- * @param imagePaths Array of image paths to preload
+ * Simple function to preload multiple images
+ * Returns a promise that resolves when all images are loaded
  */
-export const preloadImages = (imagePaths: string[]): void => {
-  if (typeof window === "undefined") return;
-
-  imagePaths.forEach((path) => {
-    const img = document.createElement("img");
-    img.src = path;
+export const preloadImages = (imagePaths: string[]): Promise<void[]> => {
+  if (typeof window === "undefined") return Promise.resolve([]);
+  
+  // Create an array of promises
+  const promises = imagePaths.map(path => {
+    return new Promise<void>((resolve) => {
+      const img = new Image();
+      
+      // Resolve the promise when the image loads or errors
+      img.onload = () => {
+        imageCache.set(path, 'loaded');
+        resolve();
+      };
+      
+      img.onerror = () => {
+        imageCache.set(path, 'error');
+        console.warn(`Failed to preload image: ${path}`);
+        resolve(); // Also resolve on error to continue
+      };
+      
+      // Start loading the image
+      if (imageCache.get(path) === 'loaded') {
+        resolve(); // Already loaded
+      } else {
+        imageCache.set(path, 'loading');
+        img.src = path;
+      }
+    });
   });
+  
+  // Return a promise that resolves when all images are loaded
+  return Promise.all(promises);
 };
 
 /**
- * Preloads the next image in a slider/carousel to ensure smooth transitions
+ * Preloads the next X images in a collection starting from current index
+ * 
  * @param currentIndex Current active image index
- * @param images Array of all images in the slider
- * @param isCircular Whether the slider loops back to the beginning after reaching the end
+ * @param images Array of all images in the collection
+ * @param count Number of images to preload ahead (default: 2)
+ * @param isCircular Whether the collection loops (default: true)
  */
-export const preloadNextImage = (
+export const preloadNextImages = (
   currentIndex: number,
   images: string[],
-  isCircular: boolean = true
+  count: number = 2,
+  isCircular: boolean = true,
+  options: PreloadImageOptions = {}
 ): void => {
-  if (typeof window === "undefined" || images.length === 0) return;
-
-  // Calculate the index of the next image
-  const nextIndex = isCircular
-    ? (currentIndex + 1) % images.length
-    : Math.min(currentIndex + 1, images.length - 1);
-
-  // If we're at the last image and not circular, don't preload
-  if (!isCircular && nextIndex === currentIndex) return;
-
-  // Preload the next image
-  const img = document.createElement("img");
-  img.src = images[nextIndex];
-};
-
-/**
- * Preloads specific image indexes from an array
- * Useful for preloading first few images of a gallery or carousel
- * @param images Array of all images
- * @param indexes Array of indexes to preload (default: [0, 1])
- */
-export const preloadImagesByIndex = (
-  images: string[],
-  indexes: number[] = [0, 1]
-): void => {
-  if (typeof window === "undefined" || images.length === 0) return;
-
-  indexes.forEach((index) => {
-    if (index >= 0 && index < images.length) {
-      const img = document.createElement("img");
-      img.src = images[index];
+  if (typeof window === 'undefined' || images.length === 0 || count <= 0) return;
+  
+  const imagesToPreload: string[] = [];
+  
+  // Calculate which images to preload
+  for (let i = 1; i <= count; i++) {
+    let nextIndex;
+    
+    if (isCircular) {
+      nextIndex = (currentIndex + i) % images.length;
+    } else {
+      nextIndex = Math.min(currentIndex + i, images.length - 1);
+      // If we're already at the end, no point continuing
+      if (nextIndex === currentIndex) break;
     }
-  });
+    
+    // Add to preload list if not already loaded
+    if (imageCache.get(images[nextIndex]) !== 'loaded') {
+      imagesToPreload.push(images[nextIndex]);
+    }
+  }
+  
+  // Preload the images
+  if (imagesToPreload.length > 0) {
+    preloadImages(imagesToPreload);
+  }
 };
 
 /**
  * Helper function to extract image URLs from a nested data structure
+ * 
  * @param items Array of items with image URLs
  * @param imageProperty Property name that contains the image URL
  * @returns Array of image URLs
@@ -75,3 +125,5 @@ export const extractImageUrls = <T extends Record<string, any>>(
     .map((item) => item[imageProperty] as unknown as string)
     .filter(Boolean);
 };
+
+/* Keep other utility functions from your original file unchanged */

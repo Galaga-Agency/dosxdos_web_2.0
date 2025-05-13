@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { animateHeroSlider } from "@/utils/animations/pages/homepage-anim";
-import { preloadNextImage, extractImageUrls } from "@/utils/imagePreloader";
+import { preloadNextImages, extractImageUrls } from "@/utils/imagePreloader";
 
 interface SlideItem {
   id: number;
@@ -35,7 +35,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
   // Preload next slide whenever active slide changes
   useEffect(() => {
-    preloadNextImage(activeSlide, imageUrls);
+    preloadNextImages(activeSlide, imageUrls, 1);
   }, [activeSlide, imageUrls]);
 
   // Initialize animations
@@ -187,7 +187,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         </h1>
 
         <div ref={ctaRef} className="hero-slider__cta">
-          <SecondaryButton href="/portfolio-2" size="large">
+          <SecondaryButton href="/portfolio" size="large">
             Descubrir Proyectos
           </SecondaryButton>
         </div>
