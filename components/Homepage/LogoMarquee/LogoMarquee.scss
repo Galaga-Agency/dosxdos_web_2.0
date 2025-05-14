@@ -8,7 +8,11 @@
   position: relative;
   background-color: $white;
   overflow: hidden;
-  padding: 1rem 0;
+  overscroll-behavior: none;
+
+  // Importante: añadimos estas propiedades para evitar conflictos con ScrollTrigger
+  will-change: auto;
+  transform: translateZ(0);
 
   // Dark mode variant
   &--dark-mode {
@@ -39,11 +43,11 @@
     position: relative;
     max-width: 100%;
     margin: 0 auto;
+    overscroll-behavior: none;
 
     &.has-header {
       @include flex(column, flex-start, unset);
-      // Minimal gap
-      gap: 0.5rem;
+      gap: 4rem;
 
       @include min-width(lg) {
         // Very minimal gap on desktop
@@ -80,13 +84,13 @@
     overflow: hidden;
     position: relative;
     width: 100%;
-    // IMPORTANT: Keeping original pointer-events setting to avoid scroll issues
+    overscroll-behavior: none;
     pointer-events: none;
-    min-height: 60px;
+    min-height: 120px;
     will-change: transform;
     z-index: 2;
 
-    @include min-width(md) {
+    @include min-width(lg) {
       min-height: 80px;
     }
   }
@@ -99,14 +103,14 @@
     transition: all 0.3s ease;
     overflow: hidden;
     // Drastically reduced height
-    height: 60px;
+    height: 100px;
 
-    @include min-width(md) {
+    @include min-width(lg) {
       height: 80px;
     }
 
     img {
-      max-height: 40px;
+      max-height: 100px;
       width: auto;
       height: auto;
       object-fit: contain;
@@ -114,10 +118,9 @@
       filter: grayscale(100%) contrast(1);
       transition: all 0.5s ease;
       transform-origin: center;
-      // IMPORTANT: Adding pointer events to logos so they're interactive
       pointer-events: auto;
 
-      @include min-width(md) {
+      @include min-width(lg) {
         max-height: 55px;
       }
 
@@ -134,28 +137,4 @@
       }
     }
   }
-}
-
-.highlight-bg {
-  position: relative;
-  display: inline-block;
-  z-index: 1;
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: -5px;
-    right: -5px;
-    width: calc(100% + 10px);
-    height: 40%;
-    background-color: rgba($black, 0.2);
-    opacity: 0.3;
-    z-index: -1;
-    transform: skew(-10deg);
-  }
-}
-
-.shadow-text {
-  text-shadow: 2px 2px 4px rgba($primary-color, 0.05);
 }

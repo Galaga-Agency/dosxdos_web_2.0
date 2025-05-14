@@ -85,9 +85,9 @@ const AboutUsSection: React.FC = () => {
               </p>
             </div>
 
-            <div className="aboutus-section__cta fade_bottom">
+            <div className="aboutus-section__cta">
               <PrimaryButton href="/sobre-nosotros/equipo" size="medium">
-                Conócenos
+                Conócenos →
               </PrimaryButton>
             </div>
           </div>

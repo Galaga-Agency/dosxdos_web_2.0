@@ -60,9 +60,6 @@ const ServicesGrid: React.FC = () => {
   ];
 
   useEffect(() => {
-    console.log("ServicesGrid mounted");
-    
-    // First ensure all animations are cleaned up
     cleanupServiciosAnimations();
     cleanupCursorBubbleAnimation();
 

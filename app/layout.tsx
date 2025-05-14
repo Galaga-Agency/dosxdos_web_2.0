@@ -158,7 +158,7 @@ export const metadata: Metadata = {
       "Especialistas en diseño de interiores para espacios comerciales de lujo en Madrid y Canarias. Más de 35 años de experiencia creando experiencias únicas para marcas de cosmética y perfumería.",
     images: [
       {
-        url: "/assets/img/logo_full_rojo.png", // Image that show when website is shared ass link in social media
+        url: "/assets/img/logo_full_rojo.png", // Image that show when website is shared as link in social media
         width: 1200,
         height: 630,
         alt: "Dos x Dos Grupo Imagen - Diseño de Interiores Comerciales",
@@ -199,7 +199,6 @@ export default function RootLayout({
     <html lang="es">
       <head>
         {/* Preload ALL critical hero images across the entire site */}
-        
         {/* Homepage hero slider images */}
         <link
           rel="preload"

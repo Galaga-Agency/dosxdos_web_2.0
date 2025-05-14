@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { clientLogos } from "@/data/clients";
@@ -24,9 +24,22 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   fullWidth = false,
   darkMode = false,
 }) => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const marqueeWrapperRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // Save all current ScrollTrigger instances
+    const allTriggers = ScrollTrigger.getAll();
+
+    // Disable all of them
+    allTriggers.forEach((trigger) => {
+      trigger.disable();
+    });
+
+    // Return cleanup function to re-enable all triggers when component unmounts
+    return () => {
+      allTriggers.forEach((trigger) => {
+        trigger.enable();
+      });
+    };
+  }, []);
 
   const sectionClasses = `logo-marquee ${
     fullWidth ? "logo-marquee--full-width" : ""
@@ -40,10 +53,10 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
   const gradientColor = darkMode ? "#281528" : "rgb(255, 255, 255)";
 
   return (
-    <section ref={sectionRef} className={sectionClasses}>
+    <section className={sectionClasses}>
       <div className={containerClasses}>
         {showHeader && (
-          <div ref={headerRef} className="logo-marquee__header">
+          <div className="logo-marquee__header">
             <h2 className="logo-marquee__header-title">
               <span className="shadow-text">Marcas que </span>
               <span className="highlight-bg">confían en nosotros</span>
@@ -51,7 +64,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
           </div>
         )}
 
-        <div ref={marqueeWrapperRef} className="logo-marquee__wrapper">
+        <div className="logo-marquee__wrapper">
           <Marquee
             gradient={true}
             gradientColor={gradientColor}

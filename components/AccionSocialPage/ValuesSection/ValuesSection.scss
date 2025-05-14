@@ -6,7 +6,6 @@
 .values-section {
   position: relative;
   overflow: hidden;
-  @include section-spacing;
 
   &__container {
     width: 100%;

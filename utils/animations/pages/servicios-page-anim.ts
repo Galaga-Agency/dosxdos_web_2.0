@@ -108,7 +108,7 @@ export function initFadeAnimations(): void {
   // Fade Bottom animations
   setupFadeAnimation(
     ".fade_bottom",
-    { y: 70, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
+    { y: 40, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
     { y: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.2 }, // Menor delay y duración
     "top center+=200" // Trigger más temprano
   );
@@ -116,21 +116,21 @@ export function initFadeAnimations(): void {
   // Fade Top animations
   setupFadeAnimation(
     ".fade_top",
-    { y: -70, opacity: 0, scale: 0.95 },
+    { y: -40, opacity: 0, scale: 0.95 },
     { y: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Left animations
   setupFadeAnimation(
     ".fade_left",
-    { x: -70, opacity: 0, scale: 0.95 },
+    { x: -40, opacity: 0, scale: 0.95 },
     { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Right animations
   setupFadeAnimation(
     ".fade_right",
-    { x: 70, opacity: 0, scale: 0.95 },
+    { x: 40, opacity: 0, scale: 0.95 },
     { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 }

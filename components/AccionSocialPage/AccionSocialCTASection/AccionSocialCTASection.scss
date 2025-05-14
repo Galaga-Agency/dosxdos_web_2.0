@@ -6,12 +6,8 @@
 .cta-section {
   position: relative;
   width: 100%;
-  @include padding(6xl, top);
+  @include section-padding-top();
   background-color: $white;
-
-  @include min-width(lg) {
-    @include padding(8xl, top);
-  }
 
   &__container {
     margin: 0 auto;
@@ -105,11 +101,11 @@
 
     @include min-width(xl) {
       width: 90%;
-      margin: 0 auto;
+      margin: 5rem auto 0 auto;
     }
   }
 
-  &__animated-logo {
+  &__image {
     position: relative;
     width: 100%;
     height: 300px;

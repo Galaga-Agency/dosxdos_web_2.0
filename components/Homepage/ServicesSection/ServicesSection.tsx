@@ -32,7 +32,6 @@ const ServicesSection: React.FC = () => {
         // Force refresh to ensure ScrollTrigger works properly
         setTimeout(() => {
           if ((window as any).__smoother__) {
-            console.log("Refreshing ScrollSmoother");
             (window as any).__smoother__.refresh();
           }
           ScrollTrigger.refresh();

@@ -3,7 +3,14 @@
 import React, { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import { animateHeroSection } from "@/utils/animations/pages/equipo-page-anim";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import "./HeroSection.scss";
+
+// Register ScrollTrigger if needed
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const HeroSection: React.FC = () => {
   const labelRef = useRef<HTMLDivElement>(null);
@@ -13,22 +20,33 @@ const HeroSection: React.FC = () => {
   const heroImageRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-
-  const decorElementsRef = useRef<HTMLDivElement>(null);
-  const decorDotsRef = useRef<HTMLDivElement>(null);
-  const decorLineRef = useRef<HTMLDivElement>(null);
-  const decorCircleRef = useRef<HTMLDivElement>(null);
-  const decorGridRef = useRef<HTMLDivElement>(null);
-
   const floatingImage1Ref = useRef<HTMLDivElement>(null);
   const floatingImage2Ref = useRef<HTMLDivElement>(null);
   const floatingImage3Ref = useRef<HTMLDivElement>(null);
- 
   const floatingImageInner1Ref = useRef<HTMLDivElement>(null);
   const floatingImageInner2Ref = useRef<HTMLDivElement>(null);
   const floatingImageInner3Ref = useRef<HTMLDivElement>(null);
 
+  // Setup direct parallax first to avoid the bump
   useLayoutEffect(() => {
+    if (heroImageRef.current) {
+      // Apply direct GSAP parallax to the hero image
+      gsap.to(heroImageRef.current, {
+        y: () => window.innerHeight * 0.1, // Gentle parallax (10% of viewport)
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".hero-section",
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+    }
+  }, []);
+
+  // Then run your original animations as usual
+  useEffect(() => {
     const timer = setTimeout(() => {
       animateHeroSection({
         section: heroImageContainerRef.current,
@@ -37,7 +55,6 @@ const HeroSection: React.FC = () => {
         underline: underlineRef.current,
         description: descriptionRef.current,
         stats: statsRef.current,
-        decor: decorElementsRef.current,
         image: heroImageRef.current,
         floatingImages: [
           {
@@ -55,7 +72,7 @@ const HeroSection: React.FC = () => {
           {
             container: floatingImage3Ref,
             inner: floatingImageInner3Ref,
-            offset: -65,
+            offset: -55,
             innerOffset: 25,
           },
         ],
@@ -115,16 +132,6 @@ const HeroSection: React.FC = () => {
       </div>
 
       <div className="random-images">
-        <div
-          ref={decorElementsRef}
-          className="random-images__decorative-elements"
-        >
-          <div ref={decorDotsRef} className="random-images__decor-dots" />
-          <div ref={decorLineRef} className="random-images__decor-line" />
-          <div ref={decorCircleRef} className="random-images__decor-circle" />
-          <div ref={decorGridRef} className="random-images__decor-grid" />
-        </div>
-
         {/* Floating Images */}
         {[1, 2, 3].map((_, i) => {
           const containerRef = [
@@ -147,11 +154,6 @@ const HeroSection: React.FC = () => {
                 i + 1
               }`}
             >
-              <div className="corner corner--tl" />
-              <div className="corner corner--tr" />
-              <div className="corner corner--bl" />
-              <div className="corner corner--br" />
-
               <div ref={innerRef} className="random-images__inner-container">
                 <Image
                   src={imgSrc}

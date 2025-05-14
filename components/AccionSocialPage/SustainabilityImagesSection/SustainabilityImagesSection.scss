@@ -6,7 +6,7 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
-  padding: 5rem 0;
+  @include section-padding-top();
 
   @include container-width(mobile);
 

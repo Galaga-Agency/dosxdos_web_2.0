@@ -1,18 +1,14 @@
-@use "abstracts/variables" as *;
-@use "base/colors" as *;
-@use "abstracts/mixins" as *;
-@use "base/animations" as *;
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/base/colors" as *;
+@use "@/styles/abstracts/mixins" as *;
+@use "@/styles/base/animations" as *;
 
 .clients-section {
   position: relative;
   width: 100%;
-  @include padding(6xl, y);
-  background-color: $black; 
+  background-color: $black;
   overflow: hidden;
-
-  @include min-width(lg) {
-    @include padding(8xl, y);
-  }
+  @include section-padding-y();
 
   &__container {
     margin: 0 auto;
@@ -37,6 +33,7 @@
     color: $white;
     line-height: 1.1;
     text-align: left;
+    @include margin(md, bottom);
 
     @include min-width(sm) {
       @include font-size(5xl);
@@ -44,10 +41,12 @@
 
     @include min-width(md) {
       @include font-size(6xl);
+      @include margin(lg, bottom);
     }
 
     @include min-width(lg) {
       @include font-size(7xl);
+      @include margin(xl, bottom);
     }
   }
 
@@ -58,6 +57,10 @@
     overflow: hidden;
     z-index: 2;
     min-height: 120px;
+    // Added these properties to prevent ScrollTrigger issues, matching LogoMarquee
+    will-change: transform;
+    transform: translateZ(0);
+    pointer-events: auto;
 
     @include min-width(md) {
       min-height: 150px;
@@ -75,8 +78,7 @@
     margin-bottom: 2.5rem;
     max-width: 650px;
     text-align: left;
-        margin-top: -5rem;
-
+    margin-top: -5rem;
 
     @include min-width(lg) {
       @include font-size(xl);

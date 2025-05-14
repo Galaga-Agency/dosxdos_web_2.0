@@ -6,13 +6,9 @@
 .team-section {
   position: relative;
   width: 100%;
-  @include padding(6xl, y);
   background-color: $white;
   overflow: hidden;
-
-  @include min-width(lg) {
-    @include padding(8xl, y);
-  }
+  @include section-padding-top();
 
   &__container {
     margin: 0 auto;

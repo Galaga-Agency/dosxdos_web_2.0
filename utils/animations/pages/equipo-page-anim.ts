@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { SplitText } from "@/plugins";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
+import { isMobile } from "@/utils/device";
 
 // Store all ScrollTrigger instances for cleanup
 const scrollTriggerInstances: ScrollTrigger[] = [];
@@ -55,7 +56,7 @@ export function initFadeAnimations(): void {
   // Fade Bottom animations
   setupFadeAnimation(
     ".fade_bottom",
-    { y: 70, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
+    { y: 40, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
     { y: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.2 }, // Menor delay y duración
     "top center+=200" // Trigger más temprano
   );
@@ -63,21 +64,21 @@ export function initFadeAnimations(): void {
   // Fade Top animations
   setupFadeAnimation(
     ".fade_top",
-    { y: -70, opacity: 0, scale: 0.95 },
+    { y: -40, opacity: 0, scale: 0.95 },
     { y: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Left animations
   setupFadeAnimation(
     ".fade_left",
-    { x: -70, opacity: 0, scale: 0.95 },
+    { x: -40, opacity: 0, scale: 0.95 },
     { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Right animations
   setupFadeAnimation(
     ".fade_right",
-    { x: 70, opacity: 0, scale: 0.95 },
+    { x: 40, opacity: 0, scale: 0.95 },
     { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 }
@@ -189,8 +190,6 @@ interface SectionAnimationElements {
 export function animateHeroSection(elements: SectionAnimationElements) {
   if (typeof window === "undefined" || !elements.section) return null;
 
-  console.log("Animating Hero Section");
-
   const tl = gsap.timeline();
 
   if (elements.section) {
@@ -200,7 +199,7 @@ export function animateHeroSection(elements: SectionAnimationElements) {
     });
   }
 
-  // Set image visibility without animating it
+  // Set image visibility immediately
   if (elements.image) {
     gsap.set(elements.image, {
       visibility: "visible",
@@ -222,10 +221,7 @@ export function animateHeroSection(elements: SectionAnimationElements) {
     });
   }
 
-  // MODIFIED: Set up description for SplitText animation instead of regular animation
   if (elements.description) {
-    // We'll handle the description separately with SplitText animation
-    // instead of including it in the animation sequence
     const descriptionAnimation = animateDescriptionWithSplitText(
       elements.description
     );
@@ -241,7 +237,6 @@ export function animateHeroSection(elements: SectionAnimationElements) {
     { el: elements.label, props: { y: -30 }, index: 0.3 },
     { el: elements.title, props: { y: 0 }, index: 0.6, charAnim: true },
     { el: elements.underline, props: { width: 0 }, index: 1.0 },
-    // Removed description from here since we're handling it separately
     { el: elements.stats, props: { y: 20 }, index: 1.4 },
     { el: elements.decor, props: { scale: 0.8 }, index: 1.6 },
   ];
@@ -298,7 +293,23 @@ export function animateHeroSection(elements: SectionAnimationElements) {
   }
 
   if (elements.section && elements.image) {
-    setupHeroParallax(elements.section, elements.image);
+    // Wait until everything is ready
+    setTimeout(() => {
+      const isMobileDevice = isMobile();
+
+      // Apply parallax directly to the element
+      if (!isMobileDevice && elements.image) {
+        elements.image.setAttribute("data-speed", "0.9");
+      } else if (elements.image) {
+        elements.image.setAttribute("data-speed", "1");
+      }
+
+      // Refresh all scroll
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.refresh();
+      }
+      refreshScrollTrigger();
+    }, 500); // Longer delay to make sure everything's ready
   }
 
   // Force refresh ScrollTrigger
@@ -309,51 +320,56 @@ export function animateHeroSection(elements: SectionAnimationElements) {
   return tl;
 }
 
-// Parallax for hero section
-function setupHeroParallax(container: HTMLElement, target: HTMLElement) {
-  if (!container || !target) return;
-
-  try {
-    target.setAttribute("data-speed", "0.9");
-
-    // Force refresh ScrollTrigger
-    setTimeout(() => {
-      if ((window as any).__smoother__) {
-        (window as any).__smoother__.refresh();
-      }
-      refreshScrollTrigger();
-    }, 100);
-  } catch (error) {
-    console.error("Error setting up hero parallax:", error);
-  }
-}
-
-// Parallax for floating images
+// Parallax for floating images with mobile device handling
 function setupFloatingImagesParallax(floatingImages: any[]): void {
   try {
+    // Check if device is mobile using your isMobile utility
+    const isMobileDevice = isMobile();
+
     floatingImages.forEach(
       ({ container, inner, offset, innerOffset }, index) => {
         if (container && container.current) {
-          // Calculate smoother speed value
-          let containerSpeed =
-            offset < 0 ? 1 + Math.abs(offset) / 100 : 1 - offset / 100;
+          // Only apply parallax to container on non-mobile devices
+          if (!isMobileDevice) {
+            // Calculate speed - SPECIAL CASE FOR IMAGE 3
+            let containerSpeed;
+            
+            if (index === 2) { // Image 3 specifically
+              // Slow down image 3 by setting speed closer to 1
+              containerSpeed = 0.95; // Just slightly slower than normal
+            } else {
+              // Original calculation for other images
+              containerSpeed = offset < 0 ? 1 + Math.abs(offset) / 100 : 1 - offset / 100;
+            }
 
-          // Keep values in reasonable range
-          containerSpeed = Math.max(0.5, Math.min(1.5, containerSpeed));
+            // Keep values in reasonable range
+            containerSpeed = Math.max(0.5, Math.min(1.5, containerSpeed));
 
-          // Apply data-speed attribute
-          container.current.setAttribute(
-            "data-speed",
-            containerSpeed.toString()
-          );
+            // Apply data-speed attribute
+            container.current.setAttribute(
+              "data-speed",
+              containerSpeed.toString()
+            );
+          } else {
+            // Force container to move at normal speed (no parallax) on mobile
+            container.current.setAttribute("data-speed", "1");
+          }
         }
 
         if (inner && inner.current) {
-          // Calculate speed value for inner element
-          let innerSpeed =
-            innerOffset < 0
+          // Apply parallax to inner element regardless of device
+          // SPECIAL CASE FOR IMAGE 3 INNER
+          let innerSpeed;
+          
+          if (index === 2) { // Image 3 inner specifically 
+            // Slow down image 3 inner
+            innerSpeed = 0.9; // Slower than normal
+          } else {
+            // Original calculation for other inners
+            innerSpeed = innerOffset < 0
               ? 1 + Math.abs(innerOffset) / 200
               : 1 - innerOffset / 200;
+          }
 
           // Keep values in reasonable range
           innerSpeed = Math.max(0.7, Math.min(1.3, innerSpeed));
@@ -376,7 +392,34 @@ function setupFloatingImagesParallax(floatingImages: any[]): void {
   }
 }
 
-// Rest of your original code unchanged...
+// Also update the hero parallax function similarly
+function setupHeroParallax(container: HTMLElement, target: HTMLElement) {
+  if (!container || !target) return;
+
+  try {
+    // Check if device is mobile
+    const isMobileDevice = isMobile();
+
+    // Only apply parallax effect if not on mobile
+    if (!isMobileDevice) {
+      target.setAttribute("data-speed", "0.9");
+    } else {
+      // Set speed to 1 (no parallax) on mobile
+      target.setAttribute("data-speed", "1");
+    }
+
+    // Force refresh ScrollTrigger
+    setTimeout(() => {
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.refresh();
+      }
+      refreshScrollTrigger();
+    }, 100);
+  } catch (error) {
+    console.error("Error setting up hero parallax:", error);
+  }
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEAM SECTION ANIMATION ////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////

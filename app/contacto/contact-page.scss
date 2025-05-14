@@ -8,11 +8,11 @@
   margin-inline: auto;
   min-height: 100vh;
   width: 100%;
-  padding-block: 8rem;
+  padding-top: 8rem;
   background-color: $white;
 
   @include min-width(lg) {
-    padding-block: 10rem;
+    padding-top: 10rem;
   }
 
   &__container {
@@ -69,11 +69,11 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    margin-top: 5rem;
     width: 100%;
     background-color: rgba($black, 0.03);
     padding: 3rem;
     @include border-radius(xl);
+    margin-block: 3rem;
 
     @include min-width(lg) {
       display: none; // Hide on desktop
@@ -159,6 +159,7 @@
 
     @include min-width(xxxl) {
       @include font-size(hero-xxxl);
+      margin-top: 0;
     }
   }
 
@@ -175,7 +176,6 @@
 
     @include min-width(xl) {
       gap: 6rem;
-      padding-block: 5rem;
     }
   }
 
@@ -183,9 +183,13 @@
     opacity: 0;
 
     &-info-section {
-      padding: 3rem;
+      padding: 0 3rem;
       @include border-radius(xl);
       height: 100%;
+
+      @include min-width(lg) {
+      padding: 0;
+      }
 
       p {
         @include font-size(xl);
@@ -231,9 +235,12 @@
   &__offices {
     width: 100%;
     position: relative;
-    padding-top: 6rem;
-    padding-bottom: 3rem;
+    @include section-padding-top();
     opacity: 0;
+
+    @include min-width(xl) {
+      padding-top: 0;
+    }
 
     .offices-title {
       @include font-size(5xl);
@@ -269,7 +276,7 @@
     display: none;
     opacity: 0;
 
-    @include min-width(xl) {
+    @include min-width(lg) {
       display: block;
       position: relative;
       width: 100%;
@@ -277,7 +284,7 @@
       @include padding(3xl, y);
       @include padding(lg, x);
       @include border-radius(lg);
-      @include margin(4xl, top);
+      @include margin(4xl, y);
       text-align: center;
     }
 

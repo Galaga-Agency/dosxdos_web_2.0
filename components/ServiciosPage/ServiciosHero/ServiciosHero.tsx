@@ -5,6 +5,7 @@ import Link from "next/link";
 import { animateServiciosHero } from "@/utils/animations/pages/servicios-page-anim";
 import { GoArrowUpRight } from "react-icons/go";
 import "./ServiciosHero.scss";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const ServiciosHero: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -48,12 +49,9 @@ const ServiciosHero: React.FC = () => {
         </p>
 
         <div ref={buttonRef} className="servicios-hero__button-wrapper">
-          <Link href="/portfolio" className="servicios-hero__button">
-            <span className="servicios-hero__button-text">Ver proyectos </span>
-            <span className="servicios-hero__button-icon">
-              <GoArrowUpRight />
-            </span>
-          </Link>
+          <PrimaryButton href="/portfolio" className="servicios-hero__button">
+            Ver proyectos →
+          </PrimaryButton>
         </div>
       </div>
     </section>

@@ -26,6 +26,7 @@ const BlogPage: React.FC = () => {
   const [key] = useState(() => Date.now());
   const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
   // Refs for animations
   const imageContainerRef = useRef<HTMLDivElement | null>(null);
@@ -36,6 +37,29 @@ const BlogPage: React.FC = () => {
   const postsSectionRef = useRef<HTMLDivElement>(null);
   const postsGridRef = useRef<HTMLDivElement>(null);
   const desktopSocialCtaRef = useRef<HTMLDivElement>(null);
+
+  // Determine items per page based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      // Tablet range (768px to 991px)
+      if (window.innerWidth >= 768 && window.innerWidth < 992) {
+        setItemsPerPage(2); // Show 2 items on tablets
+      } else {
+        setItemsPerPage(3); // Default 3 items for mobile (1 column) and desktop (3 columns)
+      }
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // Get only published blog posts
   const publishedBlogItems = blogItems.filter(
@@ -48,7 +72,7 @@ const BlogPage: React.FC = () => {
   const { currentItems, handlePageClick, pageCount, currentPage } =
     usePagination({
       items: other_blogs,
-      itemsPerPage: 3,
+      itemsPerPage: itemsPerPage,
     });
 
   // Setup parallax effect for featured image

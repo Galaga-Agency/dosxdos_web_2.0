@@ -65,8 +65,6 @@ export const animateBlogDetail = ({
 }: BlogDetailAnimElements) => {
   if (typeof window === "undefined") return null;
 
-  console.log("Animating Blog Detail Page");
-
   // Create timeline for better control
   const tl = gsap.timeline({
     defaults: { ease: "power3.out" },
@@ -78,22 +76,68 @@ export const animateBlogDetail = ({
     tl.to(backButton, { opacity: 1, x: 0, duration: 0.8 }, 0);
   }
 
-  // Hero parallax setup
-  if (heroSection && heroImage) {
-    // Setup parallax effect
-    ScrollTrigger.create({
-      trigger: heroSection,
-      start: "top top",
-      end: "bottom top",
-      scrub: 3,
-      onUpdate: (self: any) => {
-        gsap.to(heroImage, {
-          y: `-${self.progress * 50}%`,
-          ease: "none",
-          overwrite: "auto",
-        });
-      },
-    });
+  // Improved Hero parallax setup with consistent speeds
+  if (heroSection) {
+    // Get the background image URL
+    const computedStyle = window.getComputedStyle(heroSection);
+    const heroBackground = computedStyle.backgroundImage;
+
+    // Only proceed if we have a background image
+    if (heroBackground && heroBackground !== "none") {
+      // Reset the background to none on the main element
+      heroSection.style.backgroundImage = "none";
+
+      // Create a pseudo-element for the background image with absolute positioning
+      const heroBackgroundEl = document.createElement("div");
+      heroBackgroundEl.className = "hero-background-parallax";
+      heroBackgroundEl.style.cssText = `
+        position: absolute;
+        top: -10%;
+        left: 0;
+        width: 100%;
+        height: 120%;
+        background-image: ${heroBackground};
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+      `;
+
+      // Insert the background element as the first child
+      heroSection.insertBefore(heroBackgroundEl, heroSection.firstChild);
+
+      // Create one ScrollTrigger for all parallax elements
+      ScrollTrigger.create({
+        trigger: heroSection,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1, // Consistent, medium scrub value
+        onUpdate: (self) => {
+          // Background parallax
+          gsap.to(heroBackgroundEl, {
+            y: self.progress * 25 + "%",
+            ease: "none",
+            overwrite: "auto",
+          });
+
+          // All content elements move at the exact same rate and direction
+          const allContentElements = [
+            heroImage,
+            heroTitle,
+            heroCategory,
+            heroDate,
+            heroAuthor,
+          ].filter((el) => el);
+
+          if (allContentElements.length) {
+            gsap.to(allContentElements, {
+              y: -self.progress * 25 + "%", // Same value as background but negative
+              ease: "none",
+              overwrite: "auto",
+            });
+          }
+        },
+      });
+    }
   }
 
   // Title animation using SplitText
@@ -357,7 +401,11 @@ export const initBlogDetailAnimations = (refs: BlogDetailAnimElements) => {
 export function cleanupBlogDetailAnimations() {
   if (typeof window === "undefined") return;
 
-  console.log("⚠️ Cleaning up all blog detail page animations");
+  // Clean up the dynamically created background element
+  const heroBackgroundEl = document.querySelector(".hero-background-parallax");
+  if (heroBackgroundEl && heroBackgroundEl.parentNode) {
+    heroBackgroundEl.parentNode.removeChild(heroBackgroundEl);
+  }
 
   // Kill all ScrollTriggers
   ScrollTrigger.getAll().forEach((trigger: any) => {

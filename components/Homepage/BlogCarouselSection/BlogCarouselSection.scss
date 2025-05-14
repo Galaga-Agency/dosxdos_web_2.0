@@ -6,14 +6,11 @@
 .blog-carousel-section {
   position: relative;
   width: 100%;
-  @include padding(6xl, y);
   background-color: $white;
-  overflow: visible; // Changed from hidden to allow for proper animation
-  opacity: 1 !important; // Ensure visibility
+  overflow: visible; 
+  opacity: 1 !important; 
+  @include section-padding-y();
 
-  @include min-width(lg) {
-    @include padding(8xl, y);
-  }
 
   &__container {
     margin: 0 auto;

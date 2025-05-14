@@ -9,11 +9,11 @@ import { Plus, Minus, ChevronDown } from "lucide-react";
 import HamburgerIcon from "@/components/HamburgerIcon/HamburgerIcon";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import AdminBadge from "@/components/AdminBadge/AdminBadge";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim";
 import "./Menu.scss";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const Menu: React.FC = () => {
   // Get session status
@@ -134,6 +134,45 @@ const Menu: React.FC = () => {
     }
   };
 
+  // Determine which logo to use based on scroll state
+  const getLogo = () => {
+    if (isMobile) {
+      return "/assets/img/logo/logo-gris.png";
+    }
+
+    // Logo changes based on scroll state
+    return isScrolled
+      ? "/assets/img/logo/logo_full_gris.svg" // White logo when scrolled (on dark bg)
+      : "/assets/img/logo/logo-full-berenjena.png"; // Dark logo initially (on light bg)
+  };
+
+  // Render the appropriate CTA button based on scroll state
+  const renderCtaButton = () => {
+    const ctaProps = {
+      href: ctaButton.href,
+      className: "menu__cta",
+      size: "medium" as const,
+    };
+
+    // For desktop: Button type changes based on scroll state
+    if (!isMobile) {
+      return isScrolled ? (
+        // When scrolled - light text on dark bg requires secondary button
+        <SecondaryButton {...ctaProps}>{ctaButton.label} →</SecondaryButton>
+      ) : (
+        // Not scrolled - dark text on light bg requires primary button
+        <PrimaryButton {...ctaProps}>{ctaButton.label} →</PrimaryButton>
+      );
+    }
+
+    // For mobile: Always Primary button
+    return (
+      <PrimaryButton href={ctaButton.href} onClick={toggleMobileMenu} fullWidth>
+        {ctaButton.label}
+      </PrimaryButton>
+    );
+  };
+
   return (
     <header
       ref={menuRef}
@@ -142,25 +181,14 @@ const Menu: React.FC = () => {
       <div className="menu__container">
         {/* Logo Area */}
         <Link href="/" className="menu__logo">
-          {isMobile ? (
-            <Image
-              src="/assets/img/logo/logo-gris.png"
-              alt="Logo"
-              width={180}
-              height={50}
-              priority
-              className="menu__logo-image"
-            />
-          ) : (
-            <Image
-              src="/assets/img/logo/logo_full_gris.svg"
-              alt="Logo"
-              width={200}
-              height={50}
-              priority
-              className="menu__logo-image"
-            />
-          )}
+          <Image
+            src={getLogo()}
+            alt="Logo"
+            width={isMobile ? 180 : 200}
+            height={isMobile ? 50 : 50}
+            priority
+            className="menu__logo-image"
+          />
         </Link>
 
         {/* Main Navigation */}
@@ -216,18 +244,18 @@ const Menu: React.FC = () => {
         <div className="menu__actions">
           {/* Admin Badge - Only show when authenticated */}
           {isAuthenticated && <AdminBadge className="menu__admin-badge" />}
+
           {/* CTA Button */}
-          <SecondaryButton
-            href={ctaButton.href}
-            className="menu__cta"
-            size="medium"
-          >
-            {ctaButton.label}
-          </SecondaryButton>
+          {renderCtaButton()}
+
           {/* Desktop Social Icons */}
           <div className="menu__social-desktop">
-            <SocialIcons iconSize="small" color="white" />
+            <SocialIcons
+              iconSize="small"
+              color={!isScrolled ? "primary" : "white"}
+            />
           </div>
+
           {/* Mobile Hamburger */}
           <div className="menu__hamburger-wrapper" onClick={toggleMobileMenu}>
             <HamburgerIcon isActive={isMobileOpen} />

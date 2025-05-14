@@ -6,7 +6,6 @@
 .story-section {
   position: relative;
   overflow: hidden;
-  @include section-spacing;
 
   &__container {
     width: 100%;
@@ -31,7 +30,7 @@
 
     @include min-width(lg) {
       @include font-size(5xl);
-      max-width: 60vw;
+      max-width: 50vw;
     }
 
     .highlight {

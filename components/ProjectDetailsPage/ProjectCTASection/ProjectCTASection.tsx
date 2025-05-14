@@ -58,7 +58,7 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
             Explora nuestra colección de {categoryName} y encuentra la
             inspiración para tu próximo proyecto.
           </p>
-          <div ref={ctaRef} className="project-cta-section__button fade_bottom">
+          <div ref={ctaRef} className="project-cta-section__button">
             <PrimaryButton href={`/portfolio-2/mas-proyectos`}>
               <span className="button-text">Ver más proyectos</span>
               <span className="button-icon">

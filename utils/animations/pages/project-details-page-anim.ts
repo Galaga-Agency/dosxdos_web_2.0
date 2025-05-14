@@ -8,7 +8,7 @@ import { isMobile } from "@/utils/device";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, SplitText);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 // Store all ScrollTrigger instances for cleanup
@@ -71,7 +71,7 @@ function setupFadeAnimation(
   startPosition: string = "top center+=100"
 ) {
   const elements = document.querySelectorAll(selector);
-  if (elements.length === 0) return; // Fixed syntax error
+  if (elements.length === 0.0) return;
 
   gsap.set(selector, initialProps);
   const elementsArray = gsap.utils.toArray(selector);
@@ -100,135 +100,13 @@ function setupFadeAnimation(
   });
 }
 
-function animateTextWithSplitText(element: any) {
-  if (!element) return null;
-
-  // Verificar si es metadatos (tienen una estructura específica)
-  const isMetaSection = element.classList.contains(
-    "portfolio-hero__meta-wrapper"
-  );
-
-  try {
-    if (isMetaSection) {
-      // Para meta, animar cada elemento meta individual directamente
-      const metaItems = element.querySelectorAll(".portfolio-hero__meta");
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: element,
-          start: "top 90%",
-          toggleActions: "play none none none",
-        },
-      });
-
-      tl.fromTo(
-        metaItems,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-        }
-      );
-
-      return tl;
-    } else {
-      // Para la descripción u otros elementos de texto
-      const paragraphs = element.querySelectorAll("p");
-
-      if (paragraphs.length > 0) {
-        gsap.set(paragraphs, { opacity: 0, y: 20 });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: element,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        });
-
-        tl.to(paragraphs, {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-        });
-
-        return tl;
-      } else {
-        // Si no hay párrafos, animar el elemento completo
-        gsap.set(element, { opacity: 0, y: 20 });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: element,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        });
-
-        tl.to(element, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-        });
-
-        return tl;
-      }
-    }
-  } catch (error) {
-    console.error("Error en animateTextWithSplitText:", error);
-
-    // Animación alternativa más simple
-    if (isMetaSection) {
-      const metaItems = element.querySelectorAll(".portfolio-hero__meta");
-      return gsap.fromTo(
-        metaItems,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: element,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    } else {
-      return gsap.fromTo(
-        element,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: element,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }
-  }
-}
-
 export function initFadeAnimations(): void {
   if (typeof window === "undefined") return;
 
   // Fade Bottom animations - más acentuadas
   setupFadeAnimation(
     ".fade_bottom",
-    { y: 70, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
+    { y: 40, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
     { y: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.2 }, // Menor delay y duración
     "top center+=200" // Trigger más temprano
   );
@@ -236,21 +114,21 @@ export function initFadeAnimations(): void {
   // Fade Top animations - más acentuadas
   setupFadeAnimation(
     ".fade_top",
-    { y: -70, opacity: 0, scale: 0.95 },
+    { y: -40, opacity: 0, scale: 0.95 },
     { y: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Left animations - más acentuadas
   setupFadeAnimation(
     ".fade_left",
-    { x: -70, opacity: 0, scale: 0.95 },
+    { x: -40, opacity: 0, scale: 0.95 },
     { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Right animations - más acentuadas
   setupFadeAnimation(
     ".fade_right",
-    { x: 70, opacity: 0, scale: 0.95 },
+    { x: 40, opacity: 0, scale: 0.95 },
     { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 }
@@ -324,47 +202,30 @@ export function animateChars(current: HTMLElement | null = null) {
   });
 }
 
-// Versión corregida de la función initHeroAnimations
+// Initialize hero section animations for project details page
 export function initHeroAnimations(refs: HeroAnimationRefs) {
   if (typeof window === "undefined") return;
 
-  console.log("Inicializando animaciones de Hero");
-
-  // Registrar plugins de GSAP
+  // Register GSAP plugins
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  // Configurar parallax para el hero
+  // Setup hero parallax
   if (refs.heroSection && refs.heroImage) {
     setupHeroParallax(refs.heroSection, refs.heroImage);
   }
 
-  // Crear timeline para animaciones del contenido del hero
+  // Create a timeline for hero content animations
   const heroTimeline = gsap.timeline({
     defaults: { ease: "power3.out" },
-    delay: 0.5, // Reducir el delay para que las animaciones se vean antes
+    delay: 1.5,
   });
 
-  // Animación del título con SplitText si tiene la clase char-animation
+  // Title animation with SplitText if it has class char-animation
   if (refs.heroTitle && refs.heroTitle.classList.contains("char-animation")) {
     animateChars(refs.heroTitle);
-  } else if (refs.heroTitle) {
-    // Animación alternativa si no tiene la clase char-animation
-    heroTimeline.fromTo(
-      refs.heroTitle,
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-      },
-      0
-    );
   }
 
-  // Animación del subtítulo
+  // Subtitle animation
   if (refs.heroSubtitle) {
     heroTimeline.fromTo(
       refs.heroSubtitle,
@@ -380,65 +241,72 @@ export function initHeroAnimations(refs: HeroAnimationRefs) {
       0.2
     );
   }
-  
 
-  // IMPORTANTE: Añadir un pequeño retraso antes de las animaciones de descripción y meta
-  heroTimeline.add(() => {
-    console.log("Iniciando animaciones de descripción y meta");
-  }, 0.3);
-
-  // Animación de la descripción - ahora con comprobación de consola más explícita
+  // Description animation with SplitText - FIXED VERSION WITH COMPLETE ANIMATION
   if (refs.heroDescription) {
-    console.log("Animando descripción");
-    // Establecer opacity: 0 manualmente para asegurar estado inicial correcto
+    // CRUCIAL FIX: Set opacity to 0 BEFORE any DOM manipulation by SplitText
     gsap.set(refs.heroDescription, { opacity: 0 });
 
-    // Usar setTimeout para dar tiempo a que el DOM esté listo
+    // Wait a tiny bit to ensure the opacity change is applied
     setTimeout(() => {
-      try {
-        animateTextWithSplitText(refs.heroDescription);
-      } catch (error) {
-        console.error("Error animando descripción:", error);
-        // Fallback simple
-        gsap.to(refs.heroDescription, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: 0.4,
-        });
-      }
-    }, 100);
-  }
+      // Now create splitText which would otherwise cause flickering
+      const splitDesc = new SplitText(refs.heroDescription, { type: "lines" });
 
-  // Para los metadatos:
-  if (refs.heroMeta) {
-    console.log("Animando metadatos");
-    // Establecer opacity: 0 manualmente para asegurar estado inicial correcto
-    const metaItems = refs.heroMeta.querySelectorAll(".portfolio-hero__meta");
-    gsap.set(metaItems, { opacity: 0 });
+      // Set the initial state for the animation
+      gsap.set(splitDesc.lines, {
+        rotationX: -80,
+        transformPerspective: 400,
+        transformOrigin: "top center -50",
+        opacity: 0,
+      });
 
-    // Usar setTimeout para dar tiempo a que el DOM esté listo
-    setTimeout(() => {
-      try {
-        animateTextWithSplitText(refs.heroMeta);
-      } catch (error) {
-        console.error("Error animando metadatos:", error);
-        // Fallback simple para cada item de meta
-        gsap.to(metaItems, {
+      // NOW make the container visible again since lines are ready for animation
+      gsap.set(refs.heroDescription, { opacity: 1 });
+
+      // Animated directly in the main timeline instead of ScrollTrigger
+      // This ensures the animation completes and isn't dependent on scroll position
+      heroTimeline.to(
+        splitDesc.lines,
+        {
+          duration: 1.2, // Slightly longer duration
           opacity: 1,
-          y: 0,
+          rotationX: 0,
+          force3D: true,
+          transformOrigin: "top center -50",
           stagger: 0.1,
-          duration: 0.6,
-          delay: 0.6,
-        });
-      }
-    }, 100);
+          ease: "power2.out", // Smoother easing function
+          onComplete: () => {
+            // Force a final state where all lines are fully visible
+            gsap.set(splitDesc.lines, { opacity: 1, rotationX: 0 });
+          },
+        },
+        0.8
+      ); // Start after subtitle animation
+    }, 50); // Short delay to ensure opacity 0 is applied
   }
 
-  // Refrescar ScrollTrigger para asegurar que todo está registrado correctamente
+  // Meta items animation
+  if (refs.heroMeta) {
+    const metaItems = refs.heroMeta.querySelectorAll(".portfolio-hero__meta");
+    heroTimeline.fromTo(
+      metaItems,
+      {
+        opacity: 0,
+        y: 30,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
+        duration: 0.6,
+      },
+      1.2 // Start after description animation begins
+    );
+  }
+
+  // Refresh ScrollTrigger to ensure all is registered correctly
   setTimeout(() => {
     refreshScrollTrigger();
-    console.log("ScrollTrigger refrescado");
   }, 300);
 }
 
