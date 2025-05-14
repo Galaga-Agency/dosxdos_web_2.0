@@ -32,7 +32,7 @@ const Menu: React.FC = () => {
   const menuRef = useRef<HTMLElement>(null);
 
   // Device detection
-  const { isMobile } = useDeviceDetect();
+  const { isMobile, isDesktop } = useDeviceDetect();
 
   // Setup scroll-based styling and animations
   useEffect(() => {
@@ -147,6 +147,7 @@ const Menu: React.FC = () => {
   };
 
   // Render the appropriate CTA button based on scroll state
+  // In your renderCtaButton function, change:
   const renderCtaButton = () => {
     const ctaProps = {
       href: ctaButton.href,
@@ -156,20 +157,30 @@ const Menu: React.FC = () => {
 
     // For desktop: Button type changes based on scroll state
     if (!isMobile) {
+      if (!isDesktop) {
+        return null; // Don't render anything if not on xxxl screens
+      }
+
       return isScrolled ? (
-        // When scrolled - light text on dark bg requires secondary button
         <SecondaryButton {...ctaProps}>{ctaButton.label} →</SecondaryButton>
       ) : (
-        // Not scrolled - dark text on light bg requires primary button
         <PrimaryButton {...ctaProps}>{ctaButton.label} →</PrimaryButton>
       );
     }
 
     // For mobile: Always Primary button
     return (
-      <PrimaryButton href={ctaButton.href} onClick={toggleMobileMenu} fullWidth>
-        {ctaButton.label}
-      </PrimaryButton>
+      <>
+        {isDesktop ? (
+          <PrimaryButton
+            href={ctaButton.href}
+            onClick={toggleMobileMenu}
+            fullWidth
+          >
+            {ctaButton.label}
+          </PrimaryButton>
+        ) : null}
+      </>
     );
   };
 

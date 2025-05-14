@@ -393,7 +393,7 @@
     @include margin(xl, y);
   }
 
-  // CTA Button
+  // CTA Button - Only show on xxxl screens
   &__cta {
     display: none !important;
     
@@ -675,10 +675,9 @@
       height: auto;
     }
 
-    &__cta {
-      display: inline-flex !important;
-    }
-
+    // DO NOT override the CTA button display here
+    // Rely only on the xxxl media query above
+    
     &__social-desktop {
       display: block;
       margin-inline: 0.5rem;
@@ -824,13 +823,6 @@ This overrides the previous styles to ensure there's no overlap
       height: auto !important;
       margin-left: 16px;
     }
-  }
-}
-
-// Make sure the CTA button is shown at the right breakpoint
-@media screen and (min-width: 1200px) {
-  .menu__cta {
-    display: inline-flex !important;
   }
 }
 
