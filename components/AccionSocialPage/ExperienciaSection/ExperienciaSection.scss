@@ -6,9 +6,9 @@
 .experiencia-section {
   position: relative;
   overflow: hidden;
-  @include section-spacing;
   width: 100%;
   background-color: $white;
+  @include section-padding-top();
 
   &__container {
     position: relative;
@@ -17,18 +17,19 @@
     padding: 0 clamp(1rem, 5vw, 4rem);
     display: flex;
     flex-direction: column;
-    gap: 5rem;
-    
+    gap: 3rem;
+
     @include min-width(lg) {
       flex-direction: row;
       align-items: flex-start;
+      gap: 5rem;
     }
   }
 
   &__header {
     position: relative;
     max-width: 800px;
-    
+
     @include min-width(lg) {
       width: 40%;
       position: sticky;
@@ -43,23 +44,23 @@
     margin-bottom: 1.5rem;
     line-height: 1.1;
     text-transform: uppercase;
-    
+
     @include min-width(md) {
       @include font-size(6xl);
     }
-    
+
     @include min-width(lg) {
       @include font-size(7xl);
     }
-    
+
     .word {
       display: inline-block;
       position: relative;
-      
+
       &:last-child {
         position: relative;
         z-index: 1;
-        
+
         &::after {
           content: "";
           position: absolute;
@@ -83,7 +84,7 @@
     margin-top: 1rem;
     max-width: 600px;
     line-height: 1.6;
-    
+
     @include min-width(md) {
       @include font-size(xl);
     }
@@ -93,7 +94,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
-    
+
     @include min-width(lg) {
       width: 60%;
       gap: 1rem;
@@ -101,17 +102,17 @@
   }
 
   &__item {
-    padding: 2rem 0;
+    padding: 2rem 0 0;
     position: relative;
     border-top: 1px solid rgba($black, 0.1);
     transition: transform 0.3s ease;
-    
+
     &:hover {
       transform: translateY(-8px);
-      
+
       .experiencia-section__item-title {
         color: $black;
-        
+
         &::after {
           width: 80px;
         }
@@ -140,7 +141,7 @@
     letter-spacing: 0.05em;
     position: relative;
     padding-left: 1rem;
-    
+
     &::before {
       content: "";
       position: absolute;
@@ -162,9 +163,9 @@
     transition: color 0.3s ease;
     position: relative;
     padding-bottom: 1rem;
-    
+
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: 0;
       left: 0;
@@ -173,7 +174,7 @@
       background-color: rgba($black, 0.3);
       transition: width 0.4s ease;
     }
-    
+
     @include min-width(md) {
       @include font-size(3xl);
     }

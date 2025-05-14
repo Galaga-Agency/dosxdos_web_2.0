@@ -4,8 +4,6 @@
 
 // Main menu styling
 .menu {
-  background-color: transparent;
-  color: $white;
   position: fixed;
   top: 0;
   left: 0;
@@ -15,9 +13,61 @@
   @include z-index(header);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: visible;
+  color: $black;
   
   @include min-width(xl) {
     @include padding(xl, x);
+  }
+
+  // Default menu state (non-scrolled)
+  &::before {
+    background-color: rgba($white, 0.2);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba($white, 0.1);
+  }
+
+  .menu__nav-link,
+  .menu__nav-button {
+    color: rgba($black, 0.85);
+
+    &::after {
+      background-color: $black;
+    }
+
+    &:hover {
+      color: $black;
+    }
+  }
+
+  .menu__nav-icon {
+    color: $black;
+  }
+
+  // Scrolled state
+  &.menu--scrolled {
+    color: $white;
+
+    &::before {
+      background-color: rgba($black, 0.8);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba($white, 0.1);
+    }
+
+    .menu__nav-link,
+    .menu__nav-button {
+      color: rgba($white, 0.85);
+
+      &::after {
+        background-color: $white;
+      }
+
+      &:hover {
+        color: $white;
+      }
+    }
+
+    .menu__nav-icon {
+      color: $white;
+    }
   }
 
   &--folded {
@@ -40,19 +90,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba($black, 0.4);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba($white, 0.05);
     @include z-index(below);
     transition: all 0.4s ease;
-  }
-  
-  &--scrolled {
-    &::before {
-      background-color: rgba($black, 0.35);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba($white, 0.1);
-    }
   }
 
   &__admin-badge {
@@ -151,7 +190,7 @@
     padding: 0;
     list-style: none;
     transition: all 0.3s ease;
-    text-transform: uppercase;
+    text-transform: capitalize;
     
     // Special handling for Mac Retina displays
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
@@ -170,11 +209,10 @@
 
   &__nav-link,
   &__nav-button {
-    text-transform: uppercase;
+    text-transform: capitalize;
     @include font-weight(semibold);
     position: relative;
     @include padding(xs, y);
-    color: rgba($white, 0.85);
     text-decoration: none;
     transition: all 0.3s ease;
     background: none;
@@ -204,13 +242,10 @@
       left: 0;
       width: 0;
       height: 1px;
-      background-color: $white;
       transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     }
 
     &:hover {
-      color: $white;
-
       &::after {
         width: 100%;
       }
@@ -245,6 +280,7 @@
     @include z-index(menu);
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
+    color: $white; // Always white text in dropdowns
 
     // Top arrow
     &::before {
@@ -387,6 +423,7 @@
     flex-direction: column;
     border-left: 1px solid rgba($white, 0.05);
     height: 100%;
+    color: $white; // Always white text in mobile menu
 
     @include min-width(md) {
       max-width: 360px;

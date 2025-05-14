@@ -7,7 +7,7 @@
   position: relative;
   overflow: hidden;
   @include section-spacing;
-  @include margin(6xl, top);
+  @include margin(6xl, y);
   
   &__container {
     width: 100%;
@@ -194,7 +194,7 @@
   &__admin-image {
     @include flex(row, center, center);
     margin: 2rem auto;
-    
+
     img {
       max-width: 100%;
       height: auto;

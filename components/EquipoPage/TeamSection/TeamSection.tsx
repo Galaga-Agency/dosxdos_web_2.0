@@ -65,7 +65,7 @@ const TeamSection: React.FC = () => {
           {teamMembers.map((member: any, index) => (
             <div
               key={member.id}
-              className="team-section__card-wrapper fade_bottom"
+              className="team-section__card-wrapper"
             >
               <HoverCard
                 id={member.id}

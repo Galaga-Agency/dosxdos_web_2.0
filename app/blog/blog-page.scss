@@ -71,6 +71,14 @@
     overflow: hidden;
     border-radius: 4px;
     box-shadow: $shadow-lg;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    // For very small devices, reduce height to avoid excessive space
+    @media (max-height: 700px) {
+      height: 90vh;
+    }
 
     // Bottom gradient overlay for text readability
     &::before {
@@ -141,28 +149,22 @@
   }
 
   &__featured-content-container {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
-    @include z-index(modal);
+    z-index: 10;
     pointer-events: none;
   }
 
   &__featured-content-link {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
     color: $white;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 3rem 2rem;
+    padding: 2rem;
     pointer-events: auto;
+    position: relative;
 
     &:hover {
       .blog-page__featured-read-more {
@@ -171,25 +173,26 @@
         }
       }
     }
+
+    // Ensure all the content fits inside by allowing scroll on very small devices
+    @media (max-height: 600px) {
+      max-height: 70vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
   }
 
   &__featured-category {
     position: absolute;
     top: 2rem;
-    right: 2rem;
+    left: 10.5rem;
+    background-color: rgba($white, 0.85);
+    color: $black;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
     pointer-events: auto;
     opacity: 0; // Initial state for animation
-
-    span {
-      display: inline-block;
-      padding: 0.4rem 1rem;
-      background-color: $white;
-      color: $black;
-      font-weight: 600;
-      font-size: 0.875rem;
-      text-transform: uppercase;
-      @include border-radius(md);
-    }
   }
 
   &__featured-image-date {
@@ -201,17 +204,17 @@
     padding: 0.5rem 1rem;
     font-weight: 600;
     text-transform: uppercase;
-    @include border-radius(sm);
     pointer-events: auto;
     opacity: 0; // Initial state for animation
   }
 
   &__featured-image-title {
-    @include font-size(5xl);
+    @include font-size(4xl);
     @include font-weight(semibold);
     line-height: 1.1;
     @include letter-spacing(tight);
     color: $white;
+    margin-top: 6rem; // Added significant top margin to avoid overlap with category
     margin-bottom: 1rem;
     max-width: 24ch;
     hyphens: manual;
@@ -221,14 +224,18 @@
     will-change: transform;
 
     @include min-width(xs) {
-      @include font-size(6xl);
+      @include font-size(5xl);
     }
 
     @include min-width(sm) {
-      @include font-size(7xl);
+      @include font-size(6xl);
     }
 
     @include min-width(md) {
+      @include font-size(7xl);
+    }
+
+    @include min-width(lg) {
       @include font-size(8xl);
     }
   }
@@ -245,9 +252,9 @@
     }
 
     p {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       @include font-size(lg);
-      line-height: 1.8;
+      line-height: 1.6;
 
       strong {
         color: $white;
@@ -267,6 +274,7 @@
     transition: all 0.3s ease;
     position: relative;
     pointer-events: auto;
+    margin-bottom: 1rem;
 
     .arrow {
       margin-left: 0.5rem;
@@ -282,7 +290,6 @@
     padding-top: 2rem;
     width: 100%;
     position: relative;
-    margin-bottom: 4rem;
 
     .posts-title {
       @include font-size(3xl);
@@ -332,7 +339,6 @@
     display: flex;
     justify-content: center;
     margin-top: 2rem;
-    padding-top: 1.5rem;
 
     @include min-width(md) {
       margin-top: 2.5rem;
@@ -355,9 +361,9 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    margin-top: 3rem;
     width: 100%;
     position: relative;
+    @include section-padding-y();
 
     @include min-width(lg) {
       display: none;
@@ -392,9 +398,9 @@
 
   &__desktop-social-cta {
     display: none;
-    @include section-spacing;
     position: relative;
     text-align: center;
+    @include section-padding-y();
 
     @include min-width(xl) {
       display: block;

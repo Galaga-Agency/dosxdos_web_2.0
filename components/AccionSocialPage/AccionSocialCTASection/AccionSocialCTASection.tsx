@@ -48,7 +48,7 @@ const AccionSocialCTASection: React.FC = () => {
         <div className="cta-section__content">
           {/* Left column with image with parallax effect */}
           <div ref={imageContainerRef} className="cta-section__visual-column">
-            <div ref={imageInnerRef} className="cta-section__animated-logo">
+            <div ref={imageInnerRef} className="cta-section__image">
               <Image
                 src="/assets/img/about-us-page/family.webp"
                 alt="Equipo Dos Por Dos"
@@ -76,9 +76,9 @@ const AccionSocialCTASection: React.FC = () => {
               </p>
             </div>
 
-            <div className="cta-section__cta fade_bottom">
+            <div className="cta-section__cta">
               <PrimaryButton href="/sobre-nosotros/equipo" size="medium">
-                Conocer al Equipo
+                Conocer al Equipo →
               </PrimaryButton>
             </div>
           </div>

@@ -6,12 +6,8 @@
 .about-services {
   position: relative;
   width: 100%;
-  @include padding(6xl, y);
+  @include section-padding-y();
   background-color: $white;
-
-  @include min-width(lg) {
-    @include padding(section-y, bottom);
-  }
 
   &__container {
     margin: 0 auto;

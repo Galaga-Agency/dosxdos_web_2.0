@@ -127,23 +127,23 @@
     opacity: 0; // Initial state for animation
     span {
       display: inline-block;
-      padding: 0.4rem 1rem;
-      background-color: $white;
+      background-color: rgba($white, 0.85);
       color: $black;
-      @include font-weight(semibold);
-      @include font-size(sm);
+      padding: 0.5rem 1rem;
+      font-weight: 600;
       text-transform: uppercase;
-      @include border-radius(md);
+      pointer-events: auto;
     }
   }
 
   &__hero-date {
     opacity: 0; // Initial state for animation
-    span {
-      @include font-size(sm);
-      @include font-weight(medium);
-      color: rgba($white, 0.9);
-    }
+    padding: 0.5rem 1rem;
+    background-color: rgba($black, 0.85);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    pointer-events: auto;
   }
 
   &__hero-title {
@@ -330,12 +330,30 @@
       border-left: 2px solid $black;
       @include border-radius(md);
 
+      // Add this to create a large quotation mark
+      &::before {
+        content: '"';
+        position: absolute;
+        font-style: italic;
+        top: -0.2rem;
+        font-family: "Playfair Display", serif;
+        left: -1rem;
+        @include font-size(10xl);
+        @include font-weight(bold);
+        line-height: 1;
+        color: $black;
+        transform: translateY(-25%);
+      }
+
       p {
+        position: relative;
         @include font-size(xl);
+        margin: 0 auto;
         line-height: 1.5;
         @include font-weight(medium);
         font-style: italic;
         color: $black;
+        text-align: center;
       }
 
       cite {

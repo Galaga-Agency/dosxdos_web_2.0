@@ -5,7 +5,14 @@ import Link from "next/link";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
 import { initFadeAnimations } from "@/utils/animations/pages/homepage-anim";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { gsap } from "gsap";
 import "./ClientsSection.scss";
+import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
+
+// Register plugins if (typeof window !== "undefined") {
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const ClientsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -52,13 +59,12 @@ const ClientsSection: React.FC = () => {
           </p>
 
           <div className="clients-section__cta fade_bottom">
-            <Link
+            <SecondaryButton
               href="/sobre-nosotros/accion-social"
               className="clients-section__cta-link"
             >
-              <span className="clients-section__cta-icon">○</span> Conócenos
-              mejor
-            </Link>
+              Conócenos mejor →
+            </SecondaryButton>
           </div>
         </div>
       </div>

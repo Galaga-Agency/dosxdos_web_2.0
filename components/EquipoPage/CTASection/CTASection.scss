@@ -6,17 +6,12 @@
 .cta-section {
   position: relative;
   width: 100%;
-  @include padding(6xl, top);
   background-color: $white;
-
-  @include min-width(lg) {
-    @include padding(8xl, top);
-  }
+  @include section-padding-top();
 
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
-    @include padding(content-x, x);
 
     @include min-width(md) {
       @include container-width(tablet);

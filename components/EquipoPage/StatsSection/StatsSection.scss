@@ -6,13 +6,9 @@
 .stats-section {
   position: relative;
   width: 100%;
-  @include padding(6xl, bottom);
   background-color: $white;
   overflow: hidden;
-
-  @include min-width(lg) {
-    @include padding(8xl, bottom);
-  }
+  @include section-padding-y();
 
   &__container {
     @include container-width(mobile);
@@ -22,16 +18,24 @@
 
     @include min-width(md) {
       @include container-width(tablet);
+      width: 90%;
+      max-width: none;
     }
 
     @include min-width(lg) {
-      @include container-width(smalldesktop);
-      @include flex(row, space-around, start);
+      width: 95%;
+      max-width: none;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
       gap: 4rem;
     }
 
     @include min-width(xl) {
-      @include container-width(desktop);
+      width: 95%;
+      max-width: 1200px;
+      gap: 8rem;
     }
   }
 
@@ -48,6 +52,12 @@
       @include font-size(3xl);
     }
 
+    @include min-width(lg) {
+      margin-bottom: 0;
+      width: 25%;
+      flex-shrink: 0;
+    }
+
     &-icon {
       display: inline-block;
       margin-right: 1rem;
@@ -62,12 +72,17 @@
 
     @include min-width(md) {
       grid-template-columns: repeat(2, 1fr);
-      gap: 4rem 3rem;
+      gap: 4rem 6rem;
     }
 
     @include min-width(lg) {
       grid-template-columns: repeat(2, 1fr);
-      gap: 5rem 4rem;
+      gap: 5rem 8rem;
+      width: 75%;
+    }
+
+    @include min-width(xl) {
+      gap: 5rem 12rem;
     }
   }
 
@@ -76,13 +91,36 @@
     flex-direction: column;
   }
 
+  &__number-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    height: 6rem;
+
+    @include min-width(md) {
+      height: 7rem;
+    }
+
+    @include min-width(lg) {
+      height: 8rem;
+    }
+
+    @include min-width(xl) {
+      height: 10rem;
+    }
+  }
+
   &__number {
     @include font-size(6xl);
     color: $black;
     @include font-weight(semibold);
     line-height: 1;
-    margin-bottom: 1.5rem;
-    padding-right: 4rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    min-width: 3ch;
+    text-align: left;
 
     @include min-width(md) {
       @include font-size(7xl);

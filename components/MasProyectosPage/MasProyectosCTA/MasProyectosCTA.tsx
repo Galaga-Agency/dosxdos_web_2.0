@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import "./MasProyectosCTA.scss";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
@@ -49,7 +48,7 @@ const MasProyectosCTA: React.FC<MasProyectosCTAProps> = ({
               TU ESPACIO ÚNICO?
             </span>
           </h2>
-          <p className="mas-proyectos-cta__text fade_bottom">
+          <p className="mas-proyectos-cta__text">
             Más de 35 años de experiencia en el sector del diseño de interiores
             en espacios comerciales y puntos de venta.
           </p>

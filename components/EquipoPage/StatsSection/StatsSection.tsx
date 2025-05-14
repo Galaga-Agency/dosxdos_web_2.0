@@ -37,12 +37,14 @@ const StatsSection: React.FC = () => {
         <div className="stats-section__grid" ref={statsRef}>
           {stats.map((stat, index) => (
             <div key={index} className="stats-section__item">
-              <div
-                className="stats-section__number"
-                data-value={stat.number}
-                data-suffix={stat.suffix}
-              >
-                00{stat.suffix}
+              <div className="stats-section__number-container">
+                <div
+                  className="stats-section__number"
+                  data-value={stat.number}
+                  data-suffix={stat.suffix}
+                >
+                  0{stat.suffix}
+                </div>
               </div>
               <div className="stats-section__separator"></div>
               <div className="stats-section__label">{stat.label}</div>

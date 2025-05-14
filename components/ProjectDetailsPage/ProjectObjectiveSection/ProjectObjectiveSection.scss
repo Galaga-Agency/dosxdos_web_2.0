@@ -6,7 +6,7 @@
 .project-objective-section {
   position: relative;
   width: 100%;
-  @include padding(6xl, y);
+  @include section-padding-top();
   background-color: $white;
 
   &__container {
@@ -34,10 +34,6 @@
     max-width: 1200px;
     margin: 0 auto;
     @include margin(4xl, bottom);
-
-    @include min-width(xl) {
-    @include margin(8xl, bottom);
-    }
   }
 
   &__label {

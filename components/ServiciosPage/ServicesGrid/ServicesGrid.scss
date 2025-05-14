@@ -8,7 +8,7 @@
   width: 100%;
   background-color: $black;
   overflow: hidden;
-  overscroll-behavior: none; // Add this to prevent scroll jumps
+  overscroll-behavior: none;
 
   // Marquee styling
   &__marquee {
@@ -61,7 +61,7 @@
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
-    position: relative; 
+    position: relative;
     z-index: 2;
 
     @include min-width(md) {
@@ -153,8 +153,8 @@
     width: 100%;
     margin: 0 auto;
     @include margin(4xl, y);
-    position: relative; 
-    z-index: 2; 
+    position: relative;
+    z-index: 2;
   }
 
   &__content {
@@ -162,7 +162,7 @@
     bottom: 20px;
     left: 20px;
     z-index: 3;
-    pointer-events: none; 
+    pointer-events: none;
   }
 
   &__title {

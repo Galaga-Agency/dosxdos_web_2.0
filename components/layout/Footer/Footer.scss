@@ -11,7 +11,7 @@
   overflow: hidden;
   padding: 4rem 1.5rem 3rem;
   @include z-index(above);
-  
+
   // Subtle decorative elements similar to other sections
   &::before {
     content: "";
@@ -28,7 +28,7 @@
     background-size: 8px 8px;
     opacity: 0.15;
     z-index: 0;
-    
+
     @media screen and (max-width: 768px) {
       width: 80px;
       height: 80px;
@@ -162,17 +162,19 @@
 
   // Contact information with subtle styling
   &__contact {
-    @include flex(column, center, center);
+    @include flex(column, center, start);
     gap: 0.75rem;
     will-change: transform, opacity;
+    margin-top: 5rem;
 
     @include min-width(md) {
       align-items: flex-end;
+      margin-top: 0;
     }
 
     @include min-width(lg) {
       align-items: flex-start;
-      margin-top: 0.5rem;
+      margin-top: 3rem;
     }
 
     a {
@@ -206,12 +208,11 @@
   // Navigation columns with cleaner, more subtle styling
   &__nav-wrapper {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     margin-block: 2.5rem;
     will-change: transform, opacity;
 
     @include min-width(md) {
-      flex-direction: row;
       justify-content: flex-start;
       width: 100%;
       gap: 3rem;
@@ -438,7 +439,7 @@
     @include min-width(md) {
       justify-content: flex-end;
     }
-    
+
     // Make social icons white in dark theme
     :global(.social-icon) {
       color: $white;
@@ -456,20 +457,25 @@
     border-radius: 50%;
     opacity: 0.15;
     z-index: 0;
-    
+
     @media screen and (max-width: 768px) {
       width: 100px;
       height: 100px;
     }
   }
-  
+
   &__decor-line {
     position: absolute;
     right: 10%;
     top: 30%;
     width: 120px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba($white, 0.2), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($white, 0.2),
+      transparent
+    );
     opacity: 0.3;
     z-index: 0;
   }

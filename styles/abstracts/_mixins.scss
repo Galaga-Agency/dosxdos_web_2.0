@@ -74,26 +74,66 @@
 // Usage: @include section-spacing;
 // -----------------------------------------------------------------------------
 @mixin section-spacing {
-  // Mobile spacing (reduced from xl to lg)
-  padding-top: map-get($spacing, "lg");
-  padding-bottom: map-get($spacing, "lg");
-
-  // Tablet spacing (reduced from 3xl to 2xl)
+  // Mobile spacing
+  padding-top: map-get($spacing, "4xl");    // 80px
+  padding-bottom: map-get($spacing, "4xl");  // 80px
+  
+  // Tablet spacing
   @include min-width(md) {
-    padding-top: map-get($spacing, "2xl");
-    padding-bottom: map-get($spacing, "2xl");
+    padding-top: map-get($spacing, "5xl");    // 96px
+    padding-bottom: map-get($spacing, "5xl");  // 96px
   }
-
-  // Small desktop spacing (reduced from 4xl to 3xl)
+  
+  // Small desktop spacing
   @include min-width(lg) {
-    padding-top: map-get($spacing, "3xl");
-    padding-bottom: map-get($spacing, "3xl");
+    padding-top: map-get($spacing, "6xl");    // 120px
+    padding-bottom: map-get($spacing, "6xl");  // 120px
   }
-
-  // Large desktop spacing (reduced from 5xl to 4xl)
+  
+  // Large desktop spacing
   @include min-width(xl) {
-    padding-top: map-get($spacing, "4xl");
-    padding-bottom: map-get($spacing, "4xl");
+    padding-top: map-get($spacing, "7xl");    // 144px
+    padding-bottom: map-get($spacing, "7xl");  // 144px
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Simple Section Vertical Padding
+// Usage: @include section-padding-y;
+// -----------------------------------------------------------------------------
+@mixin section-padding-y {
+  padding-top: 64px;
+  padding-bottom: 64px;
+  
+  @include min-width(md) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  
+  @include min-width(lg) {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+  
+  @include min-width(xl) {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+}
+
+@mixin section-padding-top {
+  padding-top: 64px;
+  
+  @include min-width(md) {
+    padding-top: 80px;
+  }
+  
+  @include min-width(lg) {
+    padding-top: 96px;
+  }
+  
+  @include min-width(xl) {
+    padding-top: 140px;
   }
 }
 

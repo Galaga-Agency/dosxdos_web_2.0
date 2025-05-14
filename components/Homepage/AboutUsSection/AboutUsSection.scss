@@ -6,12 +6,9 @@
 .aboutus-section {
   position: relative;
   width: 100%;
-  @include padding(6xl, y);
   background-color: $white;
+  @include section-padding-y();
 
-  @include min-width(lg) {
-    @include padding(section-y, bottom);
-  }
 
   &__container {
     margin: 0 auto;
@@ -70,7 +67,6 @@
     @include min-width(xl) {
       position: absolute;
       left: 10%;
-
     }
   }
 
@@ -171,7 +167,8 @@
 
   &__cta {
     width: fit-content;
-    @include margin(lg, top);
+    @include margin(md, y);
+
     will-change: transform, opacity;
   }
 }

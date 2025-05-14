@@ -7,6 +7,7 @@
   position: relative;
   width: 100%;
   overflow: visible;
+  @include section-padding-top();
 
   .marquee-container {
     position: relative;
@@ -14,13 +15,17 @@
     z-index: 1;
     overflow: hidden;
     padding: 2rem 0;
-    margin: 4rem 0;
+    margin: 0;
     background-color: rgba($secondary-color, 0.5);
     pointer-events: none;
-    will-change: transform;
     min-height: 80px;
     display: flex;
     align-items: center;
+    overscroll-behavior: none;
+
+  // Importante: añadimos estas propiedades para evitar conflictos con ScrollTrigger
+  will-change: auto;
+  transform: translateZ(0);
 
     @include min-width(sm) {
       min-height: 100px;
@@ -45,7 +50,7 @@
 
     .marquee-text {
       @include font-weight(semibold);
-      color: rgba($black, 0.05);
+      color: rgba($black, 0.15);
       text-transform: uppercase;
       letter-spacing: 0.1em;
       font-family: var(--font-display);

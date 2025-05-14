@@ -8,8 +8,7 @@
   width: 100%;
   background-color: $white;
   overflow: hidden;
-  @include section-spacing;
-
+  
   &__container {
     margin: 0 auto;
     @include container-width(mobile);

@@ -8,18 +8,18 @@
   width: 100%;
   background-color: $white;
   overflow: hidden;
-  @include section-spacing;
+  @include section-padding-y();
 
   &__top {
     position: relative;
-    @include padding(2xl, y);
+    @include padding(2xl, bottom);
 
     @include min-width(md) {
       @include padding(4xl, bottom);
     }
 
     @include min-width(xl) {
-      @include padding(4xl, y);
+      @include padding(4xl, bottom);
     }
   }
 
@@ -183,7 +183,6 @@
   &__bottom {
     background-color: $white;
     position: relative;
-    @include padding(2xl, y);
 
     @include min-width(md) {
       padding-top: 0;
@@ -213,11 +212,11 @@
     @include min-width(md) {
       @include font-size(4xl);
       text-align: left;
-      @include padding(2xl, y);
+      @include padding(2xl, bottom);
     }
 
     @include min-width(lg) {
-      @include padding(xl, y);
+      @include padding(xl, bottom);
     }
   }
 

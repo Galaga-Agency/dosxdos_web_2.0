@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useLayoutEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/types/project-types";
@@ -20,20 +20,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
   const heroDescriptionRef = useRef<HTMLDivElement>(null);
   const heroMetaRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Inicializar animaciones cuando el componente se monta
-    // Reducir el tiempo de espera para que las animaciones inicien más rápido
+  useLayoutEffect(() => {
     const timer = setTimeout(() => {
-      console.log("Inicializando animaciones de Hero Section");
-      console.log("Referencias disponibles:", {
-        heroSection: heroRef.current ? "✅" : "❌",
-        heroImage: heroImageRef.current ? "✅" : "❌",
-        heroTitle: heroTitleRef.current ? "✅" : "❌",
-        heroSubtitle: heroSubtitleRef.current ? "✅" : "❌",
-        heroDescription: heroDescriptionRef.current ? "✅" : "❌",
-        heroMeta: heroMetaRef.current ? "✅" : "❌",
-      });
-
       requestAnimationFrame(() => {
         initHeroAnimations({
           heroSection: heroRef.current,

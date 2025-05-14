@@ -137,7 +137,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   return (
     <SmoothScrollWrapper>
       <div className="blog-detail" key={key}>
-        <div ref={backButtonRef} className="blog-detail__back-button-wrapper">
+        {/* <div ref={backButtonRef} className="blog-detail__back-button-wrapper">
           <PrimaryButton
             onClick={() => router.back()}
             size="small"
@@ -145,7 +145,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
           >
             <span className="arrow">←</span> Volver
           </PrimaryButton>
-        </div>
+        </div> */}
 
         <section
           ref={heroRef}

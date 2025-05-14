@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
-import { isTouchDevice } from "@/utils/device";
+import { isMobile, isTouchDevice } from "@/utils/device";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -78,7 +78,7 @@ export function initFadeAnimations(): void {
   // Fade Bottom animations - más acentuadas
   setupFadeAnimation(
     ".fade_bottom",
-    { y: 70, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
+    { y: 40, opacity: 0, scale: 0.95 }, // Menor distancia pero añadimos escala
     { y: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.2 }, // Menor delay y duración
     "top center+=200" // Trigger más temprano
   );
@@ -86,21 +86,21 @@ export function initFadeAnimations(): void {
   // Fade Top animations - más acentuadas
   setupFadeAnimation(
     ".fade_top",
-    { y: -70, opacity: 0, scale: 0.95 },
+    { y: -40, opacity: 0, scale: 0.95 },
     { y: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Left animations - más acentuadas
   setupFadeAnimation(
     ".fade_left",
-    { x: -70, opacity: 0, scale: 0.95 },
+    { x: -40, opacity: 0, scale: 0.95 },
     { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 
   // Fade Right animations - más acentuadas
   setupFadeAnimation(
     ".fade_right",
-    { x: 70, opacity: 0, scale: 0.95 },
+    { x: 40, opacity: 0, scale: 0.95 },
     { x: 0, opacity: 1, scale: 1, duration: 1.2 }
   );
 }
@@ -113,7 +113,6 @@ export function initImageParallax(
   if (typeof window === "undefined" || !containerElement || !innerElement)
     return;
 
-  console.log("Initializing ultra-smooth parallax");
 
   // Prepare inner element with scale to prevent white edges
   gsap.set(innerElement, {
@@ -141,7 +140,7 @@ export function initImageParallax(
           onUpdate: () => {
             // Apply smooth movement to container
             gsap.set(containerElement, {
-              y: proxy.progress * (isTouchDevice() ? 0 : -150),
+              y: proxy.progress * (isMobile() ? 0 : -150),
             });
 
             // Apply stronger movement to inner element
@@ -387,77 +386,6 @@ export const animateAboutUsSection = ({
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Service Section Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const animateServicesSection = ({
-  section,
-  title,
-  subtitle,
-  grid,
-}: SectionAnimationElements) => {
-  if (typeof window === "undefined" || !section) return null;
-
-  console.log("Animating Services Section");
-
-  const tl = gsap.timeline();
-
-  // Prepare section
-  gsap.set(section, {
-    visibility: "visible",
-    opacity: 1,
-  });
-
-  // Animate elements with consistent pattern
-  const animationSequence = [
-    { el: title, props: { y: 30 }, index: 0.3, charAnim: true },
-    { el: subtitle, props: { y: 30 }, index: 0.6 },
-    { el: grid, props: { y: 30 }, index: 0.9 },
-  ];
-
-  animationSequence.forEach(({ el, props, index, charAnim }) => {
-    if (!el) return;
-
-    // Initial state
-    gsap.set(el, {
-      opacity: 0,
-      ...props,
-    });
-
-    // Char animation for title if specified
-    if (charAnim && title) {
-      tl.add(() => {
-        charAnimation(title);
-      }, index);
-    }
-
-    // Animate to visible state
-    tl.to(
-      el,
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "back.out(1.4)",
-      },
-      index
-    );
-  });
-
-  // Create ScrollTrigger
-  const trigger = trackScrollTrigger(
-    ScrollTrigger.create({
-      trigger: section,
-      animation: tl,
-      start: "top 80%",
-      once: true,
-    })
-  );
-
-  return tl;
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Blog Carousel Section Animation ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -470,7 +398,6 @@ export const animateBlogCarouselSection = ({
 }: SectionAnimationElements) => {
   if (typeof window === "undefined" || !section) return null;
 
-  console.log("Animating Blog Carousel Section");
 
   const tl = gsap.timeline();
 
