@@ -77,7 +77,7 @@ const AdminBlogCard: React.FC<AdminBlogCardProps> = ({
 
         <div className="admin-blog-card__actions">
           <Link
-            href={`/blog/${post.id}`}
+            href={`/blog/${post.slug}`}
             className="admin-blog-card__action view"
           >
             <Eye size={16} /> <span>Ver</span>

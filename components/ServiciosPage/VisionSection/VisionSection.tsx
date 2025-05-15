@@ -83,7 +83,7 @@ const VisionSection: React.FC = () => {
                 perfumería.
               </p>
               <div className="vision-section__button fade_bottom">
-                <HoverCircleButton href="/sobre-nosotros" label="Conócenos" />
+                <HoverCircleButton href="/sobre-nosotros/equipo" label="Conócenos" />
               </div>
             </div>
           </div>
