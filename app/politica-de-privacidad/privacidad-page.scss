@@ -8,7 +8,7 @@
   overflow: hidden;
   @include section-spacing;
   @include margin(6xl, y);
-  
+
   &__container {
     width: 100%;
     max-width: 1200px;
@@ -18,11 +18,11 @@
     flex-direction: column;
     gap: 4rem;
   }
-  
+
   &__header {
     position: relative;
   }
-  
+
   &__label {
     @include font-size(lg);
     @include font-weight(medium);
@@ -35,11 +35,12 @@
       left: 10%;
     }
   }
-  
+
   &__title {
     @include font-size(3xl);
     @include font-weight(semibold);
     width: fit-content;
+    @include title-line-height;
     line-height: 1.1;
     @include letter-spacing(tight);
     text-transform: uppercase;
@@ -58,37 +59,37 @@
       @include font-size(7xl);
     }
   }
-  
+
   &__content {
     @include font-size(lg);
     color: rgba($black, 0.8);
     line-height: 1.7;
-    
+
     p {
       margin-bottom: 1.75rem;
-      
+
       strong {
         color: $black;
         @include font-weight(semibold);
       }
     }
   }
-  
+
   &__section {
     margin-bottom: 4rem;
-    
+
     &:last-child {
       margin-bottom: 0;
     }
   }
-  
+
   &__section-title {
     @include font-size(2xl);
     @include font-weight(semibold);
     color: $black;
     margin-bottom: 1rem;
     position: relative;
-    
+
     &::after {
       content: "";
       position: absolute;
@@ -99,17 +100,17 @@
       background-color: rgba($black, 0.3);
     }
   }
-  
+
   &__list {
     list-style: none;
     margin: 2rem 0;
-    
+
     li {
       position: relative;
       padding-left: 1.5rem;
       margin-bottom: 1rem;
       color: rgba($black, 0.85);
-      
+
       &::before {
         content: "";
         width: 8px;
@@ -119,12 +120,12 @@
         top: 0.5rem;
         background-color: $black;
       }
-      
+
       ul {
         list-style: none;
         margin-top: 1rem;
         padding-left: 1rem;
-        
+
         li {
           &::before {
             width: 6px;
@@ -132,76 +133,77 @@
           }
         }
       }
-      
+
       strong {
         color: $black;
         @include font-weight(semibold);
       }
     }
   }
-  
+
   &__table-wrapper {
     width: 100%;
     overflow-x: auto;
     margin: 2rem 0;
     border: 1px solid rgba($black, 0.1);
   }
-  
+
   &__table {
     width: 100%;
     border-collapse: collapse;
-    
-    th, td {
+
+    th,
+    td {
       padding: 12px 16px;
       text-align: left;
       border-bottom: 1px solid rgba($black, 0.1);
     }
-    
+
     th {
       background-color: $secondary-color;
       color: $black;
       @include font-weight(semibold);
       white-space: nowrap;
     }
-    
+
     tr {
       &:hover {
         background-color: rgba($black, 0.02);
       }
     }
-    
+
     td {
       vertical-align: top;
-      
+
       &:first-child {
         @include font-weight(medium);
       }
     }
   }
-  
+
   // Mobile social section
   &__mobile-social-section {
     margin-top: 5rem;
     padding-top: 2rem;
     border-top: 1px solid rgba($black, 0.1);
-    
+
     @include min-width(lg) {
       display: none;
     }
   }
-  
+
   &__mobile-social-header {
     @include flex(row, center, center);
     margin-bottom: 1.5rem;
   }
-  
+
   &__mobile-social-title {
     @include font-size(lg);
     @include font-weight(medium);
     color: $black;
     margin: 0;
   }
-  
+
   &__mobile-social-divider {
     display: block;
     width: 50px;

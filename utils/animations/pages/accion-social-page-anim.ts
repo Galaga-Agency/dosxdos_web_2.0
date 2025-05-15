@@ -170,29 +170,6 @@ export function initAccionSocialHeroAnimations(
     masterTimeline.to(elements.ctaRef, { y: 0, opacity: 1 }, 0);
   }
 
-  // Animate decorative elements if they exist
-  if (elements.decorElements?.container) {
-    const decorElements = [
-      elements.decorElements.dots,
-      elements.decorElements.line,
-      elements.decorElements.circle,
-      elements.decorElements.grid,
-    ].filter(Boolean);
-
-    if (decorElements.length > 0) {
-      gsap.set(decorElements, { opacity: 0, scale: 0 });
-      masterTimeline.to(
-        decorElements,
-        {
-          opacity: 1,
-          scale: 1,
-          stagger: 0.1,
-        },
-        0
-      );
-    }
-  }
-
   // Play the animation
   masterTimeline.play();
 }

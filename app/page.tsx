@@ -117,8 +117,6 @@ const Home: React.FC = () => {
     };
   }, [isLoading]);
 
-  console.log("Rendering home with blog posts:", blogPosts.length);
-
   // Show loading component only on initial direct page load
   if (isLoading) {
     return <Loading />;

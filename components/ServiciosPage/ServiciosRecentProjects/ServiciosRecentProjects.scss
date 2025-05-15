@@ -69,6 +69,7 @@
     color: $black;
     text-transform: uppercase;
     text-align: center;
+    @include title-line-height;
 
     @include min-width(md) {
       @include font-size(xl);
@@ -111,7 +112,7 @@
       margin-right: -2rem;
       -webkit-overflow-scrolling: touch;
       gap: 1.5rem;
-      
+
       scrollbar-width: none;
       -ms-overflow-style: none;
 

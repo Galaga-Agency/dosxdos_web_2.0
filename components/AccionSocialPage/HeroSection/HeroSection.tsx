@@ -13,14 +13,9 @@ const HeroSection: React.FC = () => {
   const descriptionRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
-  const decorElementsRef = useRef<HTMLDivElement>(null);
-  const decorDotsRef = useRef<HTMLDivElement>(null);
-  const decorLineRef = useRef<HTMLDivElement>(null);
-  const decorCircleRef = useRef<HTMLDivElement>(null);
-  const decorGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Initialize animations with a small delay to ensure DOM is ready
+    // Inicializar animaciones con un pequeño retraso para asegurar que el DOM está listo
     const timer = setTimeout(() => {
       initAccionSocialHeroAnimations({
         heroArea: heroAreaRef.current,
@@ -30,17 +25,10 @@ const HeroSection: React.FC = () => {
         labelRef: labelRef.current,
         descriptionRef: descriptionRef.current,
         ctaRef: ctaRef.current,
-        decorElements: {
-          container: decorElementsRef.current,
-          dots: decorDotsRef.current,
-          line: decorLineRef.current,
-          circle: decorCircleRef.current,
-          grid: decorGridRef.current,
-        },
       });
-    }, 300);
+    }, 100);
 
-    // Clean up function
+    // Función de limpieza
     return () => {
       clearTimeout(timer);
     };

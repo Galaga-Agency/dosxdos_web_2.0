@@ -8,7 +8,7 @@
   overflow: hidden;
   @include section-spacing;
   @include margin(6xl, y);
-  
+
   &__container {
     width: 100%;
     max-width: 1200px;
@@ -18,11 +18,11 @@
     flex-direction: column;
     gap: 4rem;
   }
-  
+
   &__header {
     position: relative;
   }
-  
+
   &__label {
     @include font-size(lg);
     @include font-weight(medium);
@@ -35,7 +35,7 @@
       left: 10%;
     }
   }
-  
+
   &__title {
     @include font-size(3xl);
     @include font-weight(semibold);
@@ -45,6 +45,7 @@
     text-transform: uppercase;
     color: $black;
     will-change: transform, opacity;
+    @include title-line-height;
 
     @include min-width(xs) {
       @include font-size(5xl);
@@ -58,37 +59,37 @@
       @include font-size(7xl);
     }
   }
-  
+
   &__content {
     @include font-size(lg);
     color: rgba($black, 0.8);
     line-height: 1.7;
-    
+
     p {
       margin-bottom: 1.75rem;
-      
+
       strong {
         color: $black;
         @include font-weight(semibold);
       }
     }
   }
-  
+
   &__section {
     margin-bottom: 4rem;
-    
+
     &:last-child {
       margin-bottom: 0;
     }
   }
-  
+
   &__section-title {
     @include font-size(2xl);
     @include font-weight(semibold);
     color: $black;
     margin-bottom: 1rem;
     position: relative;
-    
+
     &::after {
       content: "";
       position: absolute;
@@ -99,37 +100,37 @@
       background-color: rgba($black, 0.3);
     }
   }
-  
+
   &__subsection-title {
     @include font-size(xl);
     @include font-weight(semibold);
     color: $black;
     margin: 2.5rem 0 1rem;
   }
-  
+
   &__cookie-types {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
     margin: 2rem 0;
-    
+
     @include min-width(md) {
       grid-template-columns: repeat(2, 1fr);
     }
   }
-  
+
   &__cookie-type {
     background-color: rgba($secondary-color, 0.5);
     padding: 1.5rem;
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
+
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba($black, 0.05);
     }
   }
-  
+
   &__cookie-title {
     @include font-size(lg);
     @include font-weight(semibold);
@@ -138,17 +139,17 @@
     padding-bottom: 0.75rem;
     border-bottom: 1px solid rgba($black, 0.1);
   }
-  
+
   &__list {
     list-style: none;
     margin: 1.5rem 0 2.5rem;
-    
+
     li {
       position: relative;
       padding-left: 1.5rem;
       margin-bottom: 1rem;
       color: rgba($black, 0.85);
-      
+
       &::before {
         content: "";
         width: 8px;
@@ -158,39 +159,39 @@
         top: 0.5rem;
         background-color: $black;
       }
-      
+
       strong {
         color: $black;
         @include font-weight(semibold);
       }
     }
   }
-  
+
   &__browser-list {
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
     list-style: none;
     margin: 2rem 0;
-    
+
     li {
       flex: 1 1 40%;
       min-width: 200px;
-      
+
       @include min-width(md) {
         flex: 0 1 auto;
       }
     }
   }
-  
+
   &__link {
     color: $black;
     @include font-weight(medium);
     text-decoration: none;
     position: relative;
-    
+
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       width: 100%;
       height: 1px;
@@ -201,36 +202,36 @@
       transform-origin: right;
       transition: transform 0.3s ease;
     }
-    
+
     &:hover::after {
       transform: scaleX(1);
       transform-origin: left;
     }
   }
-  
+
   // Mobile social section
   &__mobile-social-section {
     margin-top: 5rem;
     padding-top: 2rem;
     border-top: 1px solid rgba($black, 0.1);
-    
+
     @include min-width(lg) {
       display: none;
     }
   }
-  
+
   &__mobile-social-header {
     @include flex(row, center, center);
     margin-bottom: 1.5rem;
   }
-  
+
   &__mobile-social-title {
     @include font-size(lg);
     @include font-weight(medium);
     color: $black;
     margin: 0;
   }
-  
+
   &__mobile-social-divider {
     display: block;
     width: 50px;

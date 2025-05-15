@@ -11,7 +11,6 @@
   opacity: 1 !important; 
   @include section-padding-y();
 
-
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
@@ -33,17 +32,17 @@
   &__header {
     @include margin(3xl, bottom);
     position: relative;
-    opacity: 1 !important; // Ensure header visibility
+    opacity: 1 !important;
   }
 
   &__title {
     @include font-size(3xl);
     @include font-weight(semibold);
-    line-height: 1.1;
+    @include title-line-height;
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;
-    opacity: 1 !important; // Ensure title visibility
+    opacity: 1 !important;
 
     .title-row {
       display: block;
@@ -102,7 +101,7 @@
     position: relative;
     margin-bottom: 3rem;
     width: 100%;
-    opacity: 1 !important; // Ensure visibility
+    opacity: 1 !important;
   }
 
   &__carousel-track-container {
@@ -110,47 +109,70 @@
     width: 100%;
     margin: 0 auto;
     @include padding(lg, bottom);
+    // Eliminar padding lateral que comprime el contenido
+    padding-left: 0;
+    padding-right: 0;
+    
+    // Añadir estilo de cursor para indicar que es deslizable en móvil
+    @media (hover: none) and (pointer: coarse) {
+      cursor: grab;
+      
+      &:active {
+        cursor: grabbing;
+      }
+    }
   }
 
   &__carousel-track {
     display: flex;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    opacity: 1 !important; // Ensure visibility
+    opacity: 1 !important;
+    width: 100%;
 
     .blog-carousel-section__carousel-slide {
       flex: 0 0 100%;
-      padding: 0 1rem;
-      opacity: 1 !important; // Ensure slides are visible
-
+      // Eliminamos el padding lateral excesivo en móvil
+      padding: 0;
+      opacity: 1 !important;
+      
+      // Solo añadir un pequeño espacio a la derecha para mostrar que hay más contenido
+      margin-right: 16px;
+      
       @include min-width(md) {
         flex: 0 0 50%;
+        padding: 0 0.75rem;
       }
 
       @include min-width(lg) {
         flex: 0 0 33.333%;
+        padding: 0 1rem;
       }
     }
   }
 
   &__carousel-navigation {
-    display: none;
-
+    // Mostrar los botones de navegación en todas las resoluciones
+    display: flex;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    justify-content: space-between;
+    z-index: 5;
+    pointer-events: none;
+    padding: 0 0.5rem;
+    
+    // Ajustar ubicación de los botones en móvil
+    left: 0;
+    
     @include min-width(md) {
-      display: flex;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 100%;
-      justify-content: space-between;
-      z-index: 5;
-      pointer-events: none;
       padding: 0 0.5rem;
     }
   }
 
   &__nav-button {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -163,23 +185,47 @@
     pointer-events: auto;
     opacity: 0.8;
     @include shadow(md);
+    
+    // Reducir tamaño en móvil
+    @include min-width(md) {
+      width: 48px;
+      height: 48px;
+    }
 
     &:hover {
       opacity: 1;
       background-color: $white;
       color: $primary-color;
     }
+    
+    &:active {
+      transform: scale(0.95);
+    }
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
+      
+      @include min-width(md) {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    
+    // Posicionar botones a los lados
+    &--prev {
+      margin-left: -25px;
+    }
+    
+    &--next {
+      margin-right: -25px;
     }
   }
 
   &__carousel-dots {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     gap: 0.5rem;
   }
 
@@ -192,6 +238,13 @@
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;
+    
+    // Aumentar tamaño de puntos en móvil para mejor interacción táctil
+    @media (hover: none) and (pointer: coarse) {
+      width: 10px;
+      height: 10px;
+      margin: 0 4px;
+    }
 
     &.active {
       background-color: $black;
@@ -206,11 +259,11 @@
   &__cta-container {
     margin-top: 4rem;
     text-align: center;
-    opacity: 1 !important; // Ensure CTA visibility
+    opacity: 1 !important;
   }
 }
 
-// Fix for lazy loading animation to not hide blog items
+// Fix para animación de carga perezosa
 .lazy-section .blog-carousel-section {
   opacity: 1 !important;
   transform: none !important;

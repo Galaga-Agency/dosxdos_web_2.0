@@ -41,7 +41,7 @@
   &__title {
     @include font-size(4xl);
     @include font-weight(semibold);
-    line-height: 1.1;
+    @include title-line-height;
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;
@@ -216,7 +216,7 @@
     @include font-weight(bold);
     margin-bottom: 1.5rem;
     color: $white;
-    line-height: 1.2;
+    @include title-line-height;
     position: relative;
     padding-bottom: 0.8rem;
 

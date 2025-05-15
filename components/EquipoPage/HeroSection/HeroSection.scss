@@ -98,7 +98,7 @@
     @include font-size(3xl);
     @include font-weight(semibold);
     color: $white;
-    line-height: 1.1;
+    @include title-line-height;
     @include letter-spacing(tight);
     text-transform: uppercase;
     @include margin(lg, bottom);

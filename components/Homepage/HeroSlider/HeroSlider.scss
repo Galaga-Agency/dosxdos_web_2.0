@@ -122,7 +122,7 @@
     color: $white;
     @include font-size(4xl);
     @include font-weight(semibold);
-    line-height: 1.1;
+    @include title-line-height;
     @include letter-spacing(tight);
     text-transform: uppercase;
     text-align: left;

@@ -51,6 +51,7 @@
     width: 100%;
     margin-bottom: 1rem;
     @include font-size(hero-xs);
+    @include title-line-height;
 
     @include min-width(sm) {
       @include font-size(hero-sm);

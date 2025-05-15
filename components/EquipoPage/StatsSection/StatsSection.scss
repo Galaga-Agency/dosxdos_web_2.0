@@ -46,6 +46,7 @@
     font-weight: 600;
     display: flex;
     align-items: center;
+    @include title-line-height;
     letter-spacing: -0.02em;
 
     @include min-width(md) {

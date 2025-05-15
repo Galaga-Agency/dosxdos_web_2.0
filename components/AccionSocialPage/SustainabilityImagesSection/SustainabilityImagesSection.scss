@@ -34,6 +34,7 @@
     @include font-weight(bold);
     color: $black;
     margin-bottom: 1rem;
+    @include title-line-height;
 
     @include min-width(md) {
       @include font-size(4xl);
@@ -45,7 +46,7 @@
     gap: 2rem;
 
     @include min-width(md) {
-    @include flex(row, center, center);
+      @include flex(row, center, center);
     }
   }
 }

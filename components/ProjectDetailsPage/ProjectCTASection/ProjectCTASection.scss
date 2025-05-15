@@ -8,7 +8,7 @@
   width: 100%;
   background-color: $white;
   overflow: hidden;
-  
+
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
@@ -58,7 +58,7 @@
   &__title {
     @include font-size(4xl);
     @include font-weight(semibold);
-    line-height: 1.1;
+    @include title-line-height;
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;

@@ -37,16 +37,17 @@ const FeaturedprojectsSection: React.FC = () => {
     }
   }, []);
 
+  // Generate repeated text elements for marquee
+  const repeatedText = Array.from({ length: 50 }).map((_, i) => (
+    <span key={i}>Nuestros Trabajos&nbsp;&nbsp;</span>
+  ));
+
   return (
     <section ref={sectionRef} className="latest-projects">
-      {/* Marquee container */}
+      {/* Marquee container - Pure CSS implementation */}
       <div className="marquee-container">
         <div className="marquee-track">
-          <div className="marquee-text">
-            {Array.from({ length: 50 }).map((_, i) => (
-              <span key={i}>Nuestros Trabajos&nbsp;&nbsp;</span>
-            ))}
-          </div>
+          <div className="marquee-text">{repeatedText}</div>
         </div>
       </div>
 

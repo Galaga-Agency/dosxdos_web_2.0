@@ -49,7 +49,7 @@ $breakpoints: (
   // Medium desktops
   xxl: 1400px,
   // Large desktops
-  xxxl: 1600px // Extra large desktops,,,,
+  xxxl: 1600px // Extra large desktops,,,,,
 );
 
 // -----------------------------------------------------------------------------
@@ -170,4 +170,14 @@ $component: (
   padding-x: 24px,
   margin-bottom: 24px,
   gap: 16px,
+);
+
+// -----------------------------------------------------------------------------
+// Line Heights
+// -----------------------------------------------------------------------------
+$line-height: (
+  paragraph: 1.6,
+  // Para párrafos de texto
+  title: 1.2,
+  // Para títulos/encabezados
 );

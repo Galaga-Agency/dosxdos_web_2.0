@@ -36,7 +36,7 @@
     margin: 0 auto;
     @include font-weight(semibold);
     width: fit-content;
-    line-height: 1.1;
+    @include title-line-height;
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;

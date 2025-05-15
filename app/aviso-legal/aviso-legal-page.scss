@@ -45,6 +45,7 @@
     text-transform: uppercase;
     color: $black;
     will-change: transform, opacity;
+    @include title-line-height;
 
     @include min-width(xs) {
       @include font-size(5xl);
