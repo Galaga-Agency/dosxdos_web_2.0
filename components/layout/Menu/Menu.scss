@@ -9,12 +9,12 @@
   left: 0;
   width: 100%;
   height: 80px;
-  @include padding(sm, x); 
+  @include padding(sm, x);
   @include z-index(header);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: visible;
   color: $black;
-  
+
   @include min-width(xl) {
     @include padding(xl, x);
   }
@@ -23,7 +23,8 @@
   &::before {
     background-color: rgba($white, 0.2);
     backdrop-filter: blur(4px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba($white, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+      inset 0 0 0 1px rgba($white, 0.1);
   }
 
   .menu__nav-link,
@@ -49,7 +50,8 @@
 
     &::before {
       background-color: rgba($black, 0.8);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba($white, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15),
+        inset 0 0 0 1px rgba($white, 0.1);
     }
 
     .menu__nav-link,
@@ -66,6 +68,10 @@
     }
 
     .menu__nav-icon {
+      color: $white;
+    }
+
+    .menu__admin-badge {
       color: $white;
     }
   }
@@ -99,8 +105,14 @@
     @include margin(sm, right);
 
     @include min-width(xl) {
+      color: $black;
+      background-color: rgba($black, 0.2);
       display: inline-flex;
       @include margin(sm, right);
+
+      &:hover {
+        background-color: rgba($black, 0.4);
+      }
     }
   }
 
@@ -124,12 +136,15 @@
     text-decoration: none;
     transition: all 0.3s ease;
     -webkit-tap-highlight-color: transparent;
-    @include padding(xs, left); // Pequeño padding para no estar totalmente pegado
+    @include padding(
+      xs,
+      left
+    ); // Pequeño padding para no estar totalmente pegado
 
     &:hover {
       transform: translateY(-2px);
     }
-    
+
     @include min-width(md) {
       @include padding(md); // Restaurar padding en tablet y desktop
     }
@@ -142,7 +157,7 @@
     width: auto;
     transition: all 0.3s ease;
     filter: brightness(1.05) contrast(1.05);
-    
+
     @include min-width(md) {
       max-height: 65px;
     }
@@ -163,12 +178,15 @@
     cursor: pointer;
     @include z-index(toast);
     -webkit-tap-highlight-color: transparent;
-    @include padding(xs, right); // Pequeño padding para no estar totalmente pegado
-    
+    @include padding(
+      xs,
+      right
+    ); // Pequeño padding para no estar totalmente pegado
+
     @include min-width(md) {
       @include padding(md); // Restaurar padding en tablet y desktop
     }
-    
+
     @include min-width(lg) {
       display: none;
     }
@@ -177,7 +195,7 @@
   // Navigation - hidden on mobile/tablet
   &__nav {
     display: none;
-    
+
     @include min-width(lg) {
       display: block;
     }
@@ -191,7 +209,7 @@
     list-style: none;
     transition: all 0.3s ease;
     text-transform: capitalize;
-    
+
     // Special handling for Mac Retina displays
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
       @include gap(2xl);
@@ -226,11 +244,11 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     user-select: none;
-    
+
     @include min-width(lg) {
       @include font-size(base);
     }
-    
+
     @include min-width(xl) {
       @include font-size(lg);
     }
@@ -273,7 +291,8 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     @include border-radius(md);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba($white, 0.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba($white, 0.05);
     @include padding(md, y);
     opacity: 0;
     visibility: hidden;
@@ -311,11 +330,11 @@
       visibility: visible;
       transform: translateX(-50%) translateY(0);
     }
-    
+
     @include min-width(lg) {
       min-width: 230px;
     }
-    
+
     @include min-width(xl) {
       min-width: 250px;
     }
@@ -372,7 +391,7 @@
     align-items: center;
     @include gap(md);
     @include z-index(toast);
-    
+
     @include min-width(md) {
       @include padding(md); // Restaurar padding en tablet y desktop
     }
@@ -381,7 +400,7 @@
   &__social-desktop {
     display: none;
     margin-inline: 0.5rem;
-    
+
     @include min-width(xl) {
       display: block;
     }
@@ -396,7 +415,7 @@
   // CTA Button - Only show on xxxl screens
   &__cta {
     display: none !important;
-    
+
     @include min-width(xxxl) {
       display: inline-flex !important;
     }
@@ -413,7 +432,8 @@
     background-color: rgba($black, 0.9);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba($white, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba($white, 0.08);
     transform: translateX(100%);
     transition: transform 0.6s cubic-bezier(0.32, 0.64, 0.45, 1);
     @include z-index(menu);
@@ -614,7 +634,6 @@
     @include padding(md);
     text-align: center;
 
-    
     p {
       color: rgba($white, 0.7);
       @include margin(xs, y);
@@ -670,7 +689,7 @@
 
     // DO NOT override the CTA button display here
     // Rely only on the xxxl media query above
-    
+
     &__social-desktop {
       display: block;
       margin-inline: 0.5rem;
@@ -711,9 +730,9 @@
 @media screen and (-webkit-min-device-pixel-ratio: 2) {
   .menu {
     &__nav-list {
-      @include gap(xl);  
+      @include gap(xl);
     }
-    
+
     &__nav-link,
     &__nav-button {
       @include letter-spacing(tight);
@@ -818,7 +837,6 @@ This overrides the previous styles to ensure there's no overlap
     }
   }
 }
-
 
 // Eliminar el efecto de selección azul en elementos interactivos
 * {

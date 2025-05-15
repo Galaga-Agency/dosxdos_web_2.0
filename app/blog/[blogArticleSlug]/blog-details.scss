@@ -392,8 +392,9 @@
     @include font-size(md);
     @include font-weight(regular);
     line-height: 1;
-    @include padding(sm, all);
-    @include border-radius(full);
+    @include padding(sm, x);
+    @include padding(xs, y);
+    @include border-radius(lg);
     display: inline-block;
     color: $white;
     background-color: $black;
@@ -401,11 +402,6 @@
     @include margin(xs, right);
     @include margin(xs, bottom);
     white-space: nowrap;
-    @include transition(background-color, normal, ease);
-
-    &:hover {
-      background-color: $primary-color;
-    }
   }
 
   // Simplified share section

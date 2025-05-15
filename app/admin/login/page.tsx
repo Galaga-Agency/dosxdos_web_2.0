@@ -70,43 +70,46 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <h1>Iniciar Sesión</h1>
+    <>
+      {" "}
+      <div className="login-page">
+        <div className="login-container">
+          <h1>Iniciar Sesión</h1>
 
-        {error && <p className="error-message">{error}</p>}
+          {error && <p className="error-message">{error}</p>}
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CustomInput
-            label="Nombre de Usuario"
-            type="text"
-            name={usernameRegister.name}
-            onChange={usernameRegister.onChange}
-            onBlur={usernameRegister.onBlur}
-            inputRef={usernameRegister.ref}
-            error={errors.username}
-            isLoading={loading}
-            placeholder="Nombre de usuario"
-          />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CustomInput
+              label="Nombre de Usuario"
+              type="text"
+              name={usernameRegister.name}
+              onChange={usernameRegister.onChange}
+              onBlur={usernameRegister.onBlur}
+              inputRef={usernameRegister.ref}
+              error={errors.username}
+              isLoading={loading}
+              placeholder="Nombre de usuario"
+            />
 
-          <CustomInput
-            label="Contraseña"
-            type="password"
-            name={passwordRegister.name}
-            onChange={passwordRegister.onChange}
-            onBlur={passwordRegister.onBlur}
-            inputRef={passwordRegister.ref}
-            error={errors.password}
-            isLoading={loading}
-            placeholder="******"
-          />
+            <CustomInput
+              label="Contraseña"
+              type="password"
+              name={passwordRegister.name}
+              onChange={passwordRegister.onChange}
+              onBlur={passwordRegister.onBlur}
+              inputRef={passwordRegister.ref}
+              error={errors.password}
+              isLoading={loading}
+              placeholder="******"
+            />
 
-          <PrimaryButton type="submit" fullWidth disabled={loading}>
-            {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
-          </PrimaryButton>
-        </form>
+            <PrimaryButton type="submit" fullWidth disabled={loading}>
+              {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
+            </PrimaryButton>
+          </form>
+        </div>
       </div>
-      <Footer />
-    </div>
+      <Footer />{" "}
+    </>
   );
 }

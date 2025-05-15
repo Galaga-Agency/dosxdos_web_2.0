@@ -14,10 +14,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Make it appear above everything else */
-  z-index: 9999;
-  
+  @include z-index(modal);
+
   &__overlay {
     position: fixed;
     left: 0;
@@ -26,55 +24,53 @@
     bottom: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba($black, 0.6);
+    background-color: rgba(#0000, 0.6);
     backdrop-filter: blur(4px);
     z-index: 0;
   }
-  
+
   &__content {
-    /* Basic styling */
-    background-color: rgba($black, 0.5);
+    background-color: $black;
     backdrop-filter: blur(20px);
     border: 1px solid rgba($white, 0.15);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-    
-    /* Size and layout */
     width: 90%;
     max-height: 85vh;
+    @include border-radius(lg);
     overflow-y: visible;
     padding: 2.5rem 1.5rem 2rem 1.5rem;
-    
+
     /* Content organization */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     color: $white;
-    
+
     /* Make sure this is above the overlay */
     position: relative;
     z-index: 1;
-    
+
     /* Size variants */
     &--small {
       max-width: 400px;
     }
-    
+
     &--medium {
       max-width: 600px;
     }
-    
+
     &--large {
       max-width: 800px;
     }
-    
+
     /* Variant styling */
     &--danger {
       border: 1px solid rgba($danger-color, 0.25);
       box-shadow: 0 0 0 3px rgba($danger-color, 0.15);
     }
   }
-  
+
   &__icon {
     position: absolute;
     top: -2.5rem;
@@ -82,21 +78,21 @@
     transform: translateX(-50%);
     width: 5rem;
     height: 5rem;
-    background-color: rgba($white, 0.9);
+    background-color: $black;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: $danger-color;
     border: 2px solid rgba($danger-color, 0.2);
-    box-shadow: 0 0 12px rgba($danger-color, 0.3);
+    box-shadow: 0 0 50px rgba($danger-color, 0.3);
     z-index: 2;
   }
-  
+
   &__header {
     margin-bottom: 1rem;
     width: 100%;
-    
+
     .modal__title {
       margin: 1.5rem 0 0;
       @include font-size(xl);
@@ -104,7 +100,7 @@
       color: $white;
     }
   }
-  
+
   &__close {
     position: absolute;
     top: 1rem;
@@ -119,23 +115,23 @@
     @include flex(row, center, center);
     cursor: pointer;
     transition: 0.3s ease;
-    
+
     &:hover {
       background-color: rgba($primary-color, 0.1);
       color: $primary-color;
       transform: rotate(180deg);
     }
   }
-  
+
   &__body {
     color: rgba($white, 0.85);
     font-size: 0.95rem;
     width: 100%;
-    
+
     &--centered {
       text-align: center;
     }
-    
+
     strong {
       display: block;
       font-weight: 600;
@@ -144,47 +140,47 @@
       margin-top: 1.5rem;
       margin-bottom: 0.5rem;
     }
-    
+
     .delete-warning {
       font-size: 0.85rem;
       color: rgba($white, 0.6);
       margin-top: 0.75rem;
     }
   }
-  
+
   &__footer {
     display: flex;
     justify-content: center;
     gap: 1rem;
     margin-top: 2rem;
     width: 100%;
-    
+
     .modal__cancel-btn,
     .modal__confirm-btn {
       padding: 0.6rem 0;
       width: 50%;
-      border-radius: 999px;
+      @include border-radius(lg);
       font-weight: 500;
       border: none;
       transition: 0.3s ease;
       font-size: 0.9rem;
       cursor: pointer;
     }
-    
+
     .modal__cancel-btn {
       background-color: rgba($white, 0.3);
       color: $white;
       border: 1px solid rgba($white, 0.5);
-      
+
       &:hover {
         background-color: rgba($white, 0.1);
       }
     }
-    
+
     .modal__confirm-btn {
       background-color: $danger-color;
       color: $white;
-      
+
       &:hover {
         background-color: darken($danger-color, 8%);
       }
