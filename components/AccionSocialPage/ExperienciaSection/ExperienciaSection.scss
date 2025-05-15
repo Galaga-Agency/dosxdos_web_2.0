@@ -42,7 +42,7 @@
     @include font-weight(semibold);
     color: $black;
     margin-bottom: 1.5rem;
-    line-height: 1.1;
+    @include title-line-height;
     text-transform: uppercase;
 
     @include min-width(md) {

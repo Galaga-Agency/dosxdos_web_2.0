@@ -75,25 +75,25 @@
 // -----------------------------------------------------------------------------
 @mixin section-spacing {
   // Mobile spacing
-  padding-top: map-get($spacing, "4xl");    // 80px
-  padding-bottom: map-get($spacing, "4xl");  // 80px
-  
+  padding-top: map-get($spacing, "4xl"); // 80px
+  padding-bottom: map-get($spacing, "4xl"); // 80px
+
   // Tablet spacing
   @include min-width(md) {
-    padding-top: map-get($spacing, "5xl");    // 96px
-    padding-bottom: map-get($spacing, "5xl");  // 96px
+    padding-top: map-get($spacing, "5xl"); // 96px
+    padding-bottom: map-get($spacing, "5xl"); // 96px
   }
-  
+
   // Small desktop spacing
   @include min-width(lg) {
-    padding-top: map-get($spacing, "6xl");    // 120px
-    padding-bottom: map-get($spacing, "6xl");  // 120px
+    padding-top: map-get($spacing, "6xl"); // 120px
+    padding-bottom: map-get($spacing, "6xl"); // 120px
   }
-  
+
   // Large desktop spacing
   @include min-width(xl) {
-    padding-top: map-get($spacing, "7xl");    // 144px
-    padding-bottom: map-get($spacing, "7xl");  // 144px
+    padding-top: map-get($spacing, "7xl"); // 144px
+    padding-bottom: map-get($spacing, "7xl"); // 144px
   }
 }
 
@@ -104,17 +104,17 @@
 @mixin section-padding-y {
   padding-top: 64px;
   padding-bottom: 64px;
-  
+
   @include min-width(md) {
     padding-top: 80px;
     padding-bottom: 80px;
   }
-  
+
   @include min-width(lg) {
     padding-top: 96px;
     padding-bottom: 96px;
   }
-  
+
   @include min-width(xl) {
     padding-top: 120px;
     padding-bottom: 120px;
@@ -123,15 +123,15 @@
 
 @mixin section-padding-top {
   padding-top: 64px;
-  
+
   @include min-width(md) {
     padding-top: 80px;
   }
-  
+
   @include min-width(lg) {
     padding-top: 96px;
   }
-  
+
   @include min-width(xl) {
     padding-top: 140px;
   }
@@ -318,4 +318,20 @@
   @media (hover: none) and (pointer: coarse) {
     @content;
   }
+}
+
+// -----------------------------------------------------------------------------
+// Paragraph line height
+// Usage: @include paragraph-line-height;
+// -----------------------------------------------------------------------------
+@mixin paragraph-line-height {
+  line-height: map-get($line-height, paragraph);
+}
+
+// -----------------------------------------------------------------------------
+// Title line height
+// Usage: @include title-line-height;
+// -----------------------------------------------------------------------------
+@mixin title-line-height {
+  line-height: map-get($line-height, title);
 }

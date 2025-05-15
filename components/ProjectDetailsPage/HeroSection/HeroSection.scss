@@ -209,7 +209,7 @@
   &__title {
     @include font-size(2xl); // Smaller size for iPhone SE
     @include font-weight(semibold);
-    line-height: 1.1;
+    @include title-line-height;
     @include letter-spacing(tight);
     color: $white;
     margin-bottom: 0.75rem;

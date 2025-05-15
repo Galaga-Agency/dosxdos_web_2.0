@@ -31,7 +31,7 @@
     @include font-size(4xl);
     @include font-weight(regular);
     color: $white;
-    line-height: 1.1;
+    @include title-line-height;
     text-align: left;
     @include margin(md, bottom);
 

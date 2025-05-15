@@ -50,7 +50,7 @@
   &__title {
     @include font-size(3xl);
     @include font-weight(semibold);
-    line-height: 1.1;
+    @include title-line-height;
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;

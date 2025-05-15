@@ -92,6 +92,7 @@
 
   &__title {
     color: $white;
+    @include title-line-height;
     @include font-size(xl);
     margin: 0;
   }

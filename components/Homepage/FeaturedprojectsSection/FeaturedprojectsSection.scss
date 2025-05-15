@@ -21,11 +21,10 @@
     min-height: 80px;
     display: flex;
     align-items: center;
-    overscroll-behavior: none;
-
-  // Importante: añadimos estas propiedades para evitar conflictos con ScrollTrigger
-  will-change: auto;
-  transform: translateZ(0);
+    overscroll-behavior: none; // Prevent scroll chaining
+    will-change: transform; // Optimize for animations
+    transform: translateZ(0); // Force GPU acceleration
+    backface-visibility: hidden; // Prevent flickering
 
     @include min-width(sm) {
       min-height: 100px;
@@ -46,6 +45,8 @@
       height: 100%;
       align-items: center;
       overflow: hidden;
+      will-change: transform; // Optimize performance
+      transform: translateZ(0); // Force GPU acceleration
     }
 
     .marquee-text {
@@ -59,6 +60,8 @@
       vertical-align: middle;
       animation: marquee-scroll 400s linear infinite;
       will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
       font-size: 50px;
 
       @include min-width(md) {
@@ -154,7 +157,7 @@
     font-weight: 400;
     margin-bottom: 0.75rem;
     color: $white;
-    line-height: 1.2;
+    @include title-line-height;
     position: relative;
     padding-bottom: 0.75rem;
     text-shadow: 0 1px 2px rgba($black, 0.2);

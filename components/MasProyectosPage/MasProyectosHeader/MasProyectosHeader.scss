@@ -54,6 +54,7 @@
     text-transform: capitalize;
     letter-spacing: -0.025em;
     visibility: hidden;
+    @include title-line-height;
     @include font-size(3xl);
 
     @include min-width(xs) {
@@ -78,7 +79,7 @@
     visibility: hidden;
     color: $black;
     max-width: 60ch;
-    line-height: 1.6;
+    @include paragraph-line-height;
 
     @include min-width(md) {
       margin-left: 20%;

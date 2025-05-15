@@ -33,13 +33,12 @@
   }
   
   &__title {
-    // Reduced title font sizes by 2 levels
     @include font-size(5xl);
-    line-height: 1;
+    @include title-line-height;
     @include margin(lg, bottom);
     will-change: transform;
-    visibility: hidden; // Will be made visible by animation
-    white-space: normal; // Wrap text on mobile
+    visibility: hidden;
+    white-space: normal;
     
     @include min-width(sm) {
       @include font-size(6xl);

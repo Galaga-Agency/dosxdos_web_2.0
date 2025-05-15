@@ -36,6 +36,7 @@
     @include font-size(3xl);
     margin: 0 auto;
     @include font-weight(semibold);
+    @include title-line-height;
     width: fit-content;
     line-height: 1.1;
     @include letter-spacing(tight);

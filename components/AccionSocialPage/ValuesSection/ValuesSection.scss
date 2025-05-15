@@ -21,7 +21,7 @@
     @include font-size(3xl);
     @include font-weight(extra-bold);
     color: $black;
-    line-height: 1.1;
+    @include title-line-height;
     max-width: none;
 
     @include min-width(md) {

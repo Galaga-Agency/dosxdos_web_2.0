@@ -5,7 +5,6 @@ import Menu from "@/components/layout/Menu/Menu";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
 import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
-import Script from "next/script";
 
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",
@@ -198,7 +197,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Preload ALL critical hero images across the entire site */}
+        {/* Preload ALL critical hero images across the entire site and only the critical ones, for other images we will load them using script from next directly in each page layout file*/}
         {/* Homepage hero slider images */}
         <link
           rel="preload"
@@ -265,15 +264,6 @@ export default function RootLayout({
         <link
           rel="preload"
           href="/assets/img/portfolio/hero-portfolio.webp"
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
-        
-        {/* Contact page hero images */}
-        <link
-          rel="preload"
-          href="/assets/img/contacto/contacto-hero.webp"
           as="image"
           type="image/webp"
           fetchPriority="high"
