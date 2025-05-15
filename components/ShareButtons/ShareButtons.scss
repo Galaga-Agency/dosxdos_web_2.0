@@ -38,6 +38,7 @@
 
     &:hover {
       background-color: $black;
+      color: $white;
       transform: translateY(-3px);
       filter: drop-shadow(1px 1px 2px $white);
 
