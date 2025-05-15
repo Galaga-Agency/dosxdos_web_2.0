@@ -449,10 +449,8 @@
   &__mobile-header {
     @include padding(none, x);
     @include padding(lg, bottom);
-    border-bottom: 1px solid rgba($white, 0.1);
     display: flex;
     justify-content: center;
-    @include margin(md, bottom);
   }
 
   &__mobile-logo {
@@ -503,7 +501,7 @@
   &__mobile-button-main,
   &__mobile-link {
     display: block;
-    @include padding(md, y);
+    @include padding(sm, y);
     color: rgba($white, 0.8);
     text-decoration: none;
     @include font-weight(medium);
@@ -614,13 +612,8 @@
   &__mobile-footer {
     margin-top: auto;
     @include padding(md);
-    border-top: 1px solid rgba($white, 0.1);
     text-align: center;
-    background: linear-gradient(
-      to bottom,
-      rgba($black, 0.6) 0%,
-      rgba($black, 0.8) 100%
-    );
+
     
     p {
       color: rgba($white, 0.7);
@@ -825,6 +818,7 @@ This overrides the previous styles to ensure there's no overlap
     }
   }
 }
+
 
 // Eliminar el efecto de selección azul en elementos interactivos
 * {

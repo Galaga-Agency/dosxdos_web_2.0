@@ -14,20 +14,32 @@ import {
 const CollaborationsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // In your CollaborationsSection.tsx useEffect
   useEffect(() => {
+    // Prevent any scroll position issues on load by temporarily freezing scroll
+    document.body.style.overflow = "hidden";
+
     // Clean up any existing ScrollTrigger instances first
     clearScrollTriggers();
 
-    // Short timeout to ensure DOM is fully rendered
+    // Add a small delay to ensure DOM is ready
     const timer = setTimeout(() => {
+      // Restore scrolling
+      document.body.style.overflow = "";
+
+      // Initialize your existing animation
       panelAnimation();
 
-      // Force refresh ScrollTrigger
-      refreshScrollTrigger();
+      // Force refresh ScrollTrigger with a small delay
+      setTimeout(() => {
+        refreshScrollTrigger();
+      }, 100);
     }, 300);
 
     return () => {
       clearTimeout(timer);
+      document.body.style.overflow = "";
+      clearScrollTriggers();
     };
   }, []);
 

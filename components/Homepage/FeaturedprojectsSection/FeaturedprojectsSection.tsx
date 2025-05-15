@@ -20,19 +20,30 @@ const FeaturedprojectsSection: React.FC = () => {
 
   useEffect(() => {
     if (sectionRef.current) {
-      // Delay animation slightly to allow DOM to fully render
-      const timer = setTimeout(() => {
-        // Clean any existing scroll triggers for this section first
-        clearScrollTriggers();
+      // Temporarily prevent scrolling to avoid auto-scroll issues
+      document.body.style.overflow = "hidden";
 
+      // Clean any existing scroll triggers for this section first
+      clearScrollTriggers();
+
+      // Longer delay to ensure DOM is fully rendered
+      const timer = setTimeout(() => {
+        // Restore scrolling
+        document.body.style.overflow = "";
+
+        // Initialize animation
         panelAnimation();
 
-        // Force refresh ScrollTrigger
-        refreshScrollTrigger();
-      }, 100);
+        // Force refresh ScrollTrigger with a small delay
+        setTimeout(() => {
+          refreshScrollTrigger();
+        }, 100);
+      }, 300); // Increased from 100ms to 300ms for more stability
 
       return () => {
         clearTimeout(timer);
+        document.body.style.overflow = "";
+        clearScrollTriggers();
       };
     }
   }, []);
