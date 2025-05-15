@@ -172,6 +172,7 @@
   &__content-side {
     position: relative;
     width: 100%;
+    min-height: 70vh;
     height: auto;
     display: flex;
     align-items: center;
@@ -186,11 +187,12 @@
   }
 
   &__content {
-    max-width: 500px;
-    padding: 4rem 2rem;
+    max-width: 80vw;
+    @include flex(column, center, start);
 
-    @include min-width(lg) {
+    @include min-width(md) {
       padding: 4rem;
+      max-width: 500px;
     }
   }
 

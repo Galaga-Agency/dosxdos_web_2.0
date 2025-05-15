@@ -102,13 +102,9 @@
     width: 100%;
     @include flex(column, unset, unset);
     gap: 1rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     position: relative;
-    text-align: center;
-
-    @include min-width(md) {
-      text-align: left;
-    }
+    text-align: left;
   }
 
   &__subtitle {
@@ -118,7 +114,6 @@
     color: $black;
     display: block;
     max-width: 90%;
-    margin: 0 auto;
     opacity: 0;
     @include letter-spacing(wide);
 
@@ -131,7 +126,7 @@
   &__title {
     position: relative;
     @include font-weight(semibold);
-        @include title-line-height;
+    @include title-line-height;
 
     color: $black;
     text-transform: capitalize;
@@ -185,12 +180,15 @@
     opacity: 0;
 
     &-info-section {
-      padding: 0 3rem;
       @include border-radius(xl);
       height: 100%;
 
       @include min-width(lg) {
-      padding: 0;
+        padding: 0 3rem;
+      }
+
+      @include min-width(xxl) {
+        padding: 0;
       }
 
       p {

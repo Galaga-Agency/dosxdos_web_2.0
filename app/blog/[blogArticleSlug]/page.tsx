@@ -269,14 +269,13 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
               </PrimaryButton>
             </div>
           </div>
-        </div>
-
-        <div className="blog-detail__mobile-social-section">
-          <div className="blog-detail__mobile-social-header">
-            <h3 className="blog-detail__mobile-social-title">Síguenos</h3>
-            <div className="blog-detail__mobile-social-divider"></div>
+          <div className="blog-detail__mobile-social-section">
+            <div className="blog-detail__mobile-social-header">
+              <h3 className="blog-detail__mobile-social-title">Síguenos</h3>
+              <div className="blog-detail__mobile-social-divider"></div>
+            </div>
+            <SocialIcons orientation="horizontal" color="primary" />
           </div>
-          <SocialIcons orientation="horizontal" color="primary" />
         </div>
       </div>
       <Footer />

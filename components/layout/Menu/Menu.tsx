@@ -136,14 +136,16 @@ const Menu: React.FC = () => {
 
   // Determine which logo to use based on scroll state
   const getLogo = () => {
-    if (isMobile) {
+    if (isMobile && isScrolled) {
       return "/assets/img/logo/logo-gris.png";
+    } else if (isMobile && !isScrolled) {
+      return "/assets/img/logo/logo-berengena.png";
+    } else {
+      // Logo changes based on scroll state
+      return isScrolled
+        ? "/assets/img/logo/logo_full_gris.svg" // White logo when scrolled (on dark bg)
+        : "/assets/img/logo/logo-full-berenjena.png"; // Dark logo initially (on light bg)
     }
-
-    // Logo changes based on scroll state
-    return isScrolled
-      ? "/assets/img/logo/logo_full_gris.svg" // White logo when scrolled (on dark bg)
-      : "/assets/img/logo/logo-full-berenjena.png"; // Dark logo initially (on light bg)
   };
 
   // Render the appropriate CTA button based on scroll state
@@ -269,7 +271,11 @@ const Menu: React.FC = () => {
 
           {/* Mobile Hamburger */}
           <div className="menu__hamburger-wrapper" onClick={toggleMobileMenu}>
-            <HamburgerIcon isActive={isMobileOpen} />
+            <HamburgerIcon
+              isActive={isMobileOpen}
+              isScrolled={isScrolled}
+              color={isMobileOpen ? "white" : isScrolled ? "white" : "black"}
+            />
           </div>
         </div>
       </div>

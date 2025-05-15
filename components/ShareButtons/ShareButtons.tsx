@@ -60,10 +60,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({
       {/* Facebook */}
       <FacebookShareButton
         url={absoluteUrl}
-        quote={`${post.title}\n\n${
-          post.excerpt ||
-          `Artículo de ${post.author} en Dos por Dos Grupo Imagen sobre ${post.category}`
-        }`}
+        quote={post.title} // Simplified to just the title
         hashtag={
           post.tags && post.tags.length > 0
             ? `#${post.tags[0].replace(/\s+/g, "")}`
