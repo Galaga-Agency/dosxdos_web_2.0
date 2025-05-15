@@ -502,8 +502,6 @@ export function animateTeamSection(elements: SectionAnimationElements) {
 export function animateStatsSection(elements: SectionAnimationElements) {
   if (typeof window === "undefined" || !elements.section) return;
 
-  console.log("Animating Stats Section");
-
   const tl = gsap.timeline();
 
   // Set initial visibility

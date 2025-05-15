@@ -145,7 +145,7 @@ export function initImageParallax(
 
             // Apply stronger movement to inner element
             gsap.set(innerElement, {
-              y: proxy.progress * -110,
+              y: proxy.progress * -150,
             });
           },
         });
