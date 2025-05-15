@@ -9,6 +9,8 @@ import { formatDate } from "@/utils/formatting/dateFormatting";
 import { formatBlogContent, getImageSource } from "@/utils/editor";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
+import ShareButtons from "@/components/ShareButtons/ShareButtons";
+import BlogMetadata from "@/components/BlogMetadata";
 import { getAllPosts, getPostBySlug } from "@/lib/blog-service";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -35,6 +37,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [key] = useState(() => Date.now()); // For component remounting consistency
   const router = useRouter();
+  const [currentUrl, setCurrentUrl] = useState<string>("");
 
   // Element refs for animations
   const heroRef = useRef<HTMLDivElement>(null);
@@ -47,6 +50,13 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const relatedPostsRef = useRef<HTMLDivElement>(null);
   const ctaSectionRef = useRef<HTMLDivElement>(null);
+
+  // Establecer la URL actual cuando el componente se monta
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCurrentUrl(window.location.href);
+    }
+  }, []);
 
   // Fetch blog post and related posts
   useEffect(() => {
@@ -134,6 +144,12 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
     return { __html: htmlContent };
   };
 
+  // Texto para compartir en redes sociales
+  const shareTitle = blogPost.title;
+  const shareSummary =
+    blogPost.excerpt ||
+    `Artículo de ${blogPost.author} en Dos por Dos Grupo Imagen sobre ${blogPost.category}`;
+
   return (
     <SmoothScrollWrapper>
       <div className="blog-detail" key={key}>
@@ -210,7 +226,13 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
           <div className="blog-detail__share-section">
             <h3 className="blog-detail__share-title">Comparte este artículo</h3>
-            <SocialIcons orientation="horizontal" color="primary" />{" "}
+            <ShareButtons
+              post={blogPost}
+              url={currentUrl}
+              color="primary"
+              iconSize="medium"
+              orientation="horizontal"
+            />
           </div>
 
           {relatedPosts.length > 0 && (
