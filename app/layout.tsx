@@ -220,7 +220,6 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
-        
         {/* Equipo page hero images */}
         <link
           rel="preload"
@@ -250,7 +249,14 @@ export default function RootLayout({
           type="image/jpg"
           fetchPriority="high"
         />
-        
+        {/* Acción Social page hero image */}
+        <link
+          rel="preload"
+          href="/assets/img/about-us-page/vicente-ferrer-illustration.jpg"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
+        />
         {/* Services page hero images */}
         <link
           rel="preload"
@@ -259,7 +265,6 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
-        
         {/* Portfolio page hero images */}
         <link
           rel="preload"

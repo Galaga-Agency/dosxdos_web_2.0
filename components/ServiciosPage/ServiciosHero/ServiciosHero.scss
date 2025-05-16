@@ -37,7 +37,6 @@
     @include title-line-height;
     @include margin(lg, bottom);
     will-change: transform;
-    visibility: hidden;
     white-space: normal;
     
     @include min-width(sm) {
@@ -85,7 +84,6 @@
     @include font-size(sm);
     color: rgba($black, 0.7);
     max-width: 40rem;
-    visibility: hidden;
     @include margin(xl, bottom);
     
     @include min-width(md) {
@@ -100,7 +98,6 @@
   
   &__button-wrapper {
     display: inline-block;
-    visibility: hidden;
   }
   
   &__button {

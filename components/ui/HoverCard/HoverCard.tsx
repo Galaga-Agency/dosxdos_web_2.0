@@ -6,14 +6,16 @@ import Image from "next/image";
 import "./HoverCard.scss";
 
 interface HoverCardProps {
-  id: string;
+  id: string | number;
   imageUrl: string;
   title?: string;
   description?: string;
+  email?: string;
   linkUrl?: string;
   linkText?: string;
   showTitle?: boolean;
   showDescription?: boolean;
+  showEmail?: boolean;
   showLink?: boolean;
   showLinkUrl?: boolean;
 }
@@ -23,16 +25,19 @@ const HoverCard: React.FC<HoverCardProps> = ({
   imageUrl,
   title = "",
   description = "",
+  email = "",
   linkUrl = "",
   linkText = "Ver más",
   showTitle = true,
   showDescription = true,
+  showEmail = true,
   showLink = true,
   showLinkUrl = true,
 }) => {
   const hasContent =
     (showTitle && title) ||
     (showDescription && description) ||
+    (showEmail && email) ||
     (showLink && linkText);
 
   if (showLinkUrl && linkUrl) {
@@ -58,6 +63,11 @@ const HoverCard: React.FC<HoverCardProps> = ({
             {showDescription && description && (
               <p className="hover-card__description">{description}</p>
             )}
+            {showEmail && email && (
+              <a href={`mailto:${email}`} className="hover-card__email">
+                {email}
+              </a>
+            )}
             {showLink && linkText && (
               <span className="hover-card__link">{linkText}</span>
             )}
@@ -78,6 +88,25 @@ const HoverCard: React.FC<HoverCardProps> = ({
           className="image"
         />
       </div>
+
+      <div className="hover-card__overlay"></div>
+
+      {hasContent && (
+        <div className="hover-card__content">
+          {showTitle && title && <h3 className="hover-card__title">{title}</h3>}
+          {showDescription && description && (
+            <p className="hover-card__description">{description}</p>
+          )}
+          {showEmail && email && (
+            <a href={`mailto:${email}`} className="hover-card__email">
+              {email}
+            </a>
+          )}
+          {showLink && linkText && (
+            <span className="hover-card__link">{linkText}</span>
+          )}
+        </div>
+      )}
     </div>
   );
 };

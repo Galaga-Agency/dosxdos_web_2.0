@@ -63,17 +63,16 @@ const TeamSection: React.FC = () => {
 
         <div className="team-section__grid">
           {teamMembers.map((member: any, index) => (
-            <div
-              key={member.id}
-              className="team-section__card-wrapper"
-            >
+            <div key={member.id} className="team-section__card-wrapper">
               <HoverCard
                 id={member.id}
                 title={member.name}
                 description={member.position}
+                email={member.email}
                 imageUrl={member.imageUrl}
                 linkUrl={`/equipo/${member.id}`}
                 showLink={false} // Hide the link for team members
+                showLinkUrl={false} // Don't wrap card in Link
               />
             </div>
           ))}

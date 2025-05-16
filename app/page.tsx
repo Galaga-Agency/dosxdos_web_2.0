@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState, useRef } from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
@@ -46,17 +46,13 @@ const Home: React.FC = () => {
 
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
-  
+
   // Use our custom hook to handle loading state
   const isLoading = useInitialLoading(1500);
 
   useEffect(() => {
-    // Skip initialization if still in initial loading state
     if (isLoading) return;
-    
-    console.log("Home component mounted");
 
-    // Initialize ScrollTrigger configuration once
     initScrollTriggerConfig();
 
     const fetchPosts = async () => {
@@ -79,40 +75,8 @@ const Home: React.FC = () => {
 
     fetchPosts();
 
-    // Set up intersection observer for lazy loading sections
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Add a class to gradually show the section
-            entry.target.classList.add("is-visible");
-
-            // Unobserve after it becomes visible
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: "100px 0px", threshold: 0.1 }
-    );
-
-    // Observe all sections except the hero (which should load immediately)
-    document.querySelectorAll(".lazy-section").forEach((section) => {
-      observer.observe(section);
-    });
-
-    // Ensure the ScrollTrigger is refreshed after all components render
-    const refreshTimer = setTimeout(() => {
-      if ((window as any).__smoother__) {
-        (window as any).__smoother__.refresh();
-      }
-      ScrollTrigger.refresh();
-    }, 500);
-
     // Cleanup on unmount
     return () => {
-      console.log("Home component unmounting, cleaning up animations");
-      clearTimeout(refreshTimer);
-      observer.disconnect();
       cleanupHomepageAnimations();
     };
   }, [isLoading]);
@@ -123,40 +87,22 @@ const Home: React.FC = () => {
   }
 
   return (
-    <SmoothScrollWrapper showBackToTop={false}>
+    <SmoothScrollWrapper>
       <div ref={homepageRef} className="homepage" key={key}>
-        <section className="homepage__hero">
-          <HeroSlider
-            slides={heroSlides}
-            autoplaySpeed={3000}
-            key={`hero-${key}`}
-          />
-        </section>
-
-        <section className="lazy-section">
-          <AboutUsSection key={`about-${key}`} />
-        </section>
-
-        <section className="homepage__marquee lazy-section">
-          <LogoMarquee key={`marquee-${key}`} />
-        </section>
-
-        <section className="lazy-section">
-          <ServicesSection key={`services-${key}`} />
-        </section>
-
-        <section className="lazy-section">
-          <FeaturedprojectsSection key={`projects-${key}`} />
-        </section>
-
-        {/* Blog section - show directly without lazy loading */}
+        <HeroSlider
+          slides={heroSlides}
+          autoplaySpeed={3000}
+          key={`hero-${key}`}
+        />
+        <AboutUsSection key={`about-${key}`} />
+        <LogoMarquee key={`marquee-${key}`} />
+        <ServicesSection key={`services-${key}`} />
+        <FeaturedprojectsSection key={`projects-${key}`} />
         {!loading && blogPosts.length > 0 && (
-          <section>
-            <BlogCarouselSection posts={blogPosts} key={`blog-${key}`} />
-          </section>
+          <BlogCarouselSection posts={blogPosts} key={`blog-${key}`} />
         )}
+        <Footer />
       </div>
-      <Footer />
     </SmoothScrollWrapper>
   );
 };

@@ -79,19 +79,6 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({
         </span>
       </FacebookShareButton>
 
-      {/* Twitter */}
-      <TwitterShareButton
-        url={absoluteUrl}
-        title={post.title}
-        hashtags={
-          post.tags
-            ? post.tags.map((tag) => tag.replace(/\s+/g, ""))
-            : ["dosxdos"]
-        }
-      >
-          <RiTwitterXFill  className="social-icons__link" aria-label="Twitter"/>
-      </TwitterShareButton>
-
       {/* WhatsApp */}
       <WhatsappShareButton
         url={absoluteUrl}

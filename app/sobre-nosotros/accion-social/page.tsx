@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React from "react";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 const AccionSocialPage: React.FC = () => {
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
-  
+
   // Use our custom hook to handle loading state
   const isLoading = useInitialLoading(1500);
 
@@ -28,7 +28,7 @@ const AccionSocialPage: React.FC = () => {
   useEffect(() => {
     // Skip if still in loading state
     if (isLoading) return;
-    
+
     initScrollTriggerConfig();
 
     // Cleanup on unmount

@@ -65,43 +65,6 @@ function setupFadeAnimation(
   });
 }
 
-// Enhanced subtitle animation with SplitText
-function animateSubtitleWithSplitText(element: HTMLElement | null) {
-  if (!element) return null;
-
-  try {
-    const splitDesc = new SplitText(element, { type: "lines" });
-    gsap.set(element, { visibility: "visible", perspective: 400 });
-
-    const descTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: element,
-        start: "top 90%",
-        end: "bottom 60%",
-        toggleActions: "play none none none",
-      },
-    });
-
-    descTl.from(splitDesc.lines, {
-      duration: 1,
-      delay: 0.3,
-      opacity: 0,
-      rotationX: -80,
-      force3D: true,
-      transformOrigin: "top center -50",
-      stagger: 0.1,
-    });
-
-    return descTl;
-  } catch (error) {
-    console.error("Error in animateSubtitleWithSplitText:", error);
-
-    // Fallback if SplitText fails
-    gsap.set(element, { visibility: "visible", opacity: 0, y: 20 });
-    return gsap.to(element, { duration: 1, opacity: 1, y: 0 });
-  }
-}
-
 export function initFadeAnimations(): void {
   if (typeof window === "undefined") return;
 
@@ -269,25 +232,6 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
 
   // Make elements visible
   const elements = [refs.title, refs.subtitle, refs.button].filter(Boolean);
-  gsap.set(elements, { visibility: "visible" });
-
-  // Title character animation
-  try {
-    const splitText = new SplitText(refs.title, { type: "chars, words" });
-    gsap.from(splitText.chars, {
-      duration: 1,
-      x: 100,
-      autoAlpha: 0,
-      stagger: 0.05,
-    });
-  } catch (error) {
-    console.error("Error in title animation:", error);
-    gsap.fromTo(
-      refs.title,
-      { opacity: 0, x: 30 },
-      { opacity: 1, x: 0, duration: 1, ease: "power2.out" }
-    );
-  }
 
   // Horizontal scroll animation for tablets and above - with improved debugging
   if (window.innerWidth >= 1025) {
@@ -315,31 +259,6 @@ export function animateServiciosHero(refs: ServiciosHeroRefs) {
     if (tl.scrollTrigger) {
       trackScrollTrigger(tl.scrollTrigger);
     }
-  }
-
-  // UPDATED: Subtitle animation with SplitText
-  if (refs.subtitle) {
-    try {
-      // Apply the 3D rotating line animation to the subtitle
-      animateSubtitleWithSplitText(refs.subtitle);
-    } catch (error) {
-      console.error("Error in subtitle animation:", error);
-      // Fallback to simple animation if SplitText fails
-      gsap.fromTo(
-        refs.subtitle,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, delay: 1, ease: "power2.out" }
-      );
-    }
-  }
-
-  // Button animation
-  if (refs.button) {
-    gsap.fromTo(
-      refs.button,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.8, delay: 1.3, ease: "power2.out" }
-    );
   }
 }
 

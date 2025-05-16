@@ -476,6 +476,7 @@
   &__mobile-logo {
     display: block;
     max-width: 180px;
+    @include margin(xl, top);
 
     &-image {
       display: block;
@@ -632,12 +633,21 @@
   &__mobile-footer {
     margin-top: auto;
     @include padding(md);
-    text-align: center;
+    text-align: left;
 
     p {
       color: rgba($white, 0.7);
-      @include margin(xs, y);
+      @include margin(sm, y);
       @include font-size(base);
+    }
+  }
+
+  &__contact-item {
+    @include flex(row, start, center);
+    gap: 0.5rem;
+
+    &-icon {
+      margin-top: 0.3rem;
     }
   }
 

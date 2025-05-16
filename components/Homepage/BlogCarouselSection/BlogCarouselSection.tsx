@@ -46,8 +46,6 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    console.log("Blog Carousel Section mounted with", posts.length, "posts");
-
     // Create a timeline for animations
     const tl = gsap.timeline();
 

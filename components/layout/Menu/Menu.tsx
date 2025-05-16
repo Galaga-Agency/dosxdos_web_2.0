@@ -13,6 +13,7 @@ import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import AdminBadge from "@/components/AdminBadge/AdminBadge";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim";
+import { PhoneCall, Mail, ArrowRight, ChevronRight } from "lucide-react";
 import "./Menu.scss";
 
 const Menu: React.FC = () => {
@@ -286,9 +287,9 @@ const Menu: React.FC = () => {
           <div className="menu__mobile-header">
             <div className="menu__mobile-logo">
               <Image
-                src="/assets/img/logo/logo-gris.png"
+                src="/assets/img/logo/logo_full_gris.svg"
                 alt="Logo"
-                width={140}
+                width={180}
                 height={40}
                 className="menu__mobile-logo-image"
               />
@@ -362,8 +363,18 @@ const Menu: React.FC = () => {
           </nav>
 
           <div className="menu__mobile-footer">
-            <p>+34 928 71 22 22</p>
-            <p>hola@dospordosgrupoimagen.com</p>
+            <div className="menu__contact-item">
+              <span className="menu__contact-item-icon">
+                <PhoneCall size={20} />
+              </span>
+              <p>+34 928 71 22 22</p>
+            </div>
+            <div className="menu__contact-item">
+              <span className="menu__contact-item-icon">
+                <Mail size={20} />
+              </span>
+              <p>hola@dospordosgrupoimagen.com</p>
+            </div>
 
             {/* Mobile Social Icons */}
             <div className="menu__social-mobile">
