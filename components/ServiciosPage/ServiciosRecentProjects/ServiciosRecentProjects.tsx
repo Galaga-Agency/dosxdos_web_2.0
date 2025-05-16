@@ -122,7 +122,7 @@ const ServiciosRecentProjects: React.FC = () => {
             {recentProjects.map((project) => (
               <Link
                 href={`/portfolio/${project.slug}`}
-                className="servicios-recent-projects__item fade_bottom"
+                className="servicios-recent-projects__item"
                 key={project.id}
               >
                 <div className="servicios-recent-projects__image-wrapper">

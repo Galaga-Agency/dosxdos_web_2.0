@@ -163,4 +163,40 @@
   @include min-width(lg) {
     height: 460px;
   }
+
+  &__email {
+    color: rgba($white, 0.9);
+    @include font-size(md);
+    @include font-weight(medium);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.4s ease, opacity 0.4s ease, color 0.2s ease;
+    position: relative;
+
+    &::before {
+      content: "✉";
+      margin-right: 0.3rem;
+      margin-top: 2px;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      color: $primary-color;
+    }
+
+    &:hover::before {
+      transform: translateY(-2px);
+    }
+  }
+
+  &:hover &__email {
+    height: auto;
+    opacity: 1;
+  }
 }

@@ -257,12 +257,10 @@ function BlogListPage() {
               <div className="blog-list-page__actions" ref={actionsRef}>
                 <PrimaryButton
                   href="/admin/blog/nuevo"
-                  className="blog-list-page__new-btn"
                 >
                   <PlusCircle size={16} /> Nueva Entrada
                 </PrimaryButton>
                 <SecondaryButton
-                  className="blog-list-page__logout-btn"
                   onClick={handleLogout}
                   lightBg={true}
                 >

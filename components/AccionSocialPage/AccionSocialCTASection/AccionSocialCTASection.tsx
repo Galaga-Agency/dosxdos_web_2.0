@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import {
   initFadeAnimations,
   initImageParallax,
@@ -76,10 +76,12 @@ const AccionSocialCTASection: React.FC = () => {
               </p>
             </div>
 
-            <div className="cta-section__cta">
-              <PrimaryButton href="/sobre-nosotros/equipo" size="medium">
-                Conocer al Equipo →
-              </PrimaryButton>
+            <div className="cta-section__cta fade_bottom">
+              {/* Replaced PrimaryButton with HoverCircleButton */}
+              <HoverCircleButton
+                href="/sobre-nosotros/equipo"
+                label="Conocer al Equipo"
+              />
             </div>
           </div>
         </div>

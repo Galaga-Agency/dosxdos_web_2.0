@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import {
@@ -77,9 +77,11 @@ const CTASection: React.FC = () => {
             </div>
 
             <div className="cta-section__cta fade_bottom">
-              <PrimaryButton href="/sobre-nosotros/accion-social" size="medium">
-                Nuestro Compromiso Social →
-              </PrimaryButton>
+              {/* Replaced PrimaryButton with HoverCircleButton */}
+              <HoverCircleButton
+                href="/sobre-nosotros/accion-social"
+                label="Nuestro Compromiso Social"
+              />
             </div>
           </div>
         </div>

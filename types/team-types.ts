@@ -3,4 +3,5 @@ export interface TeamMember {
   name: string;
   position: string;
   imageUrl: string;
+  email: string;
 }

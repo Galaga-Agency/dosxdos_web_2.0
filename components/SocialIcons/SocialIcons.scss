@@ -37,10 +37,15 @@
     &:hover {
       background-color: $black;
       transform: translateY(-3px);
-      filter: drop-shadow(1px 1px 2px $white);
 
       .social-icons__icon {
         fill: $white;
+        color: $white;
+      }
+      
+      .linkedin-icon {
+        color: $white;
+        stroke: $white;
       }
     }
 
@@ -54,6 +59,14 @@
     fill: $black;
     transition: fill 0.3s ease;
     filter: drop-shadow(1px 1px 2px rgba($black, 0.1));
+  }
+  
+  // Special styling for LinkedIn icon which is stroke-based
+  .linkedin-icon {
+    color: $black;
+    stroke: $black;
+    stroke-width: 1.5;
+    transition: color 0.3s ease, stroke 0.3s ease;
   }
 
   // White color variation
@@ -70,6 +83,11 @@
         .social-icons__icon {
           fill: $black;
         }
+        
+        .linkedin-icon {
+          color: $black;
+          stroke: $black;
+        }
       }
 
       &:active {
@@ -81,6 +99,11 @@
     .social-icons__icon {
       fill: $white;
       filter: drop-shadow(1px 1px 2px rgba($black, 0.3));
+    }
+    
+    .linkedin-icon {
+      color: $white;
+      stroke: $white;
     }
   }
 

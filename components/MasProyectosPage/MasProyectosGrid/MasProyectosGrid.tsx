@@ -1,3 +1,4 @@
+// components/MasProyectosGrid.tsx
 "use client";
 
 import React, { useEffect, useRef } from "react";
@@ -5,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import "./MasProyectosGrid.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
+import useCursorBubble from "@/hooks/useCursorBubble";
 
 interface Project {
   id: string;
@@ -27,73 +29,21 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
   projects,
   projectsGridRef,
 }) => {
-  const bubbleRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useDeviceDetect();
+  const projectItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  // Setup cursor bubble
+  // Set up refs for each project item
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    projectItemRefs.current = projectItemRefs.current.slice(0, projects.length);
+  }, [projects]);
 
-    // Create cursor bubble
-    const bubble = document.createElement("div");
-    bubble.className = "cursor-bubble";
-    bubble.innerHTML = "<span>Ver más</span>";
-    document.body.appendChild(bubble);
-    bubbleRef.current = bubble;
-
-    let mouseX = 0;
-    let mouseY = 0;
-    let bubbleX = 0;
-    let bubbleY = 0;
-
-    // Mouse move handler
-    const mouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
-
-    // Animation loop
-    const animate = () => {
-      const speed = 0.2;
-      bubbleX += (mouseX - bubbleX) * speed;
-      bubbleY += (mouseY - bubbleY) * speed;
-
-      if (bubble) {
-        bubble.style.left = bubbleX + "px";
-        bubble.style.top = bubbleY + "px";
-      }
-
-      requestAnimationFrame(animate);
-    };
-
-    // Hover handlers
-    const addHoverHandlers = () => {
-      const items = document.querySelectorAll(".item");
-
-      items.forEach((item) => {
-        item.addEventListener("mouseenter", () => {
-          bubble.classList.add("active");
-        });
-
-        item.addEventListener("mouseleave", () => {
-          bubble.classList.remove("active");
-        });
-      });
-    };
-
-    // Init
-    document.addEventListener("mousemove", mouseMove);
-    animate();
-    setTimeout(addHoverHandlers, 500); // Delay slightly to ensure DOM is ready
-
-    // Cleanup
-    return () => {
-      document.removeEventListener("mousemove", mouseMove);
-      if (bubble && document.body.contains(bubble)) {
-        document.body.removeChild(bubble);
-      }
-    };
-  }, []);
+  // Use our custom cursor bubble hook with all project items
+  useCursorBubble(
+    projectItemRefs.current
+      .filter((ref): ref is HTMLAnchorElement => ref !== null)
+      .map((ref) => ({ current: ref })),
+    { text: "Ver más" }
+  );
 
   return (
     <div className="mas-proyectos-grid" ref={projectsGridRef}>
@@ -102,7 +52,8 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
           key={project.id}
           href={`/portfolio/${project.slug}`}
           className={`item item-${index + 1}`}
-        data-speed={!isMobile ? (0.8 + (index % 5) * 0.02).toFixed(2) : 0}
+          data-speed={!isMobile ? (0.8 + (index % 5) * 0.02).toFixed(2) : 0}
+          ref={(el) => (projectItemRefs.current[index] = el) as any}
         >
           <div className="item__overlay"></div>
           <div className="item__image-wrapper">

@@ -36,7 +36,7 @@ const ServiciosHero: React.FC = () => {
   return (
     <section ref={sectionRef} className="servicios-hero">
       <div className="servicios-hero__container">
-        <h1 ref={titleRef} className="servicios-hero__title char-animation">
+        <h1 ref={titleRef} className="servicios-hero__title">
           <span className="experience">Experiencia </span>
           <span className="plus">+</span>
           <span className="creatividad"> Creatividad</span>

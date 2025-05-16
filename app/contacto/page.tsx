@@ -61,13 +61,6 @@ const ContactPage: React.FC = () => {
     <SmoothScrollWrapper>
       <div className="contact-page" key={key}>
         <div className="contact-page__container">
-          <div className="contact-page__social-sidebar">
-            <div className="contact-page__social-wrapper">
-              <span className="contact-page__social-label">Síguenos</span>
-              <SocialIcons orientation="vertical" color="primary" />
-            </div>
-          </div>
-
           <div className="contact-page__header">
             <h4 ref={subtitleRef} className="contact-page__subtitle">
               Solicite su presupuesto personalizado, sin compromiso

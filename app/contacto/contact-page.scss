@@ -32,38 +32,6 @@
     }
   }
 
-  &__social-sidebar {
-    position: fixed;
-    left: 2rem;
-    top: 50vh;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: none;
-
-    @include min-width(xl) {
-      display: block;
-    }
-  }
-
-  &__social-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    position: relative;
-  }
-
-  &__social-label {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transform: rotate(180deg);
-    @include font-weight(bold);
-    letter-spacing: 1px;
-    color: $black;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-  }
-
   &__mobile-social-section {
     display: flex;
     flex-direction: column;
@@ -127,7 +95,6 @@
     position: relative;
     @include font-weight(semibold);
     @include title-line-height;
-
     color: $black;
     text-transform: capitalize;
     letter-spacing: -0.025em;
@@ -182,14 +149,6 @@
     &-info-section {
       @include border-radius(xl);
       height: 100%;
-
-      @include min-width(lg) {
-        padding: 0 3rem;
-      }
-
-      @include min-width(xxl) {
-        padding: 0;
-      }
 
       p {
         @include font-size(xl);

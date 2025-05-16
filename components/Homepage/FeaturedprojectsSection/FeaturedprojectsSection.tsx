@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,37 +17,44 @@ const FeaturedprojectsSection: React.FC = () => {
   );
 
   useEffect(() => {
-    if (sectionRef.current) {
-      // Temporarily prevent scrolling to avoid auto-scroll issues
-      document.body.style.overflow = "hidden";
+    // We need a flag to track if the component is mounted
+    let isMounted = true;
 
-      // Clean any existing scroll triggers for this section first
+    // Don't freeze body scroll immediately - wait for cleanup first
+    clearScrollTriggers();
+
+    // Add a small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      if (!isMounted) return;
+
+      // Initialize the panel animation only after first render is complete
+      panelAnimation();
+
+      // Force refresh ScrollTrigger with a small delay
+      setTimeout(() => {
+        if (isMounted) {
+          refreshScrollTrigger();
+        }
+      }, 200);
+    }, 400);
+
+    return () => {
+      // Mark component as unmounted
+      isMounted = false;
+
+      // Clear timers and animations
+      clearTimeout(timer);
       clearScrollTriggers();
 
-      // Longer delay to ensure DOM is fully rendered
-      const timer = setTimeout(() => {
-        // Restore scrolling
-        document.body.style.overflow = "";
-
-        // Initialize animation
-        panelAnimation();
-
-        // Force refresh ScrollTrigger with a small delay
-        setTimeout(() => {
-          refreshScrollTrigger();
-        }, 100);
-      }, 300); // Increased from 100ms to 300ms for more stability
-
-      return () => {
-        clearTimeout(timer);
-        document.body.style.overflow = "";
-        clearScrollTriggers();
-      };
-    }
+      // If the ScrollTrigger smoother exists, update it
+      if (window.__smoother__) {
+        window.__smoother__.paused(false);
+      }
+    };
   }, []);
 
   // Generate repeated text elements for marquee
-  const repeatedText = Array.from({ length: 50 }).map((_, i) => (
+  const repeatedText = Array.from({ length: 20 }).map((_, i) => (
     <span key={i}>Nuestros Trabajos&nbsp;&nbsp;</span>
   ));
 

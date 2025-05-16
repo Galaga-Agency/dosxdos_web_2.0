@@ -61,15 +61,39 @@
   }
 
   &__title {
-    width: 90vw;
-    display: flex;
+    width: 100%;
+    text-align: center;
     visibility: hidden;
-    justify-content: space-between;
     color: $black;
     @include title-line-height;
-    font-size: 20vw;
     font-weight: 700;
     @include margin(lg, bottom);
+    @include font-size(hero-xs);
+    transition: color 0.3s ease;
+
+    @include min-width(sm) {
+      @include font-size(hero-sm);
+    }
+
+    @include min-width(md) {
+      @include font-size(hero-md);
+    }
+
+    @include min-width(lg) {
+      @include font-size(hero-lg);
+    }
+
+    @include min-width(xl) {
+      @include font-size(hero-xl);
+    }
+
+    @include min-width(xxl) {
+      @include font-size(hero-xxl);
+    }
+
+    @include min-width(xxxl) {
+      @include font-size(hero-xxxl);
+    }
   }
 
   &__content {
