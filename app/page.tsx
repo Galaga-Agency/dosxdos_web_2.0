@@ -10,9 +10,10 @@ import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogC
 import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSection/FeaturedprojectsSection";
 import { BlogPost } from "@/types/blog-post-types";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-anim";
-import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
+import { initScrollTriggerConfig, refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
+import { clearScrollTriggers, panelAnimation } from "@/utils/animations/components/panel-animation";
 import "./homepage.scss";
 import Footer from "@/components/layout/Footer/footer";
 import Loading from "@/components/ui/Loading/Loading";
@@ -43,6 +44,7 @@ const Home: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const homepageRef = useRef<HTMLDivElement>(null);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   // Force component remount on each page visit
   const [key] = useState(() => Date.now());
@@ -80,6 +82,27 @@ const Home: React.FC = () => {
       cleanupHomepageAnimations();
     };
   }, [isLoading]);
+
+  // Special handling for initial page load
+  useEffect(() => {
+    if (isLoading) return;
+    
+    // First render flag
+    if (!hasLoaded) {
+      const timer = setTimeout(() => {
+        // After first render, force reload panel animations without reloading page
+        console.log("Running post-load panel animation refresh");
+        clearScrollTriggers();
+        panelAnimation();
+        refreshScrollTrigger();
+        
+        // Update flag
+        setHasLoaded(true);
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, hasLoaded]);
 
   // Show loading component only on initial direct page load
   if (isLoading) {
