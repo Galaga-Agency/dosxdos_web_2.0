@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 
 // Global flag to track initialization
 let isInitialized = false;
@@ -47,7 +47,7 @@ export function cleanupScrollTriggers() {
   console.log("Cleaning up all ScrollTriggers");
   
   // Kill all ScrollTriggers
-  ScrollTrigger.getAll().forEach(st => st.kill());
+  ScrollTrigger.getAll().forEach((st: { kill: () => any; }) => st.kill());
   
   // Clear any match media
   ScrollTrigger.clearMatchMedia();

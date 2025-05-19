@@ -1,7 +1,8 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
 import { refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
 import "./FeaturedprojectsSection.scss";
 import { projects } from "@/data/projects";
@@ -12,6 +13,7 @@ import {
 
 const FeaturedprojectsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const isFirstRender = useRef(true);
   const featuredProjects = projects.filter(
     (project) => project.display.homepage === true
   );
@@ -23,20 +25,40 @@ const FeaturedprojectsSection: React.FC = () => {
     // Don't freeze body scroll immediately - wait for cleanup first
     clearScrollTriggers();
 
+    // Add a longer delay on first render, shorter on subsequent renders
+    const initialDelay = isFirstRender.current ? 800 : 300;
+    isFirstRender.current = false;
+
     // Add a small delay to ensure DOM is ready
     const timer = setTimeout(() => {
       if (!isMounted) return;
 
+      console.log("Initializing panel animation");
       // Initialize the panel animation only after first render is complete
       panelAnimation();
 
       // Force refresh ScrollTrigger with a small delay
       setTimeout(() => {
         if (isMounted) {
+          console.log("First ScrollTrigger refresh");
           refreshScrollTrigger();
+          
+          // Force another refresh after a longer delay to catch any stragglers
+          setTimeout(() => {
+            if (isMounted) {
+              console.log("Second ScrollTrigger refresh");
+              refreshScrollTrigger();
+              
+              // Reset SmoothScroller if needed
+              if ((window as any).__smoother__) {
+                console.log("Refreshing smoother");
+                (window as any).__smoother__.refresh();
+              }
+            }
+          }, 500);
         }
-      }, 200);
-    }, 400);
+      }, 300);
+    }, initialDelay);
 
     return () => {
       // Mark component as unmounted
@@ -47,8 +69,8 @@ const FeaturedprojectsSection: React.FC = () => {
       clearScrollTriggers();
 
       // If the ScrollTrigger smoother exists, update it
-      if (window.__smoother__) {
-        window.__smoother__.paused(false);
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__.paused(false);
       }
     };
   }, []);

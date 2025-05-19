@@ -93,15 +93,34 @@
 .project-panel-area {
   position: relative;
   width: 100%;
+  // Important: This is what the template uses
   min-height: 300vh;
   z-index: 5;
+  
+  // Improve rendering performance
+  will-change: transform;
+  backface-visibility: hidden;
+  
+  // Fix position in the stack
+  @include min-width(md) {
+    z-index: 10; 
+  }
 }
 
 .project-panel {
   position: relative;
   width: 100%;
+  // Fixed height to match template
   height: 100vh;
   overflow: hidden;
+  
+  // Improve GPU rendering
+  will-change: transform;
+  transform-style: flat;
+  backface-visibility: hidden;
+  
+  // Fix position in the stack
+  z-index: 5;
 
   &__image {
     position: absolute;
@@ -157,7 +176,6 @@
     font-weight: 400;
     margin-bottom: 0.75rem;
     color: $white;
-    @include title-line-height;
     position: relative;
     padding-bottom: 0.75rem;
     text-shadow: 0 1px 2px rgba($black, 0.2);
@@ -202,6 +220,43 @@
     &:hover {
       transform: translateX(5px);
       opacity: 1;
+    }
+  }
+}
+
+/* Fix for GSAP pin-spacers */
+.pin-spacer {
+  z-index: 5;
+  height: auto !important;
+}
+
+/* Fix for markers if used during development */
+.gsap-marker-scroller-start, .gsap-marker-scroller-end,
+.gsap-marker-start, .gsap-marker-end {
+  z-index: 1000;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .project-panel-area {
+    min-height: auto;
+  }
+  
+  .project-panel {
+    height: auto;
+    min-height: 100vh;
+    
+    &:not(:last-child) {
+      margin-bottom: 1rem;
     }
   }
 }
