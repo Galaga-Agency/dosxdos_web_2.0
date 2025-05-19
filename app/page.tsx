@@ -13,7 +13,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "@/plugins";
 import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-anim";
 import { initScrollTriggerConfig, refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
-import { clearScrollTriggers, panelAnimation } from "@/utils/animations/components/panel-animation";
 import "./homepage.scss";
 import Footer from "@/components/layout/Footer/footer";
 import Loading from "@/components/ui/Loading/Loading";
@@ -21,6 +20,7 @@ import { useInitialLoading } from "@/hooks/useInitialLoading";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
+  console.log("[HomePage] Registering GSAP plugins");
   gsap.registerPlugin(ScrollTrigger);
 }
 
@@ -47,30 +47,38 @@ const Home: React.FC = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
 
   // Force component remount on each page visit
-  const [key] = useState(() => Date.now());
+  const [key] = useState(() => {
+    console.log("[HomePage] Generating new key for component mount");
+    return Date.now();
+  });
 
   // Use our custom hook to handle loading state
   const isLoading = useInitialLoading(1500);
+  console.log("[HomePage] Initial loading state:", isLoading);
 
   useEffect(() => {
+    console.log("[HomePage] Main effect running, isLoading:", isLoading);
     if (isLoading) return;
 
+    console.log("[HomePage] Initializing ScrollTrigger config");
     initScrollTriggerConfig();
 
     const fetchPosts = async () => {
+      console.log("[HomePage] Fetching blog posts");
       try {
         const res = await fetch("/api/blog");
         const data = await res.json();
-        console.log("Fetched blog posts:", data);
+        console.log("[HomePage] Fetched blog posts:", data.length);
         const publishedPosts = data.filter(
           (post: BlogPost) => post.published === true
         );
-        console.log("Published posts:", publishedPosts.length);
+        console.log("[HomePage] Published posts:", publishedPosts.length);
         const latestPosts = publishedPosts.slice(0, 6);
         setBlogPosts(latestPosts);
       } catch (error) {
-        console.error("Failed to fetch blog posts:", error);
+        console.error("[HomePage] Failed to fetch blog posts:", error);
       } finally {
+        console.log("[HomePage] Finished loading blog posts");
         setLoading(false);
       }
     };
@@ -79,36 +87,48 @@ const Home: React.FC = () => {
 
     // Cleanup on unmount
     return () => {
+      console.log("[HomePage] Cleaning up homepage animations");
       cleanupHomepageAnimations();
     };
   }, [isLoading]);
 
   // Special handling for initial page load
   useEffect(() => {
+    console.log("[HomePage] Post-load effect running, isLoading:", isLoading, "hasLoaded:", hasLoaded);
     if (isLoading) return;
     
     // First render flag
     if (!hasLoaded) {
+      console.log("[HomePage] Setting up post-load refresh");
       const timer = setTimeout(() => {
-        // After first render, force reload panel animations without reloading page
-        console.log("Running post-load panel animation refresh");
-        clearScrollTriggers();
-        panelAnimation();
+        // After first render, refresh ScrollTrigger to ensure everything is registered
+        console.log("[HomePage] Running post-load refresh");
+        
+        // Simply refresh ScrollTrigger to ensure all panels are registered
         refreshScrollTrigger();
         
         // Update flag
         setHasLoaded(true);
+        console.log("[HomePage] hasLoaded set to true");
       }, 2000);
       
-      return () => clearTimeout(timer);
+      return () => {
+        console.log("[HomePage] Clearing post-load timer");
+        clearTimeout(timer);
+      };
     }
   }, [isLoading, hasLoaded]);
 
+  // Log when rendering
+  console.log("[HomePage] Rendering component, isLoading:", isLoading);
+
   // Show loading component only on initial direct page load
   if (isLoading) {
+    console.log("[HomePage] Showing loading component");
     return <Loading />;
   }
 
+  console.log("[HomePage] Rendering full homepage content");
   return (
     <SmoothScrollWrapper>
       <div ref={homepageRef} className="homepage" key={key}>

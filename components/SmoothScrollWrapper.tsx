@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, ReactNode, useState } from "react";
+import React, { useEffect, ReactNode, useState, useRef } from "react";
 import LoadingManager from "@/utils/loading";
 import {
   initScrollTriggerConfig,
@@ -18,10 +18,15 @@ export default function SmoothScrollWrapper({
   showBackToTop = true,
 }: SmoothScrollWrapperProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const initCount = useRef(0);
+  const smootherRef = useRef<any>(null);
+
+  console.log("[SmoothScrollWrapper] Component rendering, initCount:", initCount.current);
 
   // Observa los cambios en el DOM para detectar cuando se abre un modal
   useEffect(() => {
     if (typeof window === "undefined") return;
+    console.log("[SmoothScrollWrapper] Modal detection effect running");
 
     // Función para verificar si hay un modal abierto
     const checkForModals = () => {
@@ -29,6 +34,7 @@ export default function SmoothScrollWrapper({
       const isAnyModalOpen = Array.from(modalElements).some(
         (modal) => window.getComputedStyle(modal).display !== "none"
       );
+      console.log("[SmoothScrollWrapper] Modal check - isAnyModalOpen:", isAnyModalOpen);
       setIsModalOpen(isAnyModalOpen);
     };
 
@@ -45,6 +51,7 @@ export default function SmoothScrollWrapper({
     checkForModals();
 
     return () => {
+      console.log("[SmoothScrollWrapper] Cleaning up modal observer");
       observer.disconnect();
     };
   }, []);
@@ -52,15 +59,21 @@ export default function SmoothScrollWrapper({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    // Track initialization count
+    initCount.current++;
+    console.log("[SmoothScrollWrapper] Main effect running - initCount:", initCount.current);
+
     // Reset scroll position
     window.scrollTo(0, 0);
 
     // Initialize ScrollTrigger ONCE
+    console.log("[SmoothScrollWrapper] Initializing ScrollTrigger");
     initScrollTriggerConfig();
 
     let smoother: any = null;
 
     const initScrollSmoother = async () => {
+      console.log("[SmoothScrollWrapper] Starting ScrollSmoother initialization");
       try {
         const gsapModule = await import("gsap");
         const ScrollTriggerModule = await import("gsap/ScrollTrigger");
@@ -73,88 +86,114 @@ export default function SmoothScrollWrapper({
           ScrollTriggerModule.ScrollTrigger || ScrollTriggerModule.default;
         const ScrollSmoother = ScrollSmootherModule.default;
 
+        console.log("[SmoothScrollWrapper] GSAP modules imported, registering plugins");
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
         // Create ScrollSmoother after a delay to ensure DOM is ready
+        console.log("[SmoothScrollWrapper] Setting up delayed ScrollSmoother creation");
         setTimeout(() => {
           // Check if smoother already exists and destroy it first
           if ((window as any).__smoother__) {
-            (window as any).__smoother__.kill();
+            console.log("[SmoothScrollWrapper] Existing smoother found, killing it");
+            try {
+              if (typeof (window as any).__smoother__.kill === 'function') {
+                (window as any).__smoother__.kill();
+              }
+            } catch (e) {
+              console.error("[SmoothScrollWrapper] Error killing smoother:", e);
+            }
             (window as any).__smoother__ = null;
           }
 
           // Create new smoother with fixed configuration
           try {
+            console.log("[SmoothScrollWrapper] Creating new ScrollSmoother");
             smoother = ScrollSmoother.create({
               wrapper: "#smooth-wrapper",
               content: "#smooth-content",
-              smooth: 2,
+              smooth: 1, // Reduced value for better performance
               effects: true,
               ignoreMobileResize: true,
-              normalizeScroll: false, // Change to false to fix scrollFuncX error
-              paused: false,
+              normalizeScroll: false
             });
 
+            // Store references - safely
             (window as any).__smoother__ = smoother;
-            console.log("Created new ScrollSmoother");
+            smootherRef.current = smoother;
+            
+            console.log("[SmoothScrollWrapper] Successfully created ScrollSmoother");
 
+            // Initialize loading manager
             LoadingManager.smootherInitialized();
+            
+            // Add a CSS class to handle panel sections
+            document.body.classList.add('smooth-scroll-enabled');
 
-            if (LoadingManager.isLoading) {
-              smoother.paused(true);
-            }
-
+            // Log ScrollTrigger instances
+            const triggers = ScrollTrigger.getAll();
+            console.log("[SmoothScrollWrapper] Active ScrollTriggers:", triggers.length);
+            
             // Important: Refresh ScrollTrigger to coordinate with ScrollSmoother
+            console.log("[SmoothScrollWrapper] Refreshing ScrollTrigger");
             refreshScrollTrigger();
 
-            // Add another refresh after a delay to ensure content height is calculated correctly
+            // Add another refresh after a delay
             setTimeout(() => {
-              if (smoother) {
-                smoother.refresh();
+              console.log("[SmoothScrollWrapper] Delayed refresh running");
+              try {
+                if (smoother && typeof smoother.refresh === 'function') {
+                  smoother.refresh();
+                }
+              } catch (e) {
+                console.error("[SmoothScrollWrapper] Error refreshing smoother:", e);
               }
               ScrollTrigger.refresh();
+              
+              // Log after refresh
+              const triggersAfter = ScrollTrigger.getAll();
+              console.log("[SmoothScrollWrapper] Active ScrollTriggers after refresh:", triggersAfter.length);
             }, 500);
           } catch (error) {
-            console.error("Error creating ScrollSmoother:", error);
-            // Fallback - try without normalizeScroll
-            if (!smoother) {
-              try {
-                smoother = ScrollSmoother.create({
-                  wrapper: "#smooth-wrapper",
-                  content: "#smooth-content",
-                  smooth: 2,
-                  effects: true,
-                  ignoreMobileResize: true,
-                  normalizeScroll: false,
-                  paused: false,
-                });
-
-                (window as any).__smoother__ = smoother;
-                console.log("Created fallback ScrollSmoother");
-
-                LoadingManager.smootherInitialized();
-                refreshScrollTrigger();
-              } catch (fallbackError) {
-                console.error(
-                  "Fallback ScrollSmoother also failed:",
-                  fallbackError
-                );
-              }
-            }
+            console.error("[SmoothScrollWrapper] Error creating ScrollSmoother:", error);
+            // No fallback - just notify
           }
-        }, 200);
+        }, 300);
       } catch (error) {
-        console.error("Error initializing ScrollSmoother:", error);
+        console.error("[SmoothScrollWrapper] Error initializing ScrollSmoother:", error);
       }
     };
 
     initScrollSmoother();
 
-    // Add resize handler to recalculate heights when necessary
-    const handleResize = () => {
-      if ((window as any).__smoother__) {
-        (window as any).__smoother__.refresh();
+    // Add scroll event listener to log scroll events but without trying to use paused()
+    const handleScroll = () => {
+      const panelArea = document.querySelector('.project-panel-area');
+      if (!panelArea) return;
+      
+      const rect = panelArea.getBoundingClientRect();
+      const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isInView) {
+        // Just add the class for CSS to handle
+        document.body.classList.add('panel-section-active');
+        console.log("[SmoothScrollWrapper] Panel area is in viewport", {
+          top: rect.top,
+          bottom: rect.bottom,
+          windowHeight: window.innerHeight,
+          smootherActive: !!(window as any).__smoother__
+        });
+      } else {
+        // Remove the class when not in view
+        document.body.classList.remove('panel-section-active');
       }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Add resize handler to recalculate heights but don't try to use .refresh()
+    const handleResize = () => {
+      console.log("[SmoothScrollWrapper] Resize event, refreshing");
+      // Just refresh ScrollTrigger
       refreshScrollTrigger();
     };
 
@@ -162,28 +201,49 @@ export default function SmoothScrollWrapper({
 
     // Clean up on unmount
     return () => {
+      console.log("[SmoothScrollWrapper] Cleaning up main effect");
       cleanupScrollTriggers();
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
 
       if ((window as any).__smoother__) {
-        (window as any).__smoother__.kill();
+        console.log("[SmoothScrollWrapper] Killing smoother on cleanup");
+        try {
+          if (typeof (window as any).__smoother__.kill === 'function') {
+            (window as any).__smoother__.kill();
+          }
+        } catch (e) {
+          console.error("[SmoothScrollWrapper] Error killing smoother:", e);
+        }
         (window as any).__smoother__ = null;
       }
+      
+      // Remove classes
+      document.body.classList.remove('smooth-scroll-enabled');
+      document.body.classList.remove('panel-section-active');
     };
   }, []);
 
-  // Pausar o reanudar el ScrollSmoother según si hay un modal abierto
+  // Modal handling - don't use paused() method
   useEffect(() => {
-    const smoother = (window as any).__smoother__;
-    if (!smoother) return;
-
+    console.log("[SmoothScrollWrapper] Modal state changed:", isModalOpen);
+    
+    // Just add/remove class for CSS to handle
     if (isModalOpen) {
-      smoother.paused(true);
+      document.body.classList.add('modal-open');
     } else {
-      smoother.paused(false);
+      document.body.classList.remove('modal-open');
     }
   }, [isModalOpen]);
 
+  // Log when component unmounts
+  useEffect(() => {
+    return () => {
+      console.log("[SmoothScrollWrapper] Component unmounting");
+    };
+  }, []);
+
+  console.log("[SmoothScrollWrapper] Rendering component");
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">{children}</div>

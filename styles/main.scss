@@ -95,11 +95,3 @@ body {
 .smooth-content {
   will-change: transform;
 }
-
-// Add this to handle pinned elements better when they're in the GSAP ScrollTrigger environment
-.pinned-element {
-  position: fixed !important;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  transition: none !important;
-}
