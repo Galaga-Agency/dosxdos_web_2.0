@@ -69,10 +69,14 @@
     }
 
     @include min-width(md) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(xl) {
       @include font-size(7xl);
     }
 
-    @include min-width(lg) {
+    @include min-width(xl) {
       @include font-size(8xl);
     }
   }

@@ -93,10 +93,11 @@ const HeroSection: React.FC = () => {
         >
           <div ref={heroImageRef} className="hero-section__image-wrapper">
             <Image
-              src="/assets/img/about-us-page/family.webp"
+              src="/assets/img/team/dospodos_personal_oficina-3.webp"
               alt="Equipo dosxdos"
               fill
               priority
+              
               quality={100}
               style={{
                 objectFit: "cover",
@@ -113,7 +114,7 @@ const HeroSection: React.FC = () => {
               <span>SOBRE NOSOTROS</span>
             </div>
             <h1 ref={titleRef} className="hero-section__title char-animation">
-              Nuestro equipo de profesionales
+              Todo empieza con una idea. <br /> Lo demás, lo hacemos juntos.
             </h1>
             <div
               ref={underlineRef}
@@ -121,10 +122,11 @@ const HeroSection: React.FC = () => {
             ></div>
             <div ref={descriptionRef} className="hero-section__description">
               <p>
-                Con un gran equipo de más de 45 profesionales, formado por
-                arquitectos, interioristas, diseñadores y expertos en producción
-                e instalación, te acompañamos durante todo el proceso para crear
-                espacios únicos con personalidad propia.
+                Contamos con un equipo multidisciplinar de más de 40 personas —
+                arquitectos, interioristas, diseñadores, técnicos e instaladores
+                — que entienden que cada proyecto es un lenguaje visual que debe
+                decir algo único. Te acompañamos de principio a fin para
+                transformar conceptos en espacios que inspiran
               </p>
             </div>
           </div>
@@ -144,7 +146,7 @@ const HeroSection: React.FC = () => {
             floatingImageInner2Ref,
             floatingImageInner3Ref,
           ][i];
-          const imgSrc = `/assets/img/about-us-page/fiesta-${i + 1}.jpg`;
+          const imgSrc = `/assets/img/about-us-page/equipo-${i + 1}.webp`;
 
           return (
             <div
@@ -160,12 +162,11 @@ const HeroSection: React.FC = () => {
                   alt={`Fiesta ${i + 1}`}
                   fill
                   priority
+                  unoptimized={true}
                   quality={100}
                   className="random-images__img"
                   sizes="(min-width: 1024px) 80vw, (min-width: 768px) 60vw, 90vw"
                 />
-                <div className="random-images__overlay" />
-                <div className="random-images__watermark">dosxdos</div>
               </div>
             </div>
           );

@@ -38,6 +38,7 @@
     object-fit: cover;
     will-change: transform;
     transition: transform 0.65s cubic-bezier(0.33, 1, 0.68, 1);
+    object-position: center 10px;
   }
 
   &:hover .image {

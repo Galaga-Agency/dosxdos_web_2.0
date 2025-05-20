@@ -29,8 +29,11 @@
   }
 
   &__header {
-    @include margin(3xl, bottom);
     position: relative;
+    width: 100%;
+    @include margin(3xl, bottom);
+    @include flex(column, start, start);
+    gap: 2rem;
   }
 
   &__title {

@@ -53,17 +53,17 @@ const ClientsSection: React.FC = () => {
       <div className="clients-section__container">
         <div className="clients-section__content">
           <p className="clients-section__text fade_bottom">
-            Creemos en construir relaciones basadas en la honestidad y la
-            conexión genuina. Por eso, algunas de las marcas más prestigiosas
-            del sector han confiado en nosotros durante décadas.
+            Trabajamos con algunas de las marcas más reconocidas del sector, que
+            valoran la calidad, la atención al detalle y una manera de hacer que
+            va más allá de lo visual.
           </p>
 
           <div className="clients-section__cta fade_bottom">
             <SecondaryButton
-              href="/sobre-nosotros/accion-social"
+              href="/servicios"
               className="clients-section__cta-link"
             >
-              Conócenos mejor →
+              Conóce nuestros servicios →
             </SecondaryButton>
           </div>
         </div>

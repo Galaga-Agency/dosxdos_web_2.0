@@ -10,6 +10,7 @@ import {
   initImageParallax,
 } from "@/utils/animations/pages/homepage-anim";
 import "./CTASection.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 // Ensure GSAP plugins are registered
 if (typeof window !== "undefined") {
@@ -20,6 +21,7 @@ const CTASection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const imageInnerRef = useRef<HTMLDivElement>(null);
+  const { isMobile } = useDeviceDetect();
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -28,7 +30,7 @@ const CTASection: React.FC = () => {
         initFadeAnimations();
 
         // Initialize parallax effect separately
-        if (imageContainerRef.current && imageInnerRef.current) {
+        if (imageContainerRef.current && imageInnerRef.current && !isMobile) {
           initImageParallax(imageContainerRef.current, imageInnerRef.current);
         }
       }, 300);
@@ -44,43 +46,45 @@ const CTASection: React.FC = () => {
             <span>Acción Social</span>
           </div>
 
-          <h2 className="cta-section__title fade_bottom">
-            CONSTRUYENDO
-            <br />
-            UN MEJOR FUTURO
+          <h2 className="cta-section__title">
+            <div className="title-row fade_bottom">DISEÑO CON CONCIENCIA.</div>
+            <div className="title-row fade_bottom">COMPROMISO CON IMPACTO</div>
           </h2>
         </div>
 
-        {/* Content area with two columns */}
+        {/* Two column layout */}
         <div className="cta-section__content">
-          {/* Left column with image with parallax effect */}
-          <div ref={imageContainerRef} className="cta-section__visual-column">
-            <div ref={imageInnerRef} className="cta-section__animated-logo">
-              <Image
-                src="/assets/img/about-us-page/mil-caminos-illustration.jpg"
-                alt="Mil Caminos Logo"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
+          {/* Left column with text and button */}
+          <div className="cta-section__text-column">
+            <div className="cta-section__text">
+              <p>
+                Entendemos la acción social como una parte esencial de nuestro
+                compromiso con la sociedad. A través de proyectos que promueven
+                la inclusión, la sostenibilidad y el desarrollo, trabajamos para
+                generar un impacto duradero. Porque crear valor también es crear
+                oportunidades.
+              </p>
+            </div>
+
+            {/* Button properly placed below text */}
+            <div className="cta-section__cta">
+              <HoverCircleButton
+                href="/sobre-nosotros/accion-social"
+                label="Nuestro Compromiso Social"
               />
             </div>
           </div>
 
-          {/* Right column with content */}
-          <div className="cta-section__content-column">
-            <div className="cta-section__text fade_bottom">
-              <p>
-                Transformando comunidades a través de iniciativas sociales que
-                generan un impacto real y duradero. Creamos oportunidades para
-                el desarrollo sostenible y la inclusión social.
-              </p>
-            </div>
-
-            <div className="cta-section__cta fade_bottom">
-              {/* Replaced PrimaryButton with HoverCircleButton */}
-              <HoverCircleButton
-                href="/sobre-nosotros/accion-social"
-                label="Nuestro Compromiso Social"
+          {/* Right column with image */}
+          <div ref={imageContainerRef} className="cta-section__image-column">
+            <div ref={imageInnerRef} className="cta-section__image-wrapper">
+              <Image
+                src="/assets/img/about-us-page/accion-social-cta.webp"
+                alt="Acción Social"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+                className="cta-section__image"
               />
             </div>
           </div>

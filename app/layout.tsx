@@ -223,28 +223,28 @@ export default function RootLayout({
         {/* Equipo page hero images */}
         <link
           rel="preload"
-          href="/assets/img/about-us-page/family.webp"
+          href="/assets/img/team/dospodos_personal_oficina-3.webp"
           as="image"
           type="image/webp"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/assets/img/about-us-page/fiesta-1.jpg"
+          href="/assets/img/about-us-page/equipo-1.jpg"
           as="image"
           type="image/jpg"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/assets/img/about-us-page/fiesta-2.jpg"
+          href="/assets/img/about-us-page/equipo-2.jpg"
           as="image"
           type="image/jpg"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/assets/img/about-us-page/fiesta-3.jpg"
+          href="/assets/img/about-us-page/equipo-3.jpg"
           as="image"
           type="image/jpg"
           fetchPriority="high"
