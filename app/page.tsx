@@ -1,30 +1,32 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
+import React, { useEffect } from "react";
+import useScrollSmooth from "@/hooks/useScrollSmooth";
+import { gsap } from "gsap";
+import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
+import { useGSAP } from "@gsap/react";
+
+// Register GSAP plugins
+gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
+
+// Internal imports
 import HeroSlider from "@/components/Homepage/HeroSlider/HeroSlider";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
 import AboutUsSection from "@/components/Homepage/AboutUsSection/AboutUsSection";
 import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSection";
-import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSection/FeaturedprojectsSection";
-import { BlogPost } from "@/types/blog-post-types";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "@/plugins";
-import { cleanupHomepageAnimations } from "@/utils/animations/pages/homepage-anim";
-import { initScrollTriggerConfig, refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
-import "./homepage.scss";
+import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import Footer from "@/components/layout/Footer/footer";
-import Loading from "@/components/ui/Loading/Loading";
-import { useInitialLoading } from "@/hooks/useInitialLoading";
+import { BlogPost } from "@/types/blog-post-types";
+import { useState } from "react";
+import { charAnimation, fadeAnimation } from "@/utils/animations/title-anim";
+import { panelTwoAnimation } from "@/utils/animations/components/panel-animation";
+import { imageParallax } from "@/utils/animations/image-parallax";
+import { initHeroSlider } from "@/utils/animations/homepage-hero";
+import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
+import { hoverCircleButtonAnimation } from "@/utils/animations/components/hover-btn";
 
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  console.log("[HomePage] Registering GSAP plugins");
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-// Slider images data
+// Slider data
 const heroSlides = [
   {
     id: 1,
@@ -40,114 +42,78 @@ const heroSlides = [
   },
 ];
 
-const Home: React.FC = () => {
+const HomePage = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const homepageRef = useRef<HTMLDivElement>(null);
-  const [hasLoaded, setHasLoaded] = useState(false);
 
-  // Force component remount on each page visit
-  const [key] = useState(() => {
-    console.log("[HomePage] Generating new key for component mount");
-    return Date.now();
-  });
-
-  // Use our custom hook to handle loading state
-  const isLoading = useInitialLoading(1500);
-  console.log("[HomePage] Initial loading state:", isLoading);
+  // Setup smooth scrolling
+  useScrollSmooth();
 
   useEffect(() => {
-    console.log("[HomePage] Main effect running, isLoading:", isLoading);
-    if (isLoading) return;
+    document.body.classList.add("smooth-scroll");
+    return () => {
+      document.body.classList.remove("smooth-scroll");
+    };
+  }, []);
 
-    console.log("[HomePage] Initializing ScrollTrigger config");
-    initScrollTriggerConfig();
-
+  useEffect(() => {
+    // Fetch blog posts at page level
     const fetchPosts = async () => {
-      console.log("[HomePage] Fetching blog posts");
       try {
         const res = await fetch("/api/blog");
         const data = await res.json();
-        console.log("[HomePage] Fetched blog posts:", data.length);
         const publishedPosts = data.filter(
           (post: BlogPost) => post.published === true
         );
-        console.log("[HomePage] Published posts:", publishedPosts.length);
         const latestPosts = publishedPosts.slice(0, 6);
         setBlogPosts(latestPosts);
       } catch (error) {
-        console.error("[HomePage] Failed to fetch blog posts:", error);
+        console.error("Failed to fetch blog posts:", error);
       } finally {
-        console.log("[HomePage] Finished loading blog posts");
         setLoading(false);
       }
     };
 
     fetchPosts();
 
-    // Cleanup on unmount
     return () => {
-      console.log("[HomePage] Cleaning up homepage animations");
-      cleanupHomepageAnimations();
+      document.body.classList.remove("smooth-scroll");
     };
-  }, [isLoading]);
+  }, []);
 
-  // Special handling for initial page load
-  useEffect(() => {
-    console.log("[HomePage] Post-load effect running, isLoading:", isLoading, "hasLoaded:", hasLoaded);
-    if (isLoading) return;
-    
-    // First render flag
-    if (!hasLoaded) {
-      console.log("[HomePage] Setting up post-load refresh");
-      const timer = setTimeout(() => {
-        // After first render, refresh ScrollTrigger to ensure everything is registered
-        console.log("[HomePage] Running post-load refresh");
-        
-        // Simply refresh ScrollTrigger to ensure all panels are registered
-        refreshScrollTrigger();
-        
-        // Update flag
-        setHasLoaded(true);
-        console.log("[HomePage] hasLoaded set to true");
-      }, 2000);
-      
-      return () => {
-        console.log("[HomePage] Clearing post-load timer");
-        clearTimeout(timer);
-      };
-    }
-  }, [isLoading, hasLoaded]);
+  // Initialize ALL animations at page level
+  useGSAP(() => {
+    const timer = setTimeout(() => {
+      // Initialize all the animations
+      fadeAnimation();
+      charAnimation();
+      initHeroSlider();
+      imageParallax();
+      initCardMouseParallax();
+      panelTwoAnimation();
+      hoverCircleButtonAnimation();
+    }, 300);
 
-  // Log when rendering
-  console.log("[HomePage] Rendering component, isLoading:", isLoading);
+    return () => clearTimeout(timer);
+  });
 
-  // Show loading component only on initial direct page load
-  if (isLoading) {
-    console.log("[HomePage] Showing loading component");
-    return <Loading />;
-  }
-
-  console.log("[HomePage] Rendering full homepage content");
   return (
-    <SmoothScrollWrapper>
-      <div ref={homepageRef} className="homepage" key={key}>
-        <HeroSlider
-          slides={heroSlides}
-          autoplaySpeed={3000}
-          key={`hero-${key}`}
-        />
-        <AboutUsSection key={`about-${key}`} />
-        <LogoMarquee key={`marquee-${key}`} />
-        <ServicesSection key={`services-${key}`} />
-        <FeaturedprojectsSection key={`projects-${key}`} />
-        {!loading && blogPosts.length > 0 && (
-          <BlogCarouselSection posts={blogPosts} key={`blog-${key}`} />
-        )}
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main>
+          <HeroSlider slides={heroSlides} autoplaySpeed={3000} />
+          <AboutUsSection />
+          <LogoMarquee />
+          <ServicesSection />
+          <FeaturedprojectsSection />
+          {!loading && blogPosts.length > 0 && (
+            <BlogCarouselSection posts={blogPosts} />
+          )}
+        </main>
         <Footer />
       </div>
-    </SmoothScrollWrapper>
+    </div>
   );
 };
 
-export default Home;
+export default HomePage;

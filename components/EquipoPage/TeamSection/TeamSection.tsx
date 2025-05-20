@@ -1,65 +1,28 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { teamMembers } from "@/data/team";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
-import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
-import { initFadeAnimations } from "@/utils/animations/pages/homepage-anim";
 import "./TeamSection.scss";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const TeamSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    if (sectionRef.current) {
-      // Initialize animation
-      const timer = setTimeout(() => {
-        // Initialize fade animations
-        initFadeAnimations();
-
-        // Card mouse parallax
-        const parallaxTimer = setTimeout(() => {
-          initCardMouseParallax();
-        }, 500);
-
-        // Force refresh to ensure ScrollTrigger works properly
-        setTimeout(() => {
-          if ((window as any).__smoother__) {
-            console.log("Refreshing ScrollSmoother");
-            (window as any).__smoother__.refresh();
-          }
-          ScrollTrigger.refresh();
-        }, 100);
-
-        return () => {
-          clearTimeout(parallaxTimer);
-        };
-      }, 300);
-
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   return (
     <section ref={sectionRef} className="team-section">
       <div className="team-section__container">
         <div className="team-section__header">
-          <div className="team-section__label fade_bottom">
+          <div className="team-section__label fade_left">
             <span>Nuestro equipo</span>
           </div>
 
-          <h2 className="team-section__title">
-            <div className="title-row fade_bottom">
-              El talento detrás de cada espacio
-            </div>
-            <div className="title-row fade_bottom">
-              El compromiso detrás de cada detalle
-            </div>
+          <h2 className="team-section__title fade_bottom">
+            El talento detrás de cada espacio <br />
+            El compromiso detrás de cada detalle
           </h2>
         </div>
 
-        <p className="team-section__subtitle fade_bottom">
+        <p className="team-section__subtitle">
           Sabemos que el diseño empieza por las personas. Por eso, cada uno de
           nuestros departamentos aporta algo único: experiencia, innovación,
           pasión por los materiales, atención al detalle. Juntos, hacemos

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   hoverCircleButtonAnimation,
@@ -12,21 +12,31 @@ import "./HoverCircleButton.scss";
 interface HoverCircleButtonProps {
   href: string;
   label: string;
-  darkBg?: boolean; // Add a prop for dark background variant
+  darkBg?: boolean;
 }
 
 const HoverCircleButton: React.FC<HoverCircleButtonProps> = ({
   href,
   label,
-  darkBg = false, // Default to light background
+  darkBg = false,
 }) => {
+  const buttonRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    hoverCircleButtonAnimation();
-    return () => cleanupHoverCircleButton();
+    const timer = setTimeout(() => {
+      if (buttonRef.current) {
+        hoverCircleButtonAnimation();
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      cleanupHoverCircleButton(); // Make sure this function exists and works properly
+    };
   }, []);
 
   return (
-    <div className="hover-circle-button__wrapper">
+    <div className="hover-circle-button__wrapper" ref={buttonRef}>
       <Link
         href={href}
         className={`hover-circle-button__item hover-circle-button ${

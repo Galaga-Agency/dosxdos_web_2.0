@@ -1,36 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
-import { animateSustainabilityImagesSection } from "@/utils/animations/pages/accion-social-page-anim";
 import "./SustainabilityImagesSection.scss";
-import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
 
 const SustainabilityImagesSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      animateSustainabilityImagesSection({
-        section: sectionRef.current,
-        title: titleRef.current,
-        cards: cardsRef.current,
-      });
-
-      // Initialize card hover parallax effects
-      const parallaxTimer = setTimeout(() => {
-        initCardMouseParallax();
-      }, 500);
-
-      return () => {
-        clearTimeout(parallaxTimer);
-      };
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Sample data for the hover cards
   const sustainabilityCards = [
@@ -66,9 +41,14 @@ const SustainabilityImagesSection: React.FC = () => {
   return (
     <section ref={sectionRef} className="sustainability-images-section">
       <div className="sustainability-images-section__container">
-        <div ref={cardsRef} className="sustainability-images-section__cards">
+        <div className="sustainability-images-section__cards">
           {sustainabilityCards.map((card) => (
-            <HoverCard key={card.id} id={card.id} imageUrl={card.imageUrl} />
+            <HoverCard
+              key={card.id}
+              id={card.id}
+              imageUrl={card.imageUrl}
+              showLink={false}
+            />
           ))}
         </div>
       </div>

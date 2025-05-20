@@ -154,9 +154,9 @@ function charAnimation(current?: any) {
 
 // fade left animation
 function fadeAnimation() {
-  if ($(".tp_fade_bottom").length > 0) {
-    gsap.set(".tp_fade_bottom", { y: 100, opacity: 0 });
-    const fadeArray = gsap.utils.toArray(".tp_fade_bottom");
+  if ($(".fade_bottom").length > 0) {
+    gsap.set(".fade_bottom", { y: 100, opacity: 0 });
+    const fadeArray = gsap.utils.toArray(".fade_bottom");
     fadeArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
         scrollTrigger: {
@@ -169,13 +169,14 @@ function fadeAnimation() {
         opacity: 1,
         ease: "power2.out",
         duration: 1.5,
+        delay: 0.3,
       });
     });
   }
 
-  if ($(".tp_fade_top").length > 0) {
-    gsap.set(".tp_fade_top", { y: -100, opacity: 0 });
-    const fadetopArray = gsap.utils.toArray(".tp_fade_top");
+  if ($(".fade_top").length > 0) {
+    gsap.set(".fade_top", { y: -100, opacity: 0 });
+    const fadetopArray = gsap.utils.toArray(".fade_top");
     fadetopArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
         scrollTrigger: {
@@ -188,13 +189,14 @@ function fadeAnimation() {
         opacity: 1,
         ease: "power2.out",
         duration: 2.5,
+        delay: 0.3,
       });
     });
   }
 
-  if ($(".tp_fade_left").length > 0) {
-    gsap.set(".tp_fade_left", { x: -100, opacity: 0 });
-    const fadeleftArray = gsap.utils.toArray(".tp_fade_left");
+  if ($(".fade_left").length > 0) {
+    gsap.set(".fade_left", { x: -100, opacity: 0 });
+    const fadeleftArray = gsap.utils.toArray(".fade_left");
     fadeleftArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
         scrollTrigger: {
@@ -207,13 +209,14 @@ function fadeAnimation() {
         opacity: 1,
         ease: "power2.out",
         duration: 2.5,
+        delay: 0.3,
       });
     });
   }
 
-  if ($(".tp_fade_right").length > 0) {
-    gsap.set(".tp_fade_right", { x: 100, opacity: 0 });
-    const faderightArray = gsap.utils.toArray(".tp_fade_right");
+  if ($(".fade_right").length > 0) {
+    gsap.set(".fade_right", { x: 100, opacity: 0 });
+    const faderightArray = gsap.utils.toArray(".fade_right");
     faderightArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
         scrollTrigger: {
@@ -226,11 +229,12 @@ function fadeAnimation() {
         opacity: 1,
         ease: "power2.out",
         duration: 2.5,
+        delay: 0.3,
       });
     });
   }
-  if ($(".tp_fade_anim").length > 0) {
-    const fadeArrayup = gsap.utils.toArray(".tp_fade_anim");
+  if ($(".fade_anim").length > 0) {
+    const fadeArrayup = gsap.utils.toArray(".fade_anim");
     fadeArrayup.forEach((t: any, e) => {
       let r = "bottom",
         a = 1,
@@ -355,7 +359,7 @@ function fadeAnimation() {
 // revel animation one
 function revelAnimationOne() {
   const anim_reveal: NodeListOf<HTMLElement> =
-    document.querySelectorAll(".tp_reveal_anim");
+    document.querySelectorAll(".reveal_anim");
   if (anim_reveal.length > 0) {
     anim_reveal.forEach((areveal: any) => {
       let duration_value = 1.5;
@@ -412,7 +416,7 @@ function revelAnimationOne() {
 // revel animation two
 function revelAnimationTwo() {
   const anim_reveal2: NodeListOf<HTMLElement> =
-    document.querySelectorAll(".tp_reveal_anim-2");
+    document.querySelectorAll(".reveal_anim-2");
   if (anim_reveal2.length > 0) {
     anim_reveal2.forEach((areveal: any) => {
       let duration_value = 2;
@@ -478,14 +482,14 @@ function zoomAnimation() {
       const $this = $(this);
       const $asiWrap = $this.parents(".anim-zoomin-wrap");
 
-      let tp_ZoomIn = gsap.timeline({
+      let ZoomIn = gsap.timeline({
         scrollTrigger: {
           trigger: $asiWrap,
           start: "top 90%",
           markers: false,
         },
       });
-      tp_ZoomIn.from($this, {
+      ZoomIn.from($this, {
         duration: 1.5,
         autoAlpha: 0,
         scale: 1.4,
@@ -497,8 +501,8 @@ function zoomAnimation() {
 }
 
 function titleAnimation() {
-  if ($(".tp_title_anim").length > 0) {
-    let splitTitleLines = gsap.utils.toArray(".tp_title_anim");
+  if ($(".title_anim").length > 0) {
+    let splitTitleLines = gsap.utils.toArray(".title_anim");
     splitTitleLines.forEach((splitTextLine: any) => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -514,7 +518,7 @@ function titleAnimation() {
       const itemSplitted = new SplitText(splitTextLine, {
         type: "words, lines",
       });
-      gsap.set(splitTextLine, { perspective: 400 });
+      gsap.set(splitTextLine, { perspective: 400, opacity: 1 });
       itemSplitted.split({ type: "lines" });
       tl.from(itemSplitted.lines, {
         duration: 1,

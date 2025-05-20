@@ -1,16 +1,8 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import { animateHeroSection } from "@/utils/animations/pages/equipo-page-anim";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import "./HeroSection.scss";
-
-// Register ScrollTrigger if needed
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const HeroSection: React.FC = () => {
   const labelRef = useRef<HTMLDivElement>(null);
@@ -27,62 +19,8 @@ const HeroSection: React.FC = () => {
   const floatingImageInner2Ref = useRef<HTMLDivElement>(null);
   const floatingImageInner3Ref = useRef<HTMLDivElement>(null);
 
-  // Setup direct parallax first to avoid the bump
-  useLayoutEffect(() => {
-    if (heroImageRef.current) {
-      // Apply direct GSAP parallax to the hero image
-      gsap.to(heroImageRef.current, {
-        y: () => window.innerHeight * 0.1, // Gentle parallax (10% of viewport)
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero-section",
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
-    }
-  }, []);
-
-  // Then run your original animations as usual
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      animateHeroSection({
-        section: heroImageContainerRef.current,
-        label: labelRef.current,
-        title: titleRef.current,
-        underline: underlineRef.current,
-        description: descriptionRef.current,
-        stats: statsRef.current,
-        image: heroImageRef.current,
-        floatingImages: [
-          {
-            container: floatingImage1Ref,
-            inner: floatingImageInner1Ref,
-            offset: -25,
-            innerOffset: 15,
-          },
-          {
-            container: floatingImage2Ref,
-            inner: floatingImageInner2Ref,
-            offset: -20,
-            innerOffset: -15,
-          },
-          {
-            container: floatingImage3Ref,
-            inner: floatingImageInner3Ref,
-            offset: -55,
-            innerOffset: 25,
-          },
-        ],
-      });
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+  // Simple function to check if we're on a mobile device
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <>
@@ -91,13 +29,16 @@ const HeroSection: React.FC = () => {
           ref={heroImageContainerRef}
           className="hero-section__image-container"
         >
-          <div ref={heroImageRef} className="hero-section__image-wrapper">
+          <div
+            ref={heroImageRef}
+            className="hero-section__image-wrapper"
+            data-speed={isMobile ? "1" : "0.9"}
+          >
             <Image
               src="/assets/img/team/dospodos_personal_oficina-3.webp"
               alt="Equipo dosxdos"
               fill
               priority
-              
               quality={100}
               style={{
                 objectFit: "cover",
@@ -120,7 +61,10 @@ const HeroSection: React.FC = () => {
               ref={underlineRef}
               className="hero-section__title-underline"
             ></div>
-            <div ref={descriptionRef} className="hero-section__description">
+            <div
+              ref={descriptionRef}
+              className="hero-section__description title_anim"
+            >
               <p>
                 Contamos con un equipo multidisciplinar de más de 40 personas —
                 arquitectos, interioristas, diseñadores, técnicos e instaladores
@@ -148,6 +92,17 @@ const HeroSection: React.FC = () => {
           ][i];
           const imgSrc = `/assets/img/about-us-page/equipo-${i + 1}.webp`;
 
+          // Set different speeds based on image index
+          const containerSpeed = isMobile
+            ? "1"
+            : i === 0
+            ? "1.3"
+            : i === 1
+            ? "0.9"
+            : "1.1";
+
+          const innerSpeed = i === 0 ? "1.1" : i === 1 ? "0.8" : "0.9";
+
           return (
             <div
               key={i}
@@ -155,8 +110,13 @@ const HeroSection: React.FC = () => {
               className={`random-images__container random-images__container--${
                 i + 1
               }`}
+              data-speed={containerSpeed}
             >
-              <div ref={innerRef} className="random-images__inner-container">
+              <div
+                ref={innerRef}
+                className="random-images__inner-container"
+                data-speed={innerSpeed}
+              >
                 <Image
                   src={imgSrc}
                   alt={`Fiesta ${i + 1}`}

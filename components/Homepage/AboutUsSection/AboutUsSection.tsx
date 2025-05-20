@@ -1,46 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import {
-  initFadeAnimations,
-  initImageParallax,
-} from "@/utils/animations/pages/homepage-anim";
 import "./AboutUsSection.scss";
-
-// Ensure GSAP plugins are registered
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const AboutUsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const imageContainerRef = useRef<HTMLDivElement>(null);
-  const imageInnerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (sectionRef.current) {
-      setTimeout(() => {
-        // Initialize fade animations
-        initFadeAnimations();
-
-        // Initialize parallax effect separately
-        if (imageContainerRef.current && imageInnerRef.current) {
-          initImageParallax(imageContainerRef.current, imageInnerRef.current);
-        }
-      }, 300);
-    }
-  }, []);
 
   return (
     <section ref={sectionRef} className="aboutus-section">
       <div className="aboutus-section__container">
         {/* Header section */}
         <div className="aboutus-section__header">
-          <div className="aboutus-section__label fade_bottom">
+          <div className="aboutus-section__label fade_left">
             <span>Quienes Somos</span>
           </div>
 
@@ -55,23 +28,23 @@ const AboutUsSection: React.FC = () => {
         <div className="aboutus-section__content">
           {/* Left column with image with parallax effect */}
           <div
-            ref={imageContainerRef}
             className="aboutus-section__visual-column"
           >
-            <div ref={imageInnerRef} className="aboutus-section__animated-logo">
+            <div className="aboutus-section__animated-logo parallax-container">
               <Image
                 src="/assets/img/blog/corporate-branding.jpg"
                 alt="Diseño de interiores"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
+                className="parallax-inner"
               />
             </div>
           </div>
 
           {/* Right column with content */}
           <div className="aboutus-section__content-column">
-            <div className="aboutus-section__text fade_bottom">
+            <div className="aboutus-section__text">
               <p>
                 Más de <strong>35 años de experiencia</strong> en el sector del
                 diseño de interiores en espacios comerciales. Especialistas en

@@ -13,7 +13,7 @@ import ShareButtons from "@/components/ShareButtons/ShareButtons";
 import BlogMetadata from "@/components/BlogMetadata";
 import { getAllPosts, getPostBySlug } from "@/lib/blog-service";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import { findRelatedPosts } from "@/utils/similarity";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import {

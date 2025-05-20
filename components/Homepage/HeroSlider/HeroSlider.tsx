@@ -1,12 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import { animateHeroSlider } from "@/utils/animations/pages/homepage-anim";
 import { preloadNextImages, extractImageUrls } from "@/utils/imagePreloader";
 
 interface SlideItem {
@@ -37,18 +36,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   useEffect(() => {
     preloadNextImages(activeSlide, imageUrls, 1);
   }, [activeSlide, imageUrls]);
-
-  // Initialize animations
-  useLayoutEffect(() => {
-    if (sectionRef.current && titleRef.current && ctaRef.current) {
-      // Animate the hero section
-      animateHeroSlider({
-        section: sectionRef.current,
-        title: titleRef.current,
-        cta: ctaRef.current,
-      });
-    }
-  }, []);
 
   // Autoplay timer
   useEffect(() => {

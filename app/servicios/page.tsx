@@ -8,7 +8,7 @@ import ServicesGrid from "@/components/ServiciosPage/ServicesGrid/ServicesGrid";
 import VisionSection from "@/components/ServiciosPage/VisionSection/VisionSection";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import { cleanupServiciosAnimations } from "@/utils/animations/pages/servicios-page-anim";
 import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import "./servicios-page.scss";

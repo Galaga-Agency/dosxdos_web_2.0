@@ -18,6 +18,7 @@ interface HoverCardProps {
   showEmail?: boolean;
   showLink?: boolean;
   showLinkUrl?: boolean;
+  style?: React.CSSProperties;
 }
 
 const HoverCard: React.FC<HoverCardProps> = ({
@@ -33,6 +34,7 @@ const HoverCard: React.FC<HoverCardProps> = ({
   showEmail = true,
   showLink = true,
   showLinkUrl = true,
+  style = {},
 }) => {
   const hasContent =
     (showTitle && title) ||
@@ -86,6 +88,7 @@ const HoverCard: React.FC<HoverCardProps> = ({
           fill
           sizes="(max-width: 768px) 100vw, 300px"
           className="image"
+          style={showLink ? { objectPosition: "center 10px" } : undefined}
         />
       </div>
 

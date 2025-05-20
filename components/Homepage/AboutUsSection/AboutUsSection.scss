@@ -9,7 +9,6 @@
   background-color: $white;
   @include section-padding-y();
 
-
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
@@ -38,7 +37,6 @@
 
   &__title {
     @include font-size(3xl);
-    margin: 0 auto;
     @include font-weight(semibold);
     width: fit-content;
     @include title-line-height;
@@ -57,6 +55,7 @@
     @include min-width(md) {
       @include font-size(7xl);
       text-align: center;
+      margin: 0 auto;
     }
   }
 

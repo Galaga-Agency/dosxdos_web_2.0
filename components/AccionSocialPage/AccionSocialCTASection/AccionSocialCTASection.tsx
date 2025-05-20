@@ -1,39 +1,21 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
-import {
-  initFadeAnimations,
-  initImageParallax,
-} from "@/utils/animations/pages/accion-social-page-anim";
 import "./AccionSocialCTASection.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 const AccionSocialCTASection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const imageContainerRef = useRef<HTMLDivElement>(null);
-  const imageInnerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (sectionRef.current) {
-      setTimeout(() => {
-        // Initialize fade animations
-        initFadeAnimations();
-
-        // Initialize parallax effect separately
-        if (imageContainerRef.current && imageInnerRef.current) {
-          initImageParallax(imageContainerRef.current, imageInnerRef.current);
-        }
-      }, 300);
-    }
-  }, []);
+  const { isMobile } = useDeviceDetect();
 
   return (
     <section ref={sectionRef} className="cta-section">
       <div className="cta-section__container">
         {/* Header section */}
         <div className="cta-section__header">
-          <div className="cta-section__label fade_bottom">
+          <div className="cta-section__label fade_left">
             <span>NUESTRO EQUIPO</span>
           </div>
 
@@ -46,22 +28,25 @@ const AccionSocialCTASection: React.FC = () => {
 
         {/* Content area with two columns */}
         <div className="cta-section__content">
-          {/* Left column with image with parallax effect */}
-          <div ref={imageContainerRef} className="cta-section__visual-column">
-            <div ref={imageInnerRef} className="cta-section__image">
+          <div
+            className="cta-section__visual-column parallax-container"
+            data-speed={isMobile ? "0" : "1.3"}
+          >
+            <div className="cta-section__image parallax-inner">
               <Image
-                src="/assets/img/about-us-page/family.webp"
+                src="/assets/img/team/dospodos_personal_oficina-3.webp"
                 alt="Equipo Dos Por Dos"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
+                data-speed="1"
               />
             </div>
           </div>
 
           {/* Right column with content */}
           <div className="cta-section__content-column">
-            <div className="cta-section__text fade_bottom">
+            <div className="cta-section__text">
               <p>
                 Con un gran equipo de más de 45 profesionales, formado por
                 arquitectos, interioristas, diseñadores y expertos en producción
@@ -76,8 +61,7 @@ const AccionSocialCTASection: React.FC = () => {
               </p>
             </div>
 
-            <div className="cta-section__cta fade_bottom">
-              {/* Replaced PrimaryButton with HoverCircleButton */}
+            <div className="cta-section__cta fade_right">
               <HoverCircleButton
                 href="/sobre-nosotros/equipo"
                 label="Conocer al Equipo"

@@ -55,11 +55,6 @@
     text-transform: uppercase;
     color: $black;
 
-    .title-row {
-      display: block;
-      @include margin(3xs, bottom);
-    }
-
     @include min-width(xs) {
       @include font-size(5xl);
     }

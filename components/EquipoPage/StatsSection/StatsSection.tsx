@@ -1,23 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { animateStatsSection } from "@/utils/animations/pages/equipo-page-anim";
+import React, { useRef } from "react";
 import "./StatsSection.scss";
 
 const StatsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      animateStatsSection({
-        section: sectionRef.current,
-        stats: statsRef.current,
-      });
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const stats = [
     { number: 20, suffix: "+", label: "PROYECTOS COMPLETADOS" },
