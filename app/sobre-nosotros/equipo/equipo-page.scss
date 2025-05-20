@@ -8,7 +8,6 @@
   margin-inline: auto;
   min-height: 100vh;
   width: 100%;
-  padding-bottom: 6rem;
 
   // Mobile Social Section
   &__mobile-social-section {
@@ -16,8 +15,9 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    margin-top: 3rem;
     width: 100%;
+      @include section-padding-y();
+
 
     @include min-width(lg) {
       display: none;

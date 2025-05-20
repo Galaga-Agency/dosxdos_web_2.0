@@ -11,7 +11,7 @@
 }
 
 .hover-circle-button {
-  @include flex(row, center, center);
+  @include flex(column, center, center);
   gap: 0.5rem;
   flex-wrap: wrap;
   width: 149px;
@@ -34,6 +34,7 @@
     line-height: 1.2;
     max-width: 60%;
     margin-right: 5px;
+    margin-top: 15px;
   }
 
   &__icon {

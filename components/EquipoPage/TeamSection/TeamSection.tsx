@@ -50,15 +50,20 @@ const TeamSection: React.FC = () => {
           </div>
 
           <h2 className="team-section__title">
-            <div className="title-row fade_bottom">PROFESIONALES</div>
-            <div className="title-row fade_bottom">APASIONADOS</div>
+            <div className="title-row fade_bottom">
+              El talento detrás de cada espacio
+            </div>
+            <div className="title-row fade_bottom">
+              El compromiso detrás de cada detalle
+            </div>
           </h2>
         </div>
 
         <p className="team-section__subtitle fade_bottom">
-          Un equipo comprometido con la creatividad y la excelencia en cada
-          proyecto, con experiencia en el diseño de{" "}
-          <strong>espacios comerciales</strong> para marcas de lujo.
+          Sabemos que el diseño empieza por las personas. Por eso, cada uno de
+          nuestros departamentos aporta algo único: experiencia, innovación,
+          pasión por los materiales, atención al detalle. Juntos, hacemos
+          posible que cada proyecto sea fiel a su propósito.
         </p>
 
         <div className="team-section__grid">

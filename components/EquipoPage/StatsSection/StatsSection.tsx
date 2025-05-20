@@ -20,8 +20,8 @@ const StatsSection: React.FC = () => {
   }, []);
 
   const stats = [
-    { number: 50, suffix: "+", label: "PROYECTOS COMPLETADOS" },
-    { number: 37, suffix: "+", label: "AÑOS DE EXPERIENCIA" },
+    { number: 20, suffix: "+", label: "PROYECTOS COMPLETADOS" },
+    { number: 38, suffix: "+", label: "AÑOS DE EXPERIENCIA" },
     { number: 45, suffix: "+", label: "PROFESIONALES" },
     { number: 94, suffix: "%", label: "SATISFACCIÓN DE CLIENTES" },
   ];

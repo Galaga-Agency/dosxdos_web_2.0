@@ -19,39 +19,36 @@ const StorySection: React.FC = () => {
   }, []);
 
   const services = [
+    "Interiorismo comercial",
+    "Residenciales",
     "Escaparatismo",
-    "Espacios Promocionales",
-    "Producción Digital",
-    "Perfumería",
-    "Shop in Shop",
-    "Interiorismo Comercial",
-    "Diseño de Marca",
-    "Experiencia de Cliente",
-    "Diseño Comercial",
+    "Producción gráfica",
+    "Creación de eventos",
+    "Comunicación",
+    "Diseño gráfico",
+    "Mobiliario",
+    "Consultoría",
   ];
 
   return (
     <section className="story-section" ref={sectionRef}>
       <div className="story-section__container">
         <h2 ref={titleRef} className="story-section__title fade_bottom">
-          Somos un estudio creativo especializado en
-          <span className="highlight">
-            {" "}
-            diseñar experiencias comerciales
-          </span>{" "}
-          con identidad propia para empresas y individuos.
+          <span className="highlight"> El diseño es nuestro ADN.</span> <br/>El
+          compromiso, nuestra manera de estar en el mundo.
         </h2>
 
         <div ref={textRef} className="story-section__description fade_bottom">
           <p>
-            Un equipo de más de 45 profesionales apasionados por transformar
-            espacios comerciales. Nuestra historia es un viaje de innovación,
-            creatividad y compromiso con la excelencia.
+            Creemos en una forma de trabajar donde la creatividad convive con la
+            responsabilidad. Donde cada proyecto se construye sobre valores
+            compartidos: calidad, sostenibilidad, trabajo en equipo y respeto
+            por el entorno.
           </p>
           <p>
-            Cada proyecto es <strong>único</strong>. Nos comprometemos a
-            entregar soluciones personalizadas con la misma pasión,
-            independientemente de su escala o presupuesto.
+            No diseñamos solo espacios. Diseñamos formas de hacer, de mirar, de
+            habitar. Y lo hacemos con la convicción de que el diseño puede
+            transformar mucho más que superficies.
           </p>
         </div>
 
