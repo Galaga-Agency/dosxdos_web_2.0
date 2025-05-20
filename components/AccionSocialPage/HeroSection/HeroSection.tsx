@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import { initAccionSocialHeroAnimations } from "@/utils/animations/pages/accion-social-page-anim";
 import "./HeroSection.scss";
 
 const HeroSection: React.FC = () => {
@@ -11,28 +10,7 @@ const HeroSection: React.FC = () => {
   const titleRef1 = useRef<HTMLHeadingElement>(null);
   const titleRef2 = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Inicializar animaciones con un pequeño retraso para asegurar que el DOM está listo
-    const timer = setTimeout(() => {
-      initAccionSocialHeroAnimations({
-        heroArea: heroAreaRef.current,
-        bgContainer: bgContainerRef.current,
-        titleRef1: titleRef1.current,
-        titleRef2: titleRef2.current,
-        labelRef: labelRef.current,
-        descriptionRef: descriptionRef.current,
-        ctaRef: ctaRef.current,
-      });
-    }, 100);
-
-    // Función de limpieza
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
 
   return (
     <div className="accion-social-hero" ref={heroAreaRef}>

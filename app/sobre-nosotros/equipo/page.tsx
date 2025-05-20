@@ -1,7 +1,14 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from "react";
-import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
+import React, { useEffect } from "react";
+import useScrollSmooth from "@/hooks/useScrollSmooth";
+import { gsap } from "gsap";
+import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
+import { useGSAP } from "@gsap/react";
+
+// Register GSAP plugins
+gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
+
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import HeroSection from "@/components/EquipoPage/HeroSection/HeroSection";
 import StorySection from "@/components/EquipoPage/StorySection/StorySection";
@@ -9,74 +16,67 @@ import TeamSection from "@/components/EquipoPage/TeamSection/TeamSection";
 import StatsSection from "@/components/EquipoPage/StatsSection/StatsSection";
 import ClientsSection from "@/components/EquipoPage/ClientsSection/ClientsSection";
 import CTASection from "@/components/EquipoPage/CTASection/CTASection";
-import "./equipo-page.scss";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { cleanupEquipoAnimations } from "@/utils/animations/pages/equipo-page-anim";
-import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
 import Footer from "@/components/layout/Footer/footer";
-import Loading from "@/components/ui/Loading/Loading";
-import { useInitialLoading } from "@/hooks/useInitialLoading";
+import { useState } from "react";
+import { charAnimation, fadeAnimation, titleAnimation } from "@/utils/animations/title-anim";
+import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
+import { imageParallax } from "@/utils/animations/image-parallax";
+import { initStatsCounter } from "@/utils/animations/stats-counter";
 
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import "./equipo-page.scss"; // Import Equatable CSS for smooth scrolling
 
-const EquipoPage: React.FC = () => {
-  // Force component remount on each page visit
+const EquipoPage = () => {
   const [key] = useState(() => Date.now());
-  
-  // Use our custom hook to handle loading state
-  const isLoading = useInitialLoading(1500);
 
-  // Initialize ScrollTrigger configuration once
+  // Setup smooth scrolling
+  useScrollSmooth();
+
   useEffect(() => {
-    // Skip if still in loading state
-    if (isLoading) return;
-    
-    initScrollTriggerConfig();
+    document.body.classList.add("smooth-scroll");
 
-    // Cleanup on unmount
     return () => {
-      cleanupEquipoAnimations();
+      document.body.classList.remove("smooth-scroll");
     };
-  }, [isLoading]);
+  }, []);
 
-  // Show loading component only on initial direct page load
-  if (isLoading) {
-    return <Loading />;
-  }
+  // Initialize ALL animations at page level
+  useGSAP(() => {
+    const timer = setTimeout(() => {
+      // Initialize all the animations
+      fadeAnimation();
+      charAnimation();
+      initCardMouseParallax();
+      imageParallax();
+      initStatsCounter();
+      titleAnimation();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  });
 
   return (
-    <SmoothScrollWrapper>
-      <div className="equipo-page" key={key}>
-        <div className="equipo-page__container">
-          {/* <div className="equipo-page__social-sidebar">
-            <div className="equipo-page__social-wrapper">
-              <span className="equipo-page__social-label">Síguenos</span>
-              <SocialIcons orientation="vertical" color="white" />
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <div className="equipo-page" key={key}>
+          <div className="equipo-page__container">
+            <HeroSection />
+            <StorySection />
+            <TeamSection />
+            <StatsSection />
+            <ClientsSection />
+            <CTASection />
+            <div className="equipo-page__mobile-social-section">
+              <div className="equipo-page__mobile-social-header">
+                <h3 className="equipo-page__mobile-social-title">Síguenos</h3>
+                <div className="equipo-page__mobile-social-divider"></div>
+              </div>
+              <SocialIcons orientation="horizontal" color="primary" />
             </div>
-          </div> */}
-
-          <HeroSection key={`hero-${key}`} />
-          <StorySection key={`story-${key}`} />
-          <TeamSection key={`team-${key}`} />
-          <StatsSection key={`stats-${key}`} />
-          <ClientsSection key={`clients-${key}`} />
-          <CTASection key={`cta-${key}`} />
-
-          <div className="equipo-page__mobile-social-section">
-            <div className="equipo-page__mobile-social-header">
-              <h3 className="equipo-page__mobile-social-title">Síguenos</h3>
-              <div className="equipo-page__mobile-social-divider"></div>
-            </div>
-            <SocialIcons orientation="horizontal" color="primary" />
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </SmoothScrollWrapper>
+    </div>
   );
 };
 

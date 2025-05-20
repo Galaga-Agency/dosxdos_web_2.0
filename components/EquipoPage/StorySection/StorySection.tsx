@@ -1,22 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import "./StorySection.scss";
-import { initFadeAnimations } from "@/utils/animations/pages/equipo-page-anim";
 
 const StorySection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      initFadeAnimations();
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const services = [
     "Interiorismo comercial",
@@ -34,11 +25,11 @@ const StorySection: React.FC = () => {
     <section className="story-section" ref={sectionRef}>
       <div className="story-section__container">
         <h2 ref={titleRef} className="story-section__title fade_bottom">
-          <span className="highlight"> El diseño es nuestro ADN.</span> <br/>El
-          compromiso, nuestra manera de estar en el mundo.
+          <span className="highlight"> El diseño es nuestro ADN.</span> <br />
+          El compromiso, nuestra manera de estar en el mundo.
         </h2>
 
-        <div ref={textRef} className="story-section__description fade_bottom">
+        <div ref={textRef} className="story-section__description">
           <p>
             Creemos en una forma de trabajar donde la creatividad convive con la
             responsabilidad. Donde cada proyecto se construye sobre valores
@@ -53,10 +44,10 @@ const StorySection: React.FC = () => {
         </div>
 
         <div ref={servicesRef} className="story-section__services">
-          <h3 className="story-section__services-title fade_bottom">
+          <h3 className="story-section__services-title fade_right">
             LO QUE HACEMOS
           </h3>
-          <div className="story-section__services-grid fade_bottom">
+          <div className="story-section__services-grid">
             {services.map((service, index) => (
               <div key={index} className="story-section__services-item">
                 {service}

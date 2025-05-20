@@ -1,7 +1,7 @@
 "use client";
 
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
 import { isTouchDevice } from "@/utils/device";
 
@@ -99,7 +99,9 @@ export function initPortfolioPageAnimations(
   }, 100);
 }
 
-export function initBentoRevealForTouchDevices(gridEl: HTMLElement | null): void {
+export function initBentoRevealForTouchDevices(
+  gridEl: HTMLElement | null
+): void {
   if (!gridEl || !isTouchDevice()) return;
 
   const items = gridEl.querySelectorAll(".portfolio-bento__item");
@@ -124,18 +126,26 @@ export function initBentoRevealForTouchDevices(gridEl: HTMLElement | null): void
       onEnter: () => {
         const tl = gsap.timeline();
         tl.to(hoverInfo, { opacity: 1, duration: 0.3, ease: "power2.out" });
-        tl.to(label, {
-          opacity: 1,
-          y: 0,
-          duration: 0.3,
-          ease: "power2.out",
-        }, "-=0.2");
-        tl.to(title, {
-          opacity: 1,
-          y: 0,
-          duration: 0.3,
-          ease: "power2.out",
-        }, "-=0.25");
+        tl.to(
+          label,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "-=0.2"
+        );
+        tl.to(
+          title,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "-=0.25"
+        );
       },
     });
   });

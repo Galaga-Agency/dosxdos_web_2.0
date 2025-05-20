@@ -1,5 +1,5 @@
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import { SplitText } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
 
@@ -138,7 +138,7 @@ export function initMasProyectosAnimations(
         if (refs.ctaText && refs.ctaText.classList.contains("char-animation")) {
           setTimeout(() => {
             try {
-              const splitText= new SplitText(refs.ctaText as any, {
+              const splitText = new SplitText(refs.ctaText as any, {
                 type: "chars, words",
               });
 

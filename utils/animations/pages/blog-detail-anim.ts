@@ -1,6 +1,6 @@
 import { SplitText } from "@/plugins";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import { refreshScrollTrigger } from "@/utils/animations/scrolltrigger-config";
 
 // Define interface for animation elements

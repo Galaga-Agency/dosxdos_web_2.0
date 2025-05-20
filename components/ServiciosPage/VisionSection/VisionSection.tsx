@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import {
   initFadeAnimations,
   cleanupServiciosAnimations,
@@ -83,7 +83,10 @@ const VisionSection: React.FC = () => {
                 perfumería.
               </p>
               <div className="vision-section__button fade_bottom">
-                <HoverCircleButton href="/sobre-nosotros/equipo" label="Conócenos" />
+                <HoverCircleButton
+                  href="/sobre-nosotros/equipo"
+                  label="Conócenos"
+                />
               </div>
             </div>
           </div>

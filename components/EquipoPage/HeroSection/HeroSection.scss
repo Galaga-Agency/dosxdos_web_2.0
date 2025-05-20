@@ -119,7 +119,7 @@
   &__description {
     max-width: 700px;
     margin-bottom: 40px;
-    visibility: hidden;
+    opacity: 0;
 
     p {
       @include font-size(lg);
@@ -186,13 +186,14 @@
       @include min-width(md) {
         width: 75%;
         height: 30vh;
-        top: -5vh;
+        top: 5vh;
         left: 5%;
       }
 
       @include min-width(lg) {
         width: 50%;
         height: 65vh;
+        top: 0;
         left: 0;
       }
     }
@@ -200,15 +201,15 @@
     &--2 {
       @include min-width(md) {
         width: 50%;
-        height: 50vh;
-        top: 15vh;
+        height: 30vh;
+        top: 30vh;
         right: 0;
       }
 
       @include min-width(lg) {
         width: 40%;
         height: 50vh;
-        top: 5vh;
+        top: 10vh;
         right: 0;
       }
     }

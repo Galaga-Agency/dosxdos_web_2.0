@@ -1,7 +1,7 @@
 "use client";
 
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
 
 // Ensure GSAP plugins are registered

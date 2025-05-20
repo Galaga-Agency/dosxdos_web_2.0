@@ -10,11 +10,10 @@
   overflow: visible; 
   opacity: 1 !important; 
   @include section-padding-y();
-
+  
   &__container {
     margin: 0 auto;
     @include container-width(mobile);
-    @include padding(md, x);
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -33,6 +32,7 @@
     @include margin(3xl, bottom);
     position: relative;
     opacity: 1 !important;
+    z-index: 1;
   }
 
   &__title {
@@ -47,6 +47,7 @@
     .title-row {
       display: block;
       @include margin(3xs, bottom);
+      opacity: 1 !important;
 
       @include min-width(xl) {
         white-space: nowrap;
@@ -73,6 +74,7 @@
     @include margin(md, bottom);
     color: $black;
     display: block;
+    opacity: 1 !important;
 
     @include min-width(xl) {
       position: absolute;
@@ -86,6 +88,7 @@
     color: rgba($black, 0.75);
     @include margin(4xl, bottom);
     max-width: 600px;
+    opacity: 1 !important;
 
     @include min-width(md) {
       margin-left: 10%;
@@ -109,18 +112,8 @@
     width: 100%;
     margin: 0 auto;
     @include padding(lg, bottom);
-    // Eliminar padding lateral que comprime el contenido
     padding-left: 0;
     padding-right: 0;
-    
-    // Añadir estilo de cursor para indicar que es deslizable en móvil
-    @media (hover: none) and (pointer: coarse) {
-      cursor: grab;
-      
-      &:active {
-        cursor: grabbing;
-      }
-    }
   }
 
   &__carousel-track {
@@ -128,46 +121,34 @@
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     opacity: 1 !important;
     width: 100%;
+  }
 
-    .blog-carousel-section__carousel-slide {
-      flex: 0 0 100%;
-      // Eliminamos el padding lateral excesivo en móvil
-      padding: 0;
-      opacity: 1 !important;
-      
-      // Solo añadir un pequeño espacio a la derecha para mostrar que hay más contenido
-      margin-right: 16px;
-      
-      @include min-width(md) {
-        flex: 0 0 50%;
-        padding: 0 0.75rem;
-      }
+  &__page {
+    display: flex;
+    flex: 0 0 100%;
+    width: 100%;
+  }
 
-      @include min-width(lg) {
-        flex: 0 0 33.333%;
-        padding: 0 1rem;
-      }
+  &__carousel-slide {
+    padding: 0 10px;
+    flex: 1;
+
+    @include min-width(md) {
+      padding: 0 15px;
     }
   }
 
   &__carousel-navigation {
-    // Mostrar los botones de navegación en todas las resoluciones
     display: flex;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 100%;
     justify-content: space-between;
-    z-index: 5;
+    z-index: 100;
     pointer-events: none;
     padding: 0 0.5rem;
-    
-    // Ajustar ubicación de los botones en móvil
     left: 0;
-    
-    @include min-width(md) {
-      padding: 0 0.5rem;
-    }
   }
 
   &__nav-button {
@@ -185,8 +166,9 @@
     pointer-events: auto;
     opacity: 0.8;
     @include shadow(md);
+    position: relative;
+    z-index: 100;
     
-    // Reducir tamaño en móvil
     @include min-width(md) {
       width: 48px;
       height: 48px;
@@ -205,6 +187,7 @@
     svg {
       width: 18px;
       height: 18px;
+      pointer-events: none;
       
       @include min-width(md) {
         width: 24px;
@@ -212,13 +195,12 @@
       }
     }
     
-    // Posicionar botones a los lados
     &--prev {
-      margin-left: -25px;
+      margin-left: -20px;
     }
     
     &--next {
-      margin-right: -25px;
+      margin-right: -20px;
     }
   }
 
@@ -227,6 +209,8 @@
     justify-content: center;
     margin-top: 1.5rem;
     gap: 0.5rem;
+    position: relative;
+    z-index: 100;
   }
 
   &__dot {
@@ -238,8 +222,18 @@
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;
+    position: relative;
+    z-index: 100;
     
-    // Aumentar tamaño de puntos en móvil para mejor interacción táctil
+    &::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+    }
+    
     @media (hover: none) and (pointer: coarse) {
       width: 10px;
       height: 10px;
@@ -260,11 +254,7 @@
     margin-top: 4rem;
     text-align: center;
     opacity: 1 !important;
+    position: relative;
+    z-index: 1;
   }
-}
-
-// Fix para animación de carga perezosa
-.lazy-section .blog-carousel-section {
-  opacity: 1 !important;
-  transform: none !important;
 }

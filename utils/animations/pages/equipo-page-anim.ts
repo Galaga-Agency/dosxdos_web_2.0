@@ -2,7 +2,7 @@
 
 import { gsap } from "gsap";
 import { SplitText } from "@/plugins";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "@/plugins";
 import { refreshScrollTrigger } from "../scrolltrigger-config";
 import { isMobile } from "@/utils/device";
 
@@ -333,13 +333,15 @@ function setupFloatingImagesParallax(floatingImages: any[]): void {
           if (!isMobileDevice) {
             // Calculate speed - SPECIAL CASE FOR IMAGE 3
             let containerSpeed;
-            
-            if (index === 2) { // Image 3 specifically
+
+            if (index === 2) {
+              // Image 3 specifically
               // Slow down image 3 by setting speed closer to 1
               containerSpeed = 0.95; // Just slightly slower than normal
             } else {
               // Original calculation for other images
-              containerSpeed = offset < 0 ? 1 + Math.abs(offset) / 100 : 1 - offset / 100;
+              containerSpeed =
+                offset < 0 ? 1 + Math.abs(offset) / 100 : 1 - offset / 100;
             }
 
             // Keep values in reasonable range
@@ -360,15 +362,17 @@ function setupFloatingImagesParallax(floatingImages: any[]): void {
           // Apply parallax to inner element regardless of device
           // SPECIAL CASE FOR IMAGE 3 INNER
           let innerSpeed;
-          
-          if (index === 2) { // Image 3 inner specifically 
+
+          if (index === 2) {
+            // Image 3 inner specifically
             // Slow down image 3 inner
             innerSpeed = 0.9; // Slower than normal
           } else {
             // Original calculation for other inners
-            innerSpeed = innerOffset < 0
-              ? 1 + Math.abs(innerOffset) / 200
-              : 1 - innerOffset / 200;
+            innerSpeed =
+              innerOffset < 0
+                ? 1 + Math.abs(innerOffset) / 200
+                : 1 - innerOffset / 200;
           }
 
           // Keep values in reasonable range
