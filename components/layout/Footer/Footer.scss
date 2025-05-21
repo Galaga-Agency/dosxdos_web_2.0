@@ -37,23 +37,25 @@
 
   // Container layout
   &__container {
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     width: 100%;
     position: relative;
     z-index: 1;
+    margin: 0 auto;
+
+    @include container-width(mobile);
 
     @include min-width(md) {
-      max-width: 92%;
+      @include container-width(tablet);
     }
 
     @include min-width(lg) {
-      max-width: 1140px;
+      @include container-width(smalldesktop);
     }
 
     @include min-width(xl) {
-      max-width: 1280px;
+      @include container-width(desktop);
     }
   }
 

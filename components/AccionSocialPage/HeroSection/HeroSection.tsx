@@ -14,8 +14,11 @@ const HeroSection: React.FC = () => {
 
   return (
     <div className="accion-social-hero" ref={heroAreaRef}>
-      <div className="accion-social-hero__bg-container" ref={bgContainerRef}>
-        <div className="accion-social-hero__image-wrapper">
+      <div
+        className="accion-social-hero__bg-container featured-image-container"
+        ref={bgContainerRef}
+      >
+        <div className="accion-social-hero__image-wrapper featured-image-wrapper">
           <Image
             src="/assets/img/about-us-page/vicente-ferrer-illustration.jpg"
             alt="Acción Social"

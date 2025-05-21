@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -24,8 +24,8 @@ import {
   fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
-import { featuredImageAnimation } from "@/utils/animations/blog-featured-image-anim";
-import { blogItemsAnimation } from "@/utils/animations/blog-items-anim";
+import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
+import { animatePaginatedItems } from "@/utils/animations/stagger-items-anim";
 
 import "./blog-page.scss";
 
@@ -36,6 +36,7 @@ const BlogPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [itemsPerPage, setItemsPerPage] = useState(3);
 
+  // Handle responsive itemsPerPage
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768 && window.innerWidth < 992) {
@@ -53,6 +54,7 @@ const BlogPage: React.FC = () => {
     };
   }, []);
 
+  // Add smooth-scroll class and fetch blog posts
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
 
@@ -88,6 +90,7 @@ const BlogPage: React.FC = () => {
       itemsPerPage: itemsPerPage,
     });
 
+  // Initialize animations with useGSAP
   useGSAP(() => {
     if (!loading && first_blog) {
       const timer = setTimeout(() => {
@@ -95,29 +98,20 @@ const BlogPage: React.FC = () => {
         charAnimation();
         rollUpTextAnimation();
         featuredImageAnimation();
-        blogItemsAnimation();
+
+        // Using the new utility for staggered animations
+        animatePaginatedItems(".blog-page__post-item", {
+          container: ".posts-grid",
+          stagger: 0.2,
+          fromY: 40,
+          duration: 0.8,
+          ease: "power2.out",
+        });
       }, 300);
 
       return () => clearTimeout(timer);
     }
-  }, [loading, first_blog]);
-
-  const prevPageRef = useRef(currentPage);
-
-  useEffect(() => {
-    if (prevPageRef.current !== currentPage) {
-      const postItems = document.querySelectorAll(".blog-page__post-item");
-      gsap.set(postItems, { opacity: 0, y: 40 });
-      gsap.to(postItems, {
-        opacity: 1,
-        y: 0,
-        stagger: 0.3,
-        duration: 0.8,
-        ease: "power2.out",
-      });
-      prevPageRef.current = currentPage;
-    }
-  }, [currentPage]);
+  }, [loading, first_blog, currentPage]);
 
   return (
     <div id="smooth-wrapper">
@@ -129,8 +123,8 @@ const BlogPage: React.FC = () => {
             <div className="blog-page__container">
               <div className="blog-page__featured-section">
                 <div className="blog-page__featured-offset-background"></div>
-                <div className="blog-page__featured-image-container">
-                  <div className="blog-page__featured-image-wrapper">
+                <div className="blog-page__featured-image-container featured-image-container">
+                  <div className="blog-page__featured-image-wrapper featured-image-wrapper">
                     <Image
                       src={
                         first_blog?.coverImage ||
@@ -153,12 +147,15 @@ const BlogPage: React.FC = () => {
                     href={`/blog/${first_blog?.slug}`}
                     className="blog-page__featured-content-link"
                   >
-                    <div className="blog-page__featured-image-date fade_bottom">
-                      {formatDate(first_blog?.date)}
+                    <div className="blog-page__labels-container">
+                      <div className="blog-page__featured-image-date fade_bottom">
+                        {formatDate(first_blog?.date)}
+                      </div>
+                      <div className="blog-page__featured-category fade_bottom">
+                        <span>{first_blog?.category}</span>
+                      </div>
                     </div>
-                    <div className="blog-page__featured-category fade_bottom">
-                      <span>{first_blog?.category}</span>
-                    </div>
+
                     <h1 className="blog-page__featured-image-title char-animation">
                       {first_blog?.title}
                     </h1>
@@ -177,10 +174,7 @@ const BlogPage: React.FC = () => {
 
                 <div className="posts-grid">
                   {currentItems.map((item, index) => (
-                    <div
-                      key={item.id}
-                      className="blog-page__post-item fade_bottom"
-                    >
+                    <div key={item.id} className="blog-page__post-item">
                       <BlogItem
                         key={`blog-item-${item.id}`}
                         item={item}
@@ -190,7 +184,7 @@ const BlogPage: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="blog-page__pagination">
+                <div className="blog-page__pagination fade_bottom">
                   <Pagination
                     handlePageClick={(page) =>
                       handlePageClick({ selected: page })

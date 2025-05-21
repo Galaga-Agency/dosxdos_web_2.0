@@ -21,6 +21,7 @@ import { fadeAnimation, charAnimation } from "@/utils/animations/text-anim";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { panelTwoAnimation } from "@/utils/animations/panel-animation";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
+import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
 import "./accion-social-page.scss";
 
@@ -41,6 +42,7 @@ const AccionSocialPage = () => {
       charAnimation();
       initCardMouseParallax();
       panelTwoAnimation();
+      featuredImageAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

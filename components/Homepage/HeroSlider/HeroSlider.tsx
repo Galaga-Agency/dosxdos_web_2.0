@@ -143,11 +143,11 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         </>
       )}
 
-      <div className="hero-slider__container">
+      <div className="hero-slider__container featured-image-container">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
-            className={`hero-slider__slide ${
+            className={`hero-slider__slide featured-image-wrapper ${
               index === activeSlide ? "active" : ""
             }`}
           >

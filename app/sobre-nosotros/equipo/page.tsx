@@ -25,6 +25,7 @@ import {
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
 import { initStatsCounter } from "@/utils/animations/stats-counter";
+import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
 import "./equipo-page.scss";
 
@@ -47,6 +48,7 @@ const EquipoPage = () => {
       imageParallax();
       initStatsCounter();
       rollUpTextAnimation();
+      featuredImageAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

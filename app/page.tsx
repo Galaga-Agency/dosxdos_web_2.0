@@ -24,6 +24,7 @@ import { imageParallax } from "@/utils/animations/image-parallax";
 import { initHeroSlider } from "@/utils/animations/homepage-hero";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
+import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
 // Slider data
 const heroSlides = [
@@ -87,6 +88,7 @@ const HomePage = () => {
       initCardMouseParallax();
       panelTwoAnimation();
       hoverCircleButtonAnimation();
+      featuredImageAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

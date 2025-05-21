@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import { ScrollTrigger } from "@/plugins";
 
 export function bentoRevealForTouchDevices(): void {
   if (typeof window === "undefined") return;

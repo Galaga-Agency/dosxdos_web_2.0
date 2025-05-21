@@ -24,7 +24,8 @@
     height: 100%;
     will-change: transform;
     transform-origin: center;
-    transform: scale(1.3); /* Valor inicial para animación GSAP */
+    transform: scale(1.3);
+    opacity: 0;
   }
 
   &__image-wrapper {
