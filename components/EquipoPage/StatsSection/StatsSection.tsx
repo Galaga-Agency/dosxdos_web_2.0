@@ -8,7 +8,7 @@ const StatsSection: React.FC = () => {
   const statsRef = useRef<HTMLDivElement>(null);
 
   const stats = [
-    { number: 20, suffix: "+", label: "PROYECTOS COMPLETADOS" },
+    { number: 200, suffix: "+", label: "PROYECTOS COMPLETADOS" },
     { number: 38, suffix: "+", label: "AÑOS DE EXPERIENCIA" },
     { number: 45, suffix: "+", label: "PROFESIONALES" },
     { number: 94, suffix: "%", label: "SATISFACCIÓN DE CLIENTES" },
