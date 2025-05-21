@@ -359,9 +359,8 @@ const AvisoLegalPage: React.FC = () => {
               <SocialIcons orientation="horizontal" />
             </div>
           </div>
-        </div>
-        <Footer />
-      </div>
+        </div><Footer />
+      </div>        
     </div>
   );
 };

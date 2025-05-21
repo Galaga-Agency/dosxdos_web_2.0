@@ -393,6 +393,7 @@
     @include flex(column, center, center);
     gap: 0.75rem;
     margin-bottom: 1.5rem;
+    text-wrap: nowrap;
 
     @include min-width(md) {
       @include flex(row, flex-start, center);
