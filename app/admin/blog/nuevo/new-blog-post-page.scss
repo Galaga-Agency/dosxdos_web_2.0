@@ -5,15 +5,8 @@
 
 .new-blog-post-page {
   position: relative;
-  margin-inline: auto;
-  min-height: 100vh;
   width: 100%;
-  padding-block: 8rem;
-
-  @include min-width(lg) {
-    padding-block: 10rem;
-  }
-
+  @include section-padding-y;
 
   &__container {
     @include container-width(mobile);

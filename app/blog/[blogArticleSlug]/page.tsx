@@ -30,6 +30,7 @@ import {
 } from "@/utils/animations/text-anim";
 
 import "./blog-details.scss";
+import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
 interface BlogDetailPageProps {
   params: Promise<{ blogArticleSlug: string }>;
@@ -99,6 +100,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
         fadeAnimation();
         charAnimation();
         rollUpTextAnimation();
+        featuredImageAnimation();
 
         gsap.set(
           ".blog-detail__body p, .blog-detail__body h1, .blog-detail__body h2, .blog-detail__body h3, .blog-detail__body ul, .blog-detail__body ol, .blog-detail__body blockquote, .blog-detail__tags, .blog-detail__cta-title, .blog-detail__cta-text, .blog-detail__cta-button, .blog-detail__mobile-social-section",
@@ -136,6 +138,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
               <section
                 className="blog-detail__hero"
                 style={{ backgroundImage: `url(${getImageSource(blogPost)})` }}
+                data-speed="0.95"
               >
                 <div className="blog-detail__hero-wrapper">
                   <div className="blog-detail__hero-content">

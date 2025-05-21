@@ -255,199 +255,205 @@ export default function NewBlogPostPage() {
   };
 
   return (
-    <div className="new-blog-post-page" ref={pageRef}>
-      <div className="new-blog-post-page__container">
-        <div className="new-blog-post-page__header" ref={headerRef}>
-          <h1>Crear Nueva Entrada de Blog</h1>
-        </div>
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="new-blog-post-page__form"
-          ref={formRef}
-        >
-          <div className="form-group">
-            <label htmlFor="title">Título</label>
-            <input
-              id="title"
-              type="text"
-              className={`form-input ${errors.title ? "is-invalid" : ""}`}
-              placeholder="Ingresa el título de tu entrada"
-              disabled={isSubmitting}
-              {...register("title", { required: "El título es obligatorio" })}
-            />
-            {errors.title && (
-              <p className="form-error">{errors.title.message}</p>
-            )}
+    <>
+      <div className="new-blog-post-page" ref={pageRef}>
+        <div className="new-blog-post-page__container">
+          <div className="new-blog-post-page__header" ref={headerRef}>
+            <h1>Crear Nueva Entrada de Blog</h1>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="category">Categoría</label>
-            <input
-              id="category"
-              type="text"
-              className={`form-input ${errors.category ? "is-invalid" : ""}`}
-              placeholder="Ej: Tecnología, Diseño, Marketing..."
-              disabled={isSubmitting}
-              {...register("category")}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="excerpt">Extracto</label>
-            <textarea
-              id="excerpt"
-              rows={3}
-              className={`form-textarea ${errors.excerpt ? "is-invalid" : ""}`}
-              placeholder="Breve descripción de tu entrada"
-              disabled={isSubmitting}
-              {...register("excerpt")}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="tags">Etiquetas</label>
-            <input
-              type="text"
-              id="tags"
-              className="form-input"
-              placeholder="Presiona Enter para agregar"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyDown={handleTagKeyDown}
-              disabled={isSubmitting}
-            />
-            <div className="tag-list">
-              {tags.map((tag) => (
-                <div key={tag} className="tag-item">
-                  {tag}
-                  <button
-                    type="button"
-                    onClick={() => removeTag(tag)}
-                    className="tag-remove"
-                    aria-label="Eliminar etiqueta"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Imagen de Portada</label>
-            <div className="cover-image-upload">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="new-blog-post-page__form"
+            ref={formRef}
+          >
+            <div className="form-group">
+              <label htmlFor="title">Título</label>
               <input
-                type="file"
-                ref={coverImageInputRef}
-                style={{ display: "none" }}
-                accept="image/*"
-                onChange={handleCoverImageChange}
+                id="title"
+                type="text"
+                className={`form-input ${errors.title ? "is-invalid" : ""}`}
+                placeholder="Ingresa el título de tu entrada"
+                disabled={isSubmitting}
+                {...register("title", { required: "El título es obligatorio" })}
+              />
+              {errors.title && (
+                <p className="form-error">{errors.title.message}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="category">Categoría</label>
+              <input
+                id="category"
+                type="text"
+                className={`form-input ${errors.category ? "is-invalid" : ""}`}
+                placeholder="Ej: Tecnología, Diseño, Marketing..."
+                disabled={isSubmitting}
+                {...register("category")}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="excerpt">Extracto</label>
+              <textarea
+                id="excerpt"
+                rows={3}
+                className={`form-textarea ${
+                  errors.excerpt ? "is-invalid" : ""
+                }`}
+                placeholder="Breve descripción de tu entrada"
+                disabled={isSubmitting}
+                {...register("excerpt")}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="tags">Etiquetas</label>
+              <input
+                type="text"
+                id="tags"
+                className="form-input"
+                placeholder="Presiona Enter para agregar"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={handleTagKeyDown}
                 disabled={isSubmitting}
               />
-
-              <div
-                className={`cover-image-preview ${!coverImage ? "empty" : ""}`}
-                onClick={() =>
-                  !isSubmitting && coverImageInputRef.current?.click()
-                }
-              >
-                {coverImage ? (
-                  <>
-                    <img src={coverImage} alt="Imagen de portada" />
+              <div className="tag-list">
+                {tags.map((tag) => (
+                  <div key={tag} className="tag-item">
+                    {tag}
                     <button
                       type="button"
-                      className="cover-image-delete-btn"
-                      onClick={handleRemoveCoverImage}
-                      disabled={isSubmitting}
-                      aria-label="Eliminar imagen"
+                      onClick={() => removeTag(tag)}
+                      className="tag-remove"
+                      aria-label="Eliminar etiqueta"
                     >
-                      <Trash2 size={18} />
+                      ×
                     </button>
-                  </>
-                ) : (
-                  <div className="cover-image-placeholder">
-                    <div className="cover-image-icon">
-                      <Image size={32} />
-                    </div>
-                    <p>Haz clic para subir una imagen de portada</p>
-                    <span className="cover-image-note">
-                      Si no subes una imagen, se utilizará la primera imagen del
-                      contenido
-                    </span>
                   </div>
-                )}
+                ))}
               </div>
             </div>
-          </div>
 
-          <div className="form-group editor-container">
-            <label>Contenido</label>
-            <div
-              className="rich-editor-wrapper"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <RichTextEditor
-                value={editorContent}
-                onChange={setEditorContent}
-                onImageUpload={handleImageUpload}
-                placeholder="Comienza a escribir tu artículo aquí..."
+            <div className="form-group">
+              <label className="form-label">Imagen de Portada</label>
+              <div className="cover-image-upload">
+                <input
+                  type="file"
+                  ref={coverImageInputRef}
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  onChange={handleCoverImageChange}
+                  disabled={isSubmitting}
+                />
+
+                <div
+                  className={`cover-image-preview ${
+                    !coverImage ? "empty" : ""
+                  }`}
+                  onClick={() =>
+                    !isSubmitting && coverImageInputRef.current?.click()
+                  }
+                >
+                  {coverImage ? (
+                    <>
+                      <img src={coverImage} alt="Imagen de portada" />
+                      <button
+                        type="button"
+                        className="cover-image-delete-btn"
+                        onClick={handleRemoveCoverImage}
+                        disabled={isSubmitting}
+                        aria-label="Eliminar imagen"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </>
+                  ) : (
+                    <div className="cover-image-placeholder">
+                      <div className="cover-image-icon">
+                        <Image size={32} />
+                      </div>
+                      <p>Haz clic para subir una imagen de portada</p>
+                      <span className="cover-image-note">
+                        Si no subes una imagen, se utilizará la primera imagen
+                        del contenido
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group editor-container">
+              <label>Contenido</label>
+              <div
+                className="rich-editor-wrapper"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <RichTextEditor
+                  value={editorContent}
+                  onChange={setEditorContent}
+                  onImageUpload={handleImageUpload}
+                  placeholder="Comienza a escribir tu artículo aquí..."
+                />
+              </div>
+              {/* Hidden validation field */}
+              <input
+                type="hidden"
+                {...register("content", {
+                  validate: () =>
+                    editorContent.length > 0 || "El contenido es obligatorio",
+                })}
+                value={editorContent.length > 0 ? "content" : ""}
+              />
+              {errors.content && (
+                <p className="form-error">{errors.content.message}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="author">Autor</label>
+              <input
+                id="author"
+                type="text"
+                className={`form-input ${errors.author ? "is-invalid" : ""}`}
+                placeholder="Nombre del autor"
+                disabled={isSubmitting}
+                {...register("author")}
               />
             </div>
-            {/* Hidden validation field */}
-            <input
-              type="hidden"
-              {...register("content", {
-                validate: () =>
-                  editorContent.length > 0 || "El contenido es obligatorio",
-              })}
-              value={editorContent.length > 0 ? "content" : ""}
-            />
-            {errors.content && (
-              <p className="form-error">{errors.content.message}</p>
-            )}
-          </div>
 
-          <div className="form-group">
-            <label htmlFor="author">Autor</label>
-            <input
-              id="author"
-              type="text"
-              className={`form-input ${errors.author ? "is-invalid" : ""}`}
-              placeholder="Nombre del autor"
-              disabled={isSubmitting}
-              {...register("author")}
-            />
-          </div>
+            <div className="form-group">
+              <CustomCheckbox
+                id="published"
+                label="Publicar inmediatamente"
+                disabled={isSubmitting}
+                {...register("published")}
+              />
+            </div>
 
-          <div className="form-group">
-            <CustomCheckbox
-              id="published"
-              label="Publicar inmediatamente"
-              disabled={isSubmitting}
-              {...register("published")}
-            />
-          </div>
-
-          <div className="form-actions">
-            <SecondaryButton
-              type="button"
-              onClick={() => router.push("/admin/blog")}
-              disabled={isSubmitting}
-              lightBg={true}
-            >
-              Cancelar
-            </SecondaryButton>
-            <PrimaryButton
-              type="submit"
-              disabled={isSubmitting || editorContent.length === 0}
-            >
-              {isSubmitting ? "Creando..." : "Crear Entrada"}
-            </PrimaryButton>
-          </div>
-        </form>
-      </div>
-      <Footer />
-    </div>
+            <div className="form-actions">
+              <SecondaryButton
+                type="button"
+                onClick={() => router.push("/admin/blog")}
+                disabled={isSubmitting}
+                lightBg={true}
+              >
+                Cancelar
+              </SecondaryButton>
+              <PrimaryButton
+                type="submit"
+                disabled={isSubmitting || editorContent.length === 0}
+              >
+                {isSubmitting ? "Creando..." : "Crear Entrada"}
+              </PrimaryButton>
+            </div>
+          </form>
+        </div>
+      </div>{" "}
+      <Footer />{" "}
+    </>
   );
 }
