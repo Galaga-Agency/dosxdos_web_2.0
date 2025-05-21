@@ -183,23 +183,21 @@
     }
   }
 
+  &__labels-container {
+    @include flex(row, unset, center);
+    gap: 1rem;
+  }
+
   &__featured-category {
-    position: absolute;
-    top: 2rem;
-    left: 10.5rem;
     background-color: rgba($white, 0.85);
     color: $black;
     padding: 0.5rem 1rem;
     font-weight: 600;
     text-transform: uppercase;
     pointer-events: auto;
-    transform: translateX(50px); /* Posición inicial para la animación */
   }
 
   &__featured-image-date {
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
     background-color: rgba($black, 0.85);
     color: white;
     padding: 0.5rem 1rem;

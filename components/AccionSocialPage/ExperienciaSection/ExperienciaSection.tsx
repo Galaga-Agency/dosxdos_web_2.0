@@ -39,7 +39,7 @@ const ExperienciaSection: React.FC = () => {
             <span className="word">NUESTRA</span>{" "}
             <span className="word">EXPERIENCIA</span>
           </h2>
-          <div className="experiencia-section__subtitle">
+          <div className="experiencia-section__subtitle  fade_bottom">
             Más de 35 años transformando el retail con diseños innovadores que
             combinan funcionalidad y estética para crear espacios comerciales
             únicos y memorables.

@@ -6,8 +6,8 @@
 .cookies-page {
   position: relative;
   overflow: hidden;
-  @include section-spacing;
-  @include margin(6xl, y);
+  @include section-padding-y;
+  @include margin(4xl, y);
 
   &__container {
     width: 100%;

@@ -6,8 +6,8 @@
 .aviso-legal-page {
   position: relative;
   overflow: hidden;
-  @include section-spacing;
-  @include margin(6xl, y);
+  @include section-padding-y;
+  @include margin(4xl, y);
 
   &__container {
     width: 100%;
@@ -44,6 +44,7 @@
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;
+    visibility: hidden;
     will-change: transform, opacity;
     @include title-line-height;
 
