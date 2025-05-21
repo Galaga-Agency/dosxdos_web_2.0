@@ -6,10 +6,8 @@ import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 
-// Register GSAP plugins
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
-// Internal imports
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import HeroSection from "@/components/AccionSocialPage/HeroSection/HeroSection";
 import ValuesSection from "@/components/AccionSocialPage/ValuesSection/ValuesSection";
@@ -18,20 +16,15 @@ import ExperienciaSection from "@/components/AccionSocialPage/ExperienciaSection
 import CollaborationsSection from "@/components/AccionSocialPage/CollaborationsSection/CollaborationsSection";
 import AccionSocialCTASection from "@/components/AccionSocialPage/AccionSocialCTASection/AccionSocialCTASection";
 import Footer from "@/components/layout/Footer/footer";
-import { useState } from "react";
+
+import { fadeAnimation, charAnimation } from "@/utils/animations/text-anim";
+import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
+import { panelTwoAnimation } from "@/utils/animations/panel-animation";
+import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
+
 import "./accion-social-page.scss";
 
-// Animation imports
-import { fadeAnimation, charAnimation } from "@/utils/animations/title-anim";
-import { imageParallax } from "@/utils/animations/image-parallax";
-import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
-import { panelTwoAnimation } from "@/utils/animations/components/panel-animation";
-import { initAccionSocialHero } from "@/utils/animations/accion-social-hero-anim";
-
 const AccionSocialPage = () => {
-  const [key] = useState(() => Date.now());
-
-  // Setup smooth scrolling
   useScrollSmooth();
 
   useEffect(() => {
@@ -41,21 +34,13 @@ const AccionSocialPage = () => {
     };
   }, []);
 
-  // Initialize ALL animations at page level
   useGSAP(() => {
     const timer = setTimeout(() => {
-      console.log("Initializing all animations for Accion Social page");
-
-      // Initialize hero animation first for immediate effect
-      initAccionSocialHero();
-
-      // Initialize all the other animations
+      accionSocialHeroAnim();
       fadeAnimation();
       charAnimation();
-      imageParallax();
       initCardMouseParallax();
       panelTwoAnimation();
-
     }, 300);
 
     return () => clearTimeout(timer);
@@ -64,7 +49,7 @@ const AccionSocialPage = () => {
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
-        <div className="accion-social-page" key={key}>
+        <div className="accion-social-page">
           <div className="accion-social-page__container">
             <HeroSection />
             <ValuesSection />
@@ -72,7 +57,6 @@ const AccionSocialPage = () => {
             <ExperienciaSection />
             <CollaborationsSection />
             <AccionSocialCTASection />
-
             <div className="accion-social-page__mobile-social-section">
               <div className="accion-social-page__mobile-social-header">
                 <h3 className="accion-social-page__mobile-social-title">

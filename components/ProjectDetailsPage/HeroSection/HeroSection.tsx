@@ -1,10 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect, useLayoutEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React from "react";
 import { Project } from "@/types/project-types";
-import { initHeroAnimations } from "@/utils/animations/pages/project-details-page-anim";
 import "./HeroSection.scss";
 
 interface HeroSectionProps {
@@ -12,31 +9,6 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
-  // Referencias para las animaciones
-  const heroRef = useRef<HTMLDivElement>(null);
-  const heroImageRef = useRef<HTMLDivElement>(null);
-  const heroTitleRef = useRef<HTMLHeadingElement>(null);
-  const heroSubtitleRef = useRef<HTMLSpanElement>(null);
-  const heroDescriptionRef = useRef<HTMLDivElement>(null);
-  const heroMetaRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    const timer = setTimeout(() => {
-      requestAnimationFrame(() => {
-        initHeroAnimations({
-          heroSection: heroRef.current,
-          heroImage: heroImageRef.current,
-          heroTitle: heroTitleRef.current,
-          heroSubtitle: heroSubtitleRef.current,
-          heroDescription: heroDescriptionRef.current,
-          heroMeta: heroMetaRef.current,
-        });
-      });
-    }, 100); // Reducir a 100ms
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Formatear fecha para mostrar
   const formattedDate = new Date(project.date).toLocaleDateString("es-ES", {
     year: "numeric",
@@ -53,46 +25,35 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
 
   return (
     <section
-      ref={heroRef}
       className="portfolio-hero"
       style={{ backgroundImage: `url(${project.image})` }}
     >
-      <div ref={heroImageRef} className="portfolio-hero__wrapper">
+      <div className="portfolio-hero__wrapper">
         <div className="portfolio-hero__container">
           <div className="portfolio-hero__row">
             <div className="portfolio-hero__col-title">
               <div className="portfolio-hero__title-box">
-                <h1
-                  ref={heroTitleRef}
-                  className="portfolio-hero__title char-animation"
-                >
+                <h1 className="portfolio-hero__title char-animation">
                   {project.title}
                 </h1>
-                <span
-                  ref={heroSubtitleRef}
-                  className="portfolio-hero__subtitle"
-                >
+                <span className="portfolio-hero__subtitle fade_bottom">
                   {getCategoryName(project.category)}
                 </span>
               </div>
             </div>
 
             <div className="portfolio-hero__col-desc">
-              {/* Asegurar que la descripción tenga estructura correcta para SplitText */}
-              <div
-                ref={heroDescriptionRef}
-                className="portfolio-hero__description"
-              >
+              <div className="portfolio-hero__description rollup-text">
                 <p>{project.description}</p>
                 {project.longDescription && (
-                  <p className="portfolio-hero__long-description">
+                  <p className="portfolio-hero__long-description rollup-text">
                     {project.longDescription}
                   </p>
                 )}
               </div>
 
               {/* Asegurar que los metadatos estén estructurados correctamente */}
-              <div ref={heroMetaRef} className="portfolio-hero__meta-wrapper">
+              <div className="portfolio-hero__meta-wrapper">
                 <div className="portfolio-hero__meta">
                   <span>CLIENTE</span>
                   <h5>{project.client}</h5>

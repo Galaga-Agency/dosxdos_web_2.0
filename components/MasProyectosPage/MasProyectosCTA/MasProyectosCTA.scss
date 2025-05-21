@@ -24,35 +24,44 @@
       animation: marquee-scroll 30s linear infinite;
 
       span {
-        @include font-weight(semibold);
-        color: rgba($black, 0.15);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-family: var(--font-display);
+       @include font-weight(semibold);
+      color: rgba($black, 0.15);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-family: var(--font-display);
+      display: inline-block;
+      line-height: 1;
+      vertical-align: middle;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      font-size: 50px;
+
+      @include min-width(md) {
+        font-size: 90px;
+        animation-duration: 400s;
+      }
+
+      @include min-width(lg) {
+        font-size: 120px;
+        animation-duration: 400s;
+      }
+
+      @include min-width(xl) {
+        font-size: 120px;
+        animation-duration: 500s;
+      }
+
+      span {
         display: inline-block;
+        margin: 0;
+        padding: 0;
         line-height: 1;
         vertical-align: middle;
-        will-change: transform;
-        font-size: 50px;
-
-        @include min-width(md) {
-          font-size: 90px;
-          animation-duration: 400s;
-        }
-
-        @include min-width(lg) {
-          font-size: 120px;
-          animation-duration: 400s;
-        }
-
-        @include min-width(xl) {
-          font-size: 120px;
-          animation-duration: 500s;
-        }
-
+      }
         &.dot {
-          color: rgba($white, 0.5);
-          @include font-size(2xl);
+          color: rgba($black, 0.15);
+          @include font-size(8xl);
           padding-left: 1rem;
           padding-right: 1rem;
         }

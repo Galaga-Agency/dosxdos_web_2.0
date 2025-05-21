@@ -1,14 +1,8 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Project } from "@/types/project-types";
-import {
-  initFadeAnimations,
-  initProcessSectionAnimations,
-} from "@/utils/animations/pages/project-details-page-anim";
 import "./ProjectProcessSection.scss";
 
 interface ProjectProcessSectionProps {
@@ -18,39 +12,6 @@ interface ProjectProcessSectionProps {
 const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
   project,
 }) => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const fullImageRef = useRef<HTMLDivElement>(null);
-  const floatingImage1Ref = useRef<HTMLDivElement>(null);
-  const floatingImage2Ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Register GSAP plugins
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Initialize animations with a small delay to ensure DOM is ready
-    setTimeout(() => {
-      // Initialize fade animations
-      initFadeAnimations();
-
-      // Initialize specific process section animations
-      initProcessSectionAnimations({
-        section: sectionRef.current,
-        label: labelRef.current,
-        title: titleRef.current,
-        text: textRef.current,
-        fullImage: fullImageRef.current,
-        imageLeft: floatingImage1Ref.current,
-        imageRight: floatingImage2Ref.current,
-        steps: null,
-      });
-    }, 300);
-  }, []);
-
   // Default process description if not provided
   const processDescription =
     project?.process ||
@@ -74,25 +35,16 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
   const imageSources = hasValidImages ? project.images : defaultImages;
 
   return (
-    <section ref={sectionRef} className="project-process-section">
+    <section className="project-process-section">
       <div className="project-process-section__container">
         <div className="project-process-section__content-wrapper">
-          <h2
-            ref={titleRef}
-            className="project-process-section__title fade_bottom"
-          >
+          <h2 className="project-process-section__title fade_bottom">
             Simple & Significant
           </h2>
 
-          <div
-            ref={textRef}
-            className="project-process-section__text fade_bottom"
-          >
+          <div className="project-process-section__text">
             <div className="project-process-section__text-label">
-              <div
-                ref={labelRef}
-                className="project-process-section__label fade_bottom"
-              >
+              <div className="project-process-section__label">
                 <span>El Proceso</span>
               </div>
               <p>{processDescription}</p>
@@ -101,7 +53,7 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
         </div>
       </div>
 
-      <div ref={fullImageRef} className="project-process-section__full-image">
+      <div className="project-process-section__full-image">
         <div className="project-process-section__image-container">
           <Image
             src={imageSources[0]}
@@ -115,10 +67,7 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
       </div>
 
       <div className="project-process-section__floating-images">
-        <div
-          ref={floatingImage1Ref}
-          className="project-process-section__floating-image project-process-section__floating-image--1 fade_bottom"
-        >
+        <div className="project-process-section__floating-image project-process-section__floating-image--1 fade_bottom">
           <div className="project-process-section__floating-image-inner">
             <Image
               src={imageSources[1]}
@@ -131,10 +80,7 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
           </div>
         </div>
 
-        <div
-          ref={floatingImage2Ref}
-          className="project-process-section__floating-image project-process-section__floating-image--2 fade_bottom"
-        >
+        <div className="project-process-section__floating-image project-process-section__floating-image--2 fade_bottom">
           <div className="project-process-section__floating-image-inner">
             <Image
               src={imageSources[2]}

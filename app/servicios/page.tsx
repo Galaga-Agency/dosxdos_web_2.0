@@ -1,49 +1,64 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import useScrollSmooth from "@/hooks/useScrollSmooth";
+import { gsap } from "gsap";
+import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
+
 import ServiciosHero from "@/components/ServiciosPage/ServiciosHero/ServiciosHero";
 import ServiciosList from "@/components/ServiciosPage/AboutServices/AboutServices";
 import ServiciosRecentProjects from "@/components/ServiciosPage/ServiciosRecentProjects/ServiciosRecentProjects";
 import ServicesGrid from "@/components/ServiciosPage/ServicesGrid/ServicesGrid";
 import VisionSection from "@/components/ServiciosPage/VisionSection/VisionSection";
-import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "@/plugins";
-import { cleanupServiciosAnimations } from "@/utils/animations/pages/servicios-page-anim";
-import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
-import "./servicios-page.scss";
 import Footer from "@/components/layout/Footer/footer";
 
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
+import { imageRevealAnimation } from "@/utils/animations/image-reveal-anim";
+import { projectHoverAnim } from "@/utils/animations/projects-hover-anim";
+import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
+import { animateServiciosHero } from "@/utils/animations/servicios-hero";
+
+import "./servicios-page.scss";
 
 const ServiciosPage: React.FC = () => {
-  // Force component remount on each page visit
-  const [key] = useState(() => Date.now());
+  useScrollSmooth();
 
   useEffect(() => {
-    // Initialize ScrollTrigger configuration once
-    initScrollTriggerConfig();
-
-    // Cleanup animations when component unmounts
+    document.body.classList.add("smooth-scroll");
     return () => {
-      cleanupServiciosAnimations();
+      document.body.classList.remove("smooth-scroll");
     };
   }, []);
 
+  useGSAP(() => {
+    const timer = setTimeout(() => {
+      fadeAnimation();
+      charAnimation();
+      imageRevealAnimation();
+      cursorBubbleAnimation();
+      animateServiciosHero();
+      projectHoverAnim();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  });
+
   return (
-    <SmoothScrollWrapper showBackToTop={false}>
-      <main className="servicios-page" key={key}>
-        <ServiciosHero key={`hero-${key}`} />
-        <ServiciosRecentProjects key={`projects-${key}`} />
-        <ServiciosList key={`list-${key}`} />
-        <ServicesGrid key={`grid-${key}`} />
-        <VisionSection key={`vision-${key}`} />
-      </main>
-      <Footer />
-    </SmoothScrollWrapper>
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main className="servicios-page">
+          <ServiciosHero />
+          <ServiciosRecentProjects />
+          <ServiciosList />
+          <ServicesGrid />
+          <VisionSection />
+        </main>
+        <Footer />
+      </div>
+    </div>
   );
 };
 

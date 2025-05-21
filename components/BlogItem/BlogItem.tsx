@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BlogPost } from "@/types/blog-post-types";
-import { formatDate } from "@/utils/formatting/dateFormatting";
+import { formatDate } from "@/utils/dateFormatting";
 import "./BlogItem.scss";
 
 interface BlogItemProps {

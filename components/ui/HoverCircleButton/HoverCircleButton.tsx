@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   hoverCircleButtonAnimation,
   cleanupHoverCircleButton,
-} from "@/utils/animations/components/hover-btn";
+} from "@/utils/animations/hover-btn";
 import { GoArrowUpRight } from "react-icons/go";
 import "./HoverCircleButton.scss";
 

@@ -1,21 +1,14 @@
+"use client";
+
 import React from "react";
 import "./MasProyectosHeader.scss";
 
-interface MasProyectosHeaderProps {
-  titleRef: React.RefObject<HTMLHeadingElement>;
-}
-
-const MasProyectosHeader: React.FC<MasProyectosHeaderProps> = ({
-  titleRef,
-}) => {
+const MasProyectosHeader: React.FC = () => {
   return (
     <div className="mas-proyectos-header">
       <div className="mas-proyectos-header__content">
         <p className="mas-proyectos-header__label">dosxdos</p>
-        <h1
-          className="mas-proyectos-header__title char-animation"
-          ref={titleRef}
-        >
+        <h1 className="mas-proyectos-header__title char-animation">
           Nuestros últimos y gran proyectos
         </h1>
         <p className="mas-proyectos-header__description">

@@ -28,26 +28,34 @@
   }
 
   &__header {
-    @include margin(3xl, bottom);
     position: relative;
+    width: 100%;
+    @include margin(3xl, bottom);
+  }
+
+  &__label {
+    @include font-size(lg);
+    @include font-weight(medium);
+    @include margin(md, bottom);
+    color: $black;
+    display: block;
+
+    @include min-width(xl) {
+      position: absolute;
+      left: 0;
+      top: -4rem;
+    }
   }
 
   &__title {
     @include font-size(3xl);
     @include font-weight(semibold);
     @include title-line-height;
+    margin: 0 auto;
+    text-align: center;
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;
-
-    .title-row {
-      display: block;
-      @include margin(3xs, bottom);
-
-      @include min-width(xl) {
-        white-space: nowrap;
-      }
-    }
 
     @include min-width(xs) {
       @include font-size(5xl);
@@ -58,8 +66,15 @@
     }
 
     @include min-width(md) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(xl) {
       @include font-size(7xl);
-      text-align: center;
+    }
+
+    @include min-width(xl) {
+      @include font-size(8xl);
     }
   }
 

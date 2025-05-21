@@ -1,15 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Image from "next/image";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Project } from "@/types/project-types";
-import {
-  movingImageSlider,
-  imageRevealAnimation,
-  initFadeAnimations,
-} from "@/utils/animations/pages/project-details-page-anim";
 import "./ProjectObjectiveSection.scss";
 
 interface ProjectObjectiveSectionProps {
@@ -19,49 +12,17 @@ interface ProjectObjectiveSectionProps {
 const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
   project,
 }) => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Register GSAP plugins
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Initialize animations after DOM is ready
-    setTimeout(() => {
-      // Initialize fade animations
-      initFadeAnimations();
-
-      // Initialize gallery animations
-      movingImageSlider();
-      imageRevealAnimation();
-    }, 300);
-  }, []);
-
   return (
-    <section ref={sectionRef} className="project-objective-section">
+    <section className="project-objective-section">
       <div className="project-objective-section__container">
         <div className="project-objective-section__content-wrapper">
-          <h2
-            ref={titleRef}
-            className="project-objective-section__title fade_bottom"
-          >
+          <h2 className="project-objective-section__title fade_bottom">
             Simple & Significant
           </h2>
 
-          <div
-            ref={textRef}
-            className="project-objective-section__text fade_bottom"
-          >
+          <div className="project-objective-section__text">
             <div className="project-objective-section__text-label">
-              <div
-                ref={labelRef}
-                className="project-objective-section__label fade_bottom"
-              >
+              <div className="project-objective-section__label">
                 <span>Objective</span>
               </div>
               <p>
@@ -74,7 +35,7 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
       </div>
 
       <div className="project-objective-section__image-column">
-        <div ref={galleryRef} className="project-objective-section__gallery">
+        <div className="project-objective-section__gallery">
           <div className="moving-gallery slider-wrap-top">
             <div className="wrapper-gallery">
               {project.images.slice(0, 4).map((imgSrc, i) => (

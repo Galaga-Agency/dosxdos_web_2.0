@@ -152,10 +152,9 @@ function charAnimation(current?: any) {
   });
 }
 
-// fade left animation
 function fadeAnimation() {
   if ($(".fade_bottom").length > 0) {
-    gsap.set(".fade_bottom", { y: 100, opacity: 0 });
+    gsap.set(".fade_bottom", { y: 100, opacity: 0, visibility: "visible" });
     const fadeArray = gsap.utils.toArray(".fade_bottom");
     fadeArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
@@ -175,7 +174,7 @@ function fadeAnimation() {
   }
 
   if ($(".fade_top").length > 0) {
-    gsap.set(".fade_top", { y: -100, opacity: 0 });
+    gsap.set(".fade_top", { y: -100, opacity: 0, visibility: "visible" });
     const fadetopArray = gsap.utils.toArray(".fade_top");
     fadetopArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
@@ -195,7 +194,7 @@ function fadeAnimation() {
   }
 
   if ($(".fade_left").length > 0) {
-    gsap.set(".fade_left", { x: -100, opacity: 0 });
+    gsap.set(".fade_left", { x: -100, opacity: 0, visibility: "visible" });
     const fadeleftArray = gsap.utils.toArray(".fade_left");
     fadeleftArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
@@ -215,7 +214,7 @@ function fadeAnimation() {
   }
 
   if ($(".fade_right").length > 0) {
-    gsap.set(".fade_right", { x: 100, opacity: 0 });
+    gsap.set(".fade_right", { x: 100, opacity: 0, visibility: "visible" });
     const faderightArray = gsap.utils.toArray(".fade_right");
     faderightArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
@@ -500,9 +499,9 @@ function zoomAnimation() {
   }
 }
 
-function titleAnimation() {
-  if ($(".title_anim").length > 0) {
-    let splitTitleLines = gsap.utils.toArray(".title_anim");
+function rollUpTextAnimation() {
+  if ($(".rollup-text").length > 0) {
+    let splitTitleLines = gsap.utils.toArray(".rollup-text");
     splitTitleLines.forEach((splitTextLine: any) => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -518,7 +517,11 @@ function titleAnimation() {
       const itemSplitted = new SplitText(splitTextLine, {
         type: "words, lines",
       });
-      gsap.set(splitTextLine, { perspective: 400, opacity: 1 });
+      gsap.set(splitTextLine, {
+        perspective: 400,
+        opacity: 1,
+        visibility: "visible",
+      });
       itemSplitted.split({ type: "lines" });
       tl.from(itemSplitted.lines, {
         duration: 1,
@@ -542,5 +545,5 @@ export {
   revelAnimationTwo,
   revelAnimationOne,
   zoomAnimation,
-  titleAnimation,
+  rollUpTextAnimation,
 };
