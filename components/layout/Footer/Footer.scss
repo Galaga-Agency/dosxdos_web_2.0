@@ -9,7 +9,7 @@
   background: $black;
   color: $white;
   overflow: hidden;
-  padding: 4rem 1.5rem 3rem;
+  @include section-padding-y;
   @include z-index(above);
 
   // Subtle decorative elements similar to other sections
@@ -33,14 +33,6 @@
       width: 80px;
       height: 80px;
     }
-  }
-
-  @include min-width(md) {
-    padding: 5rem 2rem 3rem;
-  }
-
-  @include min-width(lg) {
-    padding: 6rem 2rem 10rem 2rem;
   }
 
   // Container layout

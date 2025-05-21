@@ -1,34 +1,65 @@
 import { gsap } from "gsap";
+import { ScrollTrigger } from "@/plugins";
 
 function imageRevealAnimation() {
-   const tp_img_reveal = document.querySelectorAll(".tp_img_reveal");
-   if(tp_img_reveal.length > 0) {
-     tp_img_reveal.forEach((img_reveal) => {
-       let image = img_reveal.querySelector("img");
-       let tl = gsap.timeline({
-         scrollTrigger: {
-           trigger: img_reveal,
-           start: "top 70%",
-         }
-       });
-       
-       tl.set(img_reveal, { autoAlpha: 1 });
-       
-       tl.from(img_reveal, {
-         xPercent: -100,
-         ease: "power2.out",
-         duration: 1.5
-       });
-       
-       tl.from(image, {
-         xPercent: 100,
-         scale: 1.5,
-         delay: -1.5,
-         ease: "power2.out",
-         duration: 1.5
-       });
-     });
-   }
+  if (typeof window === "undefined") return;
+
+  const imgRevealElements = document.querySelectorAll(".img_reveal");
+  if (imgRevealElements.length === 0) return;
+
+  imgRevealElements.forEach((imgReveal) => {
+    const image = imgReveal.querySelector("img");
+    const overlay = imgReveal.querySelector(".img_reveal__overlay");
+    const gridItem = imgReveal.closest(".services-grid__item");
+    const content = gridItem?.querySelector(".services-grid__content");
+
+    if (!image) return;
+
+    // Initially hide overlay and content
+    if (overlay) gsap.set(overlay, { autoAlpha: 0 });
+    if (content) gsap.set(content, { autoAlpha: 0 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: ScrollTrigger.create({
+        trigger: imgReveal,
+        start: "top 70%",
+      }),
+    });
+
+    // Keep your original animation
+    tl.set(imgReveal, { autoAlpha: 1 })
+      .from(imgReveal, {
+        duration: 1.5,
+        xPercent: -100,
+        ease: "power2.out",
+      })
+      .from(image, {
+        duration: 1.5,
+        xPercent: 100,
+        scale: 1.5,
+        delay: -1.5,
+        ease: "power2.out",
+      });
+
+    // After main animation completes, show overlay and content
+    if (overlay) {
+      tl.to(overlay, {
+        autoAlpha: 1,
+        duration: 0.3,
+      });
+    }
+
+    if (content) {
+      tl.to(
+        content,
+        {
+          autoAlpha: 1,
+          duration: 0.3,
+        },
+        "-=0.1"
+      ); // Slightly overlap with overlay animation
+    }
+  });
 }
 
 export { imageRevealAnimation };

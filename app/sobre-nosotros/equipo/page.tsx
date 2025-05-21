@@ -6,7 +6,6 @@ import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
 
-// Register GSAP plugins
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
@@ -17,18 +16,19 @@ import StatsSection from "@/components/EquipoPage/StatsSection/StatsSection";
 import ClientsSection from "@/components/EquipoPage/ClientsSection/ClientsSection";
 import CTASection from "@/components/EquipoPage/CTASection/CTASection";
 import Footer from "@/components/layout/Footer/footer";
-import { useState } from "react";
-import { charAnimation, fadeAnimation, titleAnimation } from "@/utils/animations/title-anim";
-import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
+
+import {
+  charAnimation,
+  fadeAnimation,
+  rollUpTextAnimation,
+} from "@/utils/animations/text-anim";
+import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
 import { initStatsCounter } from "@/utils/animations/stats-counter";
 
-import "./equipo-page.scss"; // Import Equatable CSS for smooth scrolling
+import "./equipo-page.scss";
 
 const EquipoPage = () => {
-  const [key] = useState(() => Date.now());
-
-  // Setup smooth scrolling
   useScrollSmooth();
 
   useEffect(() => {
@@ -39,16 +39,14 @@ const EquipoPage = () => {
     };
   }, []);
 
-  // Initialize ALL animations at page level
   useGSAP(() => {
     const timer = setTimeout(() => {
-      // Initialize all the animations
       fadeAnimation();
       charAnimation();
       initCardMouseParallax();
       imageParallax();
       initStatsCounter();
-      titleAnimation();
+      rollUpTextAnimation();
     }, 300);
 
     return () => clearTimeout(timer);
@@ -57,7 +55,7 @@ const EquipoPage = () => {
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
-        <div className="equipo-page" key={key}>
+        <div className="equipo-page">
           <div className="equipo-page__container">
             <HeroSection />
             <StorySection />

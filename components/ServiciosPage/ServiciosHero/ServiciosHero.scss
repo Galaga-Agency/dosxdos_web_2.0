@@ -8,7 +8,6 @@
   width: 100%;
   @include flex(row, center, center);
   @include padding(7xl, top);
-  @include padding(4xl, bottom);
   
   @include min-width(xl) {
     @include padding(10xl, top);

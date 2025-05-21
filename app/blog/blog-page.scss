@@ -1,5 +1,3 @@
-// Modificar el archivo blog-page.scss para evitar el parpadeo
-
 @use "sass:math";
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
@@ -195,7 +193,6 @@
     font-weight: 600;
     text-transform: uppercase;
     pointer-events: auto;
-    opacity: 0; /* Estado inicial para la animación */
     transform: translateX(50px); /* Posición inicial para la animación */
   }
 
@@ -209,8 +206,6 @@
     font-weight: 600;
     text-transform: uppercase;
     pointer-events: auto;
-    opacity: 0; /* Estado inicial para la animación */
-    transform: translateX(-50px); /* Posición inicial para la animación */
   }
 
   &__featured-image-title {
@@ -251,7 +246,6 @@
     color: rgba($white, 0.95);
     max-width: 55ch;
     pointer-events: auto;
-    opacity: 0; /* Estado inicial para la animación */
 
     @include min-width(lg) {
       max-width: 60%;

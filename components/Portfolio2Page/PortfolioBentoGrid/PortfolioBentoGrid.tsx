@@ -1,11 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "./PortfolioBentoGrid.scss";
-import { initBentoRevealForTouchDevices } from "@/utils/animations/pages/portfolio-page-anim";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 interface Project {
   id: string;
@@ -17,41 +15,20 @@ interface Project {
 
 interface PortfolioBentoGridProps {
   projects: Project[];
-  bentoGridRef: React.RefObject<HTMLDivElement>;
 }
 
 const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
   projects,
-  bentoGridRef,
 }) => {
   const router = useRouter();
-  const { isTouchDevice } = useDeviceDetect();
-  const isAnimationInitialized = useRef(false);
 
   // Project click handler
   const handleProjectClick = (projectSlug: string) => {
     router.push(`/portfolio/${projectSlug}`);
   };
 
-  useEffect(() => {
-    // Only initialize once and only for touch devices
-    if (
-      bentoGridRef.current &&
-      isTouchDevice &&
-      !isAnimationInitialized.current
-    ) {
-      initBentoRevealForTouchDevices(bentoGridRef.current);
-      isAnimationInitialized.current = true;
-    }
-
-    // Cleanup function
-    return () => {
-      isAnimationInitialized.current = false;
-    };
-  }, [bentoGridRef, isTouchDevice]);
-
   return (
-    <div className="portfolio-bento" ref={bentoGridRef}>
+    <div className="portfolio-bento">
       {projects.map((project, index) => (
         <div
           key={project.id}
@@ -65,10 +42,10 @@ const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
               src={project.image}
               alt={project.title}
               fill
-              sizes="(max-width: 768px) 100vw, 
-         (max-width: 1200px) 50vw, 
-         (max-width: 1600px) 33vw, 
-         25vw"
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              (max-width: 1600px) 33vw,
+              25vw"
               unoptimized={true}
               quality={90} // Higher quality for important portfolio images
               className="portfolio-bento__image"
@@ -78,7 +55,7 @@ const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
 
           <div className="portfolio-bento__hover-info">
             <span className="portfolio-bento__label">
-              {project.category || "CREATIVE"}
+              {project.category || "CREATIVO"}
             </span>
             <span className="portfolio-bento__title">{project.title}</span>
           </div>

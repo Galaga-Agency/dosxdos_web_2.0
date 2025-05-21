@@ -6,6 +6,7 @@
 .servicios-recent-projects {
   position: relative;
   width: 100%;
+  @include section-padding-y();
 
   &__container {
     margin: 0 auto;
@@ -27,7 +28,6 @@
       @include container-width(unset);
       width: 100vw;
       max-width: 100vw;
-      @include padding(md, y);
     }
   }
 

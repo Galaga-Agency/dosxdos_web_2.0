@@ -1,21 +1,12 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
-import {
-  initFadeAnimations,
-  cleanupServiciosAnimations,
-  imageRevealAnimation,
-  initCursorBubbleAnimation,
-  cleanupCursorBubbleAnimation,
-} from "@/utils/animations/pages/servicios-page-anim";
 import "./ServicesGrid.scss";
 
 const ServicesGrid: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
   // Services array
   const services = [
     {
@@ -59,30 +50,8 @@ const ServicesGrid: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    cleanupServiciosAnimations();
-    cleanupCursorBubbleAnimation();
-
-    // Allow the DOM to fully update before initializing animations
-    const timer = setTimeout(() => {
-      if (sectionRef.current) {
-        console.log("Initializing animations");
-        initFadeAnimations();
-        imageRevealAnimation();
-        initCursorBubbleAnimation();
-      }
-    }, 300);
-
-    return () => {
-      console.log("ServicesGrid unmounting");
-      clearTimeout(timer);
-      cleanupServiciosAnimations();
-      cleanupCursorBubbleAnimation();
-    };
-  }, []);
-
   return (
-    <section className="services-grid" ref={sectionRef}>
+    <section className="services-grid">
       {/* Marquee text at the top */}
       <div className="services-grid__marquee">
         <div className="services-grid__marquee-track">

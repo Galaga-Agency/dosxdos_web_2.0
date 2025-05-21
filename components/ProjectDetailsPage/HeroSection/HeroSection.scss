@@ -253,9 +253,8 @@
     justify-content: center;
     padding: 0.3rem 0.75rem; // Smaller by default
     text-transform: uppercase;
-    background-color: rgba($black, 0.9);
+    background-color: rgba($white, 0.1);
     color: $white;
-    @include border-radius(lg);
     @include font-weight(semibold);
     @include font-size(sm); // Smaller by default
     text-decoration: none;
@@ -263,13 +262,12 @@
     text-align: center;
     position: relative;
     overflow: hidden;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     will-change: transform, background-color, box-shadow;
     box-shadow: 0 4px 15px rgba($black, 0.15),
       inset 0 0 0 1px rgba($white, 0.15), inset 0 0 30px rgba($white, 0.05);
-    opacity: 0; /* Set initial opacity to 0 for animation */
+    opacity: 0;
 
     @include min-width(xxs) {
       padding: 0.4rem 0.9rem;
@@ -394,7 +392,6 @@
   &__meta {
     will-change: transform, opacity;
     margin-bottom: 0.25rem;
-    opacity: 0; /* Set initial opacity to 0 for animation */
 
     @include min-width(xxs) {
       margin-bottom: 0.5rem;

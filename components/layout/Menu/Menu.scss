@@ -44,6 +44,38 @@
     color: $black;
   }
 
+  // Dropdown styling for default (non-scrolled) state
+  .menu__dropdown {
+    background-color: rgba($white, 0.8);
+    backdrop-filter: blur(4px);    color: $black;
+    @include font-weight(semibold);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba($black, 0.05);
+
+    // Top arrow for light dropdown
+    &::before {
+      background-color: rgba($white, 0.9);
+    }
+
+    // Top highlight line for light dropdown
+    &::after {
+      background-color: rgba($black, 0.1);
+    }
+  }
+
+  .menu__dropdown-link {
+    color: rgba($black, 0.75);
+
+    &::before {
+      background-color: $black;
+    }
+
+    &:hover {
+      color: $black;
+      background-color: rgba($black, 0.05);
+    }
+  }
+
   // Scrolled state
   &.menu--scrolled {
     color: $white;
@@ -73,6 +105,37 @@
 
     .menu__admin-badge {
       color: $white;
+    }
+
+    // Dropdown styling for scrolled state (keep the dark style)
+    .menu__dropdown {
+      background-color: rgba($black, 0.85);
+      color: $white;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15),
+        inset 0 0 0 1px rgba($white, 0.05);
+
+      // Top arrow for dark dropdown
+      &::before {
+        background-color: rgba($black, 0.85);
+      }
+
+      // Top highlight line for dark dropdown
+      &::after {
+        background-color: rgba($white, 0.1);
+      }
+    }
+
+    .menu__dropdown-link {
+      color: rgba($white, 0.75);
+
+      &::before {
+        background-color: $white;
+      }
+
+      &:hover {
+        color: $white;
+        background-color: rgba($white, 0.05);
+      }
     }
   }
 
@@ -171,7 +234,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0; // Eliminado para móvil
+    padding: 0; // Reducido para móvil
     height: 85px;
     display: flex;
     align-items: center;
@@ -208,7 +271,6 @@
     padding: 0;
     list-style: none;
     transition: all 0.3s ease;
-    text-transform: capitalize;
 
     // Special handling for Mac Retina displays
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
@@ -227,7 +289,6 @@
 
   &__nav-link,
   &__nav-button {
-    text-transform: capitalize;
     @include font-weight(semibold);
     position: relative;
     @include padding(xs, y);
@@ -279,7 +340,7 @@
     }
   }
 
-  // Dropdown menu
+  // Dropdown menu - default styling moved to parent context
   &__dropdown {
     position: absolute;
     top: calc(100% + 0.5rem);
@@ -287,21 +348,17 @@
     transform: translateX(-50%) translateY(10px);
     min-width: 250px;
     width: auto;
-    background-color: rgba($black, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     @include border-radius(md);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15),
-      inset 0 0 0 1px rgba($white, 0.05);
     @include padding(md, y);
     opacity: 0;
     visibility: hidden;
     @include z-index(menu);
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
-    color: $white; // Always white text in dropdowns
 
-    // Top arrow
+    // Top arrow - color set in parent context
     &::before {
       content: "";
       position: absolute;
@@ -310,11 +367,10 @@
       transform: translateX(-50%) rotate(45deg);
       width: 16px;
       height: 16px;
-      background-color: rgba($black, 0.85);
       @include border-radius(sm);
     }
 
-    // Top highlight line
+    // Top highlight line - color set in parent context
     &::after {
       content: "";
       position: absolute;
@@ -322,7 +378,6 @@
       left: 15%;
       right: 15%;
       height: 1px;
-      background-color: rgba($white, 0.1);
     }
 
     &--active {
@@ -344,7 +399,6 @@
     display: block;
     @include padding(xs, y);
     @include padding(md, x);
-    color: rgba($white, 0.75);
     text-decoration: none;
     text-wrap: nowrap;
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -363,15 +417,12 @@
       width: 0;
       height: 4px;
       @include border-radius(sm);
-      background-color: $white;
       opacity: 0;
       transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     }
 
     &:hover {
-      color: $white;
       padding-left: 2rem;
-      background-color: rgba($white, 0.05);
 
       &::before {
         width: 8px;

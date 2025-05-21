@@ -6,7 +6,7 @@ import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButt
 import "./AccionSocialCTASection.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 
-const AccionSocialCTASection: React.FC = () => {
+const AccionSocialCTASection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { isMobile } = useDeviceDetect();
 
@@ -29,17 +29,17 @@ const AccionSocialCTASection: React.FC = () => {
         {/* Content area with two columns */}
         <div className="cta-section__content">
           <div
-            className="cta-section__visual-column parallax-container"
+            className="cta-section__visual-column"
             data-speed={isMobile ? "0" : "1.3"}
           >
-            <div className="cta-section__image parallax-inner">
+            <div className="cta-section__image-wrapper">
               <Image
                 src="/assets/img/team/dospodos_personal_oficina-3.webp"
                 alt="Equipo Dos Por Dos"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
-                data-speed="1"
+                unoptimized={true}
               />
             </div>
           </div>
@@ -61,7 +61,7 @@ const AccionSocialCTASection: React.FC = () => {
               </p>
             </div>
 
-            <div className="cta-section__cta fade_right">
+            <div className="cta-section__cta">
               <HoverCircleButton
                 href="/sobre-nosotros/equipo"
                 label="Conocer al Equipo"

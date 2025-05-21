@@ -5,7 +5,7 @@ import Link from "next/link";
 import { PhoneCall, Mail, ArrowRight, ChevronRight } from "lucide-react";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Image from "next/image";
-import { initFooterAnimations } from "@/utils/animations/components/footer-anim";
+import { initFooterAnimations } from "@/utils/animations/footer-anim";
 import logo from "@/public/assets/img/logo/logo_full_negro.png";
 import "./Footer.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
@@ -67,9 +67,6 @@ const Footer = () => {
 
   return (
     <footer className="footer" ref={footerRef}>
-      <div className="footer__decor-circle"></div>
-      <div className="footer__decor-line"></div>
-
       <div className="footer__container">
         <div className="footer__main">
           {/* Brand Section */}
@@ -112,37 +109,37 @@ const Footer = () => {
               <h4>Servicios</h4>
               <ul>
                 <li>
-                  <Link href="/servicios/interiorismo-comercial">
+                  <Link href="/servicios/diseno-de-interiores">
                     <span>Diseño de Interiores</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/servicios/produccion-digital">
+                  <Link href="/servicios/eventos">
                     <span>Eventos</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/servicios/perfumeria">
+                  <Link href="/servicios/produccion">
                     <span>Producción</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/servicios/shop-in-shop">
+                  <Link href="/servicios/logistica">
                     <span>Logística</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/servicios/escaparatismo">
+                  <Link href="/servicios/communicacion">
                     <span>Comunicación</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/servicios/espacios-promocionales">
+                  <Link href="/servicios/consultoria">
                     <span>Consultoría</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
@@ -153,7 +150,7 @@ const Footer = () => {
               <h4>Navegación</h4>
               <ul>
                 <li>
-                  <Link href="/sobre-nosotros">
+                  <Link href="/sobre-nosotros/equipo">
                     <span>Sobre Nosotros</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>

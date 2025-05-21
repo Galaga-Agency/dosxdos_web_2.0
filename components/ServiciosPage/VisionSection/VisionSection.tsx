@@ -1,47 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Image from "next/image";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "@/plugins";
-import {
-  initFadeAnimations,
-  cleanupServiciosAnimations,
-} from "@/utils/animations/pages/servicios-page-anim";
 import "./VisionSection.scss";
 
-// Ensure GSAP plugins are registered
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
 const VisionSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (sectionRef.current) {
-      setTimeout(() => {
-        initFadeAnimations();
-
-        // Force refresh to ensure ScrollSmoother picks up data-speed attributes
-        setTimeout(() => {
-          if ((window as any).__smoother__) {
-            console.log("Refreshing ScrollSmoother");
-            (window as any).__smoother__.refresh();
-          }
-          ScrollTrigger.refresh();
-        }, 100);
-      }, 300);
-    }
-
-    return () => {
-      cleanupServiciosAnimations();
-    };
-  }, []);
-
   return (
-    <section className="vision-section" ref={sectionRef}>
+    <section className="vision-section">
       <div className="vision-section__top">
         <div className="vision-section__container">
           <div className="vision-section__title-box">

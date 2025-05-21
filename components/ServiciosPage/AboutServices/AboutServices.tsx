@@ -1,40 +1,15 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
-import {
-  initFadeAnimations,
-  cleanupServiciosAnimations,
-} from "@/utils/animations/pages/servicios-page-anim";
+import React from "react";
 import "./AboutServices.scss";
 
 const AboutServices: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    console.log("AboutServices mounted");
-
-    // Larger delay to ensure DOM is fully rendered
-    const timer = setTimeout(() => {
-      console.log("Initializing animations");
-      // Initialize fade animations
-      initFadeAnimations();
-    }, 300);
-
-    return () => {
-      console.log("AboutServices unmounting");
-      // Clear the timeout on unmount
-      clearTimeout(timer);
-      // Clean up animations
-      cleanupServiciosAnimations();
-    };
-  }, []);
-
   return (
-    <section className="about-services" ref={sectionRef}>
+    <section className="about-services">
       <div className="about-services__container">
         <div className="about-services__header">
-          <div className="about-services__subtitle fade_bottom">
-            Más de 35 años de experiencia
+          <div className="about-services__label fade_bottom">
+            Más de 37 años de experiencia
           </div>
           <h2 className="about-services__title">
             <div className="title-row fade_bottom">

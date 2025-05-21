@@ -45,7 +45,7 @@ const CTASection: React.FC = () => {
 
           {/* Right column with image */}
           <div className="cta-section__image-column">
-            <div className="cta-section__image-wrapper" data-speed="1">
+            <div className="cta-section__image-wrapper" data-speed="1.3">
               <Image
                 src="/assets/img/about-us-page/accion-social-cta.webp"
                 alt="Acción Social"
@@ -53,7 +53,6 @@ const CTASection: React.FC = () => {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
                 className="cta-section__image"
-                data-speed="1"
               />
             </div>
           </div>

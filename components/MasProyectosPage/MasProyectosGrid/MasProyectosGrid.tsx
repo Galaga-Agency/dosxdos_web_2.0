@@ -1,4 +1,3 @@
-// components/MasProyectosGrid.tsx
 "use client";
 
 import React, { useEffect, useRef } from "react";
@@ -22,13 +21,9 @@ interface Project {
 
 interface MasProyectosGridProps {
   projects: Project[];
-  projectsGridRef: React.RefObject<HTMLDivElement>;
 }
 
-const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
-  projects,
-  projectsGridRef,
-}) => {
+const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
   const { isMobile } = useDeviceDetect();
   const projectItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
@@ -46,7 +41,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
   );
 
   return (
-    <div className="mas-proyectos-grid" ref={projectsGridRef}>
+    <div className="mas-proyectos-grid">
       {projects.slice(0, 6).map((project, index) => (
         <Link
           key={project.id}

@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
 
-// Register GSAP plugins
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
-// Internal imports
 import HeroSlider from "@/components/Homepage/HeroSlider/HeroSlider";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
 import AboutUsSection from "@/components/Homepage/AboutUsSection/AboutUsSection";
@@ -17,14 +15,15 @@ import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSecti
 import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSection/FeaturedprojectsSection";
 import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import Footer from "@/components/layout/Footer/footer";
+
 import { BlogPost } from "@/types/blog-post-types";
-import { useState } from "react";
-import { charAnimation, fadeAnimation } from "@/utils/animations/title-anim";
-import { panelTwoAnimation } from "@/utils/animations/components/panel-animation";
+
+import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
+import { panelTwoAnimation } from "@/utils/animations/panel-animation";
 import { imageParallax } from "@/utils/animations/image-parallax";
 import { initHeroSlider } from "@/utils/animations/homepage-hero";
-import { initCardMouseParallax } from "@/utils/animations/components/card-hover-anim";
-import { hoverCircleButtonAnimation } from "@/utils/animations/components/hover-btn";
+import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
+import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
 
 // Slider data
 const heroSlides = [
@@ -46,7 +45,6 @@ const HomePage = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Setup smooth scrolling
   useScrollSmooth();
 
   useEffect(() => {
@@ -57,7 +55,6 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch blog posts at page level
     const fetchPosts = async () => {
       try {
         const res = await fetch("/api/blog");
@@ -81,10 +78,8 @@ const HomePage = () => {
     };
   }, []);
 
-  // Initialize ALL animations at page level
   useGSAP(() => {
     const timer = setTimeout(() => {
-      // Initialize all the animations
       fadeAnimation();
       charAnimation();
       initHeroSlider();

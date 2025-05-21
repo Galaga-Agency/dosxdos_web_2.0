@@ -48,7 +48,7 @@ const ExperienciaSection: React.FC = () => {
 
         <div className="experiencia-section__content">
           {experiencias.map((exp) => (
-            <div key={exp.id} className="experiencia-section__item fade_right">
+            <div key={exp.id} className="experiencia-section__item">
               <div className="experiencia-section__item-header">
                 <span className="experiencia-section__item-number">
                   {exp.id}

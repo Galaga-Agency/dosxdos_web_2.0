@@ -1,97 +1,61 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import useScrollSmooth from "@/hooks/useScrollSmooth";
+import { gsap } from "gsap";
+import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
+
 import Image from "next/image";
 import Link from "next/link";
-import { useParallax } from "@/utils/animations/parallax-image";
-import {
-  initBlogPageAnimations,
-  cleanupBlogPageAnimations,
-} from "@/utils/animations/pages/blog-page-anim";
-import { initScrollTriggerConfig } from "@/utils/animations/scrolltrigger-config";
-import "./blog-page.scss";
-import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import BlogItem from "@/components/BlogItem/BlogItem";
 import Pagination from "@/components/ui/Pagination/Pagination";
 import usePagination from "@/hooks/usePagination";
-import { formatDate } from "@/utils/formatting/dateFormatting";
+import { formatDate } from "@/utils/dateFormatting";
 import { BlogPost } from "@/types/blog-post-types";
 import Loading from "@/components/ui/Loading/Loading";
 import Footer from "@/components/layout/Footer/footer";
-import gsap from "gsap";
+
+import {
+  charAnimation,
+  fadeAnimation,
+  rollUpTextAnimation,
+} from "@/utils/animations/text-anim";
+import { featuredImageAnimation } from "@/utils/animations/blog-featured-image-anim";
+import { blogItemsAnimation } from "@/utils/animations/blog-items-anim";
+
+import "./blog-page.scss";
 
 const BlogPage: React.FC = () => {
-  // Force component remount on each page visit
-  const [key] = useState(() => Date.now());
+  useScrollSmooth();
+
   const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [itemsPerPage, setItemsPerPage] = useState(3);
 
-  // Refs for animations
-  const imageContainerRef = useRef<HTMLDivElement | null>(null);
-  const imageRef = useRef<HTMLDivElement | null>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const featuredDateRef = useRef<HTMLDivElement>(null);
-  const featuredCategoryRef = useRef<HTMLDivElement>(null);
-  const postsSectionRef = useRef<HTMLDivElement>(null);
-  const postsGridRef = useRef<HTMLDivElement>(null);
-  const desktopSocialCtaRef = useRef<HTMLDivElement>(null);
-
-  // Determine items per page based on screen size
   useEffect(() => {
     const handleResize = () => {
-      // Tablet range (768px to 991px)
       if (window.innerWidth >= 768 && window.innerWidth < 992) {
-        setItemsPerPage(2); // Show 2 items on tablets
+        setItemsPerPage(2);
       } else {
-        setItemsPerPage(3); // Default 3 items for mobile (1 column) and desktop (3 columns)
+        setItemsPerPage(3);
       }
     };
 
-    // Set initial value
     handleResize();
-
-    // Add event listener
     window.addEventListener("resize", handleResize);
 
-    // Clean up
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  // Get only published blog posts
-  const publishedBlogItems = blogItems.filter(
-    (post) => post.published === true
-  );
-
-  const first_blog = publishedBlogItems[0];
-  const other_blogs = publishedBlogItems.slice(1);
-
-  const { currentItems, handlePageClick, pageCount, currentPage } =
-    usePagination({
-      items: other_blogs,
-      itemsPerPage: itemsPerPage,
-    });
-
-  // Setup parallax effect for featured image
-  useParallax(
-    imageContainerRef as React.RefObject<HTMLElement>,
-    imageRef as React.RefObject<HTMLElement>,
-    {
-      intensity: 0.25,
-      scrubAmount: 1.2,
-      delay: 500,
-    }
-  );
-
-  // Unified useEffect that handles initialization, data fetching, and cleanup
   useEffect(() => {
-    // Initialize ScrollTrigger configuration once
-    initScrollTriggerConfig();
+    document.body.classList.add("smooth-scroll");
 
-    // Fetch blog posts
     const fetchPosts = async () => {
       try {
         const res = await fetch("/api/blog");
@@ -106,184 +70,162 @@ const BlogPage: React.FC = () => {
 
     fetchPosts();
 
-    // Initialize animations when data is available and component is mounted
-    const timer = setTimeout(() => {
-      if (!loading) {
-        initBlogPageAnimations({
-          imageContainer: imageContainerRef.current,
-          image: imageRef.current,
-          title: titleRef.current,
-          featuredDate: featuredDateRef.current,
-          featuredCategory: featuredCategoryRef.current,
-          postsSection: postsSectionRef.current,
-          postsGrid: postsGridRef.current,
-          desktopSocialCta: desktopSocialCtaRef.current,
-        });
-      }
-    }, 300);
-
-    // Cleanup on unmount
     return () => {
-      clearTimeout(timer);
-      cleanupBlogPageAnimations();
+      document.body.classList.remove("smooth-scroll");
     };
-  }, [loading]);
+  }, []);
+
+  const publishedBlogItems = blogItems.filter(
+    (post) => post.published === true
+  );
+
+  const first_blog = publishedBlogItems[0];
+  const other_blogs = publishedBlogItems.slice(1);
+
+  const { currentItems, handlePageClick, pageCount, currentPage } =
+    usePagination({
+      items: other_blogs,
+      itemsPerPage: itemsPerPage,
+    });
+
+  useGSAP(() => {
+    if (!loading && first_blog) {
+      const timer = setTimeout(() => {
+        fadeAnimation();
+        charAnimation();
+        rollUpTextAnimation();
+        featuredImageAnimation();
+        blogItemsAnimation();
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [loading, first_blog]);
+
+  const prevPageRef = useRef(currentPage);
 
   useEffect(() => {
-    if (!loading && currentItems.length > 0) {
-      // Wait for DOM to update
-      const timeout = setTimeout(() => {
-        const items = document.querySelectorAll(".blog-page__post-item");
-        if (items.length > 0) {
-          gsap.set(items, { opacity: 0, y: 40 });
-          gsap.to(items, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: "power3.out",
-          });
-        }
-      }, 50);
-
-      return () => clearTimeout(timeout);
+    if (prevPageRef.current !== currentPage) {
+      const postItems = document.querySelectorAll(".blog-page__post-item");
+      gsap.set(postItems, { opacity: 0, y: 40 });
+      gsap.to(postItems, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.3,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+      prevPageRef.current = currentPage;
     }
-  }, [currentItems, loading]);
+  }, [currentPage]);
 
   return (
-    <SmoothScrollWrapper>
-      <div className="blog-page" key={key}>
-        {loading || !first_blog ? (
-          <Loading />
-        ) : (
-          <div className="blog-page__container">
-            <div className="blog-page__featured-section">
-              {/* Separate offset background */}
-              <div className="blog-page__featured-offset-background"></div>
-
-              {/* Background Image Container */}
-              <div
-                ref={imageContainerRef}
-                className="blog-page__featured-image-container"
-              >
-                {/* Image wrapper with the background image */}
-                <div
-                  ref={imageRef}
-                  className="blog-page__featured-image-wrapper"
-                >
-                  <Image
-                    src={
-                      first_blog?.coverImage ||
-                      "/assets/img/default-blog-image.jpg"
-                    }
-                    alt={first_blog?.title}
-                    fill
-                    priority
-                    style={{
-                      objectFit: "cover",
-                      objectPosition: "center",
-                      willChange: "transform",
-                    }}
-                  />
-                </div>
-
-                {/* Image overlay that darkens the image */}
-                <div className="blog-page__featured-image-overlay"></div>
-              </div>
-              <div className="blog-page__featured-content-container">
-                <Link
-                  href={`/blog/${first_blog?.slug}`}
-                  className="blog-page__featured-content-link"
-                >
-                  <div
-                    ref={featuredDateRef}
-                    className="blog-page__featured-image-date"
-                  >
-                    {formatDate(first_blog?.date)}
-                  </div>
-                  <div
-                    ref={featuredCategoryRef}
-                    className="blog-page__featured-category"
-                  >
-                    <span>{first_blog?.category}</span>
-                  </div>
-                  <h1
-                    ref={titleRef}
-                    className="blog-page__featured-image-title char-animation"
-                  >
-                    {first_blog?.title}
-                  </h1>
-                  <div className="blog-page__featured-excerpt">
-                    <p>{first_blog?.excerpt}</p>
-                    <span className="blog-page__featured-read-more">
-                      Leer más <span className="arrow">→</span>
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-            <div
-              ref={postsSectionRef}
-              className="blog-page__posts-section"
-              id="pagination-section"
-            >
-              <h2 className="posts-title">Artículos Recientes</h2>
-
-              <div ref={postsGridRef} className="posts-grid">
-                {currentItems.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="blog-page__post-item"
-                    style={{ opacity: 0 }} // Asegurarse de que inicialmente esté oculto
-                  >
-                    <BlogItem
-                      key={`blog-item-${key}-${item.id}`}
-                      item={item}
-                      index={index}
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <div className="blog-page">
+          {loading || !first_blog ? (
+            <Loading />
+          ) : (
+            <div className="blog-page__container">
+              <div className="blog-page__featured-section">
+                <div className="blog-page__featured-offset-background"></div>
+                <div className="blog-page__featured-image-container">
+                  <div className="blog-page__featured-image-wrapper">
+                    <Image
+                      src={
+                        first_blog?.coverImage ||
+                        "/assets/img/default-blog-image.jpg"
+                      }
+                      alt={first_blog?.title}
+                      fill
+                      priority
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: "center",
+                        willChange: "transform",
+                      }}
                     />
                   </div>
-                ))}
+                  <div className="blog-page__featured-image-overlay"></div>
+                </div>
+                <div className="blog-page__featured-content-container">
+                  <Link
+                    href={`/blog/${first_blog?.slug}`}
+                    className="blog-page__featured-content-link"
+                  >
+                    <div className="blog-page__featured-image-date fade_bottom">
+                      {formatDate(first_blog?.date)}
+                    </div>
+                    <div className="blog-page__featured-category fade_bottom">
+                      <span>{first_blog?.category}</span>
+                    </div>
+                    <h1 className="blog-page__featured-image-title char-animation">
+                      {first_blog?.title}
+                    </h1>
+                    <div className="blog-page__featured-excerpt">
+                      <p>{first_blog?.excerpt}</p>
+                      <span className="blog-page__featured-read-more">
+                        Leer más <span className="arrow">→</span>
+                      </span>
+                    </div>
+                  </Link>
+                </div>
               </div>
 
-              <div className="blog-page__pagination">
-                <Pagination
-                  handlePageClick={(page) =>
-                    handlePageClick({ selected: page })
-                  }
-                  pageCount={pageCount}
-                  currentPage={currentPage}
-                />
-              </div>
-            </div>
+              <div className="blog-page__posts-section" id="pagination-section">
+                <h2 className="posts-title fade_bottom">Artículos Recientes</h2>
 
-            <div className="blog-page__mobile-social-section">
-              <div className="blog-page__mobile-social-header">
-                <h3 className="blog-page__mobile-social-title">Síguenos</h3>
-                <div className="blog-page__mobile-social-divider"></div>
-              </div>
-              <SocialIcons orientation="horizontal" />
-            </div>
+                <div className="posts-grid">
+                  {currentItems.map((item, index) => (
+                    <div
+                      key={item.id}
+                      className="blog-page__post-item fade_bottom"
+                    >
+                      <BlogItem
+                        key={`blog-item-${item.id}`}
+                        item={item}
+                        index={index}
+                      />
+                    </div>
+                  ))}
+                </div>
 
-            <div
-              className="blog-page__desktop-social-cta"
-              ref={desktopSocialCtaRef}
-            >
-              <div className="blog-page__desktop-social-cta-content">
-                <h3>
-                  Mantente actualizado con nuestros últimos{" "}
-                  <span className="highlight">contenidos y proyectos</span>
-                </h3>
-                <div className="blog-page__desktop-social-icons">
-                  <SocialIcons orientation="horizontal" />
+                <div className="blog-page__pagination">
+                  <Pagination
+                    handlePageClick={(page) =>
+                      handlePageClick({ selected: page })
+                    }
+                    pageCount={pageCount}
+                    currentPage={currentPage}
+                  />
+                </div>
+              </div>
+
+              <div className="blog-page__mobile-social-section">
+                <div className="blog-page__mobile-social-header">
+                  <h3 className="blog-page__mobile-social-title">Síguenos</h3>
+                  <div className="blog-page__mobile-social-divider"></div>
+                </div>
+                <SocialIcons orientation="horizontal" />
+              </div>
+
+              <div className="blog-page__desktop-social-cta fade_bottom">
+                <div className="blog-page__desktop-social-cta-content">
+                  <h3>
+                    Mantente actualizado con nuestros últimos{" "}
+                    <span className="highlight">contenidos y proyectos</span>
+                  </h3>
+                  <div className="blog-page__desktop-social-icons">
+                    <SocialIcons orientation="horizontal" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </SmoothScrollWrapper>
+    </div>
   );
 };
 

@@ -63,7 +63,7 @@ const HeroSection: React.FC = () => {
             ></div>
             <div
               ref={descriptionRef}
-              className="hero-section__description title_anim"
+              className="hero-section__description rollup-text"
             >
               <p>
                 Contamos con un equipo multidisciplinar de más de 40 personas —

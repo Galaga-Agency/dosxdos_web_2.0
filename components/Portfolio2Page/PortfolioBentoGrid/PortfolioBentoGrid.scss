@@ -21,7 +21,6 @@
     overflow: hidden;
     cursor: pointer;
     aspect-ratio: 1 / 1;
-    opacity: 0;
 
     @include min-width(lg) {
       aspect-ratio: auto;

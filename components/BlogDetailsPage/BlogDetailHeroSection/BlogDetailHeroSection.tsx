@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { formatDate } from "@/utils/formatting/dateFormatting";
+import { formatDate } from "@/utils/dateFormatting";
 import { BlogPost } from "@/types/blog-post-types";
 import { getImageSource } from "@/utils/editor";
 

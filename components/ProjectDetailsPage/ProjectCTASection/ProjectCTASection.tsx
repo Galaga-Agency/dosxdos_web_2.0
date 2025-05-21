@@ -1,11 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Link from "next/link";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Project } from "@/types/project-types";
-import { animateCTASection } from "@/utils/animations/pages/project-details-page-anim";
 import "./ProjectCTASection.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
@@ -20,46 +17,26 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
   categorySlug = "proyectos",
   categoryName = "proyectos similares",
 }) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Register GSAP plugins
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Initialize animations from utils file
-    animateCTASection({
-      section: sectionRef.current,
-      title: titleRef.current,
-      text: textRef.current,
-      cta: ctaRef.current,
-    });
-  }, []);
-
   return (
-    <section ref={sectionRef} className="project-cta-section">
+    <section className="project-cta-section">
       <div className="project-cta-section__container">
         <div className="project-cta-section__content">
           <span className="project-cta-section__label fade_bottom">
             Inspiración
           </span>
-          <h2 ref={titleRef} className="project-cta-section__title fade_bottom">
+          <h2 className="project-cta-section__title fade_bottom">
             DESCUBRE MÁS
             <br />
             <span className="project-cta-section__title-row-2">
               PROYECTOS ESPECIALES
             </span>
           </h2>
-          <p ref={textRef} className="project-cta-section__text fade_bottom">
+          <p className="project-cta-section__text fade_bottom">
             Explora nuestra colección de {categoryName} y encuentra la
             inspiración para tu próximo proyecto.
           </p>
-          <div ref={ctaRef} className="project-cta-section__button">
-            <PrimaryButton href={`/portfolio-2/mas-proyectos`}>
+          <div className="project-cta-section__button">
+            <PrimaryButton href={`/portfolio/mas-proyectos`}>
               <span className="button-text">Ver más proyectos</span>
               <span className="button-icon">
                 <svg

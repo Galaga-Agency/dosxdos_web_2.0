@@ -88,7 +88,7 @@
 
   &__description {
     @include font-size(lg);
-    visibility: hidden;
+    opacity: 0;
     margin-left: 20%;
     color: $black;
     max-width: 60ch;

@@ -16,11 +16,11 @@ export const menuItems: MenuItem[] = [
         label: "Acción social",
         href: "/sobre-nosotros/accion-social",
       },
-      {
-        id: "nuestro-espacio",
-        label: "Nuestro espacio",
-        href: "/sobre-nosotros/nuestro-espacio",
-      },
+      // {
+      //   id: "nuestro-espacio",
+      //   label: "Nuestro espacio",
+      //   href: "/sobre-nosotros/nuestro-espacio",
+      // },
     ],
   },
   {
@@ -63,7 +63,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "portfolio",
     label: "Portfolio",
-    href: "/portfolio-2",
+    href: "/portfolio",
   },
   {
     id: "blog",

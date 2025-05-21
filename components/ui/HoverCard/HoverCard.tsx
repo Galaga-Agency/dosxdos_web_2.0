@@ -88,7 +88,6 @@ const HoverCard: React.FC<HoverCardProps> = ({
           fill
           sizes="(max-width: 768px) 100vw, 300px"
           className="image"
-          style={showLink ? { objectPosition: "center 10px" } : undefined}
         />
       </div>
 
