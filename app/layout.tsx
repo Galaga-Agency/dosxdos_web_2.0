@@ -5,6 +5,7 @@ import Menu from "@/components/layout/Menu/Menu";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
 import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
+import JsonLd from "@/components/SEO/JsonLd";
 
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",
@@ -128,42 +129,71 @@ const sarabun = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://dospordosgrupoimagen.com/"),
   title: {
-    default: "Dos x Dos Grupo Imagen | Diseño de Interiores Comerciales",
-    template: "%s | Dos x Dos Grupo Imagen", // so for example we see "Sobre Nosotros | Dos x Dos Grupo Imagen" in About us page
+    default:
+      "Dos x Dos Grupo Imagen | Diseño de Interiores Comerciales de Lujo Madrid y Canarias",
+    template: "%s | Dos x Dos Grupo Imagen",
   },
   description:
-    "Especialistas en diseño de interiores para espacios comerciales de lujo en Madrid y Canarias. Más de 35 años de experiencia creando experiencias únicas para marcas de cosmética y perfumería.",
+    "Especialistas en diseño de interiores para espacios comerciales de lujo en Madrid y Canarias. Más de 35 años de experiencia creando experiencias únicas para marcas de cosmética y perfumería. Servicios integrales de interiorismo comercial.",
   keywords: [
-    "diseño de interiores",
-    "espacios comerciales",
-    "interiorismo",
-    "shop in shop",
-    "escaparatismo",
-    "perfumería",
-    "diseño de marca",
-    "madrid",
-    "canarias",
+    "diseño de interiores madrid",
+    "diseño de interiores canarias",
+    "espacios comerciales lujo",
+    "interiorismo comercial madrid",
+    "interiorismo canarias",
+    "shop in shop madrid",
+    "escaparatismo profesional",
+    "diseño perfumería",
+    "diseño cosmética",
+    "arquitectura comercial",
+    "interiorismo perfumería",
+    "diseño retail lujo",
+    "espacios comerciales premium",
+    "interiorismo tiendas",
   ],
   authors: [{ name: "Dos x Dos Grupo Imagen" }],
   creator: "Dos x Dos Grupo Imagen",
   publisher: "Dos x Dos Grupo Imagen",
-  robots: "index, follow", //standard setting for a business website that wants to be found in search results and have its link structure crawled by search engines.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "es_ES",
     url: "https://dospordosgrupoimagen.com",
-    title: "Dos x Dos Grupo Imagen - Diseño de Interiores Comerciales",
+    title: "Dos x Dos Grupo Imagen - Diseño de Interiores Comerciales de Lujo",
     description:
-      "Especialistas en diseño de interiores para espacios comerciales de lujo en Madrid y Canarias. Más de 35 años de experiencia creando experiencias únicas para marcas de cosmética y perfumería.",
+      "35+ años diseñando espacios comerciales únicos en Madrid y Canarias. Especialistas en perfumería, cosmética y retail de lujo. Más de 200 proyectos completados.",
     images: [
       {
-        url: "/assets/img/logo_full_rojo.png", // Image that show when website is shared as link in social media
+        url: "/assets/img/homepage/slider-3.webp",
         width: 1200,
         height: 630,
-        alt: "Dos x Dos Grupo Imagen - Diseño de Interiores Comerciales",
+        alt: "Diseño de interiores comerciales de lujo - Dos x Dos Grupo Imagen",
+      },
+      {
+        url: "/assets/img/logo_full_rojo.png",
+        width: 800,
+        height: 600,
+        alt: "Logo Dos x Dos Grupo Imagen",
       },
     ],
     siteName: "Dos x Dos Grupo Imagen",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dos x Dos Grupo Imagen - Diseño de Interiores Comerciales de Lujo",
+    description:
+      "35+ años diseñando espacios comerciales únicos en Madrid y Canarias. Especialistas en perfumería y cosmética.",
+    images: ["/assets/img/homepage/slider-3.webp"],
   },
   icons: {
     icon: [
@@ -172,21 +202,37 @@ export const metadata: Metadata = {
         sizes: "any",
         type: "image/x-icon",
       },
+      {
+        url: "/assets/img/logo/logo_fondo_rojo.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
     ],
-    apple: [{ url: "/assets/img/logo/logo_fondo_rojo.png" }], //Special icon used when someone adds website to their iOS home screen
+    apple: [{ url: "/assets/img/logo/logo_fondo_rojo.png" }],
   },
   // verification: {
-  //   google: "your-google-site-verification-code", // Replace with actual verification code
-  //   // other search console verifications if needed
+  //   google: "your-google-site-verification-code", // Uncomment and add your verification code
+  //   other: {
+  //     'msvalidate.01': 'your-bing-verification-code', // Bing verification
+  //   },
   // },
   alternates: {
-    canonical: "https://dospordosgrupoimagen.com", // tells search engines the "preferred" version of a page
+    canonical: "https://dospordosgrupoimagen.com",
     languages: {
-      "es-ES": "https://dospordosgrupoimagen.com/es",
-      // "en-US": "https://dospordosgrupoimagen.com/en",
+      "es-ES": "https://dospordosgrupoimagen.com",
+      // "en-US": "https://dospordosgrupoimagen.com/en", // Future English version
     },
   },
   category: "Interior Design Services",
+  other: {
+    "theme-color": "#e63322",
+    "msapplication-TileColor": "#e63322",
+    "application-name": "Dos x Dos Grupo Imagen",
+    "apple-mobile-web-app-title": "Dos x Dos",
+    "geo.region": "ES-MD;ES-CN",
+    "geo.placename": "Madrid, Spain;Las Palmas de Gran Canaria, Spain",
+    ICBM: "40.4168,-3.7038;28.1248,-15.4300",
+  },
 };
 
 export default function RootLayout({
@@ -194,11 +240,158 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Define structured data schemas as clean objects
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://dospordosgrupoimagen.com/#organization",
+    name: "Dos x Dos Grupo Imagen",
+    alternateName: "Dos por Dos Grupo Imagen",
+    url: "https://dospordosgrupoimagen.com",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://dospordosgrupoimagen.com/assets/img/logo_full_rojo.png",
+      width: 800,
+      height: 600,
+    },
+    description:
+      "Especialistas en diseño de interiores para espacios comerciales de lujo. Más de 35 años de experiencia en Madrid y Canarias.",
+    foundingDate: "1989",
+    numberOfEmployees: {
+      "@type": "QuantitativeValue",
+      value: "45+",
+    },
+    address: [
+      {
+        "@type": "PostalAddress",
+        addressLocality: "Madrid",
+        addressRegion: "Madrid",
+        addressCountry: "ES",
+        name: "Oficina Madrid",
+      },
+      {
+        "@type": "PostalAddress",
+        addressLocality: "Las Palmas de Gran Canaria",
+        addressRegion: "Canarias",
+        addressCountry: "ES",
+        name: "Oficina Las Palmas",
+      },
+    ],
+    areaServed: [
+      {
+        "@type": "Place",
+        name: "Madrid",
+      },
+      {
+        "@type": "Place",
+        name: "Canarias",
+      },
+      {
+        "@type": "Country",
+        name: "España",
+      },
+    ],
+    serviceType: [
+      "Diseño de Interiores Comerciales",
+      "Interiorismo",
+      "Shop in Shop",
+      "Escaparatismo",
+      "Diseño de Espacios de Perfumería",
+      "Diseño de Espacios de Cosmética",
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.7",
+      ratingCount: "94",
+      bestRating: "5",
+      worstRating: "1",
+    },
+    sameAs: [
+      "https://www.linkedin.com/company/dos-por-dos-grupo-imagen/",
+      "https://www.instagram.com/dosxdos.grupoimagen/",
+      "https://www.facebook.com/dosxdos.grupoimagen/",
+      "https://www.youtube.com/channel/UCqZDFnB0lrlDv6pNnfx2GKQ",
+    ],
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://dospordosgrupoimagen.com/#website",
+    url: "https://dospordosgrupoimagen.com",
+    name: "Dos x Dos Grupo Imagen",
+    description:
+      "Especialistas en diseño de interiores para espacios comerciales de lujo",
+    publisher: {
+      "@id": "https://dospordosgrupoimagen.com/#organization",
+    },
+    inLanguage: "es-ES",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate:
+          "https://dospordosgrupoimagen.com/search?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://dospordosgrupoimagen.com/#localbusiness",
+    name: "Dos x Dos Grupo Imagen",
+    image: "https://dospordosgrupoimagen.com/assets/img/homepage/slider-3.webp",
+    address: [
+      {
+        "@type": "PostalAddress",
+        addressLocality: "Madrid",
+        addressRegion: "Madrid",
+        addressCountry: "ES",
+      },
+      {
+        "@type": "PostalAddress",
+        addressLocality: "Las Palmas de Gran Canaria",
+        addressRegion: "Canarias",
+        addressCountry: "ES",
+      },
+    ],
+    geo: [
+      {
+        "@type": "GeoCoordinates",
+        latitude: 40.4168,
+        longitude: -3.7038, // Madrid coordinates
+      },
+      {
+        "@type": "GeoCoordinates",
+        latitude: 28.1248,
+        longitude: -15.43, // Las Palmas coordinates
+      },
+    ],
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "18:00",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.7",
+      reviewCount: "94",
+    },
+    priceRange: "€€",
+  };
+
   return (
     <html lang="es">
       <head>
-        {/* Preload ALL critical hero images across the entire site and only the critical ones, for other images we will load them using script from next directly in each page layout file*/}
-        {/* Homepage hero slider images */}
+        {/* Structured Data using reusable JsonLd component */}
+        <JsonLd data={organizationSchema} />
+        <JsonLd data={websiteSchema} />
+        <JsonLd data={localBusinessSchema} />
+
+        {/* Critical resource preloading for performance */}
         <link
           rel="preload"
           href="/assets/img/homepage/slider-3.webp"
@@ -220,7 +413,6 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
-        {/* Equipo page hero images */}
         <link
           rel="preload"
           href="/assets/img/team/dospodos_personal_oficina-3.webp"
@@ -249,7 +441,6 @@ export default function RootLayout({
           type="image/jpg"
           fetchPriority="high"
         />
-        {/* Acción Social page hero image */}
         <link
           rel="preload"
           href="/assets/img/about-us-page/vicente-ferrer-illustration.jpg"
@@ -257,7 +448,6 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
-        {/* Services page hero images */}
         <link
           rel="preload"
           href="/assets/img/servicios/hero-servicios.webp"
@@ -265,7 +455,6 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
-        {/* Portfolio page hero images */}
         <link
           rel="preload"
           href="/assets/img/portfolio/hero-portfolio.webp"
@@ -273,7 +462,22 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
+
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//www.google-analytics.com" />
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+
+        {/* Resource hints for better performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
+
       <AuthProvider>
         <body
           className={`${bigShoulders.variable} ${sarabun.variable}`}

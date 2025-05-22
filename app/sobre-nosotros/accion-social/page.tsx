@@ -8,6 +8,7 @@ import useScrollSmooth from "@/hooks/useScrollSmooth";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
+import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import HeroSection from "@/components/AccionSocialPage/HeroSection/HeroSection";
 import ValuesSection from "@/components/AccionSocialPage/ValuesSection/ValuesSection";
@@ -27,6 +28,13 @@ import "./accion-social-page.scss";
 
 const AccionSocialPage = () => {
   useScrollSmooth();
+
+  // Define breadcrumbs for this page / for SEO
+  const breadcrumbItems = [
+    { name: "Inicio", href: "/" },
+    { name: "Sobre Nosotros", href: "/sobre-nosotros" },
+    { name: "Acción Social", href: "/sobre-nosotros/accion-social" },
+  ];
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
@@ -52,6 +60,13 @@ const AccionSocialPage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="accion-social-page">
+          {/* Add breadcrumbs at the top */}
+          <div className="accion-social-page__breadcrumbs">
+            <div className="container">
+              <Breadcrumbs items={breadcrumbItems} />
+            </div>
+          </div>
+
           <div className="accion-social-page__container">
             <HeroSection />
             <ValuesSection />

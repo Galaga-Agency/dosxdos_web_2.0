@@ -125,3 +125,18 @@ body {
     line-height: 1.2;
   }
 }
+
+/* Hide breadcrumbs visually but keep them for SEO */
+.equipo-page__breadcrumbs,
+.accion-social-page__breadcrumbs {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Alternative method - completely invisible */
+.breadcrumbs {
+  display: none;
+}

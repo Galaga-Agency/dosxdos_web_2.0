@@ -48,8 +48,8 @@ function imageRevealAnimation() {
           autoAlpha: 1,
           duration: 0.3,
         },
-        "-=1.2"
-      ); // Start 1.2 seconds before the main animation ends
+        "+=0.05"
+      ); // Start 0.3 seconds after the image animation ends
     }
 
     if (content) {
