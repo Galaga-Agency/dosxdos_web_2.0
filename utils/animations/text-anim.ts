@@ -154,7 +154,7 @@ function charAnimation(current?: any) {
 
 function fadeAnimation() {
   if ($(".fade_bottom").length > 0) {
-    gsap.set(".fade_bottom", { y: 100, opacity: 0, visibility: "visible" });
+    gsap.set(".fade_bottom", { y: 100, opacity: 0, visibility: "hidden" });
     const fadeArray = gsap.utils.toArray(".fade_bottom");
     fadeArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
@@ -166,6 +166,7 @@ function fadeAnimation() {
       fadeTl.to(item, {
         y: 0,
         opacity: 1,
+        visibility: "visible",
         ease: "power2.out",
         duration: 1.5,
         delay: 0.3,
@@ -174,7 +175,7 @@ function fadeAnimation() {
   }
 
   if ($(".fade_top").length > 0) {
-    gsap.set(".fade_top", { y: -100, opacity: 0, visibility: "visible" });
+    gsap.set(".fade_top", { y: -100, opacity: 0, visibility: "hidden" });
     const fadetopArray = gsap.utils.toArray(".fade_top");
     fadetopArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
@@ -194,7 +195,7 @@ function fadeAnimation() {
   }
 
   if ($(".fade_left").length > 0) {
-    gsap.set(".fade_left", { x: -100, opacity: 0, visibility: "visible" });
+    gsap.set(".fade_left", { x: -100, opacity: 0, visibility: "hidden" });
     const fadeleftArray = gsap.utils.toArray(".fade_left");
     fadeleftArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
@@ -206,6 +207,7 @@ function fadeAnimation() {
       fadeTl.to(item, {
         x: 0,
         opacity: 1,
+        visibility: "visible",
         ease: "power2.out",
         duration: 2.5,
         delay: 0.3,
@@ -214,7 +216,7 @@ function fadeAnimation() {
   }
 
   if ($(".fade_right").length > 0) {
-    gsap.set(".fade_right", { x: 100, opacity: 0, visibility: "visible" });
+    gsap.set(".fade_right", { x: 100, opacity: 0, visibility: "hidden" });
     const faderightArray = gsap.utils.toArray(".fade_right");
     faderightArray.forEach((item: any, i) => {
       let fadeTl = gsap.timeline({
@@ -226,6 +228,7 @@ function fadeAnimation() {
       fadeTl.to(item, {
         x: 0,
         opacity: 1,
+        visibility: "visible",
         ease: "power2.out",
         duration: 2.5,
         delay: 0.3,

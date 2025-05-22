@@ -118,11 +118,10 @@
     position: absolute;
     bottom: 1rem;
     left: 1rem;
+    right: 1rem;
     @include flex(column, start, left);
     gap: 0.5rem;
     color: $black;
-    padding: 0.75rem 1rem;
-    border-radius: 4px;
     z-index: 2;
 
     // Only apply transitions for hover devices
@@ -138,23 +137,30 @@
     }
   }
 
-  &__label,
-  &__title {
+  &__label {
     background-color: $white;
     width: fit-content;
+  }
+  &__title {
+    background-color: $white;
+    width: 100%;
+  }
 
+  &__label,
+  &__title {
     // Only apply transforms and transitions for hover devices
     @media (hover: hover) {
       transform: translateX(-50px);
       opacity: 0;
       transition: transform 0.5s ease-out, opacity 0.2s ease-out;
+      width: fit-content;
     }
 
     // For touch devices, GSAP will handle the animations
     @media (hover: none) {
       // Remove any transitions so GSAP has full control
       transition: none;
-      @include margin(md, bottom);
+      @include margin(xs, bottom);
     }
   }
 
@@ -164,13 +170,17 @@
     font-weight: 500;
     letter-spacing: 0.05em;
     padding: 0.5rem 1rem;
-    @include margin(xxs, bottom);
   }
 
   &__title {
     @include font-size(xl);
     @include font-weight(bold);
     line-height: 1.2;
-    padding: 1.5rem;
+    padding: 1rem 1.5rem;
+    width: 100%;
+
+    @include min-width(md) {
+      width: fit-content;
+    }
   }
 }

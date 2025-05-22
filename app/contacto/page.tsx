@@ -61,8 +61,8 @@ const ContactPage: React.FC = () => {
                   <div className="contact-page__info-divider"></div>
                   <div className="contact-page__additional-info">
                     <p>
-                      <strong>Horario de atención:</strong> Lunes a Viernes,
-                      9:00 - 18:00
+                      <strong>Horario de atención:</strong> <br/>Lunes a Viernes,
+                      09:00 - 18:00
                     </p>
                   </div>
                 </div>

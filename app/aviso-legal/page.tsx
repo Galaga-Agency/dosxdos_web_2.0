@@ -46,8 +46,8 @@ const AvisoLegalPage: React.FC = () => {
             </div>
 
             <div className="aviso-legal-page__content">
-              <section className="aviso-legal-page__section fade_bottom">
-                <h3 className="aviso-legal-page__section-title">Objeto</h3>
+              <section className="aviso-legal-page__section">
+                <h3 className="aviso-legal-page__section-title fade_bottom">Objeto</h3>
                 <p>
                   El presente aviso legal regula el uso y utilización del sitio
                   web iidos.com, del que es titular DOS POR DOS GRUPO IMAGEN,
@@ -84,8 +84,8 @@ const AvisoLegalPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="aviso-legal-page__section fade_bottom">
-                <h3 className="aviso-legal-page__section-title">
+              <section className="aviso-legal-page__section">
+                <h3 className="aviso-legal-page__section-title fade_bottom">
                   Identificación
                 </h3>
                 <p>
@@ -112,8 +112,8 @@ const AvisoLegalPage: React.FC = () => {
                 </ul>
               </section>
 
-              <section className="aviso-legal-page__section fade_bottom">
-                <h3 className="aviso-legal-page__section-title">
+              <section className="aviso-legal-page__section">
+                <h3 className="aviso-legal-page__section-title fade_bottom">
                   Comunicaciones
                 </h3>
                 <p>
@@ -136,8 +136,8 @@ const AvisoLegalPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="aviso-legal-page__section fade_bottom">
-                <h3 className="aviso-legal-page__section-title">
+              <section className="aviso-legal-page__section">
+                <h3 className="aviso-legal-page__section-title fade_bottom">
                   Condiciones de acceso y utilización
                 </h3>
                 <p>
@@ -244,8 +244,8 @@ const AvisoLegalPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="aviso-legal-page__section fade_bottom">
-                <h3 className="aviso-legal-page__section-title">
+              <section className="aviso-legal-page__section">
+                <h3 className="aviso-legal-page__section-title fade_bottom">
                   Exclusión de garantías y de responsabilidad en el acceso y la
                   utilización
                 </h3>
@@ -306,8 +306,8 @@ const AvisoLegalPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="aviso-legal-page__section fade_bottom">
-                <h3 className="aviso-legal-page__section-title">
+              <section className="aviso-legal-page__section">
+                <h3 className="aviso-legal-page__section-title fade_bottom">
                   Procedimiento en caso de realización de actividades de
                   carácter ilícito
                 </h3>
@@ -322,8 +322,8 @@ const AvisoLegalPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="aviso-legal-page__section fade_bottom">
-                <h3 className="aviso-legal-page__section-title">
+              <section className="aviso-legal-page__section">
+                <h3 className="aviso-legal-page__section-title fade_bottom">
                   Publicaciones
                 </h3>
                 <p>
@@ -338,8 +338,8 @@ const AvisoLegalPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="aviso-legal-page__section fade_bottom">
-                <h3 className="aviso-legal-page__section-title">
+              <section className="aviso-legal-page__section">
+                <h3 className="aviso-legal-page__section-title fade_bottom">
                   Legislación aplicable
                 </h3>
                 <p>

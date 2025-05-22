@@ -9,8 +9,12 @@
   background: $black;
   color: $white;
   overflow: hidden;
-  @include section-padding-y;
+  @include section-padding-top;
   @include z-index(above);
+
+  @include min-width(md) {
+  @include section-padding-y;
+  }
 
   // Subtle decorative elements similar to other sections
   &::before {

@@ -69,7 +69,6 @@
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;
-    text-align: center;
 
     @include min-width(xs) {
       @include font-size(5xl);
@@ -81,6 +80,7 @@
 
     @include min-width(md) {
       @include font-size(7xl);
+      text-align: center;
     }
 
     @include min-width(lg) {

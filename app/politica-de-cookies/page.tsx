@@ -46,8 +46,8 @@ const CookiesPage: React.FC = () => {
             </div>
 
             <div className="cookies-page__content">
-              <section className="cookies-page__section fade_bottom">
-                <h3 className="cookies-page__section-title">
+              <section className="cookies-page__section">
+                <h3 className="cookies-page__section-title fade_bottom">
                   Concepto de Cookies
                 </h3>
                 <p>
@@ -78,8 +78,8 @@ const CookiesPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="cookies-page__section fade_bottom">
-                <h3 className="cookies-page__section-title">
+              <section className="cookies-page__section">
+                <h3 className="cookies-page__section-title fade_bottom">
                   Autorización para el uso de cookies
                 </h3>
                 <p>
@@ -92,8 +92,8 @@ const CookiesPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="cookies-page__section fade_bottom">
-                <h3 className="cookies-page__section-title">
+              <section className="cookies-page__section">
+                <h3 className="cookies-page__section-title fade_bottom">
                   Tipos de Cookies que se utilizan en la Web
                 </h3>
                 <p>En este sitio web usamos las cookies para:</p>
@@ -165,8 +165,8 @@ const CookiesPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="cookies-page__section fade_bottom">
-                <h3 className="cookies-page__section-title">
+              <section className="cookies-page__section">
+                <h3 className="cookies-page__section-title fade_bottom">
                   Configuración del navegador
                 </h3>
                 <p>

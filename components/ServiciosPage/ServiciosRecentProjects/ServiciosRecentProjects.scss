@@ -20,14 +20,10 @@
     }
 
     @include min-width(lg) {
-      @include container-width(smalldesktop);
-      padding-right: 1.5rem;
-    }
-
-    @include min-width(xl) {
-      @include container-width(unset);
-      width: 100vw;
-      max-width: 100vw;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      max-width: none;
     }
   }
 
@@ -35,30 +31,24 @@
     display: flex;
     flex-direction: column;
 
-    @include min-width(md) {
+    @include min-width(lg) {
       flex-direction: row;
       align-items: flex-end;
-    }
-
-    @include min-width(xl) {
       justify-content: flex-end;
-      padding-left: auto;
+      margin-left: auto;
+      width: fit-content;
     }
   }
 
   &__header {
     margin-bottom: 2rem;
 
-    @include min-width(md) {
-      width: 180px;
+    @include min-width(lg) {
+      width: 220px;
       flex-shrink: 0;
       margin-bottom: 0;
       padding-top: 0.5rem;
       padding-left: 1.5rem;
-    }
-
-    @include min-width(lg) {
-      width: 220px;
     }
   }
 
@@ -68,32 +58,71 @@
     letter-spacing: 0.05em;
     color: $black;
     text-transform: uppercase;
-    text-align: center;
     @include title-line-height;
 
     @include min-width(md) {
       @include font-size(xl);
-      text-align: left;
+      margin-left: 2rem;
     }
   }
 
-  &__scroll-indicator {
-    display: none;
+  &__grid-container {
+    position: relative;
+    width: 100%;
 
     @include min-width(md) {
-      @include flex(row, flex-start, center);
-      gap: 0.5rem;
-      margin-top: 1rem;
-      opacity: 0.7;
-      font-size: 0.875rem;
-
-      svg {
-        animation: scroll-indicator-pulse 1.5s infinite;
-      }
+      overflow: hidden;
     }
 
     @include min-width(lg) {
-      display: none;
+      overflow: visible;
+    }
+  }
+
+  &__nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: rgba($white, 0.95);
+    border: 1px solid rgba($black, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+    transition: all 0.3s ease;
+    box-shadow: $shadow-md;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $black;
+      transition: color 0.3s ease;
+    }
+
+    &:hover {
+      background-color: $black;
+      border-color: $black;
+      transform: translateY(-50%) scale(1.05);
+
+      svg {
+        color: $white;
+      }
+    }
+
+    &--prev {
+      left: 10px;
+      
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+
+    &--next {
+      right: 10px;
     }
   }
 
@@ -109,6 +138,7 @@
       scroll-snap-type: x mandatory;
       scroll-padding-left: 1.5rem;
       padding-left: 1.5rem;
+      padding-right: 1.5rem;
       margin-right: -2rem;
       -webkit-overflow-scrolling: touch;
       gap: 1.5rem;
@@ -123,8 +153,13 @@
 
     @include min-width(lg) {
       overflow-x: visible;
-      margin-right: 0;
+      margin: 0;
+      padding: 0;
+      gap: 1.5rem;
+      
+      // Last item touches right edge
       padding-right: 0;
+      margin-right: 0;
     }
   }
 
@@ -144,12 +179,50 @@
       max-width: 400px;
       scroll-snap-align: start;
     }
+
+    // Only apply hover effects on non-touch devices
+    @media (hover: hover) {
+      &:hover .servicios-recent-projects__image {
+        transform: scale(1.05);
+      }
+
+      &:hover .servicios-recent-projects__hover-info {
+        opacity: 1;
+      }
+
+      &:hover .servicios-recent-projects__label {
+        transform: translateX(0);
+        opacity: 1;
+        transition-delay: 0.2s;
+      }
+
+      &:hover .servicios-recent-projects__item-title {
+        transform: translateX(0);
+        opacity: 1;
+        transition-delay: 0.1s;
+      }
+    }
   }
 
   &__image-wrapper {
     position: relative;
     width: 100%;
     height: 100%;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba($black, 0),
+        rgba($black, 0.6)
+      );
+      @include z-index(above);
+    }
   }
 
   &__image {
@@ -161,57 +234,64 @@
     position: absolute;
     bottom: 1rem;
     left: 1rem;
-    @include flex(column, flex-start, flex-start);
+    right: 1rem;
+    @include flex(column, start, left);
+    gap: 0.5rem;
     color: $black;
     z-index: 2;
-    width: auto;
-    max-width: 90%;
-    opacity: 0;
-    transition: opacity 0.3s ease-in;
+
+    // Only apply transitions for hover devices
+    @media (hover: hover) {
+      opacity: 0;
+      transition: opacity 0.2s ease-in;
+    }
+
+    // For touch devices, GSAP will handle the animations
+    @media (hover: none) {
+      // Remove any transitions so GSAP has full control
+      transition: none;
+    }
   }
 
-  &__project-title {
+  &__label {
     background-color: $white;
-    width: auto;
-    display: inline-block;
-    @include font-size(lg);
+    width: fit-content;
+  }
+  &__item-title {
+    background-color: $white;
+    width: 100%;
+  }
+
+  &__label,
+  &__item-title {
+    // Only apply transforms and transitions for hover devices
+    @media (hover: hover) {
+      transform: translateX(-50px);
+      opacity: 0;
+      transition: transform 0.5s ease-out, opacity 0.2s ease-out;
+      width: fit-content;
+    }
+
+    // For touch devices, GSAP will handle the animations
+    @media (hover: none) {
+      // Remove any transitions so GSAP has full control
+      transition: none;
+      @include margin(xs, bottom);
+    }
+  }
+
+  &__label {
+    @include font-size(sm);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1rem;
+  }
+
+  &__item-title {
+    @include font-size(xl);
     @include font-weight(bold);
     line-height: 1.2;
-    padding: 0.75rem 1rem;
-    transform: translateX(-50px);
-    opacity: 0;
-    transition: transform 0.5s ease-out, opacity 0.3s ease-out;
-  }
-
-  // Mobile animations first (mobile-first approach)
-  &__item.in-view {
-    .servicios-recent-projects__hover-info {
-      opacity: 1;
-    }
-
-    .servicios-recent-projects__project-title {
-      transform: translateX(0);
-      opacity: 1;
-      transition-delay: 0.2s;
-    }
-  }
-
-  // Then desktop hover effects
-  @media (hover: hover) and (min-width: 768px) {
-    &__item:hover {
-      .servicios-recent-projects__image {
-        transform: scale(1.05);
-      }
-
-      .servicios-recent-projects__hover-info {
-        opacity: 1;
-      }
-
-      .servicios-recent-projects__project-title {
-        transform: translateX(0);
-        opacity: 1;
-        transition-delay: 0.1s;
-      }
-    }
+    padding: 1rem 1.5rem;
   }
 }

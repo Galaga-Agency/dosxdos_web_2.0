@@ -3,11 +3,11 @@
 @use "abstracts/mixins" as *;
 
 .pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@include flex(row, center, center);
   gap: 0.25rem;
   margin-top: 1rem;
+  @include z-index(above);
+  pointer-events: auto; // Explicitly enable pointer events
 
   &__button {
     min-width: 40px;

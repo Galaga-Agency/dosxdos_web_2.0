@@ -38,9 +38,8 @@
     align-items: center;
     gap: 1.5rem;
     width: 100%;
-    background-color: rgba($black, 0.03);
     padding: 3rem;
-    @include border-radius(xl);
+  @include border-radius(md);
     margin-block: 3rem;
 
     @include min-width(lg) {

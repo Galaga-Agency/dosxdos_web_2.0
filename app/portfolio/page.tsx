@@ -19,9 +19,10 @@ import {
   fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
-import { bentoRevealForTouchDevices } from "@/utils/animations/bento-grid-animation";
+import { revealForTouchDevices } from "@/utils/animations/touch-device-reveal";
 
 import "./portfolio-page.scss";
+import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 
 const PortfolioPage: React.FC = () => {
   useScrollSmooth();
@@ -42,7 +43,8 @@ const PortfolioPage: React.FC = () => {
       fadeAnimation();
       charAnimation();
       rollUpTextAnimation();
-      bentoRevealForTouchDevices();
+      revealForTouchDevices();
+      cursorBubbleAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

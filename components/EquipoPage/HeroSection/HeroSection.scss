@@ -99,6 +99,7 @@
     @include letter-spacing(tight);
     @include margin(lg, bottom);
     visibility: hidden;
+    max-width: 70%;
 
     @include min-width(xs) {
       @include font-size(5xl);
@@ -110,6 +111,8 @@
 
     @include min-width(md) {
       @include font-size(7xl);
+          max-width: 100%;
+
     }
 
     @include min-width(lg) {

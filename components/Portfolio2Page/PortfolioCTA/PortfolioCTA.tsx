@@ -3,6 +3,7 @@
 import React from "react";
 import "./PortfolioCTA.scss";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const PortfolioCTA: React.FC = () => {
   return (
@@ -15,12 +16,13 @@ const PortfolioCTA: React.FC = () => {
           />
         </div>
         <div className="portfolio-cta__top-labels">
-          <span className="portfolio-cta__label">
-            EXPERIENCIA EN DISEÑO DIGITAL
-          </span>
+          <span className="portfolio-cta__label">EXPERIENCIA EN DISEÑO</span>
           <span className="portfolio-cta__label">ESTUDIO CREATIVO</span>
         </div>
         <h2 className="portfolio-cta__title char-animation">CONTÁCTANOS</h2>
+        <PrimaryButton href="/contacto" className="portfolio-cta__button">
+          Hablamos →
+        </PrimaryButton>
       </div>
     </div>
   );

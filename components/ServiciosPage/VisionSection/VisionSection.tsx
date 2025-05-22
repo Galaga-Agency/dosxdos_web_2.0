@@ -40,7 +40,7 @@ const VisionSection: React.FC = () => {
               </div>
             </div>
             <div className="vision-section__text-wrap">
-              <p className="vision-section__text fade_bottom">
+              <p className="vision-section__text">
                 Aquí es donde el conocimiento, la creatividad y la experiencia
                 se fusionan con el diseño para crear espacios únicos. Pensamos y
                 actuamos como un solo equipo, siempre a su lado, superando

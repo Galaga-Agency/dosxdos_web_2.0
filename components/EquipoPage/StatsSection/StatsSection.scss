@@ -70,10 +70,12 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 4rem;
+    @include padding(lg, x);
 
     @include min-width(md) {
       grid-template-columns: repeat(2, 1fr);
       gap: 4rem 6rem;
+      padding: 0;
     }
 
     @include min-width(lg) {

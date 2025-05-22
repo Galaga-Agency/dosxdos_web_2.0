@@ -19,9 +19,9 @@ import {
   fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
+import { randomGridAnim } from "@/utils/animations/random-grid-anim";
 
 import "./mas-proyectos-page.scss";
-import { randomGridAnim } from "@/utils/animations/random-grid-anim";
 
 
 const MasProyectosPage: React.FC = () => {

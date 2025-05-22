@@ -83,8 +83,12 @@
 .project-panel {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: auto;
   overflow: hidden;
+
+  @include min-width(md) {
+    height: 100vh;
+  }
 
   &__split-container {
     display: flex;

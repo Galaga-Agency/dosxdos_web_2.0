@@ -94,7 +94,6 @@
     padding: 0.4rem 0.75rem;
     transition: all 0.3s ease;
     z-index: 2;
-    @include border-radius(md);
     box-shadow: 0 2px 8px rgba($black, 0.1);
   }
   

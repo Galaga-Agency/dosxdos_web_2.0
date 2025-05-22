@@ -80,6 +80,8 @@
     color: $black;
     max-width: 60ch;
     @include paragraph-line-height;
+        @include margin(md, top);
+
 
     @include min-width(md) {
       margin-left: 20%;

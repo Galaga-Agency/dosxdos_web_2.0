@@ -36,10 +36,11 @@ const AccionSocialCTASection = () => {
               <Image
                 src="/assets/img/team/dospodos_personal_oficina-3.webp"
                 alt="Equipo Dos Por Dos"
-                fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
-                unoptimized={true}
+                width={800}
+                height={600}
+                quality={90}
               />
             </div>
           </div>

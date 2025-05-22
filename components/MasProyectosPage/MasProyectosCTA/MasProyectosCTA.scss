@@ -5,7 +5,7 @@
 
 .mas-proyectos-cta {
   position: relative;
-  @include margin(8xl, top);
+  @include section-padding-y();
   width: 100%;
 
   // Marquee section
@@ -24,41 +24,41 @@
       animation: marquee-scroll 30s linear infinite;
 
       span {
-       @include font-weight(semibold);
-      color: rgba($black, 0.15);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-family: var(--font-display);
-      display: inline-block;
-      line-height: 1;
-      vertical-align: middle;
-      will-change: transform;
-      transform: translateZ(0);
-      backface-visibility: hidden;
-      font-size: 50px;
-
-      @include min-width(md) {
-        font-size: 90px;
-        animation-duration: 400s;
-      }
-
-      @include min-width(lg) {
-        font-size: 120px;
-        animation-duration: 400s;
-      }
-
-      @include min-width(xl) {
-        font-size: 120px;
-        animation-duration: 500s;
-      }
-
-      span {
+        @include font-weight(semibold);
+        color: rgba($black, 0.15);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-family: var(--font-display);
         display: inline-block;
-        margin: 0;
-        padding: 0;
         line-height: 1;
         vertical-align: middle;
-      }
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        font-size: 50px;
+
+        @include min-width(md) {
+          font-size: 90px;
+          animation-duration: 400s;
+        }
+
+        @include min-width(lg) {
+          font-size: 120px;
+          animation-duration: 400s;
+        }
+
+        @include min-width(xl) {
+          font-size: 120px;
+          animation-duration: 500s;
+        }
+
+        span {
+          display: inline-block;
+          margin: 0;
+          padding: 0;
+          line-height: 1;
+          vertical-align: middle;
+        }
         &.dot {
           color: rgba($black, 0.15);
           @include font-size(8xl);
@@ -161,8 +161,8 @@
   }
 
   &__button-container {
-    @include flex(column, center, start);
-    gap: 2rem;
+    @include flex(column, start, start);
+    gap: 1rem;
 
     @include min-width(md) {
       @include flex(row, center, center);
