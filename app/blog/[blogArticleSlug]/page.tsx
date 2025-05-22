@@ -31,6 +31,8 @@ import {
 
 import "./blog-details.scss";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
+import { isMobile, isTablet } from "@/utils/device";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 interface BlogDetailPageProps {
   params: Promise<{ blogArticleSlug: string }>;
@@ -46,6 +48,9 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   const [key] = useState(() => Date.now());
   const router = useRouter();
   const [currentUrl, setCurrentUrl] = useState<string>("");
+  const { isMobile, isTablet  } = useDeviceDetect();
+  const relatedCount = isMobile ? 1 : isTablet ? 2 : 3;
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -72,14 +77,16 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
         setBlogPost(data);
 
         const allPosts = await getAllPosts();
-        const related = data ? findRelatedPosts(data, allPosts, 3) : [];
+        const related = data ? findRelatedPosts(data, allPosts, relatedCount) : [];
 
         if (related.length === 0) {
           const categoryMatches = allPosts.filter(
             (post) =>
               post.slug !== data.slug && post.category === data?.category
           );
-          setRelatedPosts(categoryMatches.slice(0, 3));
+          setRelatedPosts(
+            categoryMatches.slice(0, isMobile ? 1 : isTablet ? 2 : 3)
+          );
         } else {
           setRelatedPosts(related);
         }

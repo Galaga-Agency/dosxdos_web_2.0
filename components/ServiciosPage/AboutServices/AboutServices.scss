@@ -52,10 +52,10 @@
     @include font-weight(semibold);
     @include title-line-height;
     margin: 0 auto;
-    text-align: center;
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;
+    max-width: 100%;
 
     @include min-width(xs) {
       @include font-size(5xl);
@@ -63,31 +63,23 @@
 
     @include min-width(sm) {
       @include font-size(6xl);
+      text-align: center;
     }
 
     @include min-width(md) {
       @include font-size(6xl);
+      text-align: left;
+      margin: 0;
+      max-width: 80%;
     }
 
     @include min-width(xl) {
       @include font-size(7xl);
+      max-width: 100%;
     }
 
     @include min-width(xl) {
       @include font-size(8xl);
-    }
-  }
-
-  &__subtitle {
-    @include font-size(lg);
-    @include font-weight(medium);
-    @include margin(md, bottom);
-    color: $black;
-    display: block;
-
-    @include min-width(xl) {
-      position: absolute;
-      max-width: 10%;
     }
   }
 
@@ -109,31 +101,23 @@
     @include margin(xl, bottom);
     display: flex;
     flex-wrap: wrap;
+    gap: 0.5rem;
     justify-content: flex-start;
+    max-width: 80%;
 
     @include min-width(md) {
       width: 40%;
+      max-width: 100%;
       margin-bottom: 0;
-      flex-direction: column;
     }
 
     @include min-width(xl) {
       width: 35%;
+      gap: 1rem;
     }
 
     @include min-width(xxxl) {
       width: 35%;
-    }
-  }
-
-  &__row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-
-    @include min-width(md) {
-      flex-wrap: nowrap;
     }
   }
 
@@ -144,12 +128,9 @@
     @include padding(sm, all);
     @include border-radius(full);
     display: inline-block;
-    // Invertimos los colores
     color: $black;
     background-color: $white;
     border: 1px solid $black;
-    @include margin(xs, right);
-    @include margin(xs, bottom);
     white-space: nowrap;
     @include transition(all, normal, ease);
 

@@ -27,6 +27,7 @@ const HeroSection: React.FC = () => {
                 objectPosition: "center",
                 willChange: "transform",
               }}
+              unoptimized={true}
             />
           </div>
 

@@ -37,23 +37,15 @@ const HeroSection: React.FC = () => {
 
         <div className="accion-social-hero__content">
           <div ref={labelRef} className="accion-social-hero__label">
-            <span>IMPACTO COMUNITARIO</span>
+            <span>COMPROMISO QUE TRANSFORMA</span>
           </div>
 
           <h2 ref={titleRef1} className="accion-social-hero__title text-1">
-            Compromiso
+            Un diseño que también
           </h2>
           <h2 ref={titleRef2} className="accion-social-hero__title text-2">
-            <span>Social</span>
+            <span>transforma comunidades y entorno</span>
           </h2>
-
-          <div ref={descriptionRef} className="accion-social-hero__description">
-            <p>
-              Transformando comunidades a través de iniciativas sociales que
-              generan un impacto real y duradero. Creamos oportunidades para el
-              desarrollo sostenible y la inclusión social.
-            </p>
-          </div>
         </div>
       </div>
     </div>

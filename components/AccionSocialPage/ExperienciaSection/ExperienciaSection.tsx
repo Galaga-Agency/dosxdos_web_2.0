@@ -6,28 +6,27 @@ import "./ExperienciaSection.scss";
 const ExperienciaSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Sample data for experiences
   const experiencias = [
     {
       id: "01",
-      categoria: "Espacios Comerciales",
-      titulo: "Diseño Integral de Tiendas",
+      categoria: "Utilizamos energia limpia",
+      titulo: "Energías renovables",
       descripcion:
-        "Creamos espacios comerciales únicos que reflejan la identidad de cada marca, optimizando la experiencia del cliente y potenciando las ventas.",
+        "Apostamos por la energía renovable, instalando placas solares que alimentan nuestras oficinas y reducen el consumo de energía convencional.",
     },
     {
       id: "02",
-      categoria: "Arquitectura Comercial",
-      titulo: "Proyectos Personalizados",
+      categoria: "Elección responsable",
+      titulo: "Materiales ecológicos",
       descripcion:
-        "Desarrollamos proyectos a medida que combinan estética, funcionalidad y estrategia comercial para crear ambientes memorables.",
+        "Seleccionamos materiales sostenibles y respetuosos con el medio ambiente, minimizando el impacto desde la fase de diseño hasta la ejecución.",
     },
     {
       id: "03",
-      categoria: "Visual Merchandising",
-      titulo: "Estrategia de Exposición",
+      categoria: "Movilidad consciente",
+      titulo: "Desplazamientos verdes",
       descripcion:
-        "Diseñamos la disposición perfecta de productos para maximizar su visibilidad y atractivo, creando recorridos que mejoran la experiencia de compra.",
+        "Comprometidos con la movilidad responsable, optimizamos y reducimos la huella de carbono en todos nuestros traslados por las islas.",
     },
   ];
 
@@ -36,13 +35,14 @@ const ExperienciaSection: React.FC = () => {
       <div className="experiencia-section__container">
         <div className="experiencia-section__header">
           <h2 className="experiencia-section__title fade_bottom">
-            <span className="word">NUESTRA</span>{" "}
-            <span className="word">EXPERIENCIA</span>
+            <span className="word">FUTURO</span>{" "}
+            <span className="word">CONSCIENTE</span>
           </h2>
-          <div className="experiencia-section__subtitle  fade_bottom">
-            Más de 35 años transformando el retail con diseños innovadores que
-            combinan funcionalidad y estética para crear espacios comerciales
-            únicos y memorables.
+          <div className="experiencia-section__subtitle">
+            Apostamos por un futuro consciente, integrando prácticas sostenibles
+            que protegen el medio ambiente y promueven un desarrollo
+            equilibrado. Cada decisión que tomamos busca reducir nuestro impacto
+            y contribuir a un entorno más saludable y resiliente
           </div>
         </div>
 

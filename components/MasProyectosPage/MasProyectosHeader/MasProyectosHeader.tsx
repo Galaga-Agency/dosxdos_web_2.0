@@ -11,7 +11,7 @@ const MasProyectosHeader: React.FC = () => {
         <h1 className="mas-proyectos-header__title char-animation">
           Nuestros últimos y gran proyectos
         </h1>
-        <p className="mas-proyectos-header__description">
+        <p className="mas-proyectos-header__description rollup-text">
           Somos un equipo creativo que diseña espacios de marca únicos y
           experiencias visuales memorables para nuestros clientes.
         </p>

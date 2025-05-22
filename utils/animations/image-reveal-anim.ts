@@ -41,12 +41,15 @@ function imageRevealAnimation() {
         ease: "power2.out",
       });
 
-    // After main animation completes, show overlay and content
     if (overlay) {
-      tl.to(overlay, {
-        autoAlpha: 1,
-        duration: 0.3,
-      });
+      tl.to(
+        overlay,
+        {
+          autoAlpha: 1,
+          duration: 0.3,
+        },
+        "-=1.2"
+      ); // Start 1.2 seconds before the main animation ends
     }
 
     if (content) {
@@ -56,8 +59,8 @@ function imageRevealAnimation() {
           autoAlpha: 1,
           duration: 0.3,
         },
-        "-=0.1"
-      ); // Slightly overlap with overlay animation
+        "-=1.1" // Start 1.1 seconds before the main animation ends (slightly after overlay)
+      );
     }
   });
 }

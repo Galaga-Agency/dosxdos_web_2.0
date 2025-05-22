@@ -95,3 +95,33 @@ body {
 .smooth-content {
   will-change: transform;
 }
+
+.cursor-bubble {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: $black;
+  color: $black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9999; // Very high z-index
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    background-color: $secondary-color;
+  }
+
+  span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+  }
+}

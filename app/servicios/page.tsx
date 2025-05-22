@@ -20,6 +20,7 @@ import { imageRevealAnimation } from "@/utils/animations/image-reveal-anim";
 import { projectHoverAnim } from "@/utils/animations/projects-hover-anim";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 import { animateServiciosHero } from "@/utils/animations/servicios-hero";
+import { revealForTouchDevices } from "@/utils/animations/touch-device-reveal";
 
 import "./servicios-page.scss";
 
@@ -41,6 +42,7 @@ const ServiciosPage: React.FC = () => {
       cursorBubbleAnimation();
       animateServiciosHero();
       projectHoverAnim();
+      revealForTouchDevices();
     }, 300);
 
     return () => clearTimeout(timer);

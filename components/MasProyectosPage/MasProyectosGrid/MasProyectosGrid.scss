@@ -7,7 +7,6 @@
   grid-template-columns: 1fr;
   @include gap(sm);
   @include container-width(mobile);
-  @include section-spacing();
   margin: 0 auto;
   position: relative;
   overflow: visible;
@@ -97,10 +96,6 @@
     margin: 0;
   }
 
-  // -----------------------------------------------
-  // Individual item styling - with tablet responsiveness
-  // -----------------------------------------------
-
   // Item 1
   &.item-1 {
     @include min-width(md) {
@@ -177,34 +172,5 @@
     @include min-width(xxl) {
       width: 581px;
     }
-  }
-}
-
-// Cursor bubble
-.cursor-bubble {
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  @include border-radius(full);
-  background-color: $black;
-  color: $black;
-  @include flex(row, center, center); // Using your flex mixin
-  pointer-events: none;
-  @include z-index(modal); // Using your z-index mixin
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  @include transition(transform, normal);
-  transition-property: transform, opacity;
-
-  &.active {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-    background-color: $secondary-color;
-  }
-
-  span {
-    @include font-size(base);
-    @include font-weight(medium);
-    text-align: center;
   }
 }

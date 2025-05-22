@@ -6,6 +6,7 @@ import Link from "next/link";
 import "./MasProyectosGrid.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import useCursorBubble from "@/hooks/useCursorBubble";
+import { isTablet } from "@/utils/device";
 
 interface Project {
   id: string;
@@ -24,7 +25,7 @@ interface MasProyectosGridProps {
 }
 
 const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
-  const { isMobile } = useDeviceDetect();
+  const { isMobile, isTablet } = useDeviceDetect();
   const projectItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   // Set up refs for each project item
@@ -47,7 +48,9 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
           key={project.id}
           href={`/portfolio/${project.slug}`}
           className={`item item-${index + 1}`}
-          data-speed={!isMobile ? (0.8 + (index % 5) * 0.02).toFixed(2) : 0}
+          data-speed={
+            !isMobile || !isTablet ? (0.8 + (index % 5) * 0.02).toFixed(2) : 0
+          }
           ref={(el) => (projectItemRefs.current[index] = el) as any}
         >
           <div className="item__overlay"></div>

@@ -51,6 +51,10 @@
     letter-spacing: 0.02em;
     color: $black;
 
+    &:last-child {
+      text-align: right;
+    }
+
     @include min-width(md) {
       @include font-size(base);
     }
@@ -93,6 +97,14 @@
 
     @include min-width(xxxl) {
       @include font-size(hero-xxxl);
+    }
+  }
+
+  &__button {
+    opacity: 0;
+
+    @include touch-device {
+      opacity: 1;
     }
   }
 

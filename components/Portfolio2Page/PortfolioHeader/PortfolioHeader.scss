@@ -93,5 +93,6 @@
     color: $black;
     max-width: 60ch;
     line-height: 1.6;
+    @include margin(md, top);
   }
 }

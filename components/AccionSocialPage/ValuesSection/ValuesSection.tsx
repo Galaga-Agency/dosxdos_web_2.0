@@ -7,49 +7,47 @@ const ValuesSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
   const misionValues = [
-    "Compromiso",
-    "Pasión",
-    "Trabajo en equipo",
-    "Dinamismo",
-    "Experiencia",
+    "Diseñar con propósito",
+    "Crear impacto positivo",
+    "Fomentar la colaboración",
+    "Conectar personas",
   ];
 
   const visionValues = [
-    "Innovación",
-    "Excelencia",
-    "Creatividad",
-    "Tendencias",
-    "Diferenciación",
+    "Liderar con valores",
+    "Transformar espacios",
+    "Inspirar futuro",
+    "Diseñar con conciencia",
   ];
 
   const principiosValues = [
+    "Creatividad",
+    "Compromiso",
     "Sostenibilidad",
-    "Ética profesional",
-    "Responsabilidad",
-    "Colaboración",
-    "Profesionalidad",
+    "Empatía",
   ];
 
   return (
     <section className="values-section" ref={sectionRef}>
       <div className="values-section__container">
-        <h2  className="values-section__title fade_bottom">
-          Diseñamos espacios con&nbsp;
-          <span className="highlight"> esencia propia</span> que transmiten los
-          valores de cada marca.
+        <h2 className="values-section__title fade_bottom">
+          Nuestro trabajo no termina en el estudio.{" "}
+          <span className="highlight">Empieza en la comunidad.</span>
         </h2>
 
         <div className="values-section__description">
           <p>
-            En <strong>Dos Por Dos</strong>, creemos que lo que somos se refleja
-            en cada proyecto que realizamos. Nuestros valores, misión y visión
-            no son solo palabras, sino principios que vivimos día a día para
-            crear experiencias comerciales extraordinarias.
-          </p>
-          <p>
-            Cada espacio que creamos tiene una <strong>identidad única</strong>{" "}
-            que responde a las necesidades específicas de cada cliente y a la
-            esencia de su marca, potenciando su conexión con el cliente final.
+            Desde <strong>Dos x Dos</strong> creemos que el privilegio de poder
+            crear debe ir de la mano del{" "}
+            <strong>compromiso de contribuir</strong>. <br /> <br /> Por eso
+            <strong> apoyamos iniciativas</strong> que promueven la inclusión,{" "}
+            <strong>colaboramos</strong> con entidades que trabajan con quienes
+            más lo necesitan y <strong>adoptamos medidas reales</strong> para
+            reducir nuestra huella ecológica: desde el uso de materiales
+            sostenibles hasta el autoconsumo energético y la optimización de
+            nuestros desplazamientos. <br />
+            <br /> Porque ser parte del cambio también es parte de{" "}
+            <strong>nuestro trabajo</strong>.
           </p>
         </div>
 

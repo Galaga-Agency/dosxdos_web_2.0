@@ -46,6 +46,7 @@
     color: $black;
     will-change: transform, opacity;
     @include title-line-height;
+    visibility: hidden;
 
     @include min-width(xs) {
       @include font-size(5xl);
@@ -65,9 +66,13 @@
     color: rgba($black, 0.8);
     line-height: 1.7;
 
+    h3 {
+      visibility: hidden;
+    }
+
     p {
       margin-bottom: 1.75rem;
-
+      
       strong {
         color: $black;
         @include font-weight(semibold);

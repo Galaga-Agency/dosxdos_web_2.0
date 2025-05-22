@@ -29,24 +29,35 @@
     margin: 0 auto;
   }
 
-  &__title {
-    @include font-size(3xl);
-    @include font-weight(bold);
-    color: $black;
-    margin-bottom: 1rem;
-    @include title-line-height;
-
-    @include min-width(md) {
-      @include font-size(4xl);
-    }
-  }
-
-  &__cards {
+  &__images {
     @include flex(column, center, center);
-    gap: 2rem;
+    @include gap(lg);
 
     @include min-width(md) {
       @include flex(row, center, center);
+      @include gap(xl);
     }
+  }
+
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    @include border-radius(md);
+
+    @include min-width(md) {
+      height: 400px;
+      flex: 1;
+    }
+
+    @include min-width(lg) {
+      height: 500px;
+    }
+  }
+
+  &__image {
+    object-fit: cover;
+    transition: transform 0.3s ease;
   }
 }

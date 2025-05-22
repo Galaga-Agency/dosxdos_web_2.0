@@ -47,7 +47,7 @@ const TransparenciaPage: React.FC = () => {
             </div>
 
             <div className="transparencia-page__content">
-              <section className="transparencia-page__section fade_bottom">
+              <section className="transparencia-page__section">
                 <p>
                   La transparencia empresarial se enmarca dentro de la
                   estrategia de responsabilidad social empresarial (RSE) de
@@ -82,8 +82,10 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">Misión</h3>
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
+                  Misión
+                </h3>
                 <p>
                   Somos un grupo de más de 45 profesionales, formado por
                   arquitectos, interioristas, diseñadores y expertos en
@@ -99,8 +101,10 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">Visión</h3>
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
+                  Visión
+                </h3>
                 <p>
                   Consolidarnos como una firma de servicios integrales de
                   interiorismo, abarcando cada día sectores más diversos,
@@ -110,8 +114,10 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">Valores</h3>
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
+                  Valores
+                </h3>
                 <p>
                   Fomentamos el trabajo en equipo priorizando las relaciones
                   interpersonales en nuestra Compañía, siendo éstas nuestras
@@ -129,7 +135,7 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <div className="transparencia-page__button-container fade_bottom">
+              <div className="transparencia-page__button-container">
                 <PrimaryButton
                   href="/assets/documents/Estatutos.pdf"
                   target="_blank"
@@ -139,8 +145,10 @@ const TransparenciaPage: React.FC = () => {
                 </PrimaryButton>
               </div>
 
-              <section className="transparencia-page__section fade_bottom">
-                <p>También puedes consultar la legislación que nos afecta:</p>
+              <section className="transparencia-page__section">
+                <p className="fade_bottom">
+                  También puedes consultar la legislación que nos afecta:
+                </p>
                 <ul className="transparencia-page__list">
                   <li>
                     Ley 20/1991, de 7 de junio, de modificación de los aspectos
@@ -213,8 +221,8 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   Ley Canaria de Transparencia
                 </h3>
                 <p>
@@ -262,8 +270,8 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   Órgano de administración
                 </h3>
                 <p>
@@ -290,8 +298,8 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   Información organizativa
                 </h3>
                 <p>
@@ -342,8 +350,8 @@ const TransparenciaPage: React.FC = () => {
                 </ul>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   Información estratégica y memorias de actuación
                 </h3>
                 <p>
@@ -353,8 +361,8 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   Información económica financiera
                 </h3>
 
@@ -403,8 +411,8 @@ const TransparenciaPage: React.FC = () => {
                 </ul>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   Contratos, convenios, encomiendas de gestión y subvenciones
                 </h3>
                 <p>
@@ -444,8 +452,8 @@ const TransparenciaPage: React.FC = () => {
                 </div>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   Otros (Excelencia, sostenibilidad, calidad, medioambiente...)
                 </h3>
                 <p>
@@ -456,8 +464,8 @@ const TransparenciaPage: React.FC = () => {
                 </p>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   A nivel social
                 </h3>
                 <ul className="transparencia-page__list">
@@ -488,8 +496,8 @@ const TransparenciaPage: React.FC = () => {
                 </ul>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   A nivel ambiental
                 </h3>
                 <ul className="transparencia-page__list">
@@ -502,8 +510,8 @@ const TransparenciaPage: React.FC = () => {
                 </ul>
               </section>
 
-              <section className="transparencia-page__section fade_bottom">
-                <h3 className="transparencia-page__section-title">
+              <section className="transparencia-page__section">
+                <h3 className="transparencia-page__section-title fade_bottom">
                   A nivel económica
                 </h3>
                 <ul className="transparencia-page__list">

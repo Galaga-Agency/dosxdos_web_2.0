@@ -30,6 +30,27 @@
         opacity: 1;
       }
     }
+
+    // Dark mode fade overlays
+    .logo-marquee__wrapper {
+      &::before {
+        background: linear-gradient(
+          to right,
+          $black 0%,
+          rgba($black, 0.8) 20%,
+          transparent 40%
+        );
+      }
+
+      &::after {
+        background: linear-gradient(
+          to left,
+          $black 0%,
+          rgba($black, 0.8) 20%,
+          transparent 40%
+        );
+      }
+    }
   }
 
   &__container {
@@ -90,6 +111,48 @@
     width: 100%;
     will-change: transform; // Optimize for animations
     transform: translateZ(0); // Force GPU acceleration
+
+    // Side fade overlays
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+
+      @include min-width(md) {
+        width: 150px;
+      }
+
+      @include min-width(lg) {
+        width: 200px;
+      }
+    }
+
+    // Left fade (light mode)
+    &::before {
+      left: 0;
+      background: linear-gradient(
+        to right,
+        $white 0%,
+        rgba($white, 0.8) 20%,
+        transparent 40%
+      );
+    }
+
+    // Right fade (light mode)
+    &::after {
+      right: 0;
+      background: linear-gradient(
+        to left,
+        $white 0%,
+        rgba($white, 0.8) 20%,
+        transparent 40%
+      );
+    }
   }
 
   &__track {

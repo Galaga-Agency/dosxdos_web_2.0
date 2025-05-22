@@ -34,7 +34,7 @@ const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
           key={project.id}
           className={`portfolio-bento__item portfolio-bento__item--${
             index + 1
-          }`}
+          } reveal-item`}
           onClick={() => handleProjectClick(project.slug)}
         >
           <div className="portfolio-bento__image-wrapper">
@@ -53,11 +53,13 @@ const PortfolioBentoGrid: React.FC<PortfolioBentoGridProps> = ({
             />
           </div>
 
-          <div className="portfolio-bento__hover-info">
-            <span className="portfolio-bento__label">
+          <div className="portfolio-bento__hover-info reveal-content">
+            <span className="portfolio-bento__label reveal-label">
               {project.category || "CREATIVO"}
             </span>
-            <span className="portfolio-bento__title">{project.title}</span>
+            <span className="portfolio-bento__title reveal-title">
+              {project.title}
+            </span>
           </div>
         </div>
       ))}

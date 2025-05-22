@@ -4,483 +4,521 @@
 @use "base/animations" as *;
 
 .blog-detail {
- position: relative;
- width: 100%;
- background-color: $white;
-
- &__hero {
-   position: relative;
-   background-size: cover;
-   background-position: center;
-   height: 100vh;
-   width: 100%;
-   min-height: 500px;
-   @include flex(column, flex-end, flex-start);
-   @include padding(3xl, bottom);
-   @include padding(2xl, x);
-   overflow: hidden;
-   background-color: $white;
-
-   &::after {
-     content: "";
-     position: absolute;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     background: linear-gradient(
-       to bottom,
-       rgba($black, 0),
-       rgba($black, 0.7)
-     );
-     @include z-index(above);
-   }
- }
-
- &__hero-wrapper {
-   position: relative;
-   @include z-index(overlay);
-   width: 100%;
-   max-width: 1200px;
-   margin: 0 auto;
- }
-
- &__hero-content {
-   @include container-width(mobile);
-   margin: 0 auto;
-   position: relative;
-   color: $white;
-
-   @include min-width(md) {
-     @include container-width(tablet);
-   }
-
-   @include min-width(lg) {
-     @include container-width(smalldesktop);
-   }
-
-   @include min-width(xl) {
-     @include container-width(desktop);
-   }
- }
-
- &__hero-meta {
-   @include flex(row, flex-start, center);
-   @include gap(md);
-   @include margin(md, bottom);
- }
-
- &__hero-category {
-   opacity: 0 ;
-   span {
-     display: inline-block;
-     background-color: rgba($white, 0.85);
-     color: $black;
-     padding: 0.5rem 1rem;
-     font-weight: 600;
-     text-transform: uppercase;
-     pointer-events: auto;
-   }
- }
-
- &__hero-date {
-   opacity: 0;
-   padding: 0.5rem 1rem;
-   background-color: rgba($black, 0.85);
-   color: white;
-   font-weight: 600;
-   text-transform: uppercase;
-   pointer-events: auto;
- }
-
- &__hero-title {
-   @include font-size(5xl);
-   @include font-weight(semibold);
-   line-height: 1.1;
-   @include letter-spacing(tight);
-   color: $white;
-   margin-bottom: 1rem;
-   max-width: 24ch;
-   hyphens: manual;
-   word-break: keep-all;
-   overflow-wrap: normal;
-   white-space: normal;
-   will-change: transform;
-   visibility: hidden;
-
-   @include min-width(xs) {
-     @include font-size(6xl);
-   }
-
-   @include min-width(sm) {
-     @include font-size(7xl);
-   }
-
-   @include min-width(md) {
-     @include font-size(8xl);
-   }
- }
-
- &__hero-author {
-   @include margin(lg, bottom);
-   opacity: 1;
-
-   span {
-     @include font-size(base);
-     @include font-weight(medium);
-     color: rgba($white, 0.8);
-   }
- }
-
- &__container {
-   @include container-width(mobile);
-   margin: 0 auto;
-   position: relative;
-   @include padding(4xl, y);
-
-   @include min-width(md) {
-     @include container-width(tablet);
-   }
-
-   @include min-width(lg) {
-     @include container-width(smalldesktop);
-   }
-
-   @include min-width(xl) {
-     @include container-width(desktop);
-   }
- }
-
- &__content {
-   max-width: 800px;
-   margin: 0 auto;
-   @include margin(4xl, bottom);
- }
-
- &__excerpt {
-   @include margin(2xl, bottom);
-   position: relative;
-   @include padding(xl, y);
-   border-bottom: 1px solid rgba($black, 0.1);
-   opacity: 1;
-
-   p {
-     @include font-size(xl);
-     line-height: 1.8;
-     color: rgba($black, 0.8);
-     @include font-weight(medium);
-   }
- }
-
- &__body {
-   @include margin(2xl, bottom);
-
-   p,
-   h1,
-   h2,
-   h3,
-   ul,
-   ol,
-   blockquote {
-     opacity: 1;
-   }
-
-   p {
-     @include margin(md, bottom);
-     @include font-size(lg);
-     line-height: 1.8;
-     color: rgba($black, 0.75);
-   }
-
-   h1,
-   h2,
-   h3 {
-     color: $black;
-     @include margin(xl, top);
-     @include margin(md, bottom);
-   }
-
-   h1 {
-     @include font-size(3xl);
-     @include font-weight(bold);
-   }
-
-   h2 {
-     @include font-size(2xl);
-     @include font-weight(bold);
-   }
-
-   h3 {
-     @include font-size(xl);
-     @include font-weight(semibold);
-   }
-
-   ul,
-   ol {
-     @include margin(md, bottom);
-     padding-left: 1.5rem;
-
-     li {
-       @include margin(sm, bottom);
-       @include font-size(lg);
-       line-height: 1.6;
-     }
-   }
-
-   strong {
-     @include font-weight(semibold);
-     color: $black;
-   }
-
-   em {
-     font-style: italic;
-     color: rgba($black, 0.8);
-   }
-
-   a {
-     color: $black;
-     text-decoration: none;
-     position: relative;
-     display: inline-block;
-
-     &::after {
-       content: "";
-       position: absolute;
-       bottom: -2px;
-       left: 0;
-       width: 0;
-       height: 1px;
-       background-color: $black;
-       transition: width 0.3s ease;
-     }
-
-     &:hover::after {
-       width: 100%;
-     }
-   }
-
-   img {
-     max-width: 100%;
-     height: auto;
-     @include border-radius(md);
-     @include margin(xl, y);
-   }
-
-   blockquote {
-     position: relative;
-     @include margin(xl, y);
-     @include padding(xl, all);
-     background-color: rgba($black, 0.03);
-     border-left: 2px solid $black;
-     @include border-radius(md);
-
-     &::before {
-       content: '"';
-       position: absolute;
-       font-style: italic;
-       top: -0.2rem;
-       font-family: "Playfair Display", serif;
-       left: -1rem;
-       @include font-size(10xl);
-       @include font-weight(bold);
-       line-height: 1;
-       color: $black;
-       transform: translateY(-25%);
-     }
-
-     p {
-       position: relative;
-       @include font-size(xl);
-       margin: 0 auto;
-       line-height: 1.5;
-       @include font-weight(medium);
-       font-style: italic;
-       color: $black;
-       text-align: center;
-     }
-
-     cite {
-       display: block;
-       @include font-size(base);
-       @include font-weight(medium);
-       font-style: normal;
-       color: rgba($black, 0.6);
-     }
-   }
- }
-
- &__tags {
-   @include flex(row, flex-start, center);
-   flex-wrap: wrap;
-   @include gap(sm);
-   @include margin(xl, top);
-   @include padding(lg, top);
-   border-top: 1px solid rgba($black, 0.1);
-   opacity: 1;
- }
-
- &__tags-title {
-   @include font-weight(semibold);
-   color: $black;
-   @include margin(2xs, right);
- }
-
- &__tags-list {
-   @include flex(row, flex-start, center);
-   flex-wrap: wrap;
- }
-
- &__tag {
-   @include font-size(md);
-   @include font-weight(regular);
-   line-height: 1;
-   @include padding(sm, x);
-   @include padding(xs, y);
-   @include border-radius(lg);
-   display: inline-block;
-   color: $white;
-   background-color: $black;
-   border: 1px solid rgba($black, 0.2);
-   @include margin(xs, right);
-   @include margin(xs, bottom);
-   white-space: nowrap;
- }
-
- &__share-section {
-   @include flex(column, center, center);
-   @include margin(4xl, bottom);
-   @include padding(xl, all);
-   background-color: rgba($black, 0.03);
-   @include border-radius(md);
-   opacity: 1;
- }
-
- &__share-title {
-   @include margin(md, bottom);
-   @include font-size(xl);
-   @include font-weight(semibold);
-   color: $black;
- }
-
- &__related-posts {
-   position: relative;
-   @include margin(4xl, bottom);
- }
-
- &__related-title {
-   @include font-size(2xl);
-   @include font-weight(bold);
-   @include margin(2xl, bottom);
-   color: $black;
-   opacity: 1;
- }
-
- &__related-grid {
-   display: grid;
-   grid-template-columns: 1fr;
-   @include gap(lg);
-
-   @include min-width(md) {
-     grid-template-columns: repeat(3, 1fr);
-     @include gap(xl);
-   }
- }
-
- &__related-item {
-   opacity: 1;
- }
-
- &__cta-section {
-   position: relative;
-   width: 100%;
-   background-color: rgba($black, 0.03);
-   @include padding(3xl, y);
-   @include padding(lg, x);
-   @include border-radius(lg);
-   @include margin(4xl, bottom);
-   text-align: center;
- }
-
- &__cta-content {
-   position: relative;
-   max-width: 800px;
-   margin: 0 auto;
- }
-
- &__cta-title {
-   @include font-size(2xl);
-   @include font-weight(bold);
-   color: $black;
-   @include margin(md, bottom);
-   line-height: 1.2;
-   opacity: 1;
-
-   @include min-width(md) {
-     @include font-size(3xl);
-   }
- }
-
- &__cta-text {
-   @include font-size(lg);
-   color: rgba($black, 0.75);
-   max-width: 550px;
-   margin: 0 auto;
-   @include margin(xl, bottom);
-   line-height: 1.6;
-   opacity: 1;
- }
-
- &__cta-button {
-   opacity: 1;
-
-   .button-text {
-     @include font-weight(semibold);
-   }
-
-   .button-icon {
-     @include margin(2xs, left);
-     transition: transform 0.3s ease;
-   }
-
-   &:hover .button-icon {
-     transform: translateX(5px);
-   }
- }
-
- &__mobile-social-section {
-   @include flex(column, center, center);
-   @include gap(md);
-   @include margin(2xl, top);
-   width: 100%;
-   opacity: 1;
-
-   @include min-width(lg) {
-     display: none;
-   }
- }
-
- &__mobile-social-header {
-   @include flex(column, center, center);
-   position: relative;
-   width: 100%;
-   @include margin(md, bottom);
- }
-
- &__mobile-social-title {
-   @include font-size(xl);
-   @include font-weight(semibold);
-   color: $black;
-   @include margin(md, bottom);
- }
-
- &__mobile-social-divider {
-   width: 60px;
-   height: 2px;
-   background-color: rgba($black, 0.1);
- }
-
- &__loading {
-   height: 100vh;
-   @include flex(column, center, center);
- }
+  position: relative;
+  width: 100%;
+  background-color: $white;
+
+  &__hero {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    min-height: 500px;
+    @include flex(column, flex-end, flex-start);
+    @include padding(3xl, bottom);
+    @include padding(2xl, x);
+    overflow: hidden;
+    background-color: $white;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba($black, 0),
+        rgba($black, 0.7)
+      );
+      @include z-index(above);
+    }
+  }
+
+  &__hero-wrapper {
+    position: relative;
+    @include z-index(overlay);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__hero-content {
+    @include container-width(mobile);
+    margin: 0 auto;
+    position: relative;
+    color: $white;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__hero-meta {
+    @include flex(row, flex-start, center);
+    @include gap(md);
+    @include margin(md, bottom);
+  }
+
+  &__hero-category {
+    opacity: 0;
+    span {
+      display: inline-block;
+      background-color: rgba($white, 0.85);
+      color: $black;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      pointer-events: auto;
+    }
+  }
+
+  &__hero-date {
+    opacity: 0;
+    padding: 0.5rem 1rem;
+    background-color: rgba($black, 0.85);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    pointer-events: auto;
+  }
+
+  &__hero-title {
+    @include font-size(5xl);
+    @include font-weight(semibold);
+    @include title-line-height();
+    @include letter-spacing(tight);
+    color: $white;
+    margin-bottom: 1rem;
+    max-width: 24ch;
+    hyphens: manual;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    white-space: normal;
+    will-change: transform;
+    visibility: hidden;
+
+    @include min-width(xs) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(sm) {
+      @include font-size(7xl);
+    }
+
+    @include min-width(md) {
+      @include font-size(8xl);
+    }
+  }
+
+  &__hero-author {
+    @include margin(lg, bottom);
+    opacity: 1;
+
+    span {
+      @include font-size(base);
+      @include font-weight(medium);
+      color: rgba($white, 0.8);
+    }
+  }
+
+  &__container {
+    @include container-width(mobile);
+    margin: 0 auto;
+    position: relative;
+    @include section-padding-y();
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__content {
+    max-width: 800px;
+    margin: 0 auto;
+    @include margin(4xl, bottom);
+  }
+
+  &__excerpt {
+    @include margin(2xl, bottom);
+    position: relative;
+    @include padding(xl, y);
+    border-bottom: 1px solid rgba($black, 0.1);
+    opacity: 1;
+
+    p {
+      @include font-size(xl);
+      @include paragraph-line-height();
+      color: rgba($black, 0.8);
+      @include font-weight(medium);
+    }
+  }
+
+  &__body {
+    @include margin(2xl, bottom);
+
+    p,
+    h1,
+    h2,
+    h3,
+    ul,
+    ol,
+    blockquote {
+      opacity: 1;
+    }
+
+    p {
+      @include margin(md, bottom);
+      @include font-size(lg);
+      @include paragraph-line-height();
+      color: rgba($black, 0.75);
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: $black;
+      @include margin(xl, top);
+      @include margin(md, bottom);
+    }
+
+    h1 {
+      @include font-size(3xl);
+      @include font-weight(bold);
+    }
+
+    h2 {
+      @include font-size(2xl);
+      @include font-weight(bold);
+    }
+
+    h3 {
+      @include font-size(xl);
+      @include font-weight(semibold);
+    }
+
+    ul,
+    ol {
+      @include margin(md, bottom);
+      padding-left: 0; // Remove default padding
+      list-style: none; // Remove default bullets/numbers
+
+      li {
+        @include margin(sm, bottom);
+        @include font-size(lg);
+        @include paragraph-line-height();
+        position: relative;
+        padding-left: 1.5rem; // Add space for custom bullets
+      }
+    }
+
+    // Unordered lists (ul) - Custom bullets
+    ul {
+      li {
+        &::before {
+          content: "▪"; // Small black square
+          position: absolute;
+          left: 0;
+          top: 0;
+          color: $black;
+          font-weight: bold;
+          font-size: 1.2em;
+          line-height: inherit;
+        }
+      }
+    }
+
+    // Ordered lists (ol) - Custom numbers with dots
+    ol {
+      counter-reset: list-counter;
+      
+      li {
+        counter-increment: list-counter;
+        
+        &::before {
+          content: counter(list-counter) "."; // Numbers with dots: "1.", "2.", etc.
+          position: absolute;
+          left: 0;
+          top: 0;
+          color: $black;
+          font-weight: bold;
+          font-size: inherit;
+          line-height: inherit;
+        }
+      }
+    }
+
+    strong {
+      @include font-weight(semibold);
+      color: $black;
+    }
+
+    em {
+      font-style: italic;
+      color: rgba($black, 0.8);
+    }
+
+    a {
+      color: $black;
+      text-decoration: none;
+      position: relative;
+      display: inline-block;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background-color: $black;
+        transition: width 0.3s ease;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      @include border-radius(md);
+      @include margin(xl, y);
+    }
+
+    blockquote {
+      position: relative;
+      @include margin(xl, y);
+      @include padding(xl, all);
+      background-color: rgba($black, 0.03);
+      border-left: 2px solid $black;
+      @include border-radius(md);
+
+      &::before {
+        content: '"';
+        position: absolute;
+        font-style: italic;
+        top: -0.2rem;
+        font-family: "Playfair Display", serif;
+        left: -1rem;
+        @include font-size(10xl);
+        @include font-weight(bold);
+        @include paragraph-line-height();
+        color: $black;
+        transform: translateY(-25%);
+      }
+
+      p {
+        position: relative;
+        @include font-size(xl);
+        margin: 0 auto;
+        @include paragraph-line-height();
+        @include font-weight(medium);
+        font-style: italic;
+        color: $black;
+        text-align: center;
+      }
+
+      cite {
+        display: block;
+        @include font-size(base);
+        @include font-weight(medium);
+        font-style: normal;
+        color: rgba($black, 0.6);
+      }
+    }
+  }
+
+  &__tags {
+    @include flex(row, flex-start, center);
+    flex-wrap: wrap;
+    @include gap(sm);
+    @include margin(xl, top);
+    @include padding(lg, top);
+    border-top: 1px solid rgba($black, 0.1);
+    opacity: 1;
+  }
+
+  &__tags-title {
+    @include font-weight(semibold);
+    color: $black;
+    @include margin(2xs, right);
+  }
+
+  &__tags-list {
+    @include flex(row, flex-start, center);
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    @include font-size(md);
+    @include font-weight(regular);
+    @include paragraph-line-height();
+    @include padding(sm, x);
+    @include padding(xs, y);
+    @include border-radius(lg);
+    display: inline-block;
+    color: $white;
+    background-color: $black;
+    border: 1px solid rgba($black, 0.2);
+    @include margin(xs, right);
+    @include margin(xs, bottom);
+    white-space: nowrap;
+  }
+
+  &__share-section {
+    @include flex(column, center, center);
+    @include margin(4xl, bottom);
+    @include padding(xl, all);
+    background-color: rgba($black, 0.03);
+    @include border-radius(md);
+    opacity: 1;
+  }
+
+  &__share-title {
+    @include margin(md, bottom);
+    @include font-size(xl);
+    @include font-weight(semibold);
+    color: $black;
+  }
+
+  &__related-posts {
+    position: relative;
+    @include margin(4xl, bottom);
+  }
+
+  &__related-title {
+    @include font-size(2xl);
+    @include font-weight(bold);
+    @include margin(2xl, bottom);
+    color: $black;
+    opacity: 1;
+  }
+
+  &__related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    @include gap(lg);
+
+    @include min-width(md) {
+      grid-template-columns: repeat(3, 1fr);
+      @include gap(xl);
+    }
+  }
+
+  &__related-item {
+    opacity: 1;
+  }
+
+  &__cta-section {
+    position: relative;
+    width: 100%;
+    background-color: rgba($black, 0.03);
+    @include padding(3xl, y);
+    @include padding(lg, x);
+    @include border-radius(md);
+    text-align: center;
+  }
+
+  &__cta-content {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  &__cta-title {
+    @include font-size(2xl);
+    @include font-weight(bold);
+    color: $black;
+    @include margin(md, bottom);
+    @include title-line-height();
+    opacity: 1;
+
+    @include min-width(md) {
+      @include font-size(3xl);
+    }
+  }
+
+  &__cta-text {
+    @include font-size(lg);
+    color: rgba($black, 0.75);
+    max-width: 550px;
+    margin: 0 auto;
+    @include margin(xl, bottom);
+    @include paragraph-line-height();
+    opacity: 1;
+  }
+
+  &__cta-button {
+    opacity: 1;
+
+    .button-text {
+      @include font-weight(semibold);
+    }
+
+    .button-icon {
+      @include margin(2xs, left);
+      transition: transform 0.3s ease;
+    }
+
+    &:hover .button-icon {
+      transform: translateX(5px);
+    }
+  }
+
+  &__mobile-social-section {
+    @include flex(column, center, center);
+    @include gap(md);
+    @include margin(2xl, top);
+    width: 100%;
+    opacity: 1;
+
+    @include min-width(md) {
+      display: none;
+    }
+  }
+
+  &__mobile-social-header {
+    @include flex(column, center, center);
+    position: relative;
+    width: 100%;
+    @include margin(md, bottom);
+  }
+
+  &__mobile-social-title {
+    @include font-size(xl);
+    @include font-weight(semibold);
+    color: $black;
+    @include margin(md, bottom);
+  }
+
+  &__mobile-social-divider {
+    width: 60px;
+    height: 2px;
+    background-color: rgba($black, 0.1);
+  }
+
+  &__loading {
+    height: 100vh;
+    @include flex(column, center, center);
+  }
 }
