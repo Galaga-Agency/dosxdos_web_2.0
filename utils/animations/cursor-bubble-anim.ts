@@ -1,5 +1,16 @@
-export function cursorBubbleAnimation() {
-  if (typeof window === "undefined") return;
+export function cursorBubbleAnimation(): () => void {
+  if (typeof window === "undefined") return () => {};
+
+  // Check if bubble already exists and remove it
+  const existingBubble = document.querySelector(".cursor-bubble");
+  if (existingBubble) {
+    existingBubble.remove();
+  }
+
+  // Cancel any existing animation frame
+  if (window.cursorAnimationFrame) {
+    cancelAnimationFrame(window.cursorAnimationFrame);
+  }
 
   // Create the cursor bubble
   const bubble = document.createElement("div");
@@ -14,10 +25,12 @@ export function cursorBubbleAnimation() {
     bubbleY = 0;
 
   // Handle mouse movement
-  document.addEventListener("mousemove", (e) => {
+  const handleMouseMove = (e: MouseEvent) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-  });
+  };
+
+  document.addEventListener("mousemove", handleMouseMove);
 
   // Animate bubble with requestAnimationFrame
   const animateBubble = () => {
@@ -48,21 +61,61 @@ export function cursorBubbleAnimation() {
     },
   ];
 
-  setTimeout(() => {
+  // Store event listeners for cleanup
+  const eventListeners: Array<{
+    element: Element;
+    type: string;
+    handler: EventListener;
+  }> = [];
+
+  const setupEventListeners = () => {
     elementConfig.forEach(({ selector, text }) => {
       document.querySelectorAll(selector).forEach((item) => {
-        item.addEventListener("mouseenter", () => {
+        const mouseEnterHandler = () => {
           const spanElement = bubble.querySelector("span");
           if (spanElement) {
             spanElement.innerHTML = text;
           }
           bubble.classList.add("active");
-        });
+        };
 
-        item.addEventListener("mouseleave", () => {
+        const mouseLeaveHandler = () => {
           bubble.classList.remove("active");
-        });
+        };
+
+        item.addEventListener("mouseenter", mouseEnterHandler);
+        item.addEventListener("mouseleave", mouseLeaveHandler);
+
+        // Store for cleanup
+        eventListeners.push(
+          { element: item, type: "mouseenter", handler: mouseEnterHandler },
+          { element: item, type: "mouseleave", handler: mouseLeaveHandler }
+        );
       });
     });
-  }, 300);
+  };
+
+  setTimeout(setupEventListeners, 300);
+
+  // Return cleanup function
+  return () => {
+    // Remove event listeners
+    eventListeners.forEach(({ element, type, handler }) => {
+      element.removeEventListener(type, handler);
+    });
+
+    // Remove mouse move listener
+    document.removeEventListener("mousemove", handleMouseMove);
+
+    // Cancel animation frame
+    if (window.cursorAnimationFrame) {
+      cancelAnimationFrame(window.cursorAnimationFrame);
+      window.cursorAnimationFrame = undefined;
+    }
+
+    // Remove bubble from DOM
+    if (bubble && bubble.parentNode) {
+      bubble.parentNode.removeChild(bubble);
+    }
+  };
 }

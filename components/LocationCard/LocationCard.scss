@@ -178,7 +178,7 @@
     text-decoration: none;
     color: $black;
     @include font-size(base);
-    padding: 0.75rem 0;
+    padding: 0.75rem 0.5rem;
     transition: all 0.3s ease;
     position: relative;
     @include border-radius(md);

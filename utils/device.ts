@@ -1,9 +1,6 @@
 /**
- * Device and viewport utility functions using device-detector-js
+ * Reliable device detection utilities based on screen size and user agent
  */
-import DeviceDetector from "device-detector-js";
-
-const deviceDetector = new DeviceDetector();
 
 export const getWindowDimensions = (): { width: number; height: number } => {
   if (typeof window === "undefined") {
@@ -18,31 +15,55 @@ export const getWindowDimensions = (): { width: number; height: number } => {
 
 export const isMobile = (): boolean => {
   if (typeof window === "undefined") return false;
-  const device: any = deviceDetector.parse(navigator.userAgent);
-  return device.device?.type === "mobile";
+
+  const width = window.innerWidth;
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  // Check screen width first (most reliable)
+  if (width < 768) return true;
+
+  // Check user agent for mobile keywords
+  const mobileKeywords = [
+    "android",
+    "iphone",
+    "ipod",
+    "blackberry",
+    "windows phone",
+    "mobile",
+    "opera mini",
+    "iemobile",
+  ];
+
+  return mobileKeywords.some((keyword) => userAgent.includes(keyword));
 };
 
 export const isTablet = (): boolean => {
   if (typeof window === "undefined") return false;
 
-  // First try device-detector-js for real devices
-  const device = deviceDetector.parse(navigator.userAgent);
-  if (device.device?.type === "tablet") {
-    return true;
-  }
-
-  // Fall back to screen size for dev tools simulation
   const width = window.innerWidth;
+  const userAgent = navigator.userAgent.toLowerCase();
   const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-  // If it's a touch device with tablet-like dimensions, consider it a tablet
-  return isTouch && width >= 768 && width <= 1366;
+  // Check for tablet keywords in user agent
+  const tabletKeywords = ["ipad", "tablet", "kindle", "playbook", "silk"];
+  const hasTabletKeyword = tabletKeywords.some((keyword) =>
+    userAgent.includes(keyword)
+  );
+
+  // iPad detection (even when requesting desktop site)
+  const isIPad = /macintosh/.test(userAgent) && isTouch;
+
+  // Size-based detection for touch devices
+  const isTabletSize = width >= 768 && width <= 1024 && isTouch;
+
+  return hasTabletKeyword || isIPad || isTabletSize;
 };
 
 export const isDesktop = (): boolean => {
   if (typeof window === "undefined") return true;
-  const device = deviceDetector.parse(navigator.userAgent);
-  return device.device?.type === "desktop" || device.device?.type === undefined;
+
+  // If it's not mobile and not tablet, it's desktop
+  return !isMobile() && !isTablet();
 };
 
 export const isTouchDevice = (): boolean => {

@@ -528,7 +528,7 @@ function rollUpTextAnimation() {
       itemSplitted.split({ type: "lines" });
       tl.from(itemSplitted.lines, {
         duration: 1,
-        delay: 0.3,
+        delay: 1.2,
         opacity: 0,
         rotationX: -80,
         force3D: true,

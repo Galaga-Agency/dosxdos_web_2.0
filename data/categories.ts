@@ -2,52 +2,47 @@ import { Category } from "@/types/category-types";
 
 export const categoriesList: Category[] = [
   {
-    id: "interiorismo-comercial",
-    name: "Interiorismo comercial",
+    id: "diseno-de-interiores",
+    name: "Diseño de Interiores",
     imageUrl:
       "/assets/img/portfolio/interiorismo-comercial/interiorismo-comercial-1.jpg",
     description:
       "Diseño de espacios comerciales para maximizar la experiencia del cliente.",
   },
   {
-    id: "produccion-digital",
-    name: "Producción digital",
+    id: "eventos",
+    name: "Eventos",
     imageUrl:
       "/assets/img/portfolio/produccion-digital/produccion-digital-2.jpg",
-    description: "Creación de contenido digital y producción multimedia.",
+    description: "Organización y diseño de eventos corporativos y comerciales.",
   },
   {
-    id: "perfumeria",
-    name: "Perfumería",
+    id: "produccion",
+    name: "Producción",
     imageUrl: "/assets/img/portfolio/perfumeria/perfumeria-3.jpg",
-    description: "Diseño y presentación para productos de perfumería.",
-  },
-  {
-    id: "shop-in-shop",
-    name: "Shop in shop",
-    imageUrl: "/assets/img/portfolio/shop-in-shop/shop-in-shop-3.jpg",
     description:
-      "Concepto de tienda dentro de otra tienda para aumentar visibilidad.",
+      "Producción y fabricación de elementos para espacios comerciales.",
   },
   {
-    id: "escaparatismo",
-    name: "Escaparatismo",
+    id: "logistica",
+    name: "Logística",
+    imageUrl: "/assets/img/portfolio/shop-in-shop/shop-in-shop-3.jpg",
+    description: "Gestión logística integral para proyectos comerciales.",
+  },
+  {
+    id: "comunicacion",
+    name: "Comunicación",
     imageUrl: "/assets/img/portfolio/escaparatismo/escapartismo-3.jpg",
-    description: "Diseño de escaparates que capturen la atención del público.",
+    description: "Estrategias de comunicación visual y corporativa.",
   },
   {
-    id: "espacios-promocionales",
-    name: "Espacios promocionales",
+    id: "consultoria",
+    name: "Consultoría",
     imageUrl:
       "/assets/img/portfolio/espacios-promocionales/espacios-promocionales-3.jpg",
-    description: "Creación de espacios temporales para promociones especiales.",
+    description:
+      "Asesoramiento especializado en espacios comerciales y retail.",
   },
-  // {
-  //   id: "pergolas",
-  //   name: "Pérgolas",
-  //   imageUrl: "/assets/img/portfolio/escaparatismo/escapartismo-3.jpg",
-  //   description: "Diseño e instalación de pérgolas para espacios exteriores.",
-  // },
 ];
 
 // Helper function to get a category by ID
