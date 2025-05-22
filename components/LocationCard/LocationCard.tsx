@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mail, Phone, Clock, MapPin, ArrowRight } from "lucide-react";
-import { setupMouseMoveAnimation } from "@/utils/animations/mouse-move-anim";
 import "./LocationCard.scss";
 import PrimaryButton from "../ui/PrimaryButton/PrimaryButton";
 
@@ -27,23 +26,8 @@ const LocationCard: React.FC<LocationCardProps> = ({
   mapUrl,
   className,
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
   const [currentTime, setCurrentTime] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<string>("");
-
-  // Setup mouse move animation
-  useEffect(() => {
-    if (cardRef.current) {
-      const cleanup = setupMouseMoveAnimation({
-        element: cardRef.current,
-        highlightSelector: ".location-card__highlight",
-        sensitivity: 20,
-        highlightOpacity: 0.15,
-      });
-
-      return cleanup;
-    }
-  }, []);
 
   // Set up real-time clock and date
   useEffect(() => {
@@ -85,7 +69,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
   }, [timeZoneIdentifier]);
 
   return (
-    <div className={`location-card ${className || ""}`} ref={cardRef}>
+    <div className={`location-card ${className || ""}`}>
       <div className="location-card__highlight"></div>
       <div className="location-card__content">
         <div className="location-card__header">
