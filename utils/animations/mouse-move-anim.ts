@@ -1,86 +1,75 @@
-"use client";
-
 import { gsap } from "gsap";
 
-interface MouseMoveAnimation {
-  element: HTMLElement;
-  highlightSelector: string;
-  sensitivity?: number;
-  highlightOpacity?: number;
-  animationDuration?: number;
-  resetDuration?: number;
-}
-
 /**
- * Sets up a mouse move animation with tilt effect and highlight
- * @param options Configuration options for the animation
- * @returns Cleanup function to remove event listeners
+ * Sets up mouse move animations for all location cards with default settings
+ * @returns Cleanup function to remove all event listeners
  */
-export const setupMouseMoveAnimation = ({
-  element,
-  highlightSelector,
-  sensitivity = 25,
-  highlightOpacity = 0.1,
-  animationDuration = 0.5,
-  resetDuration = 0.6,
-}: MouseMoveAnimation): (() => void) => {
-  if (!element) return () => {};
+export const setupMouseMoveAnimation = (): (() => void) => {
+  const elements = document.querySelectorAll(".location-card");
+  const cleanupFunctions: (() => void)[] = [];
 
-  const handleMouseMove = (e: MouseEvent) => {
-    const rect = element.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  elements.forEach((element) => {
+    if (!(element instanceof HTMLElement)) return;
 
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-    const tiltX = (y - centerY) / sensitivity;
-    const tiltY = (centerX - x) / sensitivity;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
 
-    gsap.to(element, {
-      rotationX: tiltX,
-      rotationY: tiltY,
-      transformPerspective: 1000,
-      duration: animationDuration,
-      ease: "power2.out",
-    });
+      const tiltX = (y - centerY) / 20;
+      const tiltY = (centerX - x) / 20;
 
-    const highlight = element.querySelector(highlightSelector);
-    if (highlight) {
-      gsap.to(highlight, {
-        x: x,
-        y: y,
-        opacity: highlightOpacity,
-        duration: animationDuration,
+      gsap.to(element, {
+        rotationX: tiltX,
+        rotationY: tiltY,
+        transformPerspective: 1000,
+        duration: 0.5,
         ease: "power2.out",
       });
-    }
-  };
 
-  const handleMouseLeave = () => {
-    gsap.to(element, {
-      rotationX: 0,
-      rotationY: 0,
-      duration: resetDuration,
-      ease: "power2.out",
-    });
+      const highlight = element.querySelector(".location-card__highlight");
+      if (highlight) {
+        gsap.to(highlight, {
+          x: x,
+          y: y,
+          opacity: 0.15,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      }
+    };
 
-    const highlight = element.querySelector(highlightSelector);
-    if (highlight) {
-      gsap.to(highlight, {
-        opacity: 0,
-        duration: resetDuration,
+    const handleMouseLeave = () => {
+      gsap.to(element, {
+        rotationX: 0,
+        rotationY: 0,
+        duration: 0.6,
         ease: "power2.out",
       });
-    }
-  };
 
-  element.addEventListener("mousemove", handleMouseMove);
-  element.addEventListener("mouseleave", handleMouseLeave);
+      const highlight = element.querySelector(".location-card__highlight");
+      if (highlight) {
+        gsap.to(highlight, {
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        });
+      }
+    };
 
-  // Return cleanup function
+    element.addEventListener("mousemove", handleMouseMove);
+    element.addEventListener("mouseleave", handleMouseLeave);
+
+    cleanupFunctions.push(() => {
+      element.removeEventListener("mousemove", handleMouseMove);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+    });
+  });
+
   return () => {
-    element.removeEventListener("mousemove", handleMouseMove);
-    element.removeEventListener("mouseleave", handleMouseLeave);
+    cleanupFunctions.forEach((cleanup) => cleanup());
   };
 };

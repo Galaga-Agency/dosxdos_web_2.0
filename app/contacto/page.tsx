@@ -16,6 +16,7 @@ import Footer from "@/components/layout/Footer/footer";
 import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
 
 import "./contact-page.scss";
+import { setupMouseMoveAnimation } from "@/utils/animations/mouse-move-anim";
 
 const ContactPage: React.FC = () => {
   useScrollSmooth();
@@ -31,6 +32,7 @@ const ContactPage: React.FC = () => {
     const timer = setTimeout(() => {
       fadeAnimation();
       charAnimation();
+      setupMouseMoveAnimation();
     }, 300);
 
     return () => clearTimeout(timer);
