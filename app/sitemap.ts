@@ -40,18 +40,47 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/servicios/comunicacion`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/servicios/consultoria`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/servicios/diseno-de-interiores`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    // Add more service subpages here as needed
-    // {
-    //   url: `${baseUrl}/servicios/consultoria`,
-    //   lastModified: new Date(),
-    //   changeFrequency: "monthly",
-    //   priority: 0.8,
-    // },
+    {
+      url: `${baseUrl}/servicios/eventos`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/servicios/instalacion`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/servicios/logistica`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/servicios/produccion`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     // Portfolio
     {
       url: `${baseUrl}/portfolio`,
@@ -110,14 +139,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     // Fetch blog posts
     const blogPosts = await getAllPosts();
-    const blogPages: MetadataRoute.Sitemap = blogPosts
-      .filter((post) => post.published) // Only include published posts
-      .map((post) => ({
-        url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: new Date(post.date),
-        changeFrequency: "weekly",
-        priority: 0.6,
-      }));
+    const publishedPosts = blogPosts.filter((post) => post.published);
+
+    const blogPages: MetadataRoute.Sitemap = publishedPosts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: "weekly",
+      priority: 0.6,
+    }));
 
     // Map portfolio projects from the data file
     const projectPages: MetadataRoute.Sitemap = projects.map((project) => ({
@@ -126,6 +155,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     }));
+
+    // Log success for debugging (optional - remove in production)
+    console.log(
+      `Sitemap generated: ${staticPages.length} static pages, ${blogPages.length} blog posts, ${projectPages.length} projects`
+    );
 
     return [...staticPages, ...blogPages, ...projectPages];
   } catch (error) {

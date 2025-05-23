@@ -289,10 +289,11 @@
 
   &__nav-link,
   &__nav-button {
-    @include font-weight(semibold);
+    @include font-weight(medium); // Changed from semibold to light
     position: relative;
     @include padding(xs, y);
     text-decoration: none;
+    text-transform: uppercase; // Added uppercase transform
     transition: all 0.3s ease;
     background: none;
     border: none;
@@ -401,6 +402,8 @@
     @include padding(md, x);
     text-decoration: none;
     text-wrap: nowrap;
+    text-transform: uppercase; // Added uppercase transform for dropdown links
+    @include font-weight(medium); // Added light font weight for dropdown links
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     position: relative;
     @include font-size(base);
@@ -576,7 +579,7 @@
     @include padding(sm, y);
     color: rgba($white, 0.8);
     text-decoration: none;
-    @include font-weight(medium);
+    @include font-weight(light); // Changed from medium to light
     text-transform: uppercase;
     @include letter-spacing(wide);
     @include font-size(base);
@@ -642,6 +645,7 @@
     color: rgba($white, 0.6);
     text-decoration: none;
     @include font-size(sm);
+    @include font-weight(light); // Added light font weight for mobile sublinks
     text-transform: uppercase;
     @include letter-spacing(wide);
     position: relative;

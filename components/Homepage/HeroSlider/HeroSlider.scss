@@ -102,20 +102,26 @@
 
   // Content wrapper
   &__content {
-    position: absolute;
-    top: 50%;
-    left: 5%;
-    transform: translateY(-50%);
-    @include z-index(overlay);
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
+     position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 6rem;
+    @include flex(column, end, flex-start);
+    z-index: 3;
+    margin: 0 auto;
+    @include container-width(mobile);
 
     @include min-width(md) {
-      left: 10%;
-      width: 80%;
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
     }
   }
 

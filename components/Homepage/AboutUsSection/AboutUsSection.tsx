@@ -15,14 +15,10 @@ const AboutUsSection: React.FC = () => {
       <div className="aboutus-section__container">
         {/* Header section */}
         <div className="aboutus-section__header">
-          <div className="aboutus-section__label">
-            <span>Quienes Somos</span>
-          </div>
-
           <h2 className="aboutus-section__title fade_bottom">
-            CREAMOS ESPACIOS
-            <br />
-            QUE <span className="highlight">INSPIRAN</span>
+            Diseñamos experiencias que{" "}
+            <span className="highlight">conectan</span>
+            <br /> marcas con personas
           </h2>
         </div>
 
@@ -35,7 +31,7 @@ const AboutUsSection: React.FC = () => {
               data-speed={isMobile ? "0" : "1.15"}
             >
               <Image
-                src="/assets/img/blog/corporate-branding.jpg"
+                src="/assets/img/homepage/foto-landing.webp"
                 alt="Diseño de interiores"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -48,17 +44,12 @@ const AboutUsSection: React.FC = () => {
           {/* Right column with content */}
           <div className="aboutus-section__content-column">
             <div className="aboutus-section__text">
-              <p>
-                Más de <strong>35 años de experiencia</strong> en el sector del
-                diseño de interiores en espacios comerciales. Especialistas en
-                el servicio integral a firmas de lujo de la cosmética y
-                perfumería.
-              </p>
-              <p>
-                Con un gran equipo de más de 45 profesionales, formado por
-                arquitectos, interioristas, diseñadores y expertos en producción
-                e instalación, te acompañamos durante todo el proceso.
-              </p>
+              Desde hace más de 38 años, en Dos x Dos Grupo Imagen creamos
+              soluciones creativas para marcas que buscan dejar huella.
+              Diseñamos espacios, eventos, identidades y herramientas digitales
+              que inspiran y funcionan. Nuestra visión integral une diseño,
+              producción, tecnología y estrategia para acompañarte en todo lo
+              que tu negocio necesita, desde la idea hasta el resultado.
             </div>
 
             <div className="aboutus-section__cta">
