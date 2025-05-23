@@ -33,6 +33,21 @@ const ContactPage: React.FC = () => {
       fadeAnimation();
       charAnimation();
       setupMouseMoveAnimation();
+
+      // FIX: Refresh ScrollSmoother and ScrollTrigger after animations
+      const smoother = ScrollSmoother.get();
+      if (smoother) {
+        smoother.refresh();
+      }
+      ScrollTrigger.refresh();
+
+      // FIX: Update smooth scroll wrapper height
+      const wrapper: any = document.querySelector("#smooth-wrapper");
+      const content: any = document.querySelector("#smooth-content");
+      if (wrapper && content) {
+        wrapper.style.height = "auto";
+        content.style.height = "auto";
+      }
     }, 300);
 
     return () => clearTimeout(timer);
@@ -63,8 +78,9 @@ const ContactPage: React.FC = () => {
                   <div className="contact-page__info-divider"></div>
                   <div className="contact-page__additional-info">
                     <p>
-                      <strong>Horario de atención:</strong> <br/>Lunes a Viernes,
-                      09:00 - 18:00
+                      <strong>Horario de atención:</strong> <br />
+                      Lunes a Jueves, 08:00 - 16:00 <br />
+                      Viernes, 08:00 - 14:45
                     </p>
                   </div>
                 </div>
