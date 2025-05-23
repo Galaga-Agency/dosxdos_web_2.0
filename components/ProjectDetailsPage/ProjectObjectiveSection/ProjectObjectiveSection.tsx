@@ -17,7 +17,7 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
       <div className="project-objective-section__container">
         <div className="project-objective-section__content-wrapper">
           <h2 className="project-objective-section__title fade_bottom">
-            Simple & Significant
+            Simple & <span className="highlight">Significant</span>
           </h2>
 
           <div className="project-objective-section__text">

@@ -7,12 +7,15 @@
   position: relative;
   width: 100%;
   background-color: $white;
-  overflow: visible; 
-  opacity: 1 !important; 
+  overflow: visible;
+  opacity: 1 !important;
   @include section-padding-y();
-  
+
   &__container {
+    width: 100%;
+    max-width: 1600px;
     margin: 0 auto;
+    position: relative;
     @include container-width(mobile);
 
     @include min-width(md) {
@@ -29,10 +32,9 @@
   }
 
   &__header {
-    @include margin(3xl, bottom);
-    position: relative;
-    opacity: 1 !important;
-    z-index: 1;
+    width: 100%;
+    @include flex(column, start, start);
+    gap: 1rem;
   }
 
   &__title {
@@ -42,17 +44,6 @@
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;
-    opacity: 1 !important;
-
-    .title-row {
-      display: block;
-      @include margin(3xs, bottom);
-      opacity: 1 !important;
-
-      @include min-width(xl) {
-        white-space: nowrap;
-      }
-    }
 
     @include min-width(xs) {
       @include font-size(5xl);
@@ -64,35 +55,25 @@
 
     @include min-width(md) {
       @include font-size(7xl);
-      margin-left: 10%;
     }
   }
 
   &__label {
     @include font-size(lg);
     @include font-weight(medium);
-    @include margin(md, bottom);
     color: $black;
     display: block;
     opacity: 1 !important;
-
-    @include min-width(xl) {
-      position: absolute;
-      max-width: 10%;
-    }
   }
 
   &__subtitle {
     @include font-size(lg);
     line-height: 1.6;
     color: rgba($black, 0.75);
-    @include margin(4xl, bottom);
+    @include margin(xl, y);
     max-width: 600px;
-    opacity: 1 !important;
-
-    @include min-width(md) {
-      margin-left: 10%;
-    }
+    position: relative;
+    z-index: 1;
 
     strong {
       color: $black;
@@ -168,7 +149,7 @@
     @include shadow(md);
     position: relative;
     z-index: 100;
-    
+
     @include min-width(md) {
       width: 48px;
       height: 48px;
@@ -179,7 +160,7 @@
       background-color: $white;
       color: $primary-color;
     }
-    
+
     &:active {
       transform: scale(0.95);
     }
@@ -188,17 +169,17 @@
       width: 18px;
       height: 18px;
       pointer-events: none;
-      
+
       @include min-width(md) {
         width: 24px;
         height: 24px;
       }
     }
-    
+
     &--prev {
       margin-left: -20px;
     }
-    
+
     &--next {
       margin-right: -20px;
     }
@@ -224,16 +205,16 @@
     padding: 0;
     position: relative;
     z-index: 100;
-    
+
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: -8px;
       left: -8px;
       right: -8px;
       bottom: -8px;
     }
-    
+
     @media (hover: none) and (pointer: coarse) {
       width: 10px;
       height: 10px;

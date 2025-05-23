@@ -12,17 +12,17 @@ const SustainabilityImagesSection: React.FC = () => {
     {
       id: "sustainability-1",
       alt: "Materiales Sostenibles",
-      imageUrl: "/assets/img/about-us-page/yrichen-illustration.webp",
+      imageUrl: "/assets/img/about-us-page/placas-solares.webp",
     },
     {
       id: "sustainability-2",
       alt: "Eficiencia Energética",
-      imageUrl: "/assets/img/about-us-page/vicente-ferrer-illustration.jpg",
+      imageUrl: "/assets/img/about-us-page/materiales.webp",
     },
     {
       id: "sustainability-3",
       alt: "Economía Circular",
-      imageUrl: "/assets/img/about-us-page/mil-caminos-illustration.jpg",
+      imageUrl: "/assets/img/about-us-page/recorrido.webp",
     },
   ];
 

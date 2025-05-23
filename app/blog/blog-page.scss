@@ -289,24 +289,24 @@
     position: relative;
 
     .posts-title {
-      @include font-size(3xl);
-      @include font-weight(bold);
-      margin-bottom: 3rem;
-      color: $black;
-      line-height: 1.2;
+      @include font-size(4xl);
+      @include font-weight(semibold);
+      @include title-line-height;
+      @include letter-spacing(tight);
       text-transform: uppercase;
-      position: relative;
-      opacity: 0; /* Estado inicial para la animación */
-      transform: translateY(30px); /* Posición inicial para la animación */
+      color: $black;
+      @include margin(xl, bottom);
 
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -0.5rem;
-        left: 0;
-        width: 3rem;
-        height: 2px;
-        background-color: rgba($black, 0.3);
+      @include min-width(xs) {
+        @include font-size(5xl);
+      }
+
+      @include min-width(sm) {
+        @include font-size(6xl);
+      }
+
+      @include min-width(md) {
+        @include font-size(7xl);
       }
     }
 

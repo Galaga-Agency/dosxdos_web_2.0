@@ -1,4 +1,4 @@
-export interface Category {
+export interface Service {
   id: string;
   name: string;
   imageUrl: string;

@@ -18,7 +18,7 @@ const AboutServices: React.FC = () => {
             <div className="title-row fade_bottom">
               CREAMOS ESPACIOS COMERCIALES DE LUJO QUE
             </div>
-            <div className="title-row fade_bottom">CAUTIVAN Y VENDEN.</div>
+            <div className="title-row fade_bottom highlight">CAUTIVAN Y VENDEN.</div>
           </h2>
         </div>
 

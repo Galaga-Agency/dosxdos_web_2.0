@@ -11,13 +11,26 @@
   @include section-padding-top();
 
   &__container {
-    position: relative;
+    width: 100%;
     max-width: 1600px;
     margin: 0 auto;
-    padding: 0 clamp(1rem, 5vw, 4rem);
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 3rem;
+    @include container-width(mobile);
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
 
     @include min-width(lg) {
       flex-direction: row;

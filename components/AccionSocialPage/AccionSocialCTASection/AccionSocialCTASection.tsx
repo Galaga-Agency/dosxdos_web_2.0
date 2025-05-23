@@ -15,14 +15,12 @@ const AccionSocialCTASection = () => {
       <div className="cta-section__container">
         {/* Header section */}
         <div className="cta-section__header">
-          <div className="cta-section__label fade_left">
+          <div className="cta-section__label">
             <span>NUESTRO EQUIPO</span>
           </div>
 
           <h2 className="cta-section__title fade_bottom">
-            CONOCE A LAS PERSONAS
-            <br />
-            DETRÁS DE NUESTRA MISIÓN
+            Todo empieza por una idea, <br /> lo demás lo hacemos <span className="highlight">juntos</span>.
           </h2>
         </div>
 
@@ -30,7 +28,7 @@ const AccionSocialCTASection = () => {
         <div className="cta-section__content">
           <div
             className="cta-section__visual-column"
-            data-speed={isMobile ? "0" : "1.3"}
+            data-speed={isMobile ? "0" : "1.15"}
           >
             <div className="cta-section__image-wrapper">
               <Image
@@ -48,18 +46,11 @@ const AccionSocialCTASection = () => {
           {/* Right column with content */}
           <div className="cta-section__content-column">
             <div className="cta-section__text">
-              <p>
-                Con un gran equipo de más de 45 profesionales, formado por
-                arquitectos, interioristas, diseñadores y expertos en producción
-                e instalación, te acompañamos durante todo el proceso para crear
-                espacios únicos con personalidad propia.
-              </p>
-              <p>
-                Descubre al equipo de profesionales que hacen posible nuestros
-                proyectos e iniciativas sociales, y aprende más sobre cómo
-                trabajamos para crear un impacto positivo en cada espacio que
-                diseñamos.
-              </p>
+              Contamos con un equipo multidisciplinar de más de 40 personas —
+              arquitectos, interioristas, diseñadores, técnicos e instaladores —
+              que entienden que cada proyecto es un lenguaje visual que debe
+              decir algo único. Te acompañamos de principio a fin para
+              transformar conceptos en espacios que inspiran.
             </div>
 
             <div className="cta-section__cta">

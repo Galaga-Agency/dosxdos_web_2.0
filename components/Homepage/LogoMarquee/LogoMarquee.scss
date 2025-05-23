@@ -55,9 +55,12 @@
 
   &__container {
     width: 100%;
+    max-width: 1600px;
     margin: 0 auto;
-    overscroll-behavior: none;
-    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
     @include container-width(mobile);
 
     @include min-width(md) {
@@ -70,6 +73,12 @@
 
     @include min-width(xl) {
       @include container-width(desktop);
+    }
+
+    @include min-width(lg) {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 5rem;
     }
 
     &.has-header {
@@ -85,12 +94,8 @@
 
   &__header {
     flex-shrink: 0;
-    padding: 0 1.5rem;
+    padding: 0 1.5rem 0 0;
     margin: 0;
-
-    @include min-width(md) {
-      padding: 0 3rem;
-    }
 
     &-title {
       @include font-size(2xl);

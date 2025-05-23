@@ -15,45 +15,12 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const { isMobile, isTablet, isDesktop } = useDeviceDetect();
-  const [isVisible, setIsVisible] = useState(false);
 
   // Calculate items per view based on device detection
   const itemsPerView = isMobile ? 1 : isTablet ? 2 : 3;
 
   // Calculate total slides
   const totalSlides = Math.max(1, Math.ceil(posts.length / itemsPerView));
-
-  // Add visibility detection - this helps with animations
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect(); // Only need to detect once
-        }
-      },
-      { threshold: 0.1 } // Trigger when 10% visible
-    );
-
-    observer.observe(sectionRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  // Add class to enable animations when visible
-  useEffect(() => {
-    if (isVisible && sectionRef.current) {
-      // Add visible class to the section to trigger animations
-      sectionRef.current.classList.add("section-visible");
-
-      // Log for debugging
-      console.log("BlogCarouselSection is now visible, enabling animations");
-    }
-  }, [isVisible]);
 
   const handlePrev = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -90,12 +57,12 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
     <section ref={sectionRef} className="blog-carousel-section">
       <div className="blog-carousel-section__container">
         <div className="blog-carousel-section__header">
-          <div className="blog-carousel-section__label fade_left">
+          <div className="blog-carousel-section__label">
             <span>Nuestro Blog</span>
           </div>
 
           <h2 className="blog-carousel-section__title">
-            <div className="title-row fade_bottom">ESTRATEGIAS E IDEAS</div>
+            <div className="title-row fade_bottom highlight">ESTRATEGIAS E IDEAS</div>
             <div className="title-row fade_bottom">
               PARA ESPACIOS COMERCIALES
             </div>

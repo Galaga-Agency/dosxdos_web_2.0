@@ -36,19 +36,17 @@ const ValuesSection: React.FC = () => {
         </h2>
 
         <div className="values-section__description">
-          <p>
-            Desde <strong>Dos x Dos</strong> creemos que el privilegio de poder
+            Desde Dos x Dos creemos que el privilegio de poder
             crear debe ir de la mano del{" "}
-            <strong>compromiso de contribuir</strong>. <br /> <br /> Por eso
-            <strong> apoyamos iniciativas</strong> que promueven la inclusión,{" "}
-            <strong>colaboramos</strong> con entidades que trabajan con quienes
-            más lo necesitan y <strong>adoptamos medidas reales</strong> para
+            compromiso de contribuir. <br />Por eso
+             apoyamos iniciativas que promueven la inclusión,{" "}
+            colaboramos con entidades que trabajan con quienes
+            más lo necesitan y adoptamos medidas reales para
             reducir nuestra huella ecológica: desde el uso de materiales
             sostenibles hasta el autoconsumo energético y la optimización de
-            nuestros desplazamientos. <br />
+            nuestros desplazamientos.
             <br /> Porque ser parte del cambio también es parte de{" "}
-            <strong>nuestro trabajo</strong>.
-          </p>
+            nuestro trabajo.
         </div>
 
         <div className="values-section__services">

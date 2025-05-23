@@ -48,14 +48,12 @@
   }
 
   &__title {
-    position: relative;
+    @include font-size(4xl);
     @include font-weight(semibold);
-    color: $black;
-    text-transform: capitalize;
-    letter-spacing: -0.025em;
-    visibility: hidden;
     @include title-line-height;
-    @include font-size(3xl);
+    @include letter-spacing(tight);
+    text-transform: uppercase;
+    color: $black;
 
     @include min-width(xs) {
       @include font-size(5xl);
@@ -67,6 +65,7 @@
 
     @include min-width(md) {
       @include font-size(7xl);
+      text-align: center;
     }
 
     @include min-width(lg) {
@@ -80,8 +79,7 @@
     color: $black;
     max-width: 60ch;
     @include paragraph-line-height;
-        @include margin(md, top);
-
+    @include margin(md, top);
 
     @include min-width(md) {
       margin-left: 20%;

@@ -28,25 +28,24 @@
   }
 
   &__title {
-    @include font-size(4xl);
-    @include font-weight(regular);
-    color: $white;
+    @include font-size(3xl);
+    @include font-weight(semibold);
     @include title-line-height;
-    text-align: left;
-    @include margin(md, bottom);
-
-    @include min-width(sm) {
+    @include letter-spacing(tight);
+    text-transform: uppercase;
+    color: $white;
+    @include margin(md, bottom); 
+    
+    @include min-width(xs) {
       @include font-size(5xl);
     }
 
-    @include min-width(md) {
+    @include min-width(sm) {
       @include font-size(6xl);
-      @include margin(lg, bottom);
     }
 
-    @include min-width(lg) {
+    @include min-width(md) {
       @include font-size(7xl);
-      @include margin(xl, bottom);
     }
   }
 

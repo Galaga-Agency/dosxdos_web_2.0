@@ -1,6 +1,6 @@
-import { Category } from "@/types/category-types";
+import { Service } from "@/types/service-types";
 
-export const categoriesList: Category[] = [
+export const servicesList: Service[] = [
   {
     id: "diseno-de-interiores",
     name: "Diseño de Interiores",
@@ -44,8 +44,3 @@ export const categoriesList: Category[] = [
       "Asesoramiento especializado en espacios comerciales y retail.",
   },
 ];
-
-// Helper function to get a category by ID
-export const getCategoryById = (id: string): Category | undefined => {
-  return categoriesList.find((category) => category.id === id);
-};

@@ -12,13 +12,13 @@ const TeamSection: React.FC = () => {
     <section ref={sectionRef} className="team-section">
       <div className="team-section__container">
         <div className="team-section__header">
-          <div className="team-section__label fade_left">
+          <div className="team-section__label">
             <span>Nuestro equipo</span>
           </div>
 
           <h2 className="team-section__title fade_bottom">
             El talento detrás de cada espacio <br />
-            El compromiso detrás de cada detalle
+            El compromiso detrás de <span className="highlight">cada detalle</span>
           </h2>
         </div>
 

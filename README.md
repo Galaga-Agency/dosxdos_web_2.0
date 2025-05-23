@@ -47,3 +47,69 @@ DOSXDOS_WEB_2.0
 ├── package.json             # Project dependencies
 └── README.md                # Project documentation
 ```
+
+sitemap
+
+```
+.
+└── app/
+    ├── admin/
+    │   ├── blog/
+    │   │   ├── editar/
+    │   │   │   └── [id]/
+    │   │   │       └── page.tsx
+    │   │   └── nuevo/
+    │   │       └── page.tsx
+    │   ├── login/
+    │   └── layout.tsx
+    ├── api/
+    │   ├── auth/
+    │   │   └── [...nextauth]/
+    │   │       └── route.ts
+    │   ├── blog/
+    │   │   ├── [id]/
+    │   │   │   └── route.ts
+    │   │   └── route.ts
+    │   └── upload/
+    │       └── route.ts
+    ├── aviso-legal/
+    │   └── page.tsx
+    ├── blog/
+    │   ├── [blogArticleSlug]/
+    │   │   └── page.tsx
+    │   ├── layout.tsx
+    │   └── page.tsx
+    ├── contacto/
+    │   ├── layout.tsx
+    │   └── page.tsx
+    ├── politica-de-cookies/
+    │   └── page.tsx
+    ├── politica-de-privacidad/
+    │   └── page.tsx
+    ├── portfolio/
+    │   ├── [projectSlug]/
+    │   │   └── page.tsx
+    │   ├── mas-proyectos/
+    │   │   └── page.tsx
+    │   ├── layout.tsx
+    │   └── page.tsx
+    ├── servicios/
+    │   ├── diseno-de-interiores/
+    │   │   └── page.tsx
+    │   ├── ... more services
+    │   ├── layout.tsx
+    │   └── page.tsx
+    ├── sobre-nosotros/
+    │   ├── accion-social/
+    │   │   └── page.tsx
+    │   ├── equipo/
+    │   │   └── page.tsx
+    │   ├── layout.tsx
+    │   └── page.tsx
+    ├── transparencia/
+    │   └── page.tsx
+    ├── layout.tsx
+    ├── page.tsx
+    ├── robots.ts
+    └── sitemap.ts
+```

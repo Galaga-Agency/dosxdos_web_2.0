@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { categoriesList } from "@/data/categories";
+import { servicesList } from "@/data/services";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import "./ServicesSection.scss";
 
@@ -13,12 +13,12 @@ const ServicesSection: React.FC = () => {
       <div className="services-section__container">
         <div className="services-section__header">
           <div className="services-section__label-title">
-            <div className="services-section__label fade_left">
+            <div className="services-section__label">
               <span>Nuestros servicios</span>
             </div>
 
             <h2 className="services-section__title">
-              <div className="title-row fade_bottom">SOLUCIONES INTEGRALES</div>
+              <div className="title-row fade_bottom highlight">SOLUCIONES INTEGRALES</div>
               <div className="title-row fade_bottom">
                 PARA ESPACIOS COMERCIALES DE LUJO
               </div>
@@ -32,7 +32,7 @@ const ServicesSection: React.FC = () => {
         </div>
 
         <div className="services-section__grid">
-          {categoriesList.map((service, index) => (
+          {servicesList.map((service, index) => (
             <div
               key={service.id}
               className="services-section__card-wrapper"

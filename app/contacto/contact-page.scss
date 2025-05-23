@@ -39,7 +39,7 @@
     gap: 1.5rem;
     width: 100%;
     padding: 3rem;
-  @include border-radius(md);
+    @include border-radius(md);
     margin-block: 3rem;
 
     @include min-width(lg) {
@@ -200,16 +200,24 @@
     }
 
     .offices-title {
-      @include font-size(5xl);
-      @include font-weight(bold);
-      margin-bottom: 3rem;
-      position: relative;
-      text-align: center;
-      letter-spacing: -0.03em;
+      @include font-size(4xl);
+      @include font-weight(semibold);
+      @include title-line-height;
+      @include letter-spacing(tight);
+      text-transform: uppercase;
       color: $black;
+      @include margin(xl, bottom);
+
+      @include min-width(xs) {
+        @include font-size(5xl);
+      }
+
+      @include min-width(sm) {
+        @include font-size(6xl);
+      }
 
       @include min-width(md) {
-        text-align: left;
+        @include font-size(7xl);
       }
     }
 
@@ -237,10 +245,8 @@
       display: block;
       position: relative;
       width: 100%;
-      background-color: rgba($black, 0.03);
-      @include padding(3xl, y);
       @include padding(lg, x);
-      @include border-radius(lg);
+      @include border-radius(md);
       @include margin(4xl, y);
       text-align: center;
     }

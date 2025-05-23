@@ -9,12 +9,8 @@
   background: $black;
   color: $white;
   overflow: hidden;
-  @include section-padding-top;
-  @include z-index(above);
-
-  @include min-width(md) {
   @include section-padding-y;
-  }
+  @include z-index(above);
 
   // Subtle decorative elements similar to other sections
   &::before {
@@ -361,15 +357,18 @@
   &__bottom {
     padding-top: 2rem;
     border-top: 1px solid rgba($white, 0.15);
-    @include flex(column, center, center);
+    @include flex(column-reverse, unset, unset);
     gap: 1.5rem;
     margin-top: 2rem;
     will-change: transform, opacity;
 
     @include min-width(md) {
-      @include flex(row, space-between, center);
       padding-top: 2rem;
       margin-top: 3rem;
+    }
+
+    @include min-width(lg) {
+      @include flex(row, space-between, center);
     }
   }
 
@@ -377,6 +376,7 @@
     @include flex(column, center, center);
 
     @include min-width(md) {
+      justify-content: left;
       align-items: flex-start;
     }
   }
@@ -400,7 +400,7 @@
     text-wrap: nowrap;
 
     @include min-width(md) {
-      @include flex(row, flex-start, center);
+      @include flex(row, left, center);
       margin-bottom: 0;
     }
 
@@ -434,14 +434,10 @@
   &__social {
     @include flex(row, center, center);
     gap: 1.25rem;
+    @include margin(md, y);
 
     @include min-width(md) {
-      justify-content: flex-end;
-    }
-
-    // Make social icons white in dark theme
-    :global(.social-icon) {
-      color: $white;
+      justify-content: center;
     }
   }
 

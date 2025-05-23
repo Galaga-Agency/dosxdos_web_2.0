@@ -42,7 +42,7 @@ const ExperienciaSection: React.FC = () => {
             Apostamos por un futuro consciente, integrando prácticas sostenibles
             que protegen el medio ambiente y promueven un desarrollo
             equilibrado. Cada decisión que tomamos busca reducir nuestro impacto
-            y contribuir a un entorno más saludable y resiliente
+            y contribuir a un entorno más saludable y resiliente.
           </div>
         </div>
 

@@ -49,18 +49,15 @@
   }
 
   &__content {
-    position: absolute;
-    top: 50%;
+position: absolute;
+    top: 0;
     left: 0;
     right: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    z-index: 2;
-    transform: translateY(-50%);
-
-    @include container-width(mobile);
+    bottom: 6rem;
+    @include flex(column, end, flex-start);
+    z-index: 3;
     margin: 0 auto;
+    @include container-width(mobile);
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -95,6 +92,7 @@
     @include font-size(3xl);
     @include font-weight(semibold);
     color: $white;
+    text-transform: uppercase;
     @include title-line-height;
     @include letter-spacing(tight);
     @include margin(lg, bottom);
@@ -111,8 +109,7 @@
 
     @include min-width(md) {
       @include font-size(7xl);
-          max-width: 100%;
-
+      max-width: 100%;
     }
 
     @include min-width(lg) {

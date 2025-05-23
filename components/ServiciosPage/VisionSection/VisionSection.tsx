@@ -11,14 +11,14 @@ const VisionSection: React.FC = () => {
       <div className="vision-section__top">
         <div className="vision-section__container">
           <div className="vision-section__title-box">
-            <span className="vision-section__label fade_bottom">
-              nuestra visión
+            <span className="vision-section__label">
+              Nuestra visión
             </span>
             <h2 className="vision-section__title fade_bottom">
               CREAMOS ESPACIOS
               <br />
               <span className="vision-section__title-row-2">
-                QUE POTENCIAN MARCAS DE LUJO
+                QUE <span className="highlight">POTENCIAN MARCAS DE LUJO</span>
               </span>
             </h2>
           </div>
@@ -29,7 +29,7 @@ const VisionSection: React.FC = () => {
               className="vision-section__image fade_bottom"
               data-speed="0.85"
             >
-              <div className="vision-section__image-inner" data-speed="1.2">
+              <div className="vision-section__image-inner" data-speed="1.15">
                 <Image
                   src="/assets/img/blog/corporate-branding.jpg"
                   alt="Diseño de interiores"
@@ -60,7 +60,7 @@ const VisionSection: React.FC = () => {
           {/* Middle floating image with parallax effect */}
           <div
             className="vision-section__middle-image fade_bottom"
-            data-speed="1.3"
+            data-speed="1.15"
           >
             <div className="vision-section__middle-image-inner">
               <Image
@@ -81,7 +81,7 @@ const VisionSection: React.FC = () => {
           <div className="vision-section__bottom-content">
             <h3 className="vision-section__statement fade_bottom">
               Creemos firmemente que solo el diseño reforzado por una estrategia
-              sólida puede proporcionar resultados reales en espacios
+              sólida puede proporcionar <span className="highlight">resultados reales</span> en espacios
               comerciales de lujo.
             </h3>
 

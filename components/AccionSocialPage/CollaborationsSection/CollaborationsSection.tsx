@@ -12,14 +12,15 @@ const CollaborationsSection: React.FC = () => {
   return (
     <section ref={sectionRef} className="collaborations-section">
       <div className="collaborations-section__header">
-        <span className="collaborations-section__label fade_left">
-          Compromiso Social
+        <span className="collaborations-section__label">
+          Comprometidos con lo que de verdad importa
         </span>
         <h2 className="collaborations-section__title fade_bottom">
-          FUNDACIONES COLABORADORAS
+          Colaboramos con quienes <span className="highlight">transforman vidas</span>
         </h2>
         <p className="collaborations-section__subtitle fade_bottom">
-          Nuestro compromiso social con organizaciones que marcan la diferencia
+          Apoyamos a fundaciones y organizaciones que construyen un futuro más
+          justo. Diseñamos con propósito, y también con corazón.
         </p>
       </div>
 
