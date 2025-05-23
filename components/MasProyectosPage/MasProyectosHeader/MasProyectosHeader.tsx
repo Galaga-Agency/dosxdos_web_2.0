@@ -9,7 +9,7 @@ const MasProyectosHeader: React.FC = () => {
       <div className="mas-proyectos-header__content">
         <p className="mas-proyectos-header__label">dosxdos</p>
         <h1 className="mas-proyectos-header__title char-animation">
-          Nuestros últimos y gran proyectos
+          Nuestros últimos <br/> y <span className="highlight">gran proyectos</span> 
         </h1>
         <p className="mas-proyectos-header__description rollup-text">
           Somos un equipo creativo que diseña espacios de marca únicos y

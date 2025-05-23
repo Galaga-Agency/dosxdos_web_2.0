@@ -207,7 +207,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="footer__social">
-            <SocialIcons iconSize="large" />
+            <SocialIcons color="white" iconSize="medium" />
           </div>
         </div>
       </div>

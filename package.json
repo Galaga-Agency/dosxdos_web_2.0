@@ -64,6 +64,7 @@
     "slate-hyperscript": "^0.100.0",
     "slate-react": "^0.112.1",
     "swiper": "^11.2.6",
+    "tailwind-merge": "^3.3.0",
     "three": "^0.174.0",
     "tinymce": "^7.7.2",
     "uuid": "^11.1.0",

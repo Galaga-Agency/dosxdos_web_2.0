@@ -31,32 +31,32 @@ export const menuItems: MenuItem[] = [
       {
         id: "diseno-de-interiores",
         label: "Diseño de Interiores",
-        href: "/portfolio/diseno-de-interiores",
+        href: "/servicios/diseno-de-interiores",
       },
       {
         id: "eventos",
         label: "Eventos",
-        href: "/portfolio/eventos",
+        href: "/servicios/eventos",
       },
       {
         id: "produccion",
         label: "Producción",
-        href: "/portfolio/produccion",
+        href: "/servicios/produccion",
       },
       {
         id: "logistica",
         label: "Logística",
-        href: "/portfolio/logistica",
+        href: "/servicios/logistica",
       },
       {
         id: "comunicacion",
         label: "Comunicación",
-        href: "/portfolio/comunicacion",
+        href: "/servicios/comunicacion",
       },
       {
         id: "consultoria",
         label: "Consultoría",
-        href: "/portfolio/consultoria",
+        href: "/servicios/consultoria",
       },
     ],
   },

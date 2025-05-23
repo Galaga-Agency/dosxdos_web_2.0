@@ -4,19 +4,22 @@ import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import "./CTASection.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 const CTASection: React.FC = () => {
+  const { isMobile } = useDeviceDetect();
+
   return (
     <section className="cta-section">
       <div className="cta-section__container">
         {/* Header section */}
         <div className="cta-section__header">
-          <div className="cta-section__label fade_left">
+          <div className="cta-section__label">
             <span>Acción Social</span>
           </div>
 
           <h2 className="cta-section__title fade_bottom">
-            DISEÑO CON CONCIENCIA. COMPROMISO CON IMPACTO
+            DISEÑO CON CONCIENCIA. COMPROMISO CON <span className="highlight">IMPACTO</span>
           </h2>
         </div>
 
@@ -45,7 +48,10 @@ const CTASection: React.FC = () => {
 
           {/* Right column with image */}
           <div className="cta-section__image-column">
-            <div className="cta-section__image-wrapper" data-speed="1.3">
+            <div
+              className="cta-section__image-wrapper"
+              data-speed={isMobile ? "0" : "1.15"}
+            >
               <Image
                 src="/assets/img/about-us-page/accion-social-cta.webp"
                 alt="Acción Social"

@@ -15,14 +15,14 @@ const AboutUsSection: React.FC = () => {
       <div className="aboutus-section__container">
         {/* Header section */}
         <div className="aboutus-section__header">
-          <div className="aboutus-section__label fade_left">
+          <div className="aboutus-section__label">
             <span>Quienes Somos</span>
           </div>
 
           <h2 className="aboutus-section__title fade_bottom">
             CREAMOS ESPACIOS
             <br />
-            QUE INSPIRAN
+            QUE <span className="highlight">INSPIRAN</span>
           </h2>
         </div>
 
@@ -32,7 +32,7 @@ const AboutUsSection: React.FC = () => {
           <div className="aboutus-section__visual-column">
             <div
               className="aboutus-section__animated-logo"
-              data-speed={isMobile ? "0" : "1.3"}
+              data-speed={isMobile ? "0" : "1.15"}
             >
               <Image
                 src="/assets/img/blog/corporate-branding.jpg"

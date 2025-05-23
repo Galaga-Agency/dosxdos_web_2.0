@@ -32,7 +32,7 @@ const MasProyectosCTA: React.FC = () => {
             ¿LISTO PARA CREAR
             <br />
             <span className="mas-proyectos-cta__title-row-2">
-              TU ESPACIO ÚNICO?
+              TU <span className="highlight">ESPACIO ÚNICO</span>?
             </span>
           </h2>
           <p className="mas-proyectos-cta__text">

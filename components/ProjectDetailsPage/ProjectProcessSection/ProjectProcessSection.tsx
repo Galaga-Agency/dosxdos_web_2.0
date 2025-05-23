@@ -39,7 +39,7 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
       <div className="project-process-section__container">
         <div className="project-process-section__content-wrapper">
           <h2 className="project-process-section__title fade_bottom">
-            Simple & Significant
+            Simple & <span className="highlight">Significant</span>
           </h2>
 
           <div className="project-process-section__text">

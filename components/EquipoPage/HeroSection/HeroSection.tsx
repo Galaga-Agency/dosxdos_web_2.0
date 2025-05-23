@@ -40,8 +40,7 @@ const HeroSection: React.FC = () => {
             <h1 className="hero-section__title char-animation">
               Todo empieza con una idea. <br /> Lo demás, lo hacemos juntos.
             </h1>
-            <div className="hero-section__title-underline fade_bottom"></div>
-            <div className="hero-section__description rollup-text">
+            {/* <div className="hero-section__description rollup-text">
               <p>
                 Contamos con un equipo multidisciplinar de más de 40 personas —
                 arquitectos, interioristas, diseñadores, técnicos e instaladores
@@ -49,7 +48,7 @@ const HeroSection: React.FC = () => {
                 decir algo único. Te acompañamos de principio a fin para
                 transformar conceptos en espacios que inspiran
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

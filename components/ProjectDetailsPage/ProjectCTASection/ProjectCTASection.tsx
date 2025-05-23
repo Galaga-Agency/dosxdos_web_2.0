@@ -21,13 +21,13 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
     <section className="project-cta-section">
       <div className="project-cta-section__container">
         <div className="project-cta-section__content">
-          <span className="project-cta-section__label fade_bottom">
+          <span className="project-cta-section__label">
             Inspiración
           </span>
           <h2 className="project-cta-section__title fade_bottom">
             DESCUBRE MÁS
             <br />
-            <span className="project-cta-section__title-row-2">
+            <span className="project-cta-section__title-row-2 highlight">
               PROYECTOS ESPECIALES
             </span>
           </h2>

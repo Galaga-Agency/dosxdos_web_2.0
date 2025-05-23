@@ -30,11 +30,6 @@
   width: 100%;
   @include flex(column, start, start);
   gap: 1rem;
-
-  @include min-width(xxl) {
-    flex-direction: row;
-    gap: 3rem;
-  }
 }
 
 &__label {
@@ -81,10 +76,6 @@
   max-width: 600px;
   position: relative;
   z-index: 1;
-
-  @include min-width(xxl) {
-    margin-left: calc(10% + 48px);
-  }
 
   strong {
     color: $black;

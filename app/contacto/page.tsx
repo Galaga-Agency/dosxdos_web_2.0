@@ -92,7 +92,9 @@ const ContactPage: React.FC = () => {
             </div>
 
             <div className="contact-page__offices fade_bottom">
-              <h2 className="offices-title">Nuestras Oficinas</h2>
+              <h2 className="offices-title">
+                Nuestras <span className="highlight">Oficinas</span>
+              </h2>
 
               <div className="offices-grid location-cards-container">
                 <LocationCard

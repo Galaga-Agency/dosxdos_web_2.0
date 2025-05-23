@@ -15,7 +15,10 @@
   }
 
   &__container {
+    width: 100%;
+    max-width: 1600px;
     margin: 0 auto;
+    position: relative;
     @include container-width(mobile);
 
     @include min-width(md) {
@@ -59,7 +62,6 @@
     @include letter-spacing(tight);
     text-transform: uppercase;
     color: $black;
-    margin: 0; // Reset margin to control spacing with flex gap instead
     position: relative; // Add position relative
     z-index: 1; // Lower z-index than label
 

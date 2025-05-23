@@ -170,7 +170,9 @@ const BlogPage: React.FC = () => {
               </div>
 
               <div className="blog-page__posts-section" id="pagination-section">
-                <h2 className="posts-title fade_bottom">Artículos Recientes</h2>
+                <h2 className="posts-title fade_bottom">
+                  Artículos <span className="highlight">Recientes</span>
+                </h2>
 
                 <div className="posts-grid">
                   {currentItems.map((item, index) => (
