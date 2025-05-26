@@ -11,13 +11,13 @@ const CTASection: React.FC = () => {
 
   return (
     <section className="cta-section">
-      <div className="cta-section__container">
+      <div className="cta-section__container container">
         {/* Header section */}
-        <div className="cta-section__header">
+        <div className="cta-section__header header">
           <h3 className="cta-section__label label">(Acción Social)</h3>
 
-          <h2 className="cta-section__title fade_bottom">
-            DISEÑO CON CONCIENCIA. COMPROMISO CON{" "}
+          <h2 className="cta-section__title secondary-title fade_bottom">
+            DISEÑO CON CONCIENCIA. <br/> COMPROMISO CON{" "}
             <span className="highlight">IMPACTO</span>
           </h2>
         </div>
@@ -26,7 +26,7 @@ const CTASection: React.FC = () => {
         <div className="cta-section__content">
           {/* Left column with text and button */}
           <div className="cta-section__text-column">
-            <div className="cta-section__text">
+            <div className="cta-section__text text">
               <p>
                 Entendemos la acción social como una parte esencial de nuestro
                 compromiso con la sociedad. A través de proyectos que promueven

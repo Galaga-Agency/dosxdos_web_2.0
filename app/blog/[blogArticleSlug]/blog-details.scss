@@ -99,32 +99,7 @@
   }
 
   &__hero-title {
-    @include font-size(3xl);
-    @include font-weight(semibold);
     color: $white;
-    text-transform: uppercase;
-    @include title-line-height;
-    @include letter-spacing(tight);
-    @include margin(lg, bottom);
-    visibility: hidden;
-    max-width: 70%;
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-      max-width: 100%;
-    }
-
-    @include min-width(lg) {
-      @include font-size(8xl);
-    }
   }
 
   &__hero-author {
@@ -409,32 +384,12 @@
     @include margin(4xl, bottom);
   }
 
-  &__related-title {
-    @include font-size(4xl);
-    @include font-weight(semibold);
-    @include title-line-height;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
-    color: $black;
-    @include margin(xl, bottom);
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-    }
-  }
-
   &__related-grid {
     display: grid;
     grid-template-columns: 1fr;
     @include gap(lg);
+        @include margin(lg, top);
+
 
     @include min-width(md) {
       grid-template-columns: repeat(3, 1fr);
@@ -444,6 +399,11 @@
 
   &__related-item {
     opacity: 1;
+  }
+
+    &__cta-title {
+
+    margin: 0 auto;
   }
 
   &__cta-section {
@@ -456,38 +416,6 @@
     position: relative;
     max-width: 800px;
     margin: 0 auto;
-  }
-
-  &__cta-title {
-    @include font-size(4xl);
-    @include font-weight(semibold);
-    @include title-line-height;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
-    color: $black;
-    @include margin(xl, bottom);
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-    }
-  }
-
-  &__cta-text {
-    @include font-size(lg);
-    color: rgba($black, 0.75);
-    max-width: 550px;
-    margin: 0 auto;
-    @include margin(xl, bottom);
-    @include paragraph-line-height();
-    opacity: 1;
   }
 
   &__cta-button {

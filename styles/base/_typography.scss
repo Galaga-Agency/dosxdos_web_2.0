@@ -1,182 +1,195 @@
-@use '../abstracts/variables' as *;
-@use '../abstracts/mixins' as *;
-@use '../base/colors' as *;
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../base/colors" as *;
 
 // Note: Next.js is handling the font loading through localFont in the RootLayout
 // These are fallbacks in case the Next.js font loading fails
 
 @font-face {
-  font-family: 'Big Shoulders Display';
+  font-family: "Big Shoulders Display";
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url('/assets/fonts/BigShouldersDisplay-Light.ttf') format('truetype');
+  src: url("/assets/fonts/BigShouldersDisplay-Light.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Big Shoulders Display';
+  font-family: "Big Shoulders Display";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/assets/fonts/BigShouldersDisplay-Regular.ttf') format('truetype');
+  src: url("/assets/fonts/BigShouldersDisplay-Regular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Big Shoulders Display';
+  font-family: "Big Shoulders Display";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('/assets/fonts/BigShouldersDisplay-Medium.ttf') format('truetype');
+  src: url("/assets/fonts/BigShouldersDisplay-Medium.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Big Shoulders Display';
+  font-family: "Big Shoulders Display";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('/assets/fonts/BigShouldersDisplay-SemiBold.ttf') format('truetype');
+  src: url("/assets/fonts/BigShouldersDisplay-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Big Shoulders Display';
+  font-family: "Big Shoulders Display";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/assets/fonts/BigShouldersDisplay-Bold.ttf') format('truetype');
+  src: url("/assets/fonts/BigShouldersDisplay-Bold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Big Shoulders Display';
+  font-family: "Big Shoulders Display";
   font-style: normal;
   font-weight: 800;
   font-display: swap;
-  src: url('/assets/fonts/BigShouldersDisplay-ExtraBold.ttf') format('truetype');
+  src: url("/assets/fonts/BigShouldersDisplay-ExtraBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Big Shoulders Display';
+  font-family: "Big Shoulders Display";
   font-style: normal;
   font-weight: 900;
   font-display: swap;
-  src: url('/assets/fonts/BigShouldersDisplay-Black.ttf') format('truetype');
+  src: url("/assets/fonts/BigShouldersDisplay-Black.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: normal;
   font-weight: 100;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-Thin.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-Thin.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: italic;
   font-weight: 100;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-ThinItalic.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-ThinItalic.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-Light.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-Light.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: italic;
   font-weight: 300;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-LightItalic.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-LightItalic.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-Regular.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-Regular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-Italic.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-Italic.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-Medium.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-Medium.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: italic;
   font-weight: 500;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-MediumItalic.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-MediumItalic.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-SemiBold.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-SemiBoldItalic.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-SemiBoldItalic.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-Bold.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-Bold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: italic;
   font-weight: 700;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-BoldItalic.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-BoldItalic.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: normal;
   font-weight: 800;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-ExtraBold.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-ExtraBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Sarabun';
+  font-family: "Sarabun";
   font-style: italic;
   font-weight: 800;
   font-display: swap;
-  src: url('/assets/fonts/Sarabun-ExtraBoldItalic.ttf') format('truetype');
+  src: url("/assets/fonts/Sarabun-ExtraBoldItalic.ttf") format("truetype");
 }
 
 :root {
   // Define font variables
-  --font-display: var(--font-big-shoulders, 'Big Shoulders Display', Impact, sans-serif);
-  --font-body: var(--font-sarabun, 'Sarabun', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  --font-display: var(
+    --font-big-shoulders,
+    "Big Shoulders Display",
+    Impact,
+    sans-serif
+  );
+  --font-body: var(
+    --font-sarabun,
+    "Sarabun",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif
+  );
 }
 
 body {
@@ -184,7 +197,12 @@ body {
   color: $black;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   margin-bottom: spacing(sm);
   font-weight: 700;
@@ -250,4 +268,24 @@ p {
 // Italic utility class
 .font-italic {
   font-style: italic;
+}
+
+// Font loading optimization
+:root {
+  --font-display: var(
+    --font-big-shoulders,
+    "Big Shoulders Display",
+    Impact,
+    "Arial Black",
+    sans-serif
+  );
+  --font-body: var(
+    --font-sarabun,
+    "Sarabun",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif
+  );
 }

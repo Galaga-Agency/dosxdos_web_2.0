@@ -23,6 +23,7 @@ import { animateServiciosHero } from "@/utils/animations/servicios-hero";
 import { revealForTouchDevices } from "@/utils/animations/touch-device-reveal";
 
 import "./servicios-page.scss";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 const ServiciosPage: React.FC = () => {
   useScrollSmooth();
@@ -43,6 +44,7 @@ const ServiciosPage: React.FC = () => {
       animateServiciosHero();
       projectHoverAnim();
       revealForTouchDevices();
+      highlightAnimation(1.5);
     }, 300);
 
     return () => clearTimeout(timer);

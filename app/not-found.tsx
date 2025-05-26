@@ -46,7 +46,7 @@ const NotFound = () => {
 
   return (
     <SmoothScrollWrapper>
-      <div ref={containerRef} className="not-found">
+      <div className="not-found">
         <div className="not-found__container">
           <div ref={contentRef} className="not-found__content">
             <h1 ref={titleRef} className="not-found__title">

@@ -9,8 +9,7 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
 import "./ServiciosRecentProjects.scss";
 
 const ServiciosRecentProjects: React.FC = () => {
-  const { isDesktop, isTablet } = useDeviceDetect();
-  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const {isTablet } = useDeviceDetect();
   const [showNextArrow, setShowNextArrow] = useState(false);
   const [showPrevArrow, setShowPrevArrow] = useState(false);
 
@@ -72,9 +71,9 @@ const ServiciosRecentProjects: React.FC = () => {
       <div className="servicios-recent-projects__container">
         <div className="servicios-recent-projects__layout">
           <div className="servicios-recent-projects__header">
-            <h2 className="servicios-recent-projects__title">
-              PROYECTOS RECIENTES
-            </h2>
+            <h3 className="servicios-recent-projects__title">
+              (PROYECTOS RECIENTES)&nbsp;&nbsp;
+            </h3>
           </div>
 
           <div className="servicios-recent-projects__grid-container">

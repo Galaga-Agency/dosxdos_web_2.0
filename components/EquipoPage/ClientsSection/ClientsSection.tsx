@@ -1,17 +1,16 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import LogoMarquee from "@/components/Homepage/LogoMarquee/LogoMarquee";
 import "./ClientsSection.scss";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 
 const ClientsSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="clients-section" ref={sectionRef}>
-      <div className="clients-section__container">
-        <h2 className="clients-section__title fade_bottom">
+    <section className="clients-section">
+      <div className="clients-section__container container">
+        <h2 className="clients-section__title secondary-title fade_bottom">
           Nuestros clientes
         </h2>
       </div>
@@ -20,9 +19,9 @@ const ClientsSection: React.FC = () => {
         <LogoMarquee showHeader={false} darkMode={true} />
       </div>
 
-      <div className="clients-section__container">
+      <div className="clients-section__container container">
         <div className="clients-section__content">
-          <p className="clients-section__text">
+          <p className="clients-section__text text">
             Trabajamos con algunas de las marcas más reconocidas del sector, que
             valoran la calidad, la atención al detalle y una manera de hacer que
             va más allá de lo visual.

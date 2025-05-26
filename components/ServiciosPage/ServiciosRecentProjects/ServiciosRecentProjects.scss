@@ -44,7 +44,7 @@
     margin-bottom: 2rem;
 
     @include min-width(lg) {
-      width: 220px;
+      width: auto;
       flex-shrink: 0;
       margin-bottom: 0;
       padding-top: 0.5rem;
@@ -57,12 +57,13 @@
     @include font-weight(semibold);
     letter-spacing: 0.05em;
     color: $black;
+    text-wrap: nowrap;
     text-transform: uppercase;
     @include title-line-height;
 
     @include min-width(md) {
       @include font-size(xl);
-      margin-left: 2rem;
+      margin-left: 4rem;
     }
   }
 

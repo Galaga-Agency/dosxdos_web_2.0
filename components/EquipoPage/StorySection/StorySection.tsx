@@ -1,14 +1,9 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import "./StorySection.scss";
 
 const StorySection: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLDivElement>(null);
-
   const services = [
     "Interiorismo comercial",
     "Residenciales",
@@ -21,15 +16,16 @@ const StorySection: React.FC = () => {
     "Consultoría",
   ];
 
+
   return (
-    <section className="story-section" ref={sectionRef}>
-      <div className="story-section__container">
-        <h2 ref={titleRef} className="story-section__title fade_bottom">
+    <section className="story-section">
+      <div className="story-section__container container">
+        <h2 className="story-section__title secondary-title fade_bottom">
           <span className="highlight"> El diseño es nuestro ADN.</span> <br />
           El compromiso, nuestra manera de estar en el mundo.
         </h2>
 
-        <div ref={textRef} className="story-section__description">
+        <div className="story-section__description text">
           <p>
             Creemos en una forma de trabajar donde la creatividad convive con la
             responsabilidad. Donde cada proyecto se construye sobre valores
@@ -43,7 +39,7 @@ const StorySection: React.FC = () => {
           </p>
         </div>
 
-        <div ref={servicesRef} className="story-section__services">
+        <div className="story-section__services">
           <h3 className="story-section__services-title">
             LO QUE HACEMOS
           </h3>

@@ -137,10 +137,84 @@ body {
   opacity: 0;
 }
 
+.container {
+  margin: 0 auto;
+  position: relative;
+  max-width: 1600px;
+  @include container-width(mobile);
+
+  @include min-width(md) {
+    @include container-width(tablet);
+  }
+
+  @include min-width(lg) {
+    @include container-width(smalldesktop);
+  }
+
+  @include min-width(xl) {
+    @include container-width(desktop);
+  }
+}
+
+.header {
+  position: relative;
+}
+
+.label {
+  @include font-size(lg);
+  font-family: "Sarabun";
+  font-style: normal;
+  font-weight: 100;
+  @include margin(md, bottom);
+  color: $black;
+  font-style: italic;
+
+  @include min-width(xl) {
+    position: absolute;
+    left: 0;
+    top: -2rem;
+  }
+}
+
+.title {
+  @include font-size(3xl);
+  @include font-weight(semibold);
+  text-transform: uppercase;
+  @include title-line-height;
+  @include letter-spacing(tight);
+  @include margin(lg, bottom);
+  visibility: hidden;
+  hyphens: manual;
+  color: $white;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  white-space: normal;
+  will-change: transform;
+
+  @include min-width(xs) {
+    @include font-size(5xl);
+  }
+
+  @include min-width(sm) {
+    @include font-size(6xl);
+  }
+
+  @include min-width(md) {
+    @include font-size(7xl);
+    max-width: 90%;
+  }
+
+  @include min-width(lg) {
+    @include font-size(8xl);
+    max-width: 80%;
+  }
+}
+
 .highlight {
   position: relative;
   display: inline-block;
   z-index: 1;
+  --highlight-scaleX: 0;
 
   &::after {
     content: "";
@@ -153,14 +227,52 @@ body {
     background-color: rgba($black, 0.5);
     opacity: 0.3;
     z-index: -1;
-    transform: skew(-10deg);
+    transform: skew(-10deg) scaleX(var(--highlight-scaleX));
+    transform-origin: left center;
   }
 }
 
-.label {
-  @include font-size(lg);
-  font-family: "Sarabun";
-  font-style: normal;
-  font-weight: 100;
+.secondary-title {
+  @include font-size(3xl);
+  @include font-weight(semibold);
+  width: fit-content;
+  @include title-line-height;
+  @include letter-spacing(tight);
+  text-transform: uppercase;
   color: $black;
+
+  @include min-width(xs) {
+    @include font-size(5xl);
+  }
+
+  @include min-width(sm) {
+    @include font-size(6xl);
+  }
+
+  @include min-width(md) {
+    @include font-size(7xl);
+  }
+}
+
+.subtitle {
+  @include font-size(lg);
+  line-height: 1.6;
+  color: rgba($black, 0.75);
+  @include margin(xl, y);
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+}
+
+.text {
+  color: rgba($black, 0.8);
+  @include margin(lg, y);
+  @include font-size(lg);
+  line-height: 1.6;
+  will-change: transform, opacity;
+}
+
+strong {
+  color: $black;
+  @include font-weight(semibold);
 }

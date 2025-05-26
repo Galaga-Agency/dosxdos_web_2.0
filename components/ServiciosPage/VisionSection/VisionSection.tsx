@@ -9,22 +9,20 @@ const VisionSection: React.FC = () => {
   return (
     <section className="vision-section">
       <div className="vision-section__top">
-        <div className="vision-section__container">
+        <div className="vision-section__container container">
           <div className="vision-section__title-box">
-            <span className="vision-section__label">
-              Nuestra visión
+            <span className="vision-section__label label">
+              (Nuestra visión)
             </span>
-            <h2 className="vision-section__title fade_bottom">
+            <h2 className="vision-section__title secondary-title fade_bottom">
               CREAMOS ESPACIOS
               <br />
-              <span className="vision-section__title-row-2">
-                QUE <span className="highlight">POTENCIAN MARCAS DE LUJO</span>
-              </span>
+              QUE <span className="highlight">POTENCIAN</span>{" "}
+              <br className="line-break" /> MARCAS DE LUJO
             </h2>
           </div>
 
           <div className="vision-section__content">
-            {/* Main image with parallax effect */}
             <div
               className="vision-section__image fade_bottom"
               data-speed="0.85"
@@ -40,7 +38,7 @@ const VisionSection: React.FC = () => {
               </div>
             </div>
             <div className="vision-section__text-wrap">
-              <p className="vision-section__text">
+              <p className="vision-section__text text">
                 Aquí es donde el conocimiento, la creatividad y la experiencia
                 se fusionan con el diseño para crear espacios únicos. Pensamos y
                 actuamos como un solo equipo, siempre a su lado, superando
@@ -77,12 +75,12 @@ const VisionSection: React.FC = () => {
       </div>
 
       <div className="vision-section__bottom">
-        <div className="vision-section__container">
+        <div className="vision-section__container container">
           <div className="vision-section__bottom-content">
-            <h3 className="vision-section__statement fade_bottom">
+            <h3 className="vision-section__statement secondary-title fade_bottom">
               Creemos firmemente que solo el diseño reforzado por una estrategia
-              sólida puede proporcionar <span className="highlight">resultados reales</span> en espacios
-              comerciales de lujo.
+              sólida puede proporcionar{" "}
+              <span className="highlight">resultados reales</span>.
             </h3>
 
             <div className="vision-section__services">

@@ -24,7 +24,7 @@ const LogoMarquee = ({
     fullWidth ? "logo-marquee--full-width" : ""
   } ${darkMode ? "logo-marquee--dark-mode" : ""}`;
 
-  const containerClasses = `logo-marquee__container ${
+  const containerClasses = `logo-marquee__container container ${
     showHeader ? "has-header" : ""
   }`;
 

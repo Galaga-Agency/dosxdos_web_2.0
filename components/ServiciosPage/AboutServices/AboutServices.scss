@@ -9,80 +9,6 @@
   @include section-padding-y();
   background-color: $white;
 
-  &__container {
-    margin: 0 auto;
-    @include container-width(mobile);
-    @include padding(content-x, x);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__header {
-    position: relative;
-    width: 100%;
-    @include margin(3xl, bottom);
-  }
-
-  &__label {
-    @include font-size(lg);
-    @include font-weight(medium);
-    @include margin(md, bottom);
-    color: $black;
-    display: block;
-
-    @include min-width(xl) {
-      position: absolute;
-      left: 0;
-      top: -4rem;
-    }
-  }
-
-  &__title {
-    @include font-size(3xl);
-    @include font-weight(semibold);
-    @include title-line-height;
-    margin: 0 auto;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
-    color: $black;
-    max-width: 100%;
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-      text-align: center;
-    }
-
-    @include min-width(md) {
-      @include font-size(6xl);
-      text-align: left;
-      margin: 0;
-      max-width: 80%;
-    }
-
-    @include min-width(xl) {
-      @include font-size(7xl);
-      max-width: 100%;
-    }
-
-    @include min-width(xl) {
-      @include font-size(8xl);
-    }
-  }
-
   &__content {
     @include flex(column, flex-start, flex-start);
 
@@ -97,8 +23,13 @@
     }
   }
 
+  &__header {
+    position: relative;
+    @include margin(lg, bottom);
+  }
+
   &__categories {
-    @include margin(xl, bottom);
+    @include margin(xl, y);
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -143,21 +74,6 @@
   &__description {
     @include min-width(md) {
       width: 60%;
-    }
-
-    @include min-width(xl) {
-      width: 40%;
-    }
-  }
-
-  &__text {
-    @include font-size(base);
-    line-height: 1.6;
-    color: rgba($black, 0.7);
-    @include margin(md, bottom);
-
-    &:last-child {
-      margin-bottom: 0;
     }
   }
 }

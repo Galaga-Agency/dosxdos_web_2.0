@@ -3,11 +3,7 @@
 @use "base/colors" as *;
 @use "base/animations" as *;
 
-/*
- * Esta estrategia previene el parpadeo inicial estableciendo
- * todos los valores iniciales necesarios para que GSAP no cause
- * un cambio abrupto de visibilidad durante la inicialización.
- */
+
 
 .accion-social-hero {
   position: relative;
@@ -17,6 +13,8 @@
   height: 100vh;
   margin-bottom: 3rem;
   overflow: hidden;
+  display: flex;
+  align-items: flex-end;
 
   &__bg-container {
     position: relative;
@@ -26,6 +24,8 @@
     transform-origin: center;
     transform: scale(1.3);
     opacity: 0;
+    display: flex;
+    align-items: flex-end;
   }
 
   &__image-wrapper {
@@ -60,101 +60,30 @@
   }
 
   &__content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 6rem;
-    @include flex(column, end, flex-start);
+    position: relative;
     z-index: 3;
-    margin: 0 auto;
-    @include container-width(mobile);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
+    width: 100%;
+    padding-bottom: 6rem;
   }
 
   &__label {
-    @include margin(md, bottom);
-    opacity: 0;
-    transform: translateX(-300px); /* Posición inicial para animación GSAP */
-    display: inline-block;
-    @include font-size(lg);
-    @include font-weight(medium);
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
     color: $white;
-    position: relative;
-
-    @include min-width(xl) {
-      position: relative;
-      display: block;
-    }
   }
 
   &__title {
-    @include font-size(5xl);
-    @include font-weight(semibold);
-    @include title-line-height;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
-    color: $white;
-    margin-bottom: 0.5rem;
-    opacity: 0;
 
     &.text-1 {
-      transform: translateX(300px); /* Posición inicial para animación GSAP */
+      transform: translateX(300px); 
     }
 
     &.text-2 {
-      transform: translateX(-300px); /* Posición inicial para animación GSAP */
-    }
-
-    @include min-width(xs) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(7xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(8xl);
-    }
-  }
-
-  &__description {
-    max-width: 700px;
-    @include margin(xl, bottom);
-    opacity: 0;
-    transform: translateX(-500px); /* Posición inicial para animación GSAP */
-
-    p {
-      @include font-size(lg);
-      line-height: 1.6;
-      color: $white;
-
-      @include min-width(md) {
-        @include font-size(xl);
-      }
-
-      @include min-width(lg) {
-        @include font-size(2xl);
-      }
+      transform: translateX(-300px); 
+      margin-top: -2rem;
     }
   }
 
   &__cta {
     opacity: 0;
-    transform: translateY(30px); /* Posición inicial para animación GSAP */
+    transform: translateY(30px); 
   }
 }

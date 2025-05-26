@@ -158,7 +158,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                       </div>
                     </div>
 
-                    <h1 className="blog-detail__hero-title char-animation">
+                    <h1 className="blog-detail__hero-title secondary-title char-animation">
                       {blogPost.title}
                     </h1>
 
@@ -212,7 +212,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
                 {relatedPosts.length > 0 && (
                   <div className="blog-detail__related-posts fade_bottom">
-                    <h2 className="blog-detail__related-title">
+                    <h2 className="blog-detail__related-title secondary-title">
                       Artículos relacionados
                     </h2>
                     <div className="blog-detail__related-grid">
@@ -234,10 +234,10 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
                 <div className="blog-detail__cta-section fade_bottom">
                   <div className="blog-detail__cta-content">
-                    <h2 className="blog-detail__cta-title">
+                    <h2 className="blog-detail__cta-title secondary-title">
                       Descubre más <span className="highlight">inspiración</span>
                     </h2>
-                    <p className="blog-detail__cta-text">
+                    <p className="blog-detail__cta-text subtitle">
                       Explora nuestra colección de artículos y encuentra ideas
                       para tu próximo proyecto.
                     </p>

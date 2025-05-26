@@ -113,6 +113,10 @@
     transform: translateY(50px); /* Posición inicial para la animación */
   }
 
+  &__featured-image-title {
+    opacity: 0;
+  }
+
   &__featured-image-wrapper {
     position: absolute;
     top: 0;
@@ -206,36 +210,9 @@
   }
 
   &__featured-image-title {
-    @include font-size(4xl);
-    @include font-weight(semibold);
-    line-height: 1.1;
-    @include letter-spacing(tight);
+    max-width: 60%;
     color: $white;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    max-width: 24ch;
-    hyphens: manual;
-    word-break: keep-all;
-    overflow-wrap: normal;
-    white-space: normal;
-    will-change: transform;
-    visibility: hidden;
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-    }
-
-    @include min-width(lg) {
-      @include font-size(8xl);
-    }
+    @include margin(lg, y);
   }
 
   &__featured-excerpt {
@@ -289,25 +266,8 @@
     position: relative;
 
     .posts-title {
-      @include font-size(4xl);
-      @include font-weight(semibold);
-      @include title-line-height;
-      @include letter-spacing(tight);
-      text-transform: uppercase;
       color: $black;
       @include margin(xl, bottom);
-
-      @include min-width(xs) {
-        @include font-size(5xl);
-      }
-
-      @include min-width(sm) {
-        @include font-size(6xl);
-      }
-
-      @include min-width(md) {
-        @include font-size(7xl);
-      }
     }
 
     .posts-grid {

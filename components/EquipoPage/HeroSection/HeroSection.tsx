@@ -33,11 +33,10 @@ const HeroSection: React.FC = () => {
 
           <div className="hero-section__overlay"></div>
 
-          <div className="hero-section__content">
-            <div className="hero-section__label fade_bottom">
-              <span>(SOBRE NOSOTROS)</span>
-            </div>
-            <h1 className="hero-section__title char-animation">
+          <div className="hero-section__content container">
+            <h3 className="hero-section__label label fade_bottom">(SOBRE NOSOTROS)
+            </h3>
+            <h1 className="hero-section__title title char-animation">
               Todo empieza con una idea. <br /> Lo demás, lo hacemos juntos.
             </h1>
             {/* <div className="hero-section__description rollup-text">

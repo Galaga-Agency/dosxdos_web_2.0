@@ -10,15 +10,21 @@ import { GoArrowUpRight } from "react-icons/go";
 import "./HoverCircleButton.scss";
 
 interface HoverCircleButtonProps {
-  href: string;
+  href?: string;
   label: string;
   darkBg?: boolean;
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: "link" | "button";
 }
 
 const HoverCircleButton: React.FC<HoverCircleButtonProps> = ({
   href,
   label,
   darkBg = false,
+  onClick,
+  disabled = false,
+  type = "link",
 }) => {
   const buttonRef = useRef<HTMLDivElement>(null);
 
@@ -31,24 +37,40 @@ const HoverCircleButton: React.FC<HoverCircleButtonProps> = ({
 
     return () => {
       clearTimeout(timer);
-      cleanupHoverCircleButton(); // Make sure this function exists and works properly
+      cleanupHoverCircleButton();
     };
   }, []);
 
+  const commonClasses = `hover-circle-button__item hover-circle-button ${
+    darkBg ? "dark-bg" : ""
+  } ${disabled ? "disabled" : ""}`;
+
+  const content = (
+    <>
+      <span className="hover-circle-button__text">{label}</span>
+      <span className="hover-circle-button__icon">
+        <GoArrowUpRight />
+      </span>
+      <i className="hover-circle-button__dot"></i>
+    </>
+  );
+
   return (
     <div className="hover-circle-button__wrapper" ref={buttonRef}>
-      <Link
-        href={href}
-        className={`hover-circle-button__item hover-circle-button ${
-          darkBg ? "dark-bg" : ""
-        }`}
-      >
-        <span className="hover-circle-button__text">{label}</span>
-        <span className="hover-circle-button__icon">
-          <GoArrowUpRight />
-        </span>
-        <i className="hover-circle-button__dot"></i>
-      </Link>
+      {type === "link" && href ? (
+        <Link href={href} className={commonClasses}>
+          {content}
+        </Link>
+      ) : (
+        <button
+          className={commonClasses}
+          onClick={onClick}
+          disabled={disabled}
+          type="button"
+        >
+          {content}
+        </button>
+      )}
     </div>
   );
 };

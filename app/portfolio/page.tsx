@@ -10,7 +10,6 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
 import { projects } from "@/data/projects";
 import PortfolioHeader from "@/components/Portfolio2Page/PortfolioHeader/PortfolioHeader";
-import PortfolioBentoGrid from "@/components/Portfolio2Page/PortfolioBentoGrid/PortfolioBentoGrid";
 import PortfolioCTA from "@/components/Portfolio2Page/PortfolioCTA/PortfolioCTA";
 import Footer from "@/components/layout/Footer/footer";
 
@@ -20,9 +19,12 @@ import {
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
 import { revealForTouchDevices } from "@/utils/animations/touch-device-reveal";
+import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
+import MasProyectosGrid from "@/components/Portfolio2Page/MasProyectosGrid/MasProyectosGrid";
+import { randomGridAnim } from "@/utils/animations/random-grid-anim";
 
 import "./portfolio-page.scss";
-import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 const PortfolioPage: React.FC = () => {
   useScrollSmooth();
@@ -43,16 +45,14 @@ const PortfolioPage: React.FC = () => {
     };
   }, []);
 
-  const featuredProjects = projects.filter(
-    (project) => project.display.portfolioPage === true
-  );
-
   useGSAP(() => {
     const timer = setTimeout(() => {
       fadeAnimation();
       charAnimation();
       rollUpTextAnimation();
       revealForTouchDevices();
+      randomGridAnim();
+      highlightAnimation(1.5);
 
       // Store the cleanup function
       cleanupRef.current = cursorBubbleAnimation();
@@ -74,7 +74,7 @@ const PortfolioPage: React.FC = () => {
       <div id="smooth-content">
         <main className="portfolio-page">
           <PortfolioHeader />
-          <PortfolioBentoGrid projects={featuredProjects} />
+          <MasProyectosGrid projects={projects} />
           <PortfolioCTA />
         </main>
         <Footer />

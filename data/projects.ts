@@ -499,6 +499,77 @@ export const projects: Project[] = [
     },
     tags: ["Hostelería", "Branding", "Fotografía"],
   },
+  // Add these 2 projects to your existing array:
+
+  {
+    id: "14",
+    title: "Corner farmacia Armas",
+    slug: "corner-farmacia-armas",
+    category: "perfumeria",
+    client: "Farmacia Armas",
+    date: "2024-05-15",
+    location: "Las Palmas",
+    image: "/assets/img/blog/commercial-photography.jpg",
+    images: [
+      "/assets/img/blog/commercial-photography.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+      "/assets/img/blog/minimalist-spaces.jpg",
+      "/assets/img/blog/typography-design.jpg",
+    ],
+    description:
+      "Diseño de corner especializado en cosmética y perfumería para farmacia moderna.",
+    longDescription:
+      "Creamos un espacio dedicado dentro de la farmacia que eleva la experiencia de compra de productos de belleza y cuidado personal.",
+    process:
+      "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio.",
+    services: [
+      "Diseño de interiores",
+      "Mobiliario especializado",
+      "Iluminación",
+      "Visual merchandising",
+    ],
+    display: {
+      homepage: false,
+      portfolioPage: true,
+      masProyectosPage: false,
+    },
+    tags: ["Farmacia", "Cosmética", "Retail"],
+  },
+
+  {
+    id: "15",
+    title: "Espacio promocional Centro Atlántico",
+    slug: "espacio-promocional-centro-atlantico",
+    category: "espacios-promocionales",
+    client: "Centro Atlántico",
+    date: "2024-04-22",
+    location: "Vecindario",
+    image: "/assets/img/blog/visual-marketing.jpg",
+    images: [
+      "/assets/img/blog/visual-marketing.jpg",
+      "/assets/img/blog/typography-design.jpg",
+      "/assets/img/blog/responsive-design.jpg",
+      "/assets/img/blog/color-psychology.jpg",
+    ],
+    description:
+      "Diseño de stand temporal para promoción de nueva marca de lifestyle en centro comercial.",
+    longDescription:
+      "Creamos un espacio atractivo y funcional que maximiza la visibilidad de la marca y facilita la interacción con los clientes potenciales.",
+    process:
+      "El proceso comenzó con una fase de análisis estratégico, en la que evaluamos las necesidades del cliente y el contexto del espacio.",
+    services: [
+      "Diseño conceptual",
+      "Producción",
+      "Montaje",
+      "Gráfica promocional",
+    ],
+    display: {
+      homepage: false,
+      portfolioPage: true,
+      masProyectosPage: false,
+    },
+    tags: ["Promoción", "Centro comercial", "Lifestyle"],
+  },
 ];
 
 // Categories for filtering

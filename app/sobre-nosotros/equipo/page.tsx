@@ -29,6 +29,7 @@ import { initStatsCounter } from "@/utils/animations/stats-counter";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
 import "./equipo-page.scss";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 const EquipoPage = () => {
   useScrollSmooth();
@@ -57,6 +58,7 @@ const EquipoPage = () => {
       initStatsCounter();
       rollUpTextAnimation();
       featuredImageAnimation();
+      highlightAnimation(1.5);
     }, 300);
 
     return () => clearTimeout(timer);

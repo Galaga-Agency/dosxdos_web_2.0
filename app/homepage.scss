@@ -17,25 +17,6 @@
     min-height: 100vh;
     overflow: hidden;
   }
-
-  &__marquee {
-    width: 100%;
-    margin: 0 auto;
-
-    @include container-width(mobile);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
 }
 
 img[data-nimg="fill"] {

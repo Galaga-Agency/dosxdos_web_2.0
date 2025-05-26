@@ -46,14 +46,6 @@ const ServicesGrid: React.FC = () => {
             </Link>
           ))}
         </div>
-
-        <div className="services-grid__button-container">
-          <HoverCircleButton
-            href="/servicios"
-            label="Más Servicios"
-            darkBg={true}
-          />
-        </div>
       </div>
     </section>
   );

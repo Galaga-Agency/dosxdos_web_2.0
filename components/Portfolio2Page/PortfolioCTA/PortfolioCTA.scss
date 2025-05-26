@@ -1,117 +1,27 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
-@use "base/animations" as *;
 
 .portfolio-cta {
   width: 100%;
   background-color: $white;
-  margin-top: 4rem;
+  @include section-padding-y();
+  margin: 0 auto;
+  width: fit-content;
 
-  &__container {
-    width: 100%;
-    margin: 0 auto;
-    @include flex(column, center, center);
+  &__title {
+    text-align: center;
+    width: auto;
+    text-wrap: nowrap;
+    color: $black;
 
-    @include container-width(mobile);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__more-button {
-    margin-bottom: 4rem;
-  }
-
-  &__top-labels {
-    width: 100%;
-    max-width: 1400px;
-    padding: 0 1rem;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto 2rem auto;
-
-    @include min-width(md) {
-      margin-bottom: 3rem;
+    a {
+      text-decoration: none;
+      color: inherit;
     }
   }
 
   &__label {
-    @include font-size(sm);
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: $black;
-
-    &:last-child {
-      text-align: right;
-    }
-
-    @include min-width(md) {
-      @include font-size(base);
-    }
-
-    @include min-width(lg) {
-      @include font-size(lg);
-    }
-  }
-
-  &__title {
-    width: 100%;
-    text-align: center;
-    visibility: hidden;
-    color: $black;
-    @include title-line-height;
-    font-weight: 700;
-    @include margin(lg, bottom);
-    @include font-size(hero-xs);
-    transition: color 0.3s ease;
-
-    @include min-width(sm) {
-      @include font-size(hero-sm);
-    }
-
-    @include min-width(md) {
-      @include font-size(hero-md);
-    }
-
-    @include min-width(lg) {
-      @include font-size(hero-lg);
-    }
-
-    @include min-width(xl) {
-      @include font-size(hero-xl);
-    }
-
-    @include min-width(xxl) {
-      @include font-size(hero-xxl);
-    }
-
-    @include min-width(xxxl) {
-      @include font-size(hero-xxxl);
-    }
-  }
-
-  &__button {
-    opacity: 0;
-
-    @include touch-device {
-      opacity: 1;
-    }
-  }
-
-  &__content {
-    text-align: center;
-    margin-top: 2rem;
-    padding: 0 2rem;
-    margin: 0 auto;
+    margin: 0 4rem 0 -4rem!important;
   }
 }

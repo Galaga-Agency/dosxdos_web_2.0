@@ -61,7 +61,7 @@ export const teamMembers: TeamMember[] = [
     id: 9,
     name: "Francisco Rodríguez Robaina",
     position: "Responsable Producción Mobiliario",
-    email: "",
+    email: "paco@iidos.com",
     imageUrl: "/assets/img/team/equipo-2.webp",
   },
   {

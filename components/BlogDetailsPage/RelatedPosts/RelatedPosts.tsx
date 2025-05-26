@@ -10,14 +10,13 @@ interface RelatedPostsProps {
 }
 
 const RelatedPosts: React.FC<RelatedPostsProps> = ({ relatedPosts }) => {
-  const relatedPostsRef = useRef<HTMLDivElement>(null);
 
   if (relatedPosts.length === 0) {
     return null;
   }
 
   return (
-    <div ref={relatedPostsRef} className="blog-detail__related-posts">
+    <div className="blog-detail__related-posts">
       <h2 className="blog-detail__related-title">Artículos relacionados</h2>
       <div className="blog-detail__related-grid">
         {relatedPosts.map((post) => (

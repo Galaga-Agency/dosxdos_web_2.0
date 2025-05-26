@@ -11,12 +11,16 @@
   height: 100vh;
   margin-bottom: 48px;
   overflow: hidden;
+  display: flex;
+  align-items: flex-end;
 
   &__image-container {
     position: relative;
     width: 100%;
     height: 100%;
     opacity: 0;
+    display: flex;
+    align-items: flex-end;
   }
 
   &__image-wrapper {
@@ -49,88 +53,14 @@
   }
 
   &__content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 6rem;
-    @include flex(column, end, flex-start);
+    position: relative;
     z-index: 3;
-    margin: 0 auto;
-    @include container-width(mobile);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
+    width: 100%;
+    padding-bottom: 6rem;
   }
 
   &__label {
-    margin-bottom: 2rem;
-    position: relative;
-    visibility: hidden;
-
-    span {
-      display: inline-block;
-      @include font-size(lg);
-      @include font-weight(medium);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: $white;
-      position: relative;
-    }
-  }
-
-  &__title {
-    @include font-size(3xl);
-    @include font-weight(semibold);
     color: $white;
-    text-transform: uppercase;
-    @include title-line-height;
-    @include letter-spacing(tight);
-    @include margin(lg, bottom);
-    visibility: hidden;
-    max-width: 70%;
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-      max-width: 100%;
-    }
-
-    @include min-width(lg) {
-      @include font-size(8xl);
-    }
-  }
-
-  &__description {
-    max-width: 700px;
-    margin-bottom: 40px;
-    opacity: 0;
-
-    p {
-      @include font-size(lg);
-      line-height: 1.6;
-      color: $white;
-
-      @include min-width(md) {
-        @include font-size(xl);
-      }
-    }
   }
 }
 
@@ -267,20 +197,5 @@
     height: 100%;
     background: linear-gradient(to bottom, rgba($black, 0), rgba($black, 0.1));
     z-index: 3;
-  }
-
-  &__watermark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    @include font-weight(light);
-    @include font-size(2xl);
-    color: rgba($primary-color, 0.1);
-    letter-spacing: 0.1em;
-    z-index: 1;
-    text-transform: uppercase;
-    pointer-events: none;
-    opacity: 0.7;
   }
 }

@@ -6,34 +6,22 @@ import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import "./ServicesSection.scss";
 
 const ServicesSection: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-
   return (
-    <section ref={sectionRef} className="services-section">
-      <div className="services-section__container">
+    <section className="services-section">
+      <div className="services-section__container container">
         <div className="services-section__header">
-          <div className="services-section__label-title">
-            <div className="services-section__label">
-              <span>(Nuestros servicios)</span>
-            </div>
-
-            <h2 className="services-section__title">
-              <div className="title-row fade_bottom">
-                Todo lo que tu marca necesita
-              </div>
-              <div className="title-row fade_bottom highlight">
-                para destacar.
-              </div>
-            </h2>
-          </div>
-
-          <p className="services-section__subtitle">
+          <h3 className="services-section__label label">
+            (Nuestros servicios)
+          </h3>
+          <h2 className="services-section__title secondary-title fade_bottom">Todo lo que tu marca necesita <br/>
+            <span className="highlight">para destacar</span>.
+          </h2>
+          <p className="services-section__subtitle subtitle">
             Creamos soluciones 360º que integran diseño, producción, tecnología
             y estrategia. Expertos en proyectos llave en mano, acompañamos a las
             marcas en todo el proceso: desde la idea hasta la puesta en marcha.
           </p>
         </div>
-
         <div className="services-section__grid">
           {servicesList.map((service, index) => (
             <div
