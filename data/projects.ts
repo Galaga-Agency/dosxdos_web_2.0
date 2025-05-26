@@ -3,13 +3,13 @@ import { Project, ProjectCategory } from "@/types/project-types";
 export const projects: Project[] = [
   {
     id: "01",
-    title: "Escaparate innovador para tienda de moda",
-    slug: "escaparate-tienda-moda",
+    title: "Sabina Siam",
+    slug: "sabina-siam-costa-adeje",
     category: "escaparatismo",
     client: "Marca Fashion",
     date: "2024-02-15",
-    location: "Gran Canaria",
-    image: "/assets/img/blog/color-psychology.jpg",
+    location: "Costa Adeje",
+    image: "/assets/img/homepage/Sabina Siam .webp",
     images: [
       "/assets/img/blog/color-psychology.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",
@@ -41,13 +41,13 @@ export const projects: Project[] = [
   },
   {
     id: "02",
-    title: "Stand promocional para feria internacional",
-    slug: "stand-feria-internacional",
+    title: "Despacho Domingo Alonso",
+    slug: "despacho-domingo-alonso-las-palmas",
     category: "espacios-promocionales",
     client: "Tech Solutions",
     date: "2023-11-10",
-    location: "Madrid",
-    image: "/assets/img/blog/commercial-photography.jpg",
+    location: "Las Palmas",
+    image: "/assets/img/homepage/Despacho Domingo Alonso.webp",
     images: [
       "/assets/img/blog/commercial-photography.jpg",
       "/assets/img/blog/visual-marketing.jpg",
@@ -80,13 +80,13 @@ export const projects: Project[] = [
   },
   {
     id: "03",
-    title: "Reforma integral tienda cosméticos",
-    slug: "reforma-tienda-cosmeticos",
+    title: "Urban Lifestyle sport",
+    slug: "urban-lifestyle-sport-maspalomas",
     category: "interiorismo-comercial",
     client: "Beauty World",
     date: "2023-09-22",
-    location: "Barcelona",
-    image: "/assets/img/blog/neurodesign.jpg",
+    location: "Maspalomas",
+    image: "/assets/img/homepage/Urban lifestyle.webp",
     images: [
       "/assets/img/blog/neurodesign.jpg",
       "/assets/img/blog/minimalist-spaces.jpg",

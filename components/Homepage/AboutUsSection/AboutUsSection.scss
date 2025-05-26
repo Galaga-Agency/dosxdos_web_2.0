@@ -10,6 +10,7 @@
   @include section-padding-y();
 
   &__container {
+    // background-color: red;
     margin: 0 auto;
     @include container-width(mobile);
 
@@ -74,6 +75,11 @@
 
     @include min-width(md) {
       @include grid(2, xl);
+      margin: auto 0;
+    }
+
+    @include min-width(md) {
+      @include grid(2, 4xl);
     }
   }
 
@@ -96,8 +102,8 @@
     }
 
     @include min-width(xl) {
-      width: 50%;
-      margin: 0 auto;
+      width: 80%;
+      margin-left: auto;
     }
   }
 
@@ -152,7 +158,8 @@
     }
 
     @include min-width(xl) {
-      width: 50%;
+      width: 80%;
+      margin-right: auto;
     }
   }
 
@@ -181,5 +188,7 @@
     width: fit-content;
     @include margin(md, y);
     will-change: transform, opacity;
+    @include flex(row, center, center);
+    gap: 1rem;
   }
 }

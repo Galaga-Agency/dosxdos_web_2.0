@@ -14,7 +14,9 @@ const FeaturedprojectsSection: React.FC = () => {
 
   // Generate repeated text elements for marquee
   const repeatedText = Array.from({ length: 20 }).map((_, i) => (
-    <span key={i}>Nuestros Trabajos&nbsp;&nbsp;</span>
+    <span key={i}>
+      Hecho en dos x dos&nbsp;<span className="dot">•</span>&nbsp;
+    </span>
   ));
 
   return (
@@ -43,7 +45,9 @@ const FeaturedprojectsSection: React.FC = () => {
             </div>
 
             <div className="project-panel__content">
-              <h3 className="project-panel__title">{project.title}</h3>
+              <h3 className="project-panel__title">
+                {project.title}, {project.location}
+              </h3>
               <a
                 href={`/portfolio/${project.slug}`}
                 className="project-panel__link"

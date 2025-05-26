@@ -5,6 +5,7 @@ import Image from "next/image";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import "./AboutUsSection.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
+import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 
 const AboutUsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -53,8 +54,11 @@ const AboutUsSection: React.FC = () => {
             </div>
 
             <div className="aboutus-section__cta">
-              <PrimaryButton href="/sobre-nosotros/equipo" size="medium">
+              <SecondaryButton href="/sobre-nosotros/equipo" size="medium" lightBg>
                 Conócenos →
+              </SecondaryButton>
+              <PrimaryButton href="/contacto" size="medium">
+                ¿Hablamos?
               </PrimaryButton>
             </div>
           </div>

@@ -26,62 +26,65 @@
     }
   }
 
-&__label-title {
-  width: 100%;
-  @include flex(column, start, start);
-  gap: 1rem;
-}
-
-&__label {
-  @include font-size(lg);
-  @include font-weight(medium);
-  color: $black;
-  display: block;
-  position: relative;
-  z-index: 1;
-  text-wrap: nowrap;
-  
-  @include min-width(xxl) {
-    margin-bottom: 0;
-    min-width: max-content;
-  }
-}
-
-&__title {
-  @include font-size(3xl);
-  @include font-weight(semibold);
-  @include title-line-height;
-  @include letter-spacing(tight);
-  text-transform: uppercase;
-  color: $black;
-
-  @include min-width(xs) {
-    @include font-size(5xl);
+  &__label-title {
+    width: 100%;
+    @include flex(column, start, start);
+    gap: 1rem;
   }
 
-  @include min-width(sm) {
-    @include font-size(6xl);
-  }
-
-  @include min-width(md) {
-    @include font-size(7xl);
-  }
-}
-
-&__subtitle {
-  @include font-size(lg);
-  line-height: 1.6;
-  color: rgba($black, 0.75);
-  @include margin(xl, y);
-  max-width: 600px;
-  position: relative;
-  z-index: 1;
-
-  strong {
+  &__label {
+    @include font-size(lg);
+    @include font-weight(medium);
+    font-family: "Sarabun";
+    font-style: normal;
+    font-weight: 100;
     color: $black;
-    @include font-weight(semibold);
+    display: block;
+    position: relative;
+    z-index: 1;
+    text-wrap: nowrap;
+
+    @include min-width(xxl) {
+      margin-bottom: 0;
+      min-width: max-content;
+    }
   }
-}
+
+  &__title {
+    @include font-size(3xl);
+    @include font-weight(semibold);
+    @include title-line-height;
+    @include letter-spacing(tight);
+    text-transform: uppercase;
+    color: $black;
+
+    @include min-width(xs) {
+      @include font-size(5xl);
+    }
+
+    @include min-width(sm) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(md) {
+      @include font-size(7xl);
+    }
+  }
+
+  &__subtitle {
+    @include font-size(lg);
+    line-height: 1.6;
+    color: rgba($black, 0.75);
+    @include margin(xl, y);
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+
+    strong {
+      color: $black;
+      @include font-weight(semibold);
+    }
+  }
 
   &__grid {
     display: grid;
