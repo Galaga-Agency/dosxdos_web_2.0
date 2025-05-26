@@ -5,85 +5,21 @@
 
 .portfolio-header {
   position: relative;
-
-  @include container-width(mobile);
-  margin: 3rem auto;
-
-  @include min-width(md) {
-    @include container-width(tablet);
-  }
-
-  @include min-width(lg) {
-    @include container-width(smalldesktop);
-  }
-
-  @include min-width(xl) {
-    @include container-width(desktop);
-  }
+  @include section-padding-top();
 
   &__content {
-    max-width: 80ch;
     text-align: left;
     @include flex(column, start, left);
     gap: 0.5rem;
-
-    @include min-width(md) {
-      max-width: 90ch;
-    }
   }
 
   &__label {
-    @include font-size(sm);
-    color: $black;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-
-    &::after {
-      content: "";
-      width: 20px;
-      height: 1px;
-      background-color: $black;
-      display: inline-block;
-    }
+    font-style: italic;
+    @include font-weight(light);
   }
 
   &__title {
-    position: relative;
-    @include font-weight(semibold);
     color: $black;
-    text-transform: capitalize;
-    letter-spacing: -0.025em;
-    visibility: hidden;
-    @include title-line-height;
-    @include font-size(hero-xs);
-
-    @include min-width(sm) {
-      @include font-size(hero-sm);
-    }
-
-    @include min-width(md) {
-      @include font-size(hero-md);
-    }
-
-    @include min-width(lg) {
-      @include font-size(hero-lg);
-    }
-
-    @include min-width(xl) {
-      @include font-size(hero-xl);
-    }
-
-    @include min-width(xxl) {
-      @include font-size(hero-xxl);
-    }
-
-    @include min-width(xxxl) {
-      @include font-size(hero-xxxl);
-    }
   }
 
   &__description {

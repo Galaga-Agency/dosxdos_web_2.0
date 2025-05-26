@@ -9,15 +9,16 @@
   background-color: $black;
   overflow: hidden;
   overscroll-behavior: none;
+  @include section-padding-bottom();
 
   // Marquee styling
   &__marquee {
     position: relative;
     width: 100%;
     overflow: hidden;
-    padding: 2rem 0;
+    padding: 4rem 0 2rem 0;
     pointer-events: none; // Prevent interaction with marquee
-
+ 
     &-track {
       display: flex;
       white-space: nowrap;
@@ -89,38 +90,42 @@
 
   &__items {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    @include gap(xl);
-    will-change: transform; // Performance optimization for animations
-    position: relative; // Establish stacking context
-    z-index: 2; // Higher z-index than marquee
+    grid-template-columns: 1fr;
+    gap: 32px;
+    position: relative;
+    z-index: 20;
 
     @include min-width(md) {
       grid-template-columns: repeat(2, 1fr);
-      @include gap(lg);
     }
 
     @include min-width(lg) {
       grid-template-columns: repeat(3, 1fr);
-      @include gap(4xl);
-    }
-
-    @include min-width(xl) {
-      max-width: 80%;
-      margin: 0 auto;
     }
   }
 
   &__item {
     position: relative;
     cursor: none;
-    aspect-ratio: 0.8;
+    height: 425px;
     overflow: hidden;
     display: block;
     text-decoration: none;
-    transform: translateZ(0); // Force GPU acceleration
-    backface-visibility: hidden; // Prevent flickering
-    perspective: 1000px; // 3D acceleration
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+
+    @include min-width(sm) {
+      height: 400px;
+    }
+
+    @include min-width(md) {
+      height: 425px;
+    }
+
+    @include min-width(lg) {
+      height: 460px;
+    }
 
     .img_reveal {
       position: relative;

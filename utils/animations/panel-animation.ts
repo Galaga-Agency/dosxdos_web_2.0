@@ -142,7 +142,7 @@ function servicePanel() {
   const sv = gsap.matchMedia();
   const tl = gsap.timeline();
   sv.add("(min-width: 991px)", () => {
-    const projectpanelss = document.querySelectorAll(".project-panel-2");
+    const projectpanelss = document.querySelectorAll(".project-panel");
     projectpanelss.forEach((section) => {
       tl.to(section, {
         scrollTrigger: {
@@ -151,7 +151,7 @@ function servicePanel() {
           scrub: 1,
           start: "top top",
           end: "bottom 100%",
-          endTrigger: ".project-panel-area-2",
+          endTrigger: ".project-panel-area",
           pinSpacing: false,
           markers: false,
         },

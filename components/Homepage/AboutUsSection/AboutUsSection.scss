@@ -7,68 +7,7 @@
   position: relative;
   width: 100%;
   background-color: $white;
-  @include section-padding-y();
-
-  &__container {
-    // background-color: red;
-    margin: 0 auto;
-    @include container-width(mobile);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__header {
-    position: relative;
-    width: 100%;
-    @include margin(3xl, bottom);
-    @include flex(column, start, start);
-    gap: 2rem;
-  }
-
-  &__title {
-    @include font-size(3xl);
-    @include font-weight(semibold);
-    width: fit-content;
-    @include title-line-height;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
-    color: $black;
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-    }
-  }
-
-  &__label {
-    @include font-size(lg);
-    @include font-weight(medium);
-    @include margin(md, bottom);
-    color: $black;
-    display: block;
-
-    @include min-width(xl) {
-      position: absolute;
-      left: 10%;
-    }
-  }
+  @include section-padding-top();
 
   &__content {
     @include grid(1, md);
@@ -160,27 +99,6 @@
     @include min-width(xl) {
       width: 80%;
       margin-right: auto;
-    }
-  }
-
-  &__text {
-    color: rgba($black, 0.8);
-    @include margin(lg, bottom);
-    @include font-size(lg);
-    line-height: 1.6;
-    will-change: transform, opacity;
-
-    p {
-      @include margin(md, bottom);
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    strong {
-      color: $black;
-      @include font-weight(semibold);
     }
   }
 

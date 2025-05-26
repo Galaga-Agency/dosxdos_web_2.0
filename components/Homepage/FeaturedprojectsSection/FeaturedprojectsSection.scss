@@ -93,15 +93,11 @@
 .project-panel-area {
   position: relative;
   width: 100%;
-  // Important: This is what the template uses
   min-height: 300vh;
   z-index: 5;
-  
-  // Improve rendering performance
-  will-change: transform;
+    will-change: transform;
   backface-visibility: hidden;
   
-  // Fix position in the stack
   @include min-width(md) {
     z-index: 10; 
   }
@@ -110,16 +106,11 @@
 .project-panel {
   position: relative;
   width: 100%;
-  // Fixed height to match template
   height: 100vh;
   overflow: hidden;
-  
-  // Improve GPU rendering
   will-change: transform;
   transform-style: flat;
   backface-visibility: hidden;
-  
-  // Fix position in the stack
   z-index: 5;
 
   &__image {
@@ -178,6 +169,7 @@
     color: $white;
     position: relative;
     padding-bottom: 0.5rem;
+    width: fit-content;
     text-shadow: 0 1px 2px rgba($black, 0.2);
 
     &::after {
@@ -186,8 +178,8 @@
       bottom: 0;
       left: 0;
       width: 2rem;
-      height: 1px;
-      background-color: rgba($white, 0.4);
+      height: 2px;
+      background-color: $primary-color;
       transition: width 0.4s ease;
     }
 

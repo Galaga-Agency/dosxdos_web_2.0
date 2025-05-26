@@ -23,75 +23,24 @@
     }
   }
 
-  &__container {
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    position: relative;
-    @include container-width(mobile);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
   &__title-box {
     position: relative;
     width: fit-content;
-    @include flex(row, start, center);
-    margin: 0 auto;
     @include padding(xl, bottom);
-  }
+    @include flex(column, center, start);
 
-  &__label {
-    position: absolute;
-    top: 0;
-    @include font-size(base);
-    color: rgba($black, 0.7);
-    @include margin(md, bottom);
-    display: none;
-
-    @include min-width(md) {
-      display: block;
+    @include min-width(xl) {
+      margin: 0 auto;
     }
   }
 
   &__title {
-    @include font-size(4xl);
-    @include font-weight(semibold);
-    @include title-line-height;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
-    color: $black;
+    @include padding(xl, bottom);
+    width: auto;
 
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
+    @include min-width(xl) {
       text-align: center;
     }
-
-    @include min-width(lg) {
-      @include font-size(8xl);
-    }
-  }
-
-  &__title-row-2 {
-    display: block;
   }
 
   &__content {
@@ -138,13 +87,6 @@
     @include min-width(xl) {
       width: 50%;
     }
-  }
-
-  &__text {
-    color: rgba($black, 0.8);
-    @include margin(lg, bottom);
-    @include font-size(lg);
-    line-height: 1.6;
   }
 
   &__middle-image {
@@ -201,30 +143,9 @@
     width: 100%;
   }
 
-  &__statement {
-    @include font-size(4xl);
-    @include font-weight(semibold);
-    @include title-line-height;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
-    color: $black;
-    @include margin(xl, bottom);
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-    }
-  }
-
   &__services {
     @include grid(1, xl);
+    @include padding(4xl, top);
 
     @include min-width(md) {
       grid-template-columns: repeat(3, 1fr);
@@ -303,5 +224,11 @@
       margin: 0;
       width: 100%;
     }
+  }
+}
+
+.line-break {
+  @include min-width(md) {
+    display: none;
   }
 }

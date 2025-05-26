@@ -7,18 +7,16 @@ import { collaborationData } from "@/data/collaborations";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const CollaborationsSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
   return (
-    <section ref={sectionRef} className="collaborations-section">
-      <div className="collaborations-section__header">
+    <section className="collaborations-section ">
+      <div className="collaborations-section__header header container">
         <h3 className="collaborations-section__label label">
           (Comprometidos con lo que de verdad importa)
         </h3>
-        <h2 className="collaborations-section__title fade_bottom">
+        <h2 className="collaborations-section__title secondary-title fade_bottom">
           Colaboramos con quienes <span className="highlight">transforman vidas</span>
         </h2>
-        <p className="collaborations-section__subtitle fade_bottom">
+        <p className="collaborations-section__subtitle subtitle fade_bottom">
           Apoyamos a fundaciones y organizaciones que construyen un futuro más
           justo. Diseñamos con propósito, y también con corazón.
         </p>
@@ -37,7 +35,6 @@ const CollaborationsSection: React.FC = () => {
                   className="project-panel__image-file"
                   priority={collaboration.id === 1}
                 />
-                <div className="project-panel__overlay"></div>
                 <div className="project-panel__logo">
                   <Image
                     src={collaboration.image}
@@ -45,7 +42,7 @@ const CollaborationsSection: React.FC = () => {
                     width={180}
                     height={120}
                     className={`project-panel__logo-image ${
-                      collaboration.id === 1
+                      collaboration.id === 2
                         ? "project-panel__logo-image--first"
                         : ""
                     }`}

@@ -7,68 +7,8 @@
   position: relative;
   overflow: hidden;
 
-  &__container {
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    position: relative;
-    @include container-width(mobile);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__title {
-    @include font-size(4xl);
-    @include font-weight(semibold);
-    color: $black;
-    margin-bottom: 1.5rem;
-    @include title-line-height;
-    text-transform: uppercase;
-
-    @include min-width(md) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(lg) {
-      @include font-size(7xl);
-    }
-
-    .highlight {
-      position: relative;
-      display: inline-block;
-      z-index: 1;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: -5px;
-        right: -5px;
-        width: calc(100% + 10px);
-        height: 40%;
-        background-color: rgba($black, 0.5);
-        opacity: 0.3;
-        z-index: -1;
-        transform: skew(-10deg);
-      }
-    }
-  }
-
   &__description {
-    @include font-size(xl);
-    color: rgba($black, 0.8);
     max-width: 1000px;
-    line-height: 1.7;
     @include margin(5xl, bottom);
   }
 

@@ -6,7 +6,6 @@ import "./FeaturedprojectsSection.scss";
 import { projects } from "@/data/projects";
 
 const FeaturedprojectsSection: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
 
   const featuredProjects = projects.filter(
     (project) => project.display.homepage === true
@@ -20,7 +19,7 @@ const FeaturedprojectsSection: React.FC = () => {
   ));
 
   return (
-    <section ref={sectionRef} className="latest-projects">
+    <section className="latest-projects">
       <div className="marquee-container">
         <div className="marquee-track">
           <div className="marquee-text">{repeatedText}</div>

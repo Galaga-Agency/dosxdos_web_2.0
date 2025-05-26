@@ -13,24 +13,6 @@
     @include padding(10xl, top);
   }
   
-  &__container {
-    margin: 0 auto;
-    @include container-width(mobile);
-    
-    @include min-width(md) {
-      @include container-width(tablet);
-      overflow-x: visible;
-    }
-    
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-    
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-  
   &__title {
     @include font-size(5xl);
     @include title-line-height;
@@ -76,23 +58,6 @@
         display: block;
         @include margin(2xs, top);
       }
-    }
-  }
-  
-  &__subtitle {
-    // Reduced subtitle font size by 2 levels
-    @include font-size(sm);
-    color: rgba($black, 0.7);
-    max-width: 40rem;
-    @include margin(xl, bottom);
-    
-    @include min-width(md) {
-      @include font-size(lg);
-    }
-    
-    @include min-width(lg) {
-      @include font-size(xl);
-      max-width: 50rem;
     }
   }
   

@@ -2,10 +2,9 @@ import React, { useRef } from "react";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const BlogDetailCTASection: React.FC = () => {
-  const ctaSectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={ctaSectionRef} className="blog-detail__cta-section">
+    <div className="blog-detail__cta-section">
       <div className="blog-detail__cta-content">
         <h2 className="blog-detail__cta-title">
           Descubre más <span className="highlight">inspiración</span>

@@ -379,7 +379,7 @@ const Menu: React.FC = () => {
             {/* Mobile Social Icons */}
             <div className="menu__social-mobile">
               <SocialIcons
-                iconSize="medium"
+                iconSize="small"
                 color="white"
                 className="menu__social-icons"
               />

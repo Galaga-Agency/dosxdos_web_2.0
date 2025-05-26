@@ -5,29 +5,27 @@ import Image from "next/image";
 import "./SustainabilityImagesSection.scss";
 
 const SustainabilityImagesSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Sample data for the images
   const sustainabilityImages = [
     {
-      id: "sustainability-1",
+      id: 1,
       alt: "Materiales Sostenibles",
       imageUrl: "/assets/img/about-us-page/placas-solares.webp",
     },
     {
-      id: "sustainability-2",
+      id: 2,
       alt: "Eficiencia Energética",
       imageUrl: "/assets/img/about-us-page/materiales.webp",
     },
     {
-      id: "sustainability-3",
+      id: 3,
       alt: "Economía Circular",
       imageUrl: "/assets/img/about-us-page/recorrido.webp",
     },
   ];
 
   return (
-    <section ref={sectionRef} className="sustainability-images-section">
+    <section className="sustainability-images-section">
       <div className="sustainability-images-section__container">
         <div className="sustainability-images-section__images">
           {sustainabilityImages.map((image) => (

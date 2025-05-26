@@ -2,6 +2,12 @@
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
 
+.mas-proyectos-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
 .mas-proyectos-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -36,7 +42,7 @@
   width: 100%;
   overflow: hidden;
   text-decoration: none;
-  height: 320px; // Default height
+  height: 320px;
   will-change: transform;
   opacity: 0;
 
@@ -86,17 +92,16 @@
     width: 100%;
     @include padding(md);
     background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-    @include z-index(above); // Using your z-index mixin
+    @include z-index(above);
   }
 
   &__title {
     color: $white;
-    @include title-line-height;
     @include font-size(xl);
     margin: 0;
   }
 
-  // Item 1
+  // Item layouts (repeating pattern for batches)
   &.item-1 {
     @include min-width(md) {
       height: 450px;
@@ -109,7 +114,6 @@
     }
   }
 
-  // Item 2
   &.item-2 {
     @include min-width(md) {
       height: 820px;
@@ -121,13 +125,12 @@
     }
   }
 
-  // Item 3
   &.item-3 {
     @include min-width(md) {
       height: 580px;
       width: 100%;
       transform: translate(0px, -120px);
-      margin-left: 0; // Remove margin on tablets
+      margin-left: 0;
     }
 
     @include min-width(xxl) {
@@ -136,12 +139,11 @@
     }
   }
 
-  // Item 4
   &.item-4 {
     @include min-width(md) {
       height: 399px;
       width: 100%;
-      margin-left: 0; // Remove margin on tablets
+      margin-left: 0;
     }
 
     @include min-width(xxl) {
@@ -150,7 +152,6 @@
     }
   }
 
-  // Item 5
   &.item-5 {
     @include min-width(md) {
       height: 619px;
@@ -162,7 +163,6 @@
     }
   }
 
-  // Item 6
   &.item-6 {
     @include min-width(md) {
       height: 455px;
@@ -173,4 +173,9 @@
       width: 581px;
     }
   }
+}
+
+// Reveal More Section
+.reveal-more-container {
+  @include flex(column, center, center);
 }

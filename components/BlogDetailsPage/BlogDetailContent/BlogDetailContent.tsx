@@ -7,14 +7,13 @@ interface BlogDetailContentProps {
 }
 
 const BlogDetailContent: React.FC<BlogDetailContentProps> = ({ blogPost }) => {
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const createMarkup = (htmlContent: string) => {
     return { __html: htmlContent };
   };
 
   return (
-    <div ref={contentRef} className="blog-detail__content">
+    <div className="blog-detail__content">
       {blogPost.excerpt && (
         <div className="blog-detail__excerpt">
           <p>{blogPost.excerpt}</p>

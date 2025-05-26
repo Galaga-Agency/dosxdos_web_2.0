@@ -16,11 +16,11 @@ export const menuItems: MenuItem[] = [
         label: "Acción social",
         href: "/sobre-nosotros/accion-social",
       },
-      // {
-      //   id: "nuestro-espacio",
-      //   label: "Nuestro espacio",
-      //   href: "/sobre-nosotros/nuestro-espacio",
-      // },
+      {
+        id: "nuestro-espacio",
+        label: "Nuestro espacio",
+        href: "/sobre-nosotros/nuestro-espacio",
+      },
     ],
   },
   {
@@ -29,19 +29,19 @@ export const menuItems: MenuItem[] = [
     href: "/servicios",
     children: [
       {
+        id: "consultoria",
+        label: "Consultoría",
+        href: "/servicios/consultoria",
+      },
+      {
         id: "diseno-de-interiores",
         label: "Diseño de Interiores",
         href: "/servicios/diseno-de-interiores",
       },
       {
-        id: "produccion",
-        label: "Producción",
-        href: "/servicios/produccion",
-      },
-      {
-        id: "eventos",
-        label: "Eventos",
-        href: "/servicios/eventos",
+        id: "fabricacion",
+        label: "Fabricación",
+        href: "/servicios/fabricacion",
       },
       {
         id: "comunicacion",
@@ -49,14 +49,14 @@ export const menuItems: MenuItem[] = [
         href: "/servicios/comunicacion",
       },
       {
-        id: "logistica",
-        label: "Logística",
-        href: "/servicios/logistica",
+        id: "instalacion",
+        label: "Instalación",
+        href: "/servicios/instalacion",
       },
       {
-        id: "consultoria",
-        label: "Consultoría",
-        href: "/servicios/consultoria",
+        id: "eventos",
+        label: "Eventos",
+        href: "/servicios/eventos",
       },
     ],
   },

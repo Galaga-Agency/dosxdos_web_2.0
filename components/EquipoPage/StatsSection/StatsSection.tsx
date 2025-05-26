@@ -4,8 +4,6 @@ import React, { useRef } from "react";
 import "./StatsSection.scss";
 
 const StatsSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
 
   const stats = [
     { number: 200, suffix: "+", label: "PROYECTOS COMPLETADOS" },
@@ -15,14 +13,14 @@ const StatsSection: React.FC = () => {
   ];
 
   return (
-    <section className="stats-section" ref={sectionRef}>
+    <section className="stats-section">
       <div className="stats-section__container">
         <h2 className="stats-section__title">
           <span className="stats-section__title-icon">✕</span> Dos x Dos en
           Números
         </h2>
 
-        <div className="stats-section__grid" ref={statsRef}>
+        <div className="stats-section__grid">
           {stats.map((stat, index) => (
             <div key={index} className="stats-section__item">
               <div className="stats-section__number-container">

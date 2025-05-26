@@ -7,23 +7,19 @@ import "./AccionSocialCTASection.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 const AccionSocialCTASection = () => {
-  const sectionRef = useRef<HTMLElement>(null);
   const { isMobile } = useDeviceDetect();
 
   return (
-    <section ref={sectionRef} className="cta-section">
-      <div className="cta-section__container">
-        {/* Header section */}
-        <div className="cta-section__header">
-          <h3 className="cta-section__label label">(NUESTRO EQUIPO)</h3>
+    <section className="cta-section">
+      <div className="cta-section__container container">
+        <div className="cta-section__header header">
+          <h3 className="cta-section__label label label">(NUESTRO EQUIPO)</h3>
 
-          <h2 className="cta-section__title fade_bottom">
+          <h2 className="cta-section__title fade_bottom secondary-title">
             Todo empieza por una idea, <br /> lo demás lo hacemos{" "}
             <span className="highlight">juntos</span>.
           </h2>
         </div>
-
-        {/* Content area with two columns */}
         <div className="cta-section__content">
           <div
             className="cta-section__visual-column"
@@ -41,10 +37,8 @@ const AccionSocialCTASection = () => {
               />
             </div>
           </div>
-
-          {/* Right column with content */}
           <div className="cta-section__content-column">
-            <div className="cta-section__text">
+            <div className="cta-section__text text">
               Contamos con un equipo multidisciplinar de más de 40 personas —
               arquitectos, interioristas, diseñadores, técnicos e instaladores —
               que entienden que cada proyecto es un lenguaje visual que debe

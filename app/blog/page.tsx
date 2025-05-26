@@ -133,11 +133,6 @@ const BlogPage: React.FC = () => {
                       alt={first_blog?.title}
                       fill
                       priority
-                      style={{
-                        objectFit: "cover",
-                        objectPosition: "center",
-                        willChange: "transform",
-                      }}
                     />
                   </div>
                   <div className="blog-page__featured-image-overlay"></div>
@@ -156,7 +151,7 @@ const BlogPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <h1 className="blog-page__featured-image-title char-animation">
+                    <h1 className="blog-page__featured-image-title secondary-title char-animation">
                       {first_blog?.title}
                     </h1>
                     <div className="blog-page__featured-excerpt">

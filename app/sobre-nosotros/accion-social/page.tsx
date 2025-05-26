@@ -20,11 +20,12 @@ import Footer from "@/components/layout/Footer/footer";
 
 import { fadeAnimation, charAnimation } from "@/utils/animations/text-anim";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
-import { panelTwoAnimation } from "@/utils/animations/panel-animation";
+import { servicePanel } from "@/utils/animations/panel-animation";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
 import "./accion-social-page.scss";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 const AccionSocialPage = () => {
   useScrollSmooth();
@@ -49,8 +50,9 @@ const AccionSocialPage = () => {
       fadeAnimation();
       charAnimation();
       initCardMouseParallax();
-      panelTwoAnimation();
+      servicePanel();
       featuredImageAnimation();
+      highlightAnimation(1.5);
     }, 300);
 
     return () => clearTimeout(timer);

@@ -7,22 +7,21 @@ import "./ServiciosHero.scss";
 const ServiciosHero: React.FC = () => {
   return (
     <section className="servicios-hero">
-      <div className="servicios-hero__container">
+      <div className="servicios-hero__container container">
         <h1 className="servicios-hero__title">
           <span className="experience">Experiencia </span>
           <span className="plus">+</span>
-          <span className="creatividad"> Creatividad</span>
+          <span className="creatividad"> Compromiso</span>
         </h1>
 
-        <p className="servicios-hero__subtitle">
-          Somos una agencia de diseño de interiores especializada en crear
-          espacios comerciales de lujo para firmas de cosmética y perfumería que
-          elevan su marca y potencian sus ventas.
+        <p className="servicios-hero__subtitle subtitle">
+          Espacios que hablan, proyectos que conectan. Ofrecemos un servicio
+          completo: diseño, producción, logística y ejecución.
         </p>
 
-          <SecondaryButton href="/portfolio" lightBg={true}>
-            Ver proyectos →
-          </SecondaryButton>
+        <SecondaryButton href="/portfolio" lightBg={true}>
+          Ver proyectos →
+        </SecondaryButton>
       </div>
     </section>
   );

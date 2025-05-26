@@ -10,10 +10,17 @@ import JsonLd from "@/components/SEO/JsonLd";
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",
   display: "swap",
+  preload: true,
+  fallback: ["Impact", "Arial Black", "sans-serif"],
   src: [
     {
-      path: "../public/assets/fonts/BigShouldersDisplay-Light.ttf",
-      weight: "300",
+      path: "../public/assets/fonts/BigShouldersDisplay-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/BigShouldersDisplay-Bold.ttf",
+      weight: "700",
       style: "normal",
     },
     {
@@ -26,62 +33,25 @@ const bigShoulders = localFont({
       weight: "500",
       style: "normal",
     },
-    {
-      path: "../public/assets/fonts/BigShouldersDisplay-SemiBold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../public/assets/fonts/BigShouldersDisplay-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../public/assets/fonts/BigShouldersDisplay-ExtraBold.ttf",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "../public/assets/fonts/BigShouldersDisplay-Black.ttf",
-      weight: "900",
-      style: "normal",
-    },
   ],
 });
 
 const sarabun = localFont({
   variable: "--font-sarabun",
   display: "swap",
+  preload: true,
+  fallback: [
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "sans-serif",
+  ],
   src: [
-    {
-      path: "../public/assets/fonts/Sarabun-Thin.ttf",
-      weight: "100",
-      style: "normal",
-    },
-    {
-      path: "../public/assets/fonts/Sarabun-ThinItalic.ttf",
-      weight: "100",
-      style: "italic",
-    },
-    {
-      path: "../public/assets/fonts/Sarabun-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../public/assets/fonts/Sarabun-LightItalic.ttf",
-      weight: "300",
-      style: "italic",
-    },
     {
       path: "../public/assets/fonts/Sarabun-Regular.ttf",
       weight: "400",
       style: "normal",
-    },
-    {
-      path: "../public/assets/fonts/Sarabun-Italic.ttf",
-      weight: "400",
-      style: "italic",
     },
     {
       path: "../public/assets/fonts/Sarabun-Medium.ttf",
@@ -89,39 +59,14 @@ const sarabun = localFont({
       style: "normal",
     },
     {
-      path: "../public/assets/fonts/Sarabun-MediumItalic.ttf",
-      weight: "500",
-      style: "italic",
-    },
-    {
       path: "../public/assets/fonts/Sarabun-SemiBold.ttf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../public/assets/fonts/Sarabun-SemiBoldItalic.ttf",
-      weight: "600",
-      style: "italic",
-    },
-    {
       path: "../public/assets/fonts/Sarabun-Bold.ttf",
       weight: "700",
       style: "normal",
-    },
-    {
-      path: "../public/assets/fonts/Sarabun-BoldItalic.ttf",
-      weight: "700",
-      style: "italic",
-    },
-    {
-      path: "../public/assets/fonts/Sarabun-ExtraBold.ttf",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "../public/assets/fonts/Sarabun-ExtraBoldItalic.ttf",
-      weight: "800",
-      style: "italic",
     },
   ],
 });
@@ -390,6 +335,29 @@ export default function RootLayout({
         <JsonLd data={organizationSchema} />
         <JsonLd data={websiteSchema} />
         <JsonLd data={localBusinessSchema} />
+
+        {/* Font preloads for critical fonts only */}
+        <link
+          rel="preload"
+          href="/assets/fonts/BigShouldersDisplay-SemiBold.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/assets/fonts/BigShouldersDisplay-Bold.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/assets/fonts/Sarabun-Regular.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
 
         {/* Critical resource preloading for performance */}
         <link

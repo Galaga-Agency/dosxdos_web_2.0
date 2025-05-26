@@ -9,67 +9,6 @@
   @include section-padding-top();
   background-color: $white;
 
-  &__container {
-    margin: 0 auto;
-    @include container-width(mobile);
-    @include padding(content-x, x);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__header {
-    @include margin(3xl, bottom);
-    position: relative;
-  }
-
-  &__title {
-    @include font-size(3xl);
-    margin: 0 auto;
-    @include font-weight(semibold);
-    @include title-line-height;
-    width: fit-content;
-    line-height: 1.1;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
-    color: $black;
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-      text-align: center;
-    }
-  }
-
-  &__label {
-    @include margin(md, bottom);
-    color: $black;
-    display: block;
-    text-align: center;
-
-    @include min-width(xl) {
-      position: absolute;
-      left: 10%;
-      text-align: left;
-    }
-  }
-
   &__content {
     @include grid(1, md);
 
@@ -115,7 +54,7 @@
   &__content-column {
     position: relative;
     order: 1;
-    @include flex(column, flex-start, flex-start);
+    @include flex(column, center, flex-start);
 
     @include min-width(md) {
       order: 2;
@@ -125,26 +64,6 @@
     @include min-width(xl) {
       width: 90%;
       padding-left: 4rem;
-    }
-  }
-
-  &__text {
-    color: rgba($black, 0.8);
-    @include margin(lg, bottom);
-    @include font-size(lg);
-    line-height: 1.6;
-
-    p {
-      @include margin(md, bottom);
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    strong {
-      color: $black;
-      @include font-weight(semibold);
     }
   }
 

@@ -55,18 +55,18 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
 
   return (
     <section ref={sectionRef} className="blog-carousel-section">
-      <div className="blog-carousel-section__container">
-        <div className="blog-carousel-section__header">
-          <div className="blog-carousel-section__label">
+      <div className="blog-carousel-section__container container">
+        <div className="blog-carousel-section__header header">
+          <div className="blog-carousel-section__label label">
             <span>(Nuestro blog, lo que nos mueve.)</span>
           </div>
 
-          <h2 className="blog-carousel-section__title fade_bottom">
+          <h2 className="blog-carousel-section__title secondary-title fade_bottom">
             Ideas en <span className="highlight">movimiento</span>
           </h2>
         </div>
 
-        <p className="blog-carousel-section__subtitle">
+        <p className="blog-carousel-section__subtitle subtitle">
           Reflexiones, procesos y tendencias que nos mueven. Un espacio donde
           compartimos lo que aprendemos, creamos y nos inspira cada día.
         </p>

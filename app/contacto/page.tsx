@@ -59,8 +59,8 @@ const ContactPage: React.FC = () => {
         <div className="contact-page">
           <div className="contact-page__container">
             <div className="contact-page__header">
-              <h4 className="contact-page__subtitle">
-                Solicite su presupuesto personalizado, sin compromiso
+              <h4 className="contact-page__subtitle label">
+                (Solicite su presupuesto personalizado, sin compromiso)
               </h4>
               <h1 className="contact-page__title char-animation">
                 Contáctenos

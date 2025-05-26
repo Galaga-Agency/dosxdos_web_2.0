@@ -6,16 +6,19 @@ export function randomGridAnim(): void {
   const projectsGrid = document.querySelector(".mas-proyectos-grid");
   if (!projectsGrid) return;
 
+  // Only animate initially visible items (first 6)
   const gridItems = projectsGrid.querySelectorAll(".item");
-  if (gridItems.length === 0) return;
+  const initialItems = Array.from(gridItems).slice(0, 6);
 
-  // Set initial opacity to 0
-  gsap.set(gridItems, {
+  if (initialItems.length === 0) return;
+
+  // Set initial opacity to 0 for first 6 items
+  gsap.set(initialItems, {
     opacity: 0,
   });
 
-  // Reveal with stagger
-  gsap.to(gridItems, {
+  // Reveal first 6 items with stagger
+  gsap.to(initialItems, {
     opacity: 1,
     stagger: 0.1,
     duration: 0.8,

@@ -4,8 +4,6 @@ import React, { useEffect, useRef } from "react";
 import "./ExperienciaSection.scss";
 
 const ExperienciaSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
   const experiencias = [
     {
       id: "01",
@@ -31,14 +29,13 @@ const ExperienciaSection: React.FC = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="experiencia-section">
-      <div className="experiencia-section__container">
-        <div className="experiencia-section__header">
-          <h2 className="experiencia-section__title fade_bottom">
-            <span className="word">FUTURO</span>{" "}
-            <span className="word">CONSCIENTE</span>
-          </h2>
-          <div className="experiencia-section__subtitle">
+    <section className="experiencia-section">
+      <div className="experiencia-section__container container">
+        <div className="experiencia-section__header header">
+          <h1 className="experiencia-section__title secondary-title fade_bottom">
+            FUTURO <span className="highlight">CONSCIENTE</span>
+          </h1>
+          <div className="experiencia-section__subtitle text">
             Apostamos por un futuro consciente, integrando prácticas sostenibles
             que protegen el medio ambiente y promueven un desarrollo
             equilibrado. Cada decisión que tomamos busca reducir nuestro impacto

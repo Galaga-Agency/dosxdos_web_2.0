@@ -4,8 +4,6 @@ import React, { useRef } from "react";
 import "./ValuesSection.scss";
 
 const ValuesSection: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-
   const misionValues = [
     "Diseñar con propósito",
     "Crear impacto positivo",
@@ -28,14 +26,14 @@ const ValuesSection: React.FC = () => {
   ];
 
   return (
-    <section className="values-section" ref={sectionRef}>
-      <div className="values-section__container">
-        <h2 className="values-section__title fade_bottom">
-          Nuestro trabajo no termina en el estudio.{" "}
+    <section className="values-section">
+      <div className="values-section__container container">
+        <h2 className="values-section__title secondary-title fade_bottom">
+          Nuestro trabajo no termina en el estudio. <br/>
           <span className="highlight">Empieza en la comunidad.</span>
         </h2>
 
-        <div className="values-section__description">
+        <div className="values-section__description text">
             Desde Dos x Dos creemos que el privilegio de poder
             crear debe ir de la mano del{" "}
             compromiso de contribuir. <br />Por eso

@@ -18,6 +18,7 @@
   height: 149px;
   border-radius: 50%;
   border: 1px solid rgba(25, 25, 26, 0.14);
+  background-color: $white; // Explicit white background
   color: $black;
   font-weight: 500;
   font-size: 18px;
@@ -27,6 +28,21 @@
   text-decoration: none;
   z-index: 1;
   transition: all 0.3s ease;
+  cursor: pointer; // Ensure cursor shows as pointer
+
+  // Reset button styles when used as button element
+  &[type="button"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: $white;
+    outline: none;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($black, 0.1);
+    }
+  }
 
   &__text {
     z-index: 2;
@@ -58,7 +74,7 @@
   }
 
   &:hover {
-    border: 1px solid transparent;
+    border: 1px solid $secondary-color;
 
     .hover-circle-button__dot {
       width: 420px;
@@ -71,9 +87,26 @@
     }
   }
 
+  // Disabled state
+  &:disabled,
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:hover {
+      border: 1px solid rgba(25, 25, 26, 0.14);
+
+      .hover-circle-button__dot {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
   // Dark background variant
   &.dark-bg {
     border: 1px solid rgba(255, 255, 255, 0.14);
+    background-color: transparent; // No background for dark variant
     color: $white;
 
     .hover-circle-button__dot {

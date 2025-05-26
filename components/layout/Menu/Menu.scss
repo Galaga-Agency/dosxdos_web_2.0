@@ -47,8 +47,9 @@
   // Dropdown styling for default (non-scrolled) state
   .menu__dropdown {
     background-color: rgba($white, 0.8);
-    backdrop-filter: blur(4px);    color: $black;
-    @include font-weight(semibold);
+    backdrop-filter: blur(4px);
+    color: $black;
+    @include font-weight(medium);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1),
       inset 0 0 0 1px rgba($black, 0.05);
 
@@ -302,7 +303,7 @@
     align-items: center;
     @include gap(3xs);
     white-space: nowrap;
-    @include letter-spacing(tight);
+    @include letter-spacing(normal);
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     user-select: none;
@@ -402,14 +403,21 @@
     @include padding(md, x);
     text-decoration: none;
     text-wrap: nowrap;
-    text-transform: uppercase; // Added uppercase transform for dropdown links
-    @include font-weight(medium); // Added light font weight for dropdown links
+    text-transform: uppercase;
+    @include font-weight(medium); 
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     position: relative;
-    @include font-size(base);
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     user-select: none;
+
+    @include min-width(lg) {
+      @include font-size(base);
+    }
+
+    @include min-width(xl) {
+      @include font-size(lg);
+    }
 
     &::before {
       content: "";
@@ -579,7 +587,7 @@
     @include padding(sm, y);
     color: rgba($white, 0.8);
     text-decoration: none;
-    @include font-weight(light); // Changed from medium to light
+    @include font-weight(medium);
     text-transform: uppercase;
     @include letter-spacing(wide);
     @include font-size(base);
@@ -645,7 +653,7 @@
     color: rgba($white, 0.6);
     text-decoration: none;
     @include font-size(sm);
-    @include font-weight(light); // Added light font weight for mobile sublinks
+    @include font-weight(medium);
     text-transform: uppercase;
     @include letter-spacing(wide);
     position: relative;
@@ -800,7 +808,7 @@
 
     &__nav-link,
     &__nav-button {
-      @include letter-spacing(tight);
+      @include letter-spacing(wide);
       padding: 0.35rem 0;
     }
   }

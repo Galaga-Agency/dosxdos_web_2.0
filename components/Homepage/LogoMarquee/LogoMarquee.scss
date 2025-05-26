@@ -5,20 +5,16 @@
 
 .logo-marquee {
   width: 100%;
-  background-color: $white;
+  background-color: rgba($secondary-color, 0.5);
+  padding: 4rem 0;
   overflow: hidden;
-  padding: 2rem 0;
   overscroll-behavior: none;
 
   &--dark-mode {
     background-color: $black;
 
     .logo-marquee__header-title {
-      color: $white;
-    }
-
-    .highlight-bg::after {
-      background-color: rgba($white, 0.2);
+      color: $secondary-color;
     }
 
     .logo-marquee__item img {
@@ -30,50 +26,12 @@
         opacity: 1;
       }
     }
-
-    // Dark mode fade overlays
-    .logo-marquee__wrapper {
-      &::before {
-        background: linear-gradient(
-          to right,
-          $black 0%,
-          rgba($black, 0.8) 20%,
-          transparent 40%
-        );
-      }
-
-      &::after {
-        background: linear-gradient(
-          to left,
-          $black 0%,
-          rgba($black, 0.8) 20%,
-          transparent 40%
-        );
-      }
-    }
   }
 
   &__container {
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
-    @include container-width(mobile);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
 
     @include min-width(lg) {
       flex-direction: row;
@@ -116,48 +74,6 @@
     width: 100%;
     will-change: transform; // Optimize for animations
     transform: translateZ(0); // Force GPU acceleration
-
-    // Side fade overlays
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 100px;
-      z-index: 2;
-      pointer-events: none;
-
-      @include min-width(md) {
-        width: 150px;
-      }
-
-      @include min-width(lg) {
-        width: 200px;
-      }
-    }
-
-    // Left fade (light mode)
-    &::before {
-      left: 0;
-      background: linear-gradient(
-        to right,
-        $white 0%,
-        rgba($white, 0.8) 20%,
-        transparent 40%
-      );
-    }
-
-    // Right fade (light mode)
-    &::after {
-      right: 0;
-      background: linear-gradient(
-        to left,
-        $white 0%,
-        rgba($white, 0.8) 20%,
-        transparent 40%
-      );
-    }
   }
 
   &__track {
@@ -211,7 +127,7 @@
       }
 
       @include min-width(xl) {
-        max-height: 70px;
+        max-height: 90px;
       }
     }
 
