@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -26,11 +26,20 @@ import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 
 const PortfolioPage: React.FC = () => {
   useScrollSmooth();
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
+
+    // Cleanup function
     return () => {
       document.body.classList.remove("smooth-scroll");
+
+      // Execute bubble cleanup if it exists
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
     };
   }, []);
 
@@ -44,10 +53,20 @@ const PortfolioPage: React.FC = () => {
       charAnimation();
       rollUpTextAnimation();
       revealForTouchDevices();
-      cursorBubbleAnimation();
+
+      // Store the cleanup function
+      cleanupRef.current = cursorBubbleAnimation();
     }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+
+      // Execute bubble cleanup
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
+    };
   });
 
   return (

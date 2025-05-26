@@ -37,6 +37,7 @@
     @include margin(lg, bottom);
     will-change: transform;
     white-space: normal;
+    text-transform: uppercase;
     
     @include min-width(sm) {
       @include font-size(6xl);
@@ -60,8 +61,8 @@
     }
     
     @include min-width(xxxl) {
-      // Since hero-xxxl would be reduced by 2 levels, using a fixed size here
-      font-size: 180px;
+      @include font-size(hero-xxxl);
+
     }
     
     .experience {

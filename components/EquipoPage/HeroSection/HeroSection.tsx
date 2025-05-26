@@ -35,7 +35,7 @@ const HeroSection: React.FC = () => {
 
           <div className="hero-section__content">
             <div className="hero-section__label fade_bottom">
-              <span>SOBRE NOSOTROS</span>
+              <span>(SOBRE NOSOTROS)</span>
             </div>
             <h1 className="hero-section__title char-animation">
               Todo empieza con una idea. <br /> Lo demás, lo hacemos juntos.

@@ -12,9 +12,9 @@ const CollaborationsSection: React.FC = () => {
   return (
     <section ref={sectionRef} className="collaborations-section">
       <div className="collaborations-section__header">
-        <span className="collaborations-section__label">
-          Comprometidos con lo que de verdad importa
-        </span>
+        <h3 className="collaborations-section__label label">
+          (Comprometidos con lo que de verdad importa)
+        </h3>
         <h2 className="collaborations-section__title fade_bottom">
           Colaboramos con quienes <span className="highlight">transforman vidas</span>
         </h2>

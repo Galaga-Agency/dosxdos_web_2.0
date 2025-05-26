@@ -34,8 +34,6 @@
   }
 
   &__label {
-    @include font-size(lg);
-    @include font-weight(medium);
     @include margin(md, bottom);
     color: $black;
     display: block;

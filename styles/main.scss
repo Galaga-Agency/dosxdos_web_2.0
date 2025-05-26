@@ -134,6 +134,7 @@ body {
   width: 1px;
   height: 1px;
   overflow: hidden;
+  opacity: 0;
 }
 
 .highlight {
@@ -154,4 +155,12 @@ body {
     z-index: -1;
     transform: skew(-10deg);
   }
+}
+
+.label {
+  @include font-size(lg);
+  font-family: "Sarabun";
+  font-style: normal;
+  font-weight: 100;
+  color: $black;
 }

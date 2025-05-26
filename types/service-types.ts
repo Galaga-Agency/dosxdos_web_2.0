@@ -1,5 +1,6 @@
 export interface Service {
-  id: string;
+  id: number;
+  slug: string;
   name: string;
   imageUrl: string;
   description?: string;

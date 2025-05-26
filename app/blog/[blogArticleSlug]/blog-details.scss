@@ -46,10 +46,15 @@
   }
 
   &__hero-content {
-    @include container-width(mobile);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 6rem;
+    @include flex(column, end, flex-start);
+    z-index: 3;
     margin: 0 auto;
-    position: relative;
-    color: $white;
+    @include container-width(mobile);
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -94,29 +99,30 @@
   }
 
   &__hero-title {
-    @include font-size(5xl);
+    @include font-size(3xl);
     @include font-weight(semibold);
-    @include title-line-height();
-    @include letter-spacing(tight);
     color: $white;
-    margin-bottom: 1rem;
-    max-width: 24ch;
-    hyphens: manual;
-    word-break: keep-all;
-    overflow-wrap: normal;
-    white-space: normal;
-    will-change: transform;
+    text-transform: uppercase;
+    @include title-line-height;
+    @include letter-spacing(tight);
+    @include margin(lg, bottom);
     visibility: hidden;
+    max-width: 70%;
 
     @include min-width(xs) {
-      @include font-size(6xl);
+      @include font-size(5xl);
     }
 
     @include min-width(sm) {
-      @include font-size(7xl);
+      @include font-size(6xl);
     }
 
     @include min-width(md) {
+      @include font-size(7xl);
+      max-width: 100%;
+    }
+
+    @include min-width(lg) {
       @include font-size(8xl);
     }
   }
@@ -249,10 +255,10 @@
     // Ordered lists (ol) - Custom numbers with dots
     ol {
       counter-reset: list-counter;
-      
+
       li {
         counter-increment: list-counter;
-        
+
         &::before {
           content: counter(list-counter) "."; // Numbers with dots: "1.", "2.", etc.
           position: absolute;
@@ -387,10 +393,7 @@
 
   &__share-section {
     @include flex(column, center, center);
-    @include margin(4xl, bottom);
-    @include padding(xl, all);
-    background-color: rgba($black, 0.03);
-    @include border-radius(md);
+    @include section-padding-bottom();
     opacity: 1;
   }
 
@@ -407,11 +410,25 @@
   }
 
   &__related-title {
-    @include font-size(2xl);
-    @include font-weight(bold);
-    @include margin(2xl, bottom);
+    @include font-size(4xl);
+    @include font-weight(semibold);
+    @include title-line-height;
+    @include letter-spacing(tight);
+    text-transform: uppercase;
     color: $black;
-    opacity: 1;
+    @include margin(xl, bottom);
+
+    @include min-width(xs) {
+      @include font-size(5xl);
+    }
+
+    @include min-width(sm) {
+      @include font-size(6xl);
+    }
+
+    @include min-width(md) {
+      @include font-size(7xl);
+    }
   }
 
   &__related-grid {
@@ -432,10 +449,6 @@
   &__cta-section {
     position: relative;
     width: 100%;
-    background-color: rgba($black, 0.03);
-    @include padding(3xl, y);
-    @include padding(lg, x);
-    @include border-radius(md);
     text-align: center;
   }
 
@@ -446,15 +459,24 @@
   }
 
   &__cta-title {
-    @include font-size(2xl);
-    @include font-weight(bold);
+    @include font-size(4xl);
+    @include font-weight(semibold);
+    @include title-line-height;
+    @include letter-spacing(tight);
+    text-transform: uppercase;
     color: $black;
-    @include margin(md, bottom);
-    @include title-line-height();
-    opacity: 1;
+    @include margin(xl, bottom);
+
+    @include min-width(xs) {
+      @include font-size(5xl);
+    }
+
+    @include min-width(sm) {
+      @include font-size(6xl);
+    }
 
     @include min-width(md) {
-      @include font-size(3xl);
+      @include font-size(7xl);
     }
   }
 
@@ -483,38 +505,6 @@
     &:hover .button-icon {
       transform: translateX(5px);
     }
-  }
-
-  &__mobile-social-section {
-    @include flex(column, center, center);
-    @include gap(md);
-    @include margin(2xl, top);
-    width: 100%;
-    opacity: 1;
-
-    @include min-width(md) {
-      display: none;
-    }
-  }
-
-  &__mobile-social-header {
-    @include flex(column, center, center);
-    position: relative;
-    width: 100%;
-    @include margin(md, bottom);
-  }
-
-  &__mobile-social-title {
-    @include font-size(xl);
-    @include font-weight(semibold);
-    color: $black;
-    @include margin(md, bottom);
-  }
-
-  &__mobile-social-divider {
-    width: 60px;
-    height: 2px;
-    background-color: rgba($black, 0.1);
   }
 
   &__loading {

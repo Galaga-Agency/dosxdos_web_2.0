@@ -45,13 +45,11 @@
   }
 
   &__label {
-    @include font-size(lg);
-    @include font-weight(medium);
     color: $black;
     display: block;
     width: 100%;
-    position: relative; // Add position relative
-    z-index: 2; // Ensure it's above the title if needed
+    position: relative; 
+    z-index: 2;
   }
 
   &__title {
