@@ -18,7 +18,9 @@ const AboutServices: React.FC = () => {
             <div className="title-row fade_bottom">
               CREAMOS ESPACIOS COMERCIALES DE LUJO QUE
             </div>
-            <div className="title-row fade_bottom highlight">CAUTIVAN Y VENDEN.</div>
+            <div className="title-row fade_bottom highlight">
+              CAUTIVAN Y VENDEN.
+            </div>
           </h2>
         </div>
 
@@ -31,14 +33,12 @@ const AboutServices: React.FC = () => {
             <div className="about-services__category fade_bottom">
               Producción
             </div>
+            <div className="about-services__category fade_bottom">Eventos</div>{" "}
             <div className="about-services__category fade_bottom">
-              Instalación
+              Comunicación
             </div>
             <div className="about-services__category fade_bottom">
               Logística
-            </div>
-            <div className="about-services__category fade_bottom">
-              Comunicación
             </div>
             <div className="about-services__category fade_bottom">
               Consultoría

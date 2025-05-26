@@ -36,9 +36,9 @@ const HeroSection: React.FC = () => {
         <div className="accion-social-hero__overlay"></div>
 
         <div className="accion-social-hero__content">
-          <div ref={labelRef} className="accion-social-hero__label">
-            <span>COMPROMISO QUE TRANSFORMA</span>
-          </div>
+          <h3 ref={labelRef} className="accion-social-hero__label">
+            (COMPROMISO QUE TRANSFORMA)
+          </h3>
 
           <h2 ref={titleRef1} className="accion-social-hero__title text-1">
             Un diseño que también

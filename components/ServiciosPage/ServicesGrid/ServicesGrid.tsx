@@ -5,50 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import "./ServicesGrid.scss";
+import { servicesList } from "@/data/services";
 
 const ServicesGrid: React.FC = () => {
-  // Services array
-  const services = [
-    {
-      id: 1,
-      title: "Diseño de interiores",
-      slug: "diseno-de-interiores",
-      image:
-        "/assets/img/portfolio/interiorismo-comercial/interiorismo-comercial-1.jpg",
-    },
-    {
-      id: 2,
-      title: "Producción",
-      slug: "produccion",
-      image:
-        "/assets/img/portfolio/produccion-digital/produccion-digital-2.jpg",
-    },
-    {
-      id: 3,
-      title: "Instalación",
-      slug: "instalacion",
-      image: "/assets/img/portfolio/perfumeria/perfumeria-3.jpg",
-    },
-    {
-      id: 4,
-      title: "Logística",
-      slug: "logistica",
-      image: "/assets/img/portfolio/shop-in-shop/shop-in-shop-3.jpg",
-    },
-    {
-      id: 5,
-      title: "Comunicación",
-      slug: "comunicacion",
-      image: "/assets/img/portfolio/escaparatismo/escapartismo-3.jpg",
-    },
-    {
-      id: 6,
-      title: "Consultoría",
-      slug: "consultoria",
-      image:
-        "/assets/img/portfolio/espacios-promocionales/espacios-promocionales-3.jpg",
-    },
-  ];
 
   return (
     <section className="services-grid">
@@ -65,7 +24,7 @@ const ServicesGrid: React.FC = () => {
 
       <div className="services-grid__container">
         <div className="services-grid__items">
-          {services.map((service) => (
+          {servicesList.map((service) => (
             <Link
               href={`/servicios/${service.slug}`}
               key={service.id}
@@ -73,8 +32,8 @@ const ServicesGrid: React.FC = () => {
             >
               <div className="img_reveal">
                 <Image
-                  src={service.image}
-                  alt={service.title}
+                  src={service.imageUrl}
+                  alt={service.name}
                   width={600}
                   height={750}
                   priority={service.id <= 2}
@@ -82,7 +41,7 @@ const ServicesGrid: React.FC = () => {
                 <div className="img_reveal__overlay"></div>
               </div>
               <div className="services-grid__content">
-                <h2 className="services-grid__title">{service.title}</h2>
+                <h2 className="services-grid__title">{service.name}</h2>
               </div>
             </Link>
           ))}

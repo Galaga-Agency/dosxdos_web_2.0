@@ -137,6 +137,22 @@
   }
 }
 
+@mixin section-padding-bottom {
+  padding-bottom: 64px;
+
+  @include min-width(md) {
+    padding-bottom: 80px;
+  }
+
+  @include min-width(lg) {
+    padding-bottom: 96px;
+  }
+
+  @include min-width(xl) {
+    padding-bottom: 140px;
+  }
+}
+
 // -----------------------------------------------------------------------------
 // Container width
 // Usage: @include container-width(desktop);

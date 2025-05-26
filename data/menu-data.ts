@@ -34,24 +34,24 @@ export const menuItems: MenuItem[] = [
         href: "/servicios/diseno-de-interiores",
       },
       {
-        id: "eventos",
-        label: "Eventos",
-        href: "/servicios/eventos",
-      },
-      {
         id: "produccion",
         label: "Producción",
         href: "/servicios/produccion",
       },
       {
-        id: "logistica",
-        label: "Logística",
-        href: "/servicios/logistica",
+        id: "eventos",
+        label: "Eventos",
+        href: "/servicios/eventos",
       },
       {
         id: "comunicacion",
         label: "Comunicación",
         href: "/servicios/comunicacion",
+      },
+      {
+        id: "logistica",
+        label: "Logística",
+        href: "/servicios/logistica",
       },
       {
         id: "consultoria",

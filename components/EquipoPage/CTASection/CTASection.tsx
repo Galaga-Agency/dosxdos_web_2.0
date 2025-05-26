@@ -14,12 +14,11 @@ const CTASection: React.FC = () => {
       <div className="cta-section__container">
         {/* Header section */}
         <div className="cta-section__header">
-          <div className="cta-section__label">
-            <span>Acción Social</span>
-          </div>
+          <h3 className="cta-section__label label">(Acción Social)</h3>
 
           <h2 className="cta-section__title fade_bottom">
-            DISEÑO CON CONCIENCIA. COMPROMISO CON <span className="highlight">IMPACTO</span>
+            DISEÑO CON CONCIENCIA. COMPROMISO CON{" "}
+            <span className="highlight">IMPACTO</span>
           </h2>
         </div>
 

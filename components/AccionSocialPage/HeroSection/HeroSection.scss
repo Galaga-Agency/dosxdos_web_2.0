@@ -87,20 +87,17 @@
     @include margin(md, bottom);
     opacity: 0;
     transform: translateX(-300px); /* Posición inicial para animación GSAP */
+    display: inline-block;
+    @include font-size(lg);
+    @include font-weight(medium);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: $white;
+    position: relative;
 
-    span {
-      display: inline-block;
-      @include font-size(sm);
-      @include font-weight(medium);
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: $white;
+    @include min-width(xl) {
       position: relative;
-
-      @include min-width(xl) {
-        position: relative;
-        display: block;
-      }
+      display: block;
     }
   }
 

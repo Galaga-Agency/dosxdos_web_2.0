@@ -2,35 +2,40 @@ import { Service } from "@/types/service-types";
 
 export const servicesList: Service[] = [
   {
-    id: "diseno-de-interiores",
+    id: 1,
+    slug: "diseno-de-interiores",
     name: "Diseño de Interiores",
     imageUrl: "/assets/img/homepage/Diseño interiores.webp",
     description: "Creamos espacios que conectan, emocionan e inspiran.",
     linkText: "Ver los espacios",
   },
   {
-    id: "produccion",
+    id: 2,
+    slug: "produccion",
     name: "Producción",
     imageUrl: "/assets/img/homepage/Producción.webp",
     description: "Del diseño al detalle: fabricamos lo que imaginas.",
     linkText: "Hecho a medida",
   },
   {
-    id: "eventos",
+    id: 3,
+    slug: "eventos",
     name: "Eventos",
     imageUrl: "/assets/img/homepage/Eventos.webp",
     description: "Diseñamos eventos que hablan el idioma de tu marca.",
     linkText: "Vive la experiencia",
   },
   {
-    id: "comunicacion",
+    id: 4,
+    slug: "comunicacion",
     name: "Comunicación",
     imageUrl: "/assets/img/homepage/Comunicación.webp",
     description: "Damos forma y voz a tu marca, en todos los canales.",
     linkText: "Marca la diferencia",
   },
   {
-    id: "logistica",
+    id: 5,
+    slug: "logistica",
     name: "Logística",
     imageUrl: "/assets/img/homepage/Logística.jpg",
     description:
@@ -38,7 +43,8 @@ export const servicesList: Service[] = [
     linkText: "Así lo gestionamos",
   },
   {
-    id: "consultoria",
+    id: 6,
+    slug: "consultoria",
     name: "Consultoría",
     imageUrl: "/assets/img/homepage/Consultoría .webp",
     description:

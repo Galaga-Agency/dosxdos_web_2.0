@@ -31,9 +31,6 @@
   }
 
   &__label {
-    @include font-size(base);
-    @include font-weight(medium);
-    color: rgba($black, 0.7);
     display: block;
     margin-bottom: 1rem;
   }

@@ -235,7 +235,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                 <div className="blog-detail__cta-section fade_bottom">
                   <div className="blog-detail__cta-content">
                     <h2 className="blog-detail__cta-title">
-                      Descubre más inspiración
+                      Descubre más <span className="highlight">inspiración</span>
                     </h2>
                     <p className="blog-detail__cta-text">
                       Explora nuestra colección de artículos y encuentra ideas
@@ -249,15 +249,6 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                       <span className="button-icon">→</span>
                     </PrimaryButton>
                   </div>
-                </div>
-                <div className="blog-detail__mobile-social-section">
-                  <div className="blog-detail__mobile-social-header">
-                    <h3 className="blog-detail__mobile-social-title">
-                      Síguenos
-                    </h3>
-                    <div className="blog-detail__mobile-social-divider"></div>
-                  </div>
-                  <SocialIcons orientation="horizontal" color="primary" />
                 </div>
               </div>
             </>

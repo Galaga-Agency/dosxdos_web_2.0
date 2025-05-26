@@ -23,7 +23,6 @@ const BlogDetailHeroSection: React.FC<BlogDetailHeroSectionProps> = ({
       className="blog-detail__hero"
       style={{ backgroundImage: `url(${getImageSource(blogPost)})` }}
     >
-      {/* This is the wrapper that will get the parallax effect */}
       <div ref={heroImageRef} className="blog-detail__hero-wrapper">
         <div className="blog-detail__hero-content">
           <div className="blog-detail__hero-meta">
@@ -37,7 +36,6 @@ const BlogDetailHeroSection: React.FC<BlogDetailHeroSectionProps> = ({
             </div>
           </div>
 
-          {/* Title - this won't parallax now */}
           <h1
             ref={heroTitleRef}
             className="blog-detail__hero-title char-animation"
@@ -51,12 +49,6 @@ const BlogDetailHeroSection: React.FC<BlogDetailHeroSectionProps> = ({
           </div>
         </div>
       </div>
-
-      {/* Corner elements */}
-      <div className="blog-detail__hero-corner tl"></div>
-      <div className="blog-detail__hero-corner tr"></div>
-      <div className="blog-detail__hero-corner bl"></div>
-      <div className="blog-detail__hero-corner br"></div>
     </section>
   );
 };
