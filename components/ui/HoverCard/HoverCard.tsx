@@ -52,6 +52,7 @@ const HoverCard: React.FC<HoverCardProps> = ({
             fill
             sizes="(max-width: 768px) 100vw, 300px"
             className="image"
+            unoptimized
           />
         </div>
 

@@ -58,20 +58,17 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
       <div className="blog-carousel-section__container">
         <div className="blog-carousel-section__header">
           <div className="blog-carousel-section__label">
-            <span>Nuestro Blog</span>
+            <span>(Nuestro blog, lo que nos mueve.)</span>
           </div>
 
-          <h2 className="blog-carousel-section__title">
-            <div className="title-row fade_bottom highlight">ESTRATEGIAS E IDEAS</div>
-            <div className="title-row fade_bottom">
-              PARA ESPACIOS COMERCIALES
-            </div>
+          <h2 className="blog-carousel-section__title fade_bottom">
+            Ideas en <span className="highlight">movimiento</span>
           </h2>
         </div>
 
-        <p className="blog-carousel-section__subtitle fade_bottom">
-          Descubre nuestras últimas publicaciones sobre diseño y tendencias en
-          el sector de la <strong>cosmética y perfumería</strong>
+        <p className="blog-carousel-section__subtitle">
+          Reflexiones, procesos y tendencias que nos mueven. Un espacio donde
+          compartimos lo que aprendemos, creamos y nos inspira cada día.
         </p>
 
         <div className="blog-carousel-section__carousel-container">

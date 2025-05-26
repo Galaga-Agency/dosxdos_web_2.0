@@ -14,20 +14,23 @@ const ServicesSection: React.FC = () => {
         <div className="services-section__header">
           <div className="services-section__label-title">
             <div className="services-section__label">
-              <span>Nuestros servicios</span>
+              <span>(Nuestros servicios)</span>
             </div>
 
             <h2 className="services-section__title">
-              <div className="title-row fade_bottom highlight">SOLUCIONES INTEGRALES</div>
               <div className="title-row fade_bottom">
-                PARA ESPACIOS COMERCIALES DE LUJO
+                Todo lo que tu marca necesita
+              </div>
+              <div className="title-row fade_bottom highlight">
+                para destacar.
               </div>
             </h2>
           </div>
 
-          <p className="services-section__subtitle fade_bottom">
-            Nuestros equipos en <strong>Canarias</strong> y{" "}
-            <strong>Madrid</strong>. Nuestros servicios donde los necesites.
+          <p className="services-section__subtitle">
+            Creamos soluciones 360º que integran diseño, producción, tecnología
+            y estrategia. Expertos en proyectos llave en mano, acompañamos a las
+            marcas en todo el proceso: desde la idea hasta la puesta en marcha.
           </p>
         </div>
 
@@ -44,6 +47,7 @@ const ServicesSection: React.FC = () => {
                 description={service.description as string}
                 imageUrl={service.imageUrl}
                 linkUrl={`/servicios/${service.id}`}
+                linkText={service.linkText}
               />
             </div>
           ))}

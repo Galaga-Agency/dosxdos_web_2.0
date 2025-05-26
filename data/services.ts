@@ -4,43 +4,45 @@ export const servicesList: Service[] = [
   {
     id: "diseno-de-interiores",
     name: "Diseño de Interiores",
-    imageUrl:
-      "/assets/img/portfolio/interiorismo-comercial/interiorismo-comercial-1.jpg",
-    description:
-      "Diseño de espacios comerciales para maximizar la experiencia del cliente.",
-  },
-  {
-    id: "eventos",
-    name: "Eventos",
-    imageUrl:
-      "/assets/img/portfolio/produccion-digital/produccion-digital-2.jpg",
-    description: "Organización y diseño de eventos corporativos y comerciales.",
+    imageUrl: "/assets/img/homepage/Diseño interiores.webp",
+    description: "Creamos espacios que conectan, emocionan e inspiran.",
+    linkText: "Ver los espacios",
   },
   {
     id: "produccion",
     name: "Producción",
-    imageUrl: "/assets/img/portfolio/perfumeria/perfumeria-3.jpg",
-    description:
-      "Producción y fabricación de elementos para espacios comerciales.",
+    imageUrl: "/assets/img/homepage/Producción.webp",
+    description: "Del diseño al detalle: fabricamos lo que imaginas.",
+    linkText: "Hecho a medida",
   },
   {
-    id: "logistica",
-    name: "Logística",
-    imageUrl: "/assets/img/portfolio/shop-in-shop/shop-in-shop-3.jpg",
-    description: "Gestión logística integral para proyectos comerciales.",
+    id: "eventos",
+    name: "Eventos",
+    imageUrl: "/assets/img/homepage/Eventos.webp",
+    description: "Diseñamos eventos que hablan el idioma de tu marca.",
+    linkText: "Vive la experiencia",
   },
   {
     id: "comunicacion",
     name: "Comunicación",
-    imageUrl: "/assets/img/portfolio/escaparatismo/escapartismo-3.jpg",
-    description: "Estrategias de comunicación visual y corporativa.",
+    imageUrl: "/assets/img/homepage/Comunicación.webp",
+    description: "Damos forma y voz a tu marca, en todos los canales.",
+    linkText: "Marca la diferencia",
+  },
+  {
+    id: "logistica",
+    name: "Logística",
+    imageUrl: "/assets/img/homepage/Logística.jpg",
+    description:
+      "Movemos, cuidamos y resolvemos para que tú no tengas que hacerlo.",
+    linkText: "Así lo gestionamos",
   },
   {
     id: "consultoria",
     name: "Consultoría",
-    imageUrl:
-      "/assets/img/portfolio/espacios-promocionales/espacios-promocionales-3.jpg",
+    imageUrl: "/assets/img/homepage/Consultoría .webp",
     description:
-      "Asesoramiento especializado en espacios comerciales y retail.",
+      "Te escuchamos, analizamos y trazamos contigo el mejor camino.",
+    linkText: "Asesoría a medida",
   },
 ];
