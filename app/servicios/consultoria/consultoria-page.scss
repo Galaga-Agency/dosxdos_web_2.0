@@ -2,3 +2,12 @@
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
+
+.consultoria-page {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: $white;
+  margin-inline: auto;
+  min-height: 100vh;
+}

@@ -4,84 +4,21 @@ import React from "react";
 import Image from "next/image";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import "./VisionSection.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 const VisionSection: React.FC = () => {
+  const { isMobile } = useDeviceDetect();
+
   return (
     <section className="vision-section">
+      {/* Top Section - Services */}
       <div className="vision-section__top">
         <div className="vision-section__container container">
-          <div className="vision-section__title-box">
-            <span className="vision-section__label label">
-              (Descubre nuestro portfolio)
-            </span>
-            <h2 className="vision-section__title secondary-title fade_bottom">
-              Cada proyecto cuenta{" "}
-              <span className="highlight">una historia</span>. <br />
-              Aquí te mostramos algunas.
-              <br className="line-break" />
-            </h2>
-          </div>
-
-          <div className="vision-section__content">
-            <div
-              className="vision-section__image fade_bottom"
-              data-speed="0.85"
-            >
-              <div className="vision-section__image-inner" data-speed="1.15">
-                <Image
-                  src="/assets/img/blog/corporate-branding.jpg"
-                  alt="Diseño de interiores"
-                  width={600}
-                  height={750}
-                  priority
-                />
-              </div>
-            </div>
-            <div className="vision-section__text-wrap">
-              <p className="vision-section__text text">
-                Nuestro trabajo habla por nosotros. Cada proyecto que llevamos a
-                cabo es una oportunidad para demostrar lo que mejor sabemos
-                hacer: escuchar, entender, proponer y ejecutar. En estos más de
-                38 años hemos colaborado con grandes firmas del retail y marcas
-                de distintos sectores, adaptándonos siempre a las necesidades de
-                cada cliente. Diseñamos espacios que comunican, producimos
-                piezas que funcionan, instalamos con precisión y cuidamos cada
-                detalle como si fuera propio. Nuestro portfolio es el reflejo de
-                un proceso en el que creatividad, técnica y compromiso van
-                siempre de la mano.
-              </p>
-              <div className="vision-section__button fade_bottom">
-                <HoverCircleButton href="/portfolio" label="Ver proyectos" />
-              </div>
-            </div>
-          </div>
-
-          {/* Middle floating image with parallax effect */}
-          <div
-            className="vision-section__middle-image fade_bottom"
-            data-speed="1.15"
-          >
-            <div className="vision-section__middle-image-inner">
-              <Image
-                src="/assets/img/blog/visual-storytelling.jpg"
-                alt="Equipo trabajando juntos"
-                width={500}
-                height={400}
-                priority
-                data-speed=".9"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="vision-section__bottom">
-        <div className="vision-section__container container">
-          <div className="vision-section__bottom-content">
+          <div className="vision-section__top-content">
             <h3 className="vision-section__statement small-title fade_bottom">
               Ofrecemos soluciones llave en mano para que no tengas que
               preocuparte por nada. Desde el diseño inicial hasta el último
-              detalle de la instalación,
+              detalle de la instalación,{" "}
               <span className="highlight">nos encargamos de todo</span>.
               Espacios, identidad, producción, montaje… adaptamos cada fase a lo
               que tu proyecto necesita.
@@ -141,6 +78,76 @@ const VisionSection: React.FC = () => {
                   aseguramos de que el resultado final esté listo para ser
                   vivido.
                 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Middle floating image with parallax effect */}
+      <div
+        className="vision-section__middle-image fade_bottom"
+        data-speed="1.15"
+      >
+        <div className="vision-section__middle-image-inner">
+          <Image
+            src="/assets/img/blog/visual-storytelling.jpg"
+            alt="Equipo trabajando juntos"
+            width={500}
+            height={400}
+            priority
+            data-speed=".9"
+          />
+        </div>
+      </div>
+
+      {/* Bottom Section - Portfolio Preview (Using AboutUs structure) */}
+      <div className="vision-section__bottom">
+        <div className="vision-section__container container">
+          <div className="vision-section__header header">
+            <span className="vision-section__label label">
+              (Descubre nuestro portfolio)
+            </span>
+            <h2 className="vision-section__title secondary-title fade_bottom">
+              Cada proyecto cuenta{" "}
+              <span className="highlight">una historia</span>. <br />
+              Aquí te mostramos algunas.
+            </h2>
+          </div>
+
+          <div className="vision-section__content">
+            <div className="vision-section__visual-column">
+              <div
+                className="vision-section__animated-image"
+                data-speed={isMobile ? "0" : "0.95"}
+              >
+                <Image
+                  src="/assets/img/blog/corporate-branding.jpg"
+                  alt="Diseño de interiores"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                  quality={90}
+                  unoptimized={true}
+                />
+              </div>
+            </div>
+
+            <div className="vision-section__content-column">
+              <p className="vision-section__text text">
+                Nuestro trabajo habla por nosotros. Cada proyecto que llevamos a
+                cabo es una oportunidad para demostrar lo que mejor sabemos
+                hacer: escuchar, entender, proponer y ejecutar. En estos más de
+                38 años hemos colaborado con grandes firmas del retail y marcas
+                de distintos sectores, adaptándonos siempre a las necesidades de
+                cada cliente. Diseñamos espacios que comunican, producimos
+                piezas que funcionan, instalamos con precisión y cuidamos cada
+                detalle como si fuera propio. Nuestro portfolio es el reflejo de
+                un proceso en el que creatividad, técnica y compromiso van
+                siempre de la mano.
+              </p>
+              <div className="vision-section__cta fade_bottom">
+                <HoverCircleButton href="/portfolio" label="Ver proyectos" />
               </div>
             </div>
           </div>
