@@ -52,7 +52,7 @@ const PortfolioPage: React.FC = () => {
       rollUpTextAnimation();
       revealForTouchDevices();
       randomGridAnim();
-      highlightAnimation(1.5);
+      highlightAnimation(1.2);
 
       // Store the cleanup function
       cleanupRef.current = cursorBubbleAnimation();

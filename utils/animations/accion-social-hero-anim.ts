@@ -26,24 +26,36 @@ export function accionSocialHeroAnim() {
 
     // Set initial states
     gsap.set(bgContainer, { scale: 1.3 });
-    gsap.set(titleRef1, { x: 300, visibility: "hidden" });
-    gsap.set(titleRef2, { x: -300, visibility: "hidden" });
-    gsap.set(labelRef, { x: -300, visibility: "hidden" });
-    gsap.set(descriptionRef, { x: -500, visibility: "hidden" });
+    gsap.set(titleRef1, { x: 300, visibility: "hidden", opacity: 0 });
+    gsap.set(titleRef2, { x: -300, visibility: "hidden", opacity: 0 });
+    gsap.set(labelRef, { x: -300, visibility: "hidden", opacity: 0 });
+    gsap.set(descriptionRef, { x: -500, visibility: "hidden", opacity: 0 });
 
     if (ctaRef) {
-      gsap.set(ctaRef, { y: 30, visibility: "hidden" });
+      gsap.set(ctaRef, { y: 30, visibility: "hidden", opacity: 0 });
     }
 
     // Animate elements
     masterTimeline.to(bgContainer, { scale: 0.9 }, 0);
-    masterTimeline.to(titleRef1, { x: 0, visibility: "visible" }, 0);
-    masterTimeline.to(titleRef2, { x: 0, visibility: "visible" }, 0);
-    masterTimeline.to(labelRef, { x: 0, visibility: "visible" }, 0);
-    masterTimeline.to(descriptionRef, { x: 0, visibility: "visible" }, 0);
+    masterTimeline.to(
+      titleRef1,
+      { x: 0, visibility: "visible", opacity: 1 },
+      0
+    );
+    masterTimeline.to(
+      titleRef2,
+      { x: 0, visibility: "visible", opacity: 1 },
+      0
+    );
+    masterTimeline.to(labelRef, { x: 0, visibility: "visible", opacity: 1 }, 0);
+    masterTimeline.to(
+      descriptionRef,
+      { x: 0, visibility: "visible", opacity: 1 },
+      0
+    );
 
     if (ctaRef) {
-      masterTimeline.to(ctaRef, { y: 0, visibility: "visible" }, 0);
+      masterTimeline.to(ctaRef, { y: 0, visibility: "visible", opacity: 1 }, 0);
     }
   }
 }

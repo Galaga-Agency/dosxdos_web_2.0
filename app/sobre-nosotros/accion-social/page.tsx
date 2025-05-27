@@ -52,7 +52,7 @@ const AccionSocialPage = () => {
       initCardMouseParallax();
       servicePanel();
       featuredImageAnimation();
-      highlightAnimation(1.5);
+      highlightAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

@@ -58,7 +58,7 @@ const EquipoPage = () => {
       initStatsCounter();
       rollUpTextAnimation();
       featuredImageAnimation();
-      highlightAnimation(1.5);
+      highlightAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

@@ -3,7 +3,7 @@ import { ScrollTrigger } from "@/plugins";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const highlightAnimation = (delay: number = 1.5) => {
+export const highlightAnimation = (delay: number = 0.5) => {
   const highlights = document.querySelectorAll(".highlight");
 
   highlights.forEach((highlight: any) => {

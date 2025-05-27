@@ -198,7 +198,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                 </div>
 
                 <div className="blog-detail__share-section fade_bottom">
-                  <h3 className="blog-detail__share-title">
+                  <h3 className="blog-detail__share-title small-title">
                     Comparte este artículo
                   </h3>
                   <ShareButtons
@@ -212,7 +212,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
                 {relatedPosts.length > 0 && (
                   <div className="blog-detail__related-posts fade_bottom">
-                    <h2 className="blog-detail__related-title secondary-title">
+                    <h2 className="blog-detail__related-title small-title">
                       Artículos relacionados
                     </h2>
                     <div className="blog-detail__related-grid">
@@ -234,7 +234,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
                 <div className="blog-detail__cta-section fade_bottom">
                   <div className="blog-detail__cta-content">
-                    <h2 className="blog-detail__cta-title secondary-title">
+                    <h2 className="blog-detail__cta-title small-title">
                       Descubre más <span className="highlight">inspiración</span>
                     </h2>
                     <p className="blog-detail__cta-text subtitle">

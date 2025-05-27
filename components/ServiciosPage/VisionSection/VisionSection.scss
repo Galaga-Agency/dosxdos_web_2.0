@@ -203,12 +203,33 @@
   }
 
   &__service-title {
+    position: relative;
     @include font-size(xl);
     @include font-weight(semibold);
     color: $black;
     @include margin(md, bottom);
+
+        // Decorative underline
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: $primary-color;
+      transition: width 0.4s ease;
+    }
+
+    @include min-width(lg) {
+      @include font-size(4xl);
+    }
   }
 
+  &:hover &__service-title::after {
+    width: 80px;
+  }
+  
   &__service-text {
     @include font-size(base);
     line-height: 1.6;

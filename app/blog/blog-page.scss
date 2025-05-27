@@ -370,37 +370,6 @@
       margin: 0 auto;
       @include flex(column, unset, center);
       position: relative;
-
-      h3 {
-        margin-bottom: 2rem;
-        @include font-size(2xl);
-        color: $black;
-        position: relative;
-        display: inline-block;
-        text-transform: uppercase;
-        font-weight: 600;
-
-        .highlight {
-          position: relative;
-          display: inline-block;
-          z-index: 1;
-
-          &::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: -5px;
-            right: -5px;
-            width: calc(100% + 10px);
-            height: 40%;
-            background-color: rgba($black, 0.5);
-            opacity: 0.3;
-            z-index: -1;
-            transform: skew(-10deg);
-            background-size: 0% 100%; /* Estado inicial para la animación */
-          }
-        }
-      }
     }
   }
 

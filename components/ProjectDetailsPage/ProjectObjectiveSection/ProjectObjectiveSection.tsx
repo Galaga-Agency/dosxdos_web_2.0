@@ -14,18 +14,17 @@ const ProjectObjectiveSection: React.FC<ProjectObjectiveSectionProps> = ({
 }) => {
   return (
     <section className="project-objective-section">
-      <div className="project-objective-section__container">
+      <div className="project-objective-section__container container">
         <div className="project-objective-section__content-wrapper">
-          <h2 className="project-objective-section__title fade_bottom">
+          <h2 className="project-objective-section__title title fade_bottom">
             Simple & <span className="highlight">Significant</span>
           </h2>
 
           <div className="project-objective-section__text">
             <div className="project-objective-section__text-label">
-              <div className="project-objective-section__label">
-                <span>Objective</span>
-              </div>
-              <p>
+              <h3 className="project-objective-section__label label">(Objective)
+              </h3>
+              <p className="text">
                 {project.longDescription ||
                   "Liko website was using a generic template, felt quite outdated and not in-line with the quality of his work. The main goal was to translate his high-end photography into a digital experience that would honor and present his work in a memorable and contemporary way."}
               </p>

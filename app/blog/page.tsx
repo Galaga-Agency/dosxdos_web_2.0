@@ -165,7 +165,7 @@ const BlogPage: React.FC = () => {
               </div>
 
               <div className="blog-page__posts-section" id="pagination-section">
-                <h2 className="posts-title fade_bottom">
+                <h2 className="posts-title small-title fade_bottom">
                   Artículos <span className="highlight">Recientes</span>
                 </h2>
 
@@ -202,7 +202,7 @@ const BlogPage: React.FC = () => {
 
               <div className="blog-page__desktop-social-cta fade_bottom">
                 <div className="blog-page__desktop-social-cta-content">
-                  <h3>
+                  <h3 className="small-title">
                     Mantente actualizado con nuestros últimos{" "}
                     <span className="highlight">contenidos y proyectos</span>
                   </h3>

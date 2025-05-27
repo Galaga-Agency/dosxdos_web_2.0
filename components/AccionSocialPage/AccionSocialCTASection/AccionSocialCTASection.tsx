@@ -20,7 +20,7 @@ const AccionSocialCTASection = () => {
             <span className="highlight">juntos</span>.
           </h2>
         </div>
-        <div className="cta-section__content">
+        <div className="cta-section__content container">
           <div
             className="cta-section__visual-column"
             data-speed={isMobile ? "0" : "1.15"}

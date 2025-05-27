@@ -8,89 +8,10 @@
   width: 100%;
   background-color: $white;
   overflow: hidden;
-
-  &__container {
-    margin: 0 auto;
-    @include container-width(mobile);
-    position: relative;
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__content {
-    position: relative;
-    width: fit-content;
-    @include flex(column, start, flex-start);
-    @include margin(md, bottom);
-
-    @include min-width(md) {
-      max-width: 80%;
-      margin: 0 auto;
-    }
-
-    @include min-width(xl) {
-      max-width: 800px;
-    }
-  }
-
-  &__label {
-    position: relative;
-    @include font-size(base);
-    color: rgba($black, 0.7);
-    @include margin(md, bottom);
-    display: none;
-
-    @include min-width(md) {
-      display: block;
-    }
-  }
+  @include section-padding-top();
 
   &__title {
-    @include font-size(4xl);
-    @include font-weight(semibold);
-    @include title-line-height;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
     color: $black;
-    @include margin(md, bottom);
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(7xl);
-    }
-  }
-
-  &__title-row-2 {
-    display: block;
-  }
-
-  &__text {
-    color: rgba($black, 0.8);
-    @include margin(lg, bottom);
-    @include font-size(lg);
-    line-height: 1.6;
-    max-width: 550px;
-
-    @include min-width(md) {
-      max-width: 100%;
-    }
   }
 
   &__button {

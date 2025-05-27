@@ -18,7 +18,7 @@ const CTASection: React.FC = () => {
 
           <h2 className="cta-section__title secondary-title fade_bottom">
             DISEÑO CON CONCIENCIA. <br/> COMPROMISO CON{" "}
-            <span className="highlight">IMPACTO</span>
+            <span className="highlight">IMPACTO</span>.
           </h2>
         </div>
 
