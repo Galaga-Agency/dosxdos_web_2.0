@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger, SplitText, ScrollSmoother } from "@/plugins";
 import { useGSAP } from "@gsap/react";
@@ -14,34 +14,49 @@ import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Footer from "@/components/layout/Footer/footer";
 
 import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./contact-page.scss";
 import { setupMouseMoveAnimation } from "@/utils/animations/mouse-move-anim";
 
 const ContactPage: React.FC = () => {
+  const cleanupRef = useRef<(() => void) | null>(null);
+  const [mounted, setMounted] = useState(false);
+
   useScrollSmooth();
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
+    setMounted(true);
+
     return () => {
       document.body.classList.remove("smooth-scroll");
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
     };
   }, []);
 
   useGSAP(() => {
+    if (!mounted) return;
+
     const timer = setTimeout(() => {
       fadeAnimation();
       charAnimation();
-      setupMouseMoveAnimation();
+      highlightAnimation();
 
-      // FIX: Refresh ScrollSmoother and ScrollTrigger after animations
+      if (cleanupRef.current) {
+        cleanupRef.current();
+      }
+      cleanupRef.current = setupMouseMoveAnimation();
+
       const smoother = ScrollSmoother.get();
       if (smoother) {
         smoother.refresh();
       }
       ScrollTrigger.refresh();
 
-      // FIX: Update smooth scroll wrapper height
       const wrapper: any = document.querySelector("#smooth-wrapper");
       const content: any = document.querySelector("#smooth-content");
       if (wrapper && content) {
@@ -50,8 +65,14 @@ const ContactPage: React.FC = () => {
       }
     }, 300);
 
-    return () => clearTimeout(timer);
-  });
+    return () => {
+      clearTimeout(timer);
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
+    };
+  }, [mounted]);
 
   return (
     <div id="smooth-wrapper">
@@ -60,10 +81,10 @@ const ContactPage: React.FC = () => {
           <div className="contact-page__container">
             <div className="contact-page__header">
               <h4 className="contact-page__subtitle label">
-                (Solicite su presupuesto personalizado, sin compromiso)
+                (Solicita tu presupuesto personalizado, sin compromiso)
               </h4>
               <h1 className="contact-page__title char-animation">
-                Contáctenos
+                Contáctanos
               </h1>
             </div>
 
@@ -71,14 +92,16 @@ const ContactPage: React.FC = () => {
               <div className="contact-page__left fade_bottom">
                 <div className="contact-page__left-info-section">
                   <p>
-                    Contacte con nosotros para cualquier tipo de consulta o para
-                    obtener más información. Nuestro equipo le responderá lo
+                    Contacta con nosotros para cualquier tipo de consulta o para
+                    obtener más información. Nuestro equipo te responderá lo
                     antes posible.
                   </p>
                   <div className="contact-page__info-divider"></div>
                   <div className="contact-page__additional-info">
+                    <h2 className="contact-page__additional-info-title small-title">
+                      Horario de atención
+                    </h2>
                     <p>
-                      <strong>Horario de atención:</strong> <br />
                       Lunes a Jueves, 08:00 - 16:00 <br />
                       Viernes, 08:00 - 14:45
                     </p>
@@ -124,24 +147,14 @@ const ContactPage: React.FC = () => {
                 />
               </div>
             </div>
-
-            <div className="contact-page__mobile-social-section">
-              <div className="contact-page__mobile-social-header">
-                <h3 className="contact-page__mobile-social-title">Síguenos</h3>
-                <div className="contact-page__mobile-social-divider"></div>
-              </div>
-              <SocialIcons orientation="horizontal" color="primary" />
-            </div>
-
             <div className="contact-page__desktop-social-cta fade_bottom">
-              <div className="contact-page__desktop-social-cta-content">
-                <h3>
-                  Si quiere conocer nuestros últimos proyectos únase a nuestras
-                  redes sociales y permanece en contacto.
-                </h3>
-                <div className="contact-page__desktop-social-icons">
-                  <SocialIcons orientation="horizontal" color="primary" />
-                </div>
+              <h3 className="small-title">
+                Si quieres conocer{" "}
+                <span className="highlight">nuestros últimos proyectos</span>{" "}
+                únete a nuestras redes sociales y permanece en contacto.
+              </h3>
+              <div className="contact-page__desktop-social-icons">
+                <SocialIcons orientation="horizontal" color="primary" />
               </div>
             </div>
           </div>

@@ -29,11 +29,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
       style={{ backgroundImage: `url(${project.image})` }}
     >
       <div className="portfolio-hero__wrapper">
-        <div className="portfolio-hero__container">
+        <div className="portfolio-hero__container container">
           <div className="portfolio-hero__row">
             <div className="portfolio-hero__col-title">
               <div className="portfolio-hero__title-box">
-                <h1 className="portfolio-hero__title char-animation">
+                <h1 className="portfolio-hero__title secondary-title char-animation">
                   {project.title}
                 </h1>
                 <span className="portfolio-hero__subtitle fade_bottom">

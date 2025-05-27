@@ -14,7 +14,7 @@ const CollaborationsSection: React.FC = () => {
           (Comprometidos con lo que de verdad importa)
         </h3>
         <h2 className="collaborations-section__title secondary-title fade_bottom">
-          Colaboramos con quienes <span className="highlight">transforman vidas</span>
+          Colaboramos con quienes <span className="highlight">transforman vidas</span>.
         </h2>
         <p className="collaborations-section__subtitle subtitle fade_bottom">
           Apoyamos a fundaciones y organizaciones que construyen un futuro más

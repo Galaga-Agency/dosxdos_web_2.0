@@ -19,23 +19,12 @@ const AboutServices: React.FC = () => {
 
         <div className="about-services__content">
           <div className="about-services__categories">
-            {/* Remove the row structure - let categories flow naturally */}
-            <div className="about-services__category fade_bottom">
-              Diseño de interiores
-            </div>
-            <div className="about-services__category fade_bottom">
-              Producción
-            </div>
-            <div className="about-services__category fade_bottom">Eventos</div>{" "}
-            <div className="about-services__category fade_bottom">
-              Comunicación
-            </div>
-            <div className="about-services__category fade_bottom">
-              Logística
-            </div>
-            <div className="about-services__category fade_bottom">
-              Consultoría
-            </div>
+            <div className="about-services__category">Diseño de interiores</div>
+            <div className="about-services__category">Producción</div>
+            <div className="about-services__category">Eventos</div>
+            <div className="about-services__category">Comunicación</div>
+            <div className="about-services__category">Logística</div>
+            <div className="about-services__category">Consultoría</div>
           </div>
 
           <div className="about-services__description">

@@ -181,7 +181,7 @@ const Footer = () => {
           <div className="footer__cta" ref={ctaRef}>
             <div className="footer__cta-content">
               <h4>¿Hablamos?</h4>
-              <p>¿Tiene un nuevo proyecto? Lo hacemos real.</p>
+              <p>¿Tienes un nuevo proyecto? Lo hacemos real.</p>
               <PrimaryButton href="/contacto">
                 <span>Solicite presupuesto</span>
                 <ArrowRight size={16} />

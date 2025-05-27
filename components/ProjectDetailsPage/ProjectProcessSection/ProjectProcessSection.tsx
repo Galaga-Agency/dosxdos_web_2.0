@@ -36,18 +36,17 @@ const ProjectProcessSection: React.FC<ProjectProcessSectionProps> = ({
 
   return (
     <section className="project-process-section">
-      <div className="project-process-section__container">
+      <div className="project-process-section__container container">
         <div className="project-process-section__content-wrapper">
-          <h2 className="project-process-section__title fade_bottom">
+          <h2 className="project-process-section__title title fade_bottom">
             Simple & <span className="highlight">Significant</span>
           </h2>
 
           <div className="project-process-section__text">
             <div className="project-process-section__text-label">
-              <div className="project-process-section__label">
-                <span>El Proceso</span>
-              </div>
-              <p>{processDescription}</p>
+              <h3 className="project-process-section__label label">(El Proceso)
+              </h3>
+              <p className="text">{processDescription}</p>
             </div>
           </div>
         </div>

@@ -18,11 +18,16 @@ import ProjectProcessSection from "@/components/ProjectDetailsPage/ProjectProces
 import ProjectCTASection from "@/components/ProjectDetailsPage/ProjectCTASection/ProjectCTASection";
 import Footer from "@/components/layout/Footer/footer";
 
-import { charAnimation, fadeAnimation, rollUpTextAnimation } from "@/utils/animations/text-anim";
+import {
+  charAnimation,
+  fadeAnimation,
+  rollUpTextAnimation,
+} from "@/utils/animations/text-anim";
 import { gallerySliderAnimation } from "@/utils/animations/gallery-slider-anim";
 import { floatingImagesAnimation } from "@/utils/animations/floating-images-anim";
 
 import "./project-details-page.scss";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 interface ProjectDetailsPageProps {
   params: {
@@ -65,6 +70,7 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
       rollUpTextAnimation();
       gallerySliderAnimation();
       floatingImagesAnimation();
+      highlightAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

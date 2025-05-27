@@ -12,13 +12,13 @@ const VisionSection: React.FC = () => {
         <div className="vision-section__container container">
           <div className="vision-section__title-box">
             <span className="vision-section__label label">
-              (Nuestra visión)
+              (Descubre nuestro portfolio)
             </span>
             <h2 className="vision-section__title secondary-title fade_bottom">
-              CREAMOS ESPACIOS
-              <br />
-              QUE <span className="highlight">POTENCIAN</span>{" "}
-              <br className="line-break" /> MARCAS DE LUJO
+              Cada proyecto cuenta{" "}
+              <span className="highlight">una historia</span>. <br />
+              Aquí te mostramos algunas.
+              <br className="line-break" />
             </h2>
           </div>
 
@@ -39,18 +39,19 @@ const VisionSection: React.FC = () => {
             </div>
             <div className="vision-section__text-wrap">
               <p className="vision-section__text text">
-                Aquí es donde el conocimiento, la creatividad y la experiencia
-                se fusionan con el diseño para crear espacios únicos. Pensamos y
-                actuamos como un solo equipo, siempre a su lado, superando
-                límites. Nuestro enfoque altamente especializado ofrece un
-                amplio espectro de servicios para el sector de la cosmética y
-                perfumería.
+                Nuestro trabajo habla por nosotros. Cada proyecto que llevamos a
+                cabo es una oportunidad para demostrar lo que mejor sabemos
+                hacer: escuchar, entender, proponer y ejecutar. En estos más de
+                38 años hemos colaborado con grandes firmas del retail y marcas
+                de distintos sectores, adaptándonos siempre a las necesidades de
+                cada cliente. Diseñamos espacios que comunican, producimos
+                piezas que funcionan, instalamos con precisión y cuidamos cada
+                detalle como si fuera propio. Nuestro portfolio es el reflejo de
+                un proceso en el que creatividad, técnica y compromiso van
+                siempre de la mano.
               </p>
               <div className="vision-section__button fade_bottom">
-                <HoverCircleButton
-                  href="/sobre-nosotros/equipo"
-                  label="Conócenos"
-                />
+                <HoverCircleButton href="/portfolio" label="Ver proyectos" />
               </div>
             </div>
           </div>
@@ -77,10 +78,13 @@ const VisionSection: React.FC = () => {
       <div className="vision-section__bottom">
         <div className="vision-section__container container">
           <div className="vision-section__bottom-content">
-            <h3 className="vision-section__statement secondary-title fade_bottom">
-              Creemos firmemente que solo el diseño reforzado por una estrategia
-              sólida puede proporcionar{" "}
-              <span className="highlight">resultados reales</span>.
+            <h3 className="vision-section__statement small-title fade_bottom">
+              Ofrecemos soluciones llave en mano para que no tengas que
+              preocuparte por nada. Desde el diseño inicial hasta el último
+              detalle de la instalación,
+              <span className="highlight">nos encargamos de todo</span>.
+              Espacios, identidad, producción, montaje… adaptamos cada fase a lo
+              que tu proyecto necesita.
             </h3>
 
             <div className="vision-section__services">
@@ -93,13 +97,12 @@ const VisionSection: React.FC = () => {
                     height={80}
                   />
                 </div>
-                <h4 className="vision-section__service-title">
-                  Diseño de interiores
-                </h4>
+                <h4 className="vision-section__service-title">Diseñamos</h4>
                 <p className="vision-section__service-text">
-                  El diseño de espacios comerciales es uno de los ingredientes
-                  más importantes para el éxito de cualquier marca de lujo en el
-                  sector de la cosmética.
+                  Creamos espacios, identidades visuales, mobiliario y todo lo
+                  que tu evento o marca pueda necesitar. Nos adaptamos a tus
+                  tiempos, a tu estilo y a tu público, combinando creatividad y
+                  funcionalidad para que cada propuesta sea única.
                 </p>
               </div>
 
@@ -112,13 +115,12 @@ const VisionSection: React.FC = () => {
                     height={80}
                   />
                 </div>
-                <h4 className="vision-section__service-title">
-                  Producción integral
-                </h4>
+                <h4 className="vision-section__service-title">Fabricamos</h4>
                 <p className="vision-section__service-text">
-                  La perfecta implementación debe verse y sentirse perfecta sin
-                  importar el tamaño o la ubicación del espacio comercial en el
-                  que se presente.
+                  Damos forma a lo que diseñamos, y también a lo que tú nos
+                  traes. Fabricamos mobiliario, rótulos, piezas gráficas en
+                  todos los formatos y acabados. Siempre con precisión, calidad
+                  y control total en cada proceso.
                 </p>
               </div>
 
@@ -131,13 +133,13 @@ const VisionSection: React.FC = () => {
                     height={80}
                   />
                 </div>
-                <h4 className="vision-section__service-title">
-                  Instalación profesional
-                </h4>
+                <h4 className="vision-section__service-title">Instalamos</h4>
                 <p className="vision-section__service-text">
-                  Aplicamos ese mismo enfoque con los espacios que creamos: el
-                  cliente acude a ellos por la experiencia general que ofrecen y
-                  que potencia la marca.
+                  Nuestro equipo se desplaza allí donde haga falta para que todo
+                  esté listo a tiempo y en perfecto estado. Coordinamos la
+                  instalación con eficacia, cuidamos cada detalle y nos
+                  aseguramos de que el resultado final esté listo para ser
+                  vivido.
                 </p>
               </div>
             </div>

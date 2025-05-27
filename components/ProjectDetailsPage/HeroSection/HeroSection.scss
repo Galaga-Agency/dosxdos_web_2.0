@@ -55,28 +55,6 @@
     z-index: 1;
   }
 
-  &__container {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 0.75rem; // Default smaller padding for very small screens
-
-    @include min-width(xxs) {
-      padding: 0 1rem;
-    }
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
   &__row {
     display: flex;
     flex-wrap: wrap;

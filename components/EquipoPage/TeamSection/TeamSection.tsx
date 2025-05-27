@@ -15,7 +15,7 @@ const TeamSection: React.FC = () => {
           <h2 className="team-section__title secondary-title fade_bottom">
             El talento detrás de cada espacio <br />
             El compromiso detrás de{" "}
-            <span className="highlight">cada detalle</span>
+            <span className="highlight">cada detalle</span>.
           </h2>
         </div>
         <p className="team-section__subtitle subtitle">

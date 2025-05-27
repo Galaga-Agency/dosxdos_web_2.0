@@ -74,7 +74,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
       <div className="location-card__content">
         <div className="location-card__header">
           <div className="location-card__city-badge">
-            <MapPin size={20} />
+            <MapPin size={20} color="#e63322" />
             <h3>{city}</h3>
           </div>
           <div className="location-card__timezone">

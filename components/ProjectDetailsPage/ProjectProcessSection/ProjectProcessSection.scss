@@ -9,25 +9,6 @@
   background-color: $white;
   @include section-padding-top();
 
-  &__container {
-    margin: 0 auto;
-    @include container-width(mobile);
-    @include padding(content-x, x);
-    @include margin(4xl, bottom);
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
   &__content-wrapper {
     position: relative;
     margin: auto 0;
@@ -36,62 +17,8 @@
     @include margin(4xl, bottom);
   }
 
-  &__label {
-    @include font-size(base);
-    @include font-weight(medium);
-    @include margin(lg, bottom);
-    display: flex;
-    align-items: center;
-
-    span {
-      display: inline-block;
-      position: relative;
-      text-wrap: nowrap;
-    }
-  }
-
   &__title {
-    @include font-size(5xl);
-    @include font-weight(semibold);
-    width: fit-content;
-    @include title-line-height;
-    @include letter-spacing(tight);
-    text-transform: uppercase;
     color: $black;
-    @include margin(lg, bottom);
-
-    @include min-width(md) {
-      @include font-size(7xl);
-      text-align: center;
-    }
-
-    @include min-width(lg) {
-      @include font-size(9xl);
-      text-align: center;
-      @include margin(4xl, bottom);
-    }
-  }
-
-  &__text {
-    @include font-size(lg);
-    line-height: 1.6;
-    color: rgba($black, 0.8);
-    width: fit-content;
-
-    p {
-      @include margin(md, bottom);
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-
-  &__text-label {
-    @include min-width(xl) {
-      @include flex(row, start, start);
-      gap: 8rem;
-    }
   }
 
   &__full-image {

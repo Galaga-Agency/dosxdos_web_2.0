@@ -164,7 +164,7 @@ body {
   @include font-size(lg);
   font-family: "Sarabun";
   font-style: normal;
-  font-weight: 100;
+  font-weight: 100 !important;
   @include margin(md, bottom);
   color: $black;
   font-style: italic;
@@ -184,6 +184,7 @@ body {
   @include letter-spacing(tight);
   @include margin(lg, bottom);
   visibility: hidden;
+  opacity: 0;
   hyphens: manual;
   color: $white;
   word-break: keep-all;
@@ -240,6 +241,7 @@ body {
   @include letter-spacing(tight);
   text-transform: uppercase;
   color: $black;
+  @include margin(lg, bottom);
 
   @include min-width(xs) {
     @include font-size(5xl);
@@ -254,11 +256,24 @@ body {
   }
 }
 
+.small-title {
+  @include font-size(4xl);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $black;
+  @include margin(lg, bottom);
+  position: relative;
+
+  @include min-width(lg) {
+    max-width: 70%;
+  }
+}
+
 .subtitle {
   @include font-size(lg);
   line-height: 1.6;
   color: rgba($black, 0.75);
-  @include margin(xl, y);
+  @include margin(lg, bottom);
   max-width: 800px;
   position: relative;
   z-index: 1;

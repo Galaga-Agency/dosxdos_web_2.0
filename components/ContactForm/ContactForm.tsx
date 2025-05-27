@@ -144,7 +144,7 @@ const ContactForm: React.FC = () => {
           <div className="input-container">
             <input
               type="text"
-              placeholder="Su nombre completo"
+              placeholder="Nombre completo"
               {...register("name", {
                 required: "El nombre es obligatorio",
                 minLength: {
@@ -194,7 +194,7 @@ const ContactForm: React.FC = () => {
           <div className="input-container">
             <input
               type="text"
-              placeholder="Asunto de su mensaje"
+              placeholder="Asunto del mensaje"
               {...register("subject", {
                 required: "El asunto es obligatorio",
                 minLength: {
@@ -218,7 +218,7 @@ const ContactForm: React.FC = () => {
           <label>Mensaje</label>
           <div className="input-container">
             <textarea
-              placeholder="Cuéntenos sobre su proyecto"
+              placeholder="Cuéntanos sobre tu proyecto"
               rows={5}
               {...register("message", {
                 required: "El mensaje es obligatorio",

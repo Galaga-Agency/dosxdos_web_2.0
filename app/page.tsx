@@ -80,6 +80,7 @@ const HomePage = () => {
     };
   }, []);
 
+  // Initial animations
   useGSAP(() => {
     const timer = setTimeout(() => {
       fadeAnimation();
@@ -90,11 +91,23 @@ const HomePage = () => {
       panelTwoAnimation();
       hoverCircleButtonAnimation();
       featuredImageAnimation();
-      highlightAnimation(1.5);
+      highlightAnimation();
     }, 300);
 
     return () => clearTimeout(timer);
   });
+
+  // Re-run highlight animation when blog posts load
+  useGSAP(() => {
+    if (!loading && blogPosts.length > 0) {
+      // Small delay to ensure DOM is updated
+      const timer = setTimeout(() => {
+        highlightAnimation(0.3); // Shorter delay for blog section
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [loading, blogPosts.length]);
 
   return (
     <div id="smooth-wrapper">

@@ -372,13 +372,6 @@
     opacity: 1;
   }
 
-  &__share-title {
-    @include margin(md, bottom);
-    @include font-size(xl);
-    @include font-weight(semibold);
-    color: $black;
-  }
-
   &__related-posts {
     position: relative;
     @include margin(4xl, bottom);

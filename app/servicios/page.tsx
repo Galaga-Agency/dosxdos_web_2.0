@@ -21,9 +21,10 @@ import { projectHoverAnim } from "@/utils/animations/projects-hover-anim";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 import { animateServiciosHero } from "@/utils/animations/servicios-hero";
 import { revealForTouchDevices } from "@/utils/animations/touch-device-reveal";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
+import { randomStaggerAnimation } from "@/utils/animations/random-stagger-anim";
 
 import "./servicios-page.scss";
-import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 const ServiciosPage: React.FC = () => {
   useScrollSmooth();
@@ -44,7 +45,8 @@ const ServiciosPage: React.FC = () => {
       animateServiciosHero();
       projectHoverAnim();
       revealForTouchDevices();
-      highlightAnimation(1.5);
+      highlightAnimation();
+      randomStaggerAnimation();
     }, 300);
 
     return () => clearTimeout(timer);
