@@ -34,7 +34,6 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 const EquipoPage = () => {
   useScrollSmooth();
 
-  // Define breadcrumbs for this page / for SEO
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
     { name: "Sobre Nosotros", href: "/sobre-nosotros" },
@@ -68,11 +67,8 @@ const EquipoPage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="equipo-page">
-          {/* Add breadcrumbs at the top */}
-          <div className="equipo-page__breadcrumbs">
-            <div className="container">
+          <div className="breadcrumbs">
               <Breadcrumbs items={breadcrumbItems} />
-            </div>
           </div>
 
           <div className="equipo-page__container">

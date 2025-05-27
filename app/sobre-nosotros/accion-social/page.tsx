@@ -62,11 +62,8 @@ const AccionSocialPage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="accion-social-page">
-          {/* Add breadcrumbs at the top */}
-          <div className="accion-social-page__breadcrumbs">
-            <div className="container">
+          <div className="breadcrumbs">
               <Breadcrumbs items={breadcrumbItems} />
-            </div>
           </div>
 
           <div className="accion-social-page__container">

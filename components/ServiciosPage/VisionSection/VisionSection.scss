@@ -8,156 +8,42 @@
   width: 100%;
   background-color: $white;
   overflow: hidden;
-  @include section-padding-y();
 
   &__top {
     position: relative;
-    @include padding(2xl, bottom);
+    @include section-padding-y();
+  }
+
+  &__top-content {
+    width: 100%;
+  }
+
+  &__statement {
+    @include margin(2xl, bottom);
+    text-align: center;
 
     @include min-width(md) {
-      @include padding(4xl, bottom);
+      @include margin(3xl, bottom);
     }
 
     @include min-width(xl) {
-      @include padding(4xl, bottom);
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      @include margin(4xl, bottom);
     }
-  }
-
-  &__title-box {
-    position: relative;
-    width: fit-content;
-    @include padding(xl, bottom);
-    @include flex(column, center, start);
-
-    @include min-width(xl) {
-      margin: 0 auto;
-    }
-  }
-
-  &__title {
-    @include padding(xl, bottom);
-    width: auto;
-
-    @include min-width(xl) {
-      text-align: center;
-    }
-  }
-
-  &__content {
-    @include grid(1, md);
-
-    @include min-width(md) {
-      @include grid(2, xl);
-    }
-  }
-
-  &__image {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-
-    @include min-width(xl) {
-      width: 50%;
-      margin: 0 auto;
-    }
-  }
-
-  &__image-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    will-change: transform;
-
-    img {
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover;
-      object-position: center;
-      will-change: transform;
-    }
-  }
-
-  &__text-wrap {
-    @include flex(column, flex-start, flex-start);
-
-    @include min-width(xl) {
-      width: 50%;
-    }
-  }
-
-  &__middle-image {
-    position: absolute;
-    display: none;
-    width: 50%;
-    height: 300px;
-    @include z-index(above);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-
-    @include min-width(xl) {
-      display: block;
-      left: 80%;
-      bottom: -300px;
-      transform: translate(-60%, 0);
-      margin: 0;
-      width: 25%;
-    }
-  }
-
-  &__middle-image-inner {
-    position: relative;
-    width: 150%;
-    height: 150%;
-    overflow: hidden;
-    will-change: transform;
-
-    img {
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover;
-      object-position: center;
-      will-change: transform;
-    }
-  }
-
-  &__bottom {
-    background-color: $white;
-    position: relative;
-
-    @include min-width(md) {
-      padding-top: 0;
-      @include padding(2xl, bottom);
-    }
-
-    @include min-width(xl) {
-      @include padding(5xl, top);
-      margin-top: 150px;
-    }
-  }
-
-  &__bottom-content {
-    width: 100%;
   }
 
   &__services {
     @include grid(1, xl);
-    @include padding(4xl, top);
 
     @include min-width(md) {
-      grid-template-columns: repeat(3, 1fr);
+      @include grid(3, xl);
     }
 
     @include min-width(xl) {
-      max-width: 70%;
-      margin-left: auto;
-    }
-
-    &:last-child {
-      width: fit-content;
+      max-width: 90%;
+      margin: 0 auto;
     }
   }
 
@@ -179,26 +65,11 @@
     justify-content: left;
     align-items: center;
 
-    @include min-width(md) {
-      justify-content: center;
-    }
-
-    @include min-width(xl) {
-      justify-content: left;
-    }
-
     img {
       height: 80px;
       width: auto;
       display: block;
-
-      @include min-width(md) {
-        margin: 0 auto;
-      }
-
-      @include min-width(xl) {
-        margin: 0;
-      }
+      text-align: left;
     }
   }
 
@@ -208,8 +79,9 @@
     @include font-weight(semibold);
     color: $black;
     @include margin(md, bottom);
+    text-align: left;
 
-        // Decorative underline
+    // Decorative underline
     &::after {
       content: "";
       position: absolute;
@@ -218,33 +90,197 @@
       width: 40px;
       height: 2px;
       background-color: $primary-color;
-      transition: width 0.4s ease;
+      @include transition(width, normal);
     }
 
     @include min-width(lg) {
-      @include font-size(4xl);
+      @include font-size(2xl);
     }
   }
 
-  &:hover &__service-title::after {
+  &__service-item:hover &__service-title::after {
     width: 80px;
   }
-  
+
   &__service-text {
     @include font-size(base);
     line-height: 1.6;
     color: rgba($black, 0.7);
     max-width: 90%;
+    text-align: left;
 
     @include min-width(md) {
       margin: 0 auto;
     }
 
     @include min-width(xl) {
-      text-align: left;
       margin: 0;
       width: 100%;
     }
+  }
+
+  // MIDDLE FLOATING IMAGE
+  &__middle-image {
+    position: absolute;
+    display: none;
+    width: 400px;
+    height: 320px;
+    @include z-index(overlay);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    @include min-width(xxl) {
+      display: block;
+      width: 450px;
+      height: 300px;
+      right: 5%;
+    }
+  }
+
+  &__middle-image-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    will-change: transform;
+
+    img {
+      width: 120% !important;
+      height: 120% !important;
+      object-fit: cover;
+      object-position: center;
+      will-change: transform;
+    }
+  }
+
+  &__bottom {
+    position: relative;
+    width: 100%;
+    background-color: $white;
+    @include section-padding-bottom();
+
+    @include min-width(xxl) {
+      @include section-padding-y();
+    }
+  }
+
+  &__header {
+    @include margin(3xl, bottom);
+    text-align: left;
+  }
+
+  &__label {
+    display: block;
+    @include margin(md, bottom);
+  }
+
+  &__title {
+    width: auto;
+    text-align: left;
+  }
+
+  // Content Grid (Same as AboutUs)
+  &__content {
+    @include grid(1, md);
+
+    @include min-width(md) {
+      @include grid(2, xl);
+      margin: auto 0;
+    }
+
+    @include min-width(lg) {
+      @include grid(2, 4xl);
+    }
+  }
+
+  &__visual-column {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    order: 2;
+    will-change: transform;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+
+    @include min-width(md) {
+      order: 1;
+      justify-content: flex-start;
+    }
+
+    @include min-width(xl) {
+      width: 80%;
+      margin-left: auto;
+    }
+  }
+
+  &__animated-image {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    @include border-radius(md);
+
+    @include min-width(md) {
+      height: 400px;
+    }
+
+    @include min-width(lg) {
+      height: 450px;
+    }
+
+    @include min-width(xl) {
+      height: 500px;
+    }
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      object-position: center;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      filter: brightness(1.02) contrast(1.05) saturate(1.1);
+      @include transition(filter, normal);
+    }
+
+    &:hover img {
+      filter: brightness(1.05) contrast(1.08) saturate(1.15);
+      transform: scale(1.02);
+      @include transition(all, slow);
+    }
+  }
+
+  &__content-column {
+    position: relative;
+    order: 1;
+    @include flex(column, flex-start, flex-start);
+
+    @include min-width(md) {
+      order: 2;
+    }
+
+    @include min-width(xl) {
+      width: 80%;
+      margin-right: auto;
+    }
+  }
+
+  &__text {
+    @include margin(lg, bottom);
+  }
+
+  &__cta {
+    width: fit-content;
+    @include margin(md, y);
+    will-change: transform, opacity;
   }
 }
 

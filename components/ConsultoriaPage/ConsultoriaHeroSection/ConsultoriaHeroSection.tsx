@@ -1,0 +1,94 @@
+"use client";
+
+import React from "react";
+import Image from "next/image";
+import "./ConsultoriaHeroSection.scss";
+
+const ConsultoriaHeroSection: React.FC = () => {
+  // Simple function to check if we're on a mobile device
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  return (
+    <>
+      <div className="hero-section">
+        <div className="hero-section__image-container featured-image-container">
+          <div
+            className="hero-section__image-wrapper fade-in-scale featured-image-wrapper"
+            data-speed={isMobile ? "1" : "0.9"}
+          >
+            <Image
+              src="/assets/img/consultoria/consultoria-hero.webp"
+              alt="Consultoría dosxdos"
+              fill
+              priority
+              quality={100}
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+                willChange: "transform",
+              }}
+              unoptimized={true}
+            />
+          </div>
+
+          <div className="hero-section__overlay"></div>
+
+          <div className="hero-section__content container">
+            <h3 className="hero-section__label label fade_bottom">
+              (CONSULTORÍA)
+            </h3>
+            <h1 className="hero-section__title title char-animation">
+              Digital <br /> Experiences
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <div className="random-images">
+        {/* Floating Images */}
+        {[1, 2, 3].map((_, i) => {
+          const imgSrc = `/assets/img/consultoria/consultoria-${i + 1}.webp`;
+
+          // Set different speeds based on image index
+          const containerSpeed = isMobile
+            ? "1"
+            : i === 0
+            ? "1.3"
+            : i === 1
+            ? "0.9"
+            : "1.1";
+
+          const innerSpeed = i === 0 ? "1.1" : i === 1 ? "0.8" : "0.9";
+
+          return (
+            <div
+              key={i}
+              className={`random-images__container random-images__container--${
+                i + 1
+              } fade_bottom featured-image-container`}
+              data-speed={containerSpeed}
+            >
+              <div
+                className="random-images__inner-container featured-image-wrapper"
+                data-speed={innerSpeed}
+              >
+                <Image
+                  src={imgSrc}
+                  alt={`Consultoría ${i + 1}`}
+                  fill
+                  priority
+                  unoptimized={true}
+                  quality={100}
+                  className="random-images__img"
+                  sizes="(min-width: 1024px) 80vw, (min-width: 768px) 60vw, 90vw"
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+};
+
+export default ConsultoriaHeroSection;
