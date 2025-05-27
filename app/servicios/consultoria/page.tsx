@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -25,11 +25,16 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./consultoria-page.scss";
+import ConsultoriaMethodlogySection from "@/components/ConsultoriaPage/ConsultoriaMethodlogySection/ConsultoriaMethodlogySection";
+import MarqueeSection from "@/components/ConsultoriaPage/MarqueeSection/MarqueeSection";
+import ConsultoriaAboutSection from "@/components/ConsultoriaPage/ConsultoriaAboutSection/ConsultoriaAboutSection";
+import ConsultoriaCTASection from "@/components/ConsultoriaPage/ConsultoriaCTASection/ConsultoriaCTASection";
+import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 
 const ConsultoriaPage = () => {
   useScrollSmooth();
+  const cleanupRef = useRef<(() => void) | null>(null);
 
-  // Define breadcrumbs for this page / for SEO
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
     { name: "Servicios", href: "/servicios" },
@@ -41,6 +46,12 @@ const ConsultoriaPage = () => {
 
     return () => {
       document.body.classList.remove("smooth-scroll");
+
+      // Execute bubble cleanup if it exists
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
     };
   }, []);
 
@@ -54,16 +65,25 @@ const ConsultoriaPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
+
+      cleanupRef.current = cursorBubbleAnimation();
     }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+
+      // Execute bubble cleanup
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
+    };
   });
 
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="consultoria-page">
-          {/* Add breadcrumbs at the top */}
           <div className="consultoria-page__breadcrumbs">
             <div className="container">
               <Breadcrumbs items={breadcrumbItems} />
@@ -72,15 +92,10 @@ const ConsultoriaPage = () => {
 
           <div className="consultoria-page__container">
             <ConsultoriaHeroSection />
-            <div className="consultoria-page__mobile-social-section">
-              <div className="consultoria-page__mobile-social-header">
-                <h3 className="consultoria-page__mobile-social-title">
-                  Síguenos
-                </h3>
-                <div className="consultoria-page__mobile-social-divider"></div>
-              </div>
-              <SocialIcons orientation="horizontal" color="primary" />
-            </div>
+            <ConsultoriaMethodlogySection />
+            <MarqueeSection />
+            <ConsultoriaAboutSection />
+            <ConsultoriaCTASection />
           </div>
         </div>
         <Footer />
