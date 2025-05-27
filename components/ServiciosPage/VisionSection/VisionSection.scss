@@ -247,14 +247,6 @@
       will-change: transform;
       transform: translateZ(0);
       backface-visibility: hidden;
-      filter: brightness(1.02) contrast(1.05) saturate(1.1);
-      @include transition(filter, normal);
-    }
-
-    &:hover img {
-      filter: brightness(1.05) contrast(1.08) saturate(1.15);
-      transform: scale(1.02);
-      @include transition(all, slow);
     }
   }
 

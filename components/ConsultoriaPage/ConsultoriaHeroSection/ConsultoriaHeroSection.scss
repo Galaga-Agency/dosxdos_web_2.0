@@ -3,24 +3,62 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
-.hero-section {
+.consultoria-hero-section {
   position: relative;
   width: 100vw;
   left: 50%;
   transform: translateX(-50%);
-  height: 100vh;
-  margin-bottom: 48px;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
+  height: fit-content;
+  background: linear-gradient(
+    to bottom,
+    $white 0%,
+    $white 80px,
+    $black 80px,
+    $black 100%
+  );
+  @include section-padding-y();
+
+  &__content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    @include margin(3xl, y);
+
+    @include min-width(md) {
+      @include padding(3xl, x);
+    }
+  }
+
+  &__label {
+    color: $white;
+
+    @include min-width(md) {
+      @include padding(3xl, x);
+    }
+  }
 
   &__image-container {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 60vh;
     opacity: 0;
-    display: flex;
-    align-items: flex-end;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba($black, 0.3);
+    margin-left: auto;
+
+    @include min-width(md) {
+      width: 80%;
+      height: 45vh;
+    }
+
+    @include min-width(lg) {
+      width: 70%;
+      height: 90vh;
+    }
+
+    @include min-width(xl) {
+      width: 90%;
+    }
   }
 
   &__image-wrapper {
@@ -28,7 +66,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 130%;
+    height: 100%;
     will-change: transform;
     @include z-index(default);
 
@@ -37,7 +75,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      @include transition(transform, slow);
       will-change: transform;
     }
   }
@@ -48,18 +86,53 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, rgba($black, 0), rgba($black, 0.7));
+    background: linear-gradient(to bottom, rgba($black, 0), rgba($black, 0.2));
     z-index: 1;
   }
 
-  &__content {
+  &__bottom-content {
     position: relative;
     z-index: 3;
     width: 100%;
-    padding-bottom: 6rem;
+    @include margin(2xl, top);
+
+    @include min-width(md) {
+      @include margin(4xl, top);
+      @include padding(3xl, x);
+    }
   }
 
-  &__label {
+  &__description {
+    color: $white;
+    margin-right: auto;
+    @include margin(md, bottom);
+    text-align: left;
+
+    @include min-width(md) {
+      @include margin(3xl, bottom);
+    }
+  }
+
+  &__columns {
+    @include flex(column, center, center);
+    max-width: 1000px;
+
+    @include min-width(md) {
+      flex-direction: row;
+      align-items: start;
+      @include gap(5xl);
+      margin-left: auto;
+    }
+  }
+
+  &__column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    @include gap(lg);
+  }
+
+  &__column-text {
     color: $white;
   }
 }
@@ -67,16 +140,16 @@
 .random-images {
   position: relative;
   width: 100%;
-  padding: 32px 16px;
+  @include padding(lg, x);
   @include z-index(above);
-  margin-top: 3rem;
+  @include margin(3xl, top);
 
   @include container-width(mobile);
   margin-inline: auto;
 
   @include min-width(md) {
     @include container-width(tablet);
-    padding: 40px 32px;
+    @include padding(xl, x);
     min-height: 75vh;
   }
 
@@ -93,15 +166,17 @@
     position: relative;
     width: 90%;
     height: 60vw;
-    max-height: 60vh;
-    margin: 0 auto 48px;
+    @include margin(3xl, bottom);
+    margin-left: auto;
+    margin-right: auto;
     overflow: hidden;
     background-color: $white;
     box-shadow: 0 10px 15px -3px rgba($black, 0.1),
       0 4px 6px -2px rgba($black, 0.05);
     @include border-radius(md);
     will-change: transform;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    @include transition(transform, normal);
+    @include transition(box-shadow, normal);
 
     &:hover {
       transform: translateY(-8px);
@@ -113,6 +188,25 @@
       margin: 0;
     }
 
+    @media (max-width: 767px) {
+      width: 100%;
+      height: 50vw;
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+
+      &:nth-child(1) {
+        @include margin(2xl, bottom);
+      }
+      &:nth-child(2) {
+        @include margin(2xl, bottom);
+      }
+      &:nth-child(3) {
+        @include margin(2xl, bottom);
+      }
+    }
+
     &--1 {
       @include min-width(md) {
         width: 75%;
@@ -122,9 +216,9 @@
       }
 
       @include min-width(lg) {
-        width: 50%;
-        height: 65vh;
-        top: 0;
+        width: 40%;
+        height: 85vh;
+        top: -10vh;
         left: 0;
       }
     }
@@ -138,9 +232,9 @@
       }
 
       @include min-width(lg) {
-        width: 40%;
-        height: 50vh;
-        top: 10vh;
+        width: 50%;
+        height: 60vh;
+        top: 0;
         right: 0;
       }
     }
@@ -168,12 +262,19 @@
 
   &__inner-container {
     position: absolute;
-    top: -30%;
-    left: -15%;
-    width: 130%;
-    height: 160%;
+    top: -15%;
+    left: -10%;
+    width: 120%;
+    height: 130%;
     overflow: hidden;
     will-change: transform;
+
+    @media (max-width: 767px) {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &__img {
@@ -185,8 +286,13 @@
     object-fit: cover !important;
     object-position: center !important;
     will-change: transform;
-    transition: transform 0.65s cubic-bezier(0.33, 1, 0.68, 1);
-    opacity: 0.95;
+    @include transition(transform, slow);
+    opacity: 0.98;
+
+    @include min-width(md) {
+      object-position: center center !important;
+      transform: scale(1.05);
+    }
   }
 
   &__overlay {
@@ -195,7 +301,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba($black, 0), rgba($black, 0.1));
+    background: linear-gradient(to bottom, rgba($black, 0), rgba($black, 0.05));
     z-index: 3;
+    opacity: 0.3;
   }
 }

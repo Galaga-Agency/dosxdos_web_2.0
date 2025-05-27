@@ -59,6 +59,10 @@ export function cursorBubbleAnimation(): () => void {
       selector: ".portfolio-cta__title",
       text: "Contacto",
     },
+    {
+      selector: ".consultoria-cta__title",
+      text: "Ponte en contacto",
+    },
   ];
 
   // Store event listeners for cleanup
