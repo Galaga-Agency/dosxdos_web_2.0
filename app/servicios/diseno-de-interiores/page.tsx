@@ -74,7 +74,6 @@ const DisenoInterioresPage = () => {
     return () => {
       clearTimeout(timer);
 
-      // Execute cleanup
       if (cleanupRef.current) {
         cleanupRef.current();
         cleanupRef.current = null;

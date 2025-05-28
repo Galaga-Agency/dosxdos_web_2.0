@@ -50,7 +50,7 @@ const DisenoInterioresProcessSection: React.FC = () => {
       <h3 className="diseno-interiores-process__below-statement small-title">
         Nuestro método garantiza resultados sólidos, estéticos y realistas, sin
         sorpresas. Independientemente del tipo de espacio, <span className="highlight">acompañamos al
-        cliente en cada paso.</span>
+        cliente</span> en cada paso.
       </h3>
     </section>
   );

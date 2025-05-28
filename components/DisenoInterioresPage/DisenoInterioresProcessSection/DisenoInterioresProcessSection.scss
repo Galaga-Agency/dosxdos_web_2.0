@@ -44,5 +44,19 @@
     max-width: 1200px;
     @include padding(4xl, y);
     position: relative;
+    padding-inline: auto;
+    @include container-width(mobile);
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
   }
 }

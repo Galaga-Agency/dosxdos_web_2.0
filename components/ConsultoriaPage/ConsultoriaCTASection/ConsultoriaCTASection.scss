@@ -8,6 +8,20 @@
   @include section-padding-bottom();
   margin: 0 auto;
   width: fit-content;
+  padding-inline: auto;
+  @include container-width(mobile);
+
+  @include min-width(md) {
+    @include container-width(tablet);
+  }
+
+  @include min-width(lg) {
+    @include container-width(smalldesktop);
+  }
+
+  @include min-width(xl) {
+    @include container-width(desktop);
+  }
 
   &__title {
     text-align: center;
@@ -22,6 +36,8 @@
   }
 
   &__label {
-    margin: 0 4rem 0 -4rem!important;
+    @include min-width(md) {
+      margin: 0 4rem 0 -4rem !important;
+    }
   }
 }
