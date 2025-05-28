@@ -1,0 +1,188 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.collaborations-section {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  background-color: $white;
+  @include section-padding-bottom();
+}
+
+.project-panel-area {
+  position: relative;
+  width: 100%;
+  min-height: 300vh;
+  background-color: $white;
+  z-index: 5;
+}
+
+.project-panel {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+
+  @include min-width(md) {
+    height: 100vh;
+  }
+
+  &__split-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    @include min-width(md) {
+      flex-direction: row;
+    }
+  }
+
+  &__image-side {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    overflow: hidden;
+
+    @include min-width(md) {
+      width: 50%;
+      height: 100%;
+    }
+  }
+
+  &__image-file {
+    object-fit: cover;
+  }
+
+  &__logo {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include min-width(lg) {
+      bottom: 40px;
+      right: 40px;
+    }
+
+    &-image {
+      width: auto;
+      height: 100px;
+      object-fit: contain;
+
+      @include min-width(md) {
+        height: 170px;
+      }
+
+      @include min-width(lg) {
+        height: 130px;
+      }
+
+      &--first {
+        height: 60px;
+
+        @include min-width(md) {
+          height: 100px;
+        }
+
+        @include min-width(lg) {
+          height: 80px;
+        }
+      }
+    }
+  }
+
+  &__content-side {
+    position: relative;
+    width: 100%;
+    min-height: 70vh;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $black;
+    color: $white;
+
+    @include min-width(md) {
+      width: 50%;
+      height: 100%;
+    }
+  }
+
+  &__content {
+    max-width: 80vw;
+    @include flex(column, center, start);
+
+    @include min-width(md) {
+      padding: 4rem;
+      max-width: 500px;
+    }
+  }
+
+  &__index {
+    @include font-size(sm);
+    color: rgba($white, 0.6);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background-color: rgba($white, 0.3);
+      margin-right: 1rem;
+    }
+  }
+
+  &__title {
+    @include font-size(3xl);
+    @include font-weight(bold);
+    margin-bottom: 1.5rem;
+    color: $white;
+    @include title-line-height;
+    position: relative;
+    padding-bottom: 0.8rem;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: $primary-color;
+      transition: width 0.4s ease;
+    }
+
+    @include min-width(lg) {
+      @include font-size(4xl);
+    }
+  }
+
+  &:hover &__title::after {
+    width: 80px;
+  }
+
+  &__description {
+    @include font-size(lg);
+    color: rgba($white, 0.8);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  &__link {
+    display: inline-block;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+  }
+}

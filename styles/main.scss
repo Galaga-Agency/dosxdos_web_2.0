@@ -233,7 +233,7 @@ body {
   @include font-weight(semibold);
   width: fit-content;
   @include title-line-height;
-  @include letter-spacing(tight);
+  @include letter-spacing(normal);
   text-transform: uppercase;
   color: $black;
   @include margin(lg, bottom);
@@ -253,8 +253,10 @@ body {
 
 .small-title {
   @include font-size(4xl);
+  @include font-weight(semibold);
   text-transform: uppercase;
   color: $black;
+  @include letter-spacing(tighter);
   @include margin(lg, bottom);
 
   @include min-width(lg) {

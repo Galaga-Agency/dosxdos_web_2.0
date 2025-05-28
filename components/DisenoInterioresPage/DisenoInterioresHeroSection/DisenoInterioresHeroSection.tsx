@@ -37,12 +37,12 @@ const DisenoInterioresHeroSection: React.FC = () => {
           <Image
             src="/assets/img/servicios/consultoria/consultoria-1.webp"
             alt="Consultoría dosxdos"
-            width={800}
-            height={600}
+            width={600}
+            height={400}
             priority
             quality={100}
             unoptimized={true}
-            data-speed={isMobile ? "1" : ".75"}
+            data-speed={isMobile ? "1" : "1.25"}
           />
         </div>
       </div>

@@ -9,7 +9,6 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
 import Breadcrumbs from "@/components/SEO/Breadcrumbs";
-import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Footer from "@/components/layout/Footer/footer";
 
 import {
@@ -23,18 +22,25 @@ import { initStatsCounter } from "@/utils/animations/stats-counter";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
+import { servicePanel } from "@/utils/animations/panel-animation";
+
+import DisenoInterioresHeroSection from "@/components/DisenoInterioresPage/DisenoInterioresHeroSection/DisenoInterioresHeroSection";
+import DisenoInterioresProcessSection from "@/components/DisenoInterioresPage/DisenoInterioresProcessSection/DisenoInterioresProcessSection";
+import DisenoInterioresLinesSection from "@/components/DisenoInterioresPage/DisenoInterioresLinesSection/DisenoInterioresLinesSection";
+import DisenoInterioresPhilosophySection from "@/components/DisenoInterioresPage/DisenoInterioresPhilosophySection/DisenoInterioresPhilosophySection";
+import DisenoInterioresMethodologySection from "@/components/DisenoInterioresPage/DisenoInterioresMethodologySection/DisenoInterioresMethodologySection";
 
 import "./diseno-interiores-page.scss";
-import DisenoInterioresHeroSection from "@/components/DisenoInterioresPage/DisenoInterioresHeroSection/DisenoInterioresHeroSection";
 
 const DisenoInterioresPage = () => {
   useScrollSmooth();
+
   const cleanupRef = useRef<(() => void) | null>(null);
 
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
     { name: "Servicios", href: "/servicios" },
-    { name: "Diseño de Interiores", href: "/servicios/diseno-interiores" },
+    { name: "Diseño de Interiores", href: "/servicios/diseno-de-interiores" },
   ];
 
   useEffect(() => {
@@ -59,6 +65,7 @@ const DisenoInterioresPage = () => {
       initCardMouseParallax();
       imageParallax();
       initStatsCounter();
+      servicePanel();
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
@@ -87,6 +94,10 @@ const DisenoInterioresPage = () => {
 
           <div className="diseno-interiores-page__container">
             <DisenoInterioresHeroSection />
+            <DisenoInterioresProcessSection />
+            <DisenoInterioresMethodologySection />
+            <DisenoInterioresLinesSection />
+            <DisenoInterioresPhilosophySection />
           </div>
         </div>
         <Footer />

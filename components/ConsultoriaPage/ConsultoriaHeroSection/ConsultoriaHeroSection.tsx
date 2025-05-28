@@ -43,11 +43,11 @@ const ConsultoriaHeroSection: React.FC = () => {
         </div>
 
         <div className="consultoria-hero-section__bottom-content  container">
-          <p className="consultoria-hero-section__description small-title">
+          <h3 className="consultoria-hero-section__description small-title">
             Acompañamos a marcas y organizaciones en la definición de sus
             espacios, campañas y procesos, uniendo visión comercial,
             sostenibilidad y creatividad.
-          </p>
+          </h3>
 
           <div className="consultoria-hero-section__columns">
             <div className="consultoria-hero-section__column">

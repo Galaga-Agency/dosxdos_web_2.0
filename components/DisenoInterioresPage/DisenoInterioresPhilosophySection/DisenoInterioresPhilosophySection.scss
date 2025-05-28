@@ -1,0 +1,20 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+@use "base/animations" as *;
+
+.diseno-interiores-process {
+  width: 100%;
+  position: relative;
+
+  &__container {
+    max-width: 1600px;
+    position: relative;
+  }
+
+  &__description {
+    max-width: 1000px;
+    margin-left: auto;
+    @include padding(4xl, bottom);
+  }
+}
