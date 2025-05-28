@@ -35,20 +35,18 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
   const gridRef = useRef<HTMLDivElement>(null);
 
   const hasMoreProjects = visibleCount < projects.length;
-  const remainingProjects = projects.length - visibleCount;
-  const nextBatchSize = Math.min(6, remainingProjects);
 
-  // Set up refs for each project item
   useEffect(() => {
     projectItemRefs.current = projectItemRefs.current.slice(0, projects.length);
   }, [projects]);
 
-  // Use cursor bubble hook only for visible items
   useCursorBubble(
-    projectItemRefs.current
-      .slice(0, visibleCount)
-      .filter((ref): ref is HTMLAnchorElement => ref !== null)
-      .map((ref) => ({ current: ref })),
+    !isMobile
+      ? projectItemRefs.current
+          .slice(0, visibleCount)
+          .filter((ref): ref is HTMLAnchorElement => ref !== null)
+          .map((ref) => ({ current: ref }))
+      : [],
     { text: "Ver más" }
   );
 
@@ -57,62 +55,50 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
 
     setIsRevealing(true);
 
-    // Button shrink animation on the HoverCircleButton
-    const buttonElement = buttonRef.current?.querySelector(
-      ".hover-circle-button"
-    );
+    const buttonElement = buttonRef.current?.querySelector(".hover-circle-button");
     if (buttonElement) {
       gsap.to(buttonElement, {
-        scale: 0.8,
+        scale: 0.9,
         duration: 0.15,
         ease: "power2.out",
         onComplete: () => {
           gsap.to(buttonElement, {
             scale: 1,
-            duration: 0.2,
+            duration: 0.25,
             ease: "back.out(1.7)",
           });
         },
       });
     }
 
-    // Store current visible count before updating
     const currentVisible = visibleCount;
-
-    // Calculate next batch of items to reveal (always 6 more, or remaining if less than 6)
     const nextVisibleCount = Math.min(visibleCount + 6, projects.length);
 
-    // Update visible count
     setVisibleCount(nextVisibleCount);
 
-    // Use setTimeout to wait for React to re-render with new items
     setTimeout(() => {
-      // Get ALL items in the grid after re-render
       const allGridItems = gridRef.current?.querySelectorAll(".item");
       if (!allGridItems) return;
 
-      // Convert to array and get only the NEW items
       const allItemsArray = Array.from(allGridItems);
       const newItems = allItemsArray.slice(currentVisible, nextVisibleCount);
 
-      // Set initial state for new items
       gsap.set(newItems, {
         opacity: 0,
-        y: 50,
+        y: isMobile ? 30 : 50,
       });
 
-      // Animate new items with curtain effect
       gsap.to(newItems, {
         opacity: 1,
         y: 0,
         duration: 0.8,
-        stagger: 0.1,
+        stagger: isMobile ? 0.15 : 0.1,
         ease: "power2.out",
         onComplete: () => {
           setIsRevealing(false);
         },
       });
-    }, 100); // Give React time to re-render
+    }, 50);
   };
 
   return (
@@ -123,9 +109,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
             key={project.id}
             href={`/portfolio/${project.slug}`}
             className={`item item-${(index % 6) + 1}`}
-            data-speed={
-              !isMobile || !isTablet ? (0.8 + (index % 5) * 0.02).toFixed(2) : 0
-            }
+            data-speed={isMobile ? "0" : (0.8 + (index % 6) * 0.02).toFixed(2)}
             ref={(el) => (projectItemRefs.current[index] = el) as any}
           >
             <div className="item__overlay"></div>
@@ -137,12 +121,14 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="item-image"
                 unoptimized={true}
-                data-speed=".8"
+                data-speed={isMobile ? "0" : ".8"}
                 data-lag="0"
+                priority={index < 6}
               />
             </div>
             <div className="item__content">
               <h3 className="item__title">{project.title}</h3>
+              <span className="item__category">{project.category}</span>
             </div>
           </Link>
         ))}
@@ -154,7 +140,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
             type="button"
             onClick={handleRevealMore}
             disabled={isRevealing}
-            label="Más Proyectos"
+            label={`Mostrar más`}
           />
         </div>
       )}

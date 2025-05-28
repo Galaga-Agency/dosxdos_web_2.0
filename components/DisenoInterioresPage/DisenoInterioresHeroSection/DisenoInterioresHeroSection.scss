@@ -8,12 +8,18 @@
   width: 100vw;
   left: 50%;
   transform: translateX(-50%);
-  height: 110vh;
+  height: 100vh; // Changed from 110vh for better mobile experience
   margin-bottom: 3rem;
   display: flex;
   align-items: flex-end;
-  overflow: visible;
+  overflow: hidden; // Changed from visible to prevent horizontal scroll
   @include padding(xl, bottom);
+  
+  // Mobile adjustments
+  @include min-width(md) {
+    height: 110vh;
+    overflow: visible;
+  }
   
   &__bg-container {
     position: relative;
@@ -21,10 +27,14 @@
     height: 100%;
     will-change: transform;
     transform-origin: center;
-    transform: scale(1.3);
+    transform: scale(1.1); // Reduced scale for mobile
     opacity: 0;
     display: flex;
     align-items: flex-end;
+    
+    @include min-width(md) {
+      transform: scale(1.3);
+    }
   }
 
   &__image-wrapper {
@@ -62,37 +72,100 @@
     position: relative;
     z-index: 3;
     width: 100%;
-    padding-bottom: 6rem;
+    padding-bottom: 3rem; // Reduced for mobile
+    @include container-width(mobile);
+    
+    @include min-width(md) {
+      padding-bottom: 6rem;
+      @include container-width(tablet);
+    }
+    
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+    
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
   }
 
   &__label {
     color: $white;
+    @include font-size(base);
+    
+    @include min-width(md) {
+      @include font-size(lg);
+    }
   }
 
   &__title {
     &.text-1 {
-      transform: translateX(300px);
+      transform: translateX(50px); // Much smaller for mobile
+      
+      @include min-width(md) {
+        transform: translateX(150px);
+      }
+      
+      @include min-width(lg) {
+        transform: translateX(300px);
+      }
     }
 
     &.text-2 {
-      transform: translateX(-300px);
-      margin-top: -2rem;
+      transform: translateX(-50px); // Much smaller for mobile
+      margin-top: -1rem;
+      
+      @include min-width(md) {
+        transform: translateX(-150px);
+        margin-top: -1.5rem;
+      }
+      
+      @include min-width(lg) {
+        transform: translateX(-300px);
+        margin-top: -2rem;
+      }
     }
   }
 
   &__cta {
     opacity: 0;
     transform: translateY(30px);
+    margin-top: 2rem;
+    
+    @include min-width(md) {
+      margin-top: 3rem;
+    }
   }
 
   &__floating-image-wrapper {
     position: absolute;
-    bottom: -20%;
-    right: 5%;
-    width: 450px;
-    height: 300px;
+    bottom: -10%; // Adjusted for mobile
+    right: 2%;
+    width: 180px; // Much smaller on mobile
+    height: 120px;
     will-change: transform;
     @include z-index(above);
+    
+    @include min-width(sm) {
+      width: 250px;
+      height: 170px;
+      bottom: -15%;
+      right: 3%;
+    }
+    
+    @include min-width(md) {
+      width: 350px;
+      height: 230px;
+      bottom: -18%;
+      right: 4%;
+    }
+    
+    @include min-width(lg) {
+      width: 450px;
+      height: 300px;
+      bottom: -20%;
+      right: 5%;
+    }
 
     img {
       width: 100%;

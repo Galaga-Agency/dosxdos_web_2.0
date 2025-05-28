@@ -17,7 +17,7 @@ const ConsultoriaAboutSection: React.FC = () => {
           </div>
           <h2 className="consultoria-about__title secondary-title">
             Pensamos contigo, trabajamos a tu lado,{" "}
-            <span className="highlight">y ejecutamos con propósito.</span>
+            y ejecutamos <span className="highlight">con propósito.</span>
           </h2>
         </div>
 
