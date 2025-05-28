@@ -95,6 +95,7 @@ export const metadata: Metadata = {
     "diseño retail lujo",
     "espacios comerciales premium",
     "interiorismo tiendas",
+    "renovar imagen tienda",
   ],
   authors: [{ name: "Dos x Dos Grupo Imagen" }],
   creator: "Dos x Dos Grupo Imagen",

@@ -8,12 +8,12 @@
   width: 100vw;
   left: 50%;
   transform: translateX(-50%);
-  height: 120vh;
+  height: 110vh;
   margin-bottom: 3rem;
   display: flex;
   align-items: flex-end;
   overflow: visible;
-  @include section-padding-bottom();
+  @include padding(xl, bottom);
   
   &__bg-container {
     position: relative;
@@ -87,10 +87,10 @@
 
   &__floating-image-wrapper {
     position: absolute;
-    bottom: -25%;
+    bottom: -20%;
     right: 5%;
-    width: 600px;
-    height: 350px;
+    width: 450px;
+    height: 300px;
     will-change: transform;
     @include z-index(above);
 
