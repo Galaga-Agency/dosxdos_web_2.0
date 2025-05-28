@@ -1,0 +1,260 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.admin-panel-page {
+  position: relative;
+  margin-inline: auto;
+  min-height: 100vh;
+  width: 100%;
+  @include section-padding-y();
+
+  &__header {
+    @include flex(row, space-between, center);
+    @include margin(2xl, bottom);
+    @include padding(lg, bottom);
+    border-bottom: 1px solid #eaeaea;
+    flex-direction: column;
+    align-items: flex-start;
+    @include gap(lg);
+
+    @include min-width(md) {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      visibility: hidden;
+      @include font-size(4xl);
+      @include font-weight(semibold);
+      @include letter-spacing(tight);
+      text-transform: uppercase;
+      color: $black;
+
+      @include min-width(xs) {
+        @include font-size(5xl);
+      }
+
+      @include min-width(sm) {
+        @include font-size(6xl);
+      }
+
+      @include min-width(md) {
+        @include font-size(7xl);
+      }
+    }
+  }
+
+  &__actions {
+    @include flex(column, unset, unset);
+    @include gap(lg);
+    width: 100%;
+    visibility: hidden;
+
+    @include min-width(sm) {
+      width: auto;
+      flex-direction: row;
+    }
+  }
+
+  &__tabs {
+    @include flex(row, flex-start, center);
+    @include gap(sm);
+    @include margin(2xl, bottom);
+    border-bottom: 2px solid rgba($black, 0.1);
+    visibility: hidden;
+
+    @include min-width(sm) {
+      @include gap(lg);
+    }
+  }
+
+  &__tab {
+    @include padding(md, x);
+    @include padding(sm, y);
+    background: none;
+    border: none;
+    @include font-size(lg);
+    @include font-weight(medium);
+    color: rgba($black, 0.6);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      color: $black;
+    }
+
+    &.active {
+      color: $primary-color;
+      border-bottom-color: $primary-color;
+      @include font-weight(semibold);
+    }
+
+    @include min-width(md) {
+      @include font-size(xl);
+    }
+  }
+
+  &__tab-actions {
+    @include flex(row, flex-start, center);
+    @include margin(xl, bottom);
+    visibility: hidden;
+  }
+
+  &__items {
+    min-height: 200px;
+  }
+
+  &__items-grid {
+    @include flex(row, flex-start, flex-start);
+    flex-wrap: wrap;
+    @include gap(md);
+
+    .blog-post-card,
+    .project-card {
+      flex: 0 0 100%;
+      opacity: 0; /* For GSAP animation */
+
+      @include min-width(md) {
+        flex: 0 0 calc(50% - #{map-get($gap, md)} / 2);
+      }
+
+      @include min-width(lg) {
+        flex: 0 0 calc(33.33% - #{map-get($gap, md)} * 2 / 3);
+      }
+    }
+  }
+
+  &__loader {
+    @include flex(column, center, center);
+    min-height: 200px;
+    @include margin(2xl, top);
+  }
+
+  &__empty {
+    @include flex(column, center, center);
+    background-color: #f9f9f9;
+    @include border-radius(lg);
+    @include padding(3xl);
+    text-align: center;
+    color: #666;
+
+    p {
+      @include margin(xl, bottom);
+      @include font-size(lg);
+    }
+  }
+
+  &__error {
+    @include flex(column, center, center);
+    background-color: #fff5f5;
+    @include border-radius(lg);
+    @include padding(3xl);
+    text-align: center;
+    color: #e53e3e;
+
+    p {
+      @include margin(xl, bottom);
+      @include font-size(lg);
+    }
+
+    button {
+      background-color: #e53e3e;
+      color: $white;
+      border: none;
+      @include padding(sm, x);
+      @include padding(xs, y);
+      @include border-radius(md);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: darken(#e53e3e, 10%);
+      }
+    }
+  }
+
+  &__pagination {
+    @include margin(2xl, top);
+    @include flex(row, center, center);
+    opacity: 0; /* For GSAP animation */
+    width: 100%;
+
+    @include min-width(md) {
+      @include margin(lg, top);
+    }
+
+    @include min-width(lg) {
+      @include margin(2xl, top);
+    }
+
+    ul {
+      @include flex(row, center, center);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      @include gap(sm);
+
+      li {
+        a {
+          @include flex(row, center, center);
+          width: 2.5rem;
+          height: 2.5rem;
+          @include border-radius(md);
+          @include font-size(base);
+          @include font-weight(medium);
+          cursor: pointer;
+          transition: all 0.2s ease;
+          color: #333;
+          background-color: #f5f5f5;
+
+          &:hover {
+            background-color: #e0e0e0;
+          }
+
+          &.active {
+            background-color: $primary-color;
+            color: $white;
+          }
+        }
+
+        &.disabled a {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  &__new-btn {
+    @include flex(row, center, center);
+    @include gap(sm);
+    @include padding(md, x);
+    @include padding(sm, y);
+    @include border-radius(md);
+    @include font-size(base);
+    @include font-weight(medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: $primary-color;
+    color: $white;
+    border: none;
+    text-decoration: none;
+
+    svg {
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+
+      svg {
+        transform: scale(1.1);
+      }
+    }
+  }
+}

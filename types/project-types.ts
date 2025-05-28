@@ -1,24 +1,19 @@
 export interface Project {
   id: string;
-  title: string;
+  name: string;
   slug: string;
-  category: string;
   client: string;
-  date: string;
+  tags: string[];
   location?: string;
-  image: string;
-  images: string[];
-  description: string;
-  longDescription?: string;
+  duration?: string; // e.g., "3 meses", "6 semanas"
+  year: number;
   services: string[];
-  display: {
-    homepage: boolean;
-    portfolioPage: boolean;
-    masProyectosPage: boolean;
-    [key: string]: boolean; // For future display options
-  };
-  tags?: string[];
-  process?: string;
+  challenge: string;
+  solution: string;
+  coverImage: string;
+  images: string[];
+  date: string; 
+  featured: boolean;
 }
 
 export interface ProjectCategory {

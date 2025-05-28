@@ -11,7 +11,7 @@ interface LogoutButtonProps {
 
 const LogoutButton: React.FC<LogoutButtonProps> = ({ className = "" }) => {
   const handleLogout = async () => {
-    await signOut({ callbackUrl: "/admin/login" });
+    await signOut({ callbackUrl: "/login" });
   };
 
   return (

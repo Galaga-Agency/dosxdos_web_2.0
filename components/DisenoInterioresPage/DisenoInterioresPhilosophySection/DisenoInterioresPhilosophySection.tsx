@@ -12,7 +12,7 @@ const DisenoInterioresPhilosophySection: React.FC = () => {
             Diseñar es <span className="highlight">construir relaciones</span>{" "}
             entre personas y espacios
           </h2>
-          <p className="diseno-interiores-process__description text fade_bottom">
+          <p className="diseno-interiores-process__description text">
             Nuestro equipo no solo diseña espacios: diseñamos experiencias.
             Nuestra mirada estratégica une técnica, creatividad y sensibilidad,
             apostando por soluciones realistas, responsables y duraderas.

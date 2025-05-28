@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.replace("/admin/blog");
+      router.replace("/admin");
     }
   }, [status, router]);
 
@@ -49,7 +49,7 @@ export default function LoginPage() {
       });
 
       if (res?.ok) {
-        window.location.href = "/admin/blog";
+        window.location.href = "/admin";
       } else {
         setError("Credenciales inválidas");
       }

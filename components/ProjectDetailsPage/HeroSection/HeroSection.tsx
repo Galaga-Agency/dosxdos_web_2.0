@@ -45,11 +45,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
             <div className="portfolio-hero__col-desc">
               <div className="portfolio-hero__description rollup-text">
                 <p>{project.description}</p>
-                {project.longDescription && (
-                  <p className="portfolio-hero__long-description rollup-text">
-                    {project.longDescription}
-                  </p>
-                )}
               </div>
 
               {/* Asegurar que los metadatos estén estructurados correctamente */}
