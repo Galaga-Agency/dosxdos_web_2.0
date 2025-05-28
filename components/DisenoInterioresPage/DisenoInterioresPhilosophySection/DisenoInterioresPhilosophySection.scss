@@ -8,8 +8,20 @@
   position: relative;
 
   &__container {
-    max-width: 1600px;
-    position: relative;
+    padding: 0 auto;
+    @include container-width(mobile);
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
   }
 
   &__description {

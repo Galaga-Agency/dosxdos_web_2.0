@@ -13,7 +13,7 @@ const DisenoInterioresHeroSection: React.FC = () => {
       <div className="diseno-interiores-hero__bg-container featured-image-container">
         <div className="diseno-interiores-hero__image-wrapper featured-image-wrapper">
           <Image
-            src="/assets/img/about-us-page/vicente-ferrer-illustration.jpg"
+            src="/assets/img/homepage/slider-1.webp"
             alt="Diseño de Interiores"
             fill
             quality={100}
