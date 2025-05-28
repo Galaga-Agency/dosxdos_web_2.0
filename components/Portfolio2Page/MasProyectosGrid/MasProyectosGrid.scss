@@ -9,8 +9,9 @@
 }
 
 .mas-proyectos-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  // Mobile: Simple flex column layout
+  display: flex;
+  flex-direction: column;
   @include gap(sm);
   @include container-width(mobile);
   margin: 0 auto;
@@ -18,7 +19,9 @@
   overflow: visible;
   height: auto;
 
+  // Tablet and up: Your original grid system
   @include min-width(md) {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
     @include container-width(tablet);
     @include gap(3xl);
@@ -42,9 +45,11 @@
   width: 100%;
   overflow: hidden;
   text-decoration: none;
-  height: 320px;
   will-change: transform;
   opacity: 0;
+
+  // Mobile: uniform height, full width, stacked
+  height: 320px;
 
   @include min-width(md) {
     max-width: 100%;
@@ -101,7 +106,7 @@
     margin: 0;
   }
 
-  // Item layouts (repeating pattern for batches)
+  // Your original item layouts - ONLY apply from tablet up, mobile stays simple
   &.item-1 {
     @include min-width(md) {
       height: 450px;
@@ -178,4 +183,5 @@
 // Reveal More Section
 .reveal-more-container {
   @include flex(column, center, center);
+  @include margin(xl, top);
 }

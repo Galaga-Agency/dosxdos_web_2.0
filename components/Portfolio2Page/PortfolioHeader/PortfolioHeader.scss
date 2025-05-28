@@ -5,7 +5,8 @@
 
 .portfolio-header {
   position: relative;
-  @include section-padding-top();
+  @include section-padding-bottom();
+  @include padding(6xl, top);
 
   &__content {
     text-align: left;
