@@ -229,6 +229,23 @@
     @include min-width(xl) {
       max-height: 75px;
     }
+
+    // Add these new responsive logo classes
+    &--mobile {
+      display: block;
+
+      @include min-width(md) {
+        display: none;
+      }
+    }
+
+    &--desktop {
+      display: none;
+
+      @include min-width(md) {
+        display: block;
+      }
+    }
   }
 
   &__hamburger-wrapper {
@@ -404,7 +421,7 @@
     text-decoration: none;
     text-wrap: nowrap;
     text-transform: uppercase;
-    @include font-weight(medium); 
+    @include font-weight(medium);
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     position: relative;
     -webkit-tap-highlight-color: transparent;

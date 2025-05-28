@@ -29,7 +29,7 @@ const AccionSocialCTASection = () => {
               <Image
                 src="/assets/img/team/dospodos_personal_oficina-3.webp"
                 alt="Equipo Dos Por Dos"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 767px) 90vw, (max-width: 991px) 45vw, 40vw"
                 priority
                 width={800}
                 height={600}
