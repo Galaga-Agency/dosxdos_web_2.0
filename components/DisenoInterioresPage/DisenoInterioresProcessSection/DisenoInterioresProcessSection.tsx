@@ -25,7 +25,7 @@ const DisenoInterioresProcessSection: React.FC = () => {
             Un <span className="highlight">proceso cuidado</span> de principio a
             fin
           </h2>
-          <p className="diseno-interiores-process__description text fade_bottom">
+          <p className="diseno-interiores-process__description text">
             Desde locales comerciales hasta hogares, creamos entornos
             funcionales, estéticos y sostenibles. Cada proyecto nace del diálogo
             con el cliente y se traduce en un diseño único, alineado con su

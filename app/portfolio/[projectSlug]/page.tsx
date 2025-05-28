@@ -10,13 +10,14 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import HeroSection from "@/components/ProjectDetailsPage/HeroSection/HeroSection";
-import { projects } from "@/data/projects";
 import { Project } from "@/types/project-types";
+import { getProjectBySlug } from "@/lib/project-service";
 import Loading from "@/components/ui/Loading/Loading";
 import ProjectObjectiveSection from "@/components/ProjectDetailsPage/ProjectObjectiveSection/ProjectObjectiveSection";
 import ProjectProcessSection from "@/components/ProjectDetailsPage/ProjectProcessSection/ProjectProcessSection";
 import ProjectCTASection from "@/components/ProjectDetailsPage/ProjectCTASection/ProjectCTASection";
 import Footer from "@/components/layout/Footer/footer";
+import { notFound } from "next/navigation";
 
 import {
   charAnimation,
@@ -30,16 +31,15 @@ import "./project-details-page.scss";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 interface ProjectDetailsPageProps {
-  params: {
+  params: Promise<{
     projectSlug: string;
-  };
+  }>;
 }
 
 const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
   useScrollSmooth();
 
-  const resolvedParams = use(params as any);
-  const { projectSlug } = resolvedParams as any;
+  const { projectSlug } = use(params);
 
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,34 +47,47 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
 
-    // Find the project data when component mounts
-    const foundProject: Project | undefined = projects.find(
-      (p) => p.slug === projectSlug
-    );
-
-    if (foundProject) {
-      setProject(foundProject);
-    }
-
-    setLoading(false);
-
     return () => {
       document.body.classList.remove("smooth-scroll");
     };
+  }, []);
+
+  useEffect(() => {
+    async function fetchProject() {
+      try {
+        const data = await getProjectBySlug(projectSlug);
+
+        if (!data) {
+          notFound();
+          return;
+        }
+
+        setProject(data);
+      } catch (error) {
+        console.error("Error loading project:", error);
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProject();
   }, [projectSlug]);
 
   useGSAP(() => {
-    const timer = setTimeout(() => {
-      fadeAnimation();
-      charAnimation();
-      rollUpTextAnimation();
-      gallerySliderAnimation();
-      floatingImagesAnimation();
-      highlightAnimation();
-    }, 300);
+    if (!loading && project) {
+      const timer = setTimeout(() => {
+        fadeAnimation();
+        charAnimation();
+        rollUpTextAnimation();
+        gallerySliderAnimation();
+        floatingImagesAnimation();
+        highlightAnimation();
+      }, 300);
 
-    return () => clearTimeout(timer);
-  });
+      return () => clearTimeout(timer);
+    }
+  }, [loading, project]);
 
   return (
     <div id="smooth-wrapper">

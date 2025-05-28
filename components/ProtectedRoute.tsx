@@ -14,7 +14,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.replace("/admin/login");
+      router.replace("/login");
     }
   }, [status, router]);
 
