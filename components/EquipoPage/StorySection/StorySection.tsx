@@ -21,7 +21,7 @@ const StorySection: React.FC = () => {
     <section className="story-section">
       <div className="story-section__container container">
         <h2 className="story-section__title secondary-title fade_bottom">
-          <span className="highlight"> El diseño es nuestro ADN.</span> <br />
+          El diseño es <span className="highlight">nuestro ADN.</span> <br />
           El compromiso, nuestra manera de estar en el mundo.
         </h2>
 

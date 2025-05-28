@@ -13,26 +13,19 @@ import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import AdminBadge from "@/components/AdminBadge/AdminBadge";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim";
-import { PhoneCall, Mail, ArrowRight, ChevronRight } from "lucide-react";
+import { PhoneCall, Mail } from "lucide-react";
 import "./Menu.scss";
 
 const Menu: React.FC = () => {
-  // Get session status
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
-
-  // State management
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
-  // Refs
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuItemsRef = useRef<Map<string, HTMLElement[]>>(new Map());
   const menuRef = useRef<HTMLElement>(null);
-
-  // Device detection
   const { isMobile, isDesktop } = useDeviceDetect();
 
   // Setup scroll-based styling and animations
@@ -135,22 +128,7 @@ const Menu: React.FC = () => {
     }
   };
 
-  // Determine which logo to use based on scroll state
-  const getLogo = () => {
-    if (isMobile && isScrolled) {
-      return "/assets/img/logo/logo-gris.png";
-    } else if (isMobile && !isScrolled) {
-      return "/assets/img/logo/logo-berengena.png";
-    } else {
-      // Logo changes based on scroll state
-      return isScrolled
-        ? "/assets/img/logo/logo_full_gris.svg" // White logo when scrolled (on dark bg)
-        : "/assets/img/logo/logo-full-berenjena.png"; // Dark logo initially (on light bg)
-    }
-  };
-
   // Render the appropriate CTA button based on scroll state
-  // In your renderCtaButton function, change:
   const renderCtaButton = () => {
     const ctaProps = {
       href: ctaButton.href,
@@ -195,13 +173,32 @@ const Menu: React.FC = () => {
       <div className="menu__container">
         {/* Logo Area */}
         <Link href="/" className="menu__logo">
+          {/* Mobile logos */}
           <Image
-            src={getLogo()}
+            src={
+              isScrolled
+                ? "/assets/img/logo/logo-gris.png"
+                : "/assets/img/logo/logo-berengena.png"
+            }
             alt="Logo"
-            width={isMobile ? 180 : 200}
-            height={isMobile ? 50 : 50}
+            width={180}
+            height={50}
             priority
-            className="menu__logo-image"
+            className="menu__logo-image menu__logo-image--mobile"
+          />
+
+          {/* Desktop logos */}
+          <Image
+            src={
+              isScrolled
+                ? "/assets/img/logo/logo_full_gris.svg"
+                : "/assets/img/logo/logo-full-berenjena.png"
+            }
+            alt="Logo"
+            width={200}
+            height={50}
+            priority
+            className="menu__logo-image menu__logo-image--desktop"
           />
         </Link>
 
