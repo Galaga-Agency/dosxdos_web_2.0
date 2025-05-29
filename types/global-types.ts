@@ -11,6 +11,7 @@ declare global {
     ScrollTrigger: any;
     gsap?: any;
     projectsObserver?: IntersectionObserver;
+    clickTimes?: number[];
   }
 }
 

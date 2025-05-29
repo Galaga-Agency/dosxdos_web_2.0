@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
 import { BiAnalyse } from "react-icons/bi";
 import { TbCalendarTime } from "react-icons/tb";
@@ -8,7 +9,7 @@ import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { LuLaptopMinimalCheck } from "react-icons/lu";
 
 import "./ConsultoriaMethodlogySection.scss";
-import Image from "next/image";
+
 
 const ConsultoriaMethodlogySection = () => {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);

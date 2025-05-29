@@ -24,14 +24,14 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
 
-// import InstalacionHeroSection from "@/components/InstalacionPage/InstalacionHeroSection/InstalacionHeroSection";
-// import InstalacionServicesSection from "@/components/InstalacionPage/InstalacionServicesSection/InstalacionServicesSection";
-// import InstalacionProcessSection from "@/components/InstalacionPage/InstalacionProcessSection/InstalacionProcessSection";
-// import InstalacionTeamSection from "@/components/InstalacionPage/InstalacionTeamSection/InstalacionTeamSection";
+// import FabricacionHeroSection from "@/components/FabricacionPage/FabricacionHeroSection/FabricacionHeroSection";
+// import FabricacionServicesSection from "@/components/FabricacionPage/FabricacionServicesSection/FabricacionServicesSection";
+// import FabricacionProcessSection from "@/components/FabricacionPage/FabricacionProcessSection/FabricacionProcessSection";
+// import FabricacionNetworkSection from "@/components/FabricacionPage/FabricacionNetworkSection/FabricacionNetworkSection";
 
-import "./instalacion-page.scss";
+import "./fabricacion-page.scss";
 
-const InstalacionPage = () => {
+const FabricacionPage = () => {
   useScrollSmooth();
 
   const cleanupRef = useRef<(() => void) | null>(null);
@@ -39,7 +39,7 @@ const InstalacionPage = () => {
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
     { name: "Servicios", href: "/servicios" },
-    { name: "Instalación", href: "/servicios/instalacion" },
+    { name: "Logística", href: "/servicios/logistica" },
   ];
 
   useEffect(() => {
@@ -83,18 +83,18 @@ const InstalacionPage = () => {
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
-        <div className="instalacion-page">
-          <div className="instalacion-page__breadcrumbs">
+        <div className="logistica-page">
+          <div className="logistica-page__breadcrumbs">
             <div className="container">
               <Breadcrumbs items={breadcrumbItems} />
             </div>
           </div>
 
-          <div className="instalacion-page__container">
-            {/* <InstalacionHeroSection />
-            <InstalacionServicesSection />
-            <InstalacionProcessSection />
-            <InstalacionTeamSection /> */}
+          <div className="logistica-page__container">
+            {/* <FabricacionHeroSection />
+            <FabricacionServicesSection />
+            <FabricacionProcessSection />
+            <FabricacionNetworkSection /> */}
 
             {/* Temporary content placeholder */}
             <div
@@ -105,7 +105,7 @@ const InstalacionPage = () => {
                 justifyContent: "center",
               }}
             >
-              <h1>Instalación - Coming Soon</h1>
+              <h1>Fabricación - Coming Soon</h1>
             </div>
           </div>
         </div>
@@ -115,4 +115,4 @@ const InstalacionPage = () => {
   );
 };
 
-export default InstalacionPage;
+export default FabricacionPage;

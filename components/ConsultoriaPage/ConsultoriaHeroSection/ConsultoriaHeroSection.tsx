@@ -7,7 +7,7 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 const ConsultoriaHeroSection: React.FC = () => {
   const { isMobile } = useDeviceDetect();
-  
+
   return (
     <>
       <div className="consultoria-hero-section">
@@ -91,7 +91,7 @@ const ConsultoriaHeroSection: React.FC = () => {
               key={i}
               className={`random-images__container random-images__container--${
                 i + 1
-              } fade_bottom featured-image-container`}
+              } featured-image-container`}
               data-speed={containerSpeed}
             >
               <div
