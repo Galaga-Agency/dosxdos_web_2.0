@@ -50,12 +50,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
                   <h5>{project.client}</h5>
                 </div>
 
-                {project.services && project.services.length > 0 && (
+                {/* {project.services && project.services.length > 0 && (
                   <div className="portfolio-hero__meta">
                     <span>SERVICIOS</span>
                     <h5>{project.services.join(", ")}</h5>
                   </div>
-                )}
+                )} */}
 
                 {project.location && (
                   <div className="portfolio-hero__meta">
@@ -76,12 +76,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
                   <h5>{formattedYear}</h5>
                 </div>
 
-                {/* {project.tags && project.tags.length > 0 && (
+                {project.tags && project.tags.length > 0 && (
                   <div className="portfolio-hero__meta">
                     <span>CATEGORÍAS</span>
                     <h5>{project.tags.join(", ")}</h5>
                   </div>
-                )} */}
+                )}
               </div>
             </div>
           </div>

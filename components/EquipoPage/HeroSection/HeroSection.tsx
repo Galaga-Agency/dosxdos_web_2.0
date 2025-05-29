@@ -73,7 +73,7 @@ const HeroSection: React.FC = () => {
               key={i}
               className={`random-images__container random-images__container--${
                 i + 1
-              } fade_bottom featured-image-container`}
+              } featured-image-container`}
               data-speed={containerSpeed}
             >
               <div
