@@ -9,7 +9,6 @@
 }
 
 .mas-proyectos-grid {
-  // Mobile: Simple flex column layout
   display: flex;
   flex-direction: column;
   @include gap(sm);
@@ -19,7 +18,6 @@
   overflow: visible;
   height: auto;
 
-  // Tablet and up: Your original grid system
   @include min-width(md) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

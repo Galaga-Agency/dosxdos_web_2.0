@@ -165,7 +165,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
         </div>
 
         <div className="blog-carousel-section__cta-container">
-          <HoverCircleButton href="/blog" label="Ver Más Artículos" />
+          <HoverCircleButton href="/blog" label="Visita nuestro blog" />
         </div>
       </div>
     </section>
