@@ -143,9 +143,9 @@ const Menu: React.FC = () => {
       }
 
       return isScrolled ? (
-        <SecondaryButton {...ctaProps}>{ctaButton.label} →</SecondaryButton>
+        <SecondaryButton {...ctaProps}>{ctaButton.label}</SecondaryButton>
       ) : (
-        <PrimaryButton {...ctaProps}>{ctaButton.label} →</PrimaryButton>
+        <PrimaryButton {...ctaProps}>{ctaButton.label}</PrimaryButton>
       );
     }
 

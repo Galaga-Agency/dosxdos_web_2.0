@@ -15,6 +15,7 @@ import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import Footer from "@/components/layout/Footer/footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function NewBlogPostPage() {
   const router = useRouter();
@@ -255,7 +256,7 @@ export default function NewBlogPostPage() {
   };
 
   return (
-    <>
+    <ProtectedRoute>
       <div className="new-blog-post-page" ref={pageRef}>
         <div className="new-blog-post-page__container container">
           <div className="new-blog-post-page__header header" ref={headerRef}>
@@ -454,6 +455,6 @@ export default function NewBlogPostPage() {
         </div>
       </div>{" "}
       <Footer />{" "}
-    </>
+    </ProtectedRoute>
   );
 }

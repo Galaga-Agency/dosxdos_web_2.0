@@ -284,9 +284,9 @@ function AdminPanelPage() {
                     <PrimaryButton href="/admin/proyectos/nuevo">
                       <PlusCircle size={16} /> Nuevo Proyecto
                     </PrimaryButton>{" "}
-                    <p className="text">
+                    <p className="small-text">
                       * Proyectos marcados como{" "}
-                      <span className="nb-badge">Destacado</span> seran visbles
+                      <span className="nb-badge">Destacado</span> serán visibles
                       en la página de landing
                     </p>
                   </>

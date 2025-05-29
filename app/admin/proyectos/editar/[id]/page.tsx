@@ -14,6 +14,7 @@ import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import Loading from "@/components/ui/Loading/Loading";
 import { useDataStore } from "@/store/useDataStore";
 import Footer from "@/components/layout/Footer/footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function EditProjectPage() {
   const router = useRouter();
@@ -351,324 +352,336 @@ export default function EditProjectPage() {
   }
 
   return (
-    <div className="edit-project-page" ref={pageRef}>
-      <div className="edit-project-page__container container">
-        <div className="edit-project-page__header header" ref={headerRef}>
-          <h1 className="secondary-title">Editar Proyecto</h1>
-        </div>
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="edit-project-page__form"
-          ref={formRef}
-        >
-          <div className="form-group">
-            <label htmlFor="name">Nombre del Proyecto</label>
-            <input
-              id="name"
-              type="text"
-              className={`form-input ${errors.name ? "is-invalid" : ""}`}
-              placeholder="Ingresa el nombre del proyecto"
-              disabled={isSubmitting}
-              {...register("name", { required: "El nombre es obligatorio" })}
-            />
-            {errors.name && <p className="form-error">{errors.name.message}</p>}
+    <ProtectedRoute>
+      <div className="edit-project-page" ref={pageRef}>
+        <div className="edit-project-page__container container">
+          <div className="edit-project-page__header header" ref={headerRef}>
+            <h1 className="secondary-title">Editar Proyecto</h1>
           </div>
 
-          <div className="form-row">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="edit-project-page__form"
+            ref={formRef}
+          >
             <div className="form-group">
-              <label htmlFor="client">Cliente</label>
+              <label htmlFor="name">Nombre del Proyecto</label>
               <input
-                id="client"
+                id="name"
                 type="text"
-                className={`form-input ${errors.client ? "is-invalid" : ""}`}
-                placeholder="Nombre del cliente"
+                className={`form-input ${errors.name ? "is-invalid" : ""}`}
+                placeholder="Ingresa el nombre del proyecto"
                 disabled={isSubmitting}
-                {...register("client", {
-                  required: "El cliente es obligatorio",
-                })}
+                {...register("name", { required: "El nombre es obligatorio" })}
               />
-              {errors.client && (
-                <p className="form-error">{errors.client.message}</p>
+              {errors.name && (
+                <p className="form-error">{errors.name.message}</p>
               )}
             </div>
 
-            <div className="form-group">
-              <label htmlFor="location">Ubicación</label>
-              <input
-                id="location"
-                type="text"
-                className={`form-input ${errors.location ? "is-invalid" : ""}`}
-                placeholder="Ciudad, País"
-                disabled={isSubmitting}
-                {...register("location")}
-              />
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="client">Cliente</label>
+                <input
+                  id="client"
+                  type="text"
+                  className={`form-input ${errors.client ? "is-invalid" : ""}`}
+                  placeholder="Nombre del cliente"
+                  disabled={isSubmitting}
+                  {...register("client", {
+                    required: "El cliente es obligatorio",
+                  })}
+                />
+                {errors.client && (
+                  <p className="form-error">{errors.client.message}</p>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="location">Ubicación</label>
+                <input
+                  id="location"
+                  type="text"
+                  className={`form-input ${
+                    errors.location ? "is-invalid" : ""
+                  }`}
+                  placeholder="Ciudad, País"
+                  disabled={isSubmitting}
+                  {...register("location")}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="duration">Duración</label>
-              <input
-                id="duration"
-                type="text"
-                className={`form-input ${errors.duration ? "is-invalid" : ""}`}
-                placeholder="Ej: 3 meses, 6 semanas..."
-                disabled={isSubmitting}
-                {...register("duration")}
-              />
-            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="duration">Duración</label>
+                <input
+                  id="duration"
+                  type="text"
+                  className={`form-input ${
+                    errors.duration ? "is-invalid" : ""
+                  }`}
+                  placeholder="Ej: 3 meses, 6 semanas..."
+                  disabled={isSubmitting}
+                  {...register("duration")}
+                />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="year">Año</label>
-              <input
-                id="year"
-                type="number"
-                min="2000"
-                max="2030"
-                className={`form-input ${errors.year ? "is-invalid" : ""}`}
-                placeholder="2024"
-                disabled={isSubmitting}
-                {...register("year", {
-                  required: "El año es obligatorio",
-                  min: { value: 2000, message: "Año mínimo: 2000" },
-                  max: { value: 2030, message: "Año máximo: 2030" },
-                })}
-              />
-              {errors.year && (
-                <p className="form-error">{errors.year.message}</p>
-              )}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="description">Descripción</label>
-            <textarea
-              id="description"
-              rows={3}
-              className={`form-textarea ${
-                errors.description ? "is-invalid" : ""
-              }`}
-              placeholder="Breve descripción del proyecto..."
-              disabled={isSubmitting}
-              {...register("description", {
-                required: "La descripción es obligatoria",
-              })}
-            />
-            {errors.description && (
-              <p className="form-error">{errors.description.message}</p>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="challenge">Desafío</label>
-            <textarea
-              id="challenge"
-              rows={4}
-              className={`form-textarea ${
-                errors.challenge ? "is-invalid" : ""
-              }`}
-              placeholder="Describe el desafío o problema que resolvió este proyecto..."
-              disabled={isSubmitting}
-              {...register("challenge", {
-                required: "El desafío es obligatorio",
-              })}
-            />
-            {errors.challenge && (
-              <p className="form-error">{errors.challenge.message}</p>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="solution">Solución</label>
-            <textarea
-              id="solution"
-              rows={6}
-              className={`form-textarea ${errors.solution ? "is-invalid" : ""}`}
-              placeholder="Explica cómo se resolvió el desafío, qué estrategias se utilizaron..."
-              disabled={isSubmitting}
-              {...register("solution", {
-                required: "La solución es obligatoria",
-              })}
-            />
-            {errors.solution && (
-              <p className="form-error">{errors.solution.message}</p>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="services">Servicios</label>
-            <input
-              type="text"
-              id="services"
-              className="form-input"
-              placeholder="Presiona Enter para agregar un servicio"
-              value={serviceInput}
-              onChange={(e) => setServiceInput(e.target.value)}
-              onKeyDown={handleServiceKeyDown}
-              disabled={isSubmitting}
-            />
-            <div className="tag-list">
-              {services.map((service) => (
-                <div key={service} className="tag-item">
-                  {service}
-                  <button
-                    type="button"
-                    onClick={() => removeService(service)}
-                    className="tag-remove"
-                    aria-label="Eliminar servicio"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="tags">Etiquetas</label>
-            <input
-              type="text"
-              id="tags"
-              className="form-input"
-              placeholder="Presiona Enter para agregar una etiqueta"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyDown={handleTagKeyDown}
-              disabled={isSubmitting}
-            />
-            <div className="tag-list">
-              {tags.map((tag) => (
-                <div key={tag} className="tag-item">
-                  {tag}
-                  <button
-                    type="button"
-                    onClick={() => removeTag(tag)}
-                    className="tag-remove"
-                    aria-label="Eliminar etiqueta"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Imagen Principal</label>
-            <div className="cover-image-upload">
-              <input
-                type="file"
-                ref={coverImageInputRef}
-                style={{ display: "none" }}
-                accept="image/*"
-                onChange={handleCoverImageChange}
-                disabled={isSubmitting}
-              />
-
-              <div
-                className={`cover-image-preview ${!coverImage ? "empty" : ""}`}
-                onClick={() =>
-                  !isSubmitting && coverImageInputRef.current?.click()
-                }
-              >
-                {coverImage ? (
-                  <>
-                    <img src={coverImage} alt="Imagen principal" />
-                    <button
-                      type="button"
-                      className="cover-image-delete-btn"
-                      onClick={handleRemoveCoverImage}
-                      disabled={isSubmitting}
-                      aria-label="Eliminar imagen"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </>
-                ) : (
-                  <div className="cover-image-placeholder">
-                    <div className="cover-image-icon">
-                      <Image size={32} />
-                    </div>
-                    <p>Haz clic para subir la imagen principal</p>
-                    <span className="cover-image-note">
-                      Esta será la imagen de portada del proyecto
-                    </span>
-                  </div>
+              <div className="form-group">
+                <label htmlFor="year">Año</label>
+                <input
+                  id="year"
+                  type="number"
+                  min="2000"
+                  max="2030"
+                  className={`form-input ${errors.year ? "is-invalid" : ""}`}
+                  placeholder="2024"
+                  disabled={isSubmitting}
+                  {...register("year", {
+                    required: "El año es obligatorio",
+                    min: { value: 2000, message: "Año mínimo: 2000" },
+                    max: { value: 2030, message: "Año máximo: 2030" },
+                  })}
+                />
+                {errors.year && (
+                  <p className="form-error">{errors.year.message}</p>
                 )}
               </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <label className="form-label">Galería de Imágenes</label>
-            <div className="gallery-upload">
+            <div className="form-group">
+              <label htmlFor="description">Descripción</label>
+              <textarea
+                id="description"
+                rows={3}
+                className={`form-textarea ${
+                  errors.description ? "is-invalid" : ""
+                }`}
+                placeholder="Breve descripción del proyecto..."
+                disabled={isSubmitting}
+                {...register("description", {
+                  required: "La descripción es obligatoria",
+                })}
+              />
+              {errors.description && (
+                <p className="form-error">{errors.description.message}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="challenge">Desafío</label>
+              <textarea
+                id="challenge"
+                rows={4}
+                className={`form-textarea ${
+                  errors.challenge ? "is-invalid" : ""
+                }`}
+                placeholder="Describe el desafío o problema que resolvió este proyecto..."
+                disabled={isSubmitting}
+                {...register("challenge", {
+                  required: "El desafío es obligatorio",
+                })}
+              />
+              {errors.challenge && (
+                <p className="form-error">{errors.challenge.message}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="solution">Solución</label>
+              <textarea
+                id="solution"
+                rows={6}
+                className={`form-textarea ${
+                  errors.solution ? "is-invalid" : ""
+                }`}
+                placeholder="Explica cómo se resolvió el desafío, qué estrategias se utilizaron..."
+                disabled={isSubmitting}
+                {...register("solution", {
+                  required: "La solución es obligatoria",
+                })}
+              />
+              {errors.solution && (
+                <p className="form-error">{errors.solution.message}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="services">Servicios</label>
               <input
-                type="file"
-                ref={galleryInputRef}
-                style={{ display: "none" }}
-                accept="image/*"
-                multiple
-                onChange={handleGalleryImagesChange}
+                type="text"
+                id="services"
+                className="form-input"
+                placeholder="Presiona Enter para agregar un servicio"
+                value={serviceInput}
+                onChange={(e) => setServiceInput(e.target.value)}
+                onKeyDown={handleServiceKeyDown}
                 disabled={isSubmitting}
               />
-
-              <button
-                type="button"
-                className="gallery-upload-btn"
-                onClick={() =>
-                  !isSubmitting && galleryInputRef.current?.click()
-                }
-                disabled={isSubmitting}
-              >
-                <Upload size={20} />
-                Subir Imágenes
-              </button>
-
-              <div className="gallery-grid">
-                {projectImages.map((image, index) => (
-                  <div key={index} className="gallery-item">
-                    <img src={image} alt={`Imagen ${index + 1}`} />
+              <div className="tag-list">
+                {services.map((service) => (
+                  <div key={service} className="tag-item">
+                    {service}
                     <button
                       type="button"
-                      className="gallery-item-delete"
-                      onClick={() => handleRemoveGalleryImage(index)}
-                      disabled={isSubmitting}
-                      aria-label="Eliminar imagen"
+                      onClick={() => removeService(service)}
+                      className="tag-remove"
+                      aria-label="Eliminar servicio"
                     >
-                      <Trash2 size={16} />
+                      ×
                     </button>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <CustomCheckbox
-              id="featured"
-              label="Proyecto destacado (aparecerá en la página de inicio)"
-              disabled={isSubmitting}
-              {...register("featured")}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="tags">Etiquetas</label>
+              <input
+                type="text"
+                id="tags"
+                className="form-input"
+                placeholder="Presiona Enter para agregar una etiqueta"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={handleTagKeyDown}
+                disabled={isSubmitting}
+              />
+              <div className="tag-list">
+                {tags.map((tag) => (
+                  <div key={tag} className="tag-item">
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => removeTag(tag)}
+                      className="tag-remove"
+                      aria-label="Eliminar etiqueta"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-          <div className="form-actions">
-            <SecondaryButton
-              type="button"
-              onClick={() => router.push("/admin")}
-              disabled={isSubmitting}
-              lightBg={true}
-            >
-              Cancelar
-            </SecondaryButton>
-            <PrimaryButton type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Guardando..." : "Guardar Cambios"}
-            </PrimaryButton>
-          </div>
-        </form>
+            <div className="form-group">
+              <label className="form-label">Imagen Principal</label>
+              <div className="cover-image-upload">
+                <input
+                  type="file"
+                  ref={coverImageInputRef}
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  onChange={handleCoverImageChange}
+                  disabled={isSubmitting}
+                />
+
+                <div
+                  className={`cover-image-preview ${
+                    !coverImage ? "empty" : ""
+                  }`}
+                  onClick={() =>
+                    !isSubmitting && coverImageInputRef.current?.click()
+                  }
+                >
+                  {coverImage ? (
+                    <>
+                      <img src={coverImage} alt="Imagen principal" />
+                      <button
+                        type="button"
+                        className="cover-image-delete-btn"
+                        onClick={handleRemoveCoverImage}
+                        disabled={isSubmitting}
+                        aria-label="Eliminar imagen"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </>
+                  ) : (
+                    <div className="cover-image-placeholder">
+                      <div className="cover-image-icon">
+                        <Image size={32} />
+                      </div>
+                      <p>Haz clic para subir la imagen principal</p>
+                      <span className="cover-image-note">
+                        Esta será la imagen de portada del proyecto
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Galería de Imágenes</label>
+              <div className="gallery-upload">
+                <input
+                  type="file"
+                  ref={galleryInputRef}
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  multiple
+                  onChange={handleGalleryImagesChange}
+                  disabled={isSubmitting}
+                />
+
+                <button
+                  type="button"
+                  className="gallery-upload-btn"
+                  onClick={() =>
+                    !isSubmitting && galleryInputRef.current?.click()
+                  }
+                  disabled={isSubmitting}
+                >
+                  <Upload size={20} />
+                  Subir Imágenes
+                </button>
+
+                <div className="gallery-grid">
+                  {projectImages.map((image, index) => (
+                    <div key={index} className="gallery-item">
+                      <img src={image} alt={`Imagen ${index + 1}`} />
+                      <button
+                        type="button"
+                        className="gallery-item-delete"
+                        onClick={() => handleRemoveGalleryImage(index)}
+                        disabled={isSubmitting}
+                        aria-label="Eliminar imagen"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <CustomCheckbox
+                id="featured"
+                label="Proyecto destacado (aparecerá en la página de inicio)"
+                disabled={isSubmitting}
+                {...register("featured")}
+              />
+            </div>
+
+            <div className="form-actions">
+              <SecondaryButton
+                type="button"
+                onClick={() => router.push("/admin")}
+                disabled={isSubmitting}
+                lightBg={true}
+              >
+                Cancelar
+              </SecondaryButton>
+              <PrimaryButton type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Guardando..." : "Guardar Cambios"}
+              </PrimaryButton>
+            </div>
+          </form>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ProtectedRoute>
   );
 }
