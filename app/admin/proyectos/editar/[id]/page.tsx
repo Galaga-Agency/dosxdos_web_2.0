@@ -12,6 +12,7 @@ import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import Loading from "@/components/ui/Loading/Loading";
+import { useDataStore } from "@/store/useDataStore";
 import Footer from "@/components/layout/Footer/footer";
 
 export default function EditProjectPage() {
@@ -49,6 +50,7 @@ export default function EditProjectPage() {
       location: "",
       duration: "",
       year: new Date().getFullYear(),
+      description: "",
       challenge: "",
       solution: "",
       featured: false,
@@ -85,6 +87,7 @@ export default function EditProjectPage() {
           location: project.location || "",
           duration: project.duration || "",
           year: project.year || new Date().getFullYear(),
+          description: project.description || "",
           challenge: project.challenge || "",
           solution: project.solution || "",
           featured: project.featured || false,
@@ -263,6 +266,7 @@ export default function EditProjectPage() {
         duration: data.duration || "",
         year: data.year || new Date().getFullYear(),
         services: services,
+        description: data.description || "",
         challenge: data.challenge || "",
         solution: data.solution || "",
         coverImage:
@@ -286,6 +290,10 @@ export default function EditProjectPage() {
 
       // Use the server action to update the project
       await createOrUpdateProject(updatedProject as Project);
+
+      // Update store with updated project
+      const fetchProjects = useDataStore.getState().fetchProjects;
+      await fetchProjects(); // Refresh store data
 
       // Success animation
       if (formRef.current) {
@@ -325,9 +333,9 @@ export default function EditProjectPage() {
         <div className="edit-project-page__container">
           <h1>Proyecto no encontrado</h1>
           <p>El proyecto que intentas editar no existe.</p>
-          <SecondaryButton type="button" onClick={() => router.push("/admin")}>
+          <PrimaryButton type="button" onClick={() => router.push("/admin")}>
             Volver al panel
-          </SecondaryButton>
+          </PrimaryButton>
         </div>
       </div>
     );
@@ -344,9 +352,9 @@ export default function EditProjectPage() {
 
   return (
     <div className="edit-project-page" ref={pageRef}>
-      <div className="edit-project-page__container">
-        <div className="edit-project-page__header" ref={headerRef}>
-          <h1>Editar Proyecto</h1>
+      <div className="edit-project-page__container container">
+        <div className="edit-project-page__header header" ref={headerRef}>
+          <h1 className="secondary-title">Editar Proyecto</h1>
         </div>
 
         <form
@@ -431,6 +439,25 @@ export default function EditProjectPage() {
                 <p className="form-error">{errors.year.message}</p>
               )}
             </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="description">Descripción</label>
+            <textarea
+              id="description"
+              rows={3}
+              className={`form-textarea ${
+                errors.description ? "is-invalid" : ""
+              }`}
+              placeholder="Breve descripción del proyecto..."
+              disabled={isSubmitting}
+              {...register("description", {
+                required: "La descripción es obligatoria",
+              })}
+            />
+            {errors.description && (
+              <p className="form-error">{errors.description.message}</p>
+            )}
           </div>
 
           <div className="form-group">
@@ -620,7 +647,7 @@ export default function EditProjectPage() {
           <div className="form-group">
             <CustomCheckbox
               id="featured"
-              label="Proyecto destacado (aparecerá en la página principal y portfolio)"
+              label="Proyecto destacado (aparecerá en la página de inicio)"
               disabled={isSubmitting}
               {...register("featured")}
             />

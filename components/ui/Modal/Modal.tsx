@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X, AlertTriangle } from "lucide-react";
 import "./Modal.scss";
+import SecondaryButton from "../SecondaryButton/SecondaryButton";
 
 interface ModalProps {
   isOpen: boolean;
@@ -81,9 +82,9 @@ const Modal: React.FC<ModalProps> = ({
 
         {showFooter && (
           <div className="modal__footer">
-            <button className="modal__cancel-btn" onClick={onClose}>
+            <SecondaryButton className="modal__cancel-btn" onClick={onClose} lightBg>
               {cancelText}
-            </button>
+            </SecondaryButton>
             {onConfirm && (
               <button
                 className={`modal__confirm-btn modal__confirm-btn--${variant}`}

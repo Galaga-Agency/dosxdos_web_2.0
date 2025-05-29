@@ -185,44 +185,7 @@
   }
 
   &__title {
-    @include font-size(2xl); // Smaller size for iPhone SE
-    @include font-weight(semibold);
-    @include title-line-height;
-    @include letter-spacing(tight);
     color: $white;
-    margin-bottom: 0.75rem;
-    max-width: 90vw;
-    hyphens: manual;
-    word-break: keep-all;
-    overflow-wrap: normal;
-    white-space: normal;
-    will-change: transform;
-    visibility: hidden;
-
-    @include min-width(xxs) {
-      @include font-size(5xl);
-      margin-bottom: 1rem;
-    }
-
-    @include min-width(xs) {
-      @include font-size(5xl);
-    }
-
-    @include min-width(sm) {
-      @include font-size(6xl);
-    }
-
-    @include min-width(md) {
-      @include font-size(8xl);
-    }
-
-    @include min-width(lg) {
-      @include font-size(7xl);
-    }
-
-    @include min-width(xl) {
-      @include font-size(8xl);
-    }
   }
 
   &__subtitle {
@@ -246,6 +209,7 @@
     box-shadow: 0 4px 15px rgba($black, 0.15),
       inset 0 0 0 1px rgba($white, 0.15), inset 0 0 30px rgba($white, 0.05);
     opacity: 0;
+    margin-right: 0.5rem;
 
     @include min-width(xxs) {
       padding: 0.4rem 0.9rem;
@@ -294,7 +258,7 @@
   }
 
   &__description {
-    margin-bottom: 1.25rem; // Smaller margin for smallest screens
+    margin-bottom: 1.25rem;
     will-change: transform, opacity;
     opacity: 0;
     transform-style: preserve-3d;
@@ -387,6 +351,8 @@
       text-transform: uppercase;
       color: rgba($white, 0.8);
       margin-bottom: 0.25rem;
+      text-decoration: underline;
+      text-underline-offset: 3px;
 
       @include min-width(xxs) {
         @include font-size(sm);
@@ -400,18 +366,20 @@
     }
 
     h5 {
-      @include font-size(sm); // Smaller by default
+      @include font-size(sm);
       @include font-weight(semibold);
+      @include letter-spacing(wide);
       line-height: 1.4;
       color: $white;
       margin: 0;
+      text-transform: capitalize;
 
       @include min-width(xxs) {
         @include font-size(base);
       }
 
       @include min-width(md) {
-        @include font-size(lg);
+        @include font-size(xl);
       }
     }
   }

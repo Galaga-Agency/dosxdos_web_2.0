@@ -30,24 +30,20 @@
   }
 
   &__content {
-    background-color: $black;
+    background-color: $white;
     backdrop-filter: blur(20px);
     border: 1px solid rgba($white, 0.15);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
     width: 90%;
     max-height: 85vh;
-    @include border-radius(lg);
+    @include border-radius(md);
     overflow-y: visible;
     padding: 2.5rem 1.5rem 2rem 1.5rem;
-
-    /* Content organization */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    color: $white;
-
-    /* Make sure this is above the overlay */
+    color: $black;
     position: relative;
     z-index: 1;
 
@@ -78,7 +74,7 @@
     transform: translateX(-50%);
     width: 5rem;
     height: 5rem;
-    background-color: $black;
+    background-color: $white;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -97,7 +93,7 @@
       margin: 1.5rem 0 0;
       @include font-size(xl);
       font-weight: 700;
-      color: $white;
+      color: $black;
     }
   }
 
@@ -106,9 +102,9 @@
     top: 1rem;
     right: 1rem;
     z-index: 2;
-    background-color: rgba($white, 0.05);
+    background-color: rgba($black, 0.05);
     border: none;
-    color: $white;
+    color: $black;
     width: 2.25rem;
     height: 2.25rem;
     border-radius: 50%;
@@ -117,14 +113,14 @@
     transition: 0.3s ease;
 
     &:hover {
-      background-color: rgba($primary-color, 0.1);
-      color: $primary-color;
+      background-color: rgba($black, 0.1);
+      color: $black;
       transform: rotate(180deg);
     }
   }
 
   &__body {
-    color: rgba($white, 0.85);
+    color: rgba($black, 0.85);
     font-size: 0.95rem;
     width: 100%;
 
@@ -135,7 +131,7 @@
     strong {
       display: block;
       font-weight: 600;
-      color: $white;
+      color: $black;
       font-style: italic;
       margin-top: 1.5rem;
       margin-bottom: 0.5rem;
@@ -143,7 +139,7 @@
 
     .delete-warning {
       font-size: 0.85rem;
-      color: rgba($white, 0.6);
+      color: rgba($black, 0.6);
       margin-top: 0.75rem;
     }
   }
@@ -165,16 +161,6 @@
       transition: 0.3s ease;
       font-size: 0.9rem;
       cursor: pointer;
-    }
-
-    .modal__cancel-btn {
-      background-color: rgba($white, 0.3);
-      color: $white;
-      border: 1px solid rgba($white, 0.5);
-
-      &:hover {
-        background-color: rgba($white, 0.1);
-      }
     }
 
     .modal__confirm-btn {

@@ -65,8 +65,9 @@ export async function getAllProjects(): Promise<Project[]> {
         duration: matterResult.data.duration || "",
         year: matterResult.data.year || new Date().getFullYear(),
         services: matterResult.data.services || [],
+        description: matterResult.data.description || "",
         challenge: matterResult.data.challenge || "",
-        solution: matterResult.data.solution || matterResult.content || "",
+        solution: matterResult.data.solution || "",
         coverImage:
           matterResult.data.coverImage ||
           matterResult.data.image ||
@@ -114,8 +115,9 @@ export async function getProjectById(
       duration: matterResult.data.duration || "",
       year: matterResult.data.year || new Date().getFullYear(),
       services: matterResult.data.services || [],
+      description: matterResult.data.description || "",
       challenge: matterResult.data.challenge || "",
-      solution: matterResult.data.solution || matterResult.content || "",
+      solution: matterResult.data.solution || "", 
       coverImage:
         matterResult.data.coverImage ||
         matterResult.data.image ||
@@ -175,7 +177,9 @@ export async function createOrUpdateProject(
       duration: updatedProject.duration || "",
       year: updatedProject.year || new Date().getFullYear(),
       services: updatedProject.services || [],
+      description: updatedProject.description || "", 
       challenge: updatedProject.challenge || "",
+      solution: updatedProject.solution || "",
       coverImage:
         updatedProject.coverImage || "/assets/img/default-project-image.jpg",
       images: updatedProject.images || [],
@@ -183,9 +187,9 @@ export async function createOrUpdateProject(
       featured: updatedProject.featured || false,
     };
 
-    // Create markdown content (solution goes in content)
+    // Create markdown content
     const markdown = matter.stringify(
-      updatedProject.solution || "",
+      "", // Empty content since everything is in frontmatter
       frontmatter
     );
 

@@ -6,6 +6,7 @@ import BackToTop from "@/components/BackToTop/BackToTop";
 import AuthProvider from "@/components/AuthProvider";
 import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
 import JsonLd from "@/components/SEO/JsonLd";
+import DataPreloader from "@/components/DataPreloader/DataPreloader";
 
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",
@@ -448,15 +449,17 @@ export default function RootLayout({
       </head>
 
       <AuthProvider>
-        <body
-          className={`${bigShoulders.variable} ${sarabun.variable}`}
-          suppressHydrationWarning
-        >
-          <Menu />
-          {children}
-          <BackToTop />
-          <CookieConsentBanner />
-        </body>
+        <DataPreloader>
+          <body
+            className={`${bigShoulders.variable} ${sarabun.variable}`}
+            suppressHydrationWarning
+          >
+            <Menu />
+            {children}
+            <BackToTop />
+            <CookieConsentBanner />
+          </body>
+        </DataPreloader>
       </AuthProvider>
     </html>
   );

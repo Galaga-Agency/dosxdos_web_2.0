@@ -8,13 +8,12 @@
   margin-inline: auto;
   min-height: 100vh;
   width: 100%;
-  @include section-padding-y();
+  @include padding(6xl, top);
+  @include padding(6xl, bottom);
 
   &__header {
     @include flex(row, space-between, center);
-    @include margin(2xl, bottom);
     @include padding(lg, bottom);
-    border-bottom: 1px solid #eaeaea;
     flex-direction: column;
     align-items: flex-start;
     @include gap(lg);
@@ -26,7 +25,6 @@
 
     h1 {
       margin: 0;
-      visibility: hidden;
       @include font-size(4xl);
       @include font-weight(semibold);
       @include letter-spacing(tight);
@@ -48,15 +46,8 @@
   }
 
   &__actions {
-    @include flex(column, unset, unset);
-    @include gap(lg);
-    width: 100%;
-    visibility: hidden;
-
-    @include min-width(sm) {
-      width: auto;
-      flex-direction: row;
-    }
+    margin-left: auto;
+    width: auto;
   }
 
   &__tabs {
@@ -64,7 +55,6 @@
     @include gap(sm);
     @include margin(2xl, bottom);
     border-bottom: 2px solid rgba($black, 0.1);
-    visibility: hidden;
 
     @include min-width(sm) {
       @include gap(lg);
@@ -100,9 +90,27 @@
   }
 
   &__tab-actions {
-    @include flex(row, flex-start, center);
+    @include flex(column, flex-start, start);
     @include margin(xl, bottom);
-    visibility: hidden;
+    width: 100%;
+
+    @include min-width(md) {
+      @include flex(row, space-between, center);
+    }
+
+    .nb-badge {
+      background: $primary-color;
+      color: $white;
+      font-family: Sarabun, sans-serif;
+      @include font-size(xs);
+      @include font-weight(bold);
+      padding: 0.5rem 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      @include border-radius(sm);
+      z-index: 3;
+      box-shadow: 0 2px 6px rgba($primary-color, 0.3);
+    }
   }
 
   &__items {
@@ -181,7 +189,6 @@
   &__pagination {
     @include margin(2xl, top);
     @include flex(row, center, center);
-    opacity: 0; /* For GSAP animation */
     width: 100%;
 
     @include min-width(md) {

@@ -1,17 +1,14 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import Image from "next/image";
 import "./FeaturedprojectsSection.scss";
-import { projects } from "@/data/projects";
+import { useDataStore } from "@/store/useDataStore";
 
 const FeaturedprojectsSection: React.FC = () => {
+  const projects = useDataStore((state) => state.projects);
+  const featuredProjects = projects.filter((project) => project.featured);
 
-  const featuredProjects = projects.filter(
-    (project) => project.display.homepage === true
-  );
-
-  // Generate repeated text elements for marquee
   const repeatedText = Array.from({ length: 20 }).map((_, i) => (
     <span key={i}>
       Hecho en dos x dos&nbsp;<span className="dot">•</span>&nbsp;
@@ -26,26 +23,25 @@ const FeaturedprojectsSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Project panels */}
       <div className="project-panel-area">
         {featuredProjects.map((project) => (
           <div key={project.id} className="project-panel">
             <div className="project-panel__image">
               <Image
-                src={project.image}
-                alt={project.title}
+                src={project.coverImage}
+                alt={project.name}
                 width={1920}
                 height={1080}
                 className="project-panel__image-file"
-                priority={project.id === "01"}
-                unoptimized={true}
+                priority={project.featured}
+                unoptimized
               />
               <div className="project-panel__overlay"></div>
             </div>
 
             <div className="project-panel__content">
               <h3 className="project-panel__title">
-                {project.title}, {project.location}
+                {project.name}
               </h3>
               <a
                 href={`/portfolio/${project.slug}`}

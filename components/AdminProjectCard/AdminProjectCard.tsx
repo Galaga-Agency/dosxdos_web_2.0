@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Edit, Trash, Eye } from "lucide-react";
 import { Project } from "@/types/project-types";
-import { formatDate } from "@/utils/dateFormatting";
+import { FaLocationDot } from "react-icons/fa6";
+
 import "./AdminProjectCard.scss";
 
 interface AdminProjectCardProps {
@@ -55,31 +56,24 @@ const AdminProjectCard: React.FC<AdminProjectCardProps> = ({
           )}
           {project.location && (
             <div className="admin-project-card__location">
-              <span>{project.location}</span>
+              <span>
+                <FaLocationDot />
+                &nbsp;
+                {project.location}
+              </span>
             </div>
           )}
         </div>
 
         <h3 className="admin-project-card__title">{project.name}</h3>
 
-        <p className="admin-project-card__challenge">
-          {project.challenge && `${project.challenge.slice(0, 120)}...`}
+        <p className="admin-project-card__description">
+          {project.description && `${project.description.slice(0, 120)}...`}
         </p>
-
-        <div className="admin-project-card__tags">
-          {project.tags?.slice(0, 3).map((tag, index) => (
-            <span key={index} className="tag-item">
-              {tag}
-            </span>
-          ))}
-        </div>
 
         <div className="admin-project-card__status">
           {project.featured && (
-            <span className="status-tag featured">Destacado</span>
-          )}
-          {project.duration && (
-            <span className="status-tag duration">{project.duration}</span>
+            <div className="admin-project-card__badge">Destacado</div>
           )}
         </div>
 
@@ -108,4 +102,4 @@ const AdminProjectCard: React.FC<AdminProjectCardProps> = ({
   );
 };
 
-export default AdminProjectCard
+export default AdminProjectCard;

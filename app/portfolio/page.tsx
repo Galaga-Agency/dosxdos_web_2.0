@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import useScrollSmooth from "@/hooks/useScrollSmooth";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
-import { Project } from "@/types/project-types";
+import { useDataStore } from "@/store/useDataStore";
 import PortfolioHeader from "@/components/Portfolio2Page/PortfolioHeader/PortfolioHeader";
 import PortfolioCTA from "@/components/Portfolio2Page/PortfolioCTA/PortfolioCTA";
 import Footer from "@/components/layout/Footer/footer";
@@ -28,39 +27,63 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import "./portfolio-page.scss";
 
 const PortfolioPage: React.FC = () => {
-  useScrollSmooth();
   const cleanupRef = useRef<(() => void) | null>(null);
+  const smootherRef = useRef<any>(null);
 
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Get data from store
+  const projects = useDataStore((state) => state.projects);
+  const projectsLoaded = useDataStore((state) => state.projectsLoaded);
+  const projectsError = useDataStore((state) => state.projectsError);
+  const fetchProjects = useDataStore((state) => state.fetchProjects);
+
+  // If data isn't loaded yet, try to fetch it (fallback)
+  useEffect(() => {
+    if (!projectsLoaded && !projectsError) {
+      fetchProjects();
+    }
+  }, [projectsLoaded, projectsError, fetchProjects]);
+
+  // Initialize ScrollSmoother
+  const initializeScrollSmoother = () => {
+    // Kill existing smoother if it exists
+    if (smootherRef.current) {
+      smootherRef.current.kill();
+      smootherRef.current = null;
+    }
+
+    // Create new smoother
+    smootherRef.current = ScrollSmoother.create({
+      wrapper: "#smooth-wrapper",
+      content: "#smooth-content",
+      smooth: 1.5,
+      effects: true,
+      smoothTouch: 0.1,
+    });
+
+    // Store reference globally for other components
+    (window as any).__smoother__ = smootherRef.current;
+  };
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
 
-    // Fetch projects from API
-    const fetchProjects = async () => {
-      try {
-        const res = await fetch("/api/proyectos");
-        const data = await res.json();
-
-        // Filter projects that should be displayed on portfolio page
-        const portfolioProjects = data.filter(
-          (project: Project) => project.featured === true
-        );
-
-        setProjects(portfolioProjects);
-      } catch (error) {
-        console.error("Failed to fetch projects:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
+    // Initialize ScrollSmoother
+    initializeScrollSmoother();
 
     // Cleanup function
     return () => {
       document.body.classList.remove("smooth-scroll");
+
+      // Kill ScrollSmoother
+      if (smootherRef.current) {
+        smootherRef.current.kill();
+        smootherRef.current = null;
+      }
+
+      // Clear global reference
+      if ((window as any).__smoother__) {
+        (window as any).__smoother__ = null;
+      }
 
       // Execute bubble cleanup if it exists
       if (cleanupRef.current) {
@@ -70,8 +93,24 @@ const PortfolioPage: React.FC = () => {
     };
   }, []);
 
+  // Reinitialize ScrollSmoother after projects are available
+  useEffect(() => {
+    if (projectsLoaded && projects.length > 0) {
+      // Wait a bit for DOM to be fully rendered
+      const reinitTimer = setTimeout(() => {
+        // Reinitialize ScrollSmoother to detect new elements
+        initializeScrollSmoother();
+
+        // Refresh ScrollTrigger to recalculate positions
+        ScrollTrigger.refresh();
+      }, 100);
+
+      return () => clearTimeout(reinitTimer);
+    }
+  }, [projectsLoaded, projects.length]);
+
   useGSAP(() => {
-    if (!loading) {
+    if (projectsLoaded && projects.length > 0) {
       const timer = setTimeout(() => {
         fadeAnimation();
         charAnimation();
@@ -94,9 +133,10 @@ const PortfolioPage: React.FC = () => {
         }
       };
     }
-  }, [loading]);
+  }, [projectsLoaded, projects.length]);
 
-  if (loading) {
+  // Show loading only if we haven't loaded yet AND there's no cached data
+  if (!projectsLoaded && projects.length === 0) {
     return (
       <div id="smooth-wrapper">
         <div id="smooth-content">

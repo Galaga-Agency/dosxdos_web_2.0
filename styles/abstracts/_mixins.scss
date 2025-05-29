@@ -351,3 +351,15 @@
 @mixin title-line-height {
   line-height: map-get($line-height, title);
 }
+
+@mixin tag-style {
+  @include font-size(sm);
+  @include font-weight(medium);
+  @include padding(xs, x);
+  @include padding(2xs, y);
+  @include border-radius(sm);
+  text-transform: uppercase;
+  @include letter-spacing(wide);
+  display: inline-flex;
+  align-items: center;
+}
