@@ -15,7 +15,7 @@ import BlogItem from "@/components/BlogItem/BlogItem";
 import Pagination from "@/components/ui/Pagination/Pagination";
 import usePagination from "@/hooks/usePagination";
 import { formatDate } from "@/utils/dateFormatting";
-import { BlogPost } from "@/types/blog-post-types";
+import { useDataStore } from "@/store/useDataStore";
 import Loading from "@/components/ui/Loading/Loading";
 import Footer from "@/components/layout/Footer/footer";
 
@@ -32,9 +32,23 @@ import "./blog-page.scss";
 const BlogPage: React.FC = () => {
   useScrollSmooth();
 
-  const [blogItems, setBlogItems] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Get data from store
+  const posts = useDataStore((state) => state.posts);
+  const postsLoaded = useDataStore((state) => state.postsLoaded);
+  const postsError = useDataStore((state) => state.postsError);
+  const fetchPosts = useDataStore((state) => state.fetchPosts);
+
   const [itemsPerPage, setItemsPerPage] = useState(3);
+
+  // If data isn't loaded yet, try to fetch it (fallback)
+  useEffect(() => {
+    if (!postsLoaded && !postsError) {
+      fetchPosts();
+    }
+  }, [postsLoaded, postsError, fetchPosts]);
+
+  // Filter published posts in the component
+  const publishedBlogItems = posts.filter((post) => post.published === true);
 
   // Handle responsive itemsPerPage
   useEffect(() => {
@@ -54,32 +68,14 @@ const BlogPage: React.FC = () => {
     };
   }, []);
 
-  // Add smooth-scroll class and fetch blog posts
+  // Add smooth-scroll class
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
-
-    const fetchPosts = async () => {
-      try {
-        const res = await fetch("/api/blog");
-        const data = await res.json();
-        setBlogItems(data);
-      } catch (error) {
-        console.error("Failed to fetch blog posts:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
 
     return () => {
       document.body.classList.remove("smooth-scroll");
     };
   }, []);
-
-  const publishedBlogItems = blogItems.filter(
-    (post) => post.published === true
-  );
 
   const first_blog = publishedBlogItems[0];
   const other_blogs = publishedBlogItems.slice(1);
@@ -92,7 +88,7 @@ const BlogPage: React.FC = () => {
 
   // Initialize animations with useGSAP
   useGSAP(() => {
-    if (!loading && first_blog) {
+    if (postsLoaded && first_blog) {
       const timer = setTimeout(() => {
         fadeAnimation();
         charAnimation();
@@ -111,16 +107,46 @@ const BlogPage: React.FC = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [loading, first_blog, currentPage]);
+  }, [postsLoaded, first_blog, currentPage]);
+
+  // Show loading only if we haven't loaded yet AND there's no cached data
+  if (!postsLoaded && posts.length === 0) {
+    return (
+      <div id="smooth-wrapper">
+        <div id="smooth-content">
+          <div className="blog-page">
+            <Loading />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If no posts available
+  if (postsLoaded && publishedBlogItems.length === 0) {
+    return (
+      <div id="smooth-wrapper">
+        <div id="smooth-content">
+          <div className="blog-page">
+            <div className="blog-page__container">
+              <div className="blog-page__empty">
+                <h2>No hay artículos disponibles</h2>
+                <p>Vuelve pronto para ver nuevo contenido.</p>
+              </div>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="blog-page">
-          {loading || !first_blog ? (
-            <Loading />
-          ) : (
-            <div className="blog-page__container">
+          <div className="blog-page__container">
+            {first_blog && (
               <div className="blog-page__featured-section">
                 <div className="blog-page__featured-offset-background"></div>
                 <div className="blog-page__featured-image-container featured-image-container">
@@ -163,24 +189,26 @@ const BlogPage: React.FC = () => {
                   </Link>
                 </div>
               </div>
+            )}
 
-              <div className="blog-page__posts-section" id="pagination-section">
-                <h2 className="posts-title small-title fade_bottom">
-                  Artículos <span className="highlight">Recientes</span>
-                </h2>
+            <div className="blog-page__posts-section" id="pagination-section">
+              <h2 className="posts-title small-title fade_bottom">
+                Artículos <span className="highlight">Recientes</span>
+              </h2>
 
-                <div className="posts-grid">
-                  {currentItems.map((item, index) => (
-                    <div key={item.id} className="blog-page__post-item">
-                      <BlogItem
-                        key={`blog-item-${item.id}`}
-                        item={item}
-                        index={index}
-                      />
-                    </div>
-                  ))}
-                </div>
+              <div className="posts-grid">
+                {currentItems.map((item, index) => (
+                  <div key={item.id} className="blog-page__post-item">
+                    <BlogItem
+                      key={`blog-item-${item.id}`}
+                      item={item}
+                      index={index}
+                    />
+                  </div>
+                ))}
+              </div>
 
+              {pageCount > 1 && (
                 <div className="blog-page__pagination fade_bottom">
                   <Pagination
                     handlePageClick={(page) =>
@@ -190,29 +218,29 @@ const BlogPage: React.FC = () => {
                     currentPage={currentPage}
                   />
                 </div>
-              </div>
+              )}
+            </div>
 
-              <div className="blog-page__mobile-social-section">
-                <div className="blog-page__mobile-social-header">
-                  <h3 className="blog-page__mobile-social-title">Síguenos</h3>
-                  <div className="blog-page__mobile-social-divider"></div>
-                </div>
-                <SocialIcons orientation="horizontal" />
+            <div className="blog-page__mobile-social-section">
+              <div className="blog-page__mobile-social-header">
+                <h3 className="blog-page__mobile-social-title">Síguenos</h3>
+                <div className="blog-page__mobile-social-divider"></div>
               </div>
+              <SocialIcons orientation="horizontal" />
+            </div>
 
-              <div className="blog-page__desktop-social-cta fade_bottom">
-                <div className="blog-page__desktop-social-cta-content">
-                  <h3 className="small-title">
-                    Mantente actualizado con nuestros últimos{" "}
-                    <span className="highlight">contenidos y proyectos</span>
-                  </h3>
-                  <div className="blog-page__desktop-social-icons">
-                    <SocialIcons orientation="horizontal" />
-                  </div>
+            <div className="blog-page__desktop-social-cta fade_bottom">
+              <div className="blog-page__desktop-social-cta-content">
+                <h3 className="small-title">
+                  Mantente actualizado con nuestros últimos{" "}
+                  <span className="highlight">contenidos y proyectos</span>
+                </h3>
+                <div className="blog-page__desktop-social-icons">
+                  <SocialIcons orientation="horizontal" />
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
         <Footer />
       </div>

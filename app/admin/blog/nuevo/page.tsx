@@ -235,7 +235,7 @@ export default function NewBlogPostPage() {
       }
 
       // Redirect to blog list
-      router.push("/admin/blog");
+      router.push("/admin");
     } catch (error) {
       console.error("Error creating post:", error);
       alert("No se pudo crear el post. Por favor, inténtalo de nuevo.");
@@ -257,9 +257,9 @@ export default function NewBlogPostPage() {
   return (
     <>
       <div className="new-blog-post-page" ref={pageRef}>
-        <div className="new-blog-post-page__container">
-          <div className="new-blog-post-page__header" ref={headerRef}>
-            <h1>Crear Nueva Entrada de Blog</h1>
+        <div className="new-blog-post-page__container container">
+          <div className="new-blog-post-page__header header" ref={headerRef}>
+            <h1 className="secondary-title">Crear Nueva Entrada de Blog</h1>
           </div>
 
           <form
@@ -437,7 +437,7 @@ export default function NewBlogPostPage() {
             <div className="form-actions">
               <SecondaryButton
                 type="button"
-                onClick={() => router.push("/admin/blog")}
+                onClick={() => router.push("/admin")}
                 disabled={isSubmitting}
                 lightBg={true}
               >

@@ -1,8 +1,7 @@
-// app/admin/proyectos/editar/[id]/edit-project-page.scss
-@use "../../../../../styles/abstracts/variables" as *;
-@use "../../../../../styles/base/colors" as *;
-@use "../../../../../styles/abstracts/mixins" as *;
-@use "../../../../../styles/base/animations" as *;
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
 
 .edit-project-page {
   position: relative;
@@ -11,56 +10,6 @@
   width: 100%;
   @include padding(8xl, top);
   @include padding(8xl, bottom);
-
-  @include min-width(lg) {
-    @include padding(10xl, top);
-    @include padding(10xl, bottom);
-  }
-
-  &__container {
-    @include container-width(mobile);
-    margin: 0 auto;
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__header {
-    width: 100%;
-    @include flex(column, unset, unset);
-    @include gap(sm);
-    @include margin(2xl, bottom);
-
-    h1 {
-      @include font-size(3xl);
-      @include font-weight(bold);
-      position: relative;
-      @include padding(lg, bottom);
-
-      @include min-width(md) {
-        @include font-size(4xl);
-      }
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 10px;
-        left: 0;
-        width: 80px;
-        height: 4px;
-        background-color: $black;
-      }
-    }
-  }
 
   &__form {
     background-color: rgba($white, 0.8);
@@ -78,11 +27,15 @@
 
       .form-label,
       label {
-        display: block;
-        @include margin(md, bottom);
-        @include font-size(base);
-        @include font-weight(medium);
+        @include font-size(xl);
+        @include font-weight(semibold);
         color: $black;
+        @include letter-spacing(tighter);
+        @include padding(xl, bottom);
+
+        @include min-width(lg) {
+          max-width: 70%;
+        }
       }
 
       input[type="text"],
@@ -101,6 +54,7 @@
         @include font-size(base);
         background-color: rgba($white, 0.9);
         transition: all 0.3s ease;
+        @include margin(sm, top);
 
         &::placeholder {
           color: rgba($black, 0.4);
@@ -162,9 +116,9 @@
       .tag-item {
         background-color: $black;
         color: $white;
-        @include padding(xs, x);
+        @include padding(sm, x);
         @include padding(2xs, y);
-        @include border-radius(full);
+        @include border-radius(md);
         @include flex(row, center, center);
         @include font-size(sm);
         @include gap(xs);
@@ -181,8 +135,7 @@
           color: $white;
           @include font-size(lg);
           line-height: 1;
-          @include padding(2xs);
-          @include margin(unset);
+          @include padding(xs, y);
           transition: all 0.3s ease;
 
           &:hover {
@@ -484,30 +437,11 @@
 
   // Not found state styles
   &.not-found {
-    text-align: center;
+    height: 100%;
+    @include flex(column, center, center);
     @include padding(4xl, x);
     @include padding(2xl, y);
-
-    h1 {
-      @include font-size(3xl);
-      @include font-weight(bold);
-      @include margin(lg, bottom);
-      color: $black;
-      position: relative;
-      display: inline-block;
-      @include padding(xl, bottom);
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 4px;
-        background-color: $primary-color;
-      }
-    }
+    text-align: center;
 
     p {
       @include font-size(lg);

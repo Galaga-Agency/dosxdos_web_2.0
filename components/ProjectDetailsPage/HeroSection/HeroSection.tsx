@@ -9,24 +9,14 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
-  // Formatear fecha para mostrar
-  const formattedDate = new Date(project.date).toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-  });
-
-  // Obtener nombre de categoría
-  const getCategoryName = (categorySlug: string) => {
-    return categorySlug
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
+  // Format year for display
+  const formattedYear =
+    project.year?.toString() || new Date().getFullYear().toString();
 
   return (
     <section
       className="portfolio-hero"
-      style={{ backgroundImage: `url(${project.image})` }}
+      style={{ backgroundImage: `url(${project.coverImage})` }}
     >
       <div className="portfolio-hero__wrapper">
         <div className="portfolio-hero__container container">
@@ -34,11 +24,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
             <div className="portfolio-hero__col-title">
               <div className="portfolio-hero__title-box">
                 <h1 className="portfolio-hero__title secondary-title char-animation">
-                  {project.title}
+                  {project.name}
                 </h1>
-                <span className="portfolio-hero__subtitle fade_bottom">
-                  {getCategoryName(project.category)}
-                </span>
+
+                {project.services.map((service, index) => (
+                  <span
+                    className="portfolio-hero__subtitle fade_bottom"
+                    key={index}
+                  >
+                    {service}
+                  </span>
+                ))}
               </div>
             </div>
 
@@ -47,28 +43,45 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
                 <p>{project.description}</p>
               </div>
 
-              {/* Asegurar que los metadatos estén estructurados correctamente */}
+              {/* Project metadata */}
               <div className="portfolio-hero__meta-wrapper">
                 <div className="portfolio-hero__meta">
                   <span>CLIENTE</span>
                   <h5>{project.client}</h5>
                 </div>
-                {project.services && (
+
+                {project.services && project.services.length > 0 && (
                   <div className="portfolio-hero__meta">
                     <span>SERVICIOS</span>
                     <h5>{project.services.join(", ")}</h5>
                   </div>
                 )}
+
                 {project.location && (
                   <div className="portfolio-hero__meta">
                     <span>UBICACIÓN</span>
                     <h5>{project.location}</h5>
                   </div>
                 )}
+
+                {project.duration && (
+                  <div className="portfolio-hero__meta">
+                    <span>DURACIÓN</span>
+                    <h5>{project.duration}</h5>
+                  </div>
+                )}
+
                 <div className="portfolio-hero__meta">
-                  <span>FECHA</span>
-                  <h5>{formattedDate}</h5>
+                  <span>AÑO</span>
+                  <h5>{formattedYear}</h5>
                 </div>
+
+                {/* {project.tags && project.tags.length > 0 && (
+                  <div className="portfolio-hero__meta">
+                    <span>CATEGORÍAS</span>
+                    <h5>{project.tags.join(", ")}</h5>
+                  </div>
+                )} */}
               </div>
             </div>
           </div>

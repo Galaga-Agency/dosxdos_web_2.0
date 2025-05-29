@@ -8,18 +8,7 @@ import "./MasProyectosGrid.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import useCursorBubble from "@/hooks/useCursorBubble";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
-
-interface Project {
-  id: string;
-  slug: string;
-  title: string;
-  category: string;
-  image: string;
-  display: {
-    masProyectosPage: boolean;
-    portfolioPage: boolean;
-  };
-}
+import { Project } from "@/types/project-types";
 
 interface MasProyectosGridProps {
   projects: Project[];
@@ -29,13 +18,12 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
   const { isMobile, isTablet } = useDeviceDetect();
   const [visibleCount, setVisibleCount] = useState(6);
   const [isRevealing, setIsRevealing] = useState(false);
-
   const projectItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const buttonRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-
   const hasMoreProjects = visibleCount < projects.length;
 
+  console.log("projects ----> ", projects)
   useEffect(() => {
     projectItemRefs.current = projectItemRefs.current.slice(0, projects.length);
   }, [projects]);
@@ -55,7 +43,9 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
 
     setIsRevealing(true);
 
-    const buttonElement = buttonRef.current?.querySelector(".hover-circle-button");
+    const buttonElement = buttonRef.current?.querySelector(
+      ".hover-circle-button"
+    );
     if (buttonElement) {
       gsap.to(buttonElement, {
         scale: 0.9,
@@ -115,8 +105,8 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
             <div className="item__overlay"></div>
             <div className="item__image-wrapper">
               <Image
-                src={project.image}
-                alt={project.title}
+                src={project.coverImage}
+                alt={project.name}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="item-image"
@@ -127,8 +117,8 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects }) => {
               />
             </div>
             <div className="item__content">
-              <h3 className="item__title">{project.title}</h3>
-              <span className="item__category">{project.category}</span>
+              <h3 className="item__title">{project.name}</h3>
+  
             </div>
           </Link>
         ))}

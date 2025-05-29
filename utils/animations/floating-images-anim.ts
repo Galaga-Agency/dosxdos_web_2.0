@@ -16,12 +16,13 @@ export function floatingImagesAnimation() {
   console.log("Setting up floating images animation on desktop");
 
   // Full image parallax
-  const fullImage = document.querySelector(
-    ".project-process-section__full-image"
-  );
-  const imageContainer = document.querySelector(
-    ".project-process-section__image-container"
-  );
+const fullImage = document.querySelector(
+  ".floating-project-images__full-image"
+);
+const imageContainer = document.querySelector(
+  ".floating-project-images__image-container"
+);
+
 
   if (fullImage && imageContainer) {
     console.log("Setting up full image parallax");
@@ -51,12 +52,13 @@ export function floatingImagesAnimation() {
   }
 
   // Floating images parallax
-  const floatingImage1 = document.querySelector(
-    ".project-process-section__floating-image--1"
-  );
-  const floatingImage2 = document.querySelector(
-    ".project-process-section__floating-image--2"
-  );
+const floatingImage1 = document.querySelector(
+  ".floating-project-images__floating-image--1"
+);
+const floatingImage2 = document.querySelector(
+  ".floating-project-images__floating-image--2"
+);
+
 
   if (floatingImage1) {
     // Float the first image upward as you scroll

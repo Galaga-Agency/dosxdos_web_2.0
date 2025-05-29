@@ -1,0 +1,149 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.project-solution-section {
+  position: relative;
+  width: 100%;
+  background-color: $white;
+  @include padding(lg, top);
+
+  &__content-wrapper {
+    position: relative;
+    margin: auto 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    @include margin(4xl, bottom);
+  }
+
+  &__title {
+    color: $black;
+  }
+
+  &__full-image {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 400px;
+    margin-bottom: 6rem;
+    overflow: hidden;
+    z-index: 1;
+
+    @include min-width(md) {
+      height: 80vh;
+      min-height: 500px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__image-container {
+    position: relative;
+    width: 100%;
+    height: 130%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &__floating-images {
+    position: relative;
+    width: 100%;
+    padding: 32px 16px;
+    margin-top: 3rem;
+    min-height: 60vh;
+    z-index: 2;
+    @include container-width(mobile);
+    margin-inline: auto;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+      padding: 40px 32px;
+      min-height: 65vh;
+      margin-top: -8rem;
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+      min-height: 55vh;
+      margin-top: 0rem;
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__floating-image {
+    position: relative;
+    width: 90%;
+    height: 60vw;
+    max-height: 60vh;
+    margin: 0 auto 48px;
+    overflow: hidden;
+    background-color: $white;
+    box-shadow: $shadow-md;
+
+    &:hover {
+      .project-process-section__floating-image-inner img {
+        transform: scale(1.05);
+      }
+    }
+
+    @include min-width(md) {
+      position: absolute;
+      margin: 0;
+    }
+
+    &--1 {
+      @include min-width(md) {
+        width: 55%;
+        height: 45vh;
+        top: 0;
+        left: 0;
+      }
+
+      @include min-width(lg) {
+        width: 40%;
+        height: 50vh;
+        top: -5vh;
+        left: 5%;
+      }
+    }
+
+    &--2 {
+      @include min-width(md) {
+        width: 45%;
+        height: 40vh;
+        top: 20vh;
+        right: 5%;
+      }
+
+      @include min-width(lg) {
+        width: 35%;
+        height: 45vh;
+        top: 15vh;
+        right: 10%;
+      }
+    }
+  }
+
+  &__floating-image-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+  }
+}

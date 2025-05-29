@@ -24,11 +24,11 @@ import Modal from "@/components/ui/Modal/Modal";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import Footer from "@/components/layout/Footer/footer";
-
 import { fadeAnimation } from "@/utils/animations/text-anim";
 import { animatePaginatedItems } from "@/utils/animations/stagger-items-anim";
 
 import "./admin-panel.scss";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 type TabType = "blog" | "proyectos";
 
@@ -101,6 +101,7 @@ function AdminPanelPage() {
 
     const timer = setTimeout(() => {
       fadeAnimation();
+      highlightAnimation();
       const selector =
         activeTab === "blog" ? ".blog-post-card" : ".project-card";
       animatePaginatedItems(selector, {
@@ -143,16 +144,20 @@ function AdminPanelPage() {
   // Open delete confirmation modal
   const openDeleteModal = (id: string, type: "blog" | "project") => {
     let item;
+    let itemTitle = "este elemento";
+
     if (type === "blog") {
       item = posts.find((post) => post.id === id);
+      itemTitle = item?.title || "esta entrada";
     } else {
       item = projects.find((project) => project.id === id);
+      itemTitle = (item as Project)?.name || "este proyecto";
     }
 
     if (item) {
       setItemToDelete({
         id: item.id,
-        title: item.title || "este elemento",
+        title: itemTitle,
         type,
       });
       setIsDeleteModalOpen(true);
@@ -240,17 +245,17 @@ function AdminPanelPage() {
           <div className="admin-panel-page">
             <div className="admin-panel-page__container container">
               <div className="admin-panel-page__header">
-                <h1 className="admin-panel-page__title fade_bottom">
-                  Panel de Administración
+                <h1 className="admin-panel-page__title">
+                  Panel de <span className="highlight">Administración</span>
                 </h1>
-                <div className="admin-panel-page__actions fade_bottom">
+                <div className="admin-panel-page__actions">
                   <SecondaryButton onClick={handleLogout} lightBg={true}>
                     <LogOut size={16} /> Cerrar sesión
                   </SecondaryButton>
                 </div>
               </div>
 
-              <div className="admin-panel-page__tabs fade_bottom">
+              <div className="admin-panel-page__tabs">
                 <button
                   className={`admin-panel-page__tab ${
                     activeTab === "blog" ? "active" : ""
@@ -265,19 +270,26 @@ function AdminPanelPage() {
                   }`}
                   onClick={() => handleTabChange("proyectos")}
                 >
-                  Proyectos ({projects.length})
+                  Portfolio ({projects.length})
                 </button>
               </div>
 
-              <div className="admin-panel-page__tab-actions fade_bottom">
+              <div className="admin-panel-page__tab-actions">
                 {activeTab === "blog" ? (
                   <PrimaryButton href="/admin/blog/nuevo">
                     <PlusCircle size={16} /> Nueva Entrada
                   </PrimaryButton>
                 ) : (
-                  <PrimaryButton href="/admin/proyectos/nuevo">
-                    <PlusCircle size={16} /> Nuevo Proyecto
-                  </PrimaryButton>
+                  <>
+                    <PrimaryButton href="/admin/proyectos/nuevo">
+                      <PlusCircle size={16} /> Nuevo Proyecto
+                    </PrimaryButton>{" "}
+                    <p className="text">
+                      * Proyectos marcados como{" "}
+                      <span className="nb-badge">Destacado</span> seran visbles
+                      en la página de landing
+                    </p>
+                  </>
                 )}
               </div>
 
@@ -327,7 +339,7 @@ function AdminPanelPage() {
                         </div>
 
                         {pageCount > 1 && (
-                          <div className="admin-panel-page__pagination fade_bottom">
+                          <div className="admin-panel-page__pagination">
                             <Pagination
                               handlePageClick={handlePageClick}
                               pageCount={pageCount}
@@ -343,19 +355,18 @@ function AdminPanelPage() {
                             ? "No hay entradas de blog disponibles."
                             : "No hay proyectos disponibles."}
                         </p>
-                        <Link
+                        <PrimaryButton
                           href={
                             activeTab === "blog"
                               ? "/admin/blog/nuevo"
                               : "/admin/proyectos/nuevo"
                           }
-                          className="admin-panel-page__new-btn"
                         >
                           <PlusCircle size={16} />
                           {activeTab === "blog"
                             ? "Crear primera entrada"
                             : "Crear primer proyecto"}
-                        </Link>
+                        </PrimaryButton>
                       </div>
                     )}
                   </div>

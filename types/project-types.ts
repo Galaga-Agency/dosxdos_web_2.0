@@ -8,11 +8,12 @@ export interface Project {
   duration?: string; // e.g., "3 meses", "6 semanas"
   year: number;
   services: string[];
+  description: string; // Short summary/description
   challenge: string;
   solution: string;
   coverImage: string;
   images: string[];
-  date: string; 
+  date: string; // Keep for sorting purposes
   featured: boolean;
 }
 
