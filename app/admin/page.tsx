@@ -57,7 +57,6 @@ function AdminPanelPage() {
     startIndex,
     startIndex + itemsPerPage
   );
-  const [pageReady, setPageReady] = useState(false);
 
   // Initialize smooth scrolling manually when authenticated
   useEffect(() => {
@@ -111,27 +110,24 @@ function AdminPanelPage() {
     }
   }, [isAuthenticated]);
 
-// Reset page when switching tabs
-useEffect(() => {
-  setCurrentPage(0);
-}, [activeTab]);
+  // Reset page when switching tabs
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [activeTab]);
 
- useGSAP(() => {
-    if (!isAuthenticated) return;
+  // GSAP animations - REMOVED pageReady dependency
+  useGSAP(() => {
+    if (!isAuthenticated || loading) return;
 
     const timer = setTimeout(() => {
       fadeAnimation();
       highlightAnimation();
-      const selector =
-        activeTab === "blog" ? ".blog-post-card" : ".project-card";
+      const selector = activeTab === "blog" ? ".blog-post-card" : ".project-card";
       animatePaginatedItems(selector, {
         container: ".admin-panel-page__items-grid",
         stagger: 0.08,
         fromY: 30,
       });
-      
-      // Set page ready after animations are set up
-      setPageReady(true);
     }, 300);
 
     return () => clearTimeout(timer);
@@ -244,8 +240,26 @@ useEffect(() => {
     }
   };
 
-  const handleLogout = () => {
-    signOut({ callbackUrl: "/login" });
+  const handleLogout = async () => {
+    try {
+      // Clear any existing data first
+      setPosts([]);
+      setProjects([]);
+      setLoading(true);
+      
+      // Force sign out
+      await signOut({ 
+        callbackUrl: "/login",
+        redirect: false 
+      });
+      
+      // Force redirect
+      window.location.replace("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Force redirect even if signOut fails
+      window.location.replace("/login");
+    }
   };
 
   if (error) {
@@ -256,16 +270,6 @@ useEffect(() => {
             <p>{error}</p>
             <button onClick={() => window.location.reload()}>Reintentar</button>
           </div>
-        </div>
-      </div>
-    );
-  }
-
-   if (!pageReady) {
-    return (
-      <div className="admin-panel-page">
-        <div className="admin-panel-page__loader">
-          <Loading />
         </div>
       </div>
     );
@@ -326,83 +330,77 @@ useEffect(() => {
                   )}
                 </div>
 
-                {loading ? (
-                  <div className="admin-panel-page__loader">
-                    <Loading />
-                  </div>
-                ) : (
-                  <div className="admin-panel-page__items">
-                    {displayItems.length > 0 ? (
-                      <>
-                        <div
-                          className="admin-panel-page__items-grid"
-                          key={`items-grid-${activeTab}-${currentPage}`}
-                        >
-                          {displayItems.map((item, index) => (
-                            <div
-                              key={`${
-                                item.id || item.slug || index
-                              }-page${currentPage}`}
-                              className={
-                                activeTab === "blog"
-                                  ? "blog-post-card"
-                                  : "project-card"
-                              }
-                              data-id={item.id}
-                              data-slug={item.slug}
-                            >
-                              {activeTab === "blog" ? (
-                                <AdminBlogCard
-                                  post={item as BlogPost}
-                                  onDelete={(id) => openDeleteModal(id, "blog")}
-                                  index={index}
-                                />
-                              ) : (
-                                <AdminProjectCard
-                                  project={item as Project}
-                                  onDelete={(id) =>
-                                    openDeleteModal(id, "project")
-                                  }
-                                  index={index}
-                                />
-                              )}
-                            </div>
-                          ))}
-                        </div>
-
-                        {pageCount > 1 && (
-                          <div className="admin-panel-page__pagination">
-                            <Pagination
-                              handlePageClick={handlePageClick}
-                              pageCount={pageCount}
-                              currentPage={currentPage}
-                            />
+                <div className="admin-panel-page__items">
+                  {displayItems.length > 0 ? (
+                    <>
+                      <div
+                        className="admin-panel-page__items-grid"
+                        key={`items-grid-${activeTab}-${currentPage}`}
+                      >
+                        {displayItems.map((item, index) => (
+                          <div
+                            key={`${
+                              item.id || item.slug || index
+                            }-page${currentPage}`}
+                            className={
+                              activeTab === "blog"
+                                ? "blog-post-card"
+                                : "project-card"
+                            }
+                            data-id={item.id}
+                            data-slug={item.slug}
+                          >
+                            {activeTab === "blog" ? (
+                              <AdminBlogCard
+                                post={item as BlogPost}
+                                onDelete={(id) => openDeleteModal(id, "blog")}
+                                index={index}
+                              />
+                            ) : (
+                              <AdminProjectCard
+                                project={item as Project}
+                                onDelete={(id) =>
+                                  openDeleteModal(id, "project")
+                                }
+                                index={index}
+                              />
+                            )}
                           </div>
-                        )}
-                      </>
-                    ) : (
-                      <div className="admin-panel-page__empty fade_bottom">
-                        <p>
-                          {activeTab === "blog"
-                            ? "No hay entradas de blog disponibles."
-                            : "No hay proyectos disponibles."}
-                        </p>
-                        <PrimaryButton
-                          href={
-                            activeTab === "blog"
-                              ? "/admin/blog/nuevo"
-                              : "/admin/proyectos/nuevo"
-                          }
-                        >
-                          <PlusCircle size={16} />
-                          {activeTab === "blog"
-                            ? "Crear primera entrada"
-                            : "Crear primer proyecto"}
-                        </PrimaryButton>
+                        ))}
                       </div>
-                    )}
-                  </div>
-                )}
+
+                      {pageCount > 1 && (
+                        <div className="admin-panel-page__pagination">
+                          <Pagination
+                            handlePageClick={handlePageClick}
+                            pageCount={pageCount}
+                            currentPage={currentPage}
+                          />
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="admin-panel-page__empty fade_bottom">
+                      <p>
+                        {activeTab === "blog"
+                          ? "No hay entradas de blog disponibles."
+                          : "No hay proyectos disponibles."}
+                      </p>
+                      <PrimaryButton
+                        href={
+                          activeTab === "blog"
+                            ? "/admin/blog/nuevo"
+                            : "/admin/proyectos/nuevo"
+                        }
+                      >
+                        <PlusCircle size={16} />
+                        {activeTab === "blog"
+                          ? "Crear primera entrada"
+                          : "Crear primer proyecto"}
+                      </PrimaryButton>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
