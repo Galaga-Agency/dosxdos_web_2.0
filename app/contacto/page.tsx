@@ -138,7 +138,6 @@ const ContactPage: React.FC = () => {
                   timeZoneIdentifier="Europe/Madrid"
                   address={[
                     "Calle Vicente Aleixandre, 2",
-                    "ENTPL;16, 28970",
                     "Humanes de Madrid (MADRID)",
                   ]}
                   email="hola@dospordosgrupoimagen.com"

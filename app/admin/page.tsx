@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { PlusCircle, LogOut, AlertTriangle } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { gsap } from "gsap";
 import { ScrollTrigger, SplitText, ScrollSmoother } from "@/plugins";
 import { useGSAP } from "@gsap/react";
-// Don't import useScrollSmooth here
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
@@ -59,6 +57,7 @@ function AdminPanelPage() {
     startIndex,
     startIndex + itemsPerPage
   );
+  const [pageReady, setPageReady] = useState(false);
 
   // Initialize smooth scrolling manually when authenticated
   useEffect(() => {
@@ -112,14 +111,13 @@ function AdminPanelPage() {
     }
   }, [isAuthenticated]);
 
-  // Reset page when switching tabs
-  useEffect(() => {
-    setCurrentPage(0);
-  }, [activeTab]);
+// Reset page when switching tabs
+useEffect(() => {
+  setCurrentPage(0);
+}, [activeTab]);
 
-  // Initialize animations with useGSAP - only when authenticated and not loading
-  useGSAP(() => {
-    if (!isAuthenticated || loading) return;
+ useGSAP(() => {
+    if (!isAuthenticated) return;
 
     const timer = setTimeout(() => {
       fadeAnimation();
@@ -131,6 +129,9 @@ function AdminPanelPage() {
         stagger: 0.08,
         fromY: 30,
       });
+      
+      // Set page ready after animations are set up
+      setPageReady(true);
     }, 300);
 
     return () => clearTimeout(timer);
@@ -260,6 +261,16 @@ function AdminPanelPage() {
     );
   }
 
+   if (!pageReady) {
+    return (
+      <div className="admin-panel-page">
+        <div className="admin-panel-page__loader">
+          <Loading />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <ProtectedRoute>
       <div id="smooth-wrapper">
@@ -284,7 +295,7 @@ function AdminPanelPage() {
                   }`}
                   onClick={() => handleTabChange("blog")}
                 >
-                  Blog ({posts.length})
+                  <span>Blog ({posts.length})</span>
                 </button>
                 <button
                   className={`admin-panel-page__tab ${
@@ -292,28 +303,28 @@ function AdminPanelPage() {
                   }`}
                   onClick={() => handleTabChange("proyectos")}
                 >
-                  Portfolio ({projects.length})
+                  <span>Portfolio ({projects.length})</span>
                 </button>
               </div>
-              <div className="admin-panel-page__content-area">
-              <div className="admin-panel-page__tab-actions">
-                {activeTab === "blog" ? (
-                  <PrimaryButton href="/admin/blog/nuevo">
-                    <PlusCircle size={16} /> Nueva Entrada
-                  </PrimaryButton>
-                ) : (
-                  <>
-                    <PrimaryButton href="/admin/proyectos/nuevo">
-                      <PlusCircle size={16} /> Nuevo Proyecto
-                    </PrimaryButton>{" "}
-                    <p className="small-text">
-                      * Proyectos marcados como{" "}
-                      <span className="nb-badge">Destacado</span> serán visibles
-                      en la página de landing
-                    </p>
-                  </>
-                )}
-              </div>
+              <div className="admin-panel-page__content-area container">
+                <div className="admin-panel-page__tab-actions">
+                  {activeTab === "blog" ? (
+                    <PrimaryButton href="/admin/blog/nuevo">
+                      <PlusCircle size={16} /> Nueva Entrada
+                    </PrimaryButton>
+                  ) : (
+                    <>
+                      <PrimaryButton href="/admin/proyectos/nuevo">
+                        <PlusCircle size={16} /> Nuevo Proyecto
+                      </PrimaryButton>{" "}
+                      <p className="small-text">
+                        * Proyectos marcados como{" "}
+                        <span className="nb-badge">Destacado</span> serán
+                        visibles en la página de landing
+                      </p>
+                    </>
+                  )}
+                </div>
 
                 {loading ? (
                   <div className="admin-panel-page__loader">

@@ -13,7 +13,7 @@
 
   &__header {
     @include flex(row, space-between, center);
-    @include padding(lg, bottom);
+    @include padding(2xl, bottom);
     flex-direction: column;
     align-items: flex-start;
     @include gap(lg);
@@ -52,10 +52,9 @@
 
   &__tabs {
     margin: 0;
-    padding: 0 10px;
+    @include padding(xl, x);
     overflow: hidden;
-    margin-bottom: -1px;
-    height: 2.25em;
+    margin-bottom: -2px;
     @include flex(row, flex-start, center);
   }
 
@@ -63,31 +62,44 @@
     float: left;
     list-style: none;
     margin: 0;
-    padding: 0.25em 0.25em 0;
-    height: 2em;
     overflow: hidden;
     position: relative;
     z-index: 1;
-    border-bottom: 1px solid $white;
+    border-bottom: 2px solid $white;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    transform: skew(-10deg);
 
     &.active {
       z-index: 3;
     }
 
-    // The actual tab styling
     display: block;
-    height: 2em;
-    line-height: 2em;
-    background: #eee;
-    border: 1px solid #ccc;
+    background: $white;
+    border: 2px solid $secondary-color;
     border-bottom: 0;
-    padding: 0 10px;
+    padding: 0.8rem 2rem;
     color: $black;
     text-decoration: none;
     @include font-size(lg);
     @include font-weight(medium);
     cursor: pointer;
     transition: all 0.3s ease;
+    background: rgba($secondary-color, 0.3);
+    transform: skew(-10deg);
+
+    span {
+      display: inline-block;
+      transform: skew(10deg);
+    }
+
+    @include min-width(md) {
+      padding: 1rem 2rem;
+    }
+
+    @include min-width(lg) {
+      padding: 0.75rem 4rem;
+    }
 
     &:hover {
       background: $secondary-color;
@@ -95,7 +107,7 @@
 
     &.active {
       background: $white;
-      box-shadow: #ccc 0 0 0.25em;
+      box-shadow: $secondary-color 0 0 0.25em;
     }
   }
 
@@ -103,11 +115,10 @@
     clear: left;
     position: relative;
     z-index: 2;
-    padding: 2em 1em;
-    border-top: 1px solid #ccc;
+    @include padding(xl, all);
+    border-top: 2px solid $secondary-color;
     background: $white;
     border-radius: 3px;
-    box-shadow: 0 -6px 4px rgba(#ccc, 0.5); // ONLY TOP SHADOW
   }
 
   &__tab-actions {
@@ -128,8 +139,11 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       @include border-radius(sm);
+      @include margin(xs, right);
       z-index: 3;
-      box-shadow: 0 2px 6px rgba($primary-color, 0.3);
+      box-shadow: 4px 4px 5px 0px $black;
+      -webkit-box-shadow: 4px 4px 5px 0px $black;
+      -moz-box-shadow: 4px 4px 5px 0px $black;
     }
   }
 

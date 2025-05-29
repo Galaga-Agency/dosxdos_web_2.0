@@ -5,13 +5,16 @@
 .location-card {
   position: relative;
   width: 100%;
+  height: 100%;
+  flex: content;
+  display: flex; 
+  flex-direction: column; 
   @include border-radius(md);
   overflow: hidden;
   background: $white;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
   transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   border: 1px solid rgba($secondary-color, 0.7);
-  position: relative;
   
   &:hover {
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
@@ -40,6 +43,9 @@
     position: relative;
     padding: 2rem;
     z-index: 2;
+    flex: 1; // Only change: take available space
+    display: flex; // Only change: make it flex
+    flex-direction: column; // Only change: stack vertically
     
     @include min-width(md) {
       padding: 3rem;
@@ -113,6 +119,7 @@
     grid-template-columns: 1fr;
     gap: 2.5rem;
     margin-bottom: 3rem;
+    flex: 1; // Only change: take available space
     
     @include min-width(xxl) {
       grid-template-columns: repeat(2, 1fr);
@@ -122,7 +129,7 @@
   &__address {
     position: relative;
     background-color: rgba($black, 0.03);
-    width: 100%; /* Fixed: Full width on mobile */
+    width: 100%;
     padding: 1.5rem;
     @include border-radius(lg);
     box-shadow: inset 0 0 0 1px rgba($black, 0.03);
@@ -132,7 +139,6 @@
       margin: 0 auto;
     }
     
-    // Add decorative element
     &::before {
       content: '';
       position: absolute;
@@ -149,7 +155,7 @@
       color: $black;
       line-height: 1.7;
       margin-bottom: 0.5rem;
-      word-break: break-word; /* Fixed: Break long words */
+      word-break: break-word;
       
       @include min-width(md) {
         @include font-size(lg);
@@ -182,8 +188,8 @@
     transition: all 0.3s ease;
     position: relative;
     @include border-radius(md);
-    word-break: break-word; /* Fixed: Break long words */
-    overflow: hidden; /* Fixed: Contain text */
+    word-break: break-word;
+    overflow: hidden;
     
     @include min-width(md) {
       @include font-size(lg);
@@ -216,9 +222,10 @@
   
   &__footer {
     display: flex;
-    justify-content: center; /* Better on mobile */
+    justify-content: center;
     padding-top: 1.5rem;
     border-top: 1px solid $secondary-color;
+    margin-top: auto; // Only change: push to bottom
     
     @include min-width(md) {
       justify-content: flex-end;
