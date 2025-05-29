@@ -14,6 +14,7 @@ import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import { useDataStore } from "@/store/useDataStore";
 import Footer from "@/components/layout/Footer/footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function NewProjectPage() {
   const router = useRouter();
@@ -249,7 +250,7 @@ export default function NewProjectPage() {
   };
 
   return (
-    <>
+    <ProtectedRoute>
       <div className="new-project-page" ref={pageRef}>
         <div className="new-project-page__container container">
           <div className="new-project-page__header header" ref={headerRef}>
@@ -579,6 +580,6 @@ export default function NewProjectPage() {
         </div>
       </div>
       <Footer />
-    </>
+    </ProtectedRoute>
   );
 }

@@ -21,6 +21,7 @@ import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import Loading from "@/components/ui/Loading/Loading";
 import Footer from "@/components/layout/Footer/footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function EditBlogPostPage() {
   const router = useRouter();
@@ -358,7 +359,7 @@ export default function EditBlogPostPage() {
   }
 
   return (
-    <>
+    <ProtectedRoute>
       <div className="edit-blog-post-page" ref={pageRef}>
         <div className="edit-blog-post-page__container container">
           <div className="edit-blog-post-page__header header" ref={headerRef}>
@@ -557,6 +558,6 @@ export default function EditBlogPostPage() {
         </div>
       </div>{" "}
       <Footer />
-    </>
+    </ProtectedRoute>
   );
 }

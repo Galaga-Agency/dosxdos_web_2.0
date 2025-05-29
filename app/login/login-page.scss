@@ -7,8 +7,9 @@
   position: relative;
   margin-inline: auto;
   width: 100%;
+  min-height: 80vh;
+  @include flex(column, center, center);
   @include section-padding-y();
-
 
   .login-container {
     @include container-width(mobile);
@@ -20,26 +21,6 @@
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 
-    h1 {
-      @include font-size(3xl);
-      @include font-weight(semibold);
-      color: $black;
-      margin-bottom: 2.5rem;
-      position: relative;
-      text-align: center;
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 4px;
-        background-color: $secondary-color;
-      }
-    }
-
     .error-message {
       background-color: rgba($secondary-color, 0.1);
       color: $secondary-color;
@@ -48,15 +29,24 @@
       text-align: center;
     }
 
+    h1 {
+      margin: 0 auto;
+      @include padding(md, bottom);
+    }
+
     .form-group {
       margin-bottom: 2rem;
 
       label {
-        display: block;
-        margin-bottom: 0.5rem;
+        @include font-size(xl);
+        @include font-weight(semibold);
         color: $black;
-        @include font-size(base);
-        @include font-weight(light);
+        @include letter-spacing(tighter);
+        @include padding(xl, bottom);
+
+        @include min-width(lg) {
+          max-width: 70%;
+        }
       }
 
       input {

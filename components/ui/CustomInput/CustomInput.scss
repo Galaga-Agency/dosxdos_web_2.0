@@ -7,11 +7,15 @@
   margin-bottom: 2rem;
 
   label {
-    display: block;
-    margin-bottom: 0.5rem;
+    @include font-size(xl);
+    @include font-weight(semibold);
     color: $black;
-    @include font-size(base);
-    @include font-weight(light);
+    @include letter-spacing(tighter);
+    @include padding(xl, bottom);
+
+    @include min-width(lg) {
+      max-width: 70%;
+    }
   }
 
   input {
@@ -20,6 +24,7 @@
     border: 1px solid rgba($secondary-color, 0.3);
     @include border-radius(md);
     transition: all 0.3s ease;
+    @include margin(sm, top);
 
     &::placeholder {
       color: rgba($black, 0.3);

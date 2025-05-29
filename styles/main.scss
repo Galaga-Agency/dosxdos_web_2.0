@@ -282,6 +282,14 @@ body {
   will-change: transform, opacity;
 }
 
+.small-text {
+  color: rgba($black, 0.8);
+  @include margin(lg, y);
+  @include font-size(sm);
+  line-height: 1.6;
+  will-change: transform, opacity;
+}
+
 strong {
   color: $black;
   @include font-weight(semibold);

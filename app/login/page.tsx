@@ -71,10 +71,9 @@ export default function LoginPage() {
 
   return (
     <>
-      {" "}
-      <div className="login-page">
+      <div className="login-page container">
         <div className="login-container">
-          <h1>Iniciar Sesión</h1>
+          <h1 className="secondary-title">Iniciar Sesión</h1>
 
           {error && <p className="error-message">{error}</p>}
 
