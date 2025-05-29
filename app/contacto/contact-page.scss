@@ -230,17 +230,13 @@
     }
 
     .offices-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3rem;
+      display: grid; 
+      grid-template-columns: 1fr; 
+      gap: 2rem;
+      align-items: stretch; 
 
       @include min-width(md) {
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 3rem;
-      }
-
-      @include min-width(lg) {
-        gap: 4rem;
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   }
