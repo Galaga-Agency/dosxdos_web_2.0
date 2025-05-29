@@ -295,7 +295,7 @@ function AdminPanelPage() {
                   Portfolio ({projects.length})
                 </button>
               </div>
-
+              <div className="admin-panel-page__content-area">
               <div className="admin-panel-page__tab-actions">
                 {activeTab === "blog" ? (
                   <PrimaryButton href="/admin/blog/nuevo">
@@ -315,7 +315,6 @@ function AdminPanelPage() {
                 )}
               </div>
 
-              <div className="admin-panel-page__content-area">
                 {loading ? (
                   <div className="admin-panel-page__loader">
                     <Loading />

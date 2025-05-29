@@ -51,42 +51,63 @@
   }
 
   &__tabs {
+    margin: 0;
+    padding: 0 10px;
+    overflow: hidden;
+    margin-bottom: -1px;
+    height: 2.25em;
     @include flex(row, flex-start, center);
-    @include gap(sm);
-    @include margin(2xl, bottom);
-    border-bottom: 2px solid rgba($black, 0.1);
-
-    @include min-width(sm) {
-      @include gap(lg);
-    }
   }
 
   &__tab {
-    @include padding(md, x);
-    @include padding(sm, y);
-    background: none;
-    border: none;
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0.25em 0.25em 0;
+    height: 2em;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid $white;
+
+    &.active {
+      z-index: 3;
+    }
+
+    // The actual tab styling
+    display: block;
+    height: 2em;
+    line-height: 2em;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-bottom: 0;
+    padding: 0 10px;
+    color: $black;
+    text-decoration: none;
     @include font-size(lg);
     @include font-weight(medium);
-    color: rgba($black, 0.6);
     cursor: pointer;
-    position: relative;
     transition: all 0.3s ease;
-    border-bottom: 2px solid transparent;
 
     &:hover {
-      color: $black;
+      background: $secondary-color;
     }
 
     &.active {
-      color: $primary-color;
-      border-bottom-color: $primary-color;
-      @include font-weight(semibold);
+      background: $white;
+      box-shadow: #ccc 0 0 0.25em;
     }
+  }
 
-    @include min-width(md) {
-      @include font-size(xl);
-    }
+  &__content-area {
+    clear: left;
+    position: relative;
+    z-index: 2;
+    padding: 2em 1em;
+    border-top: 1px solid #ccc;
+    background: $white;
+    border-radius: 3px;
+    box-shadow: 0 -6px 4px rgba(#ccc, 0.5); // ONLY TOP SHADOW
   }
 
   &__tab-actions {
