@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Loading from "@/components/ui/Loading/Loading";
@@ -12,15 +12,39 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const redirectTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/login");
+    // Clear any existing timeout
+    if (redirectTimeout.current) {
+      clearTimeout(redirectTimeout.current);
     }
-  }, [status, router]);
 
-  // Show loading while session is being checked or user is being redirected
-  if (status === "loading" || status === "unauthenticated") {
+    if (status === "unauthenticated") {
+      // Force immediate redirect without waiting
+      redirectTimeout.current = setTimeout(() => {
+        window.location.replace("/login");
+      }, 0);
+    }
+
+    return () => {
+      if (redirectTimeout.current) {
+        clearTimeout(redirectTimeout.current);
+      }
+    };
+  }, [status]);
+
+  // Immediate redirect for unauthenticated
+  if (status === "unauthenticated") {
+    // Don't even show loading, just redirect
+    if (typeof window !== 'undefined') {
+      window.location.replace("/login");
+    }
+    return null;
+  }
+
+  // Show loading only while checking session
+  if (status === "loading") {
     return (
       <div className="protected-route-loader">
         <Loading />
@@ -33,12 +57,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <>{children}</>;
   }
 
-  // Fallback (shouldn't reach here, but just in case)
-  return (
-    <div className="protected-route-loader">
-      <Loading />
-    </div>
-  );
+  // Fallback - should not reach here
+  return null;
 };
 
 export default ProtectedRoute;
