@@ -7,7 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import { gsap } from "gsap";
 import { ScrollTrigger, SplitText, ScrollSmoother } from "@/plugins";
 import { useGSAP } from "@gsap/react";
-import useScrollSmooth from "@/hooks/useScrollSmooth";
+// Don't import useScrollSmooth here
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
@@ -48,9 +48,6 @@ function AdminPanelPage() {
   } | null>(null);
 
   const { status } = useSession();
-
-  useScrollSmooth();
-
   const isAuthenticated = status === "authenticated";
 
   // Direct calculation without hooks
@@ -63,13 +60,38 @@ function AdminPanelPage() {
     startIndex + itemsPerPage
   );
 
-  // Add smooth-scroll class to body
+  // Initialize smooth scrolling manually when authenticated
   useEffect(() => {
-    document.body.classList.add("smooth-scroll");
-    return () => {
-      document.body.classList.remove("smooth-scroll");
-    };
-  }, []);
+    if (isAuthenticated) {
+      document.body.classList.add("smooth-scroll");
+
+      // Initialize ScrollSmoother manually
+      const smoothWrapper = document.getElementById("smooth-wrapper");
+      const smoothContent = document.getElementById("smooth-content");
+
+      if (smoothWrapper && smoothContent) {
+        gsap.config({
+          nullTargetWarn: false,
+        });
+
+        ScrollSmoother.create({
+          smooth: 2,
+          effects: true,
+          smoothTouch: 0.1,
+          normalizeScroll: false,
+          ignoreMobileResize: true,
+        });
+      }
+
+      return () => {
+        document.body.classList.remove("smooth-scroll");
+        // Clean up ScrollSmoother if needed
+        if ((window as any).__smoother__) {
+          (window as any).__smoother__.kill();
+        }
+      };
+    }
+  }, [isAuthenticated]);
 
   // Fetch data
   useEffect(() => {
@@ -95,9 +117,9 @@ function AdminPanelPage() {
     setCurrentPage(0);
   }, [activeTab]);
 
-  // Initialize animations with useGSAP
+  // Initialize animations with useGSAP - only when authenticated and not loading
   useGSAP(() => {
-    if (loading) return;
+    if (!isAuthenticated || loading) return;
 
     const timer = setTimeout(() => {
       fadeAnimation();
@@ -112,7 +134,7 @@ function AdminPanelPage() {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [loading, currentPage, activeTab]);
+  }, [isAuthenticated, loading, currentPage, activeTab]);
 
   // Handle page change
   const handlePageClick = (pageNumber: number) => {

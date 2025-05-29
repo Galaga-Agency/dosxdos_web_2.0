@@ -13,7 +13,8 @@ const ServicesSection: React.FC = () => {
           <h3 className="services-section__label label">
             (Nuestros servicios)
           </h3>
-          <h2 className="services-section__title secondary-title fade_bottom">Todo lo que tu marca necesita <br/>
+          <h2 className="services-section__title secondary-title fade_bottom">
+            Todo lo que tu marca necesita <br />
             <span className="highlight">para destacar</span>.
           </h2>
           <p className="services-section__subtitle subtitle">
@@ -34,7 +35,7 @@ const ServicesSection: React.FC = () => {
                 title={service.name}
                 description={service.description as string}
                 imageUrl={service.imageUrl}
-                linkUrl={`/servicios/${service.id}`}
+                linkUrl={`/servicios/${service.slug}`}
                 linkText={service.linkText}
               />
             </div>

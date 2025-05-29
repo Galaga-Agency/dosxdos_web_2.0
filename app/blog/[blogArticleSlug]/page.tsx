@@ -33,6 +33,8 @@ import "./blog-details.scss";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { isMobile, isTablet } from "@/utils/device";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
+import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
+import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
 
 interface BlogDetailPageProps {
   params: Promise<{ blogArticleSlug: string }>;
@@ -48,9 +50,8 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   const [key] = useState(() => Date.now());
   const router = useRouter();
   const [currentUrl, setCurrentUrl] = useState<string>("");
-  const { isMobile, isTablet  } = useDeviceDetect();
+  const { isMobile, isTablet } = useDeviceDetect();
   const relatedCount = isMobile ? 1 : isTablet ? 2 : 3;
-
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -77,7 +78,9 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
         setBlogPost(data);
 
         const allPosts = await getAllPosts();
-        const related = data ? findRelatedPosts(data, allPosts, relatedCount) : [];
+        const related = data
+          ? findRelatedPosts(data, allPosts, relatedCount)
+          : [];
 
         if (related.length === 0) {
           const categoryMatches = allPosts.filter(
@@ -108,6 +111,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
         charAnimation();
         rollUpTextAnimation();
         featuredImageAnimation();
+        hoverCircleButtonAnimation();
 
         gsap.set(
           ".blog-detail__body p, .blog-detail__body h1, .blog-detail__body h2, .blog-detail__body h3, .blog-detail__body ul, .blog-detail__body ol, .blog-detail__body blockquote, .blog-detail__tags, .blog-detail__cta-title, .blog-detail__cta-text, .blog-detail__cta-button, .blog-detail__mobile-social-section",
@@ -235,19 +239,14 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
                 <div className="blog-detail__cta-section fade_bottom">
                   <div className="blog-detail__cta-content">
                     <h2 className="blog-detail__cta-title small-title">
-                      Descubre más <span className="highlight">inspiración</span>
+                      Descubre más{" "}
+                      <span className="highlight">inspiración</span>
                     </h2>
                     <p className="blog-detail__cta-text subtitle">
                       Explora nuestra colección de artículos y encuentra ideas
                       para tu próximo proyecto.
                     </p>
-                    <PrimaryButton
-                      href="/blog"
-                      className="blog-detail__cta-button"
-                    >
-                      <span className="button-text">Ver más artículos</span>
-                      <span className="button-icon">→</span>
-                    </PrimaryButton>
+                    <HoverCircleButton href="/blog" label="Ver más artículos" />
                   </div>
                 </div>
               </div>

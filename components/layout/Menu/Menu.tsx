@@ -15,6 +15,7 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim";
 import { PhoneCall, Mail } from "lucide-react";
 import "./Menu.scss";
+import { useRouter } from "next/navigation";
 
 const Menu: React.FC = () => {
   const { data: session, status } = useSession();
@@ -23,10 +24,12 @@ const Menu: React.FC = () => {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuItemsRef = useRef<Map<string, HTMLElement[]>>(new Map());
   const menuRef = useRef<HTMLElement>(null);
   const { isMobile, isDesktop } = useDeviceDetect();
+  const router = useRouter();
+  const clickCountRef = useRef(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Setup scroll-based styling and animations
   useEffect(() => {
@@ -165,6 +168,32 @@ const Menu: React.FC = () => {
     );
   };
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const now = Date.now();
+
+    if (!window.clickTimes) {
+      window.clickTimes = [];
+    }
+
+    window.clickTimes.push(now);
+    window.clickTimes = window.clickTimes.filter((time) => now - time < 1000);
+
+    if (window.clickTimes.length >= 3) {
+      window.clickTimes = [];
+      router.push("/login");
+      return;
+    }
+
+    setTimeout(() => {
+      if (window.clickTimes && window.clickTimes.length < 3) {
+        router.push("/");
+        window.clickTimes = [];
+      }
+    }, 1000);
+  };
+
   return (
     <header
       ref={menuRef}
@@ -172,7 +201,11 @@ const Menu: React.FC = () => {
     >
       <div className="menu__container">
         {/* Logo Area */}
-        <Link href="/" className="menu__logo">
+        <div
+          onClick={handleLogoClick}
+          className="menu__logo"
+          style={{ cursor: "pointer" }}
+        >
           {/* Mobile logos */}
           <Image
             src={
@@ -200,7 +233,7 @@ const Menu: React.FC = () => {
             priority
             className="menu__logo-image menu__logo-image--desktop"
           />
-        </Link>
+        </div>
 
         {/* Main Navigation */}
         <nav className="menu__nav">
@@ -282,7 +315,11 @@ const Menu: React.FC = () => {
       <div className={`menu__mobile ${isMobileOpen ? "open" : ""}`}>
         <div className="menu__mobile-inner">
           <div className="menu__mobile-header">
-            <div className="menu__mobile-logo">
+            <div
+              className="menu__mobile-logo"
+              onClick={handleLogoClick}
+              style={{ cursor: "pointer" }}
+            >
               <Image
                 src="/assets/img/logo/logo_full_gris.svg"
                 alt="Logo"

@@ -24,22 +24,22 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
 
-// import InstalacionHeroSection from "@/components/InstalacionPage/InstalacionHeroSection/InstalacionHeroSection";
-// import InstalacionServicesSection from "@/components/InstalacionPage/InstalacionServicesSection/InstalacionServicesSection";
-// import InstalacionProcessSection from "@/components/InstalacionPage/InstalacionProcessSection/InstalacionProcessSection";
-// import InstalacionTeamSection from "@/components/InstalacionPage/InstalacionTeamSection/InstalacionTeamSection";
+// import NuestroEspacioHeroSection from "@/components/NuestroEspacioPage/NuestroEspacioHeroSection/NuestroEspacioHeroSection";
+// import NuestroEspacioGallerySection from "@/components/NuestroEspacioPage/NuestroEspacioGallerySection/NuestroEspacioGallerySection";
+// import NuestroEspacioFacilitiesSection from "@/components/NuestroEspacioPage/NuestroEspacioFacilitiesSection/NuestroEspacioFacilitiesSection";
+// import NuestroEspacioLocationSection from "@/components/NuestroEspacioPage/NuestroEspacioLocationSection/NuestroEspacioLocationSection";
 
-import "./instalacion-page.scss";
+import "./nuestro-espacio-page.scss";
 
-const InstalacionPage = () => {
+const NuestroEspacioPage = () => {
   useScrollSmooth();
 
   const cleanupRef = useRef<(() => void) | null>(null);
 
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
-    { name: "Servicios", href: "/servicios" },
-    { name: "Instalación", href: "/servicios/instalacion" },
+    { name: "Sobre Nosotros", href: "/sobre-nosotros" },
+    { name: "Nuestro Espacio", href: "/sobre-nosotros/nuestro-espacio" },
   ];
 
   useEffect(() => {
@@ -83,18 +83,18 @@ const InstalacionPage = () => {
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
-        <div className="instalacion-page">
-          <div className="instalacion-page__breadcrumbs">
+        <div className="nuestro-espacio-page">
+          <div className="nuestro-espacio-page__breadcrumbs">
             <div className="container">
               <Breadcrumbs items={breadcrumbItems} />
             </div>
           </div>
 
-          <div className="instalacion-page__container">
-            {/* <InstalacionHeroSection />
-            <InstalacionServicesSection />
-            <InstalacionProcessSection />
-            <InstalacionTeamSection /> */}
+          <div className="nuestro-espacio-page__container">
+            {/* <NuestroEspacioHeroSection />
+            <NuestroEspacioGallerySection />
+            <NuestroEspacioFacilitiesSection />
+            <NuestroEspacioLocationSection /> */}
 
             {/* Temporary content placeholder */}
             <div
@@ -105,7 +105,7 @@ const InstalacionPage = () => {
                 justifyContent: "center",
               }}
             >
-              <h1>Instalación - Coming Soon</h1>
+              <h1>Nuestro Espacio - Coming Soon</h1>
             </div>
           </div>
         </div>
@@ -115,4 +115,4 @@ const InstalacionPage = () => {
   );
 };
 
-export default InstalacionPage;
+export default NuestroEspacioPage;

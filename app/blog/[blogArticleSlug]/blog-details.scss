@@ -100,6 +100,7 @@
 
   &__hero-title {
     color: $white;
+    opacity: 0;
   }
 
   &__hero-author {
@@ -368,8 +369,12 @@
 
   &__share-section {
     @include flex(column, center, center);
-    @include section-padding-bottom();
+    @include padding(2xl, bottom);
     opacity: 1;
+
+    @include min-width(xl) {
+      padding: 0;
+    }
   }
 
   &__related-posts {
@@ -381,8 +386,7 @@
     display: grid;
     grid-template-columns: 1fr;
     @include gap(lg);
-        @include margin(lg, top);
-
+    @include margin(lg, top);
 
     @include min-width(md) {
       grid-template-columns: repeat(3, 1fr);
@@ -394,8 +398,7 @@
     opacity: 1;
   }
 
-    &__cta-title {
-
+  &__cta-title {
     margin: 0 auto;
   }
 
