@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -9,7 +9,7 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
 import Breadcrumbs from "@/components/SEO/Breadcrumbs";
-import SocialIcons from "@/components/SocialIcons/SocialIcons";
+
 import ConsultoriaHeroSection from "@/components/ConsultoriaPage/ConsultoriaHeroSection/ConsultoriaHeroSection";
 import Footer from "@/components/layout/Footer/footer";
 
@@ -34,6 +34,7 @@ import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 const ConsultoriaPage = () => {
   useScrollSmooth();
   const cleanupRef = useRef<(() => void) | null>(null);
+  const [heroImagesLoaded, setHeroImagesLoaded] = useState(false);
 
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
@@ -55,7 +56,15 @@ const ConsultoriaPage = () => {
     };
   }, []);
 
+  // Callback for when hero images load
+  const handleHeroImagesLoad = useCallback(() => {
+    setHeroImagesLoaded(true);
+  }, []);
+
+  // Run animations only after hero images have loaded
   useGSAP(() => {
+    if (!heroImagesLoaded) return;
+
     const timer = setTimeout(() => {
       fadeAnimation();
       charAnimation();
@@ -67,7 +76,7 @@ const ConsultoriaPage = () => {
       highlightAnimation();
 
       cleanupRef.current = cursorBubbleAnimation();
-    }, 300);
+    }, 100);
 
     return () => {
       clearTimeout(timer);
@@ -78,7 +87,7 @@ const ConsultoriaPage = () => {
         cleanupRef.current = null;
       }
     };
-  });
+  }, [heroImagesLoaded]);
 
   return (
     <div id="smooth-wrapper">
@@ -91,7 +100,7 @@ const ConsultoriaPage = () => {
           </div>
 
           <div className="consultoria-page__container">
-            <ConsultoriaHeroSection />
+            <ConsultoriaHeroSection onImagesLoad={handleHeroImagesLoad} />
             <ConsultoriaMethodlogySection />
             <MarqueeSection />
             <ConsultoriaAboutSection />

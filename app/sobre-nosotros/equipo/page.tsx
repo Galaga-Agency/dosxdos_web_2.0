@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -33,6 +33,7 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 const EquipoPage = () => {
   useScrollSmooth();
+  const [heroImagesLoaded, setHeroImagesLoaded] = useState(false);
 
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
@@ -48,7 +49,15 @@ const EquipoPage = () => {
     };
   }, []);
 
+  // Callback for when hero images load
+  const handleHeroImagesLoad = useCallback(() => {
+    setHeroImagesLoaded(true);
+  }, []);
+
+  // Run animations only after hero images have loaded
   useGSAP(() => {
+    if (!heroImagesLoaded) return;
+
     const timer = setTimeout(() => {
       fadeAnimation();
       charAnimation();
@@ -58,21 +67,21 @@ const EquipoPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
-    }, 300);
+    }, 100);
 
     return () => clearTimeout(timer);
-  });
+  }, [heroImagesLoaded]);
 
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="equipo-page">
           <div className="breadcrumbs">
-              <Breadcrumbs items={breadcrumbItems} />
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
 
           <div className="equipo-page__container">
-            <HeroSection />
+            <HeroSection onImagesLoad={handleHeroImagesLoad} />
             <StorySection />
             <TeamSection />
             <StatsSection />

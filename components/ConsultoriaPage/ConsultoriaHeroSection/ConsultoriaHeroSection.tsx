@@ -1,12 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import "./ConsultoriaHeroSection.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 
-const ConsultoriaHeroSection: React.FC = () => {
+interface ConsultoriaHeroSectionProps {
+  onImagesLoad?: () => void;
+}
+
+const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({ onImagesLoad }) => {
   const { isMobile } = useDeviceDetect();
+  const [loadedImages, setLoadedImages] = useState(new Set<number>());
+  const totalImages = 4; // 1 main + 3 floating images
+
+  const handleImageLoad = useCallback((imageIndex: number) => {
+    setLoadedImages(prev => {
+      const newSet = new Set(prev);
+      newSet.add(imageIndex);
+      
+      // Check if all images are loaded
+      if (newSet.size === totalImages && onImagesLoad) {
+        setTimeout(onImagesLoad, 50);
+      }
+      
+      return newSet;
+    });
+  }, [onImagesLoad, totalImages]);
 
   return (
     <>
@@ -23,13 +43,16 @@ const ConsultoriaHeroSection: React.FC = () => {
         </div>
 
         <div className="consultoria-hero-section__image-container featured-image-container">
-          <div className="consultoria-hero-section__image-wrapper fade-in-scale featured-image-wrapper">
+          <div className={`consultoria-hero-section__image-wrapper fade-in-scale featured-image-wrapper hero-image-wrapper ${
+            loadedImages.has(0) ? 'loaded' : 'loading'
+          }`}>
             <Image
               src="/assets/img/servicios/consultoria/header.webp"
               alt="Consultoría dosxdos"
               fill
               priority
               quality={100}
+              onLoad={() => handleImageLoad(0)}
               style={{
                 objectFit: "cover",
                 objectPosition: "center",
@@ -75,6 +98,7 @@ const ConsultoriaHeroSection: React.FC = () => {
           const imgSrc = `/assets/img/servicios/consultoria/consultoria-${
             i + 1
           }.webp`;
+          const imageIndex = i + 1; // 1, 2, 3 for floating images
 
           const containerSpeed = isMobile
             ? "1"
@@ -95,7 +119,9 @@ const ConsultoriaHeroSection: React.FC = () => {
               data-speed={containerSpeed}
             >
               <div
-                className="random-images__inner-container featured-image-wrapper"
+                className={`random-images__inner-container featured-image-wrapper hero-image-wrapper ${
+                  loadedImages.has(imageIndex) ? 'loaded' : 'loading'
+                }`}
                 data-speed={innerSpeed}
               >
                 <Image
@@ -105,6 +131,7 @@ const ConsultoriaHeroSection: React.FC = () => {
                   priority
                   unoptimized={true}
                   quality={100}
+                  onLoad={() => handleImageLoad(imageIndex)}
                   className="random-images__img"
                   sizes="(min-width: 1024px) 80vw, (min-width: 768px) 60vw, 90vw"
                 />

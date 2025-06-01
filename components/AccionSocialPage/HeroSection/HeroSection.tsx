@@ -1,20 +1,49 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import "./HeroSection.scss";
 
-const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  onImageLoad?: () => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ onImageLoad }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
+
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+    // Trigger animations after image is fully loaded
+    if (onImageLoad) {
+      // Small delay to ensure image is fully rendered
+      setTimeout(onImageLoad, 50);
+    }
+  }, [onImageLoad]);
+
   return (
     <div className="accion-social-hero">
       <div className="accion-social-hero__bg-container featured-image-container">
-        <div className="accion-social-hero__image-wrapper featured-image-wrapper">
+        <div 
+          ref={imageRef}
+          className={`accion-social-hero__image-wrapper featured-image-wrapper hero-image-wrapper ${
+            imageLoaded ? 'loaded' : 'loading'
+          }`}
+        >
           <Image
             src="/assets/img/about-us-page/vicente-ferrer-illustration.jpg"
             alt="Acción Social"
             fill
             quality={100}
             priority
+            onLoad={handleImageLoad}
+            onError={() => {
+              console.error("Hero image failed to load");
+              // Still trigger animations even if image fails
+              handleImageLoad();
+            }}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyLli2YY7jk/wB1OzN2+WV1OmT4BuLhR6wFpvGHrv1f6CqU\u003d\u003d"
           />
         </div>
 

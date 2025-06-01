@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -34,8 +34,8 @@ import "./diseno-interiores-page.scss";
 
 const DisenoInterioresPage = () => {
   useScrollSmooth();
-
   const cleanupRef = useRef<(() => void) | null>(null);
+  const [heroImagesLoaded, setHeroImagesLoaded] = useState(false);
 
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
@@ -57,7 +57,15 @@ const DisenoInterioresPage = () => {
     };
   }, []);
 
+  // Callback for when hero images load
+  const handleHeroImagesLoad = useCallback(() => {
+    setHeroImagesLoaded(true);
+  }, []);
+
+  // Run animations only after hero images have loaded
   useGSAP(() => {
+    if (!heroImagesLoaded) return;
+
     const timer = setTimeout(() => {
       accionSocialHeroAnim();
       fadeAnimation();
@@ -69,7 +77,7 @@ const DisenoInterioresPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
-    }, 300);
+    }, 100);
 
     return () => {
       clearTimeout(timer);
@@ -79,7 +87,7 @@ const DisenoInterioresPage = () => {
         cleanupRef.current = null;
       }
     };
-  });
+  }, [heroImagesLoaded]);
 
   return (
     <div id="smooth-wrapper">
@@ -92,7 +100,7 @@ const DisenoInterioresPage = () => {
           </div>
 
           <div className="diseno-interiores-page__container">
-            <DisenoInterioresHeroSection />
+            <DisenoInterioresHeroSection onImagesLoad={handleHeroImagesLoad} />
             <DisenoInterioresProcessSection />
             <DisenoInterioresMethodologySection />
             <DisenoInterioresLinesSection />

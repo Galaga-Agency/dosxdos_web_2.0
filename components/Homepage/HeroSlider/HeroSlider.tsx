@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
@@ -16,13 +16,16 @@ interface SlideItem {
 interface HeroSliderProps {
   slides: SlideItem[];
   autoplaySpeed?: number;
+  onImagesLoad?: () => void;
 }
 
 const HeroSlider: React.FC<HeroSliderProps> = ({
   slides,
   autoplaySpeed = 3000,
+  onImagesLoad,
 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [loadedImages, setLoadedImages] = useState(new Set<number>());
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -31,6 +34,21 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
   // Extract all image URLs for preloading
   const imageUrls = extractImageUrls(slides, "imageUrl");
+
+  // Handle individual image load
+  const handleImageLoad = useCallback((imageIndex: number) => {
+    setLoadedImages(prev => {
+      const newSet = new Set(prev);
+      newSet.add(imageIndex);
+      
+      // Check if first image is loaded (enough to start animations)
+      if (imageIndex === 0 && onImagesLoad) {
+        setTimeout(onImagesLoad, 50);
+      }
+      
+      return newSet;
+    });
+  }, [onImagesLoad]);
 
   // Preload next slide whenever active slide changes
   useEffect(() => {
@@ -147,9 +165,9 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         {slides.map((slide, index) => (
           <div
             key={slide.id}
-            className={`hero-slider__slide featured-image-wrapper ${
+            className={`hero-slider__slide featured-image-wrapper hero-image-wrapper ${
               index === activeSlide ? "active" : ""
-            }`}
+            } ${loadedImages.has(index) ? 'loaded' : 'loading'}`}
           >
             <Image
               src={slide.imageUrl}
@@ -158,6 +176,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
               priority={index === 0 || index === 1} // Prioritize first two slides
               sizes="100vw"
               className="hero-slider__image"
+              onLoad={() => handleImageLoad(index)}
               ref={(el) => {
                 imageRefs.current[index] = el;
               }}

@@ -294,3 +294,23 @@ strong {
   color: $black;
   @include font-weight(semibold);
 }
+
+// these styles are for hero images loadign state
+.hero-image-wrapper {
+  position: relative;
+  
+  &.loading {
+    background: #f5f5f5;
+    
+    img {
+      opacity: 0;
+    }
+  }
+  
+  &.loaded {
+    img {
+      opacity: 1;
+      transition: opacity 0.4s ease-out;
+    }
+  }
+}
