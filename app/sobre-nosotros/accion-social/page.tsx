@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
@@ -23,12 +23,13 @@ import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./accion-social-page.scss";
-import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 const AccionSocialPage = () => {
   useScrollSmooth();
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
   // Define breadcrumbs for this page / for SEO
   const breadcrumbItems = [
@@ -44,7 +45,15 @@ const AccionSocialPage = () => {
     };
   }, []);
 
+  // Callback for when hero image loads
+  const handleHeroImageLoad = useCallback(() => {
+    setHeroImageLoaded(true);
+  }, []);
+
+  // Run animations only after hero image has loaded
   useGSAP(() => {
+    if (!heroImageLoaded) return;
+
     const timer = setTimeout(() => {
       accionSocialHeroAnim();
       fadeAnimation();
@@ -53,21 +62,21 @@ const AccionSocialPage = () => {
       servicePanel();
       featuredImageAnimation();
       highlightAnimation();
-    }, 300);
+    }, 100); // Reduced delay since image is already loaded
 
     return () => clearTimeout(timer);
-  });
+  }, [heroImageLoaded]); // Dependency on heroImageLoaded
 
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="accion-social-page">
           <div className="breadcrumbs">
-              <Breadcrumbs items={breadcrumbItems} />
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
 
           <div className="accion-social-page__container">
-            <HeroSection />
+            <HeroSection onImageLoad={handleHeroImageLoad} />
             <ValuesSection />
             <SustainabilityImagesSection />
             <ExperienciaSection />

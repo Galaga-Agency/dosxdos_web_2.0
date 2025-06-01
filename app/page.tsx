@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -17,6 +17,8 @@ import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogC
 import Footer from "@/components/layout/Footer/footer";
 
 import { BlogPost } from "@/types/blog-post-types";
+
+import { useHydration } from "@/hooks/useHydration";
 
 import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
 import { panelTwoAnimation } from "@/utils/animations/panel-animation";
@@ -46,11 +48,15 @@ const heroSlides = [
 const HomePage = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [heroImagesLoaded, setHeroImagesLoaded] = useState(false);
+  const isHydrated = useHydration();
 
   useScrollSmooth();
 
+  // Wait for hydration
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
+    
     return () => {
       document.body.classList.remove("smooth-scroll");
     };
@@ -74,30 +80,36 @@ const HomePage = () => {
     };
 
     fetchPosts();
-
-    return () => {
-      document.body.classList.remove("smooth-scroll");
-    };
   }, []);
 
-  // Initial animations
+  // Callback for when hero images load
+  const handleHeroImagesLoad = useCallback(() => {
+    setHeroImagesLoaded(true);
+  }, []);
+
+  // Initial animations - wait for hero images, but panelTwoAnimation waits for hydration
   useGSAP(() => {
-    const timer = setTimeout(() => {
-      fadeAnimation();
-      charAnimation();
-      initHeroSlider();
-      imageParallax();
-      initCardMouseParallax();
-      panelTwoAnimation();
-      hoverCircleButtonAnimation();
-      featuredImageAnimation();
-      highlightAnimation();
-    }, 300);
+    if (heroImagesLoaded) {
+      const timer = setTimeout(() => {
+        fadeAnimation();
+        charAnimation();
+        initHeroSlider();
+        imageParallax();
+        initCardMouseParallax();
+        hoverCircleButtonAnimation();
+        featuredImageAnimation();
+        highlightAnimation();
 
-    return () => clearTimeout(timer);
-  });
+        // Run panelTwoAnimation only when both conditions are met
+        if (isHydrated) {
+          panelTwoAnimation();
+        }
+      }, 100);
 
-  // Re-run highlight animation when blog posts load
+      return () => clearTimeout(timer);
+    }
+  }, [heroImagesLoaded, isHydrated]);
+
   useGSAP(() => {
     if (!loading && blogPosts.length > 0) {
       // Small delay to ensure DOM is updated
@@ -113,7 +125,11 @@ const HomePage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <main>
-          <HeroSlider slides={heroSlides} autoplaySpeed={3000} />
+          <HeroSlider 
+            slides={heroSlides} 
+            autoplaySpeed={3000} 
+            onImagesLoad={handleHeroImagesLoad}
+          />
           <AboutUsSection />
           <LogoMarquee />
           <ServicesSection />

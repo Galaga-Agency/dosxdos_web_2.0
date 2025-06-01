@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -39,6 +39,7 @@ const BlogPage: React.FC = () => {
   const fetchPosts = useDataStore((state) => state.fetchPosts);
 
   const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
   // If data isn't loaded yet, try to fetch it (fallback)
   useEffect(() => {
@@ -86,9 +87,14 @@ const BlogPage: React.FC = () => {
       itemsPerPage: itemsPerPage,
     });
 
-  // Initialize animations with useGSAP
+  // Callback for when hero image loads
+  const handleHeroImageLoad = useCallback(() => {
+    setHeroImageLoaded(true);
+  }, []);
+
+  // Initialize animations with useGSAP - wait for hero image
   useGSAP(() => {
-    if (postsLoaded && first_blog) {
+    if (postsLoaded && first_blog && heroImageLoaded) {
       const timer = setTimeout(() => {
         fadeAnimation();
         charAnimation();
@@ -103,11 +109,11 @@ const BlogPage: React.FC = () => {
           duration: 0.8,
           ease: "power2.out",
         });
-      }, 300);
+      }, 100);
 
       return () => clearTimeout(timer);
     }
-  }, [postsLoaded, first_blog, currentPage]);
+  }, [postsLoaded, first_blog, heroImageLoaded, currentPage]);
 
   // Show loading only if we haven't loaded yet AND there's no cached data
   if (!postsLoaded && posts.length === 0) {
@@ -150,7 +156,9 @@ const BlogPage: React.FC = () => {
               <div className="blog-page__featured-section">
                 <div className="blog-page__featured-offset-background"></div>
                 <div className="blog-page__featured-image-container featured-image-container">
-                  <div className="blog-page__featured-image-wrapper featured-image-wrapper">
+                  <div className={`blog-page__featured-image-wrapper featured-image-wrapper hero-image-wrapper ${
+                    heroImageLoaded ? 'loaded' : 'loading'
+                  }`}>
                     <Image
                       src={
                         first_blog?.coverImage ||
@@ -159,6 +167,7 @@ const BlogPage: React.FC = () => {
                       alt={first_blog?.title}
                       fill
                       priority
+                      onLoad={handleHeroImageLoad}
                     />
                   </div>
                   <div className="blog-page__featured-image-overlay"></div>

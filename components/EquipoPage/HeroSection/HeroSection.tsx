@@ -1,19 +1,42 @@
 "use client";
 
-import React from "react";
+import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import "./HeroSection.scss";
 
-const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  onImagesLoad?: () => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
+  const [loadedImages, setLoadedImages] = useState(new Set<number>());
+  const totalImages = 4; // 1 main + 3 floating images
+
   // Simple function to check if we're on a mobile device
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  const handleImageLoad = useCallback((imageIndex: number) => {
+    setLoadedImages(prev => {
+      const newSet = new Set(prev);
+      newSet.add(imageIndex);
+      
+      // Check if all images are loaded
+      if (newSet.size === totalImages && onImagesLoad) {
+        setTimeout(onImagesLoad, 50);
+      }
+      
+      return newSet;
+    });
+  }, [onImagesLoad, totalImages]);
 
   return (
     <>
       <div className="hero-section">
         <div className="hero-section__image-container featured-image-container">
           <div
-            className="hero-section__image-wrapper fade-in-scale featured-image-wrapper"
+            className={`hero-section__image-wrapper fade-in-scale featured-image-wrapper hero-image-wrapper ${
+              loadedImages.has(0) ? 'loaded' : 'loading'
+            }`}
             data-speed={isMobile ? "1" : "0.9"}
           >
             <Image
@@ -22,6 +45,7 @@ const HeroSection: React.FC = () => {
               fill
               priority
               quality={100}
+              onLoad={() => handleImageLoad(0)}
               style={{
                 objectFit: "cover",
                 objectPosition: "center",
@@ -39,15 +63,6 @@ const HeroSection: React.FC = () => {
             <h1 className="hero-section__title title char-animation">
               Todo empieza con una idea. <br /> Lo demás, lo hacemos juntos.
             </h1>
-            {/* <div className="hero-section__description rollup-text">
-              <p>
-                Contamos con un equipo multidisciplinar de más de 40 personas —
-                arquitectos, interioristas, diseñadores, técnicos e instaladores
-                — que entienden que cada proyecto es un lenguaje visual que debe
-                decir algo único. Te acompañamos de principio a fin para
-                transformar conceptos en espacios que inspiran
-              </p>
-            </div> */}
           </div>
         </div>
       </div>
@@ -56,6 +71,7 @@ const HeroSection: React.FC = () => {
         {/* Floating Images */}
         {[1, 2, 3].map((_, i) => {
           const imgSrc = `/assets/img/about-us-page/equipo-${i + 1}.webp`;
+          const imageIndex = i + 1; // 1, 2, 3 for floating images
 
           // Set different speeds based on image index
           const containerSpeed = isMobile
@@ -77,7 +93,9 @@ const HeroSection: React.FC = () => {
               data-speed={containerSpeed}
             >
               <div
-                className="random-images__inner-container featured-image-wrapper"
+                className={`random-images__inner-container featured-image-wrapper hero-image-wrapper ${
+                  loadedImages.has(imageIndex) ? 'loaded' : 'loading'
+                }`}
                 data-speed={innerSpeed}
               >
                 <Image
@@ -87,6 +105,7 @@ const HeroSection: React.FC = () => {
                   priority
                   unoptimized={true}
                   quality={100}
+                  onLoad={() => handleImageLoad(imageIndex)}
                   className="random-images__img"
                   sizes="(min-width: 1024px) 80vw, (min-width: 768px) 60vw, 90vw"
                 />

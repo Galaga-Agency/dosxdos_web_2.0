@@ -26,13 +26,16 @@ export default function LoginPage() {
 
   const router = useRouter();
   const { data: session, status } = useSession();
+  const hasRedirected = useRef(false);
 
   // Create refs for the inputs
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (status === "authenticated") {
+    // Only redirect once and only when definitely authenticated
+    if (status === "authenticated" && !hasRedirected.current) {
+      hasRedirected.current = true;
       router.replace("/admin");
     }
   }, [status, router]);
@@ -49,7 +52,8 @@ export default function LoginPage() {
       });
 
       if (res?.ok) {
-        window.location.href = "/admin";
+        // Let the useEffect handle the redirect after session updates
+        // Don't force redirect here to avoid conflicts
       } else {
         setError("Credenciales inválidas");
       }
@@ -60,6 +64,17 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
+
+  // Don't render form if already authenticated
+  if (status === "authenticated") {
+    return (
+      <div className="login-page container">
+        <div className="login-container">
+          <p>Redirigiendo...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Get the props from React Hook Form's register
   const usernameRegister = register("username", {
@@ -108,7 +123,7 @@ export default function LoginPage() {
           </form>
         </div>
       </div>
-      <Footer />{" "}
+      <Footer />
     </>
   );
 }

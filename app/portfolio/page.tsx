@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
@@ -29,6 +29,7 @@ import "./portfolio-page.scss";
 const PortfolioPage: React.FC = () => {
   const cleanupRef = useRef<(() => void) | null>(null);
   const smootherRef = useRef<any>(null);
+  const [gridImagesLoaded, setGridImagesLoaded] = useState(false);
 
   // Get data from store
   const projects = useDataStore((state) => state.projects);
@@ -93,11 +94,11 @@ const PortfolioPage: React.FC = () => {
     };
   }, []);
 
-  // Reinitialize ScrollSmoother after projects are available
+  // Mark content as ready when projects are loaded and DOM is ready
   useEffect(() => {
     if (projectsLoaded && projects.length > 0) {
       // Wait a bit for DOM to be fully rendered
-      const reinitTimer = setTimeout(() => {
+      const readyTimer = setTimeout(() => {
         // Reinitialize ScrollSmoother to detect new elements
         initializeScrollSmoother();
 
@@ -105,12 +106,17 @@ const PortfolioPage: React.FC = () => {
         ScrollTrigger.refresh();
       }, 100);
 
-      return () => clearTimeout(reinitTimer);
+      return () => clearTimeout(readyTimer);
     }
   }, [projectsLoaded, projects.length]);
 
+  // Callback for when MasProyectosGrid images are loaded
+  const handleGridImagesLoad = useCallback(() => {
+    setGridImagesLoaded(true);
+  }, []);
+
   useGSAP(() => {
-    if (projectsLoaded && projects.length > 0) {
+    if (projectsLoaded && projects.length > 0 && gridImagesLoaded) {
       const timer = setTimeout(() => {
         fadeAnimation();
         charAnimation();
@@ -121,7 +127,7 @@ const PortfolioPage: React.FC = () => {
 
         // Store the cleanup function
         cleanupRef.current = cursorBubbleAnimation();
-      }, 300);
+      }, 100);
 
       return () => {
         clearTimeout(timer);
@@ -133,7 +139,7 @@ const PortfolioPage: React.FC = () => {
         }
       };
     }
-  }, [projectsLoaded, projects.length]);
+  }, [projectsLoaded, projects.length, gridImagesLoaded]);
 
   // Show loading only if we haven't loaded yet AND there's no cached data
   if (!projectsLoaded && projects.length === 0) {
@@ -153,7 +159,10 @@ const PortfolioPage: React.FC = () => {
       <div id="smooth-content">
         <main className="portfolio-page">
           <PortfolioHeader />
-          <MasProyectosGrid projects={projects} />
+          <MasProyectosGrid 
+            projects={projects} 
+            onImagesLoad={handleGridImagesLoad}
+          />
           <PortfolioCTA />
         </main>
         <Footer />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -52,6 +52,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   const [currentUrl, setCurrentUrl] = useState<string>("");
   const { isMobile, isTablet } = useDeviceDetect();
   const relatedCount = isMobile ? 1 : isTablet ? 2 : 3;
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -104,8 +105,23 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
     fetchBlogPost();
   }, [blogArticleSlug]);
 
+  // Callback for when hero background image loads
+  const handleHeroImageLoad = useCallback(() => {
+    setHeroImageLoaded(true);
+  }, []);
+
+  // Preload hero background image
+  useEffect(() => {
+    if (blogPost) {
+      const img = new window.Image();
+      img.onload = handleHeroImageLoad;
+      img.onerror = handleHeroImageLoad; // Still trigger animations if image fails
+      img.src = getImageSource(blogPost);
+    }
+  }, [blogPost, handleHeroImageLoad]);
+
   useGSAP(() => {
-    if (!loading && blogPost) {
+    if (!loading && blogPost && heroImageLoaded) {
       const timer = setTimeout(() => {
         fadeAnimation();
         charAnimation();
@@ -119,11 +135,11 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
             opacity: 1,
           }
         );
-      }, 300);
+      }, 100);
 
       return () => clearTimeout(timer);
     }
-  }, [loading, blogPost]);
+  }, [loading, blogPost, heroImageLoaded]);
 
   const createMarkup = (htmlContent: string) => {
     return { __html: htmlContent };
@@ -147,7 +163,9 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
           ) : (
             <>
               <section
-                className="blog-detail__hero"
+                className={`blog-detail__hero hero-image-wrapper ${
+                  heroImageLoaded ? 'loaded' : 'loading'
+                }`}
                 style={{ backgroundImage: `url(${getImageSource(blogPost)})` }}
                 data-speed="0.95"
               >
