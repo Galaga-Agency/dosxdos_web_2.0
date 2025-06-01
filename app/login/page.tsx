@@ -51,16 +51,17 @@ export default function LoginPage() {
         password: data.password,
       });
 
-      if (res?.ok) {
-        // Let the useEffect handle the redirect after session updates
-        // Don't force redirect here to avoid conflicts
+      if (res?.ok && !res.error) {
+        // Force redirect immediately after successful login
+        hasRedirected.current = true;
+        window.location.href = "/admin";
       } else {
         setError("Credenciales inválidas");
+        setLoading(false);
       }
     } catch (err) {
       console.error("Login error:", err);
       setError("Ocurrió un error durante el inicio de sesión");
-    } finally {
       setLoading(false);
     }
   };
