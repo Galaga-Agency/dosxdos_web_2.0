@@ -27,8 +27,11 @@
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    @include gap(2xl);
     align-items: start;
+
+    @include min-width(md) {
+      @include gap(2xl);
+    }
 
     @include min-width(lg) {
       grid-template-columns: 1fr 1fr;

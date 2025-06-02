@@ -3,12 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import "./FeaturedprojectsSection.scss";
-import { useDataStore } from "@/store/useDataStore";
+import { Project } from "@/types/project-types";
 
-const FeaturedprojectsSection: React.FC = () => {
-  const projects = useDataStore((state) => state.projects);
-  const featuredProjects = projects.filter((project) => project.featured);
+interface FeaturedprojectsSectionProps {
+  projects: Project[];
+}
 
+const FeaturedprojectsSection: React.FC<FeaturedprojectsSectionProps> = ({ projects }) => {
   const repeatedText = Array.from({ length: 20 }).map((_, i) => (
     <span key={i}>
       Hecho en dos x dos&nbsp;<span className="dot">•</span>&nbsp;
@@ -24,7 +25,7 @@ const FeaturedprojectsSection: React.FC = () => {
       </div>
 
       <div className="project-panel-area">
-        {featuredProjects.map((project) => (
+        {projects.map((project) => (
           <div key={project.id} className="project-panel">
             <div className="project-panel__image">
               <Image

@@ -9,7 +9,8 @@ import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { LuLaptopMinimalCheck } from "react-icons/lu";
 
 import "./ConsultoriaMethodlogySection.scss";
-
+import FiveStepInfographic from "@/components/ConsultoriaInfographic/ConsultoriaInfographic";
+import ConsultoriaInfographic from "@/components/ConsultoriaInfographic/ConsultoriaInfographic";
 
 const ConsultoriaMethodlogySection = () => {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
@@ -66,12 +67,13 @@ const ConsultoriaMethodlogySection = () => {
         <div className="methodology-section__grid">
           {/* Left side - Single Image */}
           <div className="methodology-section__image">
-            <Image
+            {/* <Image
               src="/assets/img/servicios/consultoria/sv-shape-1.png"
               alt="Metodología de consultoría"
               width={500}
               height={500}
-            />
+            /> */}
+            <ConsultoriaInfographic activeIndex={openAccordion} />
           </div>
 
           {/* Right side - Accordion */}
