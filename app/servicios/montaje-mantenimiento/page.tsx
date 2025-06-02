@@ -24,14 +24,14 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
 
-// import FabricacionHeroSection from "@/components/FabricacionPage/FabricacionHeroSection/FabricacionHeroSection";
-// import FabricacionServicesSection from "@/components/FabricacionPage/FabricacionServicesSection/FabricacionServicesSection";
-// import FabricacionProcessSection from "@/components/FabricacionPage/FabricacionProcessSection/FabricacionProcessSection";
-// import FabricacionNetworkSection from "@/components/FabricacionPage/FabricacionNetworkSection/FabricacionNetworkSection";
+// import MontajeMantenimientoHeroSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoHeroSection/MontajeMantenimientoHeroSection";
+// import MontajeMantenimientoServicesSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoServicesSection/MontajeMantenimientoServicesSection";
+// import MontajeMantenimientoProcessSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoProcessSection/MontajeMantenimientoProcessSection";
+// import MontajeMantenimientoTeamSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoTeamSection/MontajeMantenimientoTeamSection";
 
-import "./fabricacion-page.scss";
+import "./montaje-mantenimiento-page.scss";
 
-const FabricacionPage = () => {
+const MontajeMantenimientoPage = () => {
   useScrollSmooth();
 
   const cleanupRef = useRef<(() => void) | null>(null);
@@ -39,7 +39,7 @@ const FabricacionPage = () => {
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
     { name: "Servicios", href: "/servicios" },
-    { name: "Logística", href: "/servicios/logistica" },
+    { name: "Instalación", href: "/servicios/montaje-mantenimiento" },
   ];
 
   useEffect(() => {
@@ -83,18 +83,18 @@ const FabricacionPage = () => {
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
-        <div className="logistica-page">
-          <div className="logistica-page__breadcrumbs">
+        <div className="instalacion-page">
+          <div className="instalacion-page__breadcrumbs">
             <div className="container">
               <Breadcrumbs items={breadcrumbItems} />
             </div>
           </div>
 
-          <div className="logistica-page__container">
-            {/* <FabricacionHeroSection />
-            <FabricacionServicesSection />
-            <FabricacionProcessSection />
-            <FabricacionNetworkSection /> */}
+          <div className="instalacion-page__container">
+            {/* <InstalacionHeroSection />
+            <InstalacionServicesSection />
+            <InstalacionProcessSection />
+            <InstalacionTeamSection /> */}
 
             {/* Temporary content placeholder */}
             <div
@@ -105,7 +105,7 @@ const FabricacionPage = () => {
                 justifyContent: "center",
               }}
             >
-              <h1>Fabricación - Coming Soon</h1>
+              <h1>Instalación - Coming Soon</h1>
             </div>
           </div>
         </div>
@@ -115,4 +115,4 @@ const FabricacionPage = () => {
   );
 };
 
-export default FabricacionPage;
+export default MontajeMantenimientoPage;
