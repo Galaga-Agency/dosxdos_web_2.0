@@ -39,19 +39,19 @@ export const menuItems: MenuItem[] = [
         href: "/servicios/diseno-de-interiores",
       },
       {
-        id: "fabricacion",
-        label: "Fabricación",
-        href: "/servicios/fabricacion",
+        id: "fabricacion-impresion",
+        label: "Fabricación & Impresión",
+        href: "/servicios/fabricacion-impresion",
+      },
+      {
+        id: "montaje-mantenimiento",
+        label: "Montaje & Mantenimiento",
+        href: "/servicios/montaje-mantenimiento",
       },
       {
         id: "comunicacion",
         label: "Comunicación",
         href: "/servicios/comunicacion",
-      },
-      {
-        id: "instalacion",
-        label: "Instalación",
-        href: "/servicios/instalacion",
       },
       {
         id: "eventos",
