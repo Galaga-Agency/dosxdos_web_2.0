@@ -16,8 +16,7 @@ import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSecti
 import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import Footer from "@/components/layout/Footer/footer";
 
-import { BlogPost } from "@/types/blog-post-types";
-
+import { useDataStore } from "@/store/useDataStore";
 import { useHydration } from "@/hooks/useHydration";
 
 import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
@@ -46,14 +45,25 @@ const heroSlides = [
 ];
 
 const HomePage = () => {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
   const [heroImagesLoaded, setHeroImagesLoaded] = useState(false);
   const isHydrated = useHydration();
+  
+  // Get data from zustand store
+  const projects = useDataStore((state) => state.projects);
+  const posts = useDataStore((state) => state.posts);
+  const postsLoaded = useDataStore((state) => state.postsLoaded);
+  const projectsLoaded = useDataStore((state) => state.projectsLoaded);
+  
+  // Filter data
+  const featuredProjects = projects.filter(p => p.featured);
+  const publishedPosts = posts.filter(p => p.published).slice(0, 6);
+  
+  // Check if we should show components
+  const showFeaturedProjects = projectsLoaded && featuredProjects.length > 0;
+  const showBlogCarousel = postsLoaded && publishedPosts.length > 0;
 
   useScrollSmooth();
 
-  // Wait for hydration
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
     
@@ -62,34 +72,13 @@ const HomePage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await fetch("/api/blog");
-        const data = await res.json();
-        const publishedPosts = data.filter(
-          (post: BlogPost) => post.published === true
-        );
-        const latestPosts = publishedPosts.slice(0, 6);
-        setBlogPosts(latestPosts);
-      } catch (error) {
-        console.error("Failed to fetch blog posts:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
-  // Callback for when hero images load
   const handleHeroImagesLoad = useCallback(() => {
     setHeroImagesLoaded(true);
   }, []);
 
-  // Initial animations - wait for hero images, but panelTwoAnimation waits for hydration
+  // Main animations - simpler conditions now
   useGSAP(() => {
-    if (heroImagesLoaded) {
+    if (heroImagesLoaded && showFeaturedProjects && isHydrated) {
       const timer = setTimeout(() => {
         fadeAnimation();
         charAnimation();
@@ -99,27 +88,23 @@ const HomePage = () => {
         hoverCircleButtonAnimation();
         featuredImageAnimation();
         highlightAnimation();
-
-        // Run panelTwoAnimation only when both conditions are met
-        if (isHydrated) {
-          panelTwoAnimation();
-        }
+        panelTwoAnimation();
       }, 100);
 
       return () => clearTimeout(timer);
     }
-  }, [heroImagesLoaded, isHydrated]);
+  }, [heroImagesLoaded, showFeaturedProjects, isHydrated]);
 
+  // Blog section animations
   useGSAP(() => {
-    if (!loading && blogPosts.length > 0) {
-      // Small delay to ensure DOM is updated
+    if (showBlogCarousel) {
       const timer = setTimeout(() => {
-        highlightAnimation(0.3); // Shorter delay for blog section
+        highlightAnimation(0.3);
       }, 100);
 
       return () => clearTimeout(timer);
     }
-  }, [loading, blogPosts.length]);
+  }, [showBlogCarousel]);
 
   return (
     <div id="smooth-wrapper">
@@ -133,9 +118,11 @@ const HomePage = () => {
           <AboutUsSection />
           <LogoMarquee />
           <ServicesSection />
-          <FeaturedprojectsSection />
-          {!loading && blogPosts.length > 0 && (
-            <BlogCarouselSection posts={blogPosts} />
+          {showFeaturedProjects && (
+            <FeaturedprojectsSection projects={featuredProjects} />
+          )}
+          {showBlogCarousel && (
+            <BlogCarouselSection posts={publishedPosts} />
           )}
         </main>
         <Footer />

@@ -28,7 +28,7 @@ const VisionSection: React.FC = () => {
               <div className="vision-section__service-item fade_bottom">
                 <div className="vision-section__service-icon">
                   <Image
-                    src="/assets/img/icons/service-icon-2.webp"
+                    src="/assets/img/servicios/grafico.png"
                     alt="Icono de diseño"
                     width={80}
                     height={80}
@@ -46,7 +46,7 @@ const VisionSection: React.FC = () => {
               <div className="vision-section__service-item fade_bottom">
                 <div className="vision-section__service-icon">
                   <Image
-                    src="/assets/img/icons/service-icon-1.webp"
+                    src="/assets/img/servicios/eco-factory.png"
                     alt="Icono de producción"
                     width={80}
                     height={80}
@@ -64,7 +64,7 @@ const VisionSection: React.FC = () => {
               <div className="vision-section__service-item fade_bottom">
                 <div className="vision-section__service-icon">
                   <Image
-                    src="/assets/img/icons/service-icon-3.webp"
+                    src="/assets/img/servicios/installation.png"
                     alt="Icono de instalación"
                     width={80}
                     height={80}
