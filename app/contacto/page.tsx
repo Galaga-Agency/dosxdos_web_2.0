@@ -15,9 +15,10 @@ import Footer from "@/components/layout/Footer/footer";
 
 import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
+import { setupMouseMoveAnimation } from "@/utils/animations/mouse-move-anim";
 
 import "./contact-page.scss";
-import { setupMouseMoveAnimation } from "@/utils/animations/mouse-move-anim";
+import ZohoContactForm from "@/components/ZohoContactForm/ZohoContactForm";
 
 const ContactPage: React.FC = () => {
   const cleanupRef = useRef<(() => void) | null>(null);
@@ -110,7 +111,8 @@ const ContactPage: React.FC = () => {
               </div>
 
               <div className="contact-page__right fade_bottom">
-                <ContactForm />
+                {/* <ContactForm /> */}
+                <ZohoContactForm/>
               </div>
             </div>
 
