@@ -1,0 +1,325 @@
+@use "sass:math";
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.contact-form-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  background-color: $white;
+  @include border-radius(md);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+  // Progress Bar Styling
+  .progress-bar {
+    padding: 2rem 2rem 1rem;
+    border-bottom: 1px solid $secondary-color;
+
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      position: relative;
+
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        position: relative;
+
+        span {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: $secondary-color;
+          color: $black;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          @include font-weight(semibold);
+          margin-bottom: 0.5rem;
+          transition: all 0.3s ease;
+        }
+
+        label {
+          @include font-size(sm);
+          color: rgba($black, 0.6);
+          text-align: center;
+          @include font-weight(medium);
+        }
+
+        &.active {
+          span {
+            background-color: $primary-color;
+            color: $white;
+          }
+
+          label {
+            color: $black;
+          }
+        }
+      }
+    }
+
+    .progress-line {
+      height: 3px;
+      background-color: $secondary-color;
+      border-radius: 2px;
+      position: relative;
+      margin-top: -20px;
+      z-index: 0;
+
+      .progress-fill {
+        height: 100%;
+        background-color: $primary-color;
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  .contact-form {
+    width: 100%;
+    padding: 1.5rem;
+
+    .form-step {
+      min-height: 400px;
+
+      h3 {
+        color: $black;
+        @include font-size(xl);
+        @include font-weight(semibold);
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      h4 {
+        color: $black;
+        @include font-size(lg);
+        @include font-weight(medium);
+        margin: 2rem 0 1rem;
+        border-bottom: 1px solid $secondary-color;
+        padding-bottom: 0.5rem;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+      position: relative;
+      
+      label {
+        display: block;
+        color: $black;
+        @include font-size(base);
+        @include font-weight(semibold);
+        margin-bottom: 0.5rem;
+
+        &.checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          cursor: pointer;
+          @include font-weight(medium);
+
+          input[type="checkbox"] {
+            display: none;
+          }
+
+          .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid $secondary-color;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+
+            &::after {
+              content: "✓";
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              color: $white;
+              @include font-size(sm);
+              @include font-weight(bold);
+              opacity: 0;
+              transition: opacity 0.3s ease;
+            }
+          }
+
+          input[type="checkbox"]:checked + .checkmark {
+            background-color: $primary-color;
+            border-color: $primary-color;
+
+            &::after {
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      .input-container {
+        position: relative;
+      }
+
+      input, select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid $secondary-color;
+        background-color: $white;
+        color: $black;
+        @include font-size(base);
+        @include border-radius(md);
+        transition: border-color 0.3s ease;
+
+        &::placeholder {
+          color: rgba($black, 0.4);
+          @include font-weight(light);
+        }
+
+        &:focus {
+          outline: none;
+          border-color: darken($secondary-color, 10%);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+
+      select {
+        cursor: pointer;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid $secondary-color;
+        background-color: $white;
+        color: $black;
+        @include font-size(base);
+        min-height: 6rem;
+        resize: vertical;
+        @include border-radius(md);
+        transition: border-color 0.3s ease;
+
+        &::placeholder {
+          color: rgba($black, 0.4);
+          @include font-weight(light);
+        }
+
+        &:focus {
+          outline: none;
+          border-color: darken($secondary-color, 10%);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+
+      .error-message {
+        display: block;
+        margin-top: 0.5rem;
+        color: $danger-color;
+        @include font-size(sm);
+        @include font-weight(medium);
+      }
+    }
+
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid $secondary-color;
+
+      .prev-btn, .next-btn, .submit-btn {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+        @include border-radius(md);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-width: 120px;
+        @include font-weight(medium);
+
+        &:hover {
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(1px);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+        }
+      }
+
+      .prev-btn {
+        background-color: $secondary-color;
+        color: $black;
+
+        &:hover:not(:disabled) {
+          background-color: darken($secondary-color, 10%);
+        }
+      }
+
+      .next-btn, .submit-btn {
+        background-color: $black;
+        color: $white;
+
+        &:hover:not(:disabled) {
+          background-color: lighten($black, 10%);
+        }
+      }
+
+      // Single button centering
+      &:has(.next-btn:only-child) {
+        justify-content: center;
+      }
+    }
+    
+    .form-submit {
+      margin-top: 2rem;
+      
+      .contact-form__submit-btn {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+        background-color: $black;
+        color: $white;
+        @include border-radius(md);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background-color: lighten($black, 10%);
+        }
+        
+        &:active {
+          transform: translateY(1px);
+        }
+      }
+    }
+  }
+}
+
+// Toast styling
+:global(.toast) {
+  background-color: $white !important;
+  color: $black !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+  font-size: 0.875rem !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.25rem !important;
+}
