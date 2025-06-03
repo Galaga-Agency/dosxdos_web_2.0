@@ -56,13 +56,13 @@
     margin: 0;
 
     &-title {
-      @include font-size(2xl);
+      @include font-size(3xl);
       @include font-weight(bold);
       color: $black;
       margin: 0;
 
       @include min-width(lg) {
-        @include font-size(3xl);
+        @include font-size(4xl);
       }
     }
   }
@@ -72,28 +72,28 @@
     overflow: hidden;
     position: relative;
     width: 100%;
-    will-change: transform; // Optimize for animations
-    transform: translateZ(0); // Force GPU acceleration
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   &__track {
     display: flex;
     width: fit-content;
-    animation: marquee-scroll 120s linear infinite;
-    will-change: transform; // Optimize performance for animations
-    transform: translateZ(0); // Force GPU acceleration
-    backface-visibility: hidden; // Prevent flickering
+    animation: marquee-scroll 300s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 
     @include min-width(md) {
-      animation-duration: 110s;
+      animation-duration: 280s;
     }
 
     @include min-width(lg) {
-      animation-duration: 100s;
+      animation-duration: 250s;
     }
 
     @include min-width(xl) {
-      animation-duration: 90s;
+      animation-duration: 200s;
     }
 
     &:hover {
@@ -104,17 +104,18 @@
   &__item {
     flex-shrink: 0;
     padding: 0 3rem;
-    height: 100px;
+    height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
 
     @include min-width(lg) {
-      height: 80px;
+      height: 120px;
+      padding: 0 4rem;
     }
 
     img {
-      max-height: 100px;
+      max-height: 120px;
       width: auto;
       height: auto;
       object-fit: contain;
@@ -123,11 +124,11 @@
       transition: all 0.5s ease;
 
       @include min-width(lg) {
-        max-height: 55px;
+        max-height: 90px;
       }
 
       @include min-width(xl) {
-        max-height: 90px;
+        max-height: 120px;
       }
     }
 

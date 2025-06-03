@@ -11,7 +11,6 @@
   overflow: hidden;
   background-color: $white;
 
-  // Dark overlay gradient - positioned before any animations
   &::after {
     content: "";
     position: absolute;
@@ -158,6 +157,21 @@
 
     @include min-width(lg) {
       @include font-size(8xl);
+    }
+
+    perspective: 1000px;
+
+    .hero-slider__rolling-text {
+      display: inline-block;
+      position: relative;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      vertical-align: baseline;
+      line-height: inherit;
+      will-change: transform;
+      color: inherit;
+      white-space: nowrap;
+      transform-origin: center center -100px;
     }
   }
 

@@ -15,9 +15,9 @@ const AboutUsSection: React.FC = () => {
       <div className="aboutus-section__container container">
         <div className="aboutus-section__header header">
           <h2 className="aboutus-section__title secondary-title fade_bottom">
-            Diseñamos experiencias que{" "}
-            <span className="highlight">conectan</span>
-            <br /> marcas con personas
+            38 años diseñando, produciendo y{" "}
+            <span className="highlight">cuidando cada detalle</span> para marcas
+            líderes
           </h2>
         </div>
         <div className="aboutus-section__content">
@@ -38,12 +38,18 @@ const AboutUsSection: React.FC = () => {
           </div>
           <div className="aboutus-section__content-column">
             <p className="aboutus-section__text text">
-              Desde hace más de 38 años, en Dos x Dos Grupo Imagen creamos
-              soluciones creativas para marcas que buscan dejar huella.
-              Diseñamos espacios, eventos, identidades y herramientas digitales
-              que inspiran y funcionan. Nuestra visión integral une diseño,
-              producción, tecnología y estrategia para acompañarte en todo lo
-              que tu negocio necesita, desde la idea hasta el resultado.
+              En Dos por Dos Grupo Imagen llevamos más de 38 años creando
+              proyectos integrales que conectan marcas con personas. Acompañamos
+              a nuestros clientes desde la estrategia y la consultoría hasta el
+              diseño, la fabricación, la impresión, el montaje y el
+              mantenimiento de espacios comerciales, promocionales y
+              experienciales. Nos implicamos en cada fase del proceso con un
+              equipo propio y una ejecución impecable, adaptada a cada necesidad
+              y a cada isla. Nuestra capacidad de dar servicio simultaneo en
+              varias islas, nuestra experiencia multisectorial y nuestro
+              compromiso con la sostenibilidad nos convierten en el socio ideal
+              para quienes buscan resultados reales, con creatividad, agilidad y
+              excelencia.
             </p>
             <div className="aboutus-section__cta">
               <SecondaryButton
