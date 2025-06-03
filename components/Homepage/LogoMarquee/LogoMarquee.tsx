@@ -10,7 +10,6 @@ const LogoMarquee = ({
   fullWidth = false,
   darkMode = false,
 }) => {
-  // Duplicate the logos array to create the continuous effect
   const allLogos = [
     ...clientLogos,
     ...clientLogos,
@@ -47,8 +46,8 @@ const LogoMarquee = ({
                 <Image
                   src={logo.src}
                   alt={logo.name}
-                  width={150}
-                  height={80}
+                  width={200}
+                  height={120}
                   style={{ objectFit: "contain" }}
                   className="logo-marquee__logo"
                 />

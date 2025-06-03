@@ -27,6 +27,7 @@ import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
+import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
 
 // Slider data
 const heroSlides = [
@@ -47,17 +48,17 @@ const heroSlides = [
 const HomePage = () => {
   const [heroImagesLoaded, setHeroImagesLoaded] = useState(false);
   const isHydrated = useHydration();
-  
+
   // Get data from zustand store
   const projects = useDataStore((state) => state.projects);
   const posts = useDataStore((state) => state.posts);
   const postsLoaded = useDataStore((state) => state.postsLoaded);
   const projectsLoaded = useDataStore((state) => state.projectsLoaded);
-  
+
   // Filter data
-  const featuredProjects = projects.filter(p => p.featured);
-  const publishedPosts = posts.filter(p => p.published).slice(0, 6);
-  
+  const featuredProjects = projects.filter((p) => p.featured);
+  const publishedPosts = posts.filter((p) => p.published).slice(0, 6);
+
   // Check if we should show components
   const showFeaturedProjects = projectsLoaded && featuredProjects.length > 0;
   const showBlogCarousel = postsLoaded && publishedPosts.length > 0;
@@ -66,7 +67,7 @@ const HomePage = () => {
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
-    
+
     return () => {
       document.body.classList.remove("smooth-scroll");
     };
@@ -83,6 +84,7 @@ const HomePage = () => {
         fadeAnimation();
         charAnimation();
         initHeroSlider();
+        initRollingTextAnimation(); // Add the rolling text animation here
         imageParallax();
         initCardMouseParallax();
         hoverCircleButtonAnimation();
@@ -110,9 +112,9 @@ const HomePage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <main>
-          <HeroSlider 
-            slides={heroSlides} 
-            autoplaySpeed={3000} 
+          <HeroSlider
+            slides={heroSlides}
+            autoplaySpeed={3000}
             onImagesLoad={handleHeroImagesLoad}
           />
           <AboutUsSection />
@@ -121,9 +123,7 @@ const HomePage = () => {
           {showFeaturedProjects && (
             <FeaturedprojectsSection projects={featuredProjects} />
           )}
-          {showBlogCarousel && (
-            <BlogCarouselSection posts={publishedPosts} />
-          )}
+          {showBlogCarousel && <BlogCarouselSection posts={publishedPosts} />}
         </main>
         <Footer />
       </div>

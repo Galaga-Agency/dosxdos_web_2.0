@@ -7,7 +7,7 @@
   position: relative;
   width: 100%;
   background-color: $white;
-  @include section-padding-top();
+  @include section-padding-y();
 
   &__content {
     @include grid(1, md);

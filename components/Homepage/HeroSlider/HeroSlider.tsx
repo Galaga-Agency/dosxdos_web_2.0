@@ -36,19 +36,22 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   const imageUrls = extractImageUrls(slides, "imageUrl");
 
   // Handle individual image load
-  const handleImageLoad = useCallback((imageIndex: number) => {
-    setLoadedImages(prev => {
-      const newSet = new Set(prev);
-      newSet.add(imageIndex);
-      
-      // Check if first image is loaded (enough to start animations)
-      if (imageIndex === 0 && onImagesLoad) {
-        setTimeout(onImagesLoad, 50);
-      }
-      
-      return newSet;
-    });
-  }, [onImagesLoad]);
+  const handleImageLoad = useCallback(
+    (imageIndex: number) => {
+      setLoadedImages((prev) => {
+        const newSet = new Set(prev);
+        newSet.add(imageIndex);
+
+        // Check if first image is loaded (enough to start animations)
+        if (imageIndex === 0 && onImagesLoad) {
+          setTimeout(onImagesLoad, 50);
+        }
+
+        return newSet;
+      });
+    },
+    [onImagesLoad]
+  );
 
   // Preload next slide whenever active slide changes
   useEffect(() => {
@@ -167,7 +170,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
             key={slide.id}
             className={`hero-slider__slide featured-image-wrapper hero-image-wrapper ${
               index === activeSlide ? "active" : ""
-            } ${loadedImages.has(index) ? 'loaded' : 'loading'}`}
+            } ${loadedImages.has(index) ? "loaded" : "loading"}`}
           >
             <Image
               src={slide.imageUrl}
@@ -187,14 +190,14 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
       <div className="hero-slider__content">
         <h1 ref={titleRef} className="hero-slider__title">
-          DISEÑAMOS ESPACIOS
-          <br />
+          <span className="hero-slider__rolling-text">CREAMOS</span> <br />ESPACIOS
+          
           QUE INSPIRAN
         </h1>
 
         <div ref={ctaRef} className="hero-slider__cta">
-          <SecondaryButton href="/portfolio" size="large">
-            Descubrir Proyectos
+          <SecondaryButton href="/servicios" size="large">
+            Descubrir Servicios
           </SecondaryButton>
         </div>
       </div>
