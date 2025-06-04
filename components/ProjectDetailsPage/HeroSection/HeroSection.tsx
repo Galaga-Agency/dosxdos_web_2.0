@@ -23,7 +23,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
           <div className="portfolio-hero__row">
             <div className="portfolio-hero__col-title">
               <div className="portfolio-hero__title-box">
-                <h1 className="portfolio-hero__title secondary-title char-animation">
+                <h1 className="portfolio-hero__title title char-animation">
                   {project.name}
                 </h1>
 

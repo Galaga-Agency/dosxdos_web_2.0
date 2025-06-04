@@ -11,48 +11,156 @@
   @include border-radius(md);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
 
+  // Full-screen feedback (replaces entire form)
+  .feedback-screen {
+    min-height: 500px;
+    @include flex(column, center, center);
+    @include padding(2xl);
+    text-align: center;
+
+    @include min-width(md) {
+      min-height: 600px;
+      @include padding(4xl);
+    }
+
+    .feedback-content {
+      max-width: 600px;
+
+      .feedback-icon {
+        @include font-size(4xl);
+        @include margin(lg, bottom);
+
+        @include min-width(md) {
+          @include font-size(6xl);
+          @include margin(xl, bottom);
+        }
+      }
+
+      h2 {
+        @include font-size(2xl);
+        @include font-weight(bold);
+        @include margin(lg, bottom);
+
+        @include min-width(md) {
+          @include font-size(4xl);
+          @include margin(xl, bottom);
+        }
+
+        .success & {
+          color: #166534;
+        }
+
+        .error & {
+          color: #991b1b;
+        }
+      }
+
+      p {
+        @include font-size(lg);
+        @include margin(md, bottom);
+        line-height: 1.6;
+
+        @include min-width(md) {
+          @include font-size(xl);
+          @include margin(lg, bottom);
+        }
+
+        .success & {
+          color: #166534;
+        }
+
+        .error & {
+          color: #991b1b;
+        }
+      }
+
+      .feedback-details {
+        @include margin(lg, y);
+        @include padding(md);
+        background-color: rgba(255, 255, 255, 0.7);
+        @include border-radius(md);
+
+        p {
+          @include font-size(base);
+          margin: 0;
+          opacity: 0.8;
+
+          @include min-width(md) {
+            @include font-size(lg);
+          }
+        }
+      }
+
+      .countdown {
+        @include margin(xl, top);
+
+        small {
+          @include font-size(sm);
+          opacity: 0.6;
+          @include font-weight(medium);
+
+          @include min-width(md) {
+            @include font-size(base);
+          }
+        }
+      }
+    }
+  }
+
   // Progress Bar Styling
   .progress-bar {
-    padding: 2rem 2rem 1rem;
-    border-bottom: 1px solid $secondary-color;
+    @include padding(sm, x);
+    @include padding(lg, top);
+    @include padding(xs, bottom);
+
+    @include min-width(md) {
+      @include padding(lg, x);
+      @include padding(xl, top);
+      @include padding(sm, bottom);
+    }
 
     .progress-steps {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1rem;
+      @include flex(row, space-between, center);
+      @include margin(sm, bottom);
       position: relative;
 
       .step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        @include flex(column, center, center);
         flex: 1;
         position: relative;
 
         span {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          @include border-radius(full);
           background-color: $secondary-color;
           color: $black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          @include flex(row, center, center);
           @include font-weight(semibold);
-          margin-bottom: 0.5rem;
-          transition: all 0.3s ease;
+          @include font-size(sm);
+          @include margin(xs, bottom);
+          @include transition-duration(normal);
+
+          @include min-width(md) {
+            width: 40px;
+            height: 40px;
+          }
         }
 
         label {
-          @include font-size(sm);
+          @include font-size(xs);
           color: rgba($black, 0.6);
           text-align: center;
           @include font-weight(medium);
+
+          @include min-width(md) {
+            @include font-size(sm);
+          }
         }
 
         &.active {
           span {
-            background-color: $primary-color;
+            background-color: $black;
             color: $white;
           }
 
@@ -66,97 +174,121 @@
     .progress-line {
       height: 3px;
       background-color: $secondary-color;
-      border-radius: 2px;
+      @include border-radius(sm);
       position: relative;
-      margin-top: -20px;
       z-index: 0;
 
       .progress-fill {
         height: 100%;
-        background-color: $primary-color;
-        border-radius: 2px;
-        transition: width 0.3s ease;
+        background-color: $black;
+        @include border-radius(sm);
+        @include transition-duration(normal);
       }
     }
   }
 
   .contact-form {
     width: 100%;
-    padding: 1.5rem;
+    @include padding(sm);
+
+    @include min-width(md) {
+      @include padding(md);
+    }
 
     .form-step {
       min-height: 400px;
 
       h3 {
         color: $black;
-        @include font-size(xl);
+        @include font-size(lg);
         @include font-weight(semibold);
-        margin-bottom: 1.5rem;
+        @include margin(sm, bottom);
         text-align: center;
+
+        @include min-width(md) {
+          @include font-size(xl);
+          @include margin(lg, bottom);
+        }
       }
 
       h4 {
         color: $black;
-        @include font-size(lg);
+        @include font-size(base);
         @include font-weight(medium);
-        margin: 2rem 0 1rem;
+        @include margin(lg, top);
+        @include margin(sm, bottom);
         border-bottom: 1px solid $secondary-color;
-        padding-bottom: 0.5rem;
+        @include padding(xs, bottom);
+
+        @include min-width(md) {
+          @include font-size(lg);
+        }
+      }
+    }
+
+    // Form grid layout - mobile first
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      @include gap(sm);
+
+      // Two-column layout for tablets and up
+      @include min-width(md) {
+        grid-template-columns: 1fr 1fr;
+        @include gap(lg);
+      }
+
+      // Full-width items (should span both columns on larger screens)
+      .form-group {
+        &.full-width {
+          @include min-width(md) {
+            grid-column: 1 / -1;
+          }
+        }
       }
     }
 
     .form-group {
-      margin-bottom: 2rem;
       position: relative;
-      
-      label {
+
+      // Custom select styling (since we still have one select)
+      select {
+        width: 100%;
+        @include padding(xs);
+        border: 1px solid $secondary-color;
+        background-color: $white;
+        color: $black;
+        @include font-size(sm);
+        @include border-radius(md);
+        @include transition-duration(normal);
+        cursor: pointer;
+
+        @include min-width(md) {
+          @include padding(sm);
+          @include font-size(base);
+        }
+
+        &:focus {
+          outline: none;
+          border-color: darken($secondary-color, 10%);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+
+      // Label for select field
+      > label {
         display: block;
         color: $black;
-        @include font-size(base);
+        @include font-size(sm);
         @include font-weight(semibold);
-        margin-bottom: 0.5rem;
+        @include margin(xs, bottom);
 
-        &.checkbox-label {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          cursor: pointer;
-          @include font-weight(medium);
-
-          input[type="checkbox"] {
-            display: none;
-          }
-
-          .checkmark {
-            width: 20px;
-            height: 20px;
-            border: 2px solid $secondary-color;
-            border-radius: 4px;
-            position: relative;
-            transition: all 0.3s ease;
-
-            &::after {
-              content: "✓";
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              color: $white;
-              @include font-size(sm);
-              @include font-weight(bold);
-              opacity: 0;
-              transition: opacity 0.3s ease;
-            }
-          }
-
-          input[type="checkbox"]:checked + .checkmark {
-            background-color: $primary-color;
-            border-color: $primary-color;
-
-            &::after {
-              opacity: 1;
-            }
-          }
+        @include min-width(md) {
+          @include font-size(base);
         }
       }
 
@@ -164,152 +296,57 @@
         position: relative;
       }
 
-      input, select {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid $secondary-color;
-        background-color: $white;
-        color: $black;
-        @include font-size(base);
-        @include border-radius(md);
-        transition: border-color 0.3s ease;
-
-        &::placeholder {
-          color: rgba($black, 0.4);
-          @include font-weight(light);
-        }
-
-        &:focus {
-          outline: none;
-          border-color: darken($secondary-color, 10%);
-        }
-
-        &:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-      }
-
-      select {
-        cursor: pointer;
-      }
-
-      textarea {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid $secondary-color;
-        background-color: $white;
-        color: $black;
-        @include font-size(base);
-        min-height: 6rem;
-        resize: vertical;
-        @include border-radius(md);
-        transition: border-color 0.3s ease;
-
-        &::placeholder {
-          color: rgba($black, 0.4);
-          @include font-weight(light);
-        }
-
-        &:focus {
-          outline: none;
-          border-color: darken($secondary-color, 10%);
-        }
-
-        &:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-      }
-
       .error-message {
         display: block;
-        margin-top: 0.5rem;
+        @include margin(xs, top);
         color: $danger-color;
-        @include font-size(sm);
+        @include font-size(xs);
         @include font-weight(medium);
+
+        @include min-width(md) {
+          @include font-size(sm);
+        }
       }
     }
 
     .form-navigation {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 3rem;
-      padding-top: 2rem;
+      @include flex(column, center, stretch);
+      @include gap(sm);
+      @include margin(lg, top);
+      @include padding(sm, top);
       border-top: 1px solid $secondary-color;
 
-      .prev-btn, .next-btn, .submit-btn {
-        font-size: 1rem;
-        padding: 0.75rem 1.5rem;
-        @include border-radius(md);
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 120px;
-        @include font-weight(medium);
+      @include min-width(sm) {
+        @include flex(row, space-between, center);
 
-        &:hover {
-          transform: translateY(-1px);
-        }
-
-        &:active {
-          transform: translateY(1px);
-        }
-
-        &:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-          transform: none;
+        .prev-btn,
+        .next-btn,
+        .submit-btn {
+          width: auto;
         }
       }
 
-      .prev-btn {
-        background-color: $secondary-color;
-        color: $black;
-
-        &:hover:not(:disabled) {
-          background-color: darken($secondary-color, 10%);
-        }
-      }
-
-      .next-btn, .submit-btn {
-        background-color: $black;
-        color: $white;
-
-        &:hover:not(:disabled) {
-          background-color: lighten($black, 10%);
-        }
+      @include min-width(md) {
+        @include margin(2xl, top);
+        @include padding(lg, top);
       }
 
       // Single button centering
       &:has(.next-btn:only-child) {
-        justify-content: center;
+        @include min-width(sm) {
+          justify-content: center;
+        }
       }
     }
-    
-    .form-submit {
-      margin-top: 2rem;
-      
-      .contact-form__submit-btn {
-        font-size: 1rem;
-        padding: 0.75rem 1.5rem;
-        background-color: $black;
-        color: $white;
-        @include border-radius(md);
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        
-        &:hover {
-          background-color: lighten($black, 10%);
-        }
-        
-        &:active {
-          transform: translateY(1px);
-        }
-      }
+  }
+
+  // Spacing overrides for custom components in grid
+  .form-grid .form-group {
+    // Remove default margins from custom components when in grid
+    .form-input,
+    .custom-checkbox,
+    .signature-canvas {
+      margin-bottom: 0;
     }
   }
 }
@@ -319,7 +356,14 @@
   background-color: $white !important;
   color: $black !important;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
-  font-size: 0.875rem !important;
-  padding: 0.75rem 1rem !important;
-  border-radius: 0.25rem !important;
+  @include font-size(xs);
+  @include padding(xs, x);
+  @include padding(2xs, y);
+  @include border-radius(md);
+
+  @include min-width(md) {
+    @include font-size(sm);
+    @include padding(sm, x);
+    @include padding(xs, y);
+  }
 }
