@@ -1,0 +1,105 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.signature-canvas {
+  width: 100%;
+
+  label {
+    display: block;
+    color: $black;
+    @include font-size(sm);
+    @include font-weight(semibold);
+    @include margin(xs, bottom);
+
+    @include min-width(md) {
+      @include font-size(base);
+    }
+  }
+
+  &__container {
+    position: relative;
+    border: 1px solid $secondary-color;
+    @include border-radius(md);
+    background-color: $white;
+    @include transition-duration(normal);
+    overflow: hidden;
+
+    &.error {
+      border-color: $danger-color;
+    }
+
+    &:focus-within {
+      border-color: darken($secondary-color, 10%);
+    }
+  }
+
+  &__canvas {
+    display: block;
+    width: 100%;
+    height: 150px;
+    cursor: crosshair;
+    background-color: $white;
+
+    @include min-width(md) {
+      height: 180px;
+    }
+  }
+
+  &__placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba($black, 0.4);
+    @include font-size(sm);
+    @include font-weight(light);
+    pointer-events: none;
+    text-align: center;
+
+    @include min-width(md) {
+      @include font-size(base);
+    }
+  }
+
+  &__clear-btn {
+    @include margin(xs, top);
+    @include padding(xs, x);
+    @include padding(2xs, y);
+    background-color: transparent;
+    color: $danger-color;
+    border: 1px solid $danger-color;
+    @include border-radius(sm);
+    @include font-size(xs);
+    @include font-weight(medium);
+    cursor: pointer;
+    @include transition-duration(normal);
+
+    @include min-width(md) {
+      @include font-size(sm);
+      @include padding(xs, x);
+      @include padding(xs, y);
+    }
+
+    &:hover {
+      background-color: $danger-color;
+      color: $white;
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+
+  .error-feedback {
+    display: block;
+    @include margin(xs, top);
+    color: $danger-color;
+    @include font-size(xs);
+    @include font-weight(medium);
+
+    @include min-width(md) {
+      @include font-size(sm);
+    }
+  }
+}

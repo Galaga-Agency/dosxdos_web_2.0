@@ -7,7 +7,7 @@
   margin-bottom: 2rem;
 
   label {
-    @include font-size(xl);
+    @include font-size(lg);
     @include font-weight(semibold);
     color: $black;
     @include letter-spacing(tighter);

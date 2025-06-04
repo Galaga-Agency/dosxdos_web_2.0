@@ -19,7 +19,7 @@ const ProjectSolutionSection: React.FC<ProjectSolutionSectionProps> = ({
           <h3 className="project-solution-section__label label">
             (Nuestra Propuesta)
           </h3>
-          <h2 className="project-solution-section__title title fade_bottom">
+          <h2 className="project-solution-section__title secondary-title fade_bottom">
             La <span className="highlight">Solución</span>
           </h2>
           <div className="project-solution-section__text">

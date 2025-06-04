@@ -61,7 +61,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
             <h3 className="hero-section__label label fade_bottom">(SOBRE NOSOTROS)
             </h3>
             <h1 className="hero-section__title title char-animation">
-              Todo empieza con una idea. <br /> Lo demás, lo hacemos juntos.
+              Todo empieza con una idea. <br /> Lo demás, nos encargamos nosotros.
             </h1>
           </div>
         </div>

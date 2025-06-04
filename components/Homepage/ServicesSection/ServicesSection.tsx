@@ -14,13 +14,19 @@ const ServicesSection: React.FC = () => {
             (Nuestros servicios)
           </h3>
           <h2 className="services-section__title secondary-title fade_bottom">
-            Todo lo que tu marca necesita <br />
-            <span className="highlight">para destacar</span>.
+            TE ESCUCHAMOS. CREAMOS. FABRICAMOS. INSTALAMOS. MANTENEMOS.
           </h2>
           <p className="services-section__subtitle subtitle">
-            Creamos soluciones 360º que integran diseño, producción, tecnología
-            y estrategia. Expertos en proyectos llave en mano, acompañamos a las
-            marcas en todo el proceso: desde la idea hasta la puesta en marcha.
+            En Dos por Dos te damos soluciones 360° que combinan estrategia,
+            creatividad y ejecución impecable o también podemos entrar en el
+            proceso en el que nos necesites. <br /> Somos expertos en
+            desarrollar proyectos llave en mano que conectan con tu público y
+            elevan el valor de tu marca. <br />
+            <br />
+            Integramos consultoría, diseño, fabricación, impresión, montaje y
+            mantenimiento con un enfoque personalizado. Nuestras dos áreas
+            complementarias –creativa y productiva– trabajan unidas para darte
+            un servicio completo, rápido y con resultados medibles.
           </p>
         </div>
         <div className="services-section__grid">

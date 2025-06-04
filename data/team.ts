@@ -38,10 +38,10 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 6,
-    name: "Jose Rodríguez Marrero",
-    position: "Responsable de Estudio",
-    email: "jose.estudio@iidos.com",
-    imageUrl: "/assets/img/team/equipo-7.webp",
+    name: "Jose Sánchez Santana",
+    position: "Responsable Logística",
+    email: "logistica@iidos.com",
+    imageUrl: "/assets/img/team/equipo-4.webp",
   },
   {
     id: 7,
@@ -52,10 +52,10 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 8,
-    name: "Víctor Cabrera Cárdenes",
-    position: "Responsable Taller",
-    email: "taller@iidos.com",
-    imageUrl: "/assets/img/team/equipo-5.webp",
+    name: "Jose Rodríguez Marrero",
+    position: "Responsable de Estudio",
+    email: "jose.estudio@iidos.com",
+    imageUrl: "/assets/img/team/equipo-7.webp",
   },
   {
     id: 9,
@@ -73,10 +73,10 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 11,
-    name: "Jose Sánchez Santana",
-    position: "Responsable Logística",
-    email: "logistica@iidos.com",
-    imageUrl: "/assets/img/team/equipo-4.webp",
+    name: "Víctor Cabrera Cárdenes",
+    position: "Responsable Montaje",
+    email: "taller@iidos.com",
+    imageUrl: "/assets/img/team/equipo-5.webp",
   },
   {
     id: 12,
