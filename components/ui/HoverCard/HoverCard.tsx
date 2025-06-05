@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import "./HoverCard.scss";
-import TransitionLink from "@/components/TransitionLink";
 
 interface HoverCardProps {
   id: string | number;
@@ -45,7 +44,7 @@ const HoverCard: React.FC<HoverCardProps> = ({
 
   if (showLinkUrl && linkUrl) {
     return (
-      <TransitionLink href={linkUrl} className="hover-card">
+      <Link href={linkUrl} className="hover-card">
         <div className="hover-card__image-wrapper">
           <Image
             src={imageUrl}
@@ -77,7 +76,7 @@ const HoverCard: React.FC<HoverCardProps> = ({
             )}
           </div>
         )}
-      </TransitionLink>
+      </Link>
     );
   }
 

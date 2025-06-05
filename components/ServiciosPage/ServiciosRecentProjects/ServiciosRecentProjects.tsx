@@ -5,8 +5,9 @@ import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import "./ServiciosRecentProjects.scss";
-import TransitionLink from "@/components/TransitionLink";
+
 import { Project } from "@/types/project-types";
+import Link from "next/link";
 
 interface ServiciosRecentProjectsProps {
   projects: Project[];
@@ -113,7 +114,7 @@ const ServiciosRecentProjects: React.FC<ServiciosRecentProjectsProps> = ({
               ref={projectsGridRef}
             >
               {recentProjects.map((project) => (
-                <TransitionLink
+                <Link
                   href={`/portfolio/${project.slug}`}
                   className="servicios-recent-projects__item reveal-item"
                   key={project.id}
@@ -136,7 +137,7 @@ const ServiciosRecentProjects: React.FC<ServiciosRecentProjectsProps> = ({
                       {project.name}
                     </span>
                   </div>
-                </TransitionLink>
+                </Link>
               ))}
             </div>
           </div>

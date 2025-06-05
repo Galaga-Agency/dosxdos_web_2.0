@@ -1,10 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import TransitionLink  from "next/link";
+import TransitionLink from "next/link";
 import { Edit, Trash, Eye } from "lucide-react";
 import { BlogPost } from "@/types/blog-post-types";
 import { formatDate } from "@/utils/dateFormatting";
 import "./AdminBlogCard.scss";
+import Link from "next/link";
 
 interface AdminBlogCardProps {
   post: BlogPost;
@@ -76,18 +77,18 @@ const AdminBlogCard: React.FC<AdminBlogCardProps> = ({
         </p>
 
         <div className="admin-blog-card__actions">
-          <TransitionLink 
+          <Link
             href={`/blog/${post.slug}`}
             className="admin-blog-card__action view"
           >
             <Eye size={16} /> <span>Ver</span>
-          </TransitionLink >
-          <TransitionLink 
+          </Link>
+          <Link
             href={`/admin/blog/editar/${post.id}`}
             className="admin-blog-card__action edit"
           >
             <Edit size={16} /> <span>Editar</span>
-          </TransitionLink >
+          </Link>
           <button
             onClick={handleDeleteClick}
             className="admin-blog-card__action delete"
