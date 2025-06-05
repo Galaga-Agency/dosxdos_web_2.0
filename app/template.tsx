@@ -15,11 +15,13 @@ interface TemplateProps {
 
 export default function Template({ children }: TemplateProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
     const overlay = overlayRef.current;
-    if (!overlay) return;
+    const logo = logoRef.current;
+    if (!overlay || !logo) return;
 
     // Kill all ScrollTriggers to prevent conflicts
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
@@ -41,8 +43,13 @@ export default function Template({ children }: TemplateProps) {
     // Set initial state of overlay
     gsap.set(overlay, {
       opacity: 1,
-      scale: 1,
       display: "block",
+    });
+
+    // Set initial state of logo - small and transparent
+    gsap.set(logo, {
+      scale: 0.2,
+      opacity: 0,
     });
 
     const tl = gsap.timeline({
@@ -58,27 +65,46 @@ export default function Template({ children }: TemplateProps) {
       },
     });
 
-    tl.to(overlay, {
-      scale: 1.05,
-      duration: 0.8,
-    }).to(overlay, {
-      opacity: 0,
-      duration: 0.6,
-      onComplete: () => {
-        overlay.style.display = "none";
+    // Animate logo: fade in and scale up from small to full size
+    tl.to(logo, {
+      scale: 1,
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out",
+    })
+      // Hold the logo at full size
+      .to({}, { duration: 0.3 })
+      // Then quickly scale down and fade out
+      .to(logo, {
+        scale: 0.7,
+        opacity: 0,
+        duration: 0.3,
+        ease: "power3.in",
+      })
+      // Fade out overlay
+      .to(
+        overlay,
+        {
+          opacity: 0,
+          duration: 0.25,
+          ease: "power2.inOut",
+          onComplete: () => {
+            overlay.style.display = "none";
 
-        // Refresh ScrollTrigger after transition
-        ScrollTrigger.refresh(true);
+            // Refresh ScrollTrigger after transition
+            ScrollTrigger.refresh(true);
 
-        // If you need to reinitialize ScrollSmoother after transition
-        if (window.ScrollSmoother) {
-          const smoother = window.ScrollSmoother.get();
-          if (smoother) {
-            smoother.refresh();
-          }
-        }
-      },
-    });
+            // If you need to reinitialize ScrollSmoother after transition
+            if (window.ScrollSmoother) {
+              const smoother = window.ScrollSmoother.get();
+              if (smoother) {
+                smoother.refresh();
+              }
+            }
+          },
+        },
+        "-=0.15"
+      ); // Slight overlap
 
     // Cleanup function
     return () => {
@@ -101,18 +127,22 @@ export default function Template({ children }: TemplateProps) {
           pointerEvents: "none",
         }}
       >
-        <Image
-          src="/assets/img/logo/logo_full_gris.svg"
-          alt="Logo"
-          width={580}
-          height={580}
+        <div
+          ref={logoRef}
           style={{
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
           }}
-        />
+        >
+          <Image
+            src="/assets/img/logo/logo_full_gris.svg"
+            alt="Logo"
+            width={580}
+            height={580}
+          />
+        </div>
       </div>
 
       <div
