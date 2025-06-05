@@ -59,6 +59,7 @@ const ZohoContactForm: React.FC = () => {
     clearErrors,
     setValue,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm<ContactFormInputs>();
 
   const { currentStep, nextStep, prevStep, setCurrentStep } =
@@ -70,12 +71,17 @@ const ZohoContactForm: React.FC = () => {
   }, [currentStep]);
 
   const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
+    console.log("=== FORM SUBMISSION STARTED ===");
+
     const formData = {
       ...data,
       signature: signatureData,
     };
 
+    console.log("Form data:", formData);
+
     try {
+      console.log("=== SENDING REQUEST TO API ===");
       const response = await fetch("/api/submit-to-zoho", {
         method: "POST",
         headers: {
@@ -84,13 +90,18 @@ const ZohoContactForm: React.FC = () => {
         body: JSON.stringify(formData),
       });
 
+      console.log("=== API RESPONSE RECEIVED ===");
+      console.log("Response status:", response.status);
+
       if (!response.ok) {
         const errorData = await response.text();
+        console.log("Error response body:", errorData);
         throw new Error("Error al enviar el formulario");
       }
 
       const result = await response.json();
-      
+      console.log("Success result:", result);
+
       // Set success state - THIS REPLACES THE FORM
       setIsSuccess(true);
       setIsError(false);
@@ -108,6 +119,9 @@ const ZohoContactForm: React.FC = () => {
         setIsSuccess(false);
       }, 10000);
     } catch (error) {
+      console.log("=== ERROR OCCURRED ===");
+      console.error("Full error:", error);
+
       // Set error state - THIS REPLACES THE FORM
       setIsError(true);
       setIsSuccess(false);
@@ -209,6 +223,31 @@ const ZohoContactForm: React.FC = () => {
                 <h3>Datos de la empresa</h3>
 
                 <div className="form-grid">
+                  {/* How did you know - Full width */}
+                  <div
+                    className="form-group full-width"
+                    ref={(el) => (formGroupRefs.current[13] = el) as any}
+                  >
+                    <CustomSelect
+                      label="¿Cómo nos conociste? *"
+                      error={errors.howDidYouKnow}
+                      isLoading={isSubmitting}
+                      options={[
+                        { value: "Página web", label: "Página web" },
+                        { value: "Redes Sociales", label: "Redes Sociales" },
+                        { value: "Evento", label: "Evento" },
+                        { value: "Chat", label: "Chat" },
+                        {
+                          value: "Referencia de cliente o fabricante",
+                          label: "Referencia de cliente o fabricante",
+                        },
+                        { value: "Otro", label: "Otro" },
+                      ]}
+                      onChange={(value) => setValue("howDidYouKnow", value)}
+                      onBlur={() => trigger("howDidYouKnow")}
+                      value={watch("howDidYouKnow")}
+                    />
+                  </div>
                   {/* Company Name - Full width */}
                   <div
                     className="form-group full-width"
@@ -352,7 +391,7 @@ const ZohoContactForm: React.FC = () => {
 
                   {/* Email - Full width */}
                   <div
-                    className="form-group "
+                    className="form-group full-width"
                     ref={(el) => (formGroupRefs.current[7] = el) as any}
                   >
                     <CustomInput
@@ -540,9 +579,9 @@ const ZohoContactForm: React.FC = () => {
                         },
                         { value: "Otro", label: "Otro" },
                       ]}
-                      {...register("howDidYouKnow", {
-                        required: "Debes seleccionar una opción",
-                      })}
+                      onChange={(value) => setValue("howDidYouKnow", value)}
+                      onBlur={() => trigger("howDidYouKnow")}
+                      value={watch("howDidYouKnow")}
                     />
                   </div>
 

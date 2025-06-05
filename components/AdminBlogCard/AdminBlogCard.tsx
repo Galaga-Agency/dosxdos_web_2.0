@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import TransitionLink  from "next/link";
 import { Edit, Trash, Eye } from "lucide-react";
 import { BlogPost } from "@/types/blog-post-types";
 import { formatDate } from "@/utils/dateFormatting";
@@ -76,18 +76,18 @@ const AdminBlogCard: React.FC<AdminBlogCardProps> = ({
         </p>
 
         <div className="admin-blog-card__actions">
-          <Link
+          <TransitionLink 
             href={`/blog/${post.slug}`}
             className="admin-blog-card__action view"
           >
             <Eye size={16} /> <span>Ver</span>
-          </Link>
-          <Link
+          </TransitionLink >
+          <TransitionLink 
             href={`/admin/blog/editar/${post.id}`}
             className="admin-blog-card__action edit"
           >
             <Edit size={16} /> <span>Editar</span>
-          </Link>
+          </TransitionLink >
           <button
             onClick={handleDeleteClick}
             className="admin-blog-card__action delete"

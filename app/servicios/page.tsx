@@ -24,10 +24,25 @@ import { revealForTouchDevices } from "@/utils/animations/touch-device-reveal";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { randomStaggerAnimation } from "@/utils/animations/random-stagger-anim";
 
+import { useDataStore } from "@/store/useDataStore";
+
 import "./servicios-page.scss";
 
 const ServiciosPage: React.FC = () => {
   useScrollSmooth();
+
+  // Get data from store
+  const projects = useDataStore((state) => state.projects);
+  const projectsLoaded = useDataStore((state) => state.projectsLoaded);
+  const projectsError = useDataStore((state) => state.projectsError);
+  const fetchProjects = useDataStore((state) => state.fetchProjects);
+
+  // If data isn't loaded yet, try to fetch it (fallback)
+  useEffect(() => {
+    if (!projectsLoaded && !projectsError) {
+      fetchProjects();
+    }
+  }, [projectsLoaded, projectsError, fetchProjects]);
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
@@ -57,7 +72,7 @@ const ServiciosPage: React.FC = () => {
       <div id="smooth-content">
         <main className="servicios-page">
           <ServiciosHero />
-          <ServiciosRecentProjects />
+          <ServiciosRecentProjects projects={projects} />
           <ServiciosList />
           <ServicesGrid />
           <VisionSection />

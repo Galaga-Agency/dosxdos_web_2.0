@@ -9,6 +9,7 @@ import { RiFacebookCircleLine } from "react-icons/ri";
 import { FaSquareFacebook } from "react-icons/fa6";
 
 import "./SocialIcons.scss";
+import TransitionLink from "../TransitionLink";
 
 interface SocialIconsProps {
   className?: string;
@@ -34,7 +35,7 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
       `}
     >
       {/* LinkedIn */}
-      <Link
+      <TransitionLink
         href="https://es.linkedin.com/company/dos-por-dos-grupo-imagen"
         target="_blank"
         rel="noopener noreferrer"
@@ -42,10 +43,10 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
         className="social-icons__link"
       >
         <FaLinkedin className="social-icons__icon linkedin-icon" />
-      </Link>
+      </TransitionLink>
 
       {/* Instagram */}
-      <Link
+      <TransitionLink
         href="https://www.instagram.com/dosxdos.grupoimagen/"
         target="_blank"
         rel="noopener noreferrer"
@@ -53,10 +54,10 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
         aria-label="Instagram"
       >
         <GrInstagram className="social-icons__icon" />
-      </Link>
+      </TransitionLink>
 
       {/* YouTube */}
-      <Link
+      <TransitionLink
         href="https://www.youtube.com/channel/UCqZDFnB0lrlDv6pNnfx2GKQ"
         target="_blank"
         rel="noopener noreferrer"
@@ -64,10 +65,10 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
         aria-label="YouTube"
       >
         <FaYoutube className="social-icons__icon" />
-      </Link>
+      </TransitionLink>
 
       {/* Facebook */}
-      <Link
+      <TransitionLink
         href="https://www.facebook.com/dosxdos.grupoimagen/"
         target="_blank"
         rel="noopener noreferrer"
@@ -75,7 +76,7 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
         className="social-icons__link"
       >
         <FaSquareFacebook className="social-icons__icon" />
-      </Link>
+      </TransitionLink>
     </div>
   );
 };

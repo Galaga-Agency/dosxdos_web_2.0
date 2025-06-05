@@ -32,8 +32,8 @@
 
     &:focus {
       outline: none;
-      border-color: $primary-color;
-      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      border-color: $black;
+      box-shadow: 0 0 0 3px rgba($black, 0.1);
     }
 
     &.error {
