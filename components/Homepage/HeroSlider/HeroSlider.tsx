@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { gsap } from "gsap";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
-import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
+import { animateHeroSlider } from "@/utils/animations/homepage-hero";
+import "./HeroSlider.scss";
 
 interface SlideItem {
   id: number;
@@ -29,71 +29,21 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   const titleRef = useRef<HTMLHeadingElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const { isTouchDevice } = useDeviceDetect();
-  const hasAnimated = useRef(false);
 
-  // Animate hero content as soon as first image loads
-  const animateHeroContent = useCallback(() => {
-    if (hasAnimated.current) return;
-    hasAnimated.current = true;
-
-    const tl = gsap.timeline();
-
-    // Make container visible immediately
-    if (sectionRef.current) {
-      gsap.set(sectionRef.current.querySelector(".hero-slider__container"), {
-        opacity: 1,
-      });
-    }
-
-    // Animate title
-    if (titleRef.current) {
-      gsap.set(titleRef.current, {
-        opacity: 0,
-        y: -30,
-      });
-
-      tl.to(
-        titleRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.4,
-          ease: "power2.out",
-        },
-        0.2
-      );
-    }
-
-    // Animate CTA
-    if (ctaRef.current) {
-      gsap.set(ctaRef.current, {
-        opacity: 0,
-        y: 30,
-      });
-
-      tl.to(
-        ctaRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power2.out",
-        },
-        0.4
-      );
-    }
-
-    // Notify parent that hero is ready
-    if (onImagesLoad) {
-      onImagesLoad();
-    }
-  }, [onImagesLoad]);
-
-  // Handle first image load
+  // Handle first image load and trigger animation
   const handleFirstImageLoad = useCallback(() => {
     setIsFirstImageLoaded(true);
-    animateHeroContent();
-  }, [animateHeroContent]);
+
+    if (sectionRef.current && titleRef.current && ctaRef.current) {
+      animateHeroSlider({
+        section: sectionRef.current,
+        title: titleRef.current,
+        cta: ctaRef.current,
+      });
+    }
+
+    if (onImagesLoad) onImagesLoad();
+  }, [onImagesLoad]);
 
   // Autoplay timer
   useEffect(() => {
@@ -108,22 +58,17 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
   // Handle slide transitions with GSAP
   useEffect(() => {
-    const tl = gsap.timeline();
-
     slides.forEach((_, index) => {
       const slideElement = sectionRef.current?.querySelector(
         `.hero-slider__slide:nth-child(${index + 1})`
       );
 
       if (slideElement) {
-        tl.to(
-          slideElement,
-          {
-            opacity: index === activeSlide ? 1 : 0,
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          0
+        slideElement.setAttribute(
+          "style",
+          `opacity: ${
+            index === activeSlide ? 1 : 0
+          }; transition: opacity 1s ease-in-out;`
         );
       }
     });
@@ -202,7 +147,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
               src={slide.imageUrl}
               alt={`Slide ${index + 1}`}
               fill
-              priority={index === 0} // Only prioritize first image
+              priority={index === 0}
               sizes="100vw"
               className="hero-slider__image"
               onLoad={index === 0 ? handleFirstImageLoad : undefined}

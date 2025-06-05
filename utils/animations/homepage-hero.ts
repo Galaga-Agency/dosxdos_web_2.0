@@ -16,21 +16,26 @@ export const animateHeroSlider = ({
 
   const tl = gsap.timeline();
 
-  // Dummy tween to establish time 0
-  tl.to({}, { duration: 0 });
+  const container = section.querySelector(".hero-slider__container");
 
-  // Prepare section
-  gsap.set(section, {
-    visibility: "visible",
-    opacity: 1,
-  });
+  // Animate container fade-in
+  if (container) {
+    gsap.set(container, { opacity: 0 });
 
-  // Animate title element
+    tl.to(
+      container,
+      {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      },
+      0
+    ); // Start immediately
+  }
+
+  // Title
   if (title) {
-    gsap.set(title, {
-      opacity: 0,
-      y: -30,
-    });
+    gsap.set(title, { opacity: 0, y: -30 });
 
     tl.to(
       title,
@@ -40,16 +45,13 @@ export const animateHeroSlider = ({
         duration: 1.4,
         ease: "power2.out",
       },
-      0.5 // start at 0.5s
+      0.5
     );
   }
 
-  // Animate CTA element
+  // CTA
   if (cta) {
-    gsap.set(cta, {
-      opacity: 0,
-      y: 30,
-    });
+    gsap.set(cta, { opacity: 0, y: 30 });
 
     tl.to(
       cta,
@@ -59,28 +61,9 @@ export const animateHeroSlider = ({
         duration: 1.2,
         ease: "power2.out",
       },
-      0.5 // also start at 0.5s
+      0.6
     );
   }
 
-  // Play animation immediately for hero section
-  tl.play();
-
   return tl;
 };
-
-function initHeroSlider() {
-  const section = document.querySelector(".hero-slider") as HTMLElement;
-  const title = document.querySelector(".hero-slider__title") as HTMLElement;
-  const cta = document.querySelector(".hero-slider__cta") as HTMLElement;
-
-  if (section) {
-    animateHeroSlider({
-      section,
-      title,
-      cta,
-    });
-  }
-}
-
-export { initHeroSlider };

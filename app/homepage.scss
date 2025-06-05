@@ -23,16 +23,3 @@ img[data-nimg="fill"] {
   object-fit: cover;
   object-position: center;
 }
-
-// Lazy-loading sections animation
-.lazy-section {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-  will-change: opacity, transform;
-
-  &.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
