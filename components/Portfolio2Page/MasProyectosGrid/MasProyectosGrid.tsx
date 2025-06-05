@@ -9,7 +9,6 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
 import useCursorBubble from "@/hooks/useCursorBubble";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import { Project } from "@/types/project-types";
-import TransitionLink from "@/components/TransitionLink";
 
 interface MasProyectosGridProps {
   projects: Project[];
@@ -123,7 +122,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
     <div className="mas-proyectos-container">
       <div className="mas-proyectos-grid" ref={gridRef}>
         {projects.slice(0, visibleCount).map((project, index) => (
-          <TransitionLink
+          <Link
             key={project.id}
             href={`/portfolio/${project.slug}`}
             className={`item item-${(index % 6) + 1}`}
@@ -152,7 +151,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
             <div className="item__content">
               <h3 className="item__title">{project.name}</h3>
             </div>
-          </TransitionLink>
+          </Link>
         ))}
       </div>
 

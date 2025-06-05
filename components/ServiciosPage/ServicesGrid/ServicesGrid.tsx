@@ -6,7 +6,6 @@ import Link from "next/link";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import "./ServicesGrid.scss";
 import { servicesList } from "@/data/services";
-import TransitionLink from "@/components/TransitionLink";
 
 const ServicesGrid: React.FC = () => {
   return (
@@ -25,7 +24,7 @@ const ServicesGrid: React.FC = () => {
       <div className="services-grid__container">
         <div className="services-grid__items">
           {servicesList.map((service) => (
-            <TransitionLink
+            <Link
               href={`/servicios/${service.slug}`}
               key={service.id}
               className="services-grid__item"
@@ -43,7 +42,7 @@ const ServicesGrid: React.FC = () => {
               <div className="services-grid__content">
                 <h2 className="services-grid__title">{service.name}</h2>
               </div>
-            </TransitionLink>
+            </Link>
           ))}
         </div>
       </div>

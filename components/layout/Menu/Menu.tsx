@@ -16,7 +16,6 @@ import { menuUtils } from "@/utils/animations/menu-anim";
 import { PhoneCall, Mail } from "lucide-react";
 import "./Menu.scss";
 import { useRouter } from "next/navigation";
-import TransitionLink from "@/components/TransitionLink";
 
 const Menu: React.FC = () => {
   const { data: session, status } = useSession();
@@ -250,10 +249,7 @@ const Menu: React.FC = () => {
               >
                 {item.children ? (
                   <>
-                    <TransitionLink
-                      href={item.href}
-                      className="menu__nav-button"
-                    >
+                    <Link href={item.href} className="menu__nav-button">
                       {item.label}
                       <ChevronDown
                         className={`menu__nav-icon ${
@@ -261,27 +257,27 @@ const Menu: React.FC = () => {
                         }`}
                         size={16}
                       />
-                    </TransitionLink>
+                    </Link>
                     <div
                       className={`menu__dropdown ${
                         hoveredItem === item.id ? "menu__dropdown--active" : ""
                       }`}
                     >
                       {item.children.map((child) => (
-                        <TransitionLink
+                        <Link
                           key={child.id}
                           href={child.href}
                           className="menu__dropdown-link"
                         >
                           {child.label}
-                        </TransitionLink>
+                        </Link>
                       ))}
                     </div>
                   </>
                 ) : (
-                  <TransitionLink href={item.href} className="menu__nav-link">
+                  <Link href={item.href} className="menu__nav-link">
                     {item.label}
-                  </TransitionLink>
+                  </Link>
                 )}
               </li>
             ))}
@@ -340,13 +336,13 @@ const Menu: React.FC = () => {
                 {item.children ? (
                   <>
                     <div className="menu__mobile-button-wrapper">
-                      <TransitionLink
+                      <Link
                         href={item.href}
                         className="menu__mobile-button-main"
                         onClick={toggleMobileMenu}
                       >
                         {item.label}
-                      </TransitionLink>
+                      </Link>
                       <button
                         className="menu__mobile-button-toggle"
                         onClick={() => toggleSubmenu(item.id)}
@@ -372,7 +368,7 @@ const Menu: React.FC = () => {
                     >
                       <div className="menu__mobile-submenu-inner">
                         {item.children.map((sub) => (
-                          <TransitionLink
+                          <Link
                             key={sub.id}
                             href={sub.href}
                             className="menu__mobile-sublink"
@@ -382,19 +378,19 @@ const Menu: React.FC = () => {
                             }
                           >
                             {sub.label}
-                          </TransitionLink>
+                          </Link>
                         ))}
                       </div>
                     </div>
                   </>
                 ) : (
-                  <TransitionLink
+                  <Link
                     href={item.href}
                     className="menu__mobile-link"
                     onClick={toggleMobileMenu}
                   >
                     {item.label}
-                  </TransitionLink>
+                  </Link>
                 )}
               </div>
             ))}

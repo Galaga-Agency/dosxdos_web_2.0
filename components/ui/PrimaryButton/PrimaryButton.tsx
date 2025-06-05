@@ -3,7 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import "./PrimaryButton.scss";
-import TransitionLink from "@/components/TransitionLink";
 
 interface PrimaryButtonProps {
   children: React.ReactNode;
@@ -72,9 +71,9 @@ const PrimaryButton = ({
     }
 
     return (
-      <TransitionLink {...linkProps}>
+      <Link {...linkProps}>
         <span className={`${baseClass}__content`}>{children}</span>
-      </TransitionLink>
+      </Link>
     );
   }
 

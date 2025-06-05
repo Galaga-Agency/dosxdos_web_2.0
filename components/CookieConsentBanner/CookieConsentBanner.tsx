@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { setCookieConsent } from "@/lib/cookie-actions";
 import Link from "next/link";
 import "./CookieConsentBanner.scss";
-import TransitionLink from "../TransitionLink";
+import TransitionLink from "../Link";
 
 export default function CookieConsentBanner() {
   const [isVisible, setIsVisible] = useState(false);
@@ -76,12 +76,9 @@ export default function CookieConsentBanner() {
             Este sitio web utiliza cookies para mejorar tu experiencia de
             navegación. Puedes configurar tus preferencias de cookies en
             cualquier momento.{" "}
-            <TransitionLink
-              href="/politica-de-cookies"
-              className="cookie-consent__link"
-            >
+            <Link href="/politica-de-cookies" className="cookie-consent__link">
               Leer más sobre cookies
-            </TransitionLink>
+            </Link>
           </p>
         </div>
 
