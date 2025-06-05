@@ -27,7 +27,7 @@ const AboutUsSection: React.FC = () => {
               data-speed={isMobile ? "0" : "1.15"}
             >
               <Image
-                src="/assets/img/homepage/foto-landing.webp"
+                src="/assets/img/homepage/foto-landing.avif"
                 alt="Diseño de interiores"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

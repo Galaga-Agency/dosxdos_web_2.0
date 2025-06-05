@@ -22,7 +22,6 @@ import { useHydration } from "@/hooks/useHydration";
 import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
 import { panelTwoAnimation } from "@/utils/animations/panel-animation";
 import { imageParallax } from "@/utils/animations/image-parallax";
-import { initHeroSlider } from "@/utils/animations/homepage-hero";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
@@ -33,20 +32,21 @@ import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animat
 const heroSlides = [
   {
     id: 1,
-    imageUrl: "/assets/img/homepage/slider-3.webp",
+    imageUrl: "/assets/img/homepage/slider-3.avif",
   },
   {
     id: 2,
-    imageUrl: "/assets/img/homepage/slider-1.webp",
+    imageUrl: "/assets/img/homepage/slider-1.avif",
   },
   {
     id: 3,
-    imageUrl: "/assets/img/homepage/slider-2.webp",
+    imageUrl: "/assets/img/homepage/slider-2.avif",
   },
 ];
 
 const HomePage = () => {
-  const [heroImagesLoaded, setHeroImagesLoaded] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
+  const [sectionsReady, setSectionsReady] = useState(false);
   const isHydrated = useHydration();
 
   // Get data from zustand store
@@ -73,40 +73,50 @@ const HomePage = () => {
     };
   }, []);
 
-  const handleHeroImagesLoad = useCallback(() => {
-    setHeroImagesLoaded(true);
+  const handleHeroReady = useCallback(() => {
+    setHeroReady(true);
   }, []);
 
-  // Main animations - simpler conditions now
+  // Initialize hero animations immediately when hero is ready
   useGSAP(() => {
-    if (heroImagesLoaded && showFeaturedProjects && isHydrated) {
+    if (heroReady && isHydrated) {
+      // Run rolling text animation immediately for hero
+      initRollingTextAnimation();
+    }
+  }, [heroReady, isHydrated]);
+
+  // Initialize other animations when sections are ready
+  useGSAP(() => {
+    if (heroReady && isHydrated) {
+      // Wait a bit for other sections to be ready
       const timer = setTimeout(() => {
+        setSectionsReady(true);
+
+        // Run all other animations
         fadeAnimation();
         charAnimation();
-        initHeroSlider();
-        initRollingTextAnimation(); // Add the rolling text animation here
         imageParallax();
         initCardMouseParallax();
         hoverCircleButtonAnimation();
-        featuredImageAnimation();
+
+        if (showFeaturedProjects) {
+          featuredImageAnimation();
+        }
+
         highlightAnimation();
         panelTwoAnimation();
-      }, 100);
+      }, 500); // Small delay to ensure sections are rendered
 
       return () => clearTimeout(timer);
     }
-  }, [heroImagesLoaded, showFeaturedProjects, isHydrated]);
+  }, [heroReady, isHydrated, showFeaturedProjects]);
 
   // Blog section animations
   useGSAP(() => {
-    if (showBlogCarousel) {
-      const timer = setTimeout(() => {
-        highlightAnimation(0.3);
-      }, 100);
-
-      return () => clearTimeout(timer);
+    if (sectionsReady && showBlogCarousel) {
+      highlightAnimation(0.3);
     }
-  }, [showBlogCarousel]);
+  }, [sectionsReady, showBlogCarousel]);
 
   return (
     <div id="smooth-wrapper">
@@ -115,7 +125,7 @@ const HomePage = () => {
           <HeroSlider
             slides={heroSlides}
             autoplaySpeed={3000}
-            onImagesLoad={handleHeroImagesLoad}
+            onImagesLoad={handleHeroReady}
           />
           <AboutUsSection />
           <LogoMarquee />

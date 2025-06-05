@@ -70,7 +70,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
       <div className="random-images">
         {/* Floating Images */}
         {[1, 2, 3].map((_, i) => {
-          const imgSrc = `/assets/img/about-us-page/equipo-${i + 1}.webp`;
+          const imgSrc = `/assets/img/about-us-page/equipo-${i + 1}.avif`;
           const imageIndex = i + 1; // 1, 2, 3 for floating images
 
           // Set different speeds based on image index

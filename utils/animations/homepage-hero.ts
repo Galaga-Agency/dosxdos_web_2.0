@@ -14,9 +14,10 @@ export const animateHeroSlider = ({
 }: SectionAnimationElements) => {
   if (typeof window === "undefined" || !section) return null;
 
-  console.log("Animating Hero Slider");
-
   const tl = gsap.timeline();
+
+  // Dummy tween to establish time 0
+  tl.to({}, { duration: 0 });
 
   // Prepare section
   gsap.set(section, {
@@ -39,7 +40,7 @@ export const animateHeroSlider = ({
         duration: 1.4,
         ease: "power2.out",
       },
-      0.5
+      0.5 // start at 0.5s
     );
   }
 
@@ -58,7 +59,7 @@ export const animateHeroSlider = ({
         duration: 1.2,
         ease: "power2.out",
       },
-      0.7
+      0.5 // also start at 0.5s
     );
   }
 
