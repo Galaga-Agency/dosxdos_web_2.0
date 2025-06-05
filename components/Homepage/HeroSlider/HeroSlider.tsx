@@ -192,7 +192,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         <h1 ref={titleRef} className="hero-slider__title">
           <span className="hero-slider__rolling-text">CREAMOS</span> <br />ESPACIOS
           
-          QUE INSPIRAN OUUU YEAHHHH
+          QUE INSPIRAN OUUU YEAHHHH --------------------
         </h1>
 
         <div ref={ctaRef} className="hero-slider__cta">
