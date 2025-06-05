@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { exec } from "child_process";
 
-export async function GET() {
+export async function POST() {
   console.log("Webhook received from GitHub");
 
   // Trigger git pull on the server
