@@ -9,6 +9,7 @@ declare global {
     __smoother__: any;
     cursorAnimationFrame?: number;
     ScrollTrigger: any;
+    ScrollSmoother: any;
     gsap?: any;
     projectsObserver?: IntersectionObserver;
     clickTimes?: number[];

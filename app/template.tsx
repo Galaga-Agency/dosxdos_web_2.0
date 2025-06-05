@@ -2,7 +2,12 @@
 
 import { useRef, useEffect, ReactNode } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 interface TemplateProps {
   children: ReactNode;
@@ -10,19 +15,47 @@ interface TemplateProps {
 
 export default function Template({ children }: TemplateProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
 
+    // Kill all ScrollTriggers to prevent conflicts
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
+    // Reset scroll position immediately
+    // Check if ScrollSmoother exists and reset it
+    if (window.ScrollSmoother) {
+      const smoother = window.ScrollSmoother.get();
+      if (smoother) {
+        smoother.scrollTo(0, false); // false = no animation
+      }
+    }
+
+    // Also reset regular scroll as fallback
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
     // Set initial state of overlay
     gsap.set(overlay, {
       opacity: 1,
       scale: 1,
+      display: "block",
     });
 
     const tl = gsap.timeline({
       defaults: { ease: "power3.out" },
+      onStart: () => {
+        // Ensure we're at the top when animation starts
+        if (window.ScrollSmoother) {
+          const smoother = window.ScrollSmoother.get();
+          if (smoother) {
+            smoother.scrollTo(0, false);
+          }
+        }
+      },
     });
 
     tl.to(overlay, {
@@ -33,9 +66,25 @@ export default function Template({ children }: TemplateProps) {
       duration: 0.6,
       onComplete: () => {
         overlay.style.display = "none";
+
+        // Refresh ScrollTrigger after transition
+        ScrollTrigger.refresh(true);
+
+        // If you need to reinitialize ScrollSmoother after transition
+        if (window.ScrollSmoother) {
+          const smoother = window.ScrollSmoother.get();
+          if (smoother) {
+            smoother.refresh();
+          }
+        }
       },
     });
-  }, []);
+
+    // Cleanup function
+    return () => {
+      tl.kill();
+    };
+  }, [pathname]); // Re-run effect when pathname changes
 
   return (
     <>
@@ -48,7 +97,7 @@ export default function Template({ children }: TemplateProps) {
           width: "100vw",
           height: "100vh",
           backgroundColor: "#fff",
-          zIndex: 9999,
+          zIndex: 99,
           pointerEvents: "none",
         }}
       >
