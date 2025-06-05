@@ -28,6 +28,7 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { animatePaginatedItems } from "@/utils/animations/stagger-items-anim";
 
 import "./blog-page.scss";
+import TransitionLink from "@/components/TransitionLink";
 
 const BlogPage: React.FC = () => {
   useScrollSmooth();
@@ -156,9 +157,11 @@ const BlogPage: React.FC = () => {
               <div className="blog-page__featured-section">
                 <div className="blog-page__featured-offset-background"></div>
                 <div className="blog-page__featured-image-container featured-image-container">
-                  <div className={`blog-page__featured-image-wrapper featured-image-wrapper hero-image-wrapper ${
-                    heroImageLoaded ? 'loaded' : 'loading'
-                  }`}>
+                  <div
+                    className={`blog-page__featured-image-wrapper featured-image-wrapper hero-image-wrapper ${
+                      heroImageLoaded ? "loaded" : "loading"
+                    }`}
+                  >
                     <Image
                       src={
                         first_blog?.coverImage ||
@@ -173,7 +176,7 @@ const BlogPage: React.FC = () => {
                   <div className="blog-page__featured-image-overlay"></div>
                 </div>
                 <div className="blog-page__featured-content-container">
-                  <Link
+                  <TransitionLink
                     href={`/blog/${first_blog?.slug}`}
                     className="blog-page__featured-content-link"
                   >
@@ -195,7 +198,7 @@ const BlogPage: React.FC = () => {
                         Leer más <span className="arrow">→</span>
                       </span>
                     </div>
-                  </Link>
+                  </TransitionLink>
                 </div>
               </div>
             )}

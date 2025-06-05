@@ -9,13 +9,17 @@ import useDeviceDetect from "@/hooks/useDeviceDetect";
 import useCursorBubble from "@/hooks/useCursorBubble";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 import { Project } from "@/types/project-types";
+import TransitionLink from "@/components/TransitionLink";
 
 interface MasProyectosGridProps {
   projects: Project[];
   onImagesLoad?: () => void;
 }
 
-const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects, onImagesLoad }) => {
+const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
+  projects,
+  onImagesLoad,
+}) => {
   const { isMobile, isTablet } = useDeviceDetect();
   const [visibleCount, setVisibleCount] = useState(6);
   const [isRevealing, setIsRevealing] = useState(false);
@@ -35,19 +39,22 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects, onImagesL
   }, [projects]);
 
   // Handle individual image load
-  const handleImageLoad = useCallback((imageIndex: number) => {
-    setLoadedImages(prev => {
-      const newSet = new Set(prev);
-      newSet.add(imageIndex);
-      
-      // Check if all initial images are loaded
-      if (newSet.size === initialImageCount && onImagesLoad) {
-        setTimeout(onImagesLoad, 50);
-      }
-      
-      return newSet;
-    });
-  }, [onImagesLoad, initialImageCount]);
+  const handleImageLoad = useCallback(
+    (imageIndex: number) => {
+      setLoadedImages((prev) => {
+        const newSet = new Set(prev);
+        newSet.add(imageIndex);
+
+        // Check if all initial images are loaded
+        if (newSet.size === initialImageCount && onImagesLoad) {
+          setTimeout(onImagesLoad, 50);
+        }
+
+        return newSet;
+      });
+    },
+    [onImagesLoad, initialImageCount]
+  );
 
   useCursorBubble(
     !isMobile
@@ -116,17 +123,19 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects, onImagesL
     <div className="mas-proyectos-container">
       <div className="mas-proyectos-grid" ref={gridRef}>
         {projects.slice(0, visibleCount).map((project, index) => (
-          <Link
+          <TransitionLink
             key={project.id}
             href={`/portfolio/${project.slug}`}
             className={`item item-${(index % 6) + 1}`}
             data-speed={isMobile ? "0" : (0.8 + (index % 6) * 0.02).toFixed(2)}
-            ref={(el) => (projectItemRefs.current[index] = el) as any}
+            ref={(el: any) => (projectItemRefs.current[index] = el) as any}
           >
             <div className="item__overlay"></div>
-            <div className={`item__image-wrapper hero-image-wrapper ${
-              loadedImages.has(index) ? 'loaded' : 'loading'
-            }`}>
+            <div
+              className={`item__image-wrapper hero-image-wrapper ${
+                loadedImages.has(index) ? "loaded" : "loading"
+              }`}
+            >
               <Image
                 src={project.coverImage}
                 alt={project.name}
@@ -143,7 +152,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({ projects, onImagesL
             <div className="item__content">
               <h3 className="item__title">{project.name}</h3>
             </div>
-          </Link>
+          </TransitionLink>
         ))}
       </div>
 

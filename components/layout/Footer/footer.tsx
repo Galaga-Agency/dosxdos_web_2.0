@@ -9,6 +9,7 @@ import { initFooterAnimations } from "@/utils/animations/footer-anim";
 import logo from "@/public/assets/img/logo/logo_full_negro.png";
 import "./Footer.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
+import TransitionLink from "@/components/TransitionLink";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -72,13 +73,13 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="footer__brand" ref={brandRef}>
             <div className="footer__brand-content">
-              <Link href="/">
+              <TransitionLink href="/">
                 <Image
                   src={logo}
                   alt="Dos por Dos Grupo Imagen"
                   className="footer__logo"
                 />
-              </Link>
+              </TransitionLink>
               <p className="footer__tagline">Creamos espacios que inspiran.</p>
             </div>
             <div className="footer__contact" ref={contactRef}>
@@ -109,40 +110,40 @@ const Footer = () => {
               <h4>Servicios</h4>
               <ul>
                 <li>
-                  <Link href="/servicios/diseno-de-interiores">
+                  <TransitionLink href="/servicios/diseno-de-interiores">
                     <span>Diseño de Interiores</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
                 <li>
-                  <Link href="/servicios/eventos">
+                  <TransitionLink href="/servicios/eventos">
                     <span>Eventos</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
                 <li>
-                  <Link href="/servicios/produccion">
+                  <TransitionLink href="/servicios/produccion">
                     <span>Producción</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
                 <li>
-                  <Link href="/servicios/logistica">
+                  <TransitionLink href="/servicios/logistica">
                     <span>Logística</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
                 <li>
-                  <Link href="/servicios/communicacion">
+                  <TransitionLink href="/servicios/communicacion">
                     <span>Comunicación</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
                 <li>
-                  <Link href="/servicios/consultoria">
+                  <TransitionLink href="/servicios/consultoria">
                     <span>Consultoría</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
               </ul>
             </div>
@@ -150,28 +151,28 @@ const Footer = () => {
               <h4>Navegación</h4>
               <ul>
                 <li>
-                  <Link href="/sobre-nosotros/equipo">
+                  <TransitionLink href="/sobre-nosotros/equipo">
                     <span>Sobre Nosotros</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
                 <li>
-                  <Link href="/portfolio">
+                  <TransitionLink href="/portfolio">
                     <span>Portfolio</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
                 <li>
-                  <Link href="/blog">
+                  <TransitionLink href="/blog">
                     <span>Blog</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
                 <li>
-                  <Link href="/contacto">
+                  <TransitionLink href="/contacto">
                     <span>Contacto</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </TransitionLink>
                 </li>
               </ul>
             </div>
@@ -200,10 +201,16 @@ const Footer = () => {
               </p>
             </div>
             <div className="footer__legal-links">
-              <Link href="/politica-de-privacidad">Política de Privacidad</Link>
-              <Link href="/aviso-legal">Aviso Legal</Link>
-              <Link href="/politica-de-cookies">Política de Cookies</Link>
-              <Link href="/transparencia">Transparencia</Link>
+              <TransitionLink href="/politica-de-privacidad">
+                Política de Privacidad
+              </TransitionLink>
+              <TransitionLink href="/aviso-legal">Aviso Legal</TransitionLink>
+              <TransitionLink href="/politica-de-cookies">
+                Política de Cookies
+              </TransitionLink>
+              <TransitionLink href="/transparencia">
+                Transparencia
+              </TransitionLink>
             </div>
           </div>
           <div className="footer__social">

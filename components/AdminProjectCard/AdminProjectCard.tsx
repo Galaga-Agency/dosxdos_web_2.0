@@ -6,6 +6,7 @@ import { Project } from "@/types/project-types";
 import { FaLocationDot } from "react-icons/fa6";
 
 import "./AdminProjectCard.scss";
+import TransitionLink from "../TransitionLink";
 
 interface AdminProjectCardProps {
   project: Project;
@@ -78,18 +79,18 @@ const AdminProjectCard: React.FC<AdminProjectCardProps> = ({
         </div>
 
         <div className="admin-project-card__actions">
-          <Link
+          <TransitionLink
             href={`/portfolio/${project.slug}`}
             className="admin-project-card__action view"
           >
             <Eye size={16} /> <span>Ver</span>
-          </Link>
-          <Link
+          </TransitionLink>
+          <TransitionLink
             href={`/admin/proyectos/editar/${project.id}`}
             className="admin-project-card__action edit"
           >
             <Edit size={16} /> <span>Editar</span>
-          </Link>
+          </TransitionLink>
           <button
             onClick={handleDeleteClick}
             className="admin-project-card__action delete"

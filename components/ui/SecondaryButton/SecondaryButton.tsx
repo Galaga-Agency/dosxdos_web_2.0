@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import "./SecondaryButton.scss";
+import TransitionLink from "@/components/TransitionLink";
 
 interface SecondaryButtonProps {
   children: React.ReactNode;
@@ -66,10 +67,10 @@ const SecondaryButton = ({
     }
 
     return (
-      <Link {...linkProps}>
+      <TransitionLink {...linkProps}>
         <div className={`${baseClass}__blur-bg`}></div>
         <span className={`${baseClass}__content`}>{children}</span>
-      </Link>
+      </TransitionLink>
     );
   }
 

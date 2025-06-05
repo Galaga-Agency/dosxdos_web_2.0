@@ -2,14 +2,20 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { projects } from "@/data/projects";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import "./ServiciosRecentProjects.scss";
+import TransitionLink from "@/components/TransitionLink";
+import { Project } from "@/types/project-types";
 
-const ServiciosRecentProjects: React.FC = () => {
-  const {isTablet } = useDeviceDetect();
+interface ServiciosRecentProjectsProps {
+  projects: Project[];
+}
+
+const ServiciosRecentProjects: React.FC<ServiciosRecentProjectsProps> = ({
+  projects,
+}) => {
+  const { isTablet } = useDeviceDetect();
   const [showNextArrow, setShowNextArrow] = useState(false);
   const [showPrevArrow, setShowPrevArrow] = useState(false);
 
@@ -107,15 +113,15 @@ const ServiciosRecentProjects: React.FC = () => {
               ref={projectsGridRef}
             >
               {recentProjects.map((project) => (
-                <Link
+                <TransitionLink
                   href={`/portfolio/${project.slug}`}
                   className="servicios-recent-projects__item reveal-item"
                   key={project.id}
                 >
                   <div className="servicios-recent-projects__image-wrapper">
                     <Image
-                      src={project.image}
-                      alt={project.title}
+                      src={project.coverImage}
+                      alt={project.name || "Proyecto reciente"}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
                       className="servicios-recent-projects__image"
@@ -127,10 +133,10 @@ const ServiciosRecentProjects: React.FC = () => {
                       CREATIVO
                     </span>
                     <span className="servicios-recent-projects__item-title reveal-title">
-                      {project.title}
+                      {project.name}
                     </span>
                   </div>
-                </Link>
+                </TransitionLink>
               ))}
             </div>
           </div>

@@ -8,6 +8,7 @@ import {
 } from "@/utils/animations/hover-btn";
 import { GoArrowUpRight } from "react-icons/go";
 import "./HoverCircleButton.scss";
+import TransitionLink from "@/components/TransitionLink";
 
 interface HoverCircleButtonProps {
   href?: string;
@@ -58,9 +59,9 @@ const HoverCircleButton: React.FC<HoverCircleButtonProps> = ({
   return (
     <div className="hover-circle-button__wrapper" ref={buttonRef}>
       {type === "link" && href ? (
-        <Link href={href} className={commonClasses}>
+        <TransitionLink href={href} className={commonClasses}>
           {content}
-        </Link>
+        </TransitionLink>
       ) : (
         <button
           className={commonClasses}
