@@ -48,7 +48,7 @@ export default function Template({ children }: TemplateProps) {
 
     // Set initial state of logo - small and transparent
     gsap.set(logo, {
-      scale: 0.2,
+      scale: 0.5,
       opacity: 0,
     });
 
@@ -69,16 +69,16 @@ export default function Template({ children }: TemplateProps) {
     tl.to(logo, {
       scale: 1,
       opacity: 1,
-      duration: 0.5,
+      duration: 0.6,
       ease: "power2.out",
     })
       // Hold the logo at full size
-      .to({}, { duration: 0.3 })
+      .to({}, { duration: 0.2 })
       // Then quickly scale down and fade out
       .to(logo, {
-        scale: 0.7,
+        scale: 0.5,
         opacity: 0,
-        duration: 0.3,
+        duration: 0.25,
         ease: "power3.in",
       })
       // Fade out overlay
@@ -86,7 +86,7 @@ export default function Template({ children }: TemplateProps) {
         overlay,
         {
           opacity: 0,
-          duration: 0.25,
+          duration: 0.3,
           ease: "power2.inOut",
           onComplete: () => {
             overlay.style.display = "none";

@@ -262,11 +262,11 @@ export default function AboutUsLayout({
             
             // High priority images (above the fold)
             preloadImage('/assets/img/team/dospodos_personal_oficina-3.webp', 'high');
-            preloadImage('/assets/img/about-us-page/equipo-1.jpg', 'high');
-            preloadImage('/assets/img/about-us-page/equipo-2.jpg', 'high');
+            preloadImage('/assets/img/about-us-page/equipo-1.avif', 'high');
+            preloadImage('/assets/img/about-us-page/equipo-2.avif', 'high');
             
             // Medium priority images (likely to be seen)
-            preloadImage('/assets/img/about-us-page/equipo-3.jpg');
+            preloadImage('/assets/img/about-us-page/equipo-3.avif');
             preloadImage('/assets/img/about-us-page/accion-social-cta.webp');
             
             // Low priority team gallery images
@@ -283,7 +283,7 @@ export default function AboutUsLayout({
             const socialImages = [
               'mil-caminos-illustration.jpg',
               'yrichen-illustration.webp', 
-              'vicente-ferrer-illustration.jpg'
+              'vicente-ferrer-illustration.avif'
             ];
             
             socialImages.forEach(img => {

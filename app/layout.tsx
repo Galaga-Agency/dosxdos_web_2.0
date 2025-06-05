@@ -122,7 +122,7 @@ export const metadata: Metadata = {
       "35+ años diseñando espacios comerciales únicos en Madrid y Canarias. Especialistas en perfumería, cosmética y retail de lujo. Más de 200 proyectos completados.",
     images: [
       {
-        url: "/assets/img/homepage/slider-3.webp",
+        url: "/assets/img/homepage/slider-3.avif",
         width: 1200,
         height: 630,
         alt: "Diseño de interiores comerciales de lujo - Dos x Dos Grupo Imagen",
@@ -141,7 +141,7 @@ export const metadata: Metadata = {
     title: "Dos x Dos Grupo Imagen - Diseño de Interiores Comerciales de Lujo",
     description:
       "35+ años diseñando espacios comerciales únicos en Madrid y Canarias. Especialistas en perfumería y cosmética.",
-    images: ["/assets/img/homepage/slider-3.webp"],
+    images: ["/assets/img/homepage/slider-3.avif"],
   },
   icons: {
     icon: [
@@ -290,7 +290,7 @@ export default function RootLayout({
     "@type": "LocalBusiness",
     "@id": "https://dospordosgrupoimagen.com/#localbusiness",
     name: "Dos x Dos Grupo Imagen",
-    image: "https://dospordosgrupoimagen.com/assets/img/homepage/slider-3.webp",
+    image: "https://dospordosgrupoimagen.com/assets/img/homepage/slider-3.avif",
     address: [
       {
         "@type": "PostalAddress",
@@ -365,23 +365,23 @@ export default function RootLayout({
         {/* Critical resource preloading for performance */}
         <link
           rel="preload"
-          href="/assets/img/homepage/slider-3.webp"
+          href="/assets/img/homepage/slider-3.avif"
           as="image"
-          type="image/webp"
+          type="image/avif"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/assets/img/homepage/slider-1.webp"
+          href="/assets/img/homepage/slider-1.avif"
           as="image"
-          type="image/webp"
+          type="image/avif"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/assets/img/homepage/slider-2.webp"
+          href="/assets/img/homepage/slider-2.avif"
           as="image"
-          type="image/webp"
+          type="image/avif"
           fetchPriority="high"
         />
         <link
@@ -393,30 +393,30 @@ export default function RootLayout({
         />
         <link
           rel="preload"
-          href="/assets/img/about-us-page/equipo-1.jpg"
+          href="/assets/img/about-us-page/equipo-1.avif"
           as="image"
-          type="image/jpg"
+          type="image/avif"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/assets/img/about-us-page/equipo-2.jpg"
+          href="/assets/img/about-us-page/equipo-2.avif"
           as="image"
-          type="image/jpg"
+          type="image/avif"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/assets/img/about-us-page/equipo-3.jpg"
+          href="/assets/img/about-us-page/equipo-3.avif"
           as="image"
-          type="image/jpg"
+          type="image/avif"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/assets/img/about-us-page/vicente-ferrer-illustration.jpg"
+          href="/assets/img/about-us-page/vicente-ferrer-illustration.avif"
           as="image"
-          type="image/webp"
+          type="image/avif"
           fetchPriority="high"
         />
         <link

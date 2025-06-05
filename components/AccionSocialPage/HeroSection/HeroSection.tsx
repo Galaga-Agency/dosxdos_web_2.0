@@ -31,7 +31,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImageLoad }) => {
           }`}
         >
           <Image
-            src="/assets/img/about-us-page/vicente-ferrer-illustration.jpg"
+            src="/assets/img/about-us-page/vicente-ferrer-illustration.avif"
             alt="Acción Social"
             fill
             quality={100}

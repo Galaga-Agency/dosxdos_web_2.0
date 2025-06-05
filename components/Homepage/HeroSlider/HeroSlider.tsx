@@ -6,7 +6,6 @@ import { gsap } from "gsap";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import "./HeroSlider.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import { preloadNextImages, extractImageUrls } from "@/utils/imagePreloader";
 
 interface SlideItem {
   id: number;
@@ -25,80 +24,107 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   onImagesLoad,
 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [loadedImages, setLoadedImages] = useState(new Set<number>());
-  const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
+  const [isFirstImageLoaded, setIsFirstImageLoaded] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const { isTouchDevice } = useDeviceDetect();
+  const hasAnimated = useRef(false);
 
-  // Extract all image URLs for preloading
-  const imageUrls = extractImageUrls(slides, "imageUrl");
+  // Animate hero content as soon as first image loads
+  const animateHeroContent = useCallback(() => {
+    if (hasAnimated.current) return;
+    hasAnimated.current = true;
 
-  // Handle individual image load
-  const handleImageLoad = useCallback(
-    (imageIndex: number) => {
-      setLoadedImages((prev) => {
-        const newSet = new Set(prev);
-        newSet.add(imageIndex);
+    const tl = gsap.timeline();
 
-        // Check if first image is loaded (enough to start animations)
-        if (imageIndex === 0 && onImagesLoad) {
-          setTimeout(onImagesLoad, 50);
-        }
-
-        return newSet;
+    // Make container visible immediately
+    if (sectionRef.current) {
+      gsap.set(sectionRef.current.querySelector(".hero-slider__container"), {
+        opacity: 1,
       });
-    },
-    [onImagesLoad]
-  );
+    }
 
-  // Preload next slide whenever active slide changes
-  useEffect(() => {
-    preloadNextImages(activeSlide, imageUrls, 1);
-  }, [activeSlide, imageUrls]);
+    // Animate title
+    if (titleRef.current) {
+      gsap.set(titleRef.current, {
+        opacity: 0,
+        y: -30,
+      });
+
+      tl.to(
+        titleRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.4,
+          ease: "power2.out",
+        },
+        0.2
+      );
+    }
+
+    // Animate CTA
+    if (ctaRef.current) {
+      gsap.set(ctaRef.current, {
+        opacity: 0,
+        y: 30,
+      });
+
+      tl.to(
+        ctaRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power2.out",
+        },
+        0.4
+      );
+    }
+
+    // Notify parent that hero is ready
+    if (onImagesLoad) {
+      onImagesLoad();
+    }
+  }, [onImagesLoad]);
+
+  // Handle first image load
+  const handleFirstImageLoad = useCallback(() => {
+    setIsFirstImageLoaded(true);
+    animateHeroContent();
+  }, [animateHeroContent]);
 
   // Autoplay timer
   useEffect(() => {
+    if (!isFirstImageLoaded) return;
+
     const interval = setInterval(() => {
       setActiveSlide((current) => (current + 1) % slides.length);
     }, autoplaySpeed);
 
     return () => clearInterval(interval);
-  }, [autoplaySpeed, slides.length]);
+  }, [autoplaySpeed, slides.length, isFirstImageLoaded]);
 
   // Handle slide transitions with GSAP
   useEffect(() => {
-    // Create a single GSAP timeline for smoother transitions
     const tl = gsap.timeline();
 
     slides.forEach((_, index) => {
-      const slideElement = document.querySelector(
+      const slideElement = sectionRef.current?.querySelector(
         `.hero-slider__slide:nth-child(${index + 1})`
       );
 
       if (slideElement) {
-        if (index === activeSlide) {
-          tl.to(
-            slideElement,
-            {
-              opacity: 1,
-              duration: 1,
-              ease: "power2.inOut",
-            },
-            0
-          );
-        } else {
-          tl.to(
-            slideElement,
-            {
-              opacity: 0,
-              duration: 1,
-              ease: "power2.inOut",
-            },
-            0
-          );
-        }
+        tl.to(
+          slideElement,
+          {
+            opacity: index === activeSlide ? 1 : 0,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          0
+        );
       }
     });
   }, [activeSlide, slides]);
@@ -120,7 +146,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
   return (
     <div ref={sectionRef} className="hero-slider">
-      {!isTouchDevice && (
+      {!isTouchDevice && isFirstImageLoaded && (
         <>
           <button
             className="hero-slider__nav hero-slider__nav--prev"
@@ -170,19 +196,18 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
             key={slide.id}
             className={`hero-slider__slide featured-image-wrapper hero-image-wrapper ${
               index === activeSlide ? "active" : ""
-            } ${loadedImages.has(index) ? "loaded" : "loading"}`}
+            }`}
           >
             <Image
               src={slide.imageUrl}
               alt={`Slide ${index + 1}`}
               fill
-              priority={index === 0 || index === 1} // Prioritize first two slides
+              priority={index === 0} // Only prioritize first image
               sizes="100vw"
               className="hero-slider__image"
-              onLoad={() => handleImageLoad(index)}
-              ref={(el) => {
-                imageRefs.current[index] = el;
-              }}
+              onLoad={index === 0 ? handleFirstImageLoad : undefined}
+              loading={index === 0 ? "eager" : "lazy"}
+              quality={index === 0 ? 90 : 75}
             />
           </div>
         ))}
@@ -190,9 +215,8 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 
       <div className="hero-slider__content">
         <h1 ref={titleRef} className="hero-slider__title">
-          <span className="hero-slider__rolling-text">CREAMOS</span> <br />ESPACIOS
-          
-          QUE INSPIRAN.
+          <span className="hero-slider__rolling-text">CREAMOS</span> <br />
+          ESPACIOS QUE INSPIRAN.
         </h1>
 
         <div ref={ctaRef} className="hero-slider__cta">
@@ -202,18 +226,20 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         </div>
       </div>
 
-      <div className="hero-slider__indicators">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            className={`hero-slider__indicator ${
-              index === activeSlide ? "active" : ""
-            }`}
-            onClick={() => goToSlide(index)}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {isFirstImageLoaded && (
+        <div className="hero-slider__indicators">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              className={`hero-slider__indicator ${
+                index === activeSlide ? "active" : ""
+              }`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
