@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Marquee from "react-fast-marquee";
 import { clientLogos } from "@/data/clients";
 import "./LogoMarquee.scss";
 
@@ -10,15 +11,6 @@ const LogoMarquee = ({
   fullWidth = false,
   darkMode = false,
 }) => {
-  const allLogos = [
-    ...clientLogos,
-    ...clientLogos,
-    ...clientLogos,
-    ...clientLogos,
-    ...clientLogos,
-    ...clientLogos,
-  ];
-
   const sectionClasses = `logo-marquee ${
     fullWidth ? "logo-marquee--full-width" : ""
   } ${darkMode ? "logo-marquee--dark-mode" : ""}`;
@@ -40,20 +32,25 @@ const LogoMarquee = ({
         )}
 
         <div className="logo-marquee__wrapper">
-          <div className="logo-marquee__track">
-            {allLogos.map((logo, index) => (
-              <div key={`logo-${index}`} className="logo-marquee__item">
+          <Marquee
+            speed={50}
+            gradient={false}
+            pauseOnHover={true}
+            direction="right"
+          >
+            {clientLogos.map((logo, index) => (
+              <div key={`logo-${index}`} className="logo-marquee__item" style={{width: "200px", height: "120px"}}>
                 <Image
                   src={logo.src}
                   alt={logo.name}
-                  width={200}
-                  height={120}
+                  width={150}
+                  height={90}
                   style={{ objectFit: "contain" }}
                   className="logo-marquee__logo"
                 />
               </div>
             ))}
-          </div>
+          </Marquee>
         </div>
       </div>
     </section>

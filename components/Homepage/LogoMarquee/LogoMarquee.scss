@@ -1,14 +1,11 @@
 @use "abstracts/variables" as *;
 @use "abstracts/mixins" as *;
 @use "base/colors" as *;
-@use "base/animations" as *;
 
 .logo-marquee {
   width: 100%;
   background-color: rgba($secondary-color, 0.5);
-  padding: 4rem 0;
-  overflow: hidden;
-  overscroll-behavior: none;
+  padding: 4rem 2rem;
 
   &--dark-mode {
     background-color: $black;
@@ -32,6 +29,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    @include container-width(desktop);
+    margin: 0 auto;
+    @include padding(md, x);
 
     @include min-width(lg) {
       flex-direction: row;
@@ -69,67 +69,20 @@
 
   &__wrapper {
     flex: 1;
-    overflow: hidden;
-    position: relative;
     width: 100%;
-    will-change: transform;
-    transform: translateZ(0);
-  }
-
-  &__track {
-    display: flex;
-    width: fit-content;
-    animation: marquee-scroll 300s linear infinite;
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-
-    @include min-width(md) {
-      animation-duration: 280s;
-    }
-
-    @include min-width(lg) {
-      animation-duration: 250s;
-    }
-
-    @include min-width(xl) {
-      animation-duration: 200s;
-    }
-
-    &:hover {
-      animation-play-state: paused;
-    }
+    overflow: hidden;
   }
 
   &__item {
-    flex-shrink: 0;
-    padding: 0 3rem;
-    height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    @include min-width(lg) {
-      height: 120px;
-      padding: 0 4rem;
-    }
+    padding: 0 2rem;
 
     img {
-      max-height: 120px;
-      width: auto;
-      height: auto;
-      object-fit: contain;
       opacity: 0.75;
       filter: grayscale(100%) contrast(1);
       transition: all 0.5s ease;
-
-      @include min-width(lg) {
-        max-height: 90px;
-      }
-
-      @include min-width(xl) {
-        max-height: 120px;
-      }
     }
 
     &:hover {
