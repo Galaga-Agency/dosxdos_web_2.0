@@ -14,6 +14,7 @@ declare global {
     projectsObserver?: IntersectionObserver;
     clickTimes?: number[];
     pageTransitionComplete: any;
+    __transitionTriggeredByMenu: any;
   }
 }
 

@@ -51,6 +51,72 @@ const Menu: React.FC = () => {
     };
   }, [isMobile]);
 
+  // INSTANT TRANSITION TRIGGER - HANDLES COMPLETE ANIMATION
+  const triggerInstantTransition = () => {
+    const overlay = document.querySelector('[data-transition-overlay]') as HTMLElement;
+    const logo = document.querySelector('[data-transition-logo]') as HTMLElement;
+    
+    if (overlay && logo) {
+      // SET FLAG TO PREVENT TEMPLATE FROM INTERFERING
+      window.__transitionTriggeredByMenu = true;
+      
+      // INSTANT: Show overlay and start logo animation immediately
+      overlay.style.display = "block";
+      overlay.style.opacity = "1";
+      
+      // Reset logo to start position
+      logo.style.opacity = "1";
+      logo.style.transition = "none";
+      logo.style.transform = "translate(-50%, -50%) scale(0.5)";
+      
+      // Start animation to full size
+      requestAnimationFrame(() => {
+        logo.style.transition = "all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+        logo.style.transform = "translate(-50%, -50%) scale(1)";
+      });
+
+      // Complete the animation after holding at full size
+      setTimeout(() => {
+        // Logo shrink and fade out
+        logo.style.transition = "all 0.25s cubic-bezier(0.55, 0.055, 0.675, 0.19)";
+        logo.style.transform = "translate(-50%, -50%) scale(0.5)";
+        logo.style.opacity = "0";
+        
+        // Overlay fade out
+        setTimeout(() => {
+          overlay.style.transition = "opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+          overlay.style.opacity = "0";
+          
+          // Hide overlay completely
+          setTimeout(() => {
+            overlay.style.display = "none";
+            overlay.style.transition = "none";
+            logo.style.transition = "none";
+            
+            // Reset for next time
+            logo.style.transform = "translate(-50%, -50%) scale(0.5)";
+            logo.style.opacity = "0";
+            
+            // CLEAR FLAG
+            window.__transitionTriggeredByMenu = false;
+            
+            // Refresh ScrollTrigger
+            if (window.ScrollTrigger) {
+              window.ScrollTrigger.refresh(true);
+            }
+            
+            if (window.ScrollSmoother) {
+              const smoother = window.ScrollSmoother.get();
+              if (smoother) {
+                smoother.refresh();
+              }
+            }
+          }, 300);
+        }, 150);
+      }, 1000); // Hold logo at full size for 1 second
+    }
+  };
+
   // INSTANT NAVIGATION - ZERO LAG
   const handleNavigation = (href: string, e?: React.MouseEvent) => {
     if (e) {
@@ -63,32 +129,17 @@ const Menu: React.FC = () => {
       return;
     }
 
-    // Close mobile menu INSTANTLY
+    // INSTANT: Trigger transition overlay immediately
+    triggerInstantTransition();
+
+    // Close mobile menu if open
     if (isMobileOpen) {
       setIsMobileOpen(false);
       document.body.style.overflow = "";
     }
 
-    // INSTANTLY show transition overlay - NO DELAY
-    const overlay = document.querySelector(
-      'div[style*="zIndex: 99"]'
-    ) as HTMLElement;
-    if (overlay) {
-      overlay.style.display = "block";
-      overlay.style.opacity = "1";
-
-      // Start logo animation immediately
-      const logo = overlay.querySelector("div") as HTMLElement;
-      if (logo) {
-        logo.style.opacity = "1";
-        logo.style.transform = "translate(-50%, -50%) scale(1)";
-      }
-    }
-
-    // THEN navigate after showing overlay
-    setTimeout(() => {
-      router.push(href);
-    }, 1);
+    // Navigate AFTER showing transition (no delay)
+    router.push(href);
   };
 
   // Submenu animation management
