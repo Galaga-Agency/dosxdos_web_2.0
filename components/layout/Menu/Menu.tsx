@@ -69,8 +69,26 @@ const Menu: React.FC = () => {
       document.body.style.overflow = "";
     }
 
-    // Use Next.js router but force immediate navigation
-    router.push(href);
+    // INSTANTLY show transition overlay - NO DELAY
+    const overlay = document.querySelector(
+      'div[style*="zIndex: 99"]'
+    ) as HTMLElement;
+    if (overlay) {
+      overlay.style.display = "block";
+      overlay.style.opacity = "1";
+
+      // Start logo animation immediately
+      const logo = overlay.querySelector("div") as HTMLElement;
+      if (logo) {
+        logo.style.opacity = "1";
+        logo.style.transform = "translate(-50%, -50%) scale(1)";
+      }
+    }
+
+    // THEN navigate after showing overlay
+    setTimeout(() => {
+      router.push(href);
+    }, 1);
   };
 
   // Submenu animation management

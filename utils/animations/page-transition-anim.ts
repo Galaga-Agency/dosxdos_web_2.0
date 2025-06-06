@@ -1,4 +1,4 @@
-// utils/animations/template-anim.ts
+// utils/animations/page-transition-anim.ts
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -13,19 +13,47 @@ export const templatePageAnimation = (
   const logo = logoRef.current;
   if (!overlay || !logo) return;
 
+  // CHECK IF OVERLAY IS ALREADY VISIBLE - DON'T RETRIGGER
+  if (overlay.style.opacity === "1" && overlay.style.display === "block") {
+    // Animation already running, just complete it normally
+    setTimeout(() => {
+      gsap.to(logo, {
+        scale: 0.5,
+        opacity: 0,
+        duration: 0.25,
+        ease: "power3.in",
+      });
+      gsap.to(overlay, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.inOut",
+        delay: 0.1,
+        onComplete: () => {
+          overlay.style.display = "none";
+          ScrollTrigger.refresh(true);
+          if (window.ScrollSmoother) {
+            const smoother = window.ScrollSmoother.get();
+            if (smoother) {
+              smoother.refresh();
+            }
+          }
+        },
+      });
+    }, 800);
+    return () => {}; // Return empty cleanup
+  }
+
   // Kill all ScrollTriggers to prevent conflicts
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
   // Reset scroll position immediately
-  // Check if ScrollSmoother exists and reset it
   if (window.ScrollSmoother) {
     const smoother = window.ScrollSmoother.get();
     if (smoother) {
-      smoother.scrollTo(0, false); // false = no animation
+      smoother.scrollTo(0, false);
     }
   }
 
-  // Also reset regular scroll as fallback
   window.scrollTo(0, 0);
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
@@ -45,7 +73,6 @@ export const templatePageAnimation = (
   const tl = gsap.timeline({
     defaults: { ease: "power3.out" },
     onStart: () => {
-      // Ensure we're at the top when animation starts
       if (window.ScrollSmoother) {
         const smoother = window.ScrollSmoother.get();
         if (smoother) {
@@ -62,8 +89,8 @@ export const templatePageAnimation = (
     duration: 0.6,
     ease: "power2.out",
   })
-    // Hold the logo at full size
-    .to({}, { duration: 0.2 })
+    // Hold the logo at full size - NO HEARTBEAT
+    .to({}, { duration: 0.4 })
     // Then quickly scale down and fade out
     .to(logo, {
       scale: 0.5,
