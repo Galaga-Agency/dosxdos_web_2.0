@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -24,22 +24,37 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
 
-// import FabricacionImpresionHeroSection from "@/components/FabricacionImpresionPage/FabricacionImpresionHeroSection/FabricacionImpresionHeroSection";
-// import FabricacionImpresionServicesSection from "@/components/FabricacionImpresionPage/FabricacionImpresionServicesSection/FabricacionImpresionServicesSection";
-// import FabricacionImpresionProcessSection from "@/components/FabricacionImpresionPage/FabricacionImpresionProcessSection/FabricacionImpresionProcessSection";
-// import FabricacionImpresionNetworkSection from "@/components/FabricacionImpresionPage/FabricacionImpresionNetworkSection/FabricacionImpresionNetworkSection";
-
 import "./fabricacion-impresion-page.scss";
+import FabricacionImpresionHeroSection from "@/components/FabricacionImpresionPage/FabricacionImpresionHeroSection/FabricacionImpresionHeroSection";
+import { animateHeroSlider } from "@/utils/animations/homepage-hero";
+import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
 
 const FabricacionImpresionPage = () => {
   useScrollSmooth();
 
   const cleanupRef = useRef<(() => void) | null>(null);
+  const [heroReady, setHeroReady] = useState(false);
 
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
     { name: "Servicios", href: "/servicios" },
     { name: "Logística", href: "/servicios/fabricacion-impresion" },
+  ];
+
+  // Slider data
+  const heroSlides = [
+    {
+      id: 1,
+      imageUrl: "/assets/img/homepage/slider-3.avif",
+    },
+    {
+      id: 2,
+      imageUrl: "/assets/img/homepage/slider-1.avif",
+    },
+    {
+      id: 3,
+      imageUrl: "/assets/img/homepage/slider-2.avif",
+    },
   ];
 
   useEffect(() => {
@@ -55,6 +70,18 @@ const FabricacionImpresionPage = () => {
       }
     };
   }, []);
+
+  const handleHeroReady = useCallback(() => {
+    setHeroReady(true);
+  }, []);
+
+  useGSAP(() => {
+    if (heroReady) {
+      // Run hero-specific animations immediately
+      animateHeroSlider();
+      initRollingTextAnimation();
+    }
+  }, [heroReady]);
 
   useGSAP(() => {
     const timer = setTimeout(() => {
@@ -91,8 +118,12 @@ const FabricacionImpresionPage = () => {
           </div>
 
           <div className="logistica-page__container">
-            {/* <FabricacionHeroSection />
-            <FabricacionServicesSection />
+            <FabricacionImpresionHeroSection
+              slides={heroSlides}
+              autoplaySpeed={3000}
+              onImagesLoad={handleHeroReady}
+            />
+            {/* <FabricacionServicesSection />
             <FabricacionProcessSection />
             <FabricacionNetworkSection /> */}
 

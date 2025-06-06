@@ -16,10 +16,13 @@
   box-shadow: $shadow-md;
   padding: 1.5rem;
   @include z-index(tooltip);
-  animation: slideIn 0.6s ease forwards;
   overflow: hidden;
   max-width: 100%;
   width: calc(100% - 2rem);
+  
+  // Prevent any layout reflow issues
+  contain: layout style;
+  will-change: transform, opacity;
 
   @include min-width(md) {
     bottom: 2rem;
@@ -110,16 +113,5 @@
         background: rgba($white, 0.15);
       }
     }
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
   }
 }

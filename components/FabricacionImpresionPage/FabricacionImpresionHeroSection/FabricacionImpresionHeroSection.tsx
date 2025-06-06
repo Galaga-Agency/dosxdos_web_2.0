@@ -2,23 +2,21 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import { gsap } from "gsap";
-import "./HeroSlider.scss";
+import "./FabricacionImpresionHeroSection.scss";
 
 interface SlideItem {
   id: number;
   imageUrl: string;
 }
 
-interface HeroSliderProps {
+interface FabricacionImpresionHeroSectionProps {
   slides: SlideItem[];
   autoplaySpeed?: number;
   onImagesLoad?: () => void;
 }
 
-const HeroSlider: React.FC<HeroSliderProps> = ({
+const FabricacionImpresionHeroSection: React.FC<FabricacionImpresionHeroSectionProps> = ({
   slides,
   autoplaySpeed = 3000,
   onImagesLoad,
@@ -28,9 +26,11 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
   const { isTouchDevice } = useDeviceDetect();
 
-  // Handle first image load
+  // Handle first image load - just trigger the callback, no animation here
   const handleFirstImageLoad = useCallback(() => {
     setIsFirstImageLoaded(true);
+
+    // Just notify the parent page that images are ready
     if (onImagesLoad) onImagesLoad();
   }, [onImagesLoad]);
 
@@ -45,24 +45,23 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     return () => clearInterval(interval);
   }, [autoplaySpeed, slides.length, isFirstImageLoaded]);
 
-  // Handle slide transitions with GSAP ONLY
+  // Handle slide transitions with CSS
   useEffect(() => {
-    if (!isFirstImageLoaded) return;
-
     slides.forEach((_, index) => {
       const slideElement = sectionRef.current?.querySelector(
         `.hero-slider__slide:nth-child(${index + 1})`
       );
 
       if (slideElement) {
-        gsap.to(slideElement, {
-          opacity: index === activeSlide ? 1 : 0,
-          duration: 1,
-          ease: "power2.inOut",
-        });
+        slideElement.setAttribute(
+          "style",
+          `opacity: ${
+            index === activeSlide ? 1 : 0
+          }; transition: opacity 1s ease-in-out;`
+        );
       }
     });
-  }, [activeSlide, slides, isFirstImageLoaded]);
+  }, [activeSlide, slides]);
 
   const goToSlide = (index: number) => {
     if (index === activeSlide) return;
@@ -153,12 +152,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
           <span className="hero-slider__rolling-text">CREAMOS</span> <br />
           ESPACIOS QUE INSPIRAN.
         </h1>
-
-        <div className="hero-slider__cta">
-          <SecondaryButton href="/servicios" size="large">
-            Descubrir Servicios
-          </SecondaryButton>
-        </div>
       </div>
 
       {isFirstImageLoaded && (
@@ -179,4 +172,4 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   );
 };
 
-export default HeroSlider;
+export default FabricacionImpresionHeroSection;

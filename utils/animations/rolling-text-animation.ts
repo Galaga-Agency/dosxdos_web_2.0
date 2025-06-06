@@ -9,8 +9,12 @@ export const initRollingTextAnimation = () => {
 
   const words = ["CREAMOS", "FABRICAMOS", "MONTAMOS", "DISEÑAMOS"];
   let currentIndex = 0;
+  let intervalId: NodeJS.Timeout;
 
-  const container = rollingTextElement;
+  const container = rollingTextElement as HTMLElement;
+
+  // Kill any existing animations
+  gsap.killTweensOf(container);
 
   // Calculate the width needed for the longest word
   const calculateMaxWidth = () => {
@@ -36,11 +40,11 @@ export const initRollingTextAnimation = () => {
 
   // Set fixed width based on longest word
   const maxWidth = calculateMaxWidth();
-  (container as HTMLElement).style.width = `${maxWidth}px`;
-  (container as HTMLElement).style.textAlign = "left";
-
+  container.style.width = `${maxWidth}px`;
+  container.style.textAlign = "left";
   container.textContent = words[currentIndex];
 
+  // Set initial 3D properties
   gsap.set(container.parentElement, {
     perspective: 1000,
   });
@@ -88,9 +92,19 @@ export const initRollingTextAnimation = () => {
       );
   };
 
-  const interval = setInterval(animateWord, 3500);
+  // Start the rolling animation after a delay to let the initial animation complete
+  const startRolling = () => {
+    intervalId = setInterval(animateWord, 3500);
+  };
 
+  // Delay the start of rolling text to avoid conflicts
+  gsap.delayedCall(2, startRolling);
+
+  // Return cleanup function
   return () => {
-    clearInterval(interval);
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
+    gsap.killTweensOf(container);
   };
 };

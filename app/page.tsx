@@ -81,7 +81,6 @@ const HomePage = () => {
   // Initialize hero animations IMMEDIATELY when hero is ready (no delay for minimal lag)
   useGSAP(() => {
     if (heroReady && isHydrated) {
-      // Run hero-specific animations immediately
       animateHeroSlider();
       initRollingTextAnimation();
     }
@@ -89,29 +88,26 @@ const HomePage = () => {
 
   // Initialize other animations when sections are ready
   useGSAP(() => {
-    if (heroReady && isHydrated) {
+    if (isHydrated) {
       // Wait a bit for other sections to be ready
       const timer = setTimeout(() => {
         setSectionsReady(true);
-
-        // Run all other animations
         fadeAnimation();
         charAnimation();
         imageParallax();
         initCardMouseParallax();
         hoverCircleButtonAnimation();
+        highlightAnimation();
+        featuredImageAnimation();
 
         if (showFeaturedProjects) {
-          featuredImageAnimation();
+          panelTwoAnimation();
         }
-
-        highlightAnimation();
-        panelTwoAnimation();
-      }, 500); // Small delay to ensure sections are rendered
+      }, 300);
 
       return () => clearTimeout(timer);
     }
-  }, [heroReady, isHydrated, showFeaturedProjects]);
+  }, [isHydrated, showFeaturedProjects]);
 
   // Blog section animations
   useGSAP(() => {
