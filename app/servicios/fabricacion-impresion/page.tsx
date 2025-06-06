@@ -30,6 +30,9 @@ import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
 import FabricacionAboutSection from "@/components/FabricacionImpresionPage/FabricacionAboutSection/FabricacionAboutSection";
 import FabricacionServicesSection from "@/components/FabricacionImpresionPage/FabricacionServicesSection/FabricacionServicesSection";
+import FabricacionFloatingImagesSection from "@/components/FabricacionImpresionPage/FabricacionFloatingImagesSection/FabricacionFloatingImagesSection";
+import FabricacionProcessSection from "@/components/FabricacionImpresionPage/FabricacionProcessSection/FabricacionProcessSection";
+import FabricacionGridSection from "@/components/FabricacionImpresionPage/FabricacionGridSection/FabricacionGridSection";
 
 const FabricacionImpresionPage = () => {
   useScrollSmooth();
@@ -41,22 +44,6 @@ const FabricacionImpresionPage = () => {
     { name: "Inicio", href: "/" },
     { name: "Servicios", href: "/servicios" },
     { name: "Logística", href: "/servicios/fabricacion-impresion" },
-  ];
-
-  // Slider data
-  const heroSlides = [
-    {
-      id: 1,
-      imageUrl: "/assets/img/homepage/slider-3.avif",
-    },
-    {
-      id: 2,
-      imageUrl: "/assets/img/homepage/slider-1.avif",
-    },
-    {
-      id: 3,
-      imageUrl: "/assets/img/homepage/slider-2.avif",
-    },
   ];
 
   useEffect(() => {
@@ -73,18 +60,6 @@ const FabricacionImpresionPage = () => {
     };
   }, []);
 
-  const handleHeroReady = useCallback(() => {
-    setHeroReady(true);
-  }, []);
-
-  useGSAP(() => {
-    if (heroReady) {
-      // Run hero-specific animations immediately
-      animateHeroSlider();
-      initRollingTextAnimation();
-    }
-  }, [heroReady]);
-
   useGSAP(() => {
     const timer = setTimeout(() => {
       accionSocialHeroAnim();
@@ -94,6 +69,8 @@ const FabricacionImpresionPage = () => {
       imageParallax();
       initStatsCounter();
       servicePanel();
+      animateHeroSlider();
+      initRollingTextAnimation();
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
@@ -120,13 +97,12 @@ const FabricacionImpresionPage = () => {
           </div>
 
           <div className="logistica-page__container">
-            <FabricacionImpresionHeroSection
-              slides={heroSlides}
-              autoplaySpeed={3000}
-              onImagesLoad={handleHeroReady}
-            />
+            <FabricacionImpresionHeroSection />
             <FabricacionAboutSection />
-            <FabricacionServicesSection/>
+            <FabricacionServicesSection />
+            <FabricacionFloatingImagesSection />
+            <FabricacionProcessSection />
+            <FabricacionGridSection />
           </div>
         </div>
         <Footer />

@@ -1,0 +1,116 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.fabricacion-services-grid {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    @include gap(lg);
+    position: relative;
+    z-index: 20;
+
+    @include min-width(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include min-width(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .marquee-container {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    overflow: hidden;
+    @include padding(lg, y);
+    margin: 0;
+    background-color: rgba($secondary-color, 0.5);
+    pointer-events: none;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    overscroll-behavior: none;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    @include margin(4xl, top);
+
+    @include min-width(sm) {
+      min-height: 100px;
+    }
+
+    @include min-width(md) {
+      min-height: 150px;
+    }
+
+    @include min-width(lg) {
+      min-height: 180px;
+    }
+
+    .marquee-track {
+      display: flex;
+      white-space: nowrap;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      overflow: hidden;
+      will-change: transform;
+      transform: translateZ(0);
+    }
+
+    .marquee-text {
+      @include font-weight(semibold);
+      color: rgba($black, 0.15);
+      text-transform: uppercase;
+      @include letter-spacing(wider);
+      font-family: var(--font-display);
+      display: inline-block;
+      line-height: 1;
+      vertical-align: middle;
+      animation: marquee-scroll 400s linear infinite;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      @include font-size(hero-xs);
+
+      @include min-width(md) {
+        @include font-size(hero-md);
+        animation-duration: 400s;
+      }
+
+      @include min-width(lg) {
+        @include font-size(hero-lg);
+        animation-duration: 400s;
+      }
+
+      @include min-width(xl) {
+        @include font-size(hero-xl);
+        animation-duration: 500s;
+      }
+
+      span {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
