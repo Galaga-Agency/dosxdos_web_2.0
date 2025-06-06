@@ -16,12 +16,17 @@ export default function Template({ children }: TemplateProps) {
   const pathname = usePathname();
 
   useGSAP(() => {
-    // CHECK GLOBAL FLAG - IF MENU TRIGGERED IT, DO ABSOLUTELY NOTHING
+    // ALWAYS SCROLL TO TOP ON ROUTE CHANGE - REGARDLESS OF TRANSITION
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // CHECK GLOBAL FLAG - IF MENU TRIGGERED IT, DO ABSOLUTELY NOTHING ELSE
     if (window.__transitionTriggeredByMenu) {
       return () => {}; // ZERO interference
     }
 
-    // Only run if menu didn't trigger it
+    // Only run animation if menu didn't trigger it
     const cleanup = templatePageAnimation(overlayRef, logoRef);
     return cleanup;
   }, [pathname]);

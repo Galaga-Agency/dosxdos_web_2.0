@@ -15,6 +15,7 @@ declare global {
     clickTimes?: number[];
     pageTransitionComplete: any;
     __transitionTriggeredByMenu: any;
+    __targetHref: any;
   }
 }
 

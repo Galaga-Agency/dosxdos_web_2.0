@@ -51,14 +51,20 @@ const Menu: React.FC = () => {
     };
   }, [isMobile]);
 
-  // INSTANT TRANSITION TRIGGER - HANDLES COMPLETE ANIMATION
-  const triggerInstantTransition = () => {
+  // INSTANT TRANSITION TRIGGER - WAITS FOR NAVIGATION
+  const triggerInstantTransition = (href: string) => {
     const overlay = document.querySelector('[data-transition-overlay]') as HTMLElement;
     const logo = document.querySelector('[data-transition-logo]') as HTMLElement;
     
     if (overlay && logo) {
+      // INSTANTLY SCROLL TO TOP
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      
       // SET FLAG TO PREVENT TEMPLATE FROM INTERFERING
       window.__transitionTriggeredByMenu = true;
+      window.__targetHref = href;
       
       // INSTANT: Show overlay and start logo animation immediately
       overlay.style.display = "block";
@@ -75,45 +81,66 @@ const Menu: React.FC = () => {
         logo.style.transform = "translate(-50%, -50%) scale(1)";
       });
 
-      // Complete the animation after holding at full size
-      setTimeout(() => {
-        // Logo shrink and fade out
-        logo.style.transition = "all 0.25s cubic-bezier(0.55, 0.055, 0.675, 0.19)";
-        logo.style.transform = "translate(-50%, -50%) scale(0.5)";
-        logo.style.opacity = "0";
-        
-        // Overlay fade out
-        setTimeout(() => {
-          overlay.style.transition = "opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-          overlay.style.opacity = "0";
+      // WAIT FOR NAVIGATION TO ACTUALLY HAPPEN BEFORE COMPLETING
+      const checkNavigation = () => {
+        if (window.location.pathname === href || window.location.pathname + '/' === href || window.location.pathname === href + '/') {
+          // Navigation happened - SCROLL TO TOP AGAIN and complete animation
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
           
-          // Hide overlay completely
           setTimeout(() => {
-            overlay.style.display = "none";
-            overlay.style.transition = "none";
-            logo.style.transition = "none";
-            
-            // Reset for next time
+            // Logo shrink and fade out
+            logo.style.transition = "all 0.25s cubic-bezier(0.55, 0.055, 0.675, 0.19)";
             logo.style.transform = "translate(-50%, -50%) scale(0.5)";
             logo.style.opacity = "0";
             
-            // CLEAR FLAG
-            window.__transitionTriggeredByMenu = false;
-            
-            // Refresh ScrollTrigger
-            if (window.ScrollTrigger) {
-              window.ScrollTrigger.refresh(true);
-            }
-            
-            if (window.ScrollSmoother) {
-              const smoother = window.ScrollSmoother.get();
-              if (smoother) {
-                smoother.refresh();
-              }
-            }
-          }, 300);
-        }, 150);
-      }, 1000); // Hold logo at full size for 1 second
+            // Overlay fade out
+            setTimeout(() => {
+              overlay.style.transition = "opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+              overlay.style.opacity = "0";
+              
+              // Hide overlay completely
+              setTimeout(() => {
+                overlay.style.display = "none";
+                overlay.style.transition = "none";
+                logo.style.transition = "none";
+                
+                // Reset for next time
+                logo.style.transform = "translate(-50%, -50%) scale(0.5)";
+                logo.style.opacity = "0";
+                
+                // FINAL SCROLL TO TOP
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                
+                // CLEAR FLAG
+                window.__transitionTriggeredByMenu = false;
+                window.__targetHref = null;
+                
+                // Refresh ScrollTrigger
+                if (window.ScrollTrigger) {
+                  window.ScrollTrigger.refresh(true);
+                }
+                
+                if (window.ScrollSmoother) {
+                  const smoother = window.ScrollSmoother.get();
+                  if (smoother) {
+                    smoother.refresh();
+                  }
+                }
+              }, 300);
+            }, 150);
+          }, 300); // Small delay after navigation
+        } else {
+          // Navigation not happened yet - keep checking
+          setTimeout(checkNavigation, 50);
+        }
+      };
+
+      // Start checking after logo reaches full size
+      setTimeout(checkNavigation, 600);
     }
   };
 
@@ -130,7 +157,7 @@ const Menu: React.FC = () => {
     }
 
     // INSTANT: Trigger transition overlay immediately
-    triggerInstantTransition();
+    triggerInstantTransition(href);
 
     // Close mobile menu if open
     if (isMobileOpen) {
@@ -138,7 +165,7 @@ const Menu: React.FC = () => {
       document.body.style.overflow = "";
     }
 
-    // Navigate AFTER showing transition (no delay)
+    // Navigate AFTER showing transition
     router.push(href);
   };
 
@@ -385,7 +412,11 @@ const Menu: React.FC = () => {
                   <div
                     className="menu__nav-link"
                     onClick={(e) => handleNavigation(item.href, e)}
-                    onMouseEnter={() => router.prefetch(item.href)}
+                    onMouseEnter={() => {
+                      router.prefetch(item.href);
+                      // Preload the actual page component
+                      import(`@/app${item.href}/page`);
+                    }}
                     style={{ cursor: "pointer" }}
                   >
                     {item.label}
