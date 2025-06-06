@@ -14,6 +14,29 @@
     @include section-padding-y();
   }
 
+  &__container {
+    width: 100%;
+    @include container-width(mobile);
+    @include padding(sm, x);
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+      @include padding(md, x);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+      @include padding(lg, x);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+      @include padding(xl, x);
+    }
+  }
+
   &__top-content {
     width: 100%;
   }
@@ -21,40 +44,54 @@
   &__statement {
     @include margin(2xl, bottom);
     text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 
     @include min-width(md) {
       @include margin(3xl, bottom);
     }
 
     @include min-width(xl) {
-      max-width: 80%;
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 85%;
       @include margin(4xl, bottom);
     }
   }
 
   &__services {
-    @include grid(1, xl);
+    display: grid;
+    grid-template-columns: 1fr;
+    @include gap(xl);
+    width: 100%;
 
     @include min-width(md) {
-      @include grid(3, xl);
+      grid-template-columns: repeat(3, 1fr);
+      @include gap(xl);
+    }
+
+    @include min-width(lg) {
+      @include gap(2xl);
     }
 
     @include min-width(xl) {
-      max-width: 90%;
+      max-width: 95%;
       margin: 0 auto;
+      @include gap(3xl);
     }
   }
 
   &__service-item {
-    text-align: left;
-
-    @include min-width(md) {
-      text-align: center;
-    }
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    
+    // Ensure consistent alignment across all breakpoints
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     @include min-width(xl) {
+      align-items: flex-start;
       text-align: left;
     }
   }
@@ -62,14 +99,14 @@
   &__service-icon {
     @include margin(lg, bottom);
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
+    width: 100%;
 
     img {
       height: 80px;
       width: auto;
       display: block;
-      text-align: left;
     }
   }
 
@@ -79,19 +116,8 @@
     @include font-weight(semibold);
     color: $black;
     @include margin(md, bottom);
-    text-align: left;
-
-    // Decorative underline
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 40px;
-      height: 2px;
-      background-color: $primary-color;
-      @include transition(width, normal);
-    }
+    text-align: center;
+    width: 100%;
 
     @include min-width(lg) {
       @include font-size(2xl);
@@ -106,20 +132,12 @@
     @include font-size(base);
     line-height: 1.6;
     color: rgba($black, 0.7);
-    max-width: 90%;
-    text-align: left;
-
-    @include min-width(md) {
-      margin: 0 auto;
-    }
-
-    @include min-width(xl) {
-      margin: 0;
-      width: 100%;
-    }
+    text-align: center;
+    width: 100%;
+    max-width: none;
   }
 
-  // MIDDLE FLOATING IMAGE
+  // MIDDLE FLOATING IMAGE - Smart responsive display
   &__middle-image {
     position: absolute;
     display: none;
@@ -129,11 +147,33 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 
-    @include min-width(xxl) {
+    // Only show when there's sufficient horizontal space
+    @media (min-width: 1600px) and (min-aspect-ratio: 16/10) {
       display: block;
+      width: 380px;
+      height: 280px;
+      right: 3%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    // For ultra-wide screens with good aspect ratios
+    @media (min-width: 1800px) and (min-aspect-ratio: 16/9) {
       width: 450px;
-      height: 300px;
+      height: 320px;
       right: 5%;
+    }
+
+    // For super ultra-wide screens
+    @media (min-width: 2000px) {
+      width: 500px;
+      height: 350px;
+      right: 8%;
+    }
+
+    // Hide on tall/narrow screens even if they're wide enough
+    @media (max-aspect-ratio: 4/3) {
+      display: none !important;
     }
   }
 
@@ -162,11 +202,25 @@
     @include min-width(xxl) {
       @include section-padding-y();
     }
+
+    // Add extra padding on the right when floating image is visible
+    @media (min-width: 1600px) {
+      .vision-section__container {
+        padding-right: clamp(2rem, 8vw, 12rem);
+      }
+    }
+
+    @media (min-width: 1800px) {
+      .vision-section__container {
+        padding-right: clamp(3rem, 10vw, 15rem);
+      }
+    }
   }
 
   &__header {
     @include margin(3xl, bottom);
     text-align: left;
+    width: 100%;
   }
 
   &__label {
@@ -175,21 +229,25 @@
   }
 
   &__title {
-    width: auto;
+    width: 100%;
     text-align: left;
   }
 
-  // Content Grid (Same as AboutUs)
+  // Content Grid (Improved alignment)
   &__content {
-    @include grid(1, md);
+    display: grid;
+    grid-template-columns: 1fr;
+    @include gap(md);
+    width: 100%;
+    align-items: center;
 
     @include min-width(md) {
-      @include grid(2, xl);
-      margin: auto 0;
+      grid-template-columns: repeat(2, 1fr);
+      @include gap(xl);
     }
 
     @include min-width(lg) {
-      @include grid(2, 4xl);
+      @include gap(4xl);
     }
   }
 
@@ -208,18 +266,18 @@
 
     @include min-width(md) {
       order: 1;
-      justify-content: flex-start;
+      justify-content: center;
     }
 
     @include min-width(xl) {
-      width: 80%;
-      margin-left: auto;
+      justify-content: flex-end;
     }
   }
 
   &__animated-image {
     position: relative;
     width: 100%;
+    max-width: 500px;
     height: 300px;
     overflow: hidden;
     will-change: transform;
@@ -237,6 +295,7 @@
 
     @include min-width(xl) {
       height: 500px;
+      width: 90%;
     }
 
     img {
@@ -254,19 +313,20 @@
     position: relative;
     order: 1;
     @include flex(column, flex-start, flex-start);
+    width: 100%;
 
     @include min-width(md) {
       order: 2;
     }
 
     @include min-width(xl) {
-      width: 80%;
-      margin-right: auto;
+      justify-content: center;
     }
   }
 
   &__text {
     @include margin(lg, bottom);
+    width: 100%;
   }
 
   &__cta {
@@ -279,5 +339,29 @@
 .line-break {
   @include min-width(md) {
     display: none;
+  }
+}
+
+// Ensure consistent container behavior globally
+.container {
+  width: 100%;
+  @include container-width(mobile);
+  @include padding(sm, x);
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  @include min-width(md) {
+    @include container-width(tablet);
+    @include padding(md, x);
+  }
+
+  @include min-width(lg) {
+    @include container-width(smalldesktop);
+    @include padding(lg, x);
+  }
+
+  @include min-width(xl) {
+    @include container-width(desktop);
+    @include padding(xl, x);
   }
 }
