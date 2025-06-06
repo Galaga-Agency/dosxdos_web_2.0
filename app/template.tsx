@@ -16,8 +16,13 @@ export default function Template({ children }: TemplateProps) {
   const pathname = usePathname();
 
   useGSAP(() => {
-    const cleanup = templatePageAnimation(overlayRef, logoRef);
+    // CHECK GLOBAL FLAG - IF MENU TRIGGERED IT, DO ABSOLUTELY NOTHING
+    if (window.__transitionTriggeredByMenu) {
+      return () => {}; // ZERO interference
+    }
 
+    // Only run if menu didn't trigger it
+    const cleanup = templatePageAnimation(overlayRef, logoRef);
     return cleanup;
   }, [pathname]);
 
@@ -25,6 +30,7 @@ export default function Template({ children }: TemplateProps) {
     <>
       <div
         ref={overlayRef}
+        data-transition-overlay
         style={{
           position: "fixed",
           top: 0,
@@ -34,15 +40,18 @@ export default function Template({ children }: TemplateProps) {
           backgroundColor: "#fff",
           zIndex: 99,
           pointerEvents: "none",
+          display: "none",
+          opacity: "0",
         }}
       >
         <div
           ref={logoRef}
+          data-transition-logo
           style={{
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, -50%)",
+            transform: "translate(-50%, -50%) scale(0.5)",
             opacity: 0,
           }}
         >

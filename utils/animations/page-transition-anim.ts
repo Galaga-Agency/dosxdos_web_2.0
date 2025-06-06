@@ -13,35 +13,13 @@ export const templatePageAnimation = (
   const logo = logoRef.current;
   if (!overlay || !logo) return;
 
-  // CHECK IF OVERLAY IS ALREADY VISIBLE - DON'T RETRIGGER
-  if (overlay.style.opacity === "1" && overlay.style.display === "block") {
-    // Animation already running, just complete it normally
-    setTimeout(() => {
-      gsap.to(logo, {
-        scale: 0.5,
-        opacity: 0,
-        duration: 0.25,
-        ease: "power3.in",
-      });
-      gsap.to(overlay, {
-        opacity: 0,
-        duration: 0.3,
-        ease: "power2.inOut",
-        delay: 0.1,
-        onComplete: () => {
-          overlay.style.display = "none";
-          ScrollTrigger.refresh(true);
-          if (window.ScrollSmoother) {
-            const smoother = window.ScrollSmoother.get();
-            if (smoother) {
-              smoother.refresh();
-            }
-          }
-        },
-      });
-    }, 800);
-    return () => {}; // Return empty cleanup
+  // TRIPLE CHECK - If menu triggered it, DO NOTHING
+  if (window.__transitionTriggeredByMenu) {
+    return () => {}; // ZERO interference
   }
+
+  // FALLBACK: If transition wasn't triggered from menu, run normal animation
+  console.log("Running fallback transition animation...");
 
   // Kill all ScrollTriggers to prevent conflicts
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
@@ -89,7 +67,7 @@ export const templatePageAnimation = (
     duration: 0.6,
     ease: "power2.out",
   })
-    // Hold the logo at full size - NO HEARTBEAT
+    // Hold the logo at full size
     .to({}, { duration: 0.4 })
     // Then quickly scale down and fade out
     .to(logo, {
