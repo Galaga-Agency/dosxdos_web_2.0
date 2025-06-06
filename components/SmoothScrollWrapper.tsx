@@ -157,7 +157,7 @@ export default function SmoothScrollWrapper({
             console.error("[SmoothScrollWrapper] Error creating ScrollSmoother:", error);
             // No fallback - just notify
           }
-        }, 300);
+        }, 100);
       } catch (error) {
         console.error("[SmoothScrollWrapper] Error initializing ScrollSmoother:", error);
       }

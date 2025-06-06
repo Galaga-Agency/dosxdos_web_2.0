@@ -62,7 +62,7 @@ const ServiciosPage: React.FC = () => {
       revealForTouchDevices();
       highlightAnimation();
       randomStaggerAnimation();
-    }, 300);
+    }, 100);
 
     return () => clearTimeout(timer);
   });

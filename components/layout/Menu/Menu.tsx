@@ -4,8 +4,9 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { useRouter, usePathname } from "next/navigation";
 import { menuItems, ctaButton } from "@/data/menu-data";
-import { Plus, Minus, ChevronDown } from "lucide-react";
+import { Plus, Minus, ChevronDown, PhoneCall, Mail } from "lucide-react";
 import HamburgerIcon from "@/components/HamburgerIcon/HamburgerIcon";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
@@ -13,53 +14,70 @@ import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import AdminBadge from "@/components/AdminBadge/AdminBadge";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { menuUtils } from "@/utils/animations/menu-anim";
-import { PhoneCall, Mail } from "lucide-react";
 import "./Menu.scss";
-import { useRouter } from "next/navigation";
 
 const Menu: React.FC = () => {
   const { data: session, status } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const isAuthenticated = status === "authenticated";
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const submenuItemsRef = useRef<Map<string, HTMLElement[]>>(new Map());
   const menuRef = useRef<HTMLElement>(null);
-  const { isMobile, isDesktop } = useDeviceDetect();
-  const router = useRouter();
-  const clickCountRef = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { isMobile, isDesktop } = useDeviceDetect();
 
   // Setup scroll-based styling and animations
   useEffect(() => {
-    // Basic scroll handler for styling
     const handleBasicScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
 
-    // Add basic scroll listener
     window.addEventListener("scroll", handleBasicScroll, { passive: true });
 
-    // Add menu scroll behavior
     let cleanup = () => {};
     if (!isMobile && menuRef.current) {
       cleanup = menuUtils.setupMenuScroll(menuRef.current);
     }
 
-    // Cleanup
     return () => {
       window.removeEventListener("scroll", handleBasicScroll);
       cleanup();
     };
   }, [isMobile]);
 
+  // INSTANT NAVIGATION - ZERO LAG
+  const handleNavigation = (href: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    // Don't navigate if already on same page
+    if (pathname === href) {
+      return;
+    }
+
+    // Close mobile menu INSTANTLY
+    if (isMobileOpen) {
+      setIsMobileOpen(false);
+      document.body.style.overflow = "";
+    }
+
+    // Use Next.js router but force immediate navigation
+    router.push(href);
+  };
+
   // Submenu animation management
   useEffect(() => {
     if (openSubmenu && submenuItemsRef.current.has(openSubmenu)) {
       const items = submenuItemsRef.current.get(openSubmenu) || [];
 
-      // Staggered animation for submenu items
       items.forEach((item, index) => {
         setTimeout(() => {
           item.style.transition = "all 0.3s ease";
@@ -131,6 +149,32 @@ const Menu: React.FC = () => {
     }
   };
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const now = Date.now();
+
+    if (!window.clickTimes) {
+      window.clickTimes = [];
+    }
+
+    window.clickTimes.push(now);
+    window.clickTimes = window.clickTimes.filter((time) => now - time < 1000);
+
+    if (window.clickTimes.length >= 3) {
+      window.clickTimes = [];
+      handleNavigation("/login");
+      return;
+    }
+
+    setTimeout(() => {
+      if (window.clickTimes && window.clickTimes.length < 3) {
+        handleNavigation("/");
+        window.clickTimes = [];
+      }
+    }, 1000);
+  };
+
   // Render the appropriate CTA button based on scroll state
   const renderCtaButton = () => {
     const ctaProps = {
@@ -146,9 +190,19 @@ const Menu: React.FC = () => {
       }
 
       return isScrolled ? (
-        <SecondaryButton {...ctaProps}>{ctaButton.label}</SecondaryButton>
+        <SecondaryButton
+          {...ctaProps}
+          onClick={(e) => handleNavigation(ctaButton.href, e)}
+        >
+          {ctaButton.label}
+        </SecondaryButton>
       ) : (
-        <PrimaryButton {...ctaProps}>{ctaButton.label}</PrimaryButton>
+        <PrimaryButton
+          {...ctaProps}
+          onClick={(e) => handleNavigation(ctaButton.href, e)}
+        >
+          {ctaButton.label}
+        </PrimaryButton>
       );
     }
 
@@ -158,7 +212,10 @@ const Menu: React.FC = () => {
         {isDesktop ? (
           <PrimaryButton
             href={ctaButton.href}
-            onClick={toggleMobileMenu}
+            onClick={(e) => {
+              handleNavigation(ctaButton.href, e);
+              toggleMobileMenu();
+            }}
             fullWidth
           >
             {ctaButton.label}
@@ -166,32 +223,6 @@ const Menu: React.FC = () => {
         ) : null}
       </>
     );
-  };
-
-  const handleLogoClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-
-    const now = Date.now();
-
-    if (!window.clickTimes) {
-      window.clickTimes = [];
-    }
-
-    window.clickTimes.push(now);
-    window.clickTimes = window.clickTimes.filter((time) => now - time < 1000);
-
-    if (window.clickTimes.length >= 3) {
-      window.clickTimes = [];
-      router.push("/login");
-      return;
-    }
-
-    setTimeout(() => {
-      if (window.clickTimes && window.clickTimes.length < 3) {
-        router.push("/");
-        window.clickTimes = [];
-      }
-    }, 1000);
   };
 
   return (
@@ -249,7 +280,12 @@ const Menu: React.FC = () => {
               >
                 {item.children ? (
                   <>
-                    <Link href={item.href} className="menu__nav-button">
+                    <div
+                      className="menu__nav-button"
+                      onClick={(e) => handleNavigation(item.href, e)}
+                      onMouseEnter={() => router.prefetch(item.href)}
+                      style={{ cursor: "pointer" }}
+                    >
                       {item.label}
                       <ChevronDown
                         className={`menu__nav-icon ${
@@ -257,27 +293,34 @@ const Menu: React.FC = () => {
                         }`}
                         size={16}
                       />
-                    </Link>
+                    </div>
                     <div
                       className={`menu__dropdown ${
                         hoveredItem === item.id ? "menu__dropdown--active" : ""
                       }`}
                     >
                       {item.children.map((child) => (
-                        <Link
+                        <div
                           key={child.id}
-                          href={child.href}
                           className="menu__dropdown-link"
+                          onClick={(e) => handleNavigation(child.href, e)}
+                          onMouseEnter={() => router.prefetch(child.href)}
+                          style={{ cursor: "pointer" }}
                         >
                           {child.label}
-                        </Link>
+                        </div>
                       ))}
                     </div>
                   </>
                 ) : (
-                  <Link href={item.href} className="menu__nav-link">
+                  <div
+                    className="menu__nav-link"
+                    onClick={(e) => handleNavigation(item.href, e)}
+                    onMouseEnter={() => router.prefetch(item.href)}
+                    style={{ cursor: "pointer" }}
+                  >
                     {item.label}
-                  </Link>
+                  </div>
                 )}
               </li>
             ))}
@@ -336,13 +379,13 @@ const Menu: React.FC = () => {
                 {item.children ? (
                   <>
                     <div className="menu__mobile-button-wrapper">
-                      <Link
-                        href={item.href}
+                      <div
                         className="menu__mobile-button-main"
-                        onClick={toggleMobileMenu}
+                        onClick={(e) => handleNavigation(item.href, e)}
+                        style={{ cursor: "pointer" }}
                       >
                         {item.label}
-                      </Link>
+                      </div>
                       <button
                         className="menu__mobile-button-toggle"
                         onClick={() => toggleSubmenu(item.id)}
@@ -368,29 +411,29 @@ const Menu: React.FC = () => {
                     >
                       <div className="menu__mobile-submenu-inner">
                         {item.children.map((sub) => (
-                          <Link
+                          <div
                             key={sub.id}
-                            href={sub.href}
                             className="menu__mobile-sublink"
-                            onClick={toggleMobileMenu}
+                            onClick={(e) => handleNavigation(sub.href, e)}
                             ref={(el: any) =>
                               collectSubmenuItem(item.id, el as HTMLElement)
                             }
+                            style={{ cursor: "pointer" }}
                           >
                             {sub.label}
-                          </Link>
+                          </div>
                         ))}
                       </div>
                     </div>
                   </>
                 ) : (
-                  <Link
-                    href={item.href}
+                  <div
                     className="menu__mobile-link"
-                    onClick={toggleMobileMenu}
+                    onClick={(e) => handleNavigation(item.href, e)}
+                    style={{ cursor: "pointer" }}
                   >
                     {item.label}
-                  </Link>
+                  </div>
                 )}
               </div>
             ))}
@@ -422,7 +465,10 @@ const Menu: React.FC = () => {
             <div className="menu__mobile-cta">
               <PrimaryButton
                 href={ctaButton.href}
-                onClick={toggleMobileMenu}
+                onClick={(e) => {
+                  handleNavigation(ctaButton.href, e);
+                  toggleMobileMenu();
+                }}
                 fullWidth
               >
                 {ctaButton.label}

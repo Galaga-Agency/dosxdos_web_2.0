@@ -53,12 +53,10 @@
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1),
       inset 0 0 0 1px rgba($black, 0.05);
 
-    // Top arrow for light dropdown
     &::before {
       background-color: rgba($white, 0.9);
     }
 
-    // Top highlight line for light dropdown
     &::after {
       background-color: rgba($black, 0.1);
     }
@@ -108,19 +106,16 @@
       color: $white;
     }
 
-    // Dropdown styling for scrolled state (keep the dark style)
     .menu__dropdown {
       background-color: rgba($black, 0.85);
       color: $white;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15),
         inset 0 0 0 1px rgba($white, 0.05);
 
-      // Top arrow for dark dropdown
       &::before {
         background-color: rgba($black, 0.85);
       }
 
-      // Top highlight line for dark dropdown
       &::after {
         background-color: rgba($white, 0.1);
       }
@@ -137,6 +132,21 @@
         color: $white;
         background-color: rgba($white, 0.05);
       }
+    }
+  }
+
+  // Transitioning state
+  &--transitioning {
+    .menu__nav-list {
+      opacity: 0.8;
+    }
+
+    .menu__logo {
+      opacity: 0.9;
+    }
+
+    &::before {
+      animation: menuPulse 1.5s ease-in-out infinite;
     }
   }
 
@@ -192,7 +202,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    padding: 0; // Eliminado para móvil
+    padding: 0;
     height: 85px;
     display: flex;
     align-items: center;
@@ -200,17 +210,14 @@
     text-decoration: none;
     transition: all 0.3s ease;
     -webkit-tap-highlight-color: transparent;
-    @include padding(
-      xs,
-      left
-    ); // Pequeño padding para no estar totalmente pegado
+    @include padding(xs, left);
 
     &:hover {
       transform: translateY(-2px);
     }
 
     @include min-width(md) {
-      @include padding(md); // Restaurar padding en tablet y desktop
+      @include padding(md);
     }
   }
 
@@ -230,7 +237,6 @@
       max-height: 75px;
     }
 
-    // Add these new responsive logo classes
     &--mobile {
       display: block;
 
@@ -248,31 +254,6 @@
     }
   }
 
-  &__hamburger-wrapper {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0; // Reducido para móvil
-    height: 85px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    @include z-index(toast);
-    -webkit-tap-highlight-color: transparent;
-    @include padding(
-      xs,
-      right
-    ); // Pequeño padding para no estar totalmente pegado
-
-    @include min-width(md) {
-      @include padding(md); // Restaurar padding en tablet y desktop
-    }
-
-    @include min-width(lg) {
-      display: none;
-    }
-  }
-
   // Navigation - hidden on mobile/tablet
   &__nav {
     display: none;
@@ -284,13 +265,12 @@
 
   &__nav-list {
     display: flex;
-    @include gap(xl); // Increased gap for better spacing
+    @include gap(xl);
     margin: 0;
     padding: 0;
     list-style: none;
     transition: all 0.3s ease;
 
-    // Special handling for Mac Retina displays
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
       @include gap(2xl);
     }
@@ -305,13 +285,25 @@
     }
   }
 
+  // Enhanced link wrappers for transition functionality
+  &__nav-link-wrapper,
+  &__nav-button-wrapper {
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+
+    &:hover:not([style*="pointer-events: none"]) {
+      transform: translateY(-1px);
+    }
+  }
+
   &__nav-link,
   &__nav-button {
-    @include font-weight(medium); // Changed from semibold to light
+    @include font-weight(medium);
     position: relative;
     @include padding(xs, y);
     text-decoration: none;
-    text-transform: uppercase; // Added uppercase transform
+    text-transform: uppercase;
     transition: all 0.3s ease;
     background: none;
     border: none;
@@ -348,6 +340,29 @@
         width: 100%;
       }
     }
+
+    // Loading state styles
+    &--loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+
+  // Loading indicators
+  &__nav-loading-indicator,
+  &__dropdown-loading-indicator,
+  &__mobile-loading-indicator {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    opacity: 0.7;
+    animation: menuSpin 1s linear infinite;
+  }
+
+  &__mobile-loading-indicator {
+    right: 10px;
   }
 
   &__nav-icon {
@@ -359,7 +374,7 @@
     }
   }
 
-  // Dropdown menu - default styling moved to parent context
+  // Dropdown menu
   &__dropdown {
     position: absolute;
     top: calc(100% + 0.5rem);
@@ -377,7 +392,7 @@
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
 
-    // Top arrow - color set in parent context
+    // Top arrow
     &::before {
       content: "";
       position: absolute;
@@ -389,7 +404,7 @@
       @include border-radius(sm);
     }
 
-    // Top highlight line - color set in parent context
+    // Top highlight line
     &::after {
       content: "";
       position: absolute;
@@ -411,6 +426,17 @@
 
     @include min-width(xl) {
       min-width: 300px;
+    }
+  }
+
+  // Enhanced dropdown link wrapper
+  &__dropdown-link-wrapper {
+    position: relative;
+    display: block;
+    transition: all 0.3s ease;
+
+    &:hover:not([style*="pointer-events: none"]) {
+      transform: translateX(5px);
     }
   }
 
@@ -457,6 +483,12 @@
         opacity: 0.5;
       }
     }
+
+    // Loading state
+    &--loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
   }
 
   // Actions area
@@ -464,7 +496,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0; // Reducido para móvil
+    padding: 0;
     height: 85px;
     display: flex;
     align-items: center;
@@ -472,7 +504,29 @@
     @include z-index(toast);
 
     @include min-width(md) {
-      @include padding(md); // Restaurar padding en tablet y desktop
+      @include padding(md);
+    }
+  }
+
+  &__hamburger-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    @include z-index(toast);
+    -webkit-tap-highlight-color: transparent;
+    @include padding(xs, right);
+
+    @include min-width(md) {
+      @include padding(md);
+    }
+
+    @include min-width(lg) {
+      display: none;
     }
   }
 
@@ -522,7 +576,7 @@
     flex-direction: column;
     border-left: 1px solid rgba($white, 0.05);
     height: 100%;
-    color: $white; // Always white text in mobile menu
+    color: $white;
 
     @include min-width(md) {
       max-width: 360px;
@@ -598,6 +652,19 @@
     width: 100%;
   }
 
+  // Enhanced mobile link wrappers
+  &__mobile-link-wrapper,
+  &__mobile-button-main-wrapper,
+  &__mobile-sublink-wrapper {
+    position: relative;
+    display: block;
+    transition: all 0.3s ease;
+
+    &:hover:not([style*="pointer-events: none"]) {
+      transform: translateX(5px);
+    }
+  }
+
   &__mobile-button-main,
   &__mobile-link {
     display: block;
@@ -632,6 +699,12 @@
       &::before {
         width: 30px;
       }
+    }
+
+    // Loading state
+    &--loading {
+      opacity: 0.7;
+      pointer-events: none;
     }
   }
 
@@ -708,6 +781,12 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    // Loading state
+    &--loading {
+      opacity: 0.4;
+      pointer-events: none;
+    }
   }
 
   &__mobile-footer {
@@ -777,9 +856,6 @@
       height: auto;
     }
 
-    // DO NOT override the CTA button display here
-    // Rely only on the xxxl media query above
-
     &__social-desktop {
       display: block;
       margin-inline: 0.5rem;
@@ -816,7 +892,26 @@
   }
 }
 
-// Mac-specific adjustments to solve spacing issues
+@keyframes menuSpin {
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+@keyframes menuPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+// Mac-specific adjustments
 @media screen and (-webkit-min-device-pixel-ratio: 2) {
   .menu {
     &__nav-list {
@@ -831,7 +926,7 @@
   }
 }
 
-// Special handling for medium sized devices
+// Medium sized devices
 @media screen and (min-width: 1024px) and (max-width: 1400px) {
   .menu {
     &__container {
@@ -886,10 +981,7 @@
   }
 }
 
-/* 
-IMPORTANT: DIRECT FIX FOR THE OVERLAPPING BUTTON ISSUE
-This overrides the previous styles to ensure there's no overlap
-*/
+// Grid layout fix for larger screens
 @media screen and (min-width: 992px) {
   .menu {
     &__container {
@@ -928,7 +1020,7 @@ This overrides the previous styles to ensure there's no overlap
   }
 }
 
-// Eliminar el efecto de selección azul en elementos interactivos
+// Remove tap highlight
 * {
   -webkit-tap-highlight-color: transparent;
 }

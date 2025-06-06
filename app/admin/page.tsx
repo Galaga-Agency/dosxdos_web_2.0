@@ -115,7 +115,7 @@ function AdminPanelPage() {
     setCurrentPage(0);
   }, [activeTab]);
 
-  // GSAP animations - REMOVED pageReady dependency
+  // GSAP animations - dependency
   useGSAP(() => {
     if (!isAuthenticated || loading) return;
 
@@ -128,7 +128,7 @@ function AdminPanelPage() {
         stagger: 0.08,
         fromY: 30,
       });
-    }, 300);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [isAuthenticated, loading, currentPage, activeTab]);

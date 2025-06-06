@@ -64,7 +64,7 @@ const ContactPage: React.FC = () => {
         wrapper.style.height = "auto";
         content.style.height = "auto";
       }
-    }, 300);
+    }, 100);
 
     return () => {
       clearTimeout(timer);

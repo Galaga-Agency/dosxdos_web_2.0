@@ -79,7 +79,7 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
         gallerySliderAnimation();
         floatingImagesAnimation();
         highlightAnimation();
-      }, 300);
+      }, 100);
 
       return () => clearTimeout(timer);
     }
