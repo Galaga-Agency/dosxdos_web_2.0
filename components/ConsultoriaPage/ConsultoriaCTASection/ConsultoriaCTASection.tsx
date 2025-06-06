@@ -3,7 +3,7 @@
 import React from "react";
 
 import "./ConsultoriaCTASection.scss";
-import { Link } from "lucide-react";
+import Link from "next/link";
 
 const ConsultoriaCTASection: React.FC = () => {
   return (

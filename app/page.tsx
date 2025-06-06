@@ -27,6 +27,7 @@ import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
+import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 
 // Slider data
 const heroSlides = [
@@ -77,10 +78,11 @@ const HomePage = () => {
     setHeroReady(true);
   }, []);
 
-  // Initialize hero animations immediately when hero is ready
+  // Initialize hero animations IMMEDIATELY when hero is ready (no delay for minimal lag)
   useGSAP(() => {
     if (heroReady && isHydrated) {
-      // Run rolling text animation immediately for hero
+      // Run hero-specific animations immediately
+      animateHeroSlider();
       initRollingTextAnimation();
     }
   }, [heroReady, isHydrated]);

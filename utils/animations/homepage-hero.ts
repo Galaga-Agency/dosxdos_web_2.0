@@ -1,22 +1,19 @@
+// utils/animations/homepage-hero.ts
 import { gsap } from "gsap";
 
-// Define the section animation element interface
-interface SectionAnimationElements {
-  section: HTMLElement;
-  title?: HTMLElement;
-  cta?: HTMLElement;
-}
+export const animateHeroSlider = () => {
+  if (typeof window === "undefined") return null;
 
-export const animateHeroSlider = ({
-  section,
-  title,
-  cta,
-}: SectionAnimationElements) => {
-  if (typeof window === "undefined" || !section) return null;
+  const section = document.querySelector(".hero-slider") as HTMLElement;
+  const title = document.querySelector(".hero-slider__title") as HTMLElement;
+  const cta = document.querySelector(".hero-slider__cta") as HTMLElement;
+  const container = document.querySelector(
+    ".hero-slider__container"
+  ) as HTMLElement;
+
+  if (!section) return null;
 
   const tl = gsap.timeline();
-
-  const container = section.querySelector(".hero-slider__container");
 
   // Animate container fade-in
   if (container) {
@@ -45,7 +42,7 @@ export const animateHeroSlider = ({
         duration: 1.4,
         ease: "power2.out",
       },
-      0.5
+      0.8
     );
   }
 
@@ -58,10 +55,10 @@ export const animateHeroSlider = ({
       {
         opacity: 1,
         y: 0,
-        duration: 1.2,
+        duration: 1.4,
         ease: "power2.out",
       },
-      0.6
+      0.8
     );
   }
 
