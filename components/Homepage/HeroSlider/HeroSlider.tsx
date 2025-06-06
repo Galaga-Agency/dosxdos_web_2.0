@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import "./HeroSlider.scss";
 
 interface SlideItem {
@@ -26,22 +25,13 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
   const [activeSlide, setActiveSlide] = useState(0);
   const [isFirstImageLoaded, setIsFirstImageLoaded] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
   const { isTouchDevice } = useDeviceDetect();
 
-  // Handle first image load and trigger animation
+  // Handle first image load - just trigger the callback, no animation here
   const handleFirstImageLoad = useCallback(() => {
     setIsFirstImageLoaded(true);
 
-    if (sectionRef.current && titleRef.current && ctaRef.current) {
-      animateHeroSlider({
-        section: sectionRef.current,
-        title: titleRef.current,
-        cta: ctaRef.current,
-      });
-    }
-
+    // Just notify the parent page that images are ready
     if (onImagesLoad) onImagesLoad();
   }, [onImagesLoad]);
 
@@ -56,7 +46,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     return () => clearInterval(interval);
   }, [autoplaySpeed, slides.length, isFirstImageLoaded]);
 
-  // Handle slide transitions with GSAP
+  // Handle slide transitions with CSS
   useEffect(() => {
     slides.forEach((_, index) => {
       const slideElement = sectionRef.current?.querySelector(
@@ -159,12 +149,12 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
       </div>
 
       <div className="hero-slider__content">
-        <h1 ref={titleRef} className="hero-slider__title">
+        <h1 className="hero-slider__title">
           <span className="hero-slider__rolling-text">CREAMOS</span> <br />
           ESPACIOS QUE INSPIRAN.
         </h1>
 
-        <div ref={ctaRef} className="hero-slider__cta">
+        <div className="hero-slider__cta">
           <SecondaryButton href="/servicios" size="large">
             Descubrir Servicios
           </SecondaryButton>
