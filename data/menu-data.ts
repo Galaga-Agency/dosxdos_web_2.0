@@ -40,12 +40,12 @@ export const menuItems: MenuItem[] = [
       },
       {
         id: "fabricacion-impresion",
-        label: "Fabricación & Impresión",
+        label: "Fabricación e Impresión",
         href: "/servicios/fabricacion-impresion",
       },
       {
         id: "montaje-mantenimiento",
-        label: "Montaje & Mantenimiento",
+        label: "Montaje y Mantenimiento",
         href: "/servicios/montaje-mantenimiento",
       },
       {

@@ -84,7 +84,7 @@ const MontajeMantenimientoPage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="instalacion-page">
-          <div className="instalacion-page__breadcrumbs">
+          <div className="breadcrumbs">
             <div className="container">
               <Breadcrumbs items={breadcrumbItems} />
             </div>

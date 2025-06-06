@@ -84,7 +84,7 @@ const NuestroEspacioPage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="nuestro-espacio-page">
-          <div className="nuestro-espacio-page__breadcrumbs">
+          <div className="breadcrumbs">
             <div className="container">
               <Breadcrumbs items={breadcrumbItems} />
             </div>

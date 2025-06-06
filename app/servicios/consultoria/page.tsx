@@ -93,7 +93,7 @@ const ConsultoriaPage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="consultoria-page">
-          <div className="consultoria-page__breadcrumbs">
+          <div className="breadcrumbs">
             <div className="container">
               <Breadcrumbs items={breadcrumbItems} />
             </div>

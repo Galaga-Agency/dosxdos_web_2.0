@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
@@ -15,9 +21,9 @@ import ServicesSection from "@/components/Homepage/ServicesSection/ServicesSecti
 import FeaturedprojectsSection from "@/components/Homepage/FeaturedprojectsSection/FeaturedprojectsSection";
 import BlogCarouselSection from "@/components/Homepage/BlogCarouselSection/BlogCarouselSection";
 import Footer from "@/components/layout/Footer/footer";
+import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 
 import { useDataStore } from "@/store/useDataStore";
-import { useHydration } from "@/hooks/useHydration";
 
 import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
 import { panelTwoAnimation } from "@/utils/animations/panel-animation";
@@ -28,8 +34,8 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
 import { animateHeroSlider } from "@/utils/animations/homepage-hero";
+import { servicesList } from "@/data/services";
 
-// Slider data
 const heroSlides = [
   {
     id: 1,
@@ -47,8 +53,8 @@ const heroSlides = [
 
 const HomePage = () => {
   const [heroReady, setHeroReady] = useState(false);
-  const [sectionsReady, setSectionsReady] = useState(false);
-  const isHydrated = useHydration();
+  const [animationsInitialized, setAnimationsInitialized] = useState(false);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   // Get data from zustand store
   const projects = useDataStore((state) => state.projects);
@@ -56,21 +62,35 @@ const HomePage = () => {
   const postsLoaded = useDataStore((state) => state.postsLoaded);
   const projectsLoaded = useDataStore((state) => state.projectsLoaded);
 
-  // Filter data
-  const featuredProjects = projects.filter((p) => p.featured);
-  const publishedPosts = posts.filter((p) => p.published).slice(0, 6);
+  // Memoize filtered data to prevent unnecessary re-renders
+  const featuredProjects = useMemo(
+    () => projects.filter((p) => p.featured),
+    [projects]
+  );
 
-  // Check if we should show components
-  const showFeaturedProjects = projectsLoaded && featuredProjects.length > 0;
-  const showBlogCarousel = postsLoaded && publishedPosts.length > 0;
+  const publishedPosts = useMemo(
+    () => posts.filter((p) => p.published).slice(0, 6),
+    [posts]
+  );
+
+  const hasServices = servicesList.length > 0;
+  const hasFeaturedProjects = projectsLoaded && featuredProjects.length > 0;
+  const hasBlogPosts = postsLoaded && publishedPosts.length > 0;
 
   useScrollSmooth();
+
+  const breadcrumbItems = useMemo(() => [{ name: "Inicio", href: "/" }], []);
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
 
     return () => {
       document.body.classList.remove("smooth-scroll");
+      // Execute cleanup if it exists
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
     };
   }, []);
 
@@ -78,47 +98,69 @@ const HomePage = () => {
     setHeroReady(true);
   }, []);
 
-  // Initialize hero animations IMMEDIATELY when hero is ready (no delay for minimal lag)
+  // Initialize hero animations immediately when hero is ready
   useGSAP(() => {
-    if (heroReady && isHydrated) {
+    if (heroReady && !animationsInitialized) {
+      // Set a flag to prevent re-initialization
+      setAnimationsInitialized(true);
+
+      // Initialize hero animations immediately
       animateHeroSlider();
       initRollingTextAnimation();
-    }
-  }, [heroReady, isHydrated]);
 
-  // Initialize other animations when sections are ready
-  useGSAP(() => {
-    if (isHydrated) {
-      // Wait a bit for other sections to be ready
+      // Initialize other base animations with a small delay for DOM readiness
       const timer = setTimeout(() => {
-        setSectionsReady(true);
         fadeAnimation();
         charAnimation();
         imageParallax();
-        initCardMouseParallax();
         hoverCircleButtonAnimation();
         highlightAnimation();
         featuredImageAnimation();
 
-        if (showFeaturedProjects) {
-          panelTwoAnimation();
+        // Initialize service animations if services exist
+        if (hasServices) {
+          initCardMouseParallax();
         }
-      }, 300);
+      }, 200);
+
+      // Store cleanup function
+      cleanupRef.current = () => clearTimeout(timer);
 
       return () => clearTimeout(timer);
     }
-  }, [isHydrated, showFeaturedProjects]);
+  }, [heroReady, animationsInitialized, hasServices]);
 
-  // Blog section animations
+  // Initialize project-specific animations when projects are ready
   useGSAP(() => {
-    if (sectionsReady && showBlogCarousel) {
-      highlightAnimation(0.3);
+    if (animationsInitialized && hasFeaturedProjects) {
+      const timer = setTimeout(() => {
+        panelTwoAnimation();
+      }, 100);
+
+      return () => clearTimeout(timer);
     }
-  }, [sectionsReady, showBlogCarousel]);
+  }, [animationsInitialized, hasFeaturedProjects]);
+
+  // Blog section animations - only when everything is ready
+  useGSAP(() => {
+    if (animationsInitialized && hasBlogPosts) {
+      const timer = setTimeout(() => {
+        highlightAnimation(0.3);
+      }, 150);
+
+      return () => clearTimeout(timer);
+    }
+  }, [animationsInitialized, hasBlogPosts]);
 
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
+        <div className="breadcrumbs">
+          <div className="container">
+            <Breadcrumbs items={breadcrumbItems} />
+          </div>
+        </div>
+
         <main>
           <HeroSlider
             slides={heroSlides}
@@ -127,12 +169,11 @@ const HomePage = () => {
           />
           <AboutUsSection />
           <LogoMarquee />
-          <ServicesSection />
-          {showFeaturedProjects && (
-            <FeaturedprojectsSection projects={featuredProjects} />
-          )}
-          {showBlogCarousel && <BlogCarouselSection posts={publishedPosts} />}
+          <ServicesSection services={servicesList} />
+          <FeaturedprojectsSection projects={featuredProjects} />
+          <BlogCarouselSection posts={publishedPosts} />
         </main>
+
         <Footer />
       </div>
     </div>
