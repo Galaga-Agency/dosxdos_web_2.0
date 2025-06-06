@@ -42,17 +42,23 @@ const DisenoInterioresMethodologySection = () => {
             (Lo que hacemos)
           </span>
           <h2 className="diseno-interiores-methodology-section__title secondary-title">
-            De la idea al espacio: un proceso pensado <span className="highlight">para transformar.</span>
+            De la idea al espacio: un proceso pensado{" "}
+            <span className="highlight">para transformar.</span>
           </h2>
         </div>
 
         <div className="diseno-interiores-methodology-section__grid">
-          <div className="diseno-interiores-methodology-section__image" data-speed="1.15">
+          <div
+            className="diseno-interiores-methodology-section__image"
+            data-speed="1.15"
+          >
             <Image
-              src="/assets/img/servicios/consultoria/consultoria-1.webp"
-              alt="Proceso de diseño de interiores"
-              width={500}
-              height={500}
+              src="/assets/img/homepage/foto-landing.avif"
+              alt="Diseño de interiores"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+              data-speed="0.95"
             />
           </div>
 

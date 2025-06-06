@@ -1,0 +1,142 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+@use "base/animations" as *;
+
+.fabricacion-about-section {
+  position: relative;
+  width: 100%;
+  background-color: $white;
+  @include section-padding-y();
+
+  &__content {
+    @include grid(1, md);
+
+    @include min-width(md) {
+      @include grid(2, xl);
+      margin: auto 0;
+    }
+
+    @include min-width(md) {
+      @include grid(2, 4xl);
+    }
+  }
+
+  &__visual-column {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    order: 2;
+    will-change: transform;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+
+    @include min-width(md) {
+      order: 1;
+      justify-content: flex-start;
+    }
+
+    @include min-width(xl) {
+      width: 80%;
+      margin-left: auto;
+    }
+  }
+
+  &__animated-logo {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    @include border-radius(md);
+
+    @include min-width(md) {
+      height: 400px;
+    }
+
+    @include min-width(lg) {
+      height: 450px;
+    }
+
+    @include min-width(xl) {
+      height: 500px;
+    }
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+      object-position: center;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      filter: brightness(1.02) contrast(1.05) saturate(1.1);
+      transition: filter 0.3s ease;
+    }
+
+    &:hover img {
+      filter: brightness(1.05) contrast(1.08) saturate(1.15);
+      transform: scale(1.02);
+      transition: all 0.6s ease;
+    }
+  }
+
+  &__content-column {
+    position: relative;
+    order: 1;
+    @include flex(column, flex-start, flex-start);
+
+    @include min-width(md) {
+      order: 2;
+    }
+
+    @include min-width(xl) {
+      width: 80%;
+      margin-right: auto;
+    }
+  }
+
+  &__tags {
+    @include flex(row, flex-start, center);
+    @include gap(sm);
+    @include margin(md, y);
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    @include padding(xs, y);
+    @include padding(sm, x);
+    @include border-radius(full);
+    border: 1px solid $black;
+    @include font-size(sm);
+    @include font-weight(medium);
+    color: $black;
+    background-color: transparent;
+    @include transition(all, fast);
+    white-space: nowrap;
+
+    &:hover {
+      background-color: $black;
+      color: $white;
+    }
+  }
+
+  &__cta {
+    width: fit-content;
+    @include margin(md, y);
+    will-change: transform, opacity;
+    @include flex(row, center, center);
+    @include gap(sm);
+    flex-wrap: wrap;
+
+    @include min-width(sm) {
+      flex-wrap: nowrap;
+    }
+  }
+}

@@ -28,6 +28,8 @@ import "./fabricacion-impresion-page.scss";
 import FabricacionImpresionHeroSection from "@/components/FabricacionImpresionPage/FabricacionImpresionHeroSection/FabricacionImpresionHeroSection";
 import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
+import FabricacionAboutSection from "@/components/FabricacionImpresionPage/FabricacionAboutSection/FabricacionAboutSection";
+import FabricacionServicesSection from "@/components/FabricacionImpresionPage/FabricacionServicesSection/FabricacionServicesSection";
 
 const FabricacionImpresionPage = () => {
   useScrollSmooth();
@@ -123,21 +125,8 @@ const FabricacionImpresionPage = () => {
               autoplaySpeed={3000}
               onImagesLoad={handleHeroReady}
             />
-            {/* <FabricacionServicesSection />
-            <FabricacionProcessSection />
-            <FabricacionNetworkSection /> */}
-
-            {/* Temporary content placeholder */}
-            <div
-              style={{
-                minHeight: "60vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <h1>Fabricación - Coming Soon</h1>
-            </div>
+            <FabricacionAboutSection />
+            <FabricacionServicesSection/>
           </div>
         </div>
         <Footer />
