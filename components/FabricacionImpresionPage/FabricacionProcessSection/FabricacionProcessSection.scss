@@ -1,0 +1,137 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.fabricacion-process-section {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background-color: $white;
+  @include section-padding-y();
+
+  &__container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    @include min-width(lg) {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 5rem;
+    }
+  }
+
+  &__header {
+    position: relative;
+    max-width: 800px;
+
+    @include min-width(lg) {
+      width: 40%;
+      position: sticky;
+      top: -10rem;
+    }
+  }
+
+  &__title {
+    color: $black;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @include min-width(lg) {
+      width: 60%;
+      gap: 1rem;
+    }
+  }
+
+  &__item {
+    padding: 2rem 0 0;
+    position: relative;
+    border-top: 1px solid rgba($black, 0.1);
+    @include transition(transform, normal, ease);
+
+    &:hover {
+      transform: translateY(-8px);
+
+      .fabricacion-process-section__item-title {
+        color: $black;
+
+        &::after {
+          width: 80px;
+        }
+      }
+    }
+  }
+
+  &__item-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    @include margin(lg, bottom);
+  }
+
+  &__item-number {
+    @include font-size(sm);
+    @include font-weight(semibold);
+    color: rgba($black, 0.4);
+    @include letter-spacing(wide);
+  }
+
+  &__item-category {
+    @include font-size(sm);
+    @include font-weight(semibold);
+    color: rgba($black, 0.5);
+    @include letter-spacing(wide);
+    position: relative;
+    @include padding(sm, left);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      @include border-radius(full);
+      background-color: rgba($black, 0.3);
+    }
+  }
+
+  &__item-title {
+    @include font-size(2xl);
+    @include font-weight(bold);
+    color: $black;
+    @include margin(lg, bottom);
+    @include transition(color, normal, ease);
+    position: relative;
+    @include padding(sm, bottom);
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: $primary-color;
+      @include transition(width, normal, ease);
+    }
+
+    @include min-width(md) {
+      @include font-size(3xl);
+    }
+  }
+
+  &__item-description {
+    @include font-size(lg);
+    line-height: 1.7;
+    color: rgba($black, 0.7);
+    max-width: 90%;
+  }
+}
