@@ -111,7 +111,7 @@ const FabricacionImpresionPage = () => {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="logistica-page">
-          <div className="logistica-page__breadcrumbs">
+          <div className="breadcrumbs">
             <div className="container">
               <Breadcrumbs items={breadcrumbItems} />
             </div>

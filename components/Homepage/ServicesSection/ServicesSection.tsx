@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useRef } from "react";
-import { servicesList } from "@/data/services";
 import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import "./ServicesSection.scss";
+import { Service } from "@/types/service-types";
 
-const ServicesSection: React.FC = () => {
+type ServicesSectionProps = {
+  services: Service[];
+};
+
+const ServicesSection: React.FC<ServicesSectionProps> = ({ services }) => {
   return (
     <section className="services-section">
       <div className="services-section__container container">
@@ -14,7 +18,7 @@ const ServicesSection: React.FC = () => {
             (Nuestros servicios)
           </h3>
           <h2 className="services-section__title secondary-title fade_bottom">
-            TE ESCUCHAMOS. CREAMOS. FABRICAMOS. INSTALAMOS. MANTENEMOS.
+            TE ESCUCHAMOS. CREAMOS. FABRICAMOS. <br /> INSTALAMOS. MANTENEMOS.
           </h2>
           <p className="services-section__subtitle subtitle">
             En Dos por Dos te damos soluciones 360° que combinan estrategia,
@@ -30,7 +34,7 @@ const ServicesSection: React.FC = () => {
           </p>
         </div>
         <div className="services-section__grid">
-          {servicesList.map((service, index) => (
+          {services.map((service, index) => (
             <div
               key={service.id}
               className="services-section__card-wrapper"

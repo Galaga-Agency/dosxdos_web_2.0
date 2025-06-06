@@ -21,7 +21,7 @@ export const servicesList: Service[] = [
   {
     id: 3,
     slug: "fabricacion-impresion",
-    name: "Fabricación & Impresión",
+    name: "Fabricación e Impresión",
     imageUrl: "/assets/img/homepage/Producción.webp",
     description: "Del diseño al detalle: fabricamos lo que imaginas.",
     linkText: "Hecho a medida",
@@ -29,7 +29,7 @@ export const servicesList: Service[] = [
   {
     id: 4,
     slug: "montaje-mantenimiento",
-    name: "Montaje & Mantenimiento",
+    name: "Montaje y Mantenimiento",
     imageUrl: "/assets/img/homepage/Logística.jpg",
     description:
       "Movemos, cuidamos y resolvemos para que tú no tengas que hacerlo.",
