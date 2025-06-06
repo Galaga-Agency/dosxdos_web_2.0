@@ -1,0 +1,119 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+@use "base/animations" as *;
+
+.fabricacion-services {
+  position: relative;
+  width: 100%;
+  @include section-padding-y();
+  background-color: $black;
+
+  &__container {
+    width: 100%;
+    @include container-width(mobile);
+    @include padding(sm, x);
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+      @include padding(md, x);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+      @include padding(lg, x);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+      @include padding(xl, x);
+    }
+  }
+
+  &__content {
+    @include flex(column, flex-start, flex-start);
+    @include gap(2xl);
+    color: $white;
+
+    @include min-width(md) {
+      flex-direction: row;
+      @include gap(4xl);
+    }
+
+    @include min-width(xl) {
+      @include gap(6xl);
+    }
+  }
+
+  &__header {
+    position: relative;
+    @include margin(3xl, bottom);
+  }
+
+  &__title {
+    color: $white;
+  }
+
+  &__categories {
+    @include margin(xl, y);
+    display: flex;
+    flex-wrap: wrap;
+    @include gap(md);
+    justify-content: flex-start;
+    width: 100%;
+
+    @include min-width(md) {
+      width: 40%;
+      margin-bottom: 0;
+    }
+
+    @include min-width(xl) {
+      width: 35%;
+      @include gap(lg);
+    }
+  }
+
+  &__category {
+    @include font-size(base);
+    @include font-weight(medium);
+    line-height: 1;
+    @include padding(sm, all);
+    @include border-radius(full);
+    display: inline-block;
+    color: $black;
+    background-color: $white;
+    border: 1px solid $black;
+    white-space: nowrap;
+    @include transition(all, normal, ease);
+
+    &:hover {
+      background-color: $black;
+      color: $white;
+    }
+  }
+
+  &__description {
+    width: 100%;
+
+    @include min-width(md) {
+      width: 60%;
+    }
+  }
+
+  &__text {
+    @include font-size(base);
+    line-height: 1.6;
+    color: rgba($white, 0.8);
+    @include margin(lg, bottom);
+
+    @include min-width(md) {
+      @include font-size(lg);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
