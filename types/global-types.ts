@@ -13,6 +13,7 @@ declare global {
     gsap?: any;
     projectsObserver?: IntersectionObserver;
     clickTimes?: number[];
+    pageTransitionComplete: any;
   }
 }
 

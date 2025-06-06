@@ -29,7 +29,7 @@ const PrivacidadPage: React.FC = () => {
     const timer = setTimeout(() => {
       fadeAnimation();
       charAnimation();
-    }, 300);
+    }, 100);
 
     return () => clearTimeout(timer);
   });

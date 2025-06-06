@@ -68,7 +68,7 @@ const EventosPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
-    }, 300);
+    }, 100);
 
     return () => {
       clearTimeout(timer);
