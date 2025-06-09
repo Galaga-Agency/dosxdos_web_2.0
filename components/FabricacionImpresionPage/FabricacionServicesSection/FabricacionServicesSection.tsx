@@ -12,46 +12,43 @@ const FabricacionServicesSection: React.FC = () => {
             (Más de 38 años de experiencia)
           </div>
           <h2 className="fabricacion-services__title secondary-title">
-            Servicios integrales de fabricación e impresión para transformar
-            ideas en{" "}
-            <span className="highlight">realidades tangibles</span>.
+            Fabricación: cuando la forma sigue a la idea - <br />
+            Diseñamos y construimos piezas que no solo funcionan, sino que
+            comunican.
           </h2>
         </div>
 
         <div className="fabricacion-services__content">
           <div className="fabricacion-services__categories">
             <div className="fabricacion-services__category">
-              Fabricación a medida
+              Mobiliario modular <br /> y personalizado
             </div>
             <div className="fabricacion-services__category">
-              Impresión digital
+              PLV, expositores <br /> y escaparates
             </div>
-            <div className="fabricacion-services__category">Rotulación</div>
-            <div className="fabricacion-services__category">Señalética</div>
-            <div className="fabricacion-services__category">Elementos POP</div>
             <div className="fabricacion-services__category">
-              Mobiliario comercial
+              Elementos decorativos
+              <br /> y estructuras
+            </div>
+            <div className="fabricacion-services__category">
+              Soluciones funcionales <br /> y sostenibles
             </div>
           </div>
 
           <div className="fabricacion-services__description">
             <p className="fabricacion-services__text text">
-              Fabricamos soluciones. Imprimimos calidad. Creamos presencia. Con
-              más de tres décadas perfeccionando técnicas de fabricación e
-              impresión, ofrecemos un servicio integral que abarca desde el
-              diseño técnico hasta la instalación final.
+              La fabricación no es solo ejecución: es una extensión natural del
+              diseño. Desde el mobiliario modular hasta los expositores,
+              estructuras y elementos decorativos, producimos piezas que cumplen
+              una función, pero también transmiten una idea.{" "}
             </p>
             <p className="fabricacion-services__text text">
-              Nuestro equipo de producción coordina cada fase del proceso con
-              precisión y dedicación, garantizando acabados únicos, duraderos y
-              sostenibles. Desde la fabricación de mobiliario comercial hasta la
-              impresión de gran formato, trabajamos con tecnología avanzada y
-              materiales de primera calidad.
-            </p>
-            <p className="fabricacion-services__text text">
-              Pensamos cada pieza como parte de un conjunto: diseñamos,
-              fabricamos, imprimimos, instalamos. Porque no se trata solo de
-              producir elementos, sino de darles vida y funcionalidad.
+              Nos diferenciamos por contar con un equipo técnico y creativo que
+              trabaja mano a mano, asegurando coherencia, control de calidad y
+              agilidad en plazos. Gracias a nuestros talleres propios, ofrecemos
+              soluciones personalizadas, con acabados cuidados y materiales
+              adaptados a cada proyecto. Fabricar para nosotros es construir con
+              intención.
             </p>
           </div>
         </div>

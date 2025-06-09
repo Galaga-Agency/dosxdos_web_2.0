@@ -49,8 +49,17 @@
     }
   }
 
+  &__category {
+    @include font-size(lg);
+    @include font-weight(semibold);
+    color: $black;
+    @include letter-spacing(wide);
+    text-transform: uppercase;
+    @include margin(md, bottom);
+  }
+
   &__item {
-    padding: 2rem 0 0;
+    @include padding(2xl, top);
     position: relative;
     border-top: 1px solid rgba($black, 0.1);
     @include transition(transform, normal, ease);
@@ -65,41 +74,6 @@
           width: 80px;
         }
       }
-    }
-  }
-
-  &__item-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    @include margin(lg, bottom);
-  }
-
-  &__item-number {
-    @include font-size(sm);
-    @include font-weight(semibold);
-    color: rgba($black, 0.4);
-    @include letter-spacing(wide);
-  }
-
-  &__item-category {
-    @include font-size(sm);
-    @include font-weight(semibold);
-    color: rgba($black, 0.5);
-    @include letter-spacing(wide);
-    position: relative;
-    @include padding(sm, left);
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 4px;
-      @include border-radius(full);
-      background-color: rgba($black, 0.3);
     }
   }
 

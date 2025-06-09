@@ -120,6 +120,7 @@
     background-color: transparent;
     @include transition(all, fast);
     white-space: nowrap;
+    cursor: pointer;
 
     &:hover {
       background-color: $black;

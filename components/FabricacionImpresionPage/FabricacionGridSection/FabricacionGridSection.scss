@@ -8,12 +8,23 @@
   overflow: visible;
   z-index: 1;
 
+  &__container {
+    position: relative;
+    z-index: 20;
+  }
+
+  &__label {
+    display: block;
+    position: static;
+  }
+
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
     @include gap(lg);
     position: relative;
     z-index: 20;
+    @include margin(3xl, bottom);
 
     @include min-width(md) {
       grid-template-columns: repeat(2, 1fr);
@@ -21,6 +32,40 @@
 
     @include min-width(lg) {
       grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__cta {
+    display: flex;
+    justify-content: center;
+    @include margin(3xl, top);
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    @include padding(lg, y);
+    @include padding(2xl, x);
+    background-color: $primary-color;
+    color: $white;
+    text-decoration: none;
+    @include border-radius(md);
+    @include font-size(lg);
+    @include font-weight(semibold);
+    text-transform: uppercase;
+    @include letter-spacing(wide);
+    @include transition(all, normal, ease);
+    @include shadow(md);
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+      transform: translateY(-2px);
+      @include shadow(lg);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
   }
 
@@ -101,6 +146,10 @@
         padding: 0;
         line-height: 1;
         vertical-align: middle;
+      }
+
+      .dot {
+        color: rgba($black, 0.2);
       }
     }
   }

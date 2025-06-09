@@ -6,10 +6,13 @@ import "./StatsSection.scss";
 const StatsSection: React.FC = () => {
 
   const stats = [
-    { number: 200, suffix: "+", label: "PROYECTOS COMPLETADOS" },
-    { number: 38, suffix: "+", label: "AÑOS DE EXPERIENCIA" },
-    { number: 45, suffix: "+", label: "PROFESIONALES" },
-    { number: 94, suffix: "%", label: "SATISFACCIÓN DE CLIENTES" },
+    { number: 2280, label: "Instalaciones fijas montadas" },
+    {
+      number: 228,
+      label: "Espacios comerciales (nuevas aperturas)",
+    },
+    { number: 52440, label: "Escaparates" },
+    { number: 5472, label: "Diseño de espacios" },
   ];
 
   return (
@@ -27,9 +30,7 @@ const StatsSection: React.FC = () => {
                 <div
                   className="stats-section__number"
                   data-value={stat.number}
-                  data-suffix={stat.suffix}
                 >
-                  0{stat.suffix}
                 </div>
               </div>
               <div className="stats-section__separator"></div>
