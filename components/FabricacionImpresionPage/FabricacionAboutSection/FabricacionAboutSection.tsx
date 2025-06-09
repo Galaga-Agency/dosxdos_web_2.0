@@ -15,9 +15,8 @@ const FabricacionAboutSection: React.FC = () => {
       <div className="fabricacion-about-section__container container">
         <div className="fabricacion-about-section__header header">
           <h2 className="fabricacion-about-section__title secondary-title fade_bottom">
-            38 años diseñando, produciendo y <br />
-            <span className="highlight">cuidando cada detalle</span> para marcas
-            líderes
+            Entendemos que una idea vale lo que vale su{" "}
+            <span className="highlight">ejecución.</span>
           </h2>
         </div>
         <div className="fabricacion-about-section__content">
@@ -27,7 +26,7 @@ const FabricacionAboutSection: React.FC = () => {
               data-speed={isMobile ? "0" : "1.15"}
             >
               <Image
-                src="/assets/img/homepage/foto-landing.avif"
+                src="/assets/img/servicios/fabricacion-impresion/Foto horizontal .avif"
                 alt="Fabricación e impresión - Dos por Dos"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -38,27 +37,18 @@ const FabricacionAboutSection: React.FC = () => {
           </div>
           <div className="fabricacion-about-section__content-column">
             <p className="fabricacion-about-section__text text">
-              En Dos por Dos Grupo Imagen llevamos más de 38 años creando
-              proyectos integrales que conectan marcas con personas. Acompañamos
-              a nuestros clientes desde la estrategia y la consultoría hasta el
-              diseño, la fabricación, la impresión, el montaje y el
-              mantenimiento de espacios comerciales, promocionales y
-              experienciales. Nos implicamos en cada fase del proceso con un
-              equipo propio y una ejecución impecable, adaptada a cada necesidad
-              y a cada isla. Nuestra capacidad de dar servicio simultaneo en
-              varias islas, nuestra experiencia multisectorial y nuestro
-              compromiso con la sostenibilidad nos convierten en el socio ideal
-              para quienes buscan resultados reales, con creatividad, agilidad y
-              excelencia.
+              Por eso unimos en un mismo flujo de trabajo dos servicios que,
+              aunque diferentes, comparten un objetivo común: dar forma a los
+              conceptos con precisión, calidad y personalidad. Nuestra capacidad
+              de fabricación propia, unida a nuestra experiencia en impresión y
+              acabados avanzados, nos permite materializar proyectos desde cero,
+              con soluciones a medida, control de cada detalle y una visión
+              global que va más allá de lo visual.
             </p>
             <div className="fabricacion-about-section__tags">
-              <span className="fabricacion-about-section__tag">
-                Fabricación
-              </span>
-              <span className="fabricacion-about-section__tag">
-                Impresiones
-              </span>
-              <span className="fabricacion-about-section__tag">Rotulación</span>
+              <span className="fabricacion-about-section__tag">Fabricamos</span>
+              <span className="fabricacion-about-section__tag">Imprimimos</span>
+              <span className="fabricacion-about-section__tag">Resolvemos</span>
             </div>
           </div>
         </div>

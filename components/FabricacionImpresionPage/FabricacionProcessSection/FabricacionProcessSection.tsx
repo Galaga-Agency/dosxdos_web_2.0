@@ -4,27 +4,26 @@ import React, { useEffect, useRef } from "react";
 import "./FabricacionProcessSection.scss";
 
 const FabricacionProcessSection: React.FC = () => {
-  const procesos = [
+  const servicios = [
     {
-      id: "01",
-      categoria: "Diseño técnico",
-      titulo: "Planificación detallada",
+      titulo: "Impresión de gran formato",
       descripcion:
-        "Desarrollamos planos técnicos precisos y especificaciones detalladas que garantizan la viabilidad y calidad de cada proyecto de fabricación.",
+        "Vinilos monoméricos y poliméricos, microperforados, backlite, textiles, y soportes rígidos con impresión directa.",
     },
     {
-      id: "02",
-      categoria: "Producción especializada",
-      titulo: "Fabricación a medida",
+      titulo: "Acabados especiales",
       descripcion:
-        "Utilizamos tecnología avanzada y materiales de primera calidad para fabricar elementos únicos que se adaptan perfectamente a cada necesidad.",
+        "Impresión con tinta blanca, barniz selectivo, troquelado, laminados y texturas que aportan valor añadido a cada pieza.",
     },
     {
-      id: "03",
-      categoria: "Control de calidad",
-      titulo: "Acabados perfectos",
+      titulo: "Producción de rótulos",
       descripcion:
-        "Cada pieza pasa por rigurosos controles de calidad para asegurar acabados impecables y durabilidad en el tiempo.",
+        "Cuadros con marco de aluminio, cajas de luz, bandoleras, roll-ups, displays y expositores.",
+    },
+    {
+      titulo: "Corte y grabado láser",
+      descripcion:
+        "Sobre múltiples materiales: madera, acrílico, vidrio, mármol, piel, cerámica, caucho y más. Precisión extrema y acabados visuales de gran calidad.",
     },
   ];
 
@@ -32,33 +31,32 @@ const FabricacionProcessSection: React.FC = () => {
     <section className="fabricacion-process-section">
       <div className="fabricacion-process-section__container container">
         <div className="fabricacion-process-section__header header">
+          <h3 className="label">(Impresión)</h3>
           <h1 className="fabricacion-process-section__title secondary-title fade_bottom">
-            PROCESO <span className="highlight">INTEGRAL</span>
+            El detalle que multiplica
+            <span className="highlight">el impacto</span>
           </h1>
           <div className="fabricacion-process-section__subtitle text">
-            Nuestro proceso de fabricación integral combina diseño técnico,
-            tecnología avanzada y control de calidad riguroso. Desde la
-            planificación inicial hasta los acabados finales, cada etapa está
-            optimizada para garantizar resultados excepcionales.
+            La impresión es la capa que define el acabado, la durabilidad, la
+            textura y el valor visual de cualquier pieza. En Dos x Dos
+            trabajamos con tecnología avanzada de impresión y corte, ofreciendo
+            soluciones de alta calidad sobre una amplia variedad de soportes,
+            con criterios de sostenibilidad, durabilidad y precisión.
           </div>
         </div>
 
         <div className="fabricacion-process-section__content">
-          {procesos.map((proceso) => (
-            <div key={proceso.id} className="fabricacion-process-section__item">
-              <div className="fabricacion-process-section__item-header">
-                <span className="fabricacion-process-section__item-number">
-                  {proceso.id}
-                </span>
-                <span className="fabricacion-process-section__item-category">
-                  {proceso.categoria}
-                </span>
-              </div>
+          <div className="fabricacion-process-section__category">
+            ¿Qué hacemos?
+          </div>
+
+          {servicios.map((servicio, index) => (
+            <div key={index} className="fabricacion-process-section__item">
               <h3 className="fabricacion-process-section__item-title">
-                {proceso.titulo}
+                {servicio.titulo}
               </h3>
               <p className="fabricacion-process-section__item-description">
-                {proceso.descripcion}
+                {servicio.descripcion}
               </p>
             </div>
           ))}

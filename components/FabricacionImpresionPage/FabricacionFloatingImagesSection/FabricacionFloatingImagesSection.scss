@@ -29,25 +29,25 @@
   &__small-top {
     position: relative;
     width: 100%;
-    height: 250px;
+    height: auto;
     overflow: hidden;
     @include margin(md, bottom);
 
     @include min-width(md) {
       position: absolute;
-      top: -25%;
-      left: 10%;
+      top: -30%;
+      left: 5%;
       width: 60%;
       height: 80%;
       margin-bottom: 0;
     }
 
     @include min-width(lg) {
-      width: 40%;
+      width: 45%;
     }
 
     img {
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
