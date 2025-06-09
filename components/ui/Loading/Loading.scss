@@ -25,12 +25,19 @@
   &__container {
     position: relative;
     @include flex(column, center, center);
-    gap: 1.5rem;
+  }
+
+  &__logo {
+    @include flex(row, center, center);
+
+    img {
+          width: auto;
+    }
   }
 
   &__bars-container {
     @include flex(row, center, center);
-    gap: 1rem;
+    @include gap(sm);
   }
 
   &__bars {
@@ -71,22 +78,6 @@
     &:nth-child(5) {
       height: 1rem;
       animation-delay: 0.8s;
-    }
-  }
-
-  &__text {
-    text-align: center;
-    margin-top: 0.5rem;
-
-    span {
-      @include font-size(base);
-      @include font-weight(medium);
-      color: $black;
-      letter-spacing: 0.05em;
-
-      @include min-width(md) {
-        @include font-size(lg);
-      }
     }
   }
 }
