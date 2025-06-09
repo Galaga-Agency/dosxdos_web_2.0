@@ -14,7 +14,7 @@ interface BlogItemProps {
 
 const BlogItem: React.FC<BlogItemProps> = ({ item, index = 0 }) => {
   return (
-    <Link href={`/blog/${item.slug}`} className="blog-item">
+    <a href={`/blog/${item.slug}`} className="blog-item">
       <div className="blog-item__image-container">
         <div className="blog-item__image-wrapper">
           <Image
@@ -47,7 +47,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ item, index = 0 }) => {
           <span className="underline-text">Leer más</span>
         </span>
       </div>
-    </Link>
+    </a>
   );
 };
 

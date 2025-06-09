@@ -10,7 +10,7 @@ const MontajeMantenimientoCTASection: React.FC = () => {
       <div className="montaje-mantenimiento-cta__container container">
         <h3 className="montaje-mantenimiento-cta__label label">(¿Hablamos?)</h3>
         <h2 className="montaje-mantenimiento-cta__title char-animation title">
-          <Link href="/contacto">Contáctanos</Link>
+          <a href="/contacto">Contáctanos</a>
         </h2>
       </div>
     </section>

@@ -10,7 +10,7 @@ const PortfolioCTA: React.FC = () => {
       <div className="portfolio-cta__container container">
         <h3 className="portfolio-cta__label label">(¿Trabajemos juntos?)</h3>
         <h2 className="portfolio-cta__title char-animation title bubble-anim">
-          <Link href="/contacto">CONTÁCTANOS</Link>
+          <a href="/contacto">CONTÁCTANOS</a>
         </h2>
       </div>
     </section>

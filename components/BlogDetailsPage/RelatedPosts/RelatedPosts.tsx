@@ -18,7 +18,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ relatedPosts }) => {
       <h2 className="blog-detail__related-title">Artículos relacionados</h2>
       <div className="blog-detail__related-grid">
         {relatedPosts.map((post) => (
-          <Link
+          <a
             key={post.id}
             href={`/blog/${post.slug}`}
             className="blog-detail__related-item"
@@ -43,7 +43,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ relatedPosts }) => {
               </span>
               <h3 className="blog-detail__related-item-title">{post.title}</h3>
             </div>
-          </Link>
+          </a>
         ))}
       </div>
     </div>

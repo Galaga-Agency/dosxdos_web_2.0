@@ -72,13 +72,13 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="footer__brand" ref={brandRef}>
             <div className="footer__brand-content">
-              <Link href="/">
+              <a href="/">
                 <Image
                   src={logo}
                   alt="Dos por Dos Grupo Imagen"
                   className="footer__logo"
                 />
-              </Link>
+              </a>
               <p className="footer__tagline">Creamos espacios que inspiran.</p>
             </div>
             <div className="footer__contact" ref={contactRef}>
@@ -109,40 +109,40 @@ const Footer = () => {
               <h4>Servicios</h4>
               <ul>
                 <li>
-                  <Link href="/servicios/diseno-de-interiores">
+                  <a href="/servicios/diseno-de-interiores">
                     <span>Diseño de Interiores</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/servicios/eventos">
+                  <a href="/servicios/eventos">
                     <span>Eventos</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/servicios/produccion">
+                  <a href="/servicios/produccion">
                     <span>Producción</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/servicios/logistica">
+                  <a href="/servicios/logistica">
                     <span>Logística</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/servicios/communicacion">
+                  <a href="/servicios/communicacion">
                     <span>Comunicación</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/servicios/consultoria">
+                  <a href="/servicios/consultoria">
                     <span>Consultoría</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -150,28 +150,28 @@ const Footer = () => {
               <h4>Navegación</h4>
               <ul>
                 <li>
-                  <Link href="/sobre-nosotros/equipo">
+                  <a href="/sobre-nosotros/equipo">
                     <span>Sobre Nosotros</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/portfolio">
+                  <a href="/portfolio">
                     <span>Portfolio</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/blog">
+                  <a href="/blog">
                     <span>Blog</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/contacto">
+                  <a href="/contacto">
                     <span>Contacto</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -200,10 +200,10 @@ const Footer = () => {
               </p>
             </div>
             <div className="footer__legal-links">
-              <Link href="/politica-de-privacidad">Política de Privacidad</Link>
-              <Link href="/aviso-legal">Aviso Legal</Link>
-              <Link href="/politica-de-cookies">Política de Cookies</Link>
-              <Link href="/transparencia">Transparencia</Link>
+              <a href="/politica-de-privacidad">Política de Privacidad</a>
+              <a href="/aviso-legal">Aviso Legal</a>
+              <a href="/politica-de-cookies">Política de Cookies</a>
+              <a href="/transparencia">Transparencia</a>
             </div>
           </div>
           <div className="footer__social">

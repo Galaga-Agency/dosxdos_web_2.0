@@ -24,7 +24,7 @@ const ServicesGrid: React.FC = () => {
       <div className="services-grid__container">
         <div className="services-grid__items">
           {servicesList.map((service) => (
-            <Link
+            <a
               href={`/servicios/${service.slug}`}
               key={service.id}
               className="services-grid__item"
@@ -42,7 +42,7 @@ const ServicesGrid: React.FC = () => {
               <div className="services-grid__content">
                 <h2 className="services-grid__title">{service.name}</h2>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </div>
