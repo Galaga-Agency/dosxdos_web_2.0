@@ -8,7 +8,6 @@ import "./login-page.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomInput from "@/components/ui/CustomInput/CustomInput";
 import Footer from "@/components/layout/Footer/footer";
-import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 type LoginFormValues = {
   username: string;
@@ -87,7 +86,7 @@ export default function LoginPage() {
   });
 
   return (
-    <PageWrapper>
+    <>
       <div className="login-page container">
         <div className="login-container">
           <h1 className="secondary-title">Iniciar Sesión</h1>
@@ -126,6 +125,6 @@ export default function LoginPage() {
         </div>
       </div>
       <Footer />
-    </PageWrapper>
+    </>
   );
 }

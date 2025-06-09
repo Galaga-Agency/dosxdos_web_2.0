@@ -3,38 +3,97 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
+// FORCE SMOOTH SCROLL
+html {
+  scroll-behavior: smooth !important;
+}
+
+body.smooth-scroll {
+  scroll-behavior: smooth !important;
+}
+
 .blog-detail {
   position: relative;
   width: 100%;
   background-color: $white;
 
+  // Header section - LIKE SCREENSHOT
+  &__header {
+    @include section-padding-y();
+  }
+
+  &__header-container {
+    @include container-width(mobile);
+    margin: 0 auto;
+    text-align: center;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+      max-width: 1200px;
+    }
+  }
+
+  &__category {
+    opacity: 0;
+    @include margin(md, bottom);
+
+    span {
+      @include font-size(sm);
+      @include font-weight(medium);
+      color: rgba($black, 0.6);
+      text-transform: uppercase;
+      @include letter-spacing(wide);
+    }
+  }
+
+  &__meta {
+    @include flex(row, center, center);
+    @include gap(xl);
+    opacity: 0;
+    flex-wrap: wrap;
+
+    @include min-width(md) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__author,
+  &__date,
+  &__reading-time {
+    span {
+      @include font-size(sm);
+      @include font-weight(medium);
+      color: rgba($black, 0.6);
+      text-transform: uppercase;
+      @include letter-spacing(wide);
+    }
+  }
+
+  // Hero container - 70vh (STAYS FIXED)
+  &__hero-container {
+    height: 70vh;
+    min-height: 400px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  // Hero image - PARALLAX THIS
   &__hero {
     position: relative;
     background-size: cover;
     background-position: center;
-    height: 100vh;
+    height: 120%; // Bigger for parallax movement
     width: 100%;
-    min-height: 500px;
-    @include flex(column, flex-end, flex-start);
-    @include padding(3xl, bottom);
-    @include padding(2xl, x);
-    overflow: hidden;
     background-color: $white;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba($black, 0),
-        rgba($black, 0.7)
-      );
-      @include z-index(above);
-    }
+    will-change: transform;
   }
 
   &__hero-wrapper {
@@ -118,7 +177,7 @@
     @include container-width(mobile);
     margin: 0 auto;
     position: relative;
-    @include section-padding-y();
+    @include section-spacing;
 
     @include min-width(md) {
       @include container-width(tablet);
@@ -148,7 +207,7 @@
 
     p {
       @include font-size(xl);
-      @include paragraph-line-height();
+      line-height: 1.6;
       color: rgba($black, 0.8);
       @include font-weight(medium);
     }
@@ -170,7 +229,7 @@
     p {
       @include margin(md, bottom);
       @include font-size(lg);
-      @include paragraph-line-height();
+      line-height: 1.7;
       color: rgba($black, 0.75);
     }
 
@@ -206,7 +265,7 @@
       li {
         @include margin(sm, bottom);
         @include font-size(lg);
-        @include paragraph-line-height();
+        line-height: 1.7;
         position: relative;
         padding-left: 1.5rem; // Add space for custom bullets
       }
@@ -304,7 +363,7 @@
         left: -1rem;
         @include font-size(10xl);
         @include font-weight(bold);
-        @include paragraph-line-height();
+        line-height: 1.2;
         color: $black;
         transform: translateY(-25%);
       }
@@ -313,7 +372,7 @@
         position: relative;
         @include font-size(xl);
         margin: 0 auto;
-        @include paragraph-line-height();
+        line-height: 1.6;
         @include font-weight(medium);
         font-style: italic;
         color: $black;
@@ -352,9 +411,9 @@
   }
 
   &__tag {
-    @include font-size(md);
-    @include font-weight(regular);
-    @include paragraph-line-height();
+    @include font-size(sm);
+    @include font-weight(medium);
+    line-height: 1.4;
     @include padding(sm, x);
     @include padding(xs, y);
     @include border-radius(lg);
