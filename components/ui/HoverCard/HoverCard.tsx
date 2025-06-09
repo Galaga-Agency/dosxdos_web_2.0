@@ -44,7 +44,7 @@ const HoverCard: React.FC<HoverCardProps> = ({
 
   if (showLinkUrl && linkUrl) {
     return (
-      <Link href={linkUrl} className="hover-card">
+      <a href={linkUrl} className="hover-card">
         <div className="hover-card__image-wrapper">
           <Image
             src={imageUrl}
@@ -76,7 +76,7 @@ const HoverCard: React.FC<HoverCardProps> = ({
             )}
           </div>
         )}
-      </Link>
+      </a>
     );
   }
 

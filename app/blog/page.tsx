@@ -175,7 +175,7 @@ const BlogPage: React.FC = () => {
                   <div className="blog-page__featured-image-overlay"></div>
                 </div>
                 <div className="blog-page__featured-content-container">
-                  <Link
+                  <a
                     href={`/blog/${first_blog?.slug}`}
                     className="blog-page__featured-content-link"
                   >
@@ -197,7 +197,7 @@ const BlogPage: React.FC = () => {
                         Leer más <span className="arrow">→</span>
                       </span>
                     </div>
-                  </Link>
+                  </a>
                 </div>
               </div>
             )}

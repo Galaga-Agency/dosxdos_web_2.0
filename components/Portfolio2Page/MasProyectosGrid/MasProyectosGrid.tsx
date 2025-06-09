@@ -122,7 +122,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
     <div className="mas-proyectos-container">
       <div className="mas-proyectos-grid" ref={gridRef}>
         {projects.slice(0, visibleCount).map((project, index) => (
-          <Link
+          <a
             key={project.id}
             href={`/portfolio/${project.slug}`}
             className={`item item-${(index % 6) + 1}`}
@@ -151,7 +151,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
             <div className="item__content">
               <h3 className="item__title">{project.name}</h3>
             </div>
-          </Link>
+          </a>
         ))}
       </div>
 

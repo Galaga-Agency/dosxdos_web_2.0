@@ -37,9 +37,9 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
           {items.map((item, index) => (
             <li key={index} className="breadcrumbs__item">
               {index < items.length - 1 ? (
-                <Link href={item.href} className="breadcrumbs__link">
+                <a href={item.href} className="breadcrumbs__link">
                   {item.name}
-                </Link>
+                </a>
               ) : (
                 <span className="breadcrumbs__current" aria-current="page">
                   {item.name}

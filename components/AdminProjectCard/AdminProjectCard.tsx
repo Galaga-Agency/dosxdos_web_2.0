@@ -79,18 +79,18 @@ const AdminProjectCard: React.FC<AdminProjectCardProps> = ({
         </div>
 
         <div className="admin-project-card__actions">
-          <Link
+          <a
             href={`/portfolio/${project.slug}`}
             className="admin-project-card__action view"
           >
             <Eye size={16} /> <span>Ver</span>
-          </Link>
-          <Link
+          </a>
+          <a
             href={`/admin/proyectos/editar/${project.id}`}
             className="admin-project-card__action edit"
           >
             <Edit size={16} /> <span>Editar</span>
-          </Link>
+          </a>
           <button
             onClick={handleDeleteClick}
             className="admin-project-card__action delete"
