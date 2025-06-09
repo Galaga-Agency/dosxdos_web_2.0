@@ -33,6 +33,7 @@ import FabricacionServicesSection from "@/components/FabricacionImpresionPage/Fa
 import FabricacionFloatingImagesSection from "@/components/FabricacionImpresionPage/FabricacionFloatingImagesSection/FabricacionFloatingImagesSection";
 import FabricacionProcessSection from "@/components/FabricacionImpresionPage/FabricacionProcessSection/FabricacionProcessSection";
 import FabricacionGridSection from "@/components/FabricacionImpresionPage/FabricacionGridSection/FabricacionGridSection";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const FabricacionImpresionPage = () => {
   useScrollSmooth();
@@ -87,27 +88,25 @@ const FabricacionImpresionPage = () => {
   });
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="logistica-page">
-          <div className="breadcrumbs">
-            <div className="container">
-              <Breadcrumbs items={breadcrumbItems} />
-            </div>
-          </div>
-
-          <div className="logistica-page__container">
-            <FabricacionImpresionHeroSection />
-            <FabricacionAboutSection />
-            <FabricacionServicesSection />
-            <FabricacionFloatingImagesSection />
-            <FabricacionProcessSection />
-            <FabricacionGridSection />
+    <PageWrapper>
+      <div className="logistica-page">
+        <div className="breadcrumbs">
+          <div className="container">
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
         </div>
-        <Footer />
+
+        <div className="logistica-page__container">
+          <FabricacionImpresionHeroSection />
+          <FabricacionAboutSection />
+          <FabricacionServicesSection />
+          <FabricacionFloatingImagesSection />
+          <FabricacionProcessSection />
+          <FabricacionGridSection />
+        </div>
       </div>
-    </div>
+      <Footer />
+    </PageWrapper>
   );
 };
 

@@ -77,18 +77,18 @@ const AdminBlogCard: React.FC<AdminBlogCardProps> = ({
         </p>
 
         <div className="admin-blog-card__actions">
-          <a
+          <Link
             href={`/blog/${post.slug}`}
             className="admin-blog-card__action view"
           >
             <Eye size={16} /> <span>Ver</span>
-          </a>
-          <a
+          </Link>
+          <Link
             href={`/admin/blog/editar/${post.id}`}
             className="admin-blog-card__action edit"
           >
             <Edit size={16} /> <span>Editar</span>
-          </a>
+          </Link>
           <button
             onClick={handleDeleteClick}
             className="admin-blog-card__action delete"

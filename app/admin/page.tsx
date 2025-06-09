@@ -4,10 +4,11 @@ import React, { useState, useEffect } from "react";
 import { PlusCircle, LogOut, AlertTriangle } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { gsap } from "gsap";
-import { ScrollTrigger, SplitText, ScrollSmoother } from "@/plugins";
+import { ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
+import useScrollSmooth from "@/hooks/useScrollSmooth";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 import { BlogPost } from "@/types/blog-post-types";
 import { Project } from "@/types/project-types";
@@ -16,21 +17,23 @@ import AdminBlogCard from "@/components/AdminBlogCard/AdminBlogCard";
 import AdminProjectCard from "@/components/AdminProjectCard/AdminProjectCard";
 import { deletePost, getAllPosts } from "@/lib/blog-service";
 import { deleteProject, getAllProjects } from "@/lib/project-service";
-import Loading from "@/components/ui/Loading/Loading";
 import Pagination from "@/components/ui/Pagination/Pagination";
 import Modal from "@/components/ui/Modal/Modal";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import Footer from "@/components/layout/Footer/footer";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 import { fadeAnimation } from "@/utils/animations/text-anim";
 import { animatePaginatedItems } from "@/utils/animations/stagger-items-anim";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./admin-panel.scss";
-import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 type TabType = "blog" | "proyectos";
 
 function AdminPanelPage() {
+  useScrollSmooth();
+
   // State
   const [activeTab, setActiveTab] = useState<TabType>("blog");
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -58,35 +61,12 @@ function AdminPanelPage() {
     startIndex + itemsPerPage
   );
 
-  // Initialize smooth scrolling manually when authenticated
   useEffect(() => {
     if (isAuthenticated) {
       document.body.classList.add("smooth-scroll");
 
-      // Initialize ScrollSmoother manually
-      const smoothWrapper = document.getElementById("smooth-wrapper");
-      const smoothContent = document.getElementById("smooth-content");
-
-      if (smoothWrapper && smoothContent) {
-        gsap.config({
-          nullTargetWarn: false,
-        });
-
-        ScrollSmoother.create({
-          smooth: 2,
-          effects: true,
-          smoothTouch: 0.1,
-          normalizeScroll: false,
-          ignoreMobileResize: true,
-        });
-      }
-
       return () => {
         document.body.classList.remove("smooth-scroll");
-        // Clean up ScrollSmoother if needed
-        if ((window as any).__smoother__) {
-          (window as any).__smoother__.kill();
-        }
       };
     }
   }, [isAuthenticated]);
@@ -115,14 +95,15 @@ function AdminPanelPage() {
     setCurrentPage(0);
   }, [activeTab]);
 
-  // GSAP animations - dependency
+  // GSAP animations
   useGSAP(() => {
     if (!isAuthenticated || loading) return;
 
     const timer = setTimeout(() => {
       fadeAnimation();
       highlightAnimation();
-      const selector = activeTab === "blog" ? ".blog-post-card" : ".project-card";
+      const selector =
+        activeTab === "blog" ? ".blog-post-card" : ".project-card";
       animatePaginatedItems(selector, {
         container: ".admin-panel-page__items-grid",
         stagger: 0.08,
@@ -135,23 +116,8 @@ function AdminPanelPage() {
 
   // Handle page change
   const handlePageClick = (pageNumber: number) => {
-    // Pause ScrollSmoother
-    if ((window as any).__smoother__) {
-      (window as any).__smoother__.paused(true);
-    }
-
-    // Update state
     setCurrentPage(pageNumber);
-
-    // Scroll to top
     window.scrollTo(0, 0);
-
-    // Resume ScrollSmoother after a delay
-    setTimeout(() => {
-      if ((window as any).__smoother__) {
-        (window as any).__smoother__.paused(false);
-      }
-    }, 100);
   };
 
   // Handle tab change
@@ -246,13 +212,13 @@ function AdminPanelPage() {
       setPosts([]);
       setProjects([]);
       setLoading(true);
-      
+
       // Force sign out
-      await signOut({ 
+      await signOut({
         callbackUrl: "/login",
-        redirect: false 
+        redirect: false,
       });
-      
+
       // Force redirect
       window.location.replace("/login");
     } catch (error) {
@@ -264,168 +230,169 @@ function AdminPanelPage() {
 
   if (error) {
     return (
-      <div className="admin-panel-page">
-        <div className="admin-panel-page__container">
-          <div className="admin-panel-page__error">
-            <p>{error}</p>
-            <button onClick={() => window.location.reload()}>Reintentar</button>
+      <PageWrapper>
+        <div className="admin-panel-page">
+          <div className="admin-panel-page__container">
+            <div className="admin-panel-page__error">
+              <p>{error}</p>
+              <button onClick={() => window.location.reload()}>
+                Reintentar
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+        <Footer />
+      </PageWrapper>
     );
   }
 
   return (
     <ProtectedRoute>
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <div className="admin-panel-page">
-            <div className="admin-panel-page__container container">
-              <div className="admin-panel-page__header">
-                <h1 className="admin-panel-page__title">
-                  Panel de <span className="highlight">Administración</span>
-                </h1>
-                <div className="admin-panel-page__actions">
-                  <SecondaryButton onClick={handleLogout} lightBg={true}>
-                    <LogOut size={16} /> Cerrar sesión
-                  </SecondaryButton>
-                </div>
+      <PageWrapper>
+        <div className="admin-panel-page">
+          <div className="admin-panel-page__container container">
+            <div className="admin-panel-page__header">
+              <h1 className="admin-panel-page__title">
+                Panel de <span className="highlight">Administración</span>
+              </h1>
+              <div className="admin-panel-page__actions">
+                <SecondaryButton onClick={handleLogout} lightBg={true}>
+                  <LogOut size={16} /> Cerrar sesión
+                </SecondaryButton>
+              </div>
+            </div>
+
+            <div className="admin-panel-page__tabs">
+              <button
+                className={`admin-panel-page__tab ${
+                  activeTab === "blog" ? "active" : ""
+                }`}
+                onClick={() => handleTabChange("blog")}
+              >
+                <span>Blog ({posts.length})</span>
+              </button>
+              <button
+                className={`admin-panel-page__tab ${
+                  activeTab === "proyectos" ? "active" : ""
+                }`}
+                onClick={() => handleTabChange("proyectos")}
+              >
+                <span>Portfolio ({projects.length})</span>
+              </button>
+            </div>
+            <div className="admin-panel-page__content-area container">
+              <div className="admin-panel-page__tab-actions">
+                {activeTab === "blog" ? (
+                  <PrimaryButton href="/admin/blog/nuevo">
+                    <PlusCircle size={16} /> Nueva Entrada
+                  </PrimaryButton>
+                ) : (
+                  <>
+                    <PrimaryButton href="/admin/proyectos/nuevo">
+                      <PlusCircle size={16} /> Nuevo Proyecto
+                    </PrimaryButton>{" "}
+                    <p className="small-text">
+                      * Proyectos marcados como{" "}
+                      <span className="nb-badge">Destacado</span> serán visibles
+                      en la página de landing
+                    </p>
+                  </>
+                )}
               </div>
 
-              <div className="admin-panel-page__tabs">
-                <button
-                  className={`admin-panel-page__tab ${
-                    activeTab === "blog" ? "active" : ""
-                  }`}
-                  onClick={() => handleTabChange("blog")}
-                >
-                  <span>Blog ({posts.length})</span>
-                </button>
-                <button
-                  className={`admin-panel-page__tab ${
-                    activeTab === "proyectos" ? "active" : ""
-                  }`}
-                  onClick={() => handleTabChange("proyectos")}
-                >
-                  <span>Portfolio ({projects.length})</span>
-                </button>
-              </div>
-              <div className="admin-panel-page__content-area container">
-                <div className="admin-panel-page__tab-actions">
-                  {activeTab === "blog" ? (
-                    <PrimaryButton href="/admin/blog/nuevo">
-                      <PlusCircle size={16} /> Nueva Entrada
-                    </PrimaryButton>
-                  ) : (
-                    <>
-                      <PrimaryButton href="/admin/proyectos/nuevo">
-                        <PlusCircle size={16} /> Nuevo Proyecto
-                      </PrimaryButton>{" "}
-                      <p className="small-text">
-                        * Proyectos marcados como{" "}
-                        <span className="nb-badge">Destacado</span> serán
-                        visibles en la página de landing
-                      </p>
-                    </>
-                  )}
-                </div>
-
-                <div className="admin-panel-page__items">
-                  {displayItems.length > 0 ? (
-                    <>
-                      <div
-                        className="admin-panel-page__items-grid"
-                        key={`items-grid-${activeTab}-${currentPage}`}
-                      >
-                        {displayItems.map((item, index) => (
-                          <div
-                            key={`${
-                              item.id || item.slug || index
-                            }-page${currentPage}`}
-                            className={
-                              activeTab === "blog"
-                                ? "blog-post-card"
-                                : "project-card"
-                            }
-                            data-id={item.id}
-                            data-slug={item.slug}
-                          >
-                            {activeTab === "blog" ? (
-                              <AdminBlogCard
-                                post={item as BlogPost}
-                                onDelete={(id) => openDeleteModal(id, "blog")}
-                                index={index}
-                              />
-                            ) : (
-                              <AdminProjectCard
-                                project={item as Project}
-                                onDelete={(id) =>
-                                  openDeleteModal(id, "project")
-                                }
-                                index={index}
-                              />
-                            )}
-                          </div>
-                        ))}
-                      </div>
-
-                      {pageCount > 1 && (
-                        <div className="admin-panel-page__pagination">
-                          <Pagination
-                            handlePageClick={handlePageClick}
-                            pageCount={pageCount}
-                            currentPage={currentPage}
-                          />
+              <div className="admin-panel-page__items">
+                {displayItems.length > 0 ? (
+                  <>
+                    <div
+                      className="admin-panel-page__items-grid"
+                      key={`items-grid-${activeTab}-${currentPage}`}
+                    >
+                      {displayItems.map((item, index) => (
+                        <div
+                          key={`${
+                            item.id || item.slug || index
+                          }-page${currentPage}`}
+                          className={
+                            activeTab === "blog"
+                              ? "blog-post-card"
+                              : "project-card"
+                          }
+                          data-id={item.id}
+                          data-slug={item.slug}
+                        >
+                          {activeTab === "blog" ? (
+                            <AdminBlogCard
+                              post={item as BlogPost}
+                              onDelete={(id) => openDeleteModal(id, "blog")}
+                              index={index}
+                            />
+                          ) : (
+                            <AdminProjectCard
+                              project={item as Project}
+                              onDelete={(id) => openDeleteModal(id, "project")}
+                              index={index}
+                            />
+                          )}
                         </div>
-                      )}
-                    </>
-                  ) : (
-                    <div className="admin-panel-page__empty fade_bottom">
-                      <p>
-                        {activeTab === "blog"
-                          ? "No hay entradas de blog disponibles."
-                          : "No hay proyectos disponibles."}
-                      </p>
-                      <PrimaryButton
-                        href={
-                          activeTab === "blog"
-                            ? "/admin/blog/nuevo"
-                            : "/admin/proyectos/nuevo"
-                        }
-                      >
-                        <PlusCircle size={16} />
-                        {activeTab === "blog"
-                          ? "Crear primera entrada"
-                          : "Crear primer proyecto"}
-                      </PrimaryButton>
+                      ))}
                     </div>
-                  )}
-                </div>
+
+                    {pageCount > 1 && (
+                      <div className="admin-panel-page__pagination">
+                        <Pagination
+                          handlePageClick={handlePageClick}
+                          pageCount={pageCount}
+                          currentPage={currentPage}
+                        />
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="admin-panel-page__empty fade_bottom">
+                    <p>
+                      {activeTab === "blog"
+                        ? "No hay entradas de blog disponibles."
+                        : "No hay proyectos disponibles."}
+                    </p>
+                    <PrimaryButton
+                      href={
+                        activeTab === "blog"
+                          ? "/admin/blog/nuevo"
+                          : "/admin/proyectos/nuevo"
+                      }
+                    >
+                      <PlusCircle size={16} />
+                      {activeTab === "blog"
+                        ? "Crear primera entrada"
+                        : "Crear primer proyecto"}
+                    </PrimaryButton>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-
-          <Modal
-            isOpen={isDeleteModalOpen}
-            onClose={() => setIsDeleteModalOpen(false)}
-            onConfirm={confirmDelete}
-            confirmText="Eliminar"
-            cancelText="Cancelar"
-            size="small"
-            title="Confirmar eliminación"
-            icon={<AlertTriangle size={40} />}
-            centered
-          >
-            <p>
-              ¿Estás seguro de que quieres eliminar este{" "}
-              {itemToDelete?.type === "blog" ? "artículo" : "proyecto"}?
-            </p>
-            <strong>{itemToDelete?.title || "este elemento"}</strong>
-            <p className="delete-warning">Esta acción no se puede deshacer.</p>
-          </Modal>
-          <Footer />
         </div>
-      </div>
+
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={confirmDelete}
+          confirmText="Eliminar"
+          cancelText="Cancelar"
+          size="small"
+          title="Confirmar eliminación"
+          icon={<AlertTriangle size={40} />}
+          centered
+        >
+          <p>
+            ¿Estás seguro de que quieres eliminar este{" "}
+            {itemToDelete?.type === "blog" ? "artículo" : "proyecto"}?
+          </p>
+          <strong>{itemToDelete?.title || "este elemento"}</strong>
+          <p className="delete-warning">Esta acción no se puede deshacer.</p>
+        </Modal>
+        <Footer />
+      </PageWrapper>
     </ProtectedRoute>
   );
 }

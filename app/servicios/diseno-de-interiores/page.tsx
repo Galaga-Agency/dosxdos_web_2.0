@@ -31,6 +31,7 @@ import DisenoInterioresPhilosophySection from "@/components/DisenoInterioresPage
 import DisenoInterioresMethodologySection from "@/components/DisenoInterioresPage/DisenoInterioresMethodologySection/DisenoInterioresMethodologySection";
 
 import "./diseno-interiores-page.scss";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const DisenoInterioresPage = () => {
   useScrollSmooth();
@@ -90,26 +91,24 @@ const DisenoInterioresPage = () => {
   }, [heroImagesLoaded]);
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="diseno-interiores-page">
-          <div className="breadcrumbs">
-            <div className="container">
-              <Breadcrumbs items={breadcrumbItems} />
-            </div>
-          </div>
-
-          <div className="diseno-interiores-page__container">
-            <DisenoInterioresHeroSection onImagesLoad={handleHeroImagesLoad} />
-            <DisenoInterioresProcessSection />
-            <DisenoInterioresMethodologySection />
-            <DisenoInterioresLinesSection />
-            <DisenoInterioresPhilosophySection />
+    <PageWrapper>
+      <div className="diseno-interiores-page">
+        <div className="breadcrumbs">
+          <div className="container">
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
         </div>
-        <Footer />
+
+        <div className="diseno-interiores-page__container">
+          <DisenoInterioresHeroSection onImagesLoad={handleHeroImagesLoad} />
+          <DisenoInterioresProcessSection />
+          <DisenoInterioresMethodologySection />
+          <DisenoInterioresLinesSection />
+          <DisenoInterioresPhilosophySection />
+        </div>
       </div>
-    </div>
+      <Footer />
+    </PageWrapper>
   );
 };
 

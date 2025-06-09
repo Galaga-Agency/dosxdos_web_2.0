@@ -114,7 +114,7 @@ const ServiciosRecentProjects: React.FC<ServiciosRecentProjectsProps> = ({
               ref={projectsGridRef}
             >
               {recentProjects.map((project) => (
-                <a
+                <Link
                   href={`/portfolio/${project.slug}`}
                   className="servicios-recent-projects__item reveal-item"
                   key={project.id}
@@ -137,7 +137,7 @@ const ServiciosRecentProjects: React.FC<ServiciosRecentProjectsProps> = ({
                       {project.name}
                     </span>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

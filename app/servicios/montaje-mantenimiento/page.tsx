@@ -31,6 +31,7 @@ import MontajeMantenimientoServicesSection from "@/components/MontajeMantenimien
 import MontajeMantenimientoDiferenciasSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoDiferenciasSection/MontajeMantenimientoDiferenciasSection";
 import MontajeMantenimientoCTASection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoCTASection/MontajeMantenimientoCTASection";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const MontajeMantenimientoPage = () => {
   useScrollSmooth();
@@ -83,23 +84,21 @@ const MontajeMantenimientoPage = () => {
   });
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="instalacion-page">
-          <div className="breadcrumbs">
-            <div className="container">
-              <Breadcrumbs items={breadcrumbItems} />
-            </div>
+    <PageWrapper>
+      <div className="instalacion-page">
+        <div className="breadcrumbs">
+          <div className="container">
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
-          <MontajeMantenimientoHeroSection />
-          <MontajeMantenimientoProcessSection />
-          <MontajeMantenimientoServicesSection />
-          <MontajeMantenimientoDiferenciasSection />
-          <MontajeMantenimientoCTASection />
         </div>
-        <Footer />
+        <MontajeMantenimientoHeroSection />
+        <MontajeMantenimientoProcessSection />
+        <MontajeMantenimientoServicesSection />
+        <MontajeMantenimientoDiferenciasSection />
+        <MontajeMantenimientoCTASection />
       </div>
-    </div>
+      <Footer />
+    </PageWrapper>
   );
 };
 

@@ -27,6 +27,7 @@ import { randomStaggerAnimation } from "@/utils/animations/random-stagger-anim";
 import { useDataStore } from "@/store/useDataStore";
 
 import "./servicios-page.scss";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const ServiciosPage: React.FC = () => {
   useScrollSmooth();
@@ -68,18 +69,16 @@ const ServiciosPage: React.FC = () => {
   });
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <main className="servicios-page">
-          <ServiciosHero />
-          <ServiciosRecentProjects projects={projects} />
-          <ServiciosList />
-          <ServicesGrid />
-          <VisionSection />
-        </main>
-        <Footer />
-      </div>
-    </div>
+    <PageWrapper>
+      <main className="servicios-page">
+        <ServiciosHero />
+        <ServiciosRecentProjects projects={projects} />
+        <ServiciosList />
+        <ServicesGrid />
+        <VisionSection />
+      </main>
+      <Footer />
+    </PageWrapper>
   );
 };
 

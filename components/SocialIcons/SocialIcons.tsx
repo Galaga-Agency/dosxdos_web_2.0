@@ -34,7 +34,7 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
       `}
     >
       {/* LinkedIn */}
-      <a
+      <Link
         href="https://es.linkedin.com/company/dos-por-dos-grupo-imagen"
         target="_blank"
         rel="noopener noreferrer"
@@ -42,10 +42,10 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
         className="social-icons__link"
       >
         <FaLinkedin className="social-icons__icon linkedin-icon" />
-      </a>
+      </Link>
 
       {/* Instagram */}
-      <a
+      <Link
         href="https://www.instagram.com/dosxdos.grupoimagen/"
         target="_blank"
         rel="noopener noreferrer"
@@ -53,10 +53,10 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
         aria-label="Instagram"
       >
         <GrInstagram className="social-icons__icon" />
-      </a>
+      </Link>
 
       {/* YouTube */}
-      <a
+      <Link
         href="https://www.youtube.com/channel/UCqZDFnB0lrlDv6pNnfx2GKQ"
         target="_blank"
         rel="noopener noreferrer"
@@ -64,10 +64,10 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
         aria-label="YouTube"
       >
         <FaYoutube className="social-icons__icon" />
-      </a>
+      </Link>
 
       {/* Facebook */}
-      <a
+      <Link
         href="https://www.facebook.com/dosxdos.grupoimagen/"
         target="_blank"
         rel="noopener noreferrer"
@@ -75,7 +75,7 @@ const SocialIcons: React.FC<SocialIconsProps> = ({
         className="social-icons__link"
       >
         <FaSquareFacebook className="social-icons__icon" />
-      </a>
+      </Link>
     </div>
   );
 };

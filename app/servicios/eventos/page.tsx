@@ -30,6 +30,7 @@ import { servicePanel } from "@/utils/animations/panel-animation";
 // import EventosCaseStudiesSection from "@/components/EventosPage/EventosCaseStudiesSection/EventosCaseStudiesSection";
 
 import "./eventos-page.scss";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const EventosPage = () => {
   useScrollSmooth();
@@ -81,37 +82,35 @@ const EventosPage = () => {
   });
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="eventos-page">
-          <div className="breadcrumbs">
-            <div className="container">
-              <Breadcrumbs items={breadcrumbItems} />
-            </div>
+    <PageWrapper>
+      <div className="eventos-page">
+        <div className="breadcrumbs">
+          <div className="container">
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
+        </div>
 
-          <div className="eventos-page__container">
-            {/* <EventosHeroSection />
+        <div className="eventos-page__container">
+          {/* <EventosHeroSection />
             <EventosServicesSection />
             <EventosProcessSection />
             <EventosCaseStudiesSection /> */}
 
-            {/* Temporary content placeholder */}
-            <div
-              style={{
-                minHeight: "60vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <h1>Eventos - Coming Soon</h1>
-            </div>
+          {/* Temporary content placeholder */}
+          <div
+            style={{
+              minHeight: "60vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h1>Eventos - Coming Soon</h1>
           </div>
         </div>
-        <Footer />
       </div>
-    </div>
+      <Footer />
+    </PageWrapper>
   );
 };
 
