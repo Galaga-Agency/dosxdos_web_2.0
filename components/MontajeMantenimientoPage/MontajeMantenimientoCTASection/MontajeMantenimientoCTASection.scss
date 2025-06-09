@@ -1,0 +1,43 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.montaje-mantenimiento-cta {
+  width: 100%;
+  background-color: $white;
+  @include section-padding-y();
+  margin: 0 auto;
+  width: fit-content;
+  padding-inline: auto;
+  @include container-width(mobile);
+
+  @include min-width(md) {
+    @include container-width(tablet);
+  }
+
+  @include min-width(lg) {
+    @include container-width(smalldesktop);
+  }
+
+  @include min-width(xl) {
+    @include container-width(desktop);
+  }
+
+  &__title {
+    text-align: center;
+    text-wrap: nowrap;
+    width: auto;
+    color: $black;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &__label {
+    @include min-width(md) {
+      margin: 0 4rem 0 -4rem !important;
+    }
+  }
+}
