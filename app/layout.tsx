@@ -7,7 +7,6 @@ import AuthProvider from "@/components/AuthProvider";
 import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
 import JsonLd from "@/components/SEO/JsonLd";
 import DataPreloader from "@/components/DataPreloader/DataPreloader";
-import Template from "./template";
 
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",
@@ -456,11 +455,9 @@ export default function RootLayout({
             suppressHydrationWarning
           >
             <Menu />
-            <Template>
-              {children}
-              <BackToTop />
-              <CookieConsentBanner />
-            </Template>
+            {children}
+            <BackToTop />
+            <CookieConsentBanner />
           </body>
         </DataPreloader>
       </AuthProvider>

@@ -1,4 +1,3 @@
-// utils/animations/page-transition-anim.ts
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -7,99 +6,123 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const templatePageAnimation = (
   overlayRef: React.RefObject<HTMLDivElement>,
-  logoRef: React.RefObject<HTMLDivElement>
+  logoRef: React.RefObject<HTMLDivElement>,
+  contentRef?: React.RefObject<HTMLDivElement>
 ) => {
   const overlay = overlayRef.current;
   const logo = logoRef.current;
+  const content = contentRef?.current;
+
   if (!overlay || !logo) return;
 
-  // TRIPLE CHECK - If menu triggered it, DO NOTHING
+  // Double check - if menu triggered it, do nothing
   if (window.__transitionTriggeredByMenu) {
-    return () => {}; // ZERO interference
+    console.log("Menu triggered navigation - skipping transition");
+    return () => {};
   }
 
-  // FALLBACK: If transition wasn't triggered from menu, run normal animation
-  console.log("Running fallback transition animation...");
+  console.log("Running page transition animation...");
 
-  // Kill all ScrollTriggers to prevent conflicts
+  // Kill existing ScrollTriggers to prevent conflicts
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
-  // Reset scroll position immediately
-  if (window.ScrollSmoother) {
-    const smoother = window.ScrollSmoother.get();
-    if (smoother) {
-      smoother.scrollTo(0, false);
+  // Ensure scroll is at top
+  const resetScroll = () => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    if (window.ScrollSmoother) {
+      const smoother = window.ScrollSmoother.get();
+      if (smoother) {
+        smoother.scrollTo(0, false);
+      }
     }
-  }
+  };
 
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
+  resetScroll();
 
-  // Set initial state of overlay
+  // Set initial states
   gsap.set(overlay, {
     opacity: 1,
     display: "block",
   });
 
-  // Set initial state of logo - small and transparent
   gsap.set(logo, {
-    scale: 0.5,
+    scale: 0.4,
     opacity: 0,
   });
 
+  // Hide content initially
+  if (content) {
+    gsap.set(content, {
+      opacity: 0,
+    });
+  }
+
+  // Create main timeline
   const tl = gsap.timeline({
-    defaults: { ease: "power3.out" },
+    defaults: { ease: "power2.out" },
     onStart: () => {
-      if (window.ScrollSmoother) {
-        const smoother = window.ScrollSmoother.get();
-        if (smoother) {
-          smoother.scrollTo(0, false);
-        }
-      }
+      resetScroll();
     },
   });
 
-  // Animate logo: fade in and scale up from small to full size
+  // Animate logo entrance
   tl.to(logo, {
-    scale: 1,
+    scale: 0.8,
     opacity: 1,
-    duration: 0.6,
-    ease: "power2.out",
+    duration: 0.5,
+    ease: "back.out(1.2)",
   })
-    // Hold the logo at full size
-    .to({}, { duration: 0.4 })
-    // Then quickly scale down and fade out
+    // Hold for a moment
+    .to({}, { duration: 0.3 })
+    // Scale down and fade out logo
     .to(logo, {
-      scale: 0.5,
+      scale: 0.4,
       opacity: 0,
-      duration: 0.25,
+      duration: 0.4,
       ease: "power3.in",
     })
-    // Fade out overlay
+    // Fade out overlay and fade in content simultaneously
     .to(
       overlay,
       {
         opacity: 0,
-        duration: 0.3,
+        duration: 0.4,
         ease: "power2.inOut",
         onComplete: () => {
           overlay.style.display = "none";
 
           // Refresh ScrollTrigger after transition
-          ScrollTrigger.refresh(true);
+          setTimeout(() => {
+            ScrollTrigger.refresh(true);
 
-          // If you need to reinitialize ScrollSmoother after transition
-          if (window.ScrollSmoother) {
-            const smoother = window.ScrollSmoother.get();
-            if (smoother) {
-              smoother.refresh();
+            // Reinitialize ScrollSmoother if needed
+            if (window.ScrollSmoother) {
+              const smoother = window.ScrollSmoother.get();
+              if (smoother) {
+                smoother.refresh();
+              }
             }
-          }
+          }, 50);
         },
       },
-      "-=0.15"
-    ); // Slight overlap
+      "-=0.2"
+    );
+
+  // Fade in content
+  if (content) {
+    tl.to(
+      content,
+      {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      },
+      "-=0.3"
+    );
+  }
 
   // Cleanup function
   return () => {

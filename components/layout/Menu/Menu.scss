@@ -10,7 +10,7 @@
   width: 100%;
   height: 80px;
   @include padding(sm, x);
-  @include z-index(header);
+  @include z-index(tooltip);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: visible;
   color: $black;
