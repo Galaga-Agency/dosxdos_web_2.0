@@ -58,9 +58,9 @@ const HoverCircleButton: React.FC<HoverCircleButtonProps> = ({
   return (
     <div className="hover-circle-button__wrapper" ref={buttonRef}>
       {type === "link" && href ? (
-        <a href={href} className={commonClasses}>
+        <Link href={href} className={commonClasses}>
           {content}
-        </a>
+        </Link>
       ) : (
         <button
           className={commonClasses}

@@ -30,6 +30,7 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
 import "./equipo-page.scss";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const EquipoPage = () => {
   useScrollSmooth();
@@ -73,32 +74,30 @@ const EquipoPage = () => {
   }, [heroImagesLoaded]);
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="equipo-page">
-          <div className="breadcrumbs">
-            <Breadcrumbs items={breadcrumbItems} />
-          </div>
+    <PageWrapper>
+      <div className="equipo-page">
+        <div className="breadcrumbs">
+          <Breadcrumbs items={breadcrumbItems} />
+        </div>
 
-          <div className="equipo-page__container">
-            <HeroSection onImagesLoad={handleHeroImagesLoad} />
-            <StorySection />
-            <TeamSection />
-            <StatsSection />
-            <ClientsSection />
-            <CTASection />
-            <div className="equipo-page__mobile-social-section">
-              <div className="equipo-page__mobile-social-header">
-                <h3 className="equipo-page__mobile-social-title">Síguenos</h3>
-                <div className="equipo-page__mobile-social-divider"></div>
-              </div>
-              <SocialIcons orientation="horizontal" color="primary" />
+        <div className="equipo-page__container">
+          <HeroSection onImagesLoad={handleHeroImagesLoad} />
+          <StorySection />
+          <TeamSection />
+          <StatsSection />
+          <ClientsSection />
+          <CTASection />
+          <div className="equipo-page__mobile-social-section">
+            <div className="equipo-page__mobile-social-header">
+              <h3 className="equipo-page__mobile-social-title">Síguenos</h3>
+              <div className="equipo-page__mobile-social-divider"></div>
             </div>
+            <SocialIcons orientation="horizontal" color="primary" />
           </div>
         </div>
-        <Footer />
       </div>
-    </div>
+      <Footer />
+    </PageWrapper>
   );
 };
 

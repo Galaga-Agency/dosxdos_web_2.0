@@ -72,17 +72,17 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="footer__brand" ref={brandRef}>
             <div className="footer__brand-content">
-              <a href="/">
+              <Link href="/">
                 <Image
                   src={logo}
                   alt="Dos por Dos Grupo Imagen"
                   className="footer__logo"
                 />
-              </a>
+              </Link>
               <p className="footer__tagline">Creamos espacios que inspiran.</p>
             </div>
             <div className="footer__contact" ref={contactRef}>
-              <a
+              <Link
                 href="mailto:hola@dospordosgrupoimagen.com"
                 style={{ opacity: 1, transform: "none" }}
               >
@@ -90,8 +90,8 @@ const Footer = () => {
                   <Mail size={16} />
                 </span>
                 hola@dospordosgrupoimagen.com
-              </a>
-              <a
+              </Link>
+              <Link
                 href="tel:+34928712222"
                 style={{ opacity: 1, transform: "none" }}
               >
@@ -99,7 +99,7 @@ const Footer = () => {
                   <PhoneCall size={16} />
                 </span>
                 +34 928 712 222
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -109,40 +109,40 @@ const Footer = () => {
               <h4>Servicios</h4>
               <ul>
                 <li>
-                  <a href="/servicios/diseno-de-interiores">
+                  <Link href="/servicios/diseno-de-interiores">
                     <span>Diseño de Interiores</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/servicios/eventos">
+                  <Link href="/servicios/eventos">
                     <span>Eventos</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/servicios/produccion">
+                  <Link href="/servicios/produccion">
                     <span>Producción</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/servicios/logistica">
+                  <Link href="/servicios/logistica">
                     <span>Logística</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/servicios/communicacion">
+                  <Link href="/servicios/communicacion">
                     <span>Comunicación</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/servicios/consultoria">
+                  <Link href="/servicios/consultoria">
                     <span>Consultoría</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -150,28 +150,28 @@ const Footer = () => {
               <h4>Navegación</h4>
               <ul>
                 <li>
-                  <a href="/sobre-nosotros/equipo">
+                  <Link href="/sobre-nosotros/equipo">
                     <span>Sobre Nosotros</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/portfolio">
+                  <Link href="/portfolio">
                     <span>Portfolio</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/blog">
+                  <Link href="/blog">
                     <span>Blog</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/contacto">
+                  <Link href="/contacto">
                     <span>Contacto</span>
                     <ChevronRight size={14} className="link-arrow" />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -200,10 +200,10 @@ const Footer = () => {
               </p>
             </div>
             <div className="footer__legal-links">
-              <a href="/politica-de-privacidad">Política de Privacidad</a>
-              <a href="/aviso-legal">Aviso Legal</a>
-              <a href="/politica-de-cookies">Política de Cookies</a>
-              <a href="/transparencia">Transparencia</a>
+              <Link href="/politica-de-privacidad">Política de Privacidad</Link>
+              <Link href="/aviso-legal">Aviso Legal</Link>
+              <Link href="/politica-de-cookies">Política de Cookies</Link>
+              <Link href="/transparencia">Transparencia</Link>
             </div>
           </div>
           <div className="footer__social">

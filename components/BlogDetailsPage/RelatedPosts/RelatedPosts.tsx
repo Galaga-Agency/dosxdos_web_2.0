@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BlogPost } from "@/types/blog-post-types";
 import { formatDate } from "@/utils/dateFormatting";
 import { getImageSource } from "@/utils/editor";
+import Link from "next/link";
 
 interface RelatedPostsProps {
   relatedPosts: BlogPost[];
@@ -18,7 +19,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ relatedPosts }) => {
       <h2 className="blog-detail__related-title">Artículos relacionados</h2>
       <div className="blog-detail__related-grid">
         {relatedPosts.map((post) => (
-          <a
+          <Link
             key={post.id}
             href={`/blog/${post.slug}`}
             className="blog-detail__related-item"
@@ -43,7 +44,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ relatedPosts }) => {
               </span>
               <h3 className="blog-detail__related-item-title">{post.title}</h3>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </div>

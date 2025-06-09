@@ -66,10 +66,10 @@ const SecondaryButton = ({
     }
 
     return (
-      <a {...linkProps}>
+      <Link {...linkProps}>
         <div className={`${baseClass}__blur-bg`}></div>
         <span className={`${baseClass}__content`}>{children}</span>
-      </a>
+      </Link>
     );
   }
 

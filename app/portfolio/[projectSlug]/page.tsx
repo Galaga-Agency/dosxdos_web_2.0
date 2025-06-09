@@ -30,6 +30,7 @@ import "./project-details-page.scss";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import ProjectGalleryMarquee from "@/components/ProjectDetailsPage/ProjectGalleryMarquee/ProjectGalleryMarquee";
 import FloatingProjectImages from "@/components/ProjectDetailsPage/FloatingProjectImages/FloatingProjectImages";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 interface ProjectDetailsPageProps {
   params: Promise<{
@@ -41,88 +42,46 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
   useScrollSmooth();
 
   const { projectSlug } = use(params);
-  const { projectsLoaded, getProjectBySlug } = useDataStore();
-  const [project, setProject] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { getProjectBySlug } = useDataStore();
 
-  // Enable smooth scroll body class
-  useEffect(() => {
-    document.body.classList.add("smooth-scroll");
-    return () => {
-      document.body.classList.remove("smooth-scroll");
-    };
-  }, []);
-
-  // Load project from Zustand store once available
-  useEffect(() => {
-    if (!projectsLoaded) return;
-
-    const found = getProjectBySlug(projectSlug);
-
-    if (!found) {
-      notFound(); // If slug is invalid
-      return;
-    }
-
-    setProject(found);
-    document.title = `${found.name} - Dos x Dos`;
-    setLoading(false);
-  }, [projectSlug, projectsLoaded]);
+  // Get project - data should already be loaded by DataPreloader
+  const project = getProjectBySlug(projectSlug);
 
   // Trigger animations once loaded
   useGSAP(() => {
-    if (!loading && project) {
-      const timer = setTimeout(() => {
-        fadeAnimation();
-        charAnimation();
-        rollUpTextAnimation();
-        gallerySliderAnimation();
-        floatingImagesAnimation();
-        highlightAnimation();
-      }, 100);
+    const timer = setTimeout(() => {
+      fadeAnimation();
+      charAnimation();
+      rollUpTextAnimation();
+      gallerySliderAnimation();
+      floatingImagesAnimation();
+      highlightAnimation();
+    }, 300);
 
-      return () => clearTimeout(timer);
-    }
-  }, [loading, project]);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="project-details-page">
-          <div className="project-details-page__container">
-            {loading ? (
-              <Loading />
-            ) : project ? (
-              <>
-                <HeroSection project={project} />
+    <PageWrapper>
+      <main className="project-details-page">
+        <div className="project-details-page__container">
+          {project && <HeroSection project={project} />}
 
-                {project.challenge && (
-                  <ProjectChallengeSection project={project} />
-                )}
+          {project && project.challenge && <ProjectChallengeSection project={project} />}
 
-                {project.images && project.images.length >= 8 && (
-                  <ProjectGalleryMarquee project={project} />
-                )}
+          {project?.images && project.images.length >= 8 && (
+            <ProjectGalleryMarquee project={project} />
+          )}
 
-                {project.solution && (
-                  <ProjectSolutionSection project={project} />
-                )}
+          {project?.solution && <ProjectSolutionSection project={project} />}
 
-                <FloatingProjectImages project={project} />
+          {project && <FloatingProjectImages project={project} />}
 
-                <ProjectCTASection project={project} />
-              </>
-            ) : (
-              <div className="project-details-page__not-found">
-                <h2>Proyecto no encontrado</h2>
-                <p>Lo sentimos, no pudimos encontrar el proyecto solicitado.</p>
-              </div>
-            )}
-          </div>
+          {project && <ProjectCTASection project={project} />}
         </div>
-        <Footer />
-      </div>
-    </div>
+      </main>
+      <Footer />
+    </PageWrapper>
   );
 };
 

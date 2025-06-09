@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Mail, Phone, Clock, MapPin, ArrowRight } from "lucide-react";
 import "./LocationCard.scss";
 import PrimaryButton from "../ui/PrimaryButton/PrimaryButton";
+import Link from "next/link";
 
 interface LocationCardProps {
   city: string;
@@ -94,20 +95,20 @@ const LocationCard: React.FC<LocationCardProps> = ({
           </div>
 
           <div className="location-card__contact">
-            <a href={`mailto:${email}`} className="location-card__contact-item">
+            <Link href={`mailto:${email}`} className="location-card__contact-item">
               <Mail size={18} />
               <span>{email}</span>
-            </a>
+            </Link>
 
             {phones.map((phone, index) => (
-              <a
+              <Link
                 key={index}
                 href={`tel:${phone}`}
                 className="location-card__contact-item"
               >
                 <Phone size={18} />
                 <span>{phone}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

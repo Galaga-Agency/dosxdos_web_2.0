@@ -11,7 +11,7 @@ const ConsultoriaCTASection: React.FC = () => {
       <div className="consultoria-cta__container container">
         <h3 className="consultoria-cta__label label">(¿Hablamos?)</h3>
         <h2 className="consultoria-cta__title char-animation title">
-          <a href="/contacto">¿En qué podemos ayudarte?</a>
+          <Link href="/contacto">¿En qué podemos ayudarte?</Link>
         </h2>
       </div>
     </section>

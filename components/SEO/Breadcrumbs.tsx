@@ -1,5 +1,4 @@
 import Link from "next/link";
-import TransitionLink from "../Link";
 
 interface BreadcrumbItem {
   name: string;
@@ -37,9 +36,9 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
           {items.map((item, index) => (
             <li key={index} className="breadcrumbs__item">
               {index < items.length - 1 ? (
-                <a href={item.href} className="breadcrumbs__link">
+                <Link href={item.href} className="breadcrumbs__link">
                   {item.name}
-                </a>
+                </Link>
               ) : (
                 <span className="breadcrumbs__current" aria-current="page">
                   {item.name}

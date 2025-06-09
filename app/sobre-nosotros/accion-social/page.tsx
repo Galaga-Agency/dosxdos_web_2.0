@@ -26,6 +26,7 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./accion-social-page.scss";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const AccionSocialPage = () => {
   useScrollSmooth();
@@ -68,34 +69,32 @@ const AccionSocialPage = () => {
   }, [heroImageLoaded]); // Dependency on heroImageLoaded
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="accion-social-page">
-          <div className="breadcrumbs">
-            <Breadcrumbs items={breadcrumbItems} />
-          </div>
+    <PageWrapper>
+      <div className="accion-social-page">
+        <div className="breadcrumbs">
+          <Breadcrumbs items={breadcrumbItems} />
+        </div>
 
-          <div className="accion-social-page__container">
-            <HeroSection onImageLoad={handleHeroImageLoad} />
-            <ValuesSection />
-            <SustainabilityImagesSection />
-            <ExperienciaSection />
-            <CollaborationsSection />
-            <AccionSocialCTASection />
-            <div className="accion-social-page__mobile-social-section">
-              <div className="accion-social-page__mobile-social-header">
-                <h3 className="accion-social-page__mobile-social-title">
-                  Síguenos
-                </h3>
-                <div className="accion-social-page__mobile-social-divider"></div>
-              </div>
-              <SocialIcons orientation="horizontal" />
+        <div className="accion-social-page__container">
+          <HeroSection onImageLoad={handleHeroImageLoad} />
+          <ValuesSection />
+          <SustainabilityImagesSection />
+          <ExperienciaSection />
+          <CollaborationsSection />
+          <AccionSocialCTASection />
+          <div className="accion-social-page__mobile-social-section">
+            <div className="accion-social-page__mobile-social-header">
+              <h3 className="accion-social-page__mobile-social-title">
+                Síguenos
+              </h3>
+              <div className="accion-social-page__mobile-social-divider"></div>
             </div>
+            <SocialIcons orientation="horizontal" />
           </div>
         </div>
-        <Footer />
       </div>
-    </div>
+      <Footer />
+    </PageWrapper>
   );
 };
 

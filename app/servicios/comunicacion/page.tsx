@@ -30,6 +30,7 @@ import { servicePanel } from "@/utils/animations/panel-animation";
 // import ComunicacionCaseStudiesSection from "@/components/ComunicacionPage/ComunicacionCaseStudiesSection/ComunicacionCaseStudiesSection";
 
 import "./comunicacion-page.scss";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const ComunicacionPage = () => {
   useScrollSmooth();
@@ -81,37 +82,35 @@ const ComunicacionPage = () => {
   });
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="comunicacion-page">
-          <div className="breadcrumbs">
-            <div className="container">
-              <Breadcrumbs items={breadcrumbItems} />
-            </div>
+    <PageWrapper>
+      <div className="comunicacion-page">
+        <div className="breadcrumbs">
+          <div className="container">
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
+        </div>
 
-          <div className="comunicacion-page__container">
-            {/* <ComunicacionHeroSection />
+        <div className="comunicacion-page__container">
+          {/* <ComunicacionHeroSection />
             <ComunicacionServicesSection />
             <ComunicacionStrategySection />
             <ComunicacionCaseStudiesSection /> */}
 
-            {/* Temporary content placeholder */}
-            <div
-              style={{
-                minHeight: "60vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <h1>Comunicación - Coming Soon</h1>
-            </div>
+          {/* Temporary content placeholder */}
+          <div
+            style={{
+              minHeight: "60vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h1>Comunicación - Coming Soon</h1>
           </div>
         </div>
-        <Footer />
       </div>
-    </div>
+      <Footer />
+    </PageWrapper>
   );
 };
 

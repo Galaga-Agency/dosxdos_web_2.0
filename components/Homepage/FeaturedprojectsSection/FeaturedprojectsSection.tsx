@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import "./FeaturedprojectsSection.scss";
 import { Project } from "@/types/project-types";
+import Link from "next/link";
 
 interface FeaturedprojectsSectionProps {
   projects: Project[];
@@ -44,12 +45,12 @@ const FeaturedprojectsSection: React.FC<FeaturedprojectsSectionProps> = ({ proje
               <h3 className="project-panel__title">
                 {project.name}
               </h3>
-              <a
+              <Link
                 href={`/portfolio/${project.slug}`}
                 className="project-panel__link"
               >
                 Explorar proyecto
-              </a>
+              </Link>
             </div>
           </div>
         ))}

@@ -30,6 +30,7 @@ import MarqueeSection from "@/components/ConsultoriaPage/MarqueeSection/MarqueeS
 import ConsultoriaAboutSection from "@/components/ConsultoriaPage/ConsultoriaAboutSection/ConsultoriaAboutSection";
 import ConsultoriaCTASection from "@/components/ConsultoriaPage/ConsultoriaCTASection/ConsultoriaCTASection";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const ConsultoriaPage = () => {
   useScrollSmooth();
@@ -90,26 +91,24 @@ const ConsultoriaPage = () => {
   }, [heroImagesLoaded]);
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="consultoria-page">
-          <div className="breadcrumbs">
-            <div className="container">
-              <Breadcrumbs items={breadcrumbItems} />
-            </div>
-          </div>
-
-          <div className="consultoria-page__container">
-            <ConsultoriaHeroSection onImagesLoad={handleHeroImagesLoad} />
-            <ConsultoriaMethodlogySection />
-            <MarqueeSection />
-            <ConsultoriaAboutSection />
-            <ConsultoriaCTASection />
+    <PageWrapper>
+      <div className="consultoria-page">
+        <div className="breadcrumbs">
+          <div className="container">
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
         </div>
-        <Footer />
+
+        <div className="consultoria-page__container">
+          <ConsultoriaHeroSection onImagesLoad={handleHeroImagesLoad} />
+          <ConsultoriaMethodlogySection />
+          <MarqueeSection />
+          <ConsultoriaAboutSection />
+          <ConsultoriaCTASection />
+        </div>
       </div>
-    </div>
+      <Footer />
+    </PageWrapper>
   );
 };
 

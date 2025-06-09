@@ -44,7 +44,7 @@ const HoverCard: React.FC<HoverCardProps> = ({
 
   if (showLinkUrl && linkUrl) {
     return (
-      <a href={linkUrl} className="hover-card">
+      <Link href={linkUrl} className="hover-card">
         <div className="hover-card__image-wrapper">
           <Image
             src={imageUrl}
@@ -67,16 +67,16 @@ const HoverCard: React.FC<HoverCardProps> = ({
               <p className="hover-card__description">{description}</p>
             )}
             {showEmail && email && (
-              <a href={`mailto:${email}`} className="hover-card__email">
+              <Link href={`mailto:${email}`} className="hover-card__email">
                 {email}
-              </a>
+              </Link>
             )}
             {showLink && linkText && (
               <span className="hover-card__link">{linkText}</span>
             )}
           </div>
         )}
-      </a>
+      </Link>
     );
   }
 
@@ -101,9 +101,9 @@ const HoverCard: React.FC<HoverCardProps> = ({
             <p className="hover-card__description">{description}</p>
           )}
           {showEmail && email && (
-            <a href={`mailto:${email}`} className="hover-card__email">
+            <Link href={`mailto:${email}`} className="hover-card__email">
               {email}
-            </a>
+            </Link>
           )}
           {showLink && linkText && (
             <span className="hover-card__link">{linkText}</span>

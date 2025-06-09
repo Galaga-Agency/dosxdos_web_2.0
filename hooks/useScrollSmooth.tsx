@@ -1,26 +1,30 @@
 "use client";
+
 import { gsap } from "gsap";
-import { useState } from "react";
-import { ScrollSmoother } from "@/plugins";
 import { useGSAP } from "@gsap/react";
 
+let ScrollSmoother: { create: (options: any) => void };
+try {
+  ScrollSmoother = require("@/plugins").ScrollSmoother;
+  gsap.registerPlugin(ScrollSmoother);
+} catch (e) {
+  console.error("ScrollSmoother failed to load");
+}
+
 export default function useScrollSmooth() {
-  const [isScrollSmooth, setIsScrollSmooth] = useState<boolean>(true);
   useGSAP(() => {
+    if (!ScrollSmoother) return;
+
     const smoothWrapper = document.getElementById("smooth-wrapper");
     const smoothContent = document.getElementById("smooth-content");
 
-    if (smoothWrapper && smoothContent && isScrollSmooth) {
-      gsap.config({
-        nullTargetWarn: false,
-      });
-
+    if (smoothWrapper && smoothContent) {
       ScrollSmoother.create({
+        wrapper: smoothWrapper,
+        content: smoothContent,
         smooth: 2,
         effects: true,
         smoothTouch: 0.1,
-        normalizeScroll: false,
-        ignoreMobileResize: true,
       });
     }
   });

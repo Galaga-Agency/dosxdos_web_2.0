@@ -35,6 +35,7 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
 import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { servicesList } from "@/data/services";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const heroSlides = [
   {
@@ -153,30 +154,28 @@ const HomePage = () => {
   }, [animationsInitialized, hasBlogPosts]);
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="breadcrumbs">
-          <div className="container">
-            <Breadcrumbs items={breadcrumbItems} />
+    <PageWrapper>
+          <div className="breadcrumbs">
+            <div className="container">
+              <Breadcrumbs items={breadcrumbItems} />
+            </div>
           </div>
-        </div>
 
-        <main>
-          <HeroSlider
-            slides={heroSlides}
-            autoplaySpeed={3000}
-            onImagesLoad={handleHeroReady}
-          />
-          <AboutUsSection />
-          <LogoMarquee />
-          <ServicesSection services={servicesList} />
-          <FeaturedprojectsSection projects={featuredProjects} />
-          <BlogCarouselSection posts={publishedPosts} />
-        </main>
+          <main>
+            <HeroSlider
+              slides={heroSlides}
+              autoplaySpeed={3000}
+              onImagesLoad={handleHeroReady}
+            />
+            <AboutUsSection />
+            <LogoMarquee />
+            <ServicesSection services={servicesList} />
+            <FeaturedprojectsSection projects={featuredProjects} />
+            <BlogCarouselSection posts={publishedPosts} />
+          </main>
 
-        <Footer />
-      </div>
-    </div>
+          <Footer />
+    </PageWrapper>
   );
 };
 

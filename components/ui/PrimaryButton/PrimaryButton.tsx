@@ -71,9 +71,9 @@ const PrimaryButton = ({
     }
 
     return (
-      <a {...linkProps}>
+      <Link {...linkProps}>
         <span className={`${baseClass}__content`}>{children}</span>
-      </a>
+      </Link>
     );
   }
 

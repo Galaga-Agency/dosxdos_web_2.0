@@ -104,9 +104,12 @@ export default function CookieConsentBanner() {
               Este sitio web utiliza cookies para mejorar tu experiencia de
               navegación. Puedes configurar tus preferencias de cookies en
               cualquier momento.{" "}
-              <a href="/politica-de-cookies" className="cookie-consent__link">
+              <Link
+                href="/politica-de-cookies"
+                className="cookie-consent__link"
+              >
                 Leer más sobre cookies
-              </a>
+              </Link>
             </p>
           </div>
 
