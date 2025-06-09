@@ -24,12 +24,13 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
 
-// import MontajeMantenimientoHeroSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoHeroSection/MontajeMantenimientoHeroSection";
-// import MontajeMantenimientoServicesSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoServicesSection/MontajeMantenimientoServicesSection";
-// import MontajeMantenimientoProcessSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoProcessSection/MontajeMantenimientoProcessSection";
-// import MontajeMantenimientoTeamSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoTeamSection/MontajeMantenimientoTeamSection";
-
 import "./montaje-mantenimiento-page.scss";
+import MontajeMantenimientoHeroSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoHeroSection/MontajeMantenimientoHeroSection";
+import MontajeMantenimientoProcessSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoProcessSection/MontajeMantenimientoProcessSection";
+import MontajeMantenimientoServicesSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoServicesSection/MontajeMantenimientoServicesSection";
+import MontajeMantenimientoDiferenciasSection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoDiferenciasSection/MontajeMantenimientoDiferenciasSection";
+import MontajeMantenimientoCTASection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoCTASection/MontajeMantenimientoCTASection";
+import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 
 const MontajeMantenimientoPage = () => {
   useScrollSmooth();
@@ -68,6 +69,7 @@ const MontajeMantenimientoPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
+      cursorBubbleAnimation();
     }, 100);
 
     return () => {
@@ -89,25 +91,11 @@ const MontajeMantenimientoPage = () => {
               <Breadcrumbs items={breadcrumbItems} />
             </div>
           </div>
-
-          <div className="instalacion-page__container">
-            {/* <InstalacionHeroSection />
-            <InstalacionServicesSection />
-            <InstalacionProcessSection />
-            <InstalacionTeamSection /> */}
-
-            {/* Temporary content placeholder */}
-            <div
-              style={{
-                minHeight: "60vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <h1>Instalación - Coming Soon</h1>
-            </div>
-          </div>
+          <MontajeMantenimientoHeroSection />
+          <MontajeMantenimientoProcessSection />
+          <MontajeMantenimientoServicesSection />
+          <MontajeMantenimientoDiferenciasSection />
+          <MontajeMantenimientoCTASection />
         </div>
         <Footer />
       </div>

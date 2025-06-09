@@ -71,7 +71,7 @@ export function initCardMouseParallax() {
   gsap.killTweensOf('.image');
   
   // Reset all images to their default state
-  gsap.set('.image', { x: 0, y: 0, scale: 1 });
+  gsap.set('.image', { x: 0, y: 0, scale: 1.2 });
   
   // Now add new event listeners directly with jQuery
   $('.hover-card, .team-section.card, .service-card').each(function() {
@@ -81,7 +81,6 @@ export function initCardMouseParallax() {
     // Only once, on mouse enter
     card.on('mouseenter', function() {
       gsap.to(image, {
-        scale: 1.2,
         duration: 0.6,
         ease: "power2.out"
       });
@@ -106,7 +105,7 @@ export function initCardMouseParallax() {
       gsap.to(image, {
         x: 0,
         y: 0,
-        scale: 1,
+        scale: 1.2,
         duration: 0.6,
         ease: "power2.out",
         overwrite: true // Force overwrite any running animation
