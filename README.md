@@ -273,7 +273,7 @@ DOSXDOS_WEB_2.0
    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
    ```
 2. **Define your animation utilities** in `utils/animations/*`:
-   - `text-anim.ts`: `fadeAnimation()`, `charAnimation()`, `highlightAnimation()`
+   - `text-anim.ts`: `charAnimation()`, `highlightAnimation()`
    - `panel-animation.ts`: scroll‐based panel animations (`panelTwoAnimation()`, etc.)
    - `image-parallax.ts`: parallax logic for images
    - …and so on.
@@ -281,7 +281,6 @@ DOSXDOS_WEB_2.0
    ```ts
    useGSAP(() => {
      // Run only when the page is hydrated and any prerequisites (images loaded, data loaded) are met
-     fadeAnimation();
      charAnimation();
      panelTwoAnimation();
      imageParallax();
@@ -295,7 +294,6 @@ DOSXDOS_WEB_2.0
 
    useGSAP(() => {
      if (heroImagesLoaded && showFeatured && isHydrated) {
-       fadeAnimation();
        charAnimation();
        initHeroSlider();
        imageParallax();

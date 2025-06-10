@@ -5,6 +5,7 @@ import Image from "next/image";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import { gsap } from "gsap";
+import { animateToNextWord } from "@/utils/animations/rolling-text-animation";
 import "./HeroSlider.scss";
 
 interface SlideItem {
@@ -25,6 +26,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isFirstImageLoaded, setIsFirstImageLoaded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const { isTouchDevice } = useDeviceDetect();
 
@@ -34,18 +36,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
     if (onImagesLoad) onImagesLoad();
   }, [onImagesLoad]);
 
-  // Autoplay timer
-  useEffect(() => {
-    if (!isFirstImageLoaded) return;
-
-    const interval = setInterval(() => {
-      setActiveSlide((current) => (current + 1) % slides.length);
-    }, autoplaySpeed);
-
-    return () => clearInterval(interval);
-  }, [autoplaySpeed, slides.length, isFirstImageLoaded]);
-
-  // Handle slide transitions with GSAP ONLY
+  // Handle slide transitions with GSAP (keeping your original logic)
   useEffect(() => {
     if (!isFirstImageLoaded) return;
 
@@ -62,25 +53,60 @@ const HeroSlider: React.FC<HeroSliderProps> = ({
         });
       }
     });
-  }, [activeSlide, slides, isFirstImageLoaded]);
+
+    // Trigger rolling text animation when slide changes (but not on first load)
+    if (activeSlide > 0 || isAnimating) {
+      animateToNextWord();
+    }
+  }, [activeSlide, slides, isFirstImageLoaded, isAnimating]);
+
+  // Autoplay timer
+  useEffect(() => {
+    if (!isFirstImageLoaded) return;
+
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      setActiveSlide((current) => {
+        const next = (current + 1) % slides.length;
+        // Reset animating flag after a delay
+        setTimeout(() => setIsAnimating(false), 100);
+        return next;
+      });
+    }, autoplaySpeed);
+
+    return () => clearInterval(interval);
+  }, [autoplaySpeed, slides.length, isFirstImageLoaded]);
 
   const goToSlide = (index: number) => {
-    if (index === activeSlide) return;
+    if (index === activeSlide || isAnimating) return;
+    setIsAnimating(true);
     setActiveSlide(index);
+    setTimeout(() => setIsAnimating(false), 100);
   };
 
   const goToPrevSlide = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     const prevSlide = activeSlide === 0 ? slides.length - 1 : activeSlide - 1;
     setActiveSlide(prevSlide);
+    setTimeout(() => setIsAnimating(false), 100);
   };
 
   const goToNextSlide = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     const nextSlide = (activeSlide + 1) % slides.length;
     setActiveSlide(nextSlide);
+    setTimeout(() => setIsAnimating(false), 100);
   };
 
   return (
-    <div ref={sectionRef} className="hero-slider">
+    <div
+      ref={sectionRef}
+      className={`hero-slider ${
+        isFirstImageLoaded ? "hero-slider--loaded" : ""
+      }`}
+    >
       {!isTouchDevice && isFirstImageLoaded && (
         <>
           <button

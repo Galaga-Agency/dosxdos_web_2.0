@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -32,13 +38,27 @@ const Menu: React.FC = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { isMobile, isDesktop } = useDeviceDetect();
 
-  // Setup scroll-based styling and animations
-  useEffect(() => {
-    const handleBasicScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+  // Optimize scroll handler with throttling
+  const throttledScrollHandler = useCallback(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener("scroll", handleBasicScroll, { passive: true });
+    return handleScroll;
+  }, []);
+
+  // Setup scroll-based styling and animations
+  useEffect(() => {
+    const handleScroll = throttledScrollHandler();
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     let cleanup = () => {};
     if (!isMobile && menuRef.current) {
@@ -46,134 +66,23 @@ const Menu: React.FC = () => {
     }
 
     return () => {
-      window.removeEventListener("scroll", handleBasicScroll);
+      window.removeEventListener("scroll", handleScroll);
       cleanup();
     };
-  }, [isMobile]);
+  }, [isMobile, throttledScrollHandler]);
 
-  // INSTANT TRANSITION TRIGGER - WAITS FOR NAVIGATION
-  const triggerInstantTransition = (href: string) => {
-    const overlay = document.querySelector('[data-transition-overlay]') as HTMLElement;
-    const logo = document.querySelector('[data-transition-logo]') as HTMLElement;
-    
-    if (overlay && logo) {
-      // INSTANTLY SCROLL TO TOP
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      
-      // SET FLAG TO PREVENT TEMPLATE FROM INTERFERING
-      window.__transitionTriggeredByMenu = true;
-      window.__targetHref = href;
-      
-      // INSTANT: Show overlay and start logo animation immediately
-      overlay.style.display = "block";
-      overlay.style.opacity = "1";
-      
-      // Reset logo to start position
-      logo.style.opacity = "1";
-      logo.style.transition = "none";
-      logo.style.transform = "translate(-50%, -50%) scale(0.5)";
-      
-      // Start animation to full size
-      requestAnimationFrame(() => {
-        logo.style.transition = "all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-        logo.style.transform = "translate(-50%, -50%) scale(1)";
-      });
-
-      // WAIT FOR NAVIGATION TO ACTUALLY HAPPEN BEFORE COMPLETING
-      const checkNavigation = () => {
-        if (window.location.pathname === href || window.location.pathname + '/' === href || window.location.pathname === href + '/') {
-          // Navigation happened - SCROLL TO TOP AGAIN and complete animation
-          window.scrollTo(0, 0);
-          document.documentElement.scrollTop = 0;
-          document.body.scrollTop = 0;
-          
-          setTimeout(() => {
-            // Logo shrink and fade out
-            logo.style.transition = "all 0.25s cubic-bezier(0.55, 0.055, 0.675, 0.19)";
-            logo.style.transform = "translate(-50%, -50%) scale(0.5)";
-            logo.style.opacity = "0";
-            
-            // Overlay fade out
-            setTimeout(() => {
-              overlay.style.transition = "opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-              overlay.style.opacity = "0";
-              
-              // Hide overlay completely
-              setTimeout(() => {
-                overlay.style.display = "none";
-                overlay.style.transition = "none";
-                logo.style.transition = "none";
-                
-                // Reset for next time
-                logo.style.transform = "translate(-50%, -50%) scale(0.5)";
-                logo.style.opacity = "0";
-                
-                // FINAL SCROLL TO TOP
-                window.scrollTo(0, 0);
-                document.documentElement.scrollTop = 0;
-                document.body.scrollTop = 0;
-                
-                // CLEAR FLAG
-                window.__transitionTriggeredByMenu = false;
-                window.__targetHref = null;
-                
-                // Refresh ScrollTrigger
-                if (window.ScrollTrigger) {
-                  window.ScrollTrigger.refresh(true);
-                }
-                
-                if (window.ScrollSmoother) {
-                  const smoother = window.ScrollSmoother.get();
-                  if (smoother) {
-                    smoother.refresh();
-                  }
-                }
-              }, 300);
-            }, 150);
-          }, 300); // Small delay after navigation
-        } else {
-          // Navigation not happened yet - keep checking
-          setTimeout(checkNavigation, 50);
-        }
-      };
-
-      // Start checking after logo reaches full size
-      setTimeout(checkNavigation, 600);
-    }
-  };
-
-  // INSTANT NAVIGATION - ZERO LAG
   const handleNavigation = (href: string, e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    // Don't navigate if already on same page
-    if (pathname === href) {
-      return;
-    }
-
-    // INSTANT: Trigger transition overlay immediately
-    triggerInstantTransition(href);
-
-    // Close mobile menu if open
-    if (isMobileOpen) {
-      setIsMobileOpen(false);
-      document.body.style.overflow = "";
-    }
-
-    // Navigate AFTER showing transition
+    console.log("🟡 Click received at:", Date.now());
+    if (e) e.preventDefault();
+    console.log("🟢 About to call router.push at:", Date.now());
     router.push(href);
+    console.log("🔵 router.push called at:", Date.now());
   };
 
-  // Submenu animation management
-  useEffect(() => {
-    if (openSubmenu && submenuItemsRef.current.has(openSubmenu)) {
-      const items = submenuItemsRef.current.get(openSubmenu) || [];
-
+  // Memoized submenu animation
+  const animateSubmenuItems = useCallback((submenuId: string) => {
+    if (submenuItemsRef.current.has(submenuId)) {
+      const items = submenuItemsRef.current.get(submenuId) || [];
       items.forEach((item, index) => {
         setTimeout(() => {
           item.style.transition = "all 0.3s ease";
@@ -182,10 +91,17 @@ const Menu: React.FC = () => {
         }, index * 50);
       });
     }
-  }, [openSubmenu]);
+  }, []);
+
+  // Submenu animation management
+  useEffect(() => {
+    if (openSubmenu) {
+      animateSubmenuItems(openSubmenu);
+    }
+  }, [openSubmenu, animateSubmenuItems]);
 
   // Mobile menu toggle handler
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = useCallback(() => {
     if (isMobileOpen) {
       setOpenSubmenu(null);
       document.body.style.overflow = "";
@@ -193,86 +109,111 @@ const Menu: React.FC = () => {
       document.body.style.overflow = "hidden";
     }
     setIsMobileOpen(!isMobileOpen);
-  };
+  }, [isMobileOpen]);
 
   // Submenu toggle handler
-  const toggleSubmenu = (id: string) => {
-    if (openSubmenu === id) {
-      const items = submenuItemsRef.current.get(id) || [];
-      items.forEach((item) => {
-        if (item) {
-          item.style.opacity = "0";
-          item.style.transform = "translateY(10px)";
-        }
-      });
-    }
+  const toggleSubmenu = useCallback(
+    (id: string) => {
+      if (openSubmenu === id) {
+        const items = submenuItemsRef.current.get(id) || [];
+        items.forEach((item) => {
+          if (item) {
+            item.style.opacity = "0";
+            item.style.transform = "translateY(10px)";
+          }
+        });
+      }
 
-    setTimeout(
-      () => {
-        setOpenSubmenu(openSubmenu === id ? null : id);
-      },
-      openSubmenu === id ? 0 : 10
-    );
-  };
+      setTimeout(
+        () => {
+          setOpenSubmenu(openSubmenu === id ? null : id);
+        },
+        openSubmenu === id ? 0 : 10
+      );
+    },
+    [openSubmenu]
+  );
 
   // Mouse event handlers for desktop dropdown
-  const handleMouseEnter = (id: string) => {
+  const handleMouseEnter = useCallback((id: string) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     setHoveredItem(id);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     timeoutRef.current = setTimeout(() => {
       setHoveredItem(null);
     }, 400);
-  };
+  }, []);
 
   // Utility for managing submenu items
-  const collectSubmenuItem = (parentId: string, el: HTMLElement | null) => {
-    if (el) {
-      if (!submenuItemsRef.current.has(parentId)) {
-        submenuItemsRef.current.set(parentId, []);
+  const collectSubmenuItem = useCallback(
+    (parentId: string, el: HTMLElement | null) => {
+      if (el) {
+        if (!submenuItemsRef.current.has(parentId)) {
+          submenuItemsRef.current.set(parentId, []);
+        }
+        const items = submenuItemsRef.current.get(parentId) || [];
+        if (!items.includes(el)) {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(10px)";
+          items.push(el);
+          submenuItemsRef.current.set(parentId, items);
+        }
       }
-      const items = submenuItemsRef.current.get(parentId) || [];
-      if (!items.includes(el)) {
-        el.style.opacity = "0";
-        el.style.transform = "translateY(10px)";
-        items.push(el);
-        submenuItemsRef.current.set(parentId, items);
-      }
-    }
-  };
+    },
+    []
+  );
 
-  const handleLogoClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+  // Simple logo click handler
+  const handleLogoClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
 
-    const now = Date.now();
+      const now = Date.now();
 
-    if (!window.clickTimes) {
-      window.clickTimes = [];
-    }
-
-    window.clickTimes.push(now);
-    window.clickTimes = window.clickTimes.filter((time) => now - time < 1000);
-
-    if (window.clickTimes.length >= 3) {
-      window.clickTimes = [];
-      handleNavigation("/login");
-      return;
-    }
-
-    setTimeout(() => {
-      if (window.clickTimes && window.clickTimes.length < 3) {
-        handleNavigation("/");
+      if (!window.clickTimes) {
         window.clickTimes = [];
       }
-    }, 1000);
-  };
+
+      window.clickTimes.push(now);
+      window.clickTimes = window.clickTimes.filter((time) => now - time < 1000);
+
+      if (window.clickTimes.length >= 3) {
+        window.clickTimes = [];
+        router.push("/login");
+        return;
+      }
+
+      setTimeout(() => {
+        if (window.clickTimes && window.clickTimes.length < 3) {
+          router.push("/");
+          window.clickTimes = [];
+        }
+      }, 1000);
+    },
+    [router]
+  );
+
+  // Memoize logo sources to prevent unnecessary re-renders
+  const logoSources = useMemo(
+    () => ({
+      mobile: {
+        scrolled: "/assets/img/logo/logo-gris.png",
+        default: "/assets/img/logo/logo-berengena.png",
+      },
+      desktop: {
+        scrolled: "/assets/img/logo/logo_full_gris.svg",
+        default: "/assets/img/logo/logo-full-berenjena.png",
+      },
+    }),
+    []
+  );
 
   // Render the appropriate CTA button based on scroll state
-  const renderCtaButton = () => {
+  const renderCtaButton = useCallback(() => {
     const ctaProps = {
       href: ctaButton.href,
       className: "menu__cta",
@@ -319,7 +260,7 @@ const Menu: React.FC = () => {
         ) : null}
       </>
     );
-  };
+  }, [isMobile, isDesktop, isScrolled, handleNavigation, toggleMobileMenu]);
 
   return (
     <header
@@ -328,17 +269,13 @@ const Menu: React.FC = () => {
     >
       <div className="menu__container">
         {/* Logo Area */}
-        <div
-          onClick={handleLogoClick}
-          className="menu__logo"
-          style={{ cursor: "pointer" }}
-        >
+        <Link href="/" className="menu__logo" onClick={handleLogoClick}>
           {/* Mobile logos */}
           <Image
             src={
               isScrolled
-                ? "/assets/img/logo/logo-gris.png"
-                : "/assets/img/logo/logo-berengena.png"
+                ? logoSources.mobile.scrolled
+                : logoSources.mobile.default
             }
             alt="Logo"
             width={180}
@@ -351,8 +288,8 @@ const Menu: React.FC = () => {
           <Image
             src={
               isScrolled
-                ? "/assets/img/logo/logo_full_gris.svg"
-                : "/assets/img/logo/logo-full-berenjena.png"
+                ? logoSources.desktop.scrolled
+                : logoSources.desktop.default
             }
             alt="Logo"
             width={200}
@@ -360,7 +297,7 @@ const Menu: React.FC = () => {
             priority
             className="menu__logo-image menu__logo-image--desktop"
           />
-        </div>
+        </Link>
 
         {/* Main Navigation */}
         <nav className="menu__nav">
@@ -376,11 +313,10 @@ const Menu: React.FC = () => {
               >
                 {item.children ? (
                   <>
-                    <div
+                    <Link
+                      href={item.href}
                       className="menu__nav-button"
                       onClick={(e) => handleNavigation(item.href, e)}
-                      onMouseEnter={() => router.prefetch(item.href)}
-                      style={{ cursor: "pointer" }}
                     >
                       {item.label}
                       <ChevronDown
@@ -389,38 +325,32 @@ const Menu: React.FC = () => {
                         }`}
                         size={16}
                       />
-                    </div>
+                    </Link>
                     <div
                       className={`menu__dropdown ${
                         hoveredItem === item.id ? "menu__dropdown--active" : ""
                       }`}
                     >
                       {item.children.map((child) => (
-                        <div
+                        <Link
                           key={child.id}
+                          href={child.href}
                           className="menu__dropdown-link"
                           onClick={(e) => handleNavigation(child.href, e)}
-                          onMouseEnter={() => router.prefetch(child.href)}
-                          style={{ cursor: "pointer" }}
                         >
                           {child.label}
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   </>
                 ) : (
-                  <div
+                  <Link
+                    href={item.href}
                     className="menu__nav-link"
                     onClick={(e) => handleNavigation(item.href, e)}
-                    onMouseEnter={() => {
-                      router.prefetch(item.href);
-                      // Preload the actual page component
-                      import(`@/app${item.href}/page`);
-                    }}
-                    style={{ cursor: "pointer" }}
                   >
                     {item.label}
-                  </div>
+                  </Link>
                 )}
               </li>
             ))}
@@ -458,10 +388,10 @@ const Menu: React.FC = () => {
       <div className={`menu__mobile ${isMobileOpen ? "open" : ""}`}>
         <div className="menu__mobile-inner">
           <div className="menu__mobile-header">
-            <div
+            <Link
+              href="/"
               className="menu__mobile-logo"
               onClick={handleLogoClick}
-              style={{ cursor: "pointer" }}
             >
               <Image
                 src="/assets/img/logo/logo_full_gris.svg"
@@ -470,7 +400,7 @@ const Menu: React.FC = () => {
                 height={40}
                 className="menu__mobile-logo-image"
               />
-            </div>
+            </Link>
           </div>
 
           <nav className="menu__mobile-nav">
@@ -479,13 +409,16 @@ const Menu: React.FC = () => {
                 {item.children ? (
                   <>
                     <div className="menu__mobile-button-wrapper">
-                      <div
+                      <Link
+                        href={item.href}
                         className="menu__mobile-button-main"
-                        onClick={(e) => handleNavigation(item.href, e)}
-                        style={{ cursor: "pointer" }}
+                        onClick={(e) => {
+                          handleNavigation(item.href, e);
+                          toggleMobileMenu();
+                        }}
                       >
                         {item.label}
-                      </div>
+                      </Link>
                       <button
                         className="menu__mobile-button-toggle"
                         onClick={() => toggleSubmenu(item.id)}
@@ -511,29 +444,35 @@ const Menu: React.FC = () => {
                     >
                       <div className="menu__mobile-submenu-inner">
                         {item.children.map((sub) => (
-                          <div
+                          <Link
                             key={sub.id}
+                            href={sub.href}
                             className="menu__mobile-sublink"
-                            onClick={(e) => handleNavigation(sub.href, e)}
                             ref={(el: any) =>
                               collectSubmenuItem(item.id, el as HTMLElement)
                             }
-                            style={{ cursor: "pointer" }}
+                            onClick={(e) => {
+                              handleNavigation(sub.href, e);
+                              toggleMobileMenu();
+                            }}
                           >
                             {sub.label}
-                          </div>
+                          </Link>
                         ))}
                       </div>
                     </div>
                   </>
                 ) : (
-                  <div
+                  <Link
+                    href={item.href}
                     className="menu__mobile-link"
-                    onClick={(e) => handleNavigation(item.href, e)}
-                    style={{ cursor: "pointer" }}
+                    onClick={(e) => {
+                      handleNavigation(item.href, e);
+                      toggleMobileMenu();
+                    }}
                   >
                     {item.label}
-                  </div>
+                  </Link>
                 )}
               </div>
             ))}

@@ -4,15 +4,13 @@ import React, { useRef } from "react";
 import "./StatsSection.scss";
 
 const StatsSection: React.FC = () => {
-
   const stats = [
-    { number: 2280, label: "Instalaciones fijas montadas" },
-    {
-      number: 228,
-      label: "Espacios comerciales (nuevas aperturas)",
-    },
-    { number: 52440, label: "Escaparates" },
-    { number: 5472, label: "Diseño de espacios" },
+    { number: "+2,2K", label: "Instalaciones fijas montadas" },
+    { number: "+52K", label: "Escaparates instalados" },
+    { number: "228", label: "Espacios comerciales" },
+    { number: "5K", label: "Diseño de espacios" },
+    { number: "+38", label: "Años de experiencia" },
+    { number: "87%", label: "Satisfacción de los clientes" },
   ];
 
   return (
@@ -27,10 +25,8 @@ const StatsSection: React.FC = () => {
           {stats.map((stat, index) => (
             <div key={index} className="stats-section__item">
               <div className="stats-section__number-container">
-                <div
-                  className="stats-section__number"
-                  data-value={stat.number}
-                >
+                <div className="stats-section__number" data-value={stat.number}>
+                  {stat.number}
                 </div>
               </div>
               <div className="stats-section__separator"></div>

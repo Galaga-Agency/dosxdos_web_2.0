@@ -14,7 +14,7 @@ const FabricacionAboutSection: React.FC = () => {
     <section className="fabricacion-about-section">
       <div className="fabricacion-about-section__container container">
         <div className="fabricacion-about-section__header header">
-          <h2 className="fabricacion-about-section__title secondary-title fade_bottom">
+          <h2 className="fabricacion-about-section__title secondary-title ">
             Entendemos que una idea vale lo que vale su{" "}
             <span className="highlight">ejecución.</span>
           </h2>

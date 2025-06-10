@@ -18,7 +18,6 @@
   left: 50%;
   transform: translateX(-50%);
 
-  // Now we can use our new xxs breakpoint
   @include min-width(xxs) {
     padding-top: 12rem;
     padding-bottom: 3.5rem;

@@ -8,6 +8,7 @@
   @include section-padding-y();
 
   &__header {
+    position: relative;
     @include margin(3xl, bottom);
 
     @include min-width(lg) {

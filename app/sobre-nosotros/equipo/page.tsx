@@ -20,10 +20,8 @@ import Footer from "@/components/layout/Footer/footer";
 
 import {
   charAnimation,
-  fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
-import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
 import { initStatsCounter } from "@/utils/animations/stats-counter";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
@@ -31,6 +29,7 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import "./equipo-page.scss";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const EquipoPage = () => {
   useScrollSmooth();
@@ -60,14 +59,13 @@ const EquipoPage = () => {
     if (!heroImagesLoaded) return;
 
     const timer = setTimeout(() => {
-      fadeAnimation();
       charAnimation();
-      initCardMouseParallax();
       imageParallax();
       initStatsCounter();
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
+      footerAnimation();
     }, 100);
 
     return () => clearTimeout(timer);
@@ -80,21 +78,14 @@ const EquipoPage = () => {
           <Breadcrumbs items={breadcrumbItems} />
         </div>
 
-        <div className="equipo-page__container">
+        <main className="equipo-page__container">
           <HeroSection onImagesLoad={handleHeroImagesLoad} />
           <StorySection />
           <TeamSection />
           <StatsSection />
           <ClientsSection />
           <CTASection />
-          <div className="equipo-page__mobile-social-section">
-            <div className="equipo-page__mobile-social-header">
-              <h3 className="equipo-page__mobile-social-title">Síguenos</h3>
-              <div className="equipo-page__mobile-social-divider"></div>
-            </div>
-            <SocialIcons orientation="horizontal" color="primary" />
-          </div>
-        </div>
+        </main>
       </div>
       <Footer />
     </PageWrapper>

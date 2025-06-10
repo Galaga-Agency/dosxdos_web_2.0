@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
+import dynamic from "next/dynamic";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollTrigger, SplitText } from "@/plugins";
@@ -8,26 +15,58 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
-import ContactForm from "@/components/ContactForm/ContactForm";
-import LocationCard from "@/components/LocationCard/LocationCard";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
-import Footer from "@/components/layout/Footer/footer";
-import ZohoContactForm from "@/components/ZohoContactForm/ZohoContactForm";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
-import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
-import { highlightAnimation } from "@/utils/animations/highlight-anim";
-import { setupMouseMoveAnimation } from "@/utils/animations/mouse-move-anim";
+// Lazy load heavy components
+const Footer = dynamic(() => import("@/components/layout/Footer/footer"), {
+  ssr: false,
+});
+
+const ContactForm = dynamic(
+  () => import("@/components/ContactForm/ContactForm"),
+  { ssr: false }
+);
+
+const LocationCard = dynamic(
+  () => import("@/components/LocationCard/LocationCard"),
+  { ssr: false }
+);
+
+const ZohoContactForm = dynamic(
+  () => import("@/components/ZohoContactForm/ZohoContactForm"),
+  { ssr: false }
+);
+
+// Lazy load animations to reduce initial bundle size
+const loadAnimations = () => {
+  return Promise.all([
+    import("@/utils/animations/text-anim"),
+    import("@/utils/animations/highlight-anim"),
+    import("@/utils/animations/mouse-move-anim"),
+    import("@/utils/animations/footer-anim"),
+  ]);
+};
 
 import "./contact-page.scss";
 
 const ContactPage: React.FC = () => {
   useScrollSmooth();
-
   const cleanupRef = useRef<(() => void) | null>(null);
+  const [heroReady, setHeroReady] = useState(false);
+  const [animationsLoaded, setAnimationsLoaded] = useState(false);
+  const animationsInitialized = useRef(false);
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
+
+    // Preload animations after component mounts
+    loadAnimations().then(() => {
+      setAnimationsLoaded(true);
+    });
+
+    // Hero is ready immediately for this page (no image loading callback)
+    setHeroReady(true);
 
     return () => {
       document.body.classList.remove("smooth-scroll");
@@ -40,25 +79,46 @@ const ContactPage: React.FC = () => {
     };
   }, []);
 
-  useGSAP(() => {
-    const timer = setTimeout(() => {
-      fadeAnimation();
-      charAnimation();
-      highlightAnimation();
+  // Initialize animations only once when both conditions are met
+  const initializeAnimations = useCallback(async () => {
+    if (animationsInitialized.current || !heroReady || !animationsLoaded) {
+      return;
+    }
 
-      // Store cleanup function
-      cleanupRef.current = setupMouseMoveAnimation();
-    }, 100);
+    animationsInitialized.current = true;
 
-    return () => {
-      clearTimeout(timer);
+    try {
+      const [
+        { charAnimation },
+        { highlightAnimation },
+        { setupMouseMoveAnimation },
+        { footerAnimation },
+      ] = await loadAnimations();
 
-      if (cleanupRef.current) {
-        cleanupRef.current();
-        cleanupRef.current = null;
+      // Use requestIdleCallback for better performance
+      const runAnimations = () => {
+        charAnimation();
+        footerAnimation();
+        highlightAnimation();
+
+        // Mouse move animation returns cleanup function
+        cleanupRef.current = setupMouseMoveAnimation();
+      };
+
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(runAnimations);
+      } else {
+        setTimeout(runAnimations, 100);
       }
-    };
-  });
+    } catch (error) {
+      console.error("Failed to load animations:", error);
+    }
+  }, [heroReady, animationsLoaded]);
+
+  // Run animations when conditions are met
+  useEffect(() => {
+    initializeAnimations();
+  }, [initializeAnimations]);
 
   return (
     <PageWrapper>
@@ -72,7 +132,7 @@ const ContactPage: React.FC = () => {
           </div>
 
           <div className="contact-page__layout">
-            <div className="contact-page__left fade_bottom">
+            <div className="contact-page__left ">
               <div className="contact-page__left-info-section">
                 <p>
                   Contacta con nosotros para cualquier tipo de consulta o para
@@ -92,12 +152,12 @@ const ContactPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="contact-page__right fade_bottom">
+            <div className="contact-page__right ">
               <ZohoContactForm />
             </div>
           </div>
 
-          <div className="contact-page__offices fade_bottom">
+          <div className="contact-page__offices ">
             <h2 className="offices-title">
               Nuestras <span className="highlight">Oficinas</span>
             </h2>
@@ -130,7 +190,7 @@ const ContactPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="contact-page__desktop-social-cta fade_bottom">
+          <div className="contact-page__desktop-social-cta ">
             <h3 className="small-title">
               Si quieres conocer{" "}
               <span className="highlight">nuestros últimos proyectos</span>{" "}

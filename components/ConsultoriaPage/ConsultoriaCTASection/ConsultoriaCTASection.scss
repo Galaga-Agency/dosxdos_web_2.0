@@ -23,20 +23,23 @@
     @include container-width(desktop);
   }
 
+  &__container {
+    @include flex(column, center, center);
+    position: relative;
+  }
+
   &__title {
     text-align: center;
     width: auto;
     color: $black;
 
+    @include min-width(lg) {
+      text-wrap: nowrap;
+    }
+
     a {
       text-decoration: none;
       color: inherit;
-    }
-  }
-
-  &__label {
-    @include min-width(md) {
-      margin: 0 4rem 0 -4rem !important;
     }
   }
 }

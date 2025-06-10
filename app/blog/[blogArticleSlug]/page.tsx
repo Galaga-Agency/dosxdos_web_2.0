@@ -22,14 +22,14 @@ import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButt
 
 import {
   charAnimation,
-  fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 import "./blog-details.scss";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 interface BlogDetailPageProps {
   params: Promise<{ blogArticleSlug: string }>;
@@ -39,11 +39,11 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
   useScrollSmooth();
 
   const { blogArticleSlug } = React.use(params);
-  const { getPostBySlug, posts } = useDataStore(); // USE STORE LIKE PORTFOLIO
+  const { getPostBySlug, posts } = useDataStore();
   const [currentUrl, setCurrentUrl] = useState<string>("");
   const { isMobile, isTablet } = useDeviceDetect();
 
-  // Get post from store - data should already be loaded by DataPreloader
+  // Get post from store
   const blogPost = getPostBySlug(blogArticleSlug);
 
   // Calculate related posts from store
@@ -58,40 +58,13 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
     }
   }, []);
 
-  // EXACT COPY FROM PORTFOLIO - NO CONDITIONS, NO LOADING STATES
   useGSAP(() => {
     const timer = setTimeout(() => {
-      fadeAnimation();
       charAnimation();
       rollUpTextAnimation();
       featuredImageAnimation();
       hoverCircleButtonAnimation();
-
-      // PARALLAX THE INNER HERO DIV
-      const heroDiv = document.querySelector(".blog-detail__hero");
-      if (heroDiv) {
-        gsap.fromTo(
-          heroDiv,
-          { yPercent: -10 },
-          {
-            yPercent: 10,
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".blog-detail__hero-container",
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1,
-            },
-          }
-        );
-      }
-
-      gsap.set(
-        ".blog-detail__body p, .blog-detail__body h1, .blog-detail__body h2, .blog-detail__body h3, .blog-detail__body ul, .blog-detail__body ol, .blog-detail__body blockquote, .blog-detail__tags, .blog-detail__cta-title, .blog-detail__cta-text, .blog-detail__cta-button, .blog-detail__mobile-social-section",
-        {
-          opacity: 1,
-        }
-      );
+      footerAnimation();
     }, 300);
 
     return () => clearTimeout(timer);
@@ -101,18 +74,16 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
     return { __html: htmlContent };
   };
 
-  // Show loading or not found handled by loading.js
   if (!blogPost) {
-    return null; // loading.js will handle this or 404
+    return null;
   }
 
   return (
     <PageWrapper>
       <div className="blog-detail">
-        {/* Header Section - Category, Title, Meta */}
         <section className="blog-detail__header">
           <div className="blog-detail__header-container">
-            <div className="blog-detail__category fade_bottom">
+            <div className="blog-detail__category ">
               <span>{blogPost.category}</span>
             </div>
 
@@ -120,7 +91,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
               {blogPost.title}
             </h1>
 
-            <div className="blog-detail__meta fade_bottom">
+            <div className="blog-detail__meta ">
               <div className="blog-detail__author">
                 <span>{blogPost.author}</span>
               </div>
@@ -131,12 +102,11 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
           </div>
         </section>
 
-        {/* 70vh Parallax Image */}
         <div className="blog-detail__hero-container">
           <section
             className="blog-detail__hero hero-image-wrapper"
             style={{ backgroundImage: `url(${getImageSource(blogPost)})` }}
-            data-speed="0.95"
+            data-speed="0.75"
           />
         </div>
 
@@ -168,7 +138,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
             </div>
           </div>
 
-          <div className="blog-detail__share-section fade_bottom">
+          <div className="blog-detail__share-section ">
             <h3 className="blog-detail__share-title small-title">
               Comparte este artículo
             </h3>
@@ -182,8 +152,8 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
           </div>
 
           {relatedPosts.length > 0 && (
-            <div className="blog-detail__related-posts fade_bottom">
-              <h2 className="blog-detail__related-title small-title">
+            <div className="blog-detail__related-posts ">
+              <h2 className="blog-detail__related-title title">
                 Artículos relacionados
               </h2>
               <div className="blog-detail__related-grid">
@@ -200,7 +170,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
             </div>
           )}
 
-          <div className="blog-detail__cta-section fade_bottom">
+          <div className="blog-detail__cta-section ">
             <div className="blog-detail__cta-content">
               <h2 className="blog-detail__cta-title small-title">
                 Descubre más <span className="highlight">inspiración</span>

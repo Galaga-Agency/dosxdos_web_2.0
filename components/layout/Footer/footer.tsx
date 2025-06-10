@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Link from "next/link";
 import { PhoneCall, Mail, ArrowRight, ChevronRight } from "lucide-react";
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Image from "next/image";
-import { initFooterAnimations } from "@/utils/animations/footer-anim";
 import logo from "@/public/assets/img/logo/logo_full_negro.png";
 import "./Footer.scss";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
@@ -13,64 +12,12 @@ import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  // Refs for animations
-  const footerRef = useRef<HTMLDivElement>(null);
-  const brandRef = useRef<HTMLDivElement>(null);
-  const contactRef = useRef<HTMLDivElement>(null);
-  const navRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  // Initialize animations on component mount
-  useEffect(() => {
-    // First, ensure all elements are fully visible
-    const ensureVisibility = () => {
-      if (contactRef.current) {
-        // Reset any opacity or transform that might be applied
-        const contactLinks = contactRef.current.querySelectorAll("a");
-        contactLinks.forEach((link) => {
-          link.style.opacity = "1";
-          link.style.transform = "none";
-        });
-      }
-    };
-
-    // Call immediately to prevent flicker
-    ensureVisibility();
-
-    // Small delay to ensure DOM is fully rendered before animations
-    const timeoutId = setTimeout(() => {
-      const cleanup = initFooterAnimations({
-        footer: footerRef.current,
-        brand: brandRef.current,
-        contact: contactRef.current,
-        nav: navRef.current,
-        cta: ctaRef.current,
-        bottom: bottomRef.current,
-      });
-
-      // Cleanup on unmount
-      return () => {
-        if (typeof cleanup === "function") {
-          cleanup();
-        }
-        // Ensure visibility on cleanup
-        ensureVisibility();
-      };
-    }, 100);
-
-    // Return cleanup function
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, []);
-
   return (
-    <footer className="footer" ref={footerRef}>
+    <footer className="footer">
       <div className="footer__container">
         <div className="footer__main">
           {/* Brand Section */}
-          <div className="footer__brand" ref={brandRef}>
+          <div className="footer__brand">
             <div className="footer__brand-content">
               <Link href="/">
                 <Image
@@ -81,20 +28,14 @@ const Footer = () => {
               </Link>
               <p className="footer__tagline">Creamos espacios que inspiran.</p>
             </div>
-            <div className="footer__contact" ref={contactRef}>
-              <Link
-                href="mailto:hola@dospordosgrupoimagen.com"
-                style={{ opacity: 1, transform: "none" }}
-              >
+            <div className="footer__contact">
+              <Link href="mailto:hola@dospordosgrupoimagen.com">
                 <span className="icon">
                   <Mail size={16} />
                 </span>
                 hola@dospordosgrupoimagen.com
               </Link>
-              <Link
-                href="tel:+34928712222"
-                style={{ opacity: 1, transform: "none" }}
-              >
+              <Link href="tel:+34928712222">
                 <span className="icon">
                   <PhoneCall size={16} />
                 </span>
@@ -104,13 +45,37 @@ const Footer = () => {
           </div>
 
           {/* Navigation Columns */}
-          <div className="footer__nav-wrapper" ref={navRef}>
+          <div className="footer__nav-wrapper">
             <div className="footer__nav-column">
               <h4>Servicios</h4>
-              <ul>
+              <ul className="footer__nav">
+                <li>
+                  <Link href="/servicios/consultoria">
+                    <span>Consultoría</span>
+                    <ChevronRight size={14} className="link-arrow" />
+                  </Link>
+                </li>
                 <li>
                   <Link href="/servicios/diseno-de-interiores">
                     <span>Diseño de Interiores</span>
+                    <ChevronRight size={14} className="link-arrow" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/servicios/fabricacion-impresion">
+                    <span>Fabricación e Impresión</span>
+                    <ChevronRight size={14} className="link-arrow" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/servicios/montaje-mantenimiento">
+                    <span>Montaje y Mantenimiento</span>
+                    <ChevronRight size={14} className="link-arrow" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/servicios/comunicacion">
+                    <span>Comunicación</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
@@ -120,38 +85,20 @@ const Footer = () => {
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
-                <li>
-                  <Link href="/servicios/produccion">
-                    <span>Producción</span>
-                    <ChevronRight size={14} className="link-arrow" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/servicios/logistica">
-                    <span>Logística</span>
-                    <ChevronRight size={14} className="link-arrow" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/servicios/communicacion">
-                    <span>Comunicación</span>
-                    <ChevronRight size={14} className="link-arrow" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/servicios/consultoria">
-                    <span>Consultoría</span>
-                    <ChevronRight size={14} className="link-arrow" />
-                  </Link>
-                </li>
               </ul>
             </div>
             <div className="footer__nav-column">
               <h4>Navegación</h4>
-              <ul>
+              <ul className="footer__nav">
                 <li>
                   <Link href="/sobre-nosotros/equipo">
                     <span>Sobre Nosotros</span>
+                    <ChevronRight size={14} className="link-arrow" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/servicios">
+                    <span>Servicios</span>
                     <ChevronRight size={14} className="link-arrow" />
                   </Link>
                 </li>
@@ -178,7 +125,7 @@ const Footer = () => {
           </div>
 
           {/* CTA Section */}
-          <div className="footer__cta" ref={ctaRef}>
+          <div className="footer__cta">
             <div className="footer__cta-content">
               <h4>¿Hablamos?</h4>
               <p>¿Tienes un nuevo proyecto? Lo hacemos real.</p>
@@ -191,7 +138,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="footer__bottom" ref={bottomRef}>
+        <div className="footer__bottom">
           <div className="footer__bottom-left">
             <div className="footer__copyright">
               <p>

@@ -20,7 +20,6 @@ import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 import {
   charAnimation,
-  fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
@@ -28,6 +27,7 @@ import { animatePaginatedItems } from "@/utils/animations/stagger-items-anim";
 
 import "./blog-page.scss";
 import Link from "next/link";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const BlogPage: React.FC = () => {
   useScrollSmooth();
@@ -81,16 +81,14 @@ const BlogPage: React.FC = () => {
     setHeroImageLoaded(true);
   }, []);
 
-  // Initialize animations with useGSAP - wait for hero image
   useGSAP(() => {
     if (first_blog && heroImageLoaded) {
       const timer = setTimeout(() => {
-        fadeAnimation();
         charAnimation();
         rollUpTextAnimation();
         featuredImageAnimation();
+        footerAnimation();
 
-        // Using the new utility for staggered animations
         animatePaginatedItems(".blog-page__post-item", {
           container: ".posts-grid",
           stagger: 0.2,
@@ -109,10 +107,10 @@ const BlogPage: React.FC = () => {
     return (
       <PageWrapper>
         <div className="blog-page">
-          <div className="blog-page__container">
+          <div className="blog-page__container container">
             <div className="blog-page__empty">
-              <h2>No hay artículos disponibles</h2>
-              <p>Vuelve pronto para ver nuevo contenido.</p>
+              <h2 className="secondary-title">No hay artículos disponibles</h2>
+              <p className="text">Vuelve pronto para ver nuevo contenido.</p>
             </div>
           </div>
         </div>
@@ -153,10 +151,10 @@ const BlogPage: React.FC = () => {
                   className="blog-page__featured-content-link"
                 >
                   <div className="blog-page__labels-container">
-                    <div className="blog-page__featured-image-date fade_bottom">
+                    <div className="blog-page__featured-image-date ">
                       {formatDate(first_blog?.date)}
                     </div>
-                    <div className="blog-page__featured-category fade_bottom">
+                    <div className="blog-page__featured-category ">
                       <span>{first_blog?.category}</span>
                     </div>
                   </div>
@@ -176,7 +174,7 @@ const BlogPage: React.FC = () => {
           )}
 
           <div className="blog-page__posts-section" id="pagination-section">
-            <h2 className="posts-title small-title fade_bottom">
+            <h2 className="posts-title small-title ">
               Artículos <span className="highlight">Recientes</span>
             </h2>
 
@@ -193,7 +191,7 @@ const BlogPage: React.FC = () => {
             </div>
 
             {pageCount > 1 && (
-              <div className="blog-page__pagination fade_bottom">
+              <div className="blog-page__pagination ">
                 <Pagination
                   handlePageClick={(page) =>
                     handlePageClick({ selected: page })
@@ -213,7 +211,7 @@ const BlogPage: React.FC = () => {
             <SocialIcons orientation="horizontal" />
           </div>
 
-          <div className="blog-page__desktop-social-cta fade_bottom">
+          <div className="blog-page__desktop-social-cta ">
             <div className="blog-page__desktop-social-cta-content">
               <h3 className="small-title">
                 Mantente actualizado con nuestros últimos{" "}

@@ -62,10 +62,10 @@
 
   &__image-wrapper {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -20%;
+    left: -10%;
+    width: 120%;
+    height: 140%;
     will-change: transform;
     @include z-index(default);
 
@@ -76,6 +76,7 @@
       object-position: center;
       @include transition(transform, slow);
       will-change: transform;
+      transform: scale(1.2);
     }
   }
 
@@ -260,10 +261,10 @@
 
   &__inner-container {
     position: absolute;
-    top: -15%;
-    left: -10%;
-    width: 120%;
-    height: 130%;
+    top: -25%;
+    left: -15%;
+    width: 130%;
+    height: 150%;
     overflow: hidden;
     will-change: transform;
 
@@ -286,10 +287,11 @@
     will-change: transform;
     @include transition(transform, slow);
     opacity: 0.98;
+    transform: scale(1.1);
 
     @include min-width(md) {
       object-position: center center !important;
-      transform: scale(1.05);
+      transform: scale(1.15);
     }
   }
 

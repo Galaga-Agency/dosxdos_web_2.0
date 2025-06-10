@@ -38,7 +38,7 @@ const MontajeMantenimientoHeroSection: React.FC<
       <div className="montaje-mantenimiento-hero-section">
         {/* Title and content above the image */}
         <div className="montaje-mantenimiento-hero-section__content container">
-          <h3 className="montaje-mantenimiento-hero-section__label label fade_bottom">
+          <h3 className="montaje-mantenimiento-hero-section__label label ">
             (Del diseño a la realidad… y su cuidado en el tiempo)
           </h3>
           <h1 className="montaje-mantenimiento-hero-section__title title char-animation">
@@ -66,7 +66,7 @@ const MontajeMantenimientoHeroSection: React.FC<
                 willChange: "transform",
               }}
               unoptimized={true}
-              data-speed={isMobile ? "1" : ".75"}
+              data-speed={isMobile ? "1" : ".85"}
             />
           </div>
           <div className="montaje-mantenimiento-hero-section__overlay"></div>

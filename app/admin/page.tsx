@@ -23,11 +23,11 @@ import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import Footer from "@/components/layout/Footer/footer";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { fadeAnimation } from "@/utils/animations/text-anim";
 import { animatePaginatedItems } from "@/utils/animations/stagger-items-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./admin-panel.scss";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 type TabType = "blog" | "proyectos";
 
@@ -100,8 +100,8 @@ function AdminPanelPage() {
     if (!isAuthenticated || loading) return;
 
     const timer = setTimeout(() => {
-      fadeAnimation();
       highlightAnimation();
+      footerAnimation();
       const selector =
         activeTab === "blog" ? ".blog-post-card" : ".project-card";
       animatePaginatedItems(selector, {
@@ -348,7 +348,7 @@ function AdminPanelPage() {
                     )}
                   </>
                 ) : (
-                  <div className="admin-panel-page__empty fade_bottom">
+                  <div className="admin-panel-page__empty ">
                     <p>
                       {activeTab === "blog"
                         ? "No hay entradas de blog disponibles."

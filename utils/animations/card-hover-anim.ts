@@ -35,7 +35,7 @@ export function hoverBtn() {
     });
 
     function callParallax(e: any) {
-      parallaxIt(e, hoverBtnItem[i], 60);
+      parallaxIt(e, hoverBtnItem[i], 150); // INCREASED from 60 to 150!
     }
 
     function parallaxIt(e: any, target: any, movement: any) {
@@ -47,7 +47,7 @@ export function hoverBtn() {
         x: ((relX - $this.width() / 2) / $this.width()) * movement,
         y: ((relY - $this.height() / 2) / $this.height()) * movement,
         ease: "power2.out",
-        duration: 1,
+        duration: 0.3, // Faster response
       });
     }
 
@@ -56,7 +56,7 @@ export function hoverBtn() {
         x: 0,
         y: 0,
         ease: "power2.out",
-        duration: 1,
+        duration: 0.8,
       });
     });
   });
@@ -65,50 +65,52 @@ export function hoverBtn() {
 // Complete rewrite for card animation
 export function initCardMouseParallax() {
   // First remove all existing event listeners
-  $('.hover-card, .team-section.card, .service-card').off('mouseenter mousemove mouseleave');
-  
+  $(".hover-card, .team-section.card, .service-card").off(
+    "mouseenter mousemove mouseleave"
+  );
+
   // Kill all existing tweens
-  gsap.killTweensOf('.image');
-  
+  gsap.killTweensOf(".image");
+
   // Reset all images to their default state
-  gsap.set('.image', { x: 0, y: 0, scale: 1.2 });
-  
+  gsap.set(".image", { x: 0, y: 0, scale: 1.05 });
+
   // Now add new event listeners directly with jQuery
-  $('.hover-card, .team-section.card, .service-card').each(function() {
+  $(".hover-card, .team-section.card, .service-card").each(function () {
     const card: any = $(this);
-    const image = card.find('.image');
-    
+    const image = card.find(".image");
+
     // Only once, on mouse enter
-    card.on('mouseenter', function() {
+    card.on("mouseenter", function () {
       gsap.to(image, {
         duration: 0.6,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     });
-    
+
     // Continuously on mouse move
-    card.on('mousemove', function(e: any) {
+    card.on("mousemove", function (e: any) {
       const relX = e.pageX - card.offset().left;
       const relY = e.pageY - card.offset().top;
-      
+
       gsap.to(image, {
-        x: ((relX - card.width() / 2) / card.width()) * 40,
-        y: ((relY - card.height() / 2) / card.height()) * 40,
-        duration: 1,
+        x: ((relX - card.width() / 2) / card.width()) * 60, // INCREASED from 40 to 120!
+        y: ((relY - card.height() / 2) / card.height()) * 60, // INCREASED from 40 to 120!
+        duration: 0.5, // Faster response
         ease: "power2.out",
-        overwrite: "auto" // Important to prevent multiple animations
+        overwrite: "auto", // Important to prevent multiple animations
       });
     });
-    
+
     // On mouse leave
-    card.on('mouseleave', function() {
+    card.on("mouseleave", function () {
       gsap.to(image, {
         x: 0,
         y: 0,
-        scale: 1.2,
+        scale: 1.05,
         duration: 0.6,
         ease: "power2.out",
-        overwrite: true // Force overwrite any running animation
+        overwrite: true, // Force overwrite any running animation
       });
     });
   });

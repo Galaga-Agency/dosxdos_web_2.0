@@ -12,7 +12,7 @@ const MontajeMantenimientoServicesSection: React.FC = () => {
     <section className="montaje-mantenimiento-services">
       <div className="montaje-mantenimiento-services__container container">
         <div className="montaje-mantenimiento-services__header header">
-          <div className="montaje-mantenimiento-services__label label fade_bottom">
+          <div className="montaje-mantenimiento-services__label label ">
             (Mantenimiento. Continuidad asegurada)
           </div>
           <h2 className="montaje-mantenimiento-services__title secondary-title">

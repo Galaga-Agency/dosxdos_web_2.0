@@ -8,7 +8,7 @@ const DisenoInterioresPhilosophySection: React.FC = () => {
     <section className="diseno-interiores-process">
       <div className="diseno-interiores-process__container container">
         <div className="diseno-interiores-process__header header">
-          <h2 className="diseno-interiores-process__title secondary-title fade_bottom">
+          <h2 className="diseno-interiores-process__title secondary-title ">
             Diseñar es <span className="highlight">construir relaciones</span>{" "}
             entre personas y espacios
           </h2>

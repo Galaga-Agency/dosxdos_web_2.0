@@ -41,29 +41,28 @@
   }
 
   &__header {
-    margin-bottom: 2rem;
+    @include margin(lg, bottom);
 
     @include min-width(lg) {
       width: auto;
       flex-shrink: 0;
       margin-bottom: 0;
-      padding-top: 0.5rem;
-      padding-left: 1.5rem;
+      @include padding(xs, top);
+      @include padding(md, left);
     }
   }
 
   &__title {
     @include font-size(2xl);
     @include font-weight(semibold);
-    letter-spacing: 0.05em;
+    @include letter-spacing(wide);
     color: $black;
     text-wrap: nowrap;
     text-transform: uppercase;
-    @include title-line-height;
 
     @include min-width(md) {
       @include font-size(xl);
-      margin-left: 4rem;
+      @include margin(4xl, left);
     }
   }
 
@@ -88,20 +87,18 @@
     height: 50px;
     background-color: rgba($white, 0.95);
     border: 1px solid rgba($black, 0.1);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include border-radius(full);
+    @include flex(row, center, center);
     cursor: pointer;
-    z-index: 3;
-    transition: all 0.3s ease;
+    @include z-index(overlay);
+    @include transition(all, normal);
     box-shadow: $shadow-md;
 
     svg {
       width: 20px;
       height: 20px;
       color: $black;
-      transition: color 0.3s ease;
+      @include transition(color, normal);
     }
 
     &:hover {
@@ -130,7 +127,7 @@
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    @include gap(lg);
 
     @include min-width(md) {
       display: flex;
@@ -138,11 +135,10 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-padding-left: 1.5rem;
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+      @include padding(md, x);
       margin-right: -2rem;
       -webkit-overflow-scrolling: touch;
-      gap: 1.5rem;
+      @include gap(md);
 
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -156,9 +152,8 @@
       overflow-x: visible;
       margin: 0;
       padding: 0;
-      gap: 1.5rem;
+      @include gap(md);
       
-      // Last item touches right edge
       padding-right: 0;
       margin-right: 0;
     }
@@ -180,119 +175,15 @@
       max-width: 400px;
       scroll-snap-align: start;
     }
-
-    // Only apply hover effects on non-touch devices
-    @media (hover: hover) {
-      &:hover .servicios-recent-projects__image {
-        transform: scale(1.05);
-      }
-
-      &:hover .servicios-recent-projects__hover-info {
-        opacity: 1;
-      }
-
-      &:hover .servicios-recent-projects__label {
-        transform: translateX(0);
-        opacity: 1;
-        transition-delay: 0.2s;
-      }
-
-      &:hover .servicios-recent-projects__item-title {
-        transform: translateX(0);
-        opacity: 1;
-        transition-delay: 0.1s;
-      }
-    }
   }
 
   &__image-wrapper {
     position: relative;
     width: 100%;
     height: 100%;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba($black, 0),
-        rgba($black, 0.6)
-      );
-      @include z-index(above);
-    }
   }
 
   &__image {
     object-fit: cover;
-    transition: transform 0.6s linear;
-  }
-
-  &__hover-info {
-    position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
-    @include flex(column, start, left);
-    gap: 0.5rem;
-    color: $black;
-    z-index: 2;
-
-    // Only apply transitions for hover devices
-    @media (hover: hover) {
-      opacity: 0;
-      transition: opacity 0.2s ease-in;
-    }
-
-    // For touch devices, GSAP will handle the animations
-    @media (hover: none) {
-      // Remove any transitions so GSAP has full control
-      transition: none;
-    }
-  }
-
-  &__label {
-    background-color: $white;
-    width: fit-content;
-  }
-  &__item-title {
-    background-color: $white;
-    width: 100%;
-  }
-
-  &__label,
-  &__item-title {
-    // Only apply transforms and transitions for hover devices
-    @media (hover: hover) {
-      transform: translateX(-50px);
-      opacity: 0;
-      transition: transform 0.5s ease-out, opacity 0.2s ease-out;
-      width: fit-content;
-    }
-
-    // For touch devices, GSAP will handle the animations
-    @media (hover: none) {
-      // Remove any transitions so GSAP has full control
-      transition: none;
-      @include margin(xs, bottom);
-    }
-  }
-
-  &__label {
-    @include font-size(sm);
-    text-transform: uppercase;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    padding: 0.5rem 1rem;
-  }
-
-  &__item-title {
-    @include font-size(xl);
-    @include font-weight(bold);
-    line-height: 1.2;
-    padding: 1rem 1.5rem;
   }
 }

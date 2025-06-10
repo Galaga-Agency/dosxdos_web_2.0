@@ -14,8 +14,8 @@ const AboutUsSection: React.FC = () => {
     <section className="aboutus-section">
       <div className="aboutus-section__container container">
         <div className="aboutus-section__header header">
-          <h2 className="aboutus-section__title secondary-title fade_bottom">
-            38 años diseñando, produciendo y <br/>
+          <h2 className="aboutus-section__title secondary-title ">
+            38 años diseñando, produciendo y <br />
             <span className="highlight">cuidando cada detalle</span> para marcas
             líderes
           </h2>
@@ -39,17 +39,18 @@ const AboutUsSection: React.FC = () => {
           <div className="aboutus-section__content-column">
             <p className="aboutus-section__text text">
               En Dos por Dos Grupo Imagen llevamos más de 38 años creando
-              proyectos integrales que conectan marcas con personas. Acompañamos
-              a nuestros clientes desde la estrategia y la consultoría hasta el
-              diseño, la fabricación, la impresión, el montaje y el
-              mantenimiento de espacios comerciales, promocionales y
-              experienciales. Nos implicamos en cada fase del proceso con un
+              proyectos integrales que conectan marcas con personas. <br />
+              <br />
+              Acompañamos a nuestros clientes desde la estrategia y la
+              consultoría hasta el diseño, la fabricación, la impresión, el
+              montaje y el mantenimiento de espacios comerciales, promocionales
+              y experienciales. Nos implicamos en cada fase del proceso con un
               equipo propio y una ejecución impecable, adaptada a cada necesidad
-              y a cada isla. Nuestra capacidad de dar servicio simultaneo en
-              varias islas, nuestra experiencia multisectorial y nuestro
-              compromiso con la sostenibilidad nos convierten en el socio ideal
-              para quienes buscan resultados reales, con creatividad, agilidad y
-              excelencia.
+              y a cada isla. <br /> <br /> Nuestra capacidad de dar servicio
+              simultaneo en varias islas, nuestra experiencia multisectorial y
+              nuestro compromiso con la sostenibilidad nos convierten en el
+              socio ideal para quienes buscan resultados reales, con
+              creatividad, agilidad y excelencia.
             </p>
             <div className="aboutus-section__cta">
               <SecondaryButton

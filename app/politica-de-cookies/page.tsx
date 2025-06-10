@@ -11,11 +11,12 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Footer from "@/components/layout/Footer/footer";
 
-import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
+import { charAnimation } from "@/utils/animations/text-anim";
 
 import "./cookies-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
 import Link from "next/link";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const CookiesPage: React.FC = () => {
   useScrollSmooth();
@@ -29,8 +30,8 @@ const CookiesPage: React.FC = () => {
 
   useGSAP(() => {
     const timer = setTimeout(() => {
-      fadeAnimation();
       charAnimation();
+      footerAnimation();
     }, 100);
 
     return () => clearTimeout(timer);
@@ -48,7 +49,7 @@ const CookiesPage: React.FC = () => {
 
           <div className="cookies-page__content">
             <section className="cookies-page__section">
-              <h3 className="cookies-page__section-title fade_bottom">
+              <h3 className="cookies-page__section-title ">
                 Concepto de Cookies
               </h3>
               <p>
@@ -79,7 +80,7 @@ const CookiesPage: React.FC = () => {
             </section>
 
             <section className="cookies-page__section">
-              <h3 className="cookies-page__section-title fade_bottom">
+              <h3 className="cookies-page__section-title ">
                 Autorización para el uso de cookies
               </h3>
               <p>
@@ -93,7 +94,7 @@ const CookiesPage: React.FC = () => {
             </section>
 
             <section className="cookies-page__section">
-              <h3 className="cookies-page__section-title fade_bottom">
+              <h3 className="cookies-page__section-title ">
                 Tipos de Cookies que se utilizan en la Web
               </h3>
               <p>En este sitio web usamos las cookies para:</p>
@@ -166,7 +167,7 @@ const CookiesPage: React.FC = () => {
             </section>
 
             <section className="cookies-page__section">
-              <h3 className="cookies-page__section-title fade_bottom">
+              <h3 className="cookies-page__section-title ">
                 Configuración del navegador
               </h3>
               <p>

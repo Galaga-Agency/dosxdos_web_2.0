@@ -34,7 +34,6 @@ export function accionSocialHeroAnim() {
       defaults: {
         duration: 1.7,
         ease: "power2.out",
-        delay: 0.5,
       },
     });
 

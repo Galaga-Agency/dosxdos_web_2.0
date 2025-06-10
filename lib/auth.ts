@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
         const password = credentials?.password;
 
         const expectedUsername =
-          process.env.ADMIN_USERNAME || "dosxdos";
+          process.env.ADMIN_USERNAME || "dosxdos2025";
         const expectedPassword =
           process.env.ADMIN_PASSWORD || "dosxdos2025*";
 

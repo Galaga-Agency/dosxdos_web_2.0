@@ -3,23 +3,14 @@
 @use "abstracts/mixins" as *;
 @use "base/animations" as *;
 
-// FORCE SMOOTH SCROLL
-html {
-  scroll-behavior: smooth !important;
-}
-
-body.smooth-scroll {
-  scroll-behavior: smooth !important;
-}
-
 .blog-detail {
   position: relative;
   width: 100%;
   background-color: $white;
 
-  // Header section - LIKE SCREENSHOT
   &__header {
-    @include section-padding-y();
+    @include section-padding-top();
+    @include margin(2xl, y);
   }
 
   &__header-container {
@@ -42,22 +33,22 @@ body.smooth-scroll {
   }
 
   &__category {
-    opacity: 0;
-    @include margin(md, bottom);
-
-    span {
-      @include font-size(sm);
-      @include font-weight(medium);
-      color: rgba($black, 0.6);
-      text-transform: uppercase;
-      @include letter-spacing(wide);
-    }
+    background-color: $black;
+    color: $white;
+    width: fit-content;
+    @include padding(sm, x);
+    @include padding(xs, y);
+    @include border-radius(md);
+    @include flex(row, center, center);
+    @include font-size(sm);
+    @include gap(xs);
+    transition: all 0.3s ease;
+    margin: 0 auto 2.5rem auto;
   }
 
   &__meta {
     @include flex(row, center, center);
     @include gap(xl);
-    opacity: 0;
     flex-wrap: wrap;
 
     @include min-width(md) {
@@ -77,7 +68,6 @@ body.smooth-scroll {
     }
   }
 
-  // Hero container - 70vh (STAYS FIXED)
   &__hero-container {
     height: 70vh;
     min-height: 400px;
@@ -85,12 +75,11 @@ body.smooth-scroll {
     position: relative;
   }
 
-  // Hero image - PARALLAX THIS
   &__hero {
     position: relative;
     background-size: cover;
     background-position: center;
-    height: 120%; // Bigger for parallax movement
+    height: 120%;
     width: 100%;
     background-color: $white;
     will-change: transform;
@@ -102,6 +91,11 @@ body.smooth-scroll {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+  }
+
+  &__title {
+    opacity: 0;
+    visibility: hidden;
   }
 
   &__hero-content {
@@ -135,7 +129,6 @@ body.smooth-scroll {
   }
 
   &__hero-category {
-    opacity: 0;
     span {
       display: inline-block;
       background-color: rgba($white, 0.85);
@@ -148,7 +141,6 @@ body.smooth-scroll {
   }
 
   &__hero-date {
-    opacity: 0;
     padding: 0.5rem 1rem;
     background-color: rgba($black, 0.85);
     color: white;
@@ -157,14 +149,8 @@ body.smooth-scroll {
     pointer-events: auto;
   }
 
-  &__hero-title {
-    color: $white;
-    opacity: 0;
-  }
-
   &__hero-author {
     @include margin(lg, bottom);
-    opacity: 1;
 
     span {
       @include font-size(base);
@@ -177,7 +163,8 @@ body.smooth-scroll {
     @include container-width(mobile);
     margin: 0 auto;
     position: relative;
-    @include section-spacing;
+    @include section-padding-bottom();
+    @include margin(2xl, top);
 
     @include min-width(md) {
       @include container-width(tablet);

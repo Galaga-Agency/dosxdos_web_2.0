@@ -1,5 +1,9 @@
-import Loading from "@/components/ui/Loading/Loading";
+import React from "react";
 
-export default function LoginLoading() {
-  return <Loading />;
-}
+const LoginLayout: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  return <>{children}</>;
+};
+
+export default LoginLayout;

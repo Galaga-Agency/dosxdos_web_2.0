@@ -11,10 +11,11 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 import SocialIcons from "@/components/SocialIcons/SocialIcons";
 import Footer from "@/components/layout/Footer/footer";
 
-import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
+import { charAnimation } from "@/utils/animations/text-anim";
 
 import "./privacidad-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const PrivacidadPage: React.FC = () => {
   useScrollSmooth();
@@ -28,8 +29,8 @@ const PrivacidadPage: React.FC = () => {
 
   useGSAP(() => {
     const timer = setTimeout(() => {
-      fadeAnimation();
       charAnimation();
+      footerAnimation();
     }, 100);
 
     return () => clearTimeout(timer);
@@ -47,9 +48,7 @@ const PrivacidadPage: React.FC = () => {
 
           <div className="privacidad-page__content">
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
-                Introducción
-              </h3>
+              <h3 className="privacidad-page__section-title ">Introducción</h3>
               <p>
                 La presente Política de Privacidad ha sido desarrollada teniendo
                 en cuenta lo dispuesto por la Ley Orgánica de Protección de
@@ -72,7 +71,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
+              <h3 className="privacidad-page__section-title ">
                 Responsable del tratamiento
               </h3>
               <p>
@@ -102,7 +101,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
+              <h3 className="privacidad-page__section-title ">
                 Tratamientos de datos
               </h3>
               <p>
@@ -136,7 +135,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
+              <h3 className="privacidad-page__section-title ">
                 Finalidades del tratamiento
               </h3>
               <p>
@@ -159,9 +158,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
-                Legitimación
-              </h3>
+              <h3 className="privacidad-page__section-title ">Legitimación</h3>
               <p>
                 Por regla general, previo al tratamiento de los datos
                 personales, DOS POR DOS GRUPO IMAGEN, S.L. obtiene
@@ -179,9 +176,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
-                Destinatarios
-              </h3>
+              <h3 className="privacidad-page__section-title ">Destinatarios</h3>
               <p>
                 Por regla general, DOS POR DOS GRUPO IMAGEN, S.L. no procede a
                 la cesión o comunicación de los datos a terceras entidades,
@@ -194,9 +189,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
-                Procedencia
-              </h3>
+              <h3 className="privacidad-page__section-title ">Procedencia</h3>
               <p>
                 Por regla general, los datos personales se recogen siempre
                 directamente del interesado, no obstante, en determinadas
@@ -211,7 +204,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
+              <h3 className="privacidad-page__section-title ">
                 Plazos de conservación
               </h3>
               <p>
@@ -287,7 +280,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
+              <h3 className="privacidad-page__section-title ">
                 Datos de navegación
               </h3>
               <p>
@@ -299,7 +292,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
+              <h3 className="privacidad-page__section-title ">
                 Derechos de los interesados
               </h3>
               <p>
@@ -417,9 +410,7 @@ const PrivacidadPage: React.FC = () => {
             </section>
 
             <section className="privacidad-page__section">
-              <h3 className="privacidad-page__section-title fade_bottom">
-                Seguridad
-              </h3>
+              <h3 className="privacidad-page__section-title ">Seguridad</h3>
               <p>
                 Las medidas de seguridad adoptadas por DOS POR DOS GRUPO IMAGEN,
                 S.L. son aquellas requeridas, de conformidad con lo establecido
