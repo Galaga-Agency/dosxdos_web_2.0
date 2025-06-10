@@ -100,7 +100,7 @@ const DisenoInterioresPage = () => {
         </div>
 
         <div className="diseno-interiores-page__container">
-          <DisenoInterioresHeroSection onImagesLoad={handleHeroImagesLoad} />
+          <DisenoInterioresHeroSection onImageLoad={handleHeroImagesLoad} />
           <DisenoInterioresProcessSection />
           <DisenoInterioresMethodologySection />
           <DisenoInterioresLinesSection />

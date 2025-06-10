@@ -3,29 +3,29 @@
 import { gsap } from "gsap";
 
 export function accionSocialHeroAnim() {
-  // Check for both accion-social-hero and diseno-interiores-hero
+  // Check for all accion-social-hero, diseno-interiores-hero y comunicacion-hero
   const heroArea = document.querySelector(
-    ".accion-social-hero, .diseno-interiores-hero"
+    ".accion-social-hero, .diseno-interiores-hero, .comunicacion-hero"
   );
 
   // Select elements from either page
   const bgContainer = document.querySelector(
-    ".accion-social-hero__bg-container, .diseno-interiores-hero__bg-container"
+    ".accion-social-hero__bg-container, .diseno-interiores-hero__bg-container, .comunicacion-hero__bg-container"
   );
   const titleRef1 = document.querySelector(
-    ".accion-social-hero__title.text-1, .diseno-interiores-hero__title.text-1"
+    ".accion-social-hero__title.text-1, .diseno-interiores-hero__title.text-1, .comunicacion-hero__title.text-1"
   );
   const titleRef2 = document.querySelector(
-    ".accion-social-hero__title.text-2, .diseno-interiores-hero__title.text-2"
+    ".accion-social-hero__title.text-2, .diseno-interiores-hero__title.text-2, .comunicacion-hero__title.text-2"
   );
   const labelRef = document.querySelector(
-    ".accion-social-hero__label, .diseno-interiores-hero__label"
+    ".accion-social-hero__label, .diseno-interiores-hero__label, .comunicacion-hero__label"
   );
   const descriptionRef = document.querySelector(
-    ".accion-social-hero__description, .diseno-interiores-hero__description"
+    ".accion-social-hero__description, .diseno-interiores-hero__description, .comunicacion-hero__description"
   );
   const ctaRef = document.querySelector(
-    ".accion-social-hero__cta, .diseno-interiores-hero__cta"
+    ".accion-social-hero__cta, .diseno-interiores-hero__cta, .comunicacion-hero__cta"
   );
 
   if (heroArea) {
