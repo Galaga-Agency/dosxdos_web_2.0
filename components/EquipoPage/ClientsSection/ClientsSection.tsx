@@ -6,11 +6,10 @@ import "./ClientsSection.scss";
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 
 const ClientsSection: React.FC = () => {
-
   return (
     <section className="clients-section">
       <div className="clients-section__container container">
-        <h2 className="clients-section__title secondary-title fade_bottom">
+        <h2 className="clients-section__title secondary-title ">
           Nuestros clientes
         </h2>
       </div>

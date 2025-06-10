@@ -18,7 +18,7 @@
     }
 
     @include min-width(md) {
-      @include grid(2, 4xl);
+      @include grid(2, 6xl);
     }
   }
 
@@ -41,8 +41,7 @@
     }
 
     @include min-width(xl) {
-      width: 80%;
-      margin-left: auto;
+      width: 90%;
     }
   }
 
@@ -97,8 +96,7 @@
     }
 
     @include min-width(xl) {
-      width: 80%;
-      margin-right: auto;
+      width: 100%;
     }
   }
 

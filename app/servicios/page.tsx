@@ -15,7 +15,7 @@ import ServicesGrid from "@/components/ServiciosPage/ServicesGrid/ServicesGrid";
 import VisionSection from "@/components/ServiciosPage/VisionSection/VisionSection";
 import Footer from "@/components/layout/Footer/footer";
 
-import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
+import { charAnimation } from "@/utils/animations/text-anim";
 import { imageRevealAnimation } from "@/utils/animations/image-reveal-anim";
 import { projectHoverAnim } from "@/utils/animations/projects-hover-anim";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
@@ -28,6 +28,7 @@ import { useDataStore } from "@/store/useDataStore";
 
 import "./servicios-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const ServiciosPage: React.FC = () => {
   useScrollSmooth();
@@ -54,15 +55,14 @@ const ServiciosPage: React.FC = () => {
 
   useGSAP(() => {
     const timer = setTimeout(() => {
-      fadeAnimation();
       charAnimation();
       imageRevealAnimation();
       cursorBubbleAnimation();
       animateServiciosHero();
-      projectHoverAnim();
       revealForTouchDevices();
       highlightAnimation();
       randomStaggerAnimation();
+      footerAnimation();
     }, 100);
 
     return () => clearTimeout(timer);

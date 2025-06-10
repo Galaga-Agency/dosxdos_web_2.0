@@ -12,12 +12,12 @@ const ConsultoriaAboutSection: React.FC = () => {
     <section className="consultoria-about">
       <div className="consultoria-about__container container">
         <div className="consultoria-about__header header">
-          <div className="consultoria-about__label label fade_bottom">
+          <div className="consultoria-about__label label ">
             (Más de 38 años de experiencia)
           </div>
           <h2 className="consultoria-about__title secondary-title">
-            Pensamos contigo, trabajamos a tu lado,{" "}
-            y ejecutamos <span className="highlight">con propósito.</span>
+            Pensamos contigo, trabajamos a tu lado, y ejecutamos{" "}
+            <span className="highlight">con propósito.</span>
           </h2>
         </div>
 

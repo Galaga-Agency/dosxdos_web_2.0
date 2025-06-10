@@ -373,6 +373,11 @@
     }
   }
 
+  &__empty {
+    min-height: 80vh;
+    @include flex(column, center, center);
+  }
+
   #pagination-section {
     scroll-margin-top: 100px;
   }

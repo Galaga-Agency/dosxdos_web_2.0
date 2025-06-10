@@ -1,38 +1,47 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+
 import { createOrUpdateProject } from "@/lib/project-service";
 import { Project } from "@/types/project-types";
-import "./new-project-page.scss";
-import { useRouter } from "next/navigation";
-import { Trash2, Upload, Image } from "lucide-react";
-import gsap from "gsap";
+import { useDataStore } from "@/store/useDataStore";
+import {
+  projectFormAnimation,
+  projectFormSubmitAnimation,
+  projectFormResetAnimation,
+} from "@/utils/animations/project-form-anim";
+
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
-import { useDataStore } from "@/store/useDataStore";
 import Footer from "@/components/layout/Footer/footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
+import "./new-project-page.scss";
+import TagsInput from "@/components/TagsInput";
+import CoverImageUpload from "@/components/CoverImageUpload/CoverImageUpload";
+import GalleryUpload from "@/components/GalleryUpload";
+
+gsap.registerPlugin(useGSAP);
+
 export default function NewProjectPage() {
   const router = useRouter();
+
+  // Form state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [projectImages, setProjectImages] = useState<string[]>([]);
-  const [projectId] = useState(() => uuidv4());
   const [services, setServices] = useState<string[]>([]);
-  const [serviceInput, setServiceInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState("");
+  const [projectId] = useState(() => uuidv4());
 
   // Refs
-  const pageRef = useRef(null);
-  const headerRef = useRef(null);
-  const formRef = useRef(null);
   const coverImageInputRef = useRef<HTMLInputElement>(null);
-  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -52,26 +61,16 @@ export default function NewProjectPage() {
     },
   });
 
-  // Animations
-  useEffect(() => {
-    const tl = gsap.timeline();
+  // Initialize animations
+  useGSAP(() => {
+    const timer = setTimeout(() => {
+      projectFormAnimation();
+    }, 100);
 
-    if (headerRef.current && formRef.current) {
-      tl.fromTo(
-        headerRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
-      );
-
-      tl.fromTo(
-        formRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-        "-=0.3"
-      );
-    }
+    return () => clearTimeout(timer);
   }, []);
 
+  // Handle cover image upload
   const handleCoverImageChange = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -102,84 +101,23 @@ export default function NewProjectPage() {
     }
   };
 
-  const handleGalleryImagesChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    try {
-      const uploadPromises = Array.from(files).map(async (file) => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("articleId", projectId);
-
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!res.ok) {
-          throw new Error("Image upload failed");
-        }
-
-        const { url } = await res.json();
-        return url;
-      });
-
-      const uploadedUrls = await Promise.all(uploadPromises);
-      setProjectImages((prev) => [...prev, ...uploadedUrls]);
-    } catch (err) {
-      console.error("Failed to upload gallery images:", err);
-      alert("No se pudieron subir algunas imágenes de la galería");
-    }
-  };
-
-  const handleRemoveCoverImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  // Handle removing cover image
+  const handleRemoveCoverImage = () => {
     setCoverImage(null);
     if (coverImageInputRef.current) {
       coverImageInputRef.current.value = "";
     }
   };
 
-  const handleRemoveGalleryImage = (index: number) => {
-    setProjectImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleServiceKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && serviceInput.trim()) {
-      e.preventDefault();
-      if (!services.includes(serviceInput.trim())) {
-        setServices([...services, serviceInput.trim()]);
-      }
-      setServiceInput("");
-    }
-  };
-
-  const removeService = (service: string) => {
-    setServices(services.filter((s) => s !== service));
-  };
-
-  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && tagInput.trim()) {
-      e.preventDefault();
-      if (!tags.includes(tagInput.trim())) {
-        setTags([...tags, tagInput.trim()]);
-      }
-      setTagInput("");
-    }
-  };
-
-  const removeTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
-  };
-
+  // Handle form submission
   const onSubmit = async (data: Partial<Project>) => {
     try {
       setIsSubmitting(true);
 
-      // Create the project
+      // Animate form before submission
+      await projectFormSubmitAnimation();
+
+      // Create project object
       const newProject: Project = {
         id: uuidv4(),
         date: new Date().toISOString(),
@@ -202,66 +140,41 @@ export default function NewProjectPage() {
         featured: data.featured || false,
       };
 
-      // Animation before submitting
-      if (formRef.current) {
-        await gsap.to(formRef.current, {
-          opacity: 0.7,
-          scale: 0.98,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-
-      // Call server action to create project
-      const createdProject = await createOrUpdateProject(newProject);
+      // Submit project
+      await createOrUpdateProject(newProject);
 
       // Update store with new project
       const fetchProjects = useDataStore.getState().fetchProjects;
-      await fetchProjects(); // Refresh store data
+      await fetchProjects();
 
-      // Success animation
-      if (formRef.current) {
-        await gsap.to(formRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-
-      // Redirect to admin panel
+      // Reset form animation and redirect
+      await projectFormResetAnimation();
       router.push("/admin");
     } catch (error) {
       console.error("Error creating project:", error);
       alert("No se pudo crear el proyecto. Por favor, inténtalo de nuevo.");
 
-      // Reset form animation
-      if (formRef.current) {
-        gsap.to(formRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-
+      // Reset form animation on error
+      await projectFormResetAnimation();
       setIsSubmitting(false);
     }
   };
 
   return (
     <ProtectedRoute>
-      <div className="new-project-page" ref={pageRef}>
+      <div className="new-project-page">
         <div className="new-project-page__container container">
-          <div className="new-project-page__header header" ref={headerRef}>
+          {/* Header */}
+          <div className="new-project-page__header header">
             <h1 className="secondary-title">Crear Nuevo Proyecto</h1>
           </div>
 
+          {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="new-project-page__form"
-            ref={formRef}
           >
+            {/* Project Name */}
             <div className="form-group">
               <label htmlFor="name">Nombre del Proyecto</label>
               <input
@@ -277,6 +190,7 @@ export default function NewProjectPage() {
               )}
             </div>
 
+            {/* Client and Location Row */}
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="client">Cliente</label>
@@ -310,6 +224,7 @@ export default function NewProjectPage() {
               </div>
             </div>
 
+            {/* Duration and Year Row */}
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="duration">Duración</label>
@@ -347,6 +262,7 @@ export default function NewProjectPage() {
               </div>
             </div>
 
+            {/* Description */}
             <div className="form-group">
               <label htmlFor="description">Descripción</label>
               <textarea
@@ -366,6 +282,7 @@ export default function NewProjectPage() {
               )}
             </div>
 
+            {/* Challenge */}
             <div className="form-group">
               <label htmlFor="challenge">Desafío</label>
               <textarea
@@ -385,6 +302,7 @@ export default function NewProjectPage() {
               )}
             </div>
 
+            {/* Solution */}
             <div className="form-group">
               <label htmlFor="solution">Solución</label>
               <textarea
@@ -404,156 +322,46 @@ export default function NewProjectPage() {
               )}
             </div>
 
+            {/* Services - Reusing TagsInput component */}
             <div className="form-group">
               <label htmlFor="services">Servicios</label>
-              <input
-                type="text"
-                id="services"
-                className="form-input"
+              <TagsInput
+                tags={services}
+                onTagsChange={setServices}
+                disabled={isSubmitting}
                 placeholder="Presiona Enter para agregar un servicio"
-                value={serviceInput}
-                onChange={(e) => setServiceInput(e.target.value)}
-                onKeyDown={handleServiceKeyDown}
-                disabled={isSubmitting}
+                inputId="services"
               />
-              <div className="tag-list">
-                {services.map((service) => (
-                  <div key={service} className="tag-item">
-                    {service}
-                    <button
-                      type="button"
-                      onClick={() => removeService(service)}
-                      className="tag-remove"
-                      aria-label="Eliminar servicio"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="tags">Etiquetas</label>
-              <input
-                type="text"
-                id="tags"
-                className="form-input"
-                placeholder="Presiona Enter para agregar una etiqueta"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={handleTagKeyDown}
-                disabled={isSubmitting}
-              />
-              <div className="tag-list">
-                {tags.map((tag) => (
-                  <div key={tag} className="tag-item">
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => removeTag(tag)}
-                      className="tag-remove"
-                      aria-label="Eliminar etiqueta"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Tags */}
+            <TagsInput
+              tags={tags}
+              onTagsChange={setTags}
+              disabled={isSubmitting}
+            />
 
+            {/* Cover Image */}
             <div className="form-group">
               <label className="form-label">Imagen Principal</label>
-              <div className="cover-image-upload">
-                <input
-                  type="file"
-                  ref={coverImageInputRef}
-                  style={{ display: "none" }}
-                  accept="image/*"
-                  onChange={handleCoverImageChange}
-                  disabled={isSubmitting}
-                />
-
-                <div
-                  className={`cover-image-preview ${
-                    !coverImage ? "empty" : ""
-                  }`}
-                  onClick={() =>
-                    !isSubmitting && coverImageInputRef.current?.click()
-                  }
-                >
-                  {coverImage ? (
-                    <>
-                      <img src={coverImage} alt="Imagen principal" />
-                      <button
-                        type="button"
-                        className="cover-image-delete-btn"
-                        onClick={handleRemoveCoverImage}
-                        disabled={isSubmitting}
-                        aria-label="Eliminar imagen"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </>
-                  ) : (
-                    <div className="cover-image-placeholder">
-                      <div className="cover-image-icon">
-                        <Image size={32} />
-                      </div>
-                      <p>Haz clic para subir la imagen principal</p>
-                      <span className="cover-image-note">
-                        Esta será la imagen de portada del proyecto
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <CoverImageUpload
+                coverImage={coverImage}
+                coverImageInputRef={coverImageInputRef as any}
+                isSubmitting={isSubmitting}
+                onImageChange={handleCoverImageChange}
+                onRemoveImage={handleRemoveCoverImage}
+              />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Galería de Imágenes</label>
-              <div className="gallery-upload">
-                <input
-                  type="file"
-                  ref={galleryInputRef}
-                  style={{ display: "none" }}
-                  accept="image/*"
-                  multiple
-                  onChange={handleGalleryImagesChange}
-                  disabled={isSubmitting}
-                />
+            {/* Gallery Images */}
+            <GalleryUpload
+              images={projectImages}
+              onImagesChange={setProjectImages}
+              projectId={projectId}
+              disabled={isSubmitting}
+            />
 
-                <button
-                  type="button"
-                  className="gallery-upload-btn"
-                  onClick={() =>
-                    !isSubmitting && galleryInputRef.current?.click()
-                  }
-                  disabled={isSubmitting}
-                >
-                  <Upload size={20} />
-                  Subir Imágenes
-                </button>
-
-                <div className="gallery-grid">
-                  {projectImages.map((image, index) => (
-                    <div key={index} className="gallery-item">
-                      <img src={image} alt={`Imagen ${index + 1}`} />
-                      <button
-                        type="button"
-                        className="gallery-item-delete"
-                        onClick={() => handleRemoveGalleryImage(index)}
-                        disabled={isSubmitting}
-                        aria-label="Eliminar imagen"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
+            {/* Featured Checkbox */}
             <div className="form-group">
               <CustomCheckbox
                 id="featured"
@@ -563,6 +371,7 @@ export default function NewProjectPage() {
               />
             </div>
 
+            {/* Form Actions */}
             <div className="form-actions">
               <SecondaryButton
                 type="button"
@@ -579,6 +388,7 @@ export default function NewProjectPage() {
           </form>
         </div>
       </div>
+
       <Footer />
     </ProtectedRoute>
   );

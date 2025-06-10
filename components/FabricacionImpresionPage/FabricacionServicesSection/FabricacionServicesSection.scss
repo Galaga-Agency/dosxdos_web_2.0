@@ -41,10 +41,6 @@
       flex-direction: row;
       @include gap(4xl);
     }
-
-    @include min-width(xl) {
-      @include gap(6xl);
-    }
   }
 
   &__header {
@@ -60,7 +56,7 @@
     @include margin(xl, y);
     display: flex;
     flex-wrap: wrap;
-    @include gap(md);
+    @include gap(sm);
     justify-content: flex-start;
     width: 100%;
 
@@ -71,7 +67,6 @@
 
     @include min-width(xl) {
       width: 35%;
-      @include gap(lg);
     }
   }
 
@@ -80,18 +75,19 @@
     @include font-weight(medium);
     line-height: 1.2;
     text-align: center;
-    @include padding(sm, all);
+    padding-block: 12px;
+    @include padding(sm, x);
     @include border-radius(full);
     display: inline-block;
-    color: $black;
-    background-color: $white;
-    border: 1px solid $black;
+    color: $white;
+    background-color: $black;
+    border: 1px solid $white;
     white-space: nowrap;
     @include transition(all, normal, ease);
     cursor: pointer;
 
     &:hover {
-      background-color: $secondary-color;
+      background-color: rgba($white, 0.2);
     }
   }
 
@@ -106,7 +102,7 @@
   &__text {
     @include font-size(base);
     line-height: 1.6;
-    color: rgba($white, 0.8)!important;
+    color: rgba($white, 0.8) !important;
     @include margin(lg, bottom);
 
     @include min-width(md) {

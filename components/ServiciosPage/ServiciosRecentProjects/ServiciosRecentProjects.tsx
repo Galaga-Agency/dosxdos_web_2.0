@@ -116,7 +116,7 @@ const ServiciosRecentProjects: React.FC<ServiciosRecentProjectsProps> = ({
               {recentProjects.map((project) => (
                 <Link
                   href={`/portfolio/${project.slug}`}
-                  className="servicios-recent-projects__item reveal-item"
+                  className="servicios-recent-projects__item"
                   key={project.id}
                 >
                   <div className="servicios-recent-projects__image-wrapper">
@@ -127,15 +127,6 @@ const ServiciosRecentProjects: React.FC<ServiciosRecentProjectsProps> = ({
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
                       className="servicios-recent-projects__image"
                     />
-                  </div>
-
-                  <div className="servicios-recent-projects__hover-info reveal-content">
-                    <span className="servicios-recent-projects__label reveal-label">
-                      CREATIVO
-                    </span>
-                    <span className="servicios-recent-projects__item-title reveal-title">
-                      {project.name}
-                    </span>
                   </div>
                 </Link>
               ))}

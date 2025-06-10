@@ -25,7 +25,7 @@ import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 
 import { useDataStore } from "@/store/useDataStore";
 
-import { charAnimation, fadeAnimation } from "@/utils/animations/text-anim";
+import { charAnimation } from "@/utils/animations/text-anim";
 import { panelTwoAnimation } from "@/utils/animations/panel-animation";
 import { imageParallax } from "@/utils/animations/image-parallax";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
@@ -36,6 +36,7 @@ import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animat
 import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { servicesList } from "@/data/services";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const heroSlides = [
   {
@@ -99,7 +100,6 @@ const HomePage = () => {
     setHeroReady(true);
   }, []);
 
-  // Initialize hero animations immediately when hero is ready
   useGSAP(() => {
     if (heroReady && !animationsInitialized) {
       // Set a flag to prevent re-initialization
@@ -107,16 +107,18 @@ const HomePage = () => {
 
       // Initialize hero animations immediately
       animateHeroSlider();
-      initRollingTextAnimation();
+
+      // Initialize rolling text (but don't start auto-animation since HeroSlider controls it)
+      const cleanupRollingText = initRollingTextAnimation();
 
       // Initialize other base animations with a small delay for DOM readiness
       const timer = setTimeout(() => {
-        fadeAnimation();
         charAnimation();
         imageParallax();
         hoverCircleButtonAnimation();
         highlightAnimation();
         featuredImageAnimation();
+        footerAnimation();
 
         // Initialize service animations if services exist
         if (hasServices) {
@@ -125,9 +127,19 @@ const HomePage = () => {
       }, 200);
 
       // Store cleanup function
-      cleanupRef.current = () => clearTimeout(timer);
+      cleanupRef.current = () => {
+        clearTimeout(timer);
+        if (cleanupRollingText) {
+          cleanupRollingText();
+        }
+      };
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        if (cleanupRollingText) {
+          cleanupRollingText();
+        }
+      };
     }
   }, [heroReady, animationsInitialized, hasServices]);
 
@@ -155,26 +167,26 @@ const HomePage = () => {
 
   return (
     <PageWrapper>
-          <div className="breadcrumbs">
-            <div className="container">
-              <Breadcrumbs items={breadcrumbItems} />
-            </div>
-          </div>
+      <div className="breadcrumbs">
+        <div className="container">
+          <Breadcrumbs items={breadcrumbItems} />
+        </div>
+      </div>
 
-          <main>
-            <HeroSlider
-              slides={heroSlides}
-              autoplaySpeed={3000}
-              onImagesLoad={handleHeroReady}
-            />
-            <AboutUsSection />
-            <LogoMarquee />
-            <ServicesSection services={servicesList} />
-            <FeaturedprojectsSection projects={featuredProjects} />
-            <BlogCarouselSection posts={publishedPosts} />
-          </main>
+      <main>
+        <HeroSlider
+          slides={heroSlides}
+          autoplaySpeed={3000}
+          onImagesLoad={handleHeroReady}
+        />
+        <AboutUsSection />
+        <LogoMarquee />
+        <ServicesSection services={servicesList} />
+        <FeaturedprojectsSection projects={featuredProjects} />
+        <BlogCarouselSection posts={publishedPosts} />
+      </main>
 
-          <Footer />
+      <Footer />
     </PageWrapper>
   );
 };

@@ -28,7 +28,7 @@ const MontajeMantenimientoProcessSection: React.FC = () => {
   return (
     <section className="montaje-mantenimiento-process">
       <div className="montaje-mantenimiento-process__container container">
-        <h3 className="montaje-mantenimiento-process__label label fade_bottom">
+        <h3 className="montaje-mantenimiento-process__label label ">
           (Montaje. Especialistas en servicio llave en mano.)
         </h3>
         <h2 className="montaje-mantenimiento-process__title secondary-title">
@@ -48,7 +48,7 @@ const MontajeMantenimientoProcessSection: React.FC = () => {
           </p>
 
           <div className="montaje-mantenimiento-process__services">
-            <h3 className="montaje-mantenimiento-process__label label fade_bottom">
+            <h3 className="montaje-mantenimiento-process__label label ">
               (¿De qué nos encargamos?)
             </h3>
             {services.map((service, index) => (

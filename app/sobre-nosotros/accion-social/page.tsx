@@ -17,22 +17,22 @@ import ExperienciaSection from "@/components/AccionSocialPage/ExperienciaSection
 import CollaborationsSection from "@/components/AccionSocialPage/CollaborationsSection/CollaborationsSection";
 import AccionSocialCTASection from "@/components/AccionSocialPage/AccionSocialCTASection/AccionSocialCTASection";
 import Footer from "@/components/layout/Footer/footer";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
-import { fadeAnimation, charAnimation } from "@/utils/animations/text-anim";
+import { charAnimation } from "@/utils/animations/text-anim";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 import "./accion-social-page.scss";
-import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
 const AccionSocialPage = () => {
   useScrollSmooth();
   const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
-  // Define breadcrumbs for this page / for SEO
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
     { name: "Sobre Nosotros", href: "/sobre-nosotros" },
@@ -46,27 +46,25 @@ const AccionSocialPage = () => {
     };
   }, []);
 
-  // Callback for when hero image loads
   const handleHeroImageLoad = useCallback(() => {
     setHeroImageLoaded(true);
   }, []);
 
-  // Run animations only after hero image has loaded
   useGSAP(() => {
     if (!heroImageLoaded) return;
 
     const timer = setTimeout(() => {
       accionSocialHeroAnim();
-      fadeAnimation();
       charAnimation();
       initCardMouseParallax();
       servicePanel();
       featuredImageAnimation();
       highlightAnimation();
-    }, 100); // Reduced delay since image is already loaded
+      footerAnimation();
+    }, 100); 
 
     return () => clearTimeout(timer);
-  }, [heroImageLoaded]); // Dependency on heroImageLoaded
+  }, [heroImageLoaded]);
 
   return (
     <PageWrapper>
@@ -75,23 +73,14 @@ const AccionSocialPage = () => {
           <Breadcrumbs items={breadcrumbItems} />
         </div>
 
-        <div className="accion-social-page__container">
+        <main className="accion-social-page__container">
           <HeroSection onImageLoad={handleHeroImageLoad} />
           <ValuesSection />
           <SustainabilityImagesSection />
           <ExperienciaSection />
           <CollaborationsSection />
           <AccionSocialCTASection />
-          <div className="accion-social-page__mobile-social-section">
-            <div className="accion-social-page__mobile-social-header">
-              <h3 className="accion-social-page__mobile-social-title">
-                Síguenos
-              </h3>
-              <div className="accion-social-page__mobile-social-divider"></div>
-            </div>
-            <SocialIcons orientation="horizontal" />
-          </div>
-        </div>
+        </main>
       </div>
       <Footer />
     </PageWrapper>

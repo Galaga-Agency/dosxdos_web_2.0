@@ -13,10 +13,11 @@ const CollaborationsSection: React.FC = () => {
         <h3 className="collaborations-section__label label">
           (Comprometidos con lo que de verdad importa)
         </h3>
-        <h2 className="collaborations-section__title secondary-title fade_bottom">
-          Colaboramos con quienes <span className="highlight">transforman vidas</span>.
+        <h2 className="collaborations-section__title secondary-title ">
+          Colaboramos con quienes{" "}
+          <span className="highlight">transforman vidas</span>.
         </h2>
-        <p className="collaborations-section__subtitle subtitle fade_bottom">
+        <p className="collaborations-section__subtitle subtitle ">
           Apoyamos a fundaciones y organizaciones que construyen un futuro más
           justo. Diseñamos con propósito, y también con corazón.
         </p>

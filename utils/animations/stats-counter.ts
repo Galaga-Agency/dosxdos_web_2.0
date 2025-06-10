@@ -35,23 +35,86 @@ export function initStatsCounter() {
     0.3 // Unified delay of 0.3
   );
 
+  // Helper function to parse and format numbers
+  const parseStatValue = (value: string) => {
+    // Remove any non-numeric characters except decimal points for parsing
+    const cleanValue = value.replace(/[^\d.,]/g, "");
+
+    if (value.includes("K")) {
+      // Handle K values like "2,2K" or "52K"
+      const numValue = parseFloat(cleanValue.replace(",", "."));
+      return {
+        target: numValue,
+        isK: true,
+        hasDecimal: cleanValue.includes(",") || cleanValue.includes("."),
+        prefix: value.includes("+") ? "+" : "",
+        suffix: "K",
+      };
+    } else if (value.includes("%")) {
+      // Handle percentage like "87%"
+      return {
+        target: parseInt(cleanValue),
+        isPercent: true,
+        prefix: "",
+        suffix: "%",
+      };
+    } else if (value.includes("+")) {
+      // Handle "+38"
+      return {
+        target: parseInt(cleanValue),
+        isPlain: true,
+        prefix: "+",
+        suffix: "",
+      };
+    } else {
+      // Handle plain numbers like "228"
+      return {
+        target: parseInt(cleanValue),
+        isPlain: true,
+        prefix: "",
+        suffix: "",
+      };
+    }
+  };
+
   // Animate all stat numbers at the same time
   const statItems = statsContainer.querySelectorAll(".stats-section__item");
   statItems.forEach((el) => {
     const valueEl = el.querySelector(".stats-section__number");
-    const target = parseInt(valueEl?.getAttribute("data-value") || "0", 10);
-    const suffix = valueEl?.getAttribute("data-suffix") || "";
+    const originalValue = valueEl?.textContent || "0";
+    const parsedValue = parseStatValue(originalValue);
+
+    // Clear the initial content
+    if (valueEl) {
+      valueEl.textContent = parsedValue.prefix + "0" + parsedValue.suffix;
+    }
 
     // All stats start at the same time with 0.3s delay
     tl.to(
       { val: 0 },
       {
-        val: target,
+        val: parsedValue.target,
         duration: 2,
         ease: "power2.out",
         onUpdate: function () {
           if (valueEl) {
-            valueEl.textContent = Math.floor(this.targets()[0].val) + suffix;
+            const currentVal = this.targets()[0].val;
+            let displayValue = "";
+
+            if (parsedValue.isK) {
+              // Format K values
+              if (parsedValue.hasDecimal) {
+                displayValue = currentVal.toFixed(1).replace(".", ",");
+              } else {
+                displayValue = Math.floor(currentVal).toString();
+              }
+            } else {
+              // Format regular numbers
+              displayValue = Math.floor(currentVal).toString();
+            }
+
+            valueEl.textContent =
+              parsedValue.prefix + displayValue + parsedValue.suffix;
           }
         },
       },

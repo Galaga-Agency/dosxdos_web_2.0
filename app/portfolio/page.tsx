@@ -12,7 +12,6 @@ import MasProyectosGrid from "@/components/Portfolio2Page/MasProyectosGrid/MasPr
 
 import {
   charAnimation,
-  fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
 import { revealForTouchDevices } from "@/utils/animations/touch-device-reveal";
@@ -22,6 +21,7 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./portfolio-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const PortfolioPage: React.FC = () => {
   const cleanupRef = useRef<(() => void) | null>(null);
@@ -32,12 +32,12 @@ const PortfolioPage: React.FC = () => {
 
   useGSAP(() => {
     const timer = setTimeout(() => {
-      fadeAnimation();
       charAnimation();
       rollUpTextAnimation();
       revealForTouchDevices();
       randomGridAnim();
       highlightAnimation(1.2);
+      footerAnimation();
 
       // Store cleanup function
       cleanupRef.current = cursorBubbleAnimation();

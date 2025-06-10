@@ -8,7 +8,7 @@ const FabricacionServicesSection: React.FC = () => {
     <section className="fabricacion-services">
       <div className="fabricacion-services__container container">
         <div className="fabricacion-services__header header">
-          <div className="fabricacion-services__label label fade_bottom">
+          <div className="fabricacion-services__label label ">
             (Más de 38 años de experiencia)
           </div>
           <h2 className="fabricacion-services__title secondary-title">
@@ -21,17 +21,16 @@ const FabricacionServicesSection: React.FC = () => {
         <div className="fabricacion-services__content">
           <div className="fabricacion-services__categories">
             <div className="fabricacion-services__category">
-              Mobiliario modular <br /> y personalizado
+              Mobiliario modular y personalizado
             </div>
             <div className="fabricacion-services__category">
-              PLV, expositores <br /> y escaparates
+              PLV, expositores y escaparates
             </div>
             <div className="fabricacion-services__category">
-              Elementos decorativos
-              <br /> y estructuras
+              Elementos decorativos y estructuras
             </div>
             <div className="fabricacion-services__category">
-              Soluciones funcionales <br /> y sostenibles
+              Soluciones funcionales y sostenibles
             </div>
           </div>
 

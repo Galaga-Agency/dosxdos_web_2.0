@@ -28,23 +28,21 @@ const ValuesSection: React.FC = () => {
   return (
     <section className="values-section">
       <div className="values-section__container container">
-        <h2 className="values-section__title secondary-title fade_bottom">
-          Nuestro trabajo no termina en el estudio. <br/>
+        <h2 className="values-section__title secondary-title ">
+          Nuestro trabajo no termina en el estudio. <br />
           <span className="highlight">Empieza en la comunidad.</span>
         </h2>
 
         <div className="values-section__description text">
-            Desde Dos x Dos creemos que el privilegio de poder
-            crear debe ir de la mano del{" "}
-            compromiso de contribuir. <br />Por eso
-             apoyamos iniciativas que promueven la inclusión,{" "}
-            colaboramos con entidades que trabajan con quienes
-            más lo necesitan y adoptamos medidas reales para
-            reducir nuestra huella ecológica: desde el uso de materiales
-            sostenibles hasta el autoconsumo energético y la optimización de
-            nuestros desplazamientos.
-            <br /> Porque ser parte del cambio también es parte de{" "}
-            nuestro trabajo.
+          Desde Dos x Dos creemos que el privilegio de poder crear debe ir de la
+          mano del compromiso de contribuir. <br />
+          Por eso apoyamos iniciativas que promueven la inclusión, colaboramos
+          con entidades que trabajan con quienes más lo necesitan y adoptamos
+          medidas reales para reducir nuestra huella ecológica: desde el uso de
+          materiales sostenibles hasta el autoconsumo energético y la
+          optimización de nuestros desplazamientos.
+          <br /> Porque ser parte del cambio también es parte de nuestro
+          trabajo.
         </div>
 
         <div className="values-section__services">

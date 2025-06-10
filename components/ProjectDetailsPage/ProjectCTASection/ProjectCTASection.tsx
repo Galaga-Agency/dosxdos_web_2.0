@@ -22,7 +22,7 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
     <section className="project-cta-section container">
       <div className="project-cta-section__header header">
         <h3 className="project-cta-section__label label">(Inspiración)</h3>
-        <h2 className="project-cta-section__title title fade_bottom">
+        <h2 className="project-cta-section__title title ">
           DESCUBRE MÁS&nbsp;
           <span className="highlight">PROYECTOS ESPECIALES</span>
         </h2>
@@ -33,10 +33,7 @@ const ProjectCTASection: React.FC<ProjectCTASectionProps> = ({
         para tu próximo proyecto.
       </p>
       <div className="project-cta-section__button">
-        <HoverCircleButton
-          href="/portfolio"
-          label="Ver más proyectos"
-       />
+        <HoverCircleButton href="/portfolio" label="Ver más proyectos" />
       </div>
     </section>
   );

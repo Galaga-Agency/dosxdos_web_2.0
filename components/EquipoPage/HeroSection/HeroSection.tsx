@@ -15,19 +15,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
   // Simple function to check if we're on a mobile device
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
-  const handleImageLoad = useCallback((imageIndex: number) => {
-    setLoadedImages(prev => {
-      const newSet = new Set(prev);
-      newSet.add(imageIndex);
-      
-      // Check if all images are loaded
-      if (newSet.size === totalImages && onImagesLoad) {
-        setTimeout(onImagesLoad, 50);
-      }
-      
-      return newSet;
-    });
-  }, [onImagesLoad, totalImages]);
+  const handleImageLoad = useCallback(
+    (imageIndex: number) => {
+      setLoadedImages((prev) => {
+        const newSet = new Set(prev);
+        newSet.add(imageIndex);
+
+        // Check if all images are loaded
+        if (newSet.size === totalImages && onImagesLoad) {
+          setTimeout(onImagesLoad, 50);
+        }
+
+        return newSet;
+      });
+    },
+    [onImagesLoad, totalImages]
+  );
 
   return (
     <>
@@ -35,7 +38,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
         <div className="hero-section__image-container featured-image-container">
           <div
             className={`hero-section__image-wrapper fade-in-scale featured-image-wrapper hero-image-wrapper ${
-              loadedImages.has(0) ? 'loaded' : 'loading'
+              loadedImages.has(0) ? "loaded" : "loading"
             }`}
             data-speed={isMobile ? "1" : "0.9"}
           >
@@ -58,10 +61,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
           <div className="hero-section__overlay"></div>
 
           <div className="hero-section__content container">
-            <h3 className="hero-section__label label fade_bottom">(SOBRE NOSOTROS)
-            </h3>
+            <h3 className="hero-section__label label ">(SOBRE NOSOTROS)</h3>
             <h1 className="hero-section__title title char-animation">
-              Todo empieza con una idea. <br /> Lo demás, nos encargamos nosotros.
+              Todo empieza con una idea. <br/>Lo demás, lo hacemos en equipo.
             </h1>
           </div>
         </div>
@@ -94,7 +96,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
             >
               <div
                 className={`random-images__inner-container featured-image-wrapper hero-image-wrapper ${
-                  loadedImages.has(imageIndex) ? 'loaded' : 'loading'
+                  loadedImages.has(imageIndex) ? "loaded" : "loading"
                 }`}
                 data-speed={innerSpeed}
               >

@@ -13,7 +13,6 @@ import Footer from "@/components/layout/Footer/footer";
 
 import {
   charAnimation,
-  fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
@@ -31,6 +30,7 @@ import { servicePanel } from "@/utils/animations/panel-animation";
 
 import "./nuestro-espacio-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const NuestroEspacioPage = () => {
   useScrollSmooth();
@@ -60,7 +60,6 @@ const NuestroEspacioPage = () => {
   useGSAP(() => {
     const timer = setTimeout(() => {
       accionSocialHeroAnim();
-      fadeAnimation();
       charAnimation();
       initCardMouseParallax();
       imageParallax();
@@ -69,6 +68,7 @@ const NuestroEspacioPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
+      footerAnimation();
     }, 100);
 
     return () => {

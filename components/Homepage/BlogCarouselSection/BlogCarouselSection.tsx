@@ -61,7 +61,7 @@ const BlogCarouselSection: React.FC<BlogCarouselSectionProps> = ({ posts }) => {
             <span>(Nuestro blog, lo que nos mueve.)</span>
           </div>
 
-          <h2 className="blog-carousel-section__title secondary-title fade_bottom">
+          <h2 className="blog-carousel-section__title secondary-title ">
             Ideas en <span className="highlight">movimiento</span>
           </h2>
         </div>

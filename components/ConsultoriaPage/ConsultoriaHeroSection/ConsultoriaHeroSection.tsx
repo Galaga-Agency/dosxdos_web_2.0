@@ -9,31 +9,36 @@ interface ConsultoriaHeroSectionProps {
   onImagesLoad?: () => void;
 }
 
-const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({ onImagesLoad }) => {
+const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({
+  onImagesLoad,
+}) => {
   const { isMobile } = useDeviceDetect();
   const [loadedImages, setLoadedImages] = useState(new Set<number>());
   const totalImages = 4; // 1 main + 3 floating images
 
-  const handleImageLoad = useCallback((imageIndex: number) => {
-    setLoadedImages(prev => {
-      const newSet = new Set(prev);
-      newSet.add(imageIndex);
-      
-      // Check if all images are loaded
-      if (newSet.size === totalImages && onImagesLoad) {
-        setTimeout(onImagesLoad, 50);
-      }
-      
-      return newSet;
-    });
-  }, [onImagesLoad, totalImages]);
+  const handleImageLoad = useCallback(
+    (imageIndex: number) => {
+      setLoadedImages((prev) => {
+        const newSet = new Set(prev);
+        newSet.add(imageIndex);
+
+        // Check if all images are loaded
+        if (newSet.size === totalImages && onImagesLoad) {
+          setTimeout(onImagesLoad, 50);
+        }
+
+        return newSet;
+      });
+    },
+    [onImagesLoad, totalImages]
+  );
 
   return (
     <>
       <div className="consultoria-hero-section">
         {/* Title and content above the image */}
         <div className="consultoria-hero-section__content container">
-          <h3 className="consultoria-hero-section__label label fade_bottom">
+          <h3 className="consultoria-hero-section__label label ">
             (Diseñamos soluciones con propósito)
           </h3>
           <h1 className="consultoria-hero-section__title title char-animation">
@@ -43,9 +48,11 @@ const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({ onImage
         </div>
 
         <div className="consultoria-hero-section__image-container featured-image-container">
-          <div className={`consultoria-hero-section__image-wrapper fade-in-scale featured-image-wrapper hero-image-wrapper ${
-            loadedImages.has(0) ? 'loaded' : 'loading'
-          }`}>
+          <div
+            className={`consultoria-hero-section__image-wrapper fade-in-scale featured-image-wrapper hero-image-wrapper ${
+              loadedImages.has(0) ? "loaded" : "loading"
+            }`}
+          >
             <Image
               src="/assets/img/servicios/consultoria/header.webp"
               alt="Consultoría dosxdos"
@@ -120,7 +127,7 @@ const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({ onImage
             >
               <div
                 className={`random-images__inner-container featured-image-wrapper hero-image-wrapper ${
-                  loadedImages.has(imageIndex) ? 'loaded' : 'loading'
+                  loadedImages.has(imageIndex) ? "loaded" : "loading"
                 }`}
                 data-speed={innerSpeed}
               >

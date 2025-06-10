@@ -10,12 +10,18 @@
     @include font-size(lg);
     @include font-weight(semibold);
     color: $black;
-    @include letter-spacing(tighter);
+    @include letter-spacing(tight);
     @include padding(xl, bottom);
 
     @include min-width(lg) {
       max-width: 70%;
     }
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
   }
 
   input {
@@ -39,6 +45,45 @@
     &.error {
       border-color: $secondary-color;
       background-color: rgba($secondary-color, 0.03);
+    }
+
+    // Add padding-right when there's a toggle button
+    &[type="password"] {
+      padding-right: 3rem;
+    }
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: calc(50% + 8px); // Accounting for the margin-top on input
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    @include flex(row, center, center);
+    padding: 0;
+    transition: all 0.3s ease;
+    color: rgba($black, 0.5);
+    z-index: 1;
+
+    &:hover:not(:disabled) {
+      color: $black;
+    }
+
+    &:focus {
+      outline: none;
+      color: $black;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.3;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
     }
   }
 

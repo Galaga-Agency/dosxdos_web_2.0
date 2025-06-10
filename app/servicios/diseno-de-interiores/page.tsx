@@ -13,7 +13,6 @@ import Footer from "@/components/layout/Footer/footer";
 
 import {
   charAnimation,
-  fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
@@ -32,6 +31,7 @@ import DisenoInterioresMethodologySection from "@/components/DisenoInterioresPag
 
 import "./diseno-interiores-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const DisenoInterioresPage = () => {
   useScrollSmooth();
@@ -69,7 +69,6 @@ const DisenoInterioresPage = () => {
 
     const timer = setTimeout(() => {
       accionSocialHeroAnim();
-      fadeAnimation();
       charAnimation();
       initCardMouseParallax();
       imageParallax();
@@ -78,6 +77,7 @@ const DisenoInterioresPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
+      footerAnimation();
     }, 100);
 
     return () => {

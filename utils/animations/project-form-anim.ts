@@ -2,9 +2,9 @@
 
 import { gsap } from "gsap";
 
-export function blogFormAnimation() {
-  const header = document.querySelector(".new-blog-post-page__header");
-  const form = document.querySelector(".new-blog-post-page__form");
+export function projectFormAnimation() {
+  const header = document.querySelector(".new-project-page__header");
+  const form = document.querySelector(".new-project-page__form");
 
   if (!header || !form) return;
 
@@ -37,8 +37,8 @@ export function blogFormAnimation() {
   );
 }
 
-export function blogFormSubmitAnimation() {
-  const form = document.querySelector(".new-blog-post-page__form");
+export function projectFormSubmitAnimation() {
+  const form = document.querySelector(".new-project-page__form");
 
   if (!form) return Promise.resolve();
 
@@ -50,8 +50,8 @@ export function blogFormSubmitAnimation() {
   });
 }
 
-export function blogFormResetAnimation() {
-  const form = document.querySelector(".new-blog-post-page__form");
+export function projectFormResetAnimation() {
+  const form = document.querySelector(".new-project-page__form");
 
   if (!form) return Promise.resolve();
 
@@ -64,7 +64,7 @@ export function blogFormResetAnimation() {
 }
 
 export default {
-  blogFormAnimation,
-  blogFormSubmitAnimation,
-  blogFormResetAnimation,
+  projectFormAnimation,
+  projectFormSubmitAnimation,
+  projectFormResetAnimation,
 };

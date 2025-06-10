@@ -15,8 +15,9 @@ const ServiciosHero: React.FC = () => {
         </h1>
 
         <p className="servicios-hero__subtitle subtitle">
-          Espacios que hablan, proyectos que conectan. Ofrecemos un servicio
-          completo: diseño, producción, logística y ejecución.
+          Espacios que hablan, proyectos que conectan. <br />
+          Ofrecemos un servicio completo: diseño, producción, logística y
+          ejecución.
         </p>
 
         <SecondaryButton href="/portfolio" lightBg={true}>

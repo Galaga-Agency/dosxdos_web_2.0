@@ -43,8 +43,8 @@ const LogoMarquee = ({
                 <Image
                   src={logo.src}
                   alt={logo.name}
-                  width={150}
-                  height={90}
+                  width={180}
+                  height={110}
                   style={{ objectFit: "contain" }}
                   className="logo-marquee__logo"
                 />

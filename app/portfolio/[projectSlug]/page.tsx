@@ -20,7 +20,6 @@ import { notFound } from "next/navigation";
 
 import {
   charAnimation,
-  fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
 import { gallerySliderAnimation } from "@/utils/animations/gallery-slider-anim";
@@ -31,6 +30,7 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import ProjectGalleryMarquee from "@/components/ProjectDetailsPage/ProjectGalleryMarquee/ProjectGalleryMarquee";
 import FloatingProjectImages from "@/components/ProjectDetailsPage/FloatingProjectImages/FloatingProjectImages";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 interface ProjectDetailsPageProps {
   params: Promise<{
@@ -50,12 +50,12 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
   // Trigger animations once loaded
   useGSAP(() => {
     const timer = setTimeout(() => {
-      fadeAnimation();
       charAnimation();
       rollUpTextAnimation();
       gallerySliderAnimation();
       floatingImagesAnimation();
       highlightAnimation();
+      footerAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

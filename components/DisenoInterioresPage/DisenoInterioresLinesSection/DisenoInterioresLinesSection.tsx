@@ -33,8 +33,8 @@ const DisenoInterioresLinesSection: React.FC = () => {
   return (
     <section className="collaborations-section">
       <div className="collaborations-section__header header container">
-        <h2 className="collaborations-section__title secondary-title fade_bottom">
-          Tres líneas de interiorismo,{" "}<br/>
+        <h2 className="collaborations-section__title secondary-title ">
+          Tres líneas de interiorismo, <br />
           <span className="highlight">una misma dedicación.</span>
         </h2>
       </div>

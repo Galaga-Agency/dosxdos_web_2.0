@@ -21,7 +21,7 @@ const DisenoInterioresProcessSection: React.FC = () => {
     <section className="diseno-interiores-process">
       <div className="diseno-interiores-process__container container">
         <div className="diseno-interiores-process__header">
-          <h2 className="diseno-interiores-process__title secondary-title fade_bottom">
+          <h2 className="diseno-interiores-process__title secondary-title ">
             Un <span className="highlight">proceso cuidado</span> de principio a
             fin
           </h2>
@@ -49,8 +49,8 @@ const DisenoInterioresProcessSection: React.FC = () => {
 
       <h3 className="diseno-interiores-process__below-statement small-title">
         Nuestro método garantiza resultados sólidos, estéticos y realistas, sin
-        sorpresas. Independientemente del tipo de espacio, <span className="highlight">acompañamos al
-        cliente</span> en cada paso.
+        sorpresas. Independientemente del tipo de espacio,{" "}
+        <span className="highlight">acompañamos al cliente</span> en cada paso.
       </h3>
     </section>
   );

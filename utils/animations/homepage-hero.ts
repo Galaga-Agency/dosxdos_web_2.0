@@ -6,7 +6,6 @@ export const animateHeroSlider = () => {
   const section = document.querySelector(".hero-slider") as HTMLElement;
   const title = document.querySelector(".hero-slider__title") as HTMLElement;
   const cta = document.querySelector(".hero-slider__cta") as HTMLElement;
-  // DON'T animate the container - let the slides handle their own visibility
 
   if (!section) return null;
 

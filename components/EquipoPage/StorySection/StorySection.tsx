@@ -16,11 +16,10 @@ const StorySection: React.FC = () => {
     "Consultoría",
   ];
 
-
   return (
     <section className="story-section">
       <div className="story-section__container container">
-        <h2 className="story-section__title secondary-title fade_bottom">
+        <h2 className="story-section__title secondary-title ">
           El diseño es <span className="highlight">nuestro ADN.</span> <br />
           El compromiso, nuestra manera de estar en el mundo.
         </h2>
@@ -40,9 +39,7 @@ const StorySection: React.FC = () => {
         </div>
 
         <div className="story-section__services">
-          <h3 className="story-section__services-title">
-            LO QUE HACEMOS
-          </h3>
+          <h3 className="story-section__services-title">LO QUE HACEMOS</h3>
           <div className="story-section__services-grid">
             {services.map((service, index) => (
               <div key={index} className="story-section__services-item">

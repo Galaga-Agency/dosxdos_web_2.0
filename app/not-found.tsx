@@ -12,6 +12,7 @@ import {
 } from "@/utils/animations/not-found-anim";
 import "./not-found.scss";
 import Footer from "@/components/layout/Footer/footer";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const NotFound = () => {
   const router = useRouter();
@@ -27,6 +28,7 @@ const NotFound = () => {
   useEffect(() => {
     // Start animations
     const timer = setTimeout(() => {
+      footerAnimation();
       requestAnimationFrame(() => {
         initNotFoundAnimations({
           container: containerRef.current || undefined,

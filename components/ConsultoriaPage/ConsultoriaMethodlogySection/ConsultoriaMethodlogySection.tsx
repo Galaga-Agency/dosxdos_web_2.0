@@ -60,7 +60,7 @@ const ConsultoriaMethodlogySection = () => {
             ¿Cómo trabajamos?
           </span>
           <h2 className="methodology-section__title secondary-title">
-            De la necesidad al plan: una metodología pensada para transformar
+            De la necesidad al plan: una metodología pensada para <span className="highlight">transformar</span>
           </h2>
         </div>
 

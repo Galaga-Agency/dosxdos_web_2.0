@@ -6,13 +6,12 @@ import HoverCard from "@/components/ui/HoverCard/HoverCard";
 import "./TeamSection.scss";
 
 const TeamSection: React.FC = () => {
-
   return (
     <section className="team-section">
       <div className="team-section__container container">
         <div className="team-section__header">
           <h3 className="team-section__label label">(Nuestro equipo)</h3>
-          <h2 className="team-section__title secondary-title fade_bottom">
+          <h2 className="team-section__title secondary-title ">
             El talento detrás de cada espacio <br />
             El compromiso detrás de{" "}
             <span className="highlight">cada detalle</span>.
@@ -35,7 +34,7 @@ const TeamSection: React.FC = () => {
                 imageUrl={member.imageUrl}
                 linkUrl={`/equipo/${member.id}`}
                 showLink={false}
-                showLinkUrl={false} 
+                showLinkUrl={false}
               />
             </div>
           ))}

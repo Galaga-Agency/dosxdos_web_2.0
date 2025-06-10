@@ -8,7 +8,7 @@ const AboutServices: React.FC = () => {
     <section className="about-services">
       <div className="about-services__container container">
         <div className="about-services__header header">
-          <div className="about-services__label label fade_bottom">
+          <div className="about-services__label label ">
             (Más de 38 años de experiencia)
           </div>
           <h2 className="about-services__title secondary-title">

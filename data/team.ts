@@ -27,7 +27,7 @@ export const teamMembers: TeamMember[] = [
     name: "Erika Hernández Lezcano",
     position: "Responsable Clientes",
     email: "dospordos.clientes@iidos.com",
-    imageUrl: "/assets/img/team/team-1-2.jpg",
+    imageUrl: "/assets/img/team/equipo-11.webp",
   },
   {
     id: 5,
@@ -69,7 +69,7 @@ export const teamMembers: TeamMember[] = [
     name: "Haridian Báez Martel",
     position: "Responsable Administración",
     email: "haridian@iidos.com",
-    imageUrl: "/assets/img/team/team-1-2.jpg",
+    imageUrl: "/assets/img/team/equipo-12.webp",
   },
   {
     id: 11,

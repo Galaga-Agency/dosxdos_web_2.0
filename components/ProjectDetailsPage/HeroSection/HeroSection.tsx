@@ -28,10 +28,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
                 </h1>
 
                 {project.services.map((service, index) => (
-                  <span
-                    className="portfolio-hero__subtitle fade_bottom"
-                    key={index}
-                  >
+                  <span className="portfolio-hero__subtitle " key={index}>
                     {service}
                   </span>
                 ))}

@@ -32,7 +32,7 @@ const ExperienciaSection: React.FC = () => {
     <section className="experiencia-section">
       <div className="experiencia-section__container container">
         <div className="experiencia-section__header header">
-          <h1 className="experiencia-section__title secondary-title fade_bottom">
+          <h1 className="experiencia-section__title secondary-title ">
             FUTURO <span className="highlight">CONSCIENTE</span>
           </h1>
           <div className="experiencia-section__subtitle text">

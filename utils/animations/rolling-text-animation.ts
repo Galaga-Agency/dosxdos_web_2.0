@@ -1,5 +1,11 @@
 import { gsap } from "gsap";
 
+let currentIndex = 0;
+let container: HTMLElement | null = null;
+let animationTimeline: gsap.core.Timeline | null = null;
+
+const words = ["CREAMOS", "FABRICAMOS", "MONTAMOS", "DISEÑAMOS"];
+
 export const initRollingTextAnimation = () => {
   const rollingTextElement = document.querySelector(
     ".hero-slider__rolling-text"
@@ -7,11 +13,7 @@ export const initRollingTextAnimation = () => {
 
   if (!rollingTextElement) return;
 
-  const words = ["CREAMOS", "FABRICAMOS", "MONTAMOS", "DISEÑAMOS"];
-  let currentIndex = 0;
-  let intervalId: NodeJS.Timeout;
-
-  const container = rollingTextElement as HTMLElement;
+  container = rollingTextElement as HTMLElement;
 
   // Kill any existing animations
   gsap.killTweensOf(container);
@@ -21,10 +23,10 @@ export const initRollingTextAnimation = () => {
     const tempSpan = document.createElement("span");
     tempSpan.style.visibility = "hidden";
     tempSpan.style.position = "absolute";
-    tempSpan.style.fontSize = getComputedStyle(container).fontSize;
-    tempSpan.style.fontFamily = getComputedStyle(container).fontFamily;
-    tempSpan.style.fontWeight = getComputedStyle(container).fontWeight;
-    tempSpan.style.letterSpacing = getComputedStyle(container).letterSpacing;
+    tempSpan.style.fontSize = getComputedStyle(container!).fontSize;
+    tempSpan.style.fontFamily = getComputedStyle(container!).fontFamily;
+    tempSpan.style.fontWeight = getComputedStyle(container!).fontWeight;
+    tempSpan.style.letterSpacing = getComputedStyle(container!).letterSpacing;
 
     document.body.appendChild(tempSpan);
 
@@ -55,19 +57,43 @@ export const initRollingTextAnimation = () => {
     transformOrigin: "center center -100px",
   });
 
-  const animateWord = () => {
-    const tl = gsap.timeline();
+  // Return cleanup function
+  return () => {
+    gsap.killTweensOf(container);
+    if (animationTimeline) {
+      animationTimeline.kill();
+    }
+  };
+};
 
-    tl.to(container, {
-      rotationX: -90,
-      duration: 0.6,
-      ease: "power2.inOut",
-      transformOrigin: "center center -100px",
-    })
+// Expose function to trigger word change animation
+export const animateToNextWord = (): Promise<void> => {
+  return new Promise((resolve) => {
+    if (!container) {
+      resolve();
+      return;
+    }
+
+    // Kill any existing animation
+    if (animationTimeline) {
+      animationTimeline.kill();
+    }
+
+    animationTimeline = gsap.timeline({
+      onComplete: resolve,
+    });
+
+    animationTimeline
+      .to(container, {
+        rotationX: -90,
+        duration: 0.6,
+        ease: "power2.inOut",
+        transformOrigin: "center center -100px",
+      })
       .call(
         () => {
           currentIndex = (currentIndex + 1) % words.length;
-          container.textContent = words[currentIndex];
+          container!.textContent = words[currentIndex];
         },
         [],
         0.3
@@ -90,21 +116,16 @@ export const initRollingTextAnimation = () => {
         },
         0.3
       );
-  };
+  });
+};
 
-  // Start the rolling animation after a delay to let the initial animation complete
-  const startRolling = () => {
-    intervalId = setInterval(animateWord, 3500);
-  };
+// Function to get current word index (useful for syncing)
+export const getCurrentWordIndex = () => currentIndex;
 
-  // Delay the start of rolling text to avoid conflicts
-  gsap.delayedCall(2, startRolling);
+// Function to set specific word (useful for initial sync)
+export const setWordIndex = (index: number) => {
+  if (!container || index < 0 || index >= words.length) return;
 
-  // Return cleanup function
-  return () => {
-    if (intervalId) {
-      clearInterval(intervalId);
-    }
-    gsap.killTweensOf(container);
-  };
+  currentIndex = index;
+  container.textContent = words[currentIndex];
 };

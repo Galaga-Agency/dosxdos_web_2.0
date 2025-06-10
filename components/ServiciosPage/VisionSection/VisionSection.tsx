@@ -15,7 +15,7 @@ const VisionSection: React.FC = () => {
       <div className="vision-section__top">
         <div className="vision-section__container container">
           <div className="vision-section__top-content">
-            <h3 className="vision-section__statement small-title fade_bottom">
+            <h3 className="vision-section__statement small-title ">
               Ofrecemos soluciones llave en mano para que no tengas que
               preocuparte por nada. Desde el diseño inicial hasta el último
               detalle de la instalación,{" "}
@@ -25,7 +25,7 @@ const VisionSection: React.FC = () => {
             </h3>
 
             <div className="vision-section__services">
-              <div className="vision-section__service-item fade_bottom">
+              <div className="vision-section__service-item ">
                 <div className="vision-section__service-icon">
                   <Image
                     src="/assets/img/servicios/grafico.png"
@@ -43,7 +43,7 @@ const VisionSection: React.FC = () => {
                 </p>
               </div>
 
-              <div className="vision-section__service-item fade_bottom">
+              <div className="vision-section__service-item ">
                 <div className="vision-section__service-icon">
                   <Image
                     src="/assets/img/servicios/eco-factory.png"
@@ -61,7 +61,7 @@ const VisionSection: React.FC = () => {
                 </p>
               </div>
 
-              <div className="vision-section__service-item fade_bottom">
+              <div className="vision-section__service-item ">
                 <div className="vision-section__service-icon">
                   <Image
                     src="/assets/img/servicios/installation.png"
@@ -85,10 +85,7 @@ const VisionSection: React.FC = () => {
       </div>
 
       {/* Middle floating image with parallax effect */}
-      <div
-        className="vision-section__middle-image fade_bottom"
-        data-speed="1.15"
-      >
+      <div className="vision-section__middle-image " data-speed="1.15">
         <div className="vision-section__middle-image-inner">
           <Image
             src="/assets/img/blog/visual-storytelling.jpg"
@@ -108,7 +105,7 @@ const VisionSection: React.FC = () => {
             <span className="vision-section__label label">
               (Descubre nuestro portfolio)
             </span>
-            <h2 className="vision-section__title secondary-title fade_bottom">
+            <h2 className="vision-section__title secondary-title ">
               Cada proyecto cuenta{" "}
               <span className="highlight">una historia</span>. <br />
               Aquí te mostramos algunas.
@@ -140,13 +137,14 @@ const VisionSection: React.FC = () => {
                 hacer: escuchar, entender, proponer y ejecutar. En estos más de
                 38 años hemos colaborado con grandes firmas del retail y marcas
                 de distintos sectores, adaptándonos siempre a las necesidades de
-                cada cliente. Diseñamos espacios que comunican, producimos
-                piezas que funcionan, instalamos con precisión y cuidamos cada
-                detalle como si fuera propio. Nuestro portfolio es el reflejo de
-                un proceso en el que creatividad, técnica y compromiso van
-                siempre de la mano.
+                cada cliente. <br />
+                <br /> Diseñamos espacios que comunican, producimos piezas que
+                funcionan, instalamos con precisión y cuidamos cada detalle como
+                si fuera propio. Nuestro portfolio es el reflejo de un proceso
+                en el que creatividad, técnica y compromiso van siempre de la
+                mano.
               </p>
-              <div className="vision-section__cta fade_bottom">
+              <div className="vision-section__cta ">
                 <HoverCircleButton href="/portfolio" label="Ver proyectos" />
               </div>
             </div>

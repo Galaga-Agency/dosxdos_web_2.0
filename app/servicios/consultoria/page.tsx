@@ -15,7 +15,6 @@ import Footer from "@/components/layout/Footer/footer";
 
 import {
   charAnimation,
-  fadeAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
@@ -31,6 +30,7 @@ import ConsultoriaAboutSection from "@/components/ConsultoriaPage/ConsultoriaAbo
 import ConsultoriaCTASection from "@/components/ConsultoriaPage/ConsultoriaCTASection/ConsultoriaCTASection";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const ConsultoriaPage = () => {
   useScrollSmooth();
@@ -67,7 +67,6 @@ const ConsultoriaPage = () => {
     if (!heroImagesLoaded) return;
 
     const timer = setTimeout(() => {
-      fadeAnimation();
       charAnimation();
       initCardMouseParallax();
       imageParallax();
@@ -75,6 +74,7 @@ const ConsultoriaPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
+      footerAnimation();
 
       cleanupRef.current = cursorBubbleAnimation();
     }, 100);
