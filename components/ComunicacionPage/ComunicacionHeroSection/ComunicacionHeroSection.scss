@@ -3,7 +3,7 @@
 @use "base/colors" as *;
 @use "base/animations" as *;
 
-.diseno-interiores-hero {
+.comunicacion-hero {
   position: relative;
   width: 100vw;
   left: 50%;
@@ -67,6 +67,7 @@
   &__label {
     color: $white;
     font-weight: 500 !important;
+    text-transform: uppercase;
   }
 
   &__title {
@@ -83,45 +84,5 @@
   &__cta {
     opacity: 0;
     transform: translateY(30px);
-  }
-
-  &__floating-image-wrapper {
-    position: absolute;
-    bottom: -20%;
-    right: 5%;
-    width: 450px;
-    height: 300px;
-    will-change: transform;
-    @include z-index(above);
-
-    @media (max-width: 767px) {
-      width: 250px;
-      height: 170px;
-      bottom: -15%;
-      right: 3%;
-    }
-
-    @include min-width(md) {
-      width: 350px;
-      height: 230px;
-      bottom: -18%;
-      right: 4%;
-    }
-
-    @include min-width(lg) {
-      width: 450px;
-      height: 300px;
-      bottom: -20%;
-      right: 5%;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      @include transition(transform, slow);
-      will-change: transform;
-    }
   }
 }

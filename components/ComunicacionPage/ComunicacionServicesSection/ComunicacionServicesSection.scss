@@ -1,0 +1,135 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+@use "base/animations" as *;
+
+.comunicacion-services-section {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: $black;
+  @include section-padding-y();
+
+  &__content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    @include margin(3xl, bottom);
+  }
+
+  &__description {
+    color: $white;
+    margin-right: auto;
+    @include margin(md, bottom);
+    text-align: left;
+
+    @include min-width(md) {
+      @include margin(3xl, bottom);
+    }
+  }
+
+  &__columns {
+    @include flex(column, center, center);
+    max-width: 1200px;
+
+    @include min-width(md) {
+      flex-direction: row;
+      align-items: start;
+      @include gap(5xl);
+      margin-left: auto;
+    }
+  }
+
+  &__column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    @include gap(lg);
+  }
+
+  &__column-text {
+    color: $white;
+  }
+
+  &__grid {
+    @include flex(column, start, start);
+    @include gap(sm);
+    max-width: 900px;
+    margin: 0 auto;
+
+    @include container-width(mobile);
+    position: relative;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+      flex-direction: row;
+      @include gap(6xl);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__services-header {
+    margin: 0;
+  }
+
+  &__label {
+    display: block;
+    @include font-size(lg);
+    font-family: "Sarabun";
+    font-style: normal;
+    font-weight: 100 !important;
+    margin: 0;
+    color: $white;
+    font-style: italic;
+
+    @include min-width(md) {
+      text-wrap: nowrap;
+    }
+  }
+
+  &__services-content {
+    width: 100%;
+  }
+
+  &__services-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__service-item {
+    @include padding(md, y);
+
+    &:first-child {
+      padding-top: 0 !important;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid rgba($white, 0.2);
+    }
+  }
+
+  &__service-title {
+    @include font-size(lg);
+    @include font-weight(medium);
+    color: $white;
+    margin: 0;
+
+    @include min-width(md) {
+      @include font-size(xl);
+    }
+  }
+
+  &__service-line {
+    display: none;
+  }
+}

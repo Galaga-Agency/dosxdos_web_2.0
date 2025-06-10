@@ -1,41 +1,34 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import useScrollSmooth from "@/hooks/useScrollSmooth";
+import React, { useEffect, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
+import useScrollSmooth from "@/hooks/useScrollSmooth";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
 import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 import Footer from "@/components/layout/Footer/footer";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
-import {
-  charAnimation,
-  rollUpTextAnimation,
-} from "@/utils/animations/text-anim";
-import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
+import { charAnimation } from "@/utils/animations/text-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
-import { initStatsCounter } from "@/utils/animations/stats-counter";
-import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
-import { servicePanel } from "@/utils/animations/panel-animation";
+import { footerAnimation } from "@/utils/animations/footer-anim";
 
-// import ComunicacionHeroSection from "@/components/ComunicacionPage/ComunicacionHeroSection/ComunicacionHeroSection";
-// import ComunicacionServicesSection from "@/components/ComunicacionPage/ComunicacionServicesSection/ComunicacionServicesSection";
-// import ComunicacionStrategySection from "@/components/ComunicacionPage/ComunicacionStrategySection/ComunicacionStrategySection";
-// import ComunicacionCaseStudiesSection from "@/components/ComunicacionPage/ComunicacionCaseStudiesSection/ComunicacionCaseStudiesSection";
+import ComunicacionHeroSection from "@/components/ComunicacionPage/ComunicacionHeroSection/ComunicacionHeroSection";
 
 import "./comunicacion-page.scss";
-import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
+import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
+import ComunicacionProcessSection from "@/components/ComunicacionPage/ComunicacionProcessSection/ComunicacionProcessSection";
+import ComunicacionServicesSection from "@/components/ComunicacionPage/ComunicacionServicesSection/ComunicacionServicesSection";
+import ComunicacionDigitalizationSection from "@/components/ComunicacionPage/ComunicacionDigitalizationSection/ComunicacionDigitalizationSection";
 
 const ComunicacionPage = () => {
   useScrollSmooth();
-
-  const cleanupRef = useRef<(() => void) | null>(null);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
@@ -45,69 +38,45 @@ const ComunicacionPage = () => {
 
   useEffect(() => {
     document.body.classList.add("smooth-scroll");
-
     return () => {
       document.body.classList.remove("smooth-scroll");
-
-      // Execute cleanup if it exists
-      if (cleanupRef.current) {
-        cleanupRef.current();
-        cleanupRef.current = null;
-      }
     };
   }, []);
 
+  const handleHeroImageLoad = useCallback(() => {
+    setHeroImageLoaded(true);
+  }, []);
+
   useGSAP(() => {
+    if (!heroImageLoaded) return;
+
     const timer = setTimeout(() => {
       accionSocialHeroAnim();
       charAnimation();
-      initCardMouseParallax();
       imageParallax();
-      initStatsCounter();
-      servicePanel();
-      rollUpTextAnimation();
-      featuredImageAnimation();
       highlightAnimation();
       footerAnimation();
+      accionSocialHeroAnim();
+      charAnimation();
+      featuredImageAnimation();
     }, 100);
 
-    return () => {
-      clearTimeout(timer);
-
-      if (cleanupRef.current) {
-        cleanupRef.current();
-        cleanupRef.current = null;
-      }
-    };
-  });
+    return () => clearTimeout(timer);
+  }, [heroImageLoaded]);
 
   return (
     <PageWrapper>
       <div className="comunicacion-page">
         <div className="breadcrumbs">
-          <div className="container">
-            <Breadcrumbs items={breadcrumbItems} />
-          </div>
+          <Breadcrumbs items={breadcrumbItems} />
         </div>
 
-        <div className="comunicacion-page__container">
-          {/* <ComunicacionHeroSection />
-            <ComunicacionServicesSection />
-            <ComunicacionStrategySection />
-            <ComunicacionCaseStudiesSection /> */}
-
-          {/* Temporary content placeholder */}
-          <div
-            style={{
-              minHeight: "60vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1>Comunicación - Coming Soon</h1>
-          </div>
-        </div>
+        <main className="comunicacion-page__container">
+          <ComunicacionHeroSection onImageLoad={handleHeroImageLoad} />
+          <ComunicacionProcessSection />
+          <ComunicacionServicesSection />
+          <ComunicacionDigitalizationSection />
+        </main>
       </div>
       <Footer />
     </PageWrapper>

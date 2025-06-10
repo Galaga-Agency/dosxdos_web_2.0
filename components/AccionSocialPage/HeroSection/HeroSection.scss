@@ -66,22 +66,22 @@
 
   &__label {
     color: $white;
+    font-weight: 500 !important;
   }
 
   &__title {
-
     &.text-1 {
-      transform: translateX(300px); 
+      transform: translateX(300px);
     }
 
     &.text-2 {
-      transform: translateX(-300px); 
+      transform: translateX(-300px);
       margin-top: -2rem;
     }
   }
 
   &__cta {
     opacity: 0;
-    transform: translateY(30px); 
+    transform: translateY(30px);
   }
 }

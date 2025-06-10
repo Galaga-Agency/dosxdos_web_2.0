@@ -1,78 +1,83 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import "./DisenoInterioresHeroSection.scss";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 interface DisenoInterioresHeroSectionProps {
-  onImagesLoad?: () => void;
+  onImageLoad?: () => void;
 }
 
-const DisenoInterioresHeroSection: React.FC<DisenoInterioresHeroSectionProps> = ({ onImagesLoad }) => {
-  const { isMobile } = useDeviceDetect();
-  const [loadedImages, setLoadedImages] = useState(new Set<number>());
-  const totalImages = 2; // Main + floating image
+const DisenoInterioresHeroSection: React.FC<
+  DisenoInterioresHeroSectionProps
+> = ({ onImageLoad }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
 
-  const handleImageLoad = useCallback((imageIndex: number) => {
-    setLoadedImages(prev => {
-      const newSet = new Set(prev);
-      newSet.add(imageIndex);
-      
-      // Check if all images are loaded
-      if (newSet.size === totalImages && onImagesLoad) {
-        setTimeout(onImagesLoad, 50);
-      }
-      
-      return newSet;
-    });
-  }, [onImagesLoad, totalImages]);
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+    // Trigger animations after image is fully loaded
+    if (onImageLoad) {
+      // Small delay to ensure image is fully rendered
+      setTimeout(onImageLoad, 50);
+    }
+  }, [onImageLoad]);
 
   return (
-    <div className="diseno-interiores-hero">
-      <div className="diseno-interiores-hero__bg-container featured-image-container">
-        <div className={`diseno-interiores-hero__image-wrapper featured-image-wrapper hero-image-wrapper ${
-          loadedImages.has(0) ? 'loaded' : 'loading'
-        }`}>
+    <>
+      <div className="diseno-interiores-hero">
+        <div className="diseno-interiores-hero__bg-container featured-image-container">
+          <div
+            ref={imageRef}
+            className={`diseno-interiores-hero__image-wrapper featured-image-wrapper hero-image-wrapper ${
+              imageLoaded ? "loaded" : "loading"
+            }`}
+          >
+            <Image
+              src="/assets/img/about-us-page/vicente-ferrer-illustration.avif"
+              alt="Diseño de Interiores"
+              fill
+              quality={100}
+              priority
+              onLoad={handleImageLoad}
+              onError={() => {
+                console.error("Hero image failed to load");
+                // Still trigger animations even if image fails
+                handleImageLoad();
+              }}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyLli2YY7jk/wB1OzN2+WV1OmT4BuLhR6wFpvGHrv1f6CqU\u003d\u003d"
+            />
+          </div>
+
+          <div className="diseno-interiores-hero__overlay"></div>
+
+          <div className="diseno-interiores-hero__content container">
+            <h3 className="diseno-interiores-hero__label label">
+              (ESPACIOS QUE CONECTAN)
+            </h3>
+
+            <h2 className="diseno-interiores-hero__title title text-1">
+              Diseñamos espacios
+            </h2>
+            <h2 className="diseno-interiores-hero__title title text-2">
+              <span>que conectan con las personas</span>
+            </h2>
+          </div>
+        </div>
+
+        {/* Floating Image */}
+        <div className="diseno-interiores-hero__floating-image-wrapper featured-image-container">
           <Image
-            src="/assets/img/homepage/slider-1.webp"
-            alt="Diseño de Interiores"
+            src="/assets/img/servicios/diseno-interiores/diseno-1.avif"
+            alt="Diseño de Interiores Detail"
             fill
             quality={100}
-            priority
-            onLoad={() => handleImageLoad(0)}
-          />
-        </div>
-        <div className="diseno-interiores-hero__overlay"></div>
-        <div className="diseno-interiores-hero__content container">
-          <h3 className="diseno-interiores-hero__label label">
-            (Forma, función y emoción.)
-          </h3>
-
-          <h2 className="diseno-interiores-hero__title title text-1">
-            Diseñamos espacios
-          </h2>
-          <h2 className="diseno-interiores-hero__title title text-2">
-            <span>que conectan con las personas.</span>
-          </h2>
-        </div>
-        <div className={`diseno-interiores-hero__floating-image-wrapper hero-image-wrapper ${
-          loadedImages.has(1) ? 'loaded' : 'loading'
-        }`}>
-          <Image
-            src="/assets/img/servicios/consultoria/consultoria-1.webp"
-            alt="Consultoría dosxdos"
-            width={600}
-            height={400}
-            priority
-            quality={100}
-            unoptimized={true}
-            onLoad={() => handleImageLoad(1)}
-            data-speed={isMobile ? "1" : "1.25"}
+            sizes="(min-width: 1024px) 450px, (min-width: 768px) 350px, 250px"
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
