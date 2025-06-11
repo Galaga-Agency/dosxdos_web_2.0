@@ -582,4 +582,10 @@
     height: 100vh;
     @include flex(column, center, center);
   }
+
+  &__related-title {
+    color: $black;
+    opacity: 1;
+    visibility: visible;
+  }
 }

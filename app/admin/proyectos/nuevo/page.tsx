@@ -16,6 +16,8 @@ import {
   projectFormResetAnimation,
 } from "@/utils/animations/project-form-anim";
 
+import { generateSlug } from "@/utils/slug-generator";
+
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
@@ -117,12 +119,15 @@ export default function NewProjectPage() {
       // Animate form before submission
       await projectFormSubmitAnimation();
 
+      // GENERATE SLUG FROM PROJECT NAME
+      const generatedSlug = generateSlug(data.name || "");
+
       // Create project object
       const newProject: Project = {
         id: uuidv4(),
         date: new Date().toISOString(),
         name: data.name || "",
-        slug: "",
+        slug: generatedSlug,
         client: data.client || "",
         tags: tags,
         location: data.location || "",
@@ -143,9 +148,8 @@ export default function NewProjectPage() {
       // Submit project
       await createOrUpdateProject(newProject);
 
-      // Update store with new project
-      const fetchProjects = useDataStore.getState().fetchProjects;
-      await fetchProjects();
+      // UPDATE CACHE IMMEDIATELY AFTER SUCCESSFUL API CALL
+      useDataStore.getState().addProject(newProject);
 
       // Reset form animation and redirect
       await projectFormResetAnimation();

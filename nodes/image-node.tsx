@@ -58,32 +58,154 @@ export class ImageNode extends ElementNode {
   }
 
   createDOM(config: EditorConfig): HTMLElement {
-    // Create a container div to provide proper alignment and styling
-    const container = document.createElement("div");
-    container.className = `editor-image-container editor-image-${
+    // Create a wrapper div for the entire image component
+    const wrapper = document.createElement("div");
+    wrapper.className = `editor-image-wrapper editor-image-${
       this.__alignment || "center"
     }`;
+    wrapper.style.cssText = `
+      position: relative;
+      margin: 24px 0;
+      width: 100%;
+    `;
+
+    // Create the image container
+    const container = document.createElement("div");
+    container.className = "editor-image-container";
+    container.style.cssText = `
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    `;
 
     // Create the actual image element
     const image = document.createElement("img");
     image.src = this.__src;
     image.alt = this.__altText;
+    image.className = "editor-image";
+    image.style.cssText = `
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    `;
 
     if (this.__width) image.style.width = `${this.__width}px`;
     if (this.__height) image.style.height = `${this.__height}px`;
 
-    image.className = "editor-image";
     container.appendChild(image);
+
+    // Create delete button with better styling
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "image-delete-btn";
+    deleteBtn.title = "Eliminar imagen";
+    deleteBtn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+    `;
+
+    // Apply extensive inline styles to make sure it works
+    const applyDeleteButtonStyles = (opacity = "0") => {
+      deleteBtn.style.cssText = `
+        position: absolute !important;
+        top: 8px !important;
+        right: 8px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        padding: 8px !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        transition: all 0.15s ease !important;
+        z-index: 999 !important;
+        width: 32px !important;
+        height: 32px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        opacity: ${opacity} !important;
+        visibility: ${opacity === "0" ? "hidden" : "visible"} !important;
+        font-size: 14px !important;
+        line-height: 1 !important;
+        color: #e63322 !important;
+      `;
+    };
+
+    // Initialize with hidden state
+    applyDeleteButtonStyles("0");
+
+    // Add hover functionality
+    let hoverTimeout: any;
+
+    wrapper.addEventListener("mouseenter", () => {
+      clearTimeout(hoverTimeout);
+      applyDeleteButtonStyles("1");
+    });
+
+    wrapper.addEventListener("mouseleave", () => {
+      hoverTimeout = setTimeout(() => {
+        applyDeleteButtonStyles("0");
+      }, 100);
+    });
+
+    deleteBtn.addEventListener("mouseenter", () => {
+      clearTimeout(hoverTimeout);
+      deleteBtn.style.background = "white !important";
+      deleteBtn.style.transform = "scale(1.1) !important";
+    });
+
+    deleteBtn.addEventListener("mouseleave", () => {
+      deleteBtn.style.background = "rgba(255, 255, 255, 0.95) !important";
+      deleteBtn.style.transform = "scale(1) !important";
+    });
+
+    // Add click handler for delete
+    deleteBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Find the editor instance
+      let element: any = wrapper;
+      while (element && element.parentElement) {
+        element = element.parentElement;
+        if ((element as any).__lexicalEditor) {
+          const editor = (element as any).__lexicalEditor;
+          editor.update(() => {
+            const currentNode = this;
+            if (currentNode && typeof currentNode.remove === "function") {
+              currentNode.remove();
+            }
+          });
+          break;
+        }
+      }
+    });
+
+    container.appendChild(deleteBtn);
+    wrapper.appendChild(container);
 
     // Add caption if available
     if (this.__caption) {
       const captionEl = document.createElement("figcaption");
       captionEl.textContent = this.__caption;
       captionEl.className = "editor-image-caption";
-      container.appendChild(captionEl);
+      captionEl.style.cssText = `
+        margin-top: 8px !important;
+        font-size: 0.875rem !important;
+        color: rgba(0, 0, 0, 0.6) !important;
+        font-style: italic !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+      `;
+      wrapper.appendChild(captionEl);
     }
 
-    return container;
+    return wrapper;
   }
 
   updateDOM(prevNode: ImageNode, dom: HTMLElement): boolean {
