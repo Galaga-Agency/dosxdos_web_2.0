@@ -28,6 +28,7 @@ import { footerAnimation } from "@/utils/animations/footer-anim";
 import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
 import EventosHeroSection from "@/components/EventosPage/EventosHeroSection/EventosHeroSection";
+import EventosIntroSection from "@/components/EventosPage/EventosIntroSection/EventosIntroSection";
 
 const EventosPage = () => {
   useScrollSmooth();
@@ -90,6 +91,7 @@ const EventosPage = () => {
 
         <div className="eventos-page__container">
           <EventosHeroSection />
+          <EventosIntroSection/>
         </div>
       </div>
       <Footer />

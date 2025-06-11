@@ -1,0 +1,187 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+@use "base/animations" as *;
+
+.eventos-intro-section {
+  position: relative;
+  width: 100%;
+  background-color: $white;
+  @include section-padding-y();
+
+  &__content {
+    @include grid(1, md);
+
+    @include min-width(md) {
+      @include grid(2, xl);
+      margin: auto 0;
+    }
+
+    @include min-width(md) {
+      @include grid(2, 6xl);
+    }
+  }
+
+  &__visual-column {
+    width: 100%;
+    @include flex(column, center, center);
+    position: relative;
+    overflow: hidden;
+    order: 2;
+    will-change: transform;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+
+    @include min-width(md) {
+      order: 1;
+      justify-content: flex-start;
+    }
+
+    @include min-width(xl) {
+      width: 90%;
+    }
+  }
+
+  &__animated-image {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    @include border-radius(md);
+
+    @include min-width(md) {
+      height: 400px;
+    }
+
+    @include min-width(lg) {
+      height: 450px;
+    }
+
+    @include min-width(xl) {
+      height: 300px;
+    }
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+      object-position: center;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      filter: brightness(1.02) contrast(1.05) saturate(1.1);
+      transition: filter 0.3s ease;
+    }
+
+    &:hover img {
+      filter: brightness(1.05) contrast(1.08) saturate(1.15);
+      transform: scale(1.02);
+      transition: all 0.6s ease;
+    }
+  }
+
+  &__content-column {
+    position: relative;
+    order: 1;
+    @include flex(column, end, flex-start);
+
+    @include min-width(md) {
+      order: 2;
+    }
+
+    @include min-width(xl) {
+      width: 100%;
+    }
+  }
+
+  &__text-blocks {
+    will-change: transform, opacity;
+  }
+
+  &__text {
+    @include margin(md, bottom);
+  }
+}
+.marquee-container {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+  padding: 2rem 0;
+  margin: 0;
+  background-color: rgba($secondary-color, 0.5);
+  pointer-events: none;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  overscroll-behavior: none; // Prevent scroll chaining
+  will-change: transform; // Optimize for animations
+  transform: translateZ(0); // Force GPU acceleration
+  backface-visibility: hidden; // Prevent flickering
+
+  @include min-width(sm) {
+    min-height: 100px;
+  }
+
+  @include min-width(md) {
+    min-height: 150px;
+  }
+
+  @include min-width(lg) {
+    min-height: 180px;
+  }
+
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    overflow: hidden;
+    will-change: transform; // Optimize performance
+    transform: translateZ(0); // Force GPU acceleration
+  }
+
+  .marquee-text {
+    @include font-weight(semibold);
+    color: rgba($black, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--font-display);
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    animation: marquee-scroll 400s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    font-size: 50px;
+
+    @include min-width(md) {
+      font-size: 90px;
+      animation-duration: 400s;
+    }
+
+    @include min-width(lg) {
+      font-size: 120px;
+      animation-duration: 400s;
+    }
+
+    @include min-width(xl) {
+      font-size: 120px;
+      animation-duration: 500s;
+    }
+
+    span {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+      vertical-align: middle;
+    }
+  }
+}
