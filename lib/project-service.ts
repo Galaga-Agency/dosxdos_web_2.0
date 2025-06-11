@@ -60,10 +60,10 @@ export async function getAllProjects(): Promise<Project[]> {
           "Proyecto Sin Nombre",
         slug,
         client: matterResult.data.client || "",
-        categories: matterResult.data.categories || [],
+        categories: matterResult.data.categories || [], // ✅ FIXED
         location: matterResult.data.location || "",
         year: matterResult.data.year || new Date().getFullYear(),
-        description: matterResult.data.description || subtitle, // Keep for backwards compatibility
+        description: matterResult.data.description || "",
         challenge: matterResult.data.challenge || "",
         solution: matterResult.data.solution || "",
         coverImage:
@@ -108,14 +108,12 @@ export async function getProjectById(
         "Proyecto Sin Nombre",
       slug: matterResult.data.slug || "",
       client: matterResult.data.client || "",
-      tags: matterResult.data.tags || [],
+      categories: matterResult.data.categories || [], // ✅ FIXED
       location: matterResult.data.location || "",
-      duration: matterResult.data.duration || "",
       year: matterResult.data.year || new Date().getFullYear(),
-      services: matterResult.data.services || [],
       description: matterResult.data.description || "",
       challenge: matterResult.data.challenge || "",
-      solution: matterResult.data.solution || "", 
+      solution: matterResult.data.solution || "",
       coverImage:
         matterResult.data.coverImage ||
         matterResult.data.image ||
@@ -170,12 +168,10 @@ export async function createOrUpdateProject(
       name: updatedProject.name,
       slug: updatedProject.slug,
       client: updatedProject.client,
-      tags: updatedProject.tags || [],
+      categories: updatedProject.categories || [], // ✅ FIXED - was 'tags'
       location: updatedProject.location || "",
-      duration: updatedProject.duration || "",
       year: updatedProject.year || new Date().getFullYear(),
-      services: updatedProject.services || [],
-      description: updatedProject.description || "", 
+      description: updatedProject.description || "",
       challenge: updatedProject.challenge || "",
       solution: updatedProject.solution || "",
       coverImage:
