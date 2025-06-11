@@ -396,3 +396,15 @@
     @include font-size(2xl);
   }
 }
+
+.portfolio-hero__categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.portfolio-hero__subtitle {
+  opacity: 1 !important;
+  display: inline-flex !important;
+}

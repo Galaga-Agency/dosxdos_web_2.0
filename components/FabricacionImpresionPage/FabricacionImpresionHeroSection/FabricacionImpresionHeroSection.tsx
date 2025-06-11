@@ -2,7 +2,6 @@
 
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
-import useDeviceDetect from "@/hooks/useDeviceDetect";
 import "./FabricacionImpresionHeroSection.scss";
 
 interface FabricacionImpresionHeroSectionProps {

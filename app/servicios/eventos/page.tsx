@@ -17,20 +17,17 @@ import {
 } from "@/utils/animations/text-anim";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
-import { initStatsCounter } from "@/utils/animations/stats-counter";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
 
-// import EventosHeroSection from "@/components/EventosPage/EventosHeroSection/EventosHeroSection";
-// import EventosServicesSection from "@/components/EventosPage/EventosServicesSection/EventosServicesSection";
-// import EventosProcessSection from "@/components/EventosPage/EventosProcessSection/EventosProcessSection";
-// import EventosCaseStudiesSection from "@/components/EventosPage/EventosCaseStudiesSection/EventosCaseStudiesSection";
-
 import "./eventos-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
 import { footerAnimation } from "@/utils/animations/footer-anim";
+import { animateHeroSlider } from "@/utils/animations/homepage-hero";
+import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
+import EventosHeroSection from "@/components/EventosPage/EventosHeroSection/EventosHeroSection";
 
 const EventosPage = () => {
   useScrollSmooth();
@@ -63,8 +60,9 @@ const EventosPage = () => {
       charAnimation();
       initCardMouseParallax();
       imageParallax();
-      initStatsCounter();
       servicePanel();
+      animateHeroSlider();
+      initRollingTextAnimation();
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
@@ -91,22 +89,7 @@ const EventosPage = () => {
         </div>
 
         <div className="eventos-page__container">
-          {/* <EventosHeroSection />
-            <EventosServicesSection />
-            <EventosProcessSection />
-            <EventosCaseStudiesSection /> */}
-
-          {/* Temporary content placeholder */}
-          <div
-            style={{
-              minHeight: "60vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1>Eventos - Coming Soon</h1>
-          </div>
+          <EventosHeroSection />
         </div>
       </div>
       <Footer />
