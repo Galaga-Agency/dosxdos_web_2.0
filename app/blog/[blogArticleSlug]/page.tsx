@@ -87,7 +87,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
               <span>{blogPost.category}</span>
             </div>
 
-            <h1 className="blog-detail__title secondary-title char-animation">
+            <h1 className="blog-detail__title title char-animation">
               {blogPost.title}
             </h1>
 
@@ -115,7 +115,11 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
             <div
               className="blog-detail__body"
               dangerouslySetInnerHTML={createMarkup(
-                formatBlogContent(blogPost.content)
+                formatBlogContent(
+                  blogPost.editorBlocks
+                    ? JSON.parse(blogPost.editorBlocks)
+                    : blogPost.content
+                )
               )}
             />
 

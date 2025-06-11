@@ -94,8 +94,9 @@
   }
 
   &__title {
-    opacity: 0;
-    visibility: hidden;
+    color: $black;
+    text-align: center;
+    margin: 0 auto 2rem auto;
   }
 
   &__hero-content {
@@ -246,23 +247,22 @@
     ul,
     ol {
       @include margin(md, bottom);
-      padding-left: 0; // Remove default padding
-      list-style: none; // Remove default bullets/numbers
+      padding-left: 0;
+      list-style: none;
 
       li {
         @include margin(sm, bottom);
         @include font-size(lg);
         line-height: 1.7;
         position: relative;
-        padding-left: 1.5rem; // Add space for custom bullets
+        padding-left: 1.5rem;
       }
     }
 
-    // Unordered lists (ul) - Custom bullets
     ul {
       li {
         &::before {
-          content: "▪"; // Small black square
+          content: "▪";
           position: absolute;
           left: 0;
           top: 0;
@@ -274,7 +274,6 @@
       }
     }
 
-    // Ordered lists (ol) - Custom numbers with dots
     ol {
       counter-reset: list-counter;
 
@@ -282,7 +281,7 @@
         counter-increment: list-counter;
 
         &::before {
-          content: counter(list-counter) "."; // Numbers with dots: "1.", "2.", etc.
+          content: counter(list-counter) ".";
           position: absolute;
           left: 0;
           top: 0;
@@ -290,6 +289,63 @@
           font-weight: bold;
           font-size: inherit;
           line-height: inherit;
+        }
+      }
+    }
+
+    .dual-image-wrapper {
+      @include margin(md, y);
+      width: 100%; // Mobile: full width
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+
+      @include min-width(md) {
+        width: 120%; // Tablet: slightly larger
+        margin-left: -10%; // Center the oversized wrapper
+        margin-right: -10%;
+      }
+
+      @include min-width(lg) {
+        width: 130%; // Desktop: even larger
+        margin-left: -15%; // Center the oversized wrapper
+        margin-right: -15%;
+      }
+
+      @include min-width(xl) {
+        width: 140%; // Large desktop: largest
+        margin-left: -20%; // Center the oversized wrapper
+        margin-right: -20%;
+      }
+
+      .dual-image-content {
+        display: flex !important;
+        flex-direction: column;
+
+        @include min-width(md) {
+          flex-direction: row !important;
+          gap: 1rem;
+        }
+      }
+
+      .image-item {
+        flex: 1;
+
+        img {
+          width: 100%;
+          height: auto;
+          display: block;
+          @include border-radius(md);
+          margin-left: 0; // Reset margins for images inside dual wrapper
+          margin-right: 0;
+        }
+
+        .image-caption {
+          margin-top: 8px;
+          font-size: 0.875rem;
+          color: $black;
+          font-style: italic;
+          text-align: center;
         }
       }
     }
@@ -327,10 +383,35 @@
     }
 
     img {
+      width: 100%; // Mobile: full width
       max-width: 100%;
       height: auto;
       @include border-radius(md);
       @include margin(xl, y);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+
+      @include min-width(md) {
+        width: 120%; // Tablet: slightly larger
+        max-width: 120%;
+        margin-left: -10%; // Center the oversized image
+        margin-right: -10%;
+      }
+
+      @include min-width(lg) {
+        width: 130%; // Desktop: even larger
+        max-width: 130%;
+        margin-left: -15%; // Center the oversized image
+        margin-right: -15%;
+      }
+
+      @include min-width(xl) {
+        width: 140%; // Large desktop: largest
+        max-width: 140%;
+        margin-left: -20%; // Center the oversized image
+        margin-right: -20%;
+      }
     }
 
     blockquote {
@@ -416,16 +497,23 @@
   &__share-section {
     @include flex(column, center, center);
     @include padding(2xl, bottom);
+    @include margin(2xl, bottom);
     opacity: 1;
 
     @include min-width(xl) {
       padding: 0;
+      @include margin(3xl, bottom);
     }
+  }
+
+  &__share-title {
+    @include margin(lg, bottom);
   }
 
   &__related-posts {
     position: relative;
     @include margin(4xl, bottom);
+    @include margin(2xl, top);
   }
 
   &__related-grid {
@@ -444,20 +532,33 @@
     opacity: 1;
   }
 
-  &__cta-title {
-    margin: 0 auto;
-  }
-
   &__cta-section {
     position: relative;
     width: 100%;
     text-align: center;
+    @include margin(3xl, top);
+    @include padding(2xl, top);
+    border-top: 1px solid rgba($black, 0.1);
+
+    @include min-width(md) {
+      @include margin(4xl, top);
+      @include padding(3xl, top);
+    }
   }
 
   &__cta-content {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
+  }
+
+  &__cta-title {
+    margin: 0 auto;
+    @include margin(lg, bottom);
+  }
+
+  &__cta-text {
+    @include margin(lg, bottom);
   }
 
   &__cta-button {

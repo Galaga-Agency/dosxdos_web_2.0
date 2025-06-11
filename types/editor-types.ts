@@ -3,6 +3,7 @@ export enum BlockType {
   HEADING_1 = "heading_1",
   HEADING_2 = "heading_2",
   IMAGE = "image",
+  DUAL_IMAGE = "dual-image",
   QUOTE = "quote",
   LIST_ITEM = "list_item",
   ORDERED_LIST_ITEM = "ordered_list_item",
@@ -22,8 +23,8 @@ export interface BlockMeta {
 export interface EditorBlock {
   id: string;
   type: BlockType | string;
-  content: string;
-  alignment: Alignment; // Changed from optional to required with a default
+  content: string | { leftImage: any; rightImage: any };
+  alignment: Alignment;
   meta?: BlockMeta;
 }
 

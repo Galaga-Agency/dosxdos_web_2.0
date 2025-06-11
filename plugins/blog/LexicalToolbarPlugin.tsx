@@ -309,6 +309,64 @@ export default function LexicalToolbarPlugin({
     [editor, onImageUpload]
   );
 
+  // Show image layout choice modal
+  const showImageLayoutChoice = useCallback(() => {
+    const modal = document.createElement("div");
+    modal.className = "image-layout-choice-modal";
+    modal.innerHTML = `
+      <div class="modal-overlay">
+        <div class="modal-content">
+          <h3>Choose Image Layout</h3>
+          <div class="layout-options">
+            <button class="layout-option" data-layout="single">
+              <div class="layout-preview single-preview"></div>
+              <span>Single Image</span>
+            </button>
+            <button class="layout-option" data-layout="dual">
+              <div class="layout-preview dual-preview">
+                <div class="dual-left"></div>
+                <div class="dual-right"></div>
+              </div>
+              <span>Two Images Side by Side</span>
+            </button>
+          </div>
+          <button class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Handle button clicks
+    const handleLayoutChoice = (layoutType: "single" | "dual") => {
+      if (layoutType === "single") {
+        // Trigger single image upload
+        if (fileInputRef.current) {
+          fileInputRef.current.click();
+        }
+      } else {
+        // Trigger dual image upload modal
+        document.dispatchEvent(new CustomEvent("showDualImageModal"));
+      }
+      document.body.removeChild(modal);
+    };
+
+    // Add event listeners
+    modal.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const layoutOption = target.closest(".layout-option") as HTMLElement;
+      const cancelBtn = target.closest(".cancel-btn");
+      const overlay = target.closest(".modal-overlay");
+
+      if (layoutOption) {
+        const layout = layoutOption.dataset.layout as "single" | "dual";
+        handleLayoutChoice(layout);
+      } else if (cancelBtn || (overlay && e.target === overlay)) {
+        document.body.removeChild(modal);
+      }
+    });
+  }, []);
+
   if (disabled) {
     return null;
   }
@@ -742,12 +800,13 @@ export default function LexicalToolbarPlugin({
         </i>
       </button>
 
+      {/* Updated Image Button - Now shows layout choice */}
       <button
         type="button"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          fileInputRef.current?.click();
+          showImageLayoutChoice();
         }}
         className="toolbar-item"
         aria-label="Insert Image"

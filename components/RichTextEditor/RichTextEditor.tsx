@@ -15,6 +15,7 @@ import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { LinkNode, AutoLinkNode } from "@lexical/link";
 import { ImageNode } from "@/nodes/image-node";
+import { DualImageNode } from "@/nodes/dual-image-node";
 import { EditorState } from "lexical";
 import { lexicalToEditorBlocks, editorBlocksToLexical } from "@/utils/editor";
 import "./RichTextEditor.scss";
@@ -25,6 +26,9 @@ import LexicalEmojiPlugin from "@/plugins/blog/LexicalEmojiPlugin";
 import { useStickyInputFocus } from "@/hooks/useStickyInputFocus";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { PreventFocusStealingPlugin } from "@/plugins/blog/PreventFocusStealingPlugin";
+import { BlockType } from "@/types/editor-types";
+
+console.log("🔍 RichTextEditor loaded, DualImageNode:", DualImageNode);
 
 export interface RichTextEditorProps {
   value?: any;
@@ -86,44 +90,45 @@ export default function RichTextEditor({
     return () => clearInterval(interval);
   }, []);
 
-useEffect(() => {
-  if (initialEditorState !== null) return;
+  useEffect(() => {
+    if (initialEditorState !== null) return;
 
-  try {
-    if (Array.isArray(value)) {
-      const lexicalState = editorBlocksToLexical(value);
-      setInitialEditorState(lexicalState);
+    try {
+      if (Array.isArray(value)) {
+        const lexicalState = editorBlocksToLexical(value);
+        setInitialEditorState(lexicalState);
 
-      const images = value.filter((b) => b.type === "image");
-      setLocalImageBlocks(images);
-    } else if (typeof value === "string") {
-      try {
-        JSON.parse(value);
-        setInitialEditorState(value);
-      } catch {
-        const fallback: any = [
-          {
-            id: "initial",
-            type: "paragraph",
-            content: value,
-            alignment: "left",
-            meta: {},
-          },
-        ];
-        setInitialEditorState(editorBlocksToLexical(fallback));
+        const images = value.filter(
+          (b) => b.type === "image" || b.type === "dual-image"
+        );
+        setLocalImageBlocks(images);
+      } else if (typeof value === "string") {
+        try {
+          JSON.parse(value);
+          setInitialEditorState(value);
+        } catch {
+          const fallback: any = [
+            {
+              id: "initial",
+              type: "paragraph",
+              content: value,
+              alignment: "left",
+              meta: {},
+            },
+          ];
+          setInitialEditorState(editorBlocksToLexical(fallback));
+        }
+      } else {
+        setInitialEditorState(editorBlocksToLexical([]));
       }
-    } else {
+
+      setCanRender(true);
+    } catch (err) {
+      console.error("❌ Failed to parse editor value:", err);
       setInitialEditorState(editorBlocksToLexical([]));
+      setCanRender(true);
     }
-
-    setCanRender(true);
-  } catch (err) {
-    console.error("❌ Failed to parse editor value:", err);
-    setInitialEditorState(editorBlocksToLexical([]));
-    setCanRender(true);
-  }
-}, [initialEditorState, value]);
-
+  }, [initialEditorState, value]);
 
   // Lexical config
   const theme = {
@@ -157,10 +162,28 @@ useEffect(() => {
     alignJustify: "editor-align-justify",
   };
 
+  console.log("🔍 Initializing Lexical with nodes:", [
+    HeadingNode,
+    QuoteNode,
+    ListNode,
+    ListItemNode,
+    LinkNode,
+    AutoLinkNode,
+    ImageNode,
+    DualImageNode,
+    TableNode,
+    TableCellNode,
+    TableRowNode,
+  ]);
+
   const initialConfig = {
     namespace: "RichTextEditor",
     theme,
-    onError: (error: Error) => console.error("Lexical error:", error),
+    onError: (error: Error) => {
+      console.error("🚨 LEXICAL ERROR:", error);
+      console.error("🚨 ERROR STACK:", error.stack);
+      console.error("🚨 ERROR MESSAGE:", error.message);
+    },
     nodes: [
       HeadingNode,
       QuoteNode,
@@ -169,6 +192,7 @@ useEffect(() => {
       LinkNode,
       AutoLinkNode,
       ImageNode,
+      DualImageNode,
       TableNode,
       TableCellNode,
       TableRowNode,
@@ -180,23 +204,30 @@ useEffect(() => {
     setLocalImageBlocks((prev) => [...prev, imageBlock]);
   };
 
-  const handleEditorChange = (editorState: EditorState) => {
-    if (!onChange) return;
+const handleEditorChange = (editorState: EditorState) => {
+  if (!onChange) return;
 
-    editorState.read(() => {
-      const json = editorState.toJSON();
-      const stateString = JSON.stringify(json);
-      const blocks = lexicalToEditorBlocks(stateString);
+  editorState.read(() => {
+    const json = editorState.toJSON();
+    const stateString = JSON.stringify(json);
+    const blocks = lexicalToEditorBlocks(stateString);
 
-      const updatedImages = localImageBlocks.filter((img) =>
-        blocks.find((b) => b.type === "image" && b.content === img.content)
-      );
+    const updatedImages = localImageBlocks.filter((img) =>
+      blocks.find(
+        (b) =>
+          (b.type === "image" && b.content === img.content) ||
+          (b.type === "dual-image" &&
+            JSON.stringify(b.content) === JSON.stringify(img.content)) ||
+          (b.type === BlockType.DUAL_IMAGE &&
+            JSON.stringify(b.content) === JSON.stringify(img.content))
+      )
+    );
 
-      const finalBlocks = [...blocks, ...updatedImages];
-      setLocalImageBlocks(updatedImages);
-      onChange(finalBlocks);
-    });
-  };
+    const finalBlocks = [...blocks, ...updatedImages];
+    setLocalImageBlocks(updatedImages);
+    onChange(finalBlocks);
+  });
+};
 
   useEffect(() => {
     const editorEl = editorRef.current?.querySelector(

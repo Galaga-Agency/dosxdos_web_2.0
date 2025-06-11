@@ -1,17 +1,38 @@
 "use client";
 
-import React, { InputHTMLAttributes, useState } from "react";
+import React, {
+  InputHTMLAttributes,
+  TextareaHTMLAttributes,
+  useState,
+} from "react";
 import { FieldError } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import "./CustomInput.scss";
 
-interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface BaseInputProps {
   label: string;
   error?: FieldError;
   placeholder?: string;
   isLoading?: boolean;
-  inputRef?: React.Ref<HTMLInputElement>;
+  inputRef?: React.Ref<HTMLInputElement | HTMLTextAreaElement>;
 }
+
+interface SingleLineInputProps
+  extends BaseInputProps,
+    Omit<InputHTMLAttributes<HTMLInputElement>, "ref"> {
+  multiline?: false;
+  rows?: never;
+}
+
+interface MultiLineInputProps
+  extends BaseInputProps,
+    Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "ref"> {
+  multiline: true;
+  rows?: number;
+  type?: never;
+}
+
+type CustomInputProps = SingleLineInputProps | MultiLineInputProps;
 
 const CustomInput = ({
   label,
@@ -20,6 +41,8 @@ const CustomInput = ({
   placeholder,
   className = "",
   inputRef,
+  multiline,
+  rows,
   type,
   ...props
 }: CustomInputProps) => {
@@ -36,15 +59,26 @@ const CustomInput = ({
     <div className="form-input">
       <label>{label}</label>
       <div className="input-wrapper">
-        <input
-          ref={inputRef}
-          type={inputType}
-          className={`${error ? "error" : ""} ${className}`}
-          disabled={isLoading}
-          placeholder={placeholder}
-          {...props}
-        />
-        {isPasswordField && (
+        {multiline ? (
+          <textarea
+            ref={inputRef as React.Ref<HTMLTextAreaElement>}
+            className={`${error ? "error" : ""} ${className}`}
+            disabled={isLoading}
+            placeholder={placeholder}
+            rows={rows || 3}
+            {...(props as TextareaHTMLAttributes<HTMLTextAreaElement>)}
+          />
+        ) : (
+          <input
+            ref={inputRef as React.Ref<HTMLInputElement>}
+            type={inputType}
+            className={`${error ? "error" : ""} ${className}`}
+            disabled={isLoading}
+            placeholder={placeholder}
+            {...(props as InputHTMLAttributes<HTMLInputElement>)}
+          />
+        )}
+        {isPasswordField && !multiline && (
           <button
             type="button"
             className="password-toggle"

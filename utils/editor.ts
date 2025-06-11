@@ -21,6 +21,27 @@ export function lexicalToEditorBlocks(lexicalState: string): EditorBlock[] {
   }
 }
 
+function processDualImage(node: any, blocks: EditorBlock[]) {
+  // Make sure we have valid dual image data
+  if (
+    node.leftImage &&
+    node.rightImage &&
+    node.leftImage.src &&
+    node.rightImage.src
+  ) {
+    blocks.push({
+      id: uuidv4(),
+      type: BlockType.DUAL_IMAGE, // Use the enum
+      content: {
+        leftImage: node.leftImage,
+        rightImage: node.rightImage,
+      },
+      alignment: node.alignment || "center",
+      meta: {},
+    });
+  }
+}
+
 function processChildren(children: any[], blocks: EditorBlock[]) {
   children.forEach((node) => {
     switch (node.type) {
@@ -32,6 +53,9 @@ function processChildren(children: any[], blocks: EditorBlock[]) {
         break;
       case "image":
         processImage(node, blocks);
+        break;
+      case "dual-image":
+        processDualImage(node, blocks);
         break;
       case "quote":
         processQuote(node, blocks);
@@ -216,6 +240,16 @@ function decodeTextFormat(format: number): {
   };
 }
 
+function createDualImageNode(content: any, alignment: string): any {
+  return {
+    type: "dual-image",
+    leftImage: content.leftImage,
+    rightImage: content.rightImage,
+    alignment: alignment || "center",
+    version: 1,
+  };
+}
+
 /**
  * Converts EditorBlocks to a Lexical editor state string
  * This is a simplified implementation that may need to be expanded
@@ -225,37 +259,44 @@ export function editorBlocksToLexical(blocks: EditorBlock[]): string {
     switch (block.type) {
       case BlockType.PARAGRAPH:
         return createParagraphNode(
-          block.content,
+          typeof block.content === "string" ? block.content : "",
           getFormatFromAlignment(block.alignment)
         );
       case BlockType.HEADING_1:
         return createHeadingNode(
-          block.content,
+          typeof block.content === "string" ? block.content : "",
           "h1",
           getFormatFromAlignment(block.alignment)
         );
       case BlockType.HEADING_2:
         return createHeadingNode(
-          block.content,
+          typeof block.content === "string" ? block.content : "",
           "h2",
           getFormatFromAlignment(block.alignment)
         );
       case BlockType.IMAGE:
         return createImageNode(
-          block.content,
+          typeof block.content === "string" ? block.content : "",
           block.meta?.alt ?? "",
           block.meta?.caption ?? ""
         );
+      case BlockType.DUAL_IMAGE:
+        return createDualImageNode(block.content, block.alignment);
       case BlockType.QUOTE:
-        return createQuoteNode(block.content);
+        return createQuoteNode(
+          typeof block.content === "string" ? block.content : ""
+        );
       case BlockType.LIST_ITEM:
       case BlockType.ORDERED_LIST_ITEM:
         return createListNode(
           block.type === BlockType.ORDERED_LIST_ITEM ? "number" : "bullet",
-          [block.content]
+          [typeof block.content === "string" ? block.content : ""]
         );
       default:
-        return createParagraphNode(block.content, 0);
+        return createParagraphNode(
+          typeof block.content === "string" ? block.content : "",
+          0
+        );
     }
   });
 
@@ -411,27 +452,27 @@ export function processEditorContent(blocks: EditorBlock[]): string {
     .map((block) => {
       switch (block.type) {
         case "paragraph":
-          return `<p${getAlignmentStyle(block.alignment)}>${block.content}</p>`;
+          return `<p${getAlignmentStyle(block.alignment)}>${
+            typeof block.content === "string" ? block.content : ""
+          }</p>`;
 
         case "heading_1":
           return `<h1${getAlignmentStyle(block.alignment)}>${
-            block.content
+            typeof block.content === "string" ? block.content : ""
           }</h1>`;
 
         case "heading_2":
           return `<h2${getAlignmentStyle(block.alignment)}>${
-            block.content
+            typeof block.content === "string" ? block.content : ""
           }</h2>`;
 
         case "image":
-          console.log(
-            "[processEditorContent] Processing image with src:",
-            block.content
-          );
+          const imageContent =
+            typeof block.content === "string" ? block.content : "";
           return `
             <div class="rich-text-editor__image-container">
               <div class="rich-text-editor__image-wrapper">
-                <img src="${block.content}" alt="${
+                <img src="${imageContent}" alt="${
             block.meta?.alt || ""
           }" class="rich-text-editor__image" />
                 ${
@@ -443,16 +484,56 @@ export function processEditorContent(blocks: EditorBlock[]): string {
             </div>
           `;
 
+        case "dual-image":
+        case BlockType.DUAL_IMAGE:
+          if (
+            typeof block.content === "object" &&
+            block.content.leftImage &&
+            block.content.rightImage
+          ) {
+            return `
+      <div class="dual-image-wrapper align-${block.alignment}">
+        <div class="dual-image-content">
+          <div class="image-item left-image">
+            <img src="${block.content.leftImage.src}" alt="${
+              block.content.leftImage.altText
+            }" />
+            ${
+              block.content.leftImage.caption
+                ? `<div class="image-caption">${block.content.leftImage.caption}</div>`
+                : ""
+            }
+          </div>
+          <div class="image-item right-image">
+            <img src="${block.content.rightImage.src}" alt="${
+              block.content.rightImage.altText
+            }" />
+            ${
+              block.content.rightImage.caption
+                ? `<div class="image-caption">${block.content.rightImage.caption}</div>`
+                : ""
+            }
+          </div>
+        </div>
+      </div>
+    `;
+          }
+          return "";
+
         case "list_item":
-          return `<ul class="editor-list-ul"><li class="editor-list-li">${block.content}</li></ul>`;
+          return `<ul class="editor-list-ul"><li class="editor-list-li">${
+            typeof block.content === "string" ? block.content : ""
+          }</li></ul>`;
 
         case "ordered_list_item":
-          return `<ol class="editor-list-ol"><li class="editor-list-li">${block.content}</li></ol>`;
+          return `<ol class="editor-list-ol"><li class="editor-list-li">${
+            typeof block.content === "string" ? block.content : ""
+          }</li></ol>`;
 
         case "quote":
           return `
             <blockquote class="rich-text-editor__quote">
-              <p>${block.content}</p>
+              <p>${typeof block.content === "string" ? block.content : ""}</p>
               ${
                 block.meta?.citation
                   ? `<cite>${block.meta.citation}</cite>`
@@ -465,7 +546,9 @@ export function processEditorContent(blocks: EditorBlock[]): string {
           return `<hr class="rich-text-editor__separator" />`;
 
         default:
-          return `<p>${block.content}</p>`;
+          return `<p>${
+            typeof block.content === "string" ? block.content : ""
+          }</p>`;
       }
     })
     .join("\n");

@@ -54,7 +54,7 @@ export default function NewBlogPostPage() {
       title: "",
       category: "",
       excerpt: "",
-      author: "Admin",
+      author: "Dos x Dos Grupo Imagen",
       published: true,
     },
   });

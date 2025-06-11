@@ -24,13 +24,16 @@
     align-items: center;
   }
 
-  input {
+  // Shared styles for both input and textarea
+  input,
+  textarea {
     width: 100%;
     padding: 0.75rem 1rem;
     border: 1px solid rgba($secondary-color, 0.3);
     @include border-radius(md);
     transition: all 0.3s ease;
     @include margin(sm, top);
+    font-family: inherit;
 
     &::placeholder {
       color: rgba($black, 0.3);
@@ -46,11 +49,30 @@
       border-color: $secondary-color;
       background-color: rgba($secondary-color, 0.03);
     }
+  }
 
+  input {
     // Add padding-right when there's a toggle button
     &[type="password"] {
       padding-right: 3rem;
     }
+  }
+
+  // Specific textarea styles
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+
+    // Override input-wrapper flex for textarea
+    & {
+      display: block;
+    }
+  }
+
+  // Adjust input-wrapper for textarea
+  &:has(textarea) .input-wrapper {
+    display: block;
   }
 
   .password-toggle {

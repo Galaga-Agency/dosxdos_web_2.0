@@ -5,29 +5,9 @@ export const useFormSteps = (trigger: any) => {
 
   const validateStep = async (step: number) => {
     const fieldsMap = {
-      1: [
-        "company",
-        "cif",
-        "address",
-        "city",
-        "postalCode",
-        "province",
-        "phone",
-        "email",
-      ],
+      1: ["firstName", "lastName", "phone", "email", "howDidYouKnow"],
       2: [
-        "firstName",
-        "lastName",
-        "contactPhone",
-        "contactEmail",
-        "administration",
-      ],
-      3: [
-        "howDidYouKnow",
-        "acceptTerms",
-        "signature",
-        "signerName",
-        "signerPosition",
+        // No mandatory fields for step 2 - only service selection is required but handled separately
       ],
     };
 
@@ -37,7 +17,7 @@ export const useFormSteps = (trigger: any) => {
   const nextStep = async () => {
     const isValid = await validateStep(currentStep);
     if (isValid) {
-      setCurrentStep((prev) => Math.min(prev + 1, 3));
+      setCurrentStep((prev) => Math.min(prev + 1, 2));
     }
   };
 
