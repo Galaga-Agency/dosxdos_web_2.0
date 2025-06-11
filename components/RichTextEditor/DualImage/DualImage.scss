@@ -1,0 +1,55 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.dual-image-wrapper {
+  @include margin(lg, y);
+  width: 100%;
+
+  &.align-left {
+    text-align: left;
+  }
+
+  &.align-center {
+    text-align: center;
+  }
+
+  &.align-right {
+    text-align: right;
+  }
+
+  .dual-image-content {
+    display: flex !important;
+    flex-direction: column;
+    @include gap(sm);
+    max-width: 100%;
+
+    @include min-width(md) {
+      flex-direction: row !important;
+      @include gap(md);
+    }
+  }
+
+  .image-item {
+    flex: 1;
+    min-width: 0;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      @include border-radius(md);
+      box-shadow: $shadow-sm;
+    }
+
+    .image-caption {
+      @include margin(xs, top);
+      @include font-size(sm);
+      color: #666;
+      font-style: italic;
+      text-align: center;
+      line-height: 1.4;
+    }
+  }
+}

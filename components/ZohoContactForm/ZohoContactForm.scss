@@ -104,6 +104,48 @@
           }
         }
       }
+
+      // Message section styling
+      .message-section {
+        @include margin(xl, top);
+        @include padding(lg, top);
+        border-top: 1px solid lighten($secondary-color, 5%);
+        width: 100%;
+        
+        // Visual separator with icon or text
+        &::before {
+          content: "💬 Cuéntanos más detalles";
+          display: block;
+          text-align: center;
+          @include font-size(base);
+          @include font-weight(medium);
+          @include margin(sm, bottom);
+          color: rgba($black, 0.7);
+        }
+      }
+    }
+
+    // Conditional "Otros" input styling
+    .otros-details {
+      @include margin(md, top);
+      @include padding(md);
+      background-color: lighten($secondary-color, 8%);
+      @include border-radius(md);
+      border-left: 3px solid $black;
+
+      // Animation for smooth appearance
+      animation: slideInDown 0.3s ease-out;
+
+      @keyframes slideInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     }
   }
 
@@ -211,15 +253,12 @@
         }
       }
 
-      h4 {
-        color: $black;
+      .step-description {
+        text-align: center;
+        color: rgba($black, 0.7);
         @include font-size(base);
-        @include font-weight(medium);
-        @include margin(lg, top);
-        @include margin(sm, bottom);
-        border-bottom: 1px solid $secondary-color;
-        @include padding(xs, bottom);
-
+        @include margin(md, bottom);
+        
         @include min-width(md) {
           @include font-size(lg);
         }
@@ -238,7 +277,7 @@
         @include gap(lg);
       }
 
-      // Full-width items (should span both columns on larger screens)
+      // Full-width items
       .form-group {
         &.full-width {
           @include min-width(md) {
@@ -248,53 +287,72 @@
       }
     }
 
+    // Services grid for step 2
+    .services-grid {
+      display: flex;
+      flex-direction: column;
+      @include gap(md);
+
+      .services-checkboxes {
+        display: grid;
+        grid-template-columns: 1fr;
+        @include gap(sm);
+
+        @include min-width(sm) {
+          grid-template-columns: 1fr 1fr;
+          @include gap(md);
+        }
+
+        @include min-width(lg) {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        @include min-width(xl) {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        // Custom checkbox styling within services
+        :global(.custom-checkbox) {
+          @include padding(sm);
+          @include border-radius(md);
+          border: 2px solid $secondary-color;
+          @include transition-duration(normal);
+          cursor: pointer;
+          background-color: $white;
+
+          &:hover {
+            border-color: darken($secondary-color, 10%);
+            background-color: lighten($secondary-color, 5%);
+          }
+
+          // When checked
+          &:has(input:checked) {
+            border-color: $black;
+            background-color: lighten($black, 95%);
+          }
+
+          :global(.custom-checkbox__container) {
+            @include flex(row, flex-start, center);
+            @include gap(xs);
+            @include font-weight(medium);
+            color: $black;
+            cursor: pointer;
+            width: 100%;
+
+            @include min-width(md) {
+              @include font-size(base);
+            }
+          }
+
+          :global(.custom-checkbox__checkmark) {
+            flex-shrink: 0;
+          }
+        }
+      }
+    }
+
     .form-group {
       position: relative;
-
-      // Custom select styling (since we still have one select)
-      select {
-        width: 100%;
-        @include padding(xs);
-        border: 1px solid $secondary-color;
-        background-color: $white;
-        color: $black;
-        @include font-size(sm);
-        @include border-radius(md);
-        @include transition-duration(normal);
-        cursor: pointer;
-
-        @include min-width(md) {
-          @include padding(sm);
-          @include font-size(base);
-        }
-
-        &:focus {
-          outline: none;
-          border-color: darken($secondary-color, 10%);
-        }
-
-        &:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-      }
-
-      // Label for select field
-      > label {
-        display: block;
-        color: $black;
-        @include font-size(sm);
-        @include font-weight(semibold);
-        @include margin(xs, bottom);
-
-        @include min-width(md) {
-          @include font-size(base);
-        }
-      }
-
-      .input-container {
-        position: relative;
-      }
 
       .error-message {
         display: block;
@@ -302,6 +360,7 @@
         color: $danger-color;
         @include font-size(xs);
         @include font-weight(medium);
+        text-align: center;
 
         @include min-width(md) {
           @include font-size(sm);
@@ -337,6 +396,12 @@
           justify-content: center;
         }
       }
+
+      // Disabled submit button styling
+      .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
     }
   }
 
@@ -344,8 +409,7 @@
   .form-grid .form-group {
     // Remove default margins from custom components when in grid
     .form-input,
-    .custom-checkbox,
-    .signature-canvas {
+    .custom-checkbox {
       margin-bottom: 0;
     }
   }

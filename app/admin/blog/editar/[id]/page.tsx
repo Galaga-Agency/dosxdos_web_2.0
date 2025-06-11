@@ -56,7 +56,7 @@ export default function EditBlogPostPage() {
       title: "",
       category: "",
       excerpt: "",
-      author: "Admin",
+      author: "Dos x Dos Grupo Imagen",
       published: true,
     },
   });
@@ -88,7 +88,7 @@ export default function EditBlogPostPage() {
           title: post.title || "",
           category: post.category || "",
           excerpt: post.excerpt || "",
-          author: post.author || "Admin",
+          author: post.author || "Dos x Dos Grupo Imagen",
           published: post.published ?? true,
         });
 
@@ -118,7 +118,7 @@ export default function EditBlogPostPage() {
               setEditorContent(blocks);
             } else if (typeof blocks === "object" && blocks.root) {
               const parsed = lexicalToEditorBlocks(post.editorBlocks);
-              setEditorContent(parsed);
+              setEditorContent(parsed as any);
             }
           } catch (err) {
             console.error("❌ Error parsing editorBlocks:", err);
@@ -282,7 +282,7 @@ export default function EditBlogPostPage() {
         content: htmlContent,
         category: data.category || "",
         excerpt: data.excerpt || "",
-        author: data.author || "Admin",
+        author: data.author || "Dos x Dos Grupo Imagen",
         published: data.published ?? true,
         coverImage: effectiveCoverImage,
         slug: data.slug || undefined,
