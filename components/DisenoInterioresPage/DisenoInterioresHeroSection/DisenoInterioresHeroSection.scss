@@ -10,7 +10,7 @@
   transform: translateX(-50%);
   height: 100vh;
   margin-bottom: 3rem;
-  overflow: hidden;
+  overflow: visible; // Changed to visible to show floating image
   display: flex;
   align-items: flex-end;
 
@@ -24,6 +24,7 @@
     opacity: 0;
     display: flex;
     align-items: flex-end;
+    overflow: hidden; // Keep overflow hidden only on the background container
   }
 
   &__image-wrapper {
@@ -89,30 +90,27 @@
     position: absolute;
     bottom: -20%;
     right: 5%;
-    width: 450px;
-    height: 300px;
+    width: 250px;
+    height: 170px;
     will-change: transform;
+    backface-visibility: hidden;
     @include z-index(above);
-
-    @media (max-width: 767px) {
-      width: 250px;
-      height: 170px;
-      bottom: -15%;
-      right: 3%;
-    }
+    opacity: 0;
+    visibility: hidden;
 
     @include min-width(md) {
       width: 350px;
       height: 230px;
       bottom: -18%;
       right: 4%;
+      visibility: visible;
     }
 
     @include min-width(lg) {
       width: 450px;
       height: 300px;
-      bottom: -20%;
-      right: 5%;
+      bottom: -15%;
+      right: 10%;
     }
 
     img {
@@ -120,8 +118,9 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      @include transition(transform, slow);
       will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
   }
 }

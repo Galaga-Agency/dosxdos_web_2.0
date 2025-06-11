@@ -29,6 +29,10 @@ import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
 import EventosHeroSection from "@/components/EventosPage/EventosHeroSection/EventosHeroSection";
 import EventosIntroSection from "@/components/EventosPage/EventosIntroSection/EventosIntroSection";
+import EventosMethodologySection from "@/components/EventosPage/EventosMethodologySection/EventosMethodologySection";
+import EventosPhilosophySection from "@/components/EventosPage/EventosPhilosophySection/EventosPhilosophySection";
+import EventosCTASection from "@/components/EventosPage/EventosCTASection/EventosCTASection";
+import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 
 const EventosPage = () => {
   useScrollSmooth();
@@ -67,6 +71,7 @@ const EventosPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
+      cursorBubbleAnimation();
       footerAnimation();
     }, 100);
 
@@ -91,7 +96,10 @@ const EventosPage = () => {
 
         <div className="eventos-page__container">
           <EventosHeroSection />
-          <EventosIntroSection/>
+          <EventosIntroSection />
+          <EventosMethodologySection />
+          <EventosPhilosophySection />
+          <EventosCTASection />
         </div>
       </div>
       <Footer />
