@@ -17,11 +17,8 @@ import {
 } from "@/utils/animations/text-anim";
 import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
-import { initStatsCounter } from "@/utils/animations/stats-counter";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
-import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
-import { servicePanel } from "@/utils/animations/panel-animation";
 
 import "./fabricacion-impresion-page.scss";
 import FabricacionImpresionHeroSection from "@/components/FabricacionImpresionPage/FabricacionImpresionHeroSection/FabricacionImpresionHeroSection";
@@ -39,7 +36,6 @@ const FabricacionImpresionPage = () => {
   useScrollSmooth();
 
   const cleanupRef = useRef<(() => void) | null>(null);
-  const [heroReady, setHeroReady] = useState(false);
 
   const breadcrumbItems = [
     { name: "Inicio", href: "/" },
@@ -63,12 +59,9 @@ const FabricacionImpresionPage = () => {
 
   useGSAP(() => {
     const timer = setTimeout(() => {
-      accionSocialHeroAnim();
       charAnimation();
       initCardMouseParallax();
       imageParallax();
-      initStatsCounter();
-      servicePanel();
       animateHeroSlider();
       initRollingTextAnimation();
       rollUpTextAnimation();

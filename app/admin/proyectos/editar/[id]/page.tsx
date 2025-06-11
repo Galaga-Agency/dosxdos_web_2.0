@@ -27,9 +27,7 @@ export default function EditProjectPage() {
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [projectImages, setProjectImages] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
-  const [serviceInput, setServiceInput] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState("");
+  const [categoryInput, setCategoryInput] = useState("");
   const [notFound, setNotFound] = useState(false);
 
   // Refs
@@ -81,6 +79,11 @@ export default function EditProjectPage() {
           return;
         }
 
+        // Set categories
+        if (project.categories && Array.isArray(project.categories)) {
+          setCategories(project.categories);
+        }
+
         // Populate form with existing data
         reset({
           name: project.name || "",
@@ -104,16 +107,6 @@ export default function EditProjectPage() {
         // Set gallery images
         if (project.images && Array.isArray(project.images)) {
           setProjectImages(project.images);
-        }
-
-        // Set services
-        if (project.categories && Array.isArray(project.categories)) {
-          setCategories(project.categories);
-        }
-
-        // Set tags
-        if (project.tags && Array.isArray(project.tags)) {
-          setTags(project.tags);
         }
 
         setIsLoading(false);
@@ -224,32 +217,18 @@ export default function EditProjectPage() {
     setProjectImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleServiceKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && serviceInput.trim()) {
+  const handleCategoryKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && categoryInput.trim()) {
       e.preventDefault();
-      if (!categories.includes(serviceInput.trim())) {
-        setCategories([...categories, serviceInput.trim()]);
+      if (!categories.includes(categoryInput.trim())) {
+        setCategories([...categories, categoryInput.trim()]);
       }
-      setServiceInput("");
+      setCategoryInput("");
     }
   };
 
-  const removeService = (service: string) => {
-    setCategories(categories.filter((s) => s !== service));
-  };
-
-  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && tagInput.trim()) {
-      e.preventDefault();
-      if (!tags.includes(tagInput.trim())) {
-        setTags([...tags, tagInput.trim()]);
-      }
-      setTagInput("");
-    }
-  };
-
-  const removeTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
+  const removeCategory = (category: string) => {
+    setCategories(categories.filter((s) => s !== category));
   };
 
   const onSubmit = async (data: Partial<Project>) => {
@@ -449,15 +428,15 @@ export default function EditProjectPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="services">Categorías</label>
+              <label htmlFor="categories">Categorías</label>
               <input
                 type="text"
-                id="services"
+                id="categories"
                 className="form-input"
-                placeholder="Presiona Enter para agregar un servicio"
-                value={serviceInput}
-                onChange={(e) => setServiceInput(e.target.value)}
-                onKeyDown={handleServiceKeyDown}
+                placeholder="Presiona Enter para agregar una categoría"
+                value={categoryInput}
+                onChange={(e) => setCategoryInput(e.target.value)}
+                onKeyDown={handleCategoryKeyDown}
                 disabled={isSubmitting}
               />
               <div className="tag-list">
@@ -466,9 +445,9 @@ export default function EditProjectPage() {
                     {category}
                     <button
                       type="button"
-                      onClick={() => removeService(category)}
+                      onClick={() => removeCategory(category)}
                       className="tag-remove"
-                      aria-label="Eliminar servicio"
+                      aria-label="Eliminar categoría"
                     >
                       ×
                     </button>

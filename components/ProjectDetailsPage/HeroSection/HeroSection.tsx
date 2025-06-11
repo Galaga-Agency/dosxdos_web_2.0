@@ -9,9 +9,10 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
-  // Format year for display
   const formattedYear =
     project.year?.toString() || new Date().getFullYear().toString();
+
+  console.log("project.categories:", project.categories);
 
   return (
     <section
@@ -27,11 +28,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
                   {project.name}
                 </h1>
 
-                {project?.categories.map((category, index) => (
-                  <span className="portfolio-hero__subtitle " key={index}>
-                    {category}
-                  </span>
-                ))}
+                <div className="portfolio-hero__categories">
+                  {project?.categories?.map((category, index) => (
+                    <span
+                      className="portfolio-hero__subtitle"
+                      key={index}
+                      style={{ opacity: 1 }}
+                    >
+                      {category}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -40,19 +47,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
                 <p>{project.description}</p>
               </div>
 
-              {/* Project metadata */}
               <div className="portfolio-hero__meta-wrapper">
                 <div className="portfolio-hero__meta">
                   <span>CLIENTE</span>
                   <h5>{project.client}</h5>
                 </div>
-
-                {/* {project.services && project.services.length > 0 && (
-                  <div className="portfolio-hero__meta">
-                    <span>SERVICIOS</span>
-                    <h5>{project.services.join(", ")}</h5>
-                  </div>
-                )} */}
 
                 {project.location && (
                   <div className="portfolio-hero__meta">
