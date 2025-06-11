@@ -27,9 +27,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
                   {project.name}
                 </h1>
 
-                {project.services.map((service, index) => (
+                {project?.categories.map((category, index) => (
                   <span className="portfolio-hero__subtitle " key={index}>
-                    {service}
+                    {category}
                   </span>
                 ))}
               </div>
@@ -61,24 +61,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ project }) => {
                   </div>
                 )}
 
-                {project.duration && (
-                  <div className="portfolio-hero__meta">
-                    <span>DURACIÓN</span>
-                    <h5>{project.duration}</h5>
-                  </div>
-                )}
-
                 <div className="portfolio-hero__meta">
                   <span>AÑO</span>
                   <h5>{formattedYear}</h5>
                 </div>
-
-                {project.tags && project.tags.length > 0 && (
-                  <div className="portfolio-hero__meta">
-                    <span>CATEGORÍAS</span>
-                    <h5>{project.tags.join(", ")}</h5>
-                  </div>
-                )}
               </div>
             </div>
           </div>

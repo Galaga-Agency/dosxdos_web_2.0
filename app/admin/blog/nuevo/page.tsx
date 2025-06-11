@@ -138,66 +138,66 @@ export default function NewBlogPostPage() {
   };
 
   // Handle form submission
-const onSubmit = async (data: Partial<BlogPost>) => {
-  try {
-    setIsSubmitting(true);
+  const onSubmit = async (data: Partial<BlogPost>) => {
+    try {
+      setIsSubmitting(true);
 
-    // Animate form before submission
-    await blogFormSubmitAnimation();
+      // Animate form before submission
+      await blogFormSubmitAnimation();
 
-    // Process content
-    const uniqueEditorContent = editorContent.filter(
-      (block, index, self) =>
-        block.type !== "image" ||
-        self.findIndex(
-          (b) => b.type === "image" && b.content === block.content
-        ) === index
-    );
+      // Process content
+      const uniqueEditorContent = editorContent.filter(
+        (block, index, self) =>
+          block.type !== "image" ||
+          self.findIndex(
+            (b) => b.type === "image" && b.content === block.content
+          ) === index
+      );
 
-    const effectiveCoverImage =
-      coverImage ||
-      uniqueEditorContent.find((block) => block.type === "image")?.content ||
-      "/assets/img/default-blog-image.jpg";
+      const effectiveCoverImage =
+        coverImage ||
+        uniqueEditorContent.find((block) => block.type === "image")?.content ||
+        "/assets/img/default-blog-image.jpg";
 
-    const htmlContent = processEditorContent(uniqueEditorContent as any);
+      const htmlContent = processEditorContent(uniqueEditorContent as any);
 
-    const generatedSlug = generateSlug(data.title || "");
+      const generatedSlug = generateSlug(data.title || "");
 
-    // Create post object
-    const newPost: BlogPost = {
-      id: uuidv4(),
-      date: new Date().toISOString(),
-      title: data.title || "",
-      content: htmlContent,
-      category: data.category || "",
-      excerpt: data.excerpt || "",
-      author: data.author || "Admin",
-      published: data.published ?? true,
-      coverImage: effectiveCoverImage,
-      slug: generatedSlug,
-      tags: tags,
-      readTime: calculateReadTime(htmlContent),
-      editorBlocks: JSON.stringify(uniqueEditorContent),
-    };
+      // Create post object
+      const newPost: BlogPost = {
+        id: uuidv4(),
+        date: new Date().toISOString(),
+        title: data.title || "",
+        content: htmlContent,
+        category: data.category || "",
+        excerpt: data.excerpt || "",
+        author: data.author || "Admin",
+        published: data.published ?? true,
+        coverImage: effectiveCoverImage,
+        slug: generatedSlug,
+        tags: tags,
+        readTime: calculateReadTime(htmlContent),
+        editorBlocks: JSON.stringify(uniqueEditorContent),
+      };
 
-    // Submit post
-    await createOrUpdatePost(newPost);
+      // Submit post
+      await createOrUpdatePost(newPost);
 
-    // UPDATE CACHE IMMEDIATELY AFTER SUCCESSFUL API CALL
-    useDataStore.getState().addPost(newPost);
+      // UPDATE CACHE IMMEDIATELY AFTER SUCCESSFUL API CALL
+      useDataStore.getState().addPost(newPost);
 
-    // Reset form animation and redirect
-    await blogFormResetAnimation();
-    router.push("/admin");
-  } catch (error) {
-    console.error("Error creating post:", error);
-    alert("No se pudo crear el post. Por favor, inténtalo de nuevo.");
+      // Reset form animation and redirect
+      await blogFormResetAnimation();
+      router.push("/admin");
+    } catch (error) {
+      console.error("Error creating post:", error);
+      alert("No se pudo crear el post. Por favor, inténtalo de nuevo.");
 
-    // Reset form animation on error
-    await blogFormResetAnimation();
-    setIsSubmitting(false);
-  }
-};
+      // Reset form animation on error
+      await blogFormResetAnimation();
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <ProtectedRoute>
@@ -258,12 +258,15 @@ const onSubmit = async (data: Partial<BlogPost>) => {
             </div>
 
             {/* Tags */}
-            <TagsInput
-              tags={tags}
-              onTagsChange={setTags}
-              disabled={isSubmitting}
-            />
-
+            <div className="form-group">
+              <label htmlFor="excerpt">Extracto</label>
+              <TagsInput
+                tags={tags}
+                onTagsChange={setTags}
+                disabled={isSubmitting}
+              />
+            </div>
+            
             {/* Cover Image */}
             <div className="form-group">
               <label className="form-label">Imagen de Portada</label>

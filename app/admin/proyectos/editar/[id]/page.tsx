@@ -26,7 +26,7 @@ export default function EditProjectPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [projectImages, setProjectImages] = useState<string[]>([]);
-  const [services, setServices] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [serviceInput, setServiceInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
@@ -50,7 +50,6 @@ export default function EditProjectPage() {
       name: "",
       client: "",
       location: "",
-      duration: "",
       year: new Date().getFullYear(),
       description: "",
       challenge: "",
@@ -87,7 +86,6 @@ export default function EditProjectPage() {
           name: project.name || "",
           client: project.client || "",
           location: project.location || "",
-          duration: project.duration || "",
           year: project.year || new Date().getFullYear(),
           description: project.description || "",
           challenge: project.challenge || "",
@@ -109,8 +107,8 @@ export default function EditProjectPage() {
         }
 
         // Set services
-        if (project.services && Array.isArray(project.services)) {
-          setServices(project.services);
+        if (project.categories && Array.isArray(project.categories)) {
+          setCategories(project.categories);
         }
 
         // Set tags
@@ -229,15 +227,15 @@ export default function EditProjectPage() {
   const handleServiceKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && serviceInput.trim()) {
       e.preventDefault();
-      if (!services.includes(serviceInput.trim())) {
-        setServices([...services, serviceInput.trim()]);
+      if (!categories.includes(serviceInput.trim())) {
+        setCategories([...categories, serviceInput.trim()]);
       }
       setServiceInput("");
     }
   };
 
   const removeService = (service: string) => {
-    setServices(services.filter((s) => s !== service));
+    setCategories(categories.filter((s) => s !== service));
   };
 
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -267,11 +265,9 @@ export default function EditProjectPage() {
         name: data.name || "",
         slug: updatedSlug,
         client: data.client || "",
-        tags: tags,
+        categories: categories,
         location: data.location || "",
-        duration: data.duration || "",
         year: data.year || new Date().getFullYear(),
-        services: services,
         description: data.description || "",
         challenge: data.challenge || "",
         solution: data.solution || "",
@@ -416,7 +412,7 @@ export default function EditProjectPage() {
             </div>
 
             <div className="form-row">
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="duration">Duración</label>
                 <input
                   id="duration"
@@ -428,7 +424,7 @@ export default function EditProjectPage() {
                   disabled={isSubmitting}
                   {...register("duration")}
                 />
-              </div>
+              </div> */}
 
               <div className="form-group">
                 <label htmlFor="year">Año</label>
@@ -453,7 +449,36 @@ export default function EditProjectPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Descripción</label>
+              <label htmlFor="services">Categorías</label>
+              <input
+                type="text"
+                id="services"
+                className="form-input"
+                placeholder="Presiona Enter para agregar un servicio"
+                value={serviceInput}
+                onChange={(e) => setServiceInput(e.target.value)}
+                onKeyDown={handleServiceKeyDown}
+                disabled={isSubmitting}
+              />
+              <div className="tag-list">
+                {categories.map((category) => (
+                  <div key={category} className="tag-item">
+                    {category}
+                    <button
+                      type="button"
+                      onClick={() => removeService(category)}
+                      className="tag-remove"
+                      aria-label="Eliminar servicio"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="description">Descripción / Subtitúlo</label>
               <textarea
                 id="description"
                 rows={3}
@@ -472,7 +497,7 @@ export default function EditProjectPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="challenge">Desafío</label>
+              <label htmlFor="challenge">Reto</label>
               <textarea
                 id="challenge"
                 rows={4}
@@ -507,64 +532,6 @@ export default function EditProjectPage() {
               {errors.solution && (
                 <p className="form-error">{errors.solution.message}</p>
               )}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="services">Servicios</label>
-              <input
-                type="text"
-                id="services"
-                className="form-input"
-                placeholder="Presiona Enter para agregar un servicio"
-                value={serviceInput}
-                onChange={(e) => setServiceInput(e.target.value)}
-                onKeyDown={handleServiceKeyDown}
-                disabled={isSubmitting}
-              />
-              <div className="tag-list">
-                {services.map((service) => (
-                  <div key={service} className="tag-item">
-                    {service}
-                    <button
-                      type="button"
-                      onClick={() => removeService(service)}
-                      className="tag-remove"
-                      aria-label="Eliminar servicio"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="tags">Etiquetas</label>
-              <input
-                type="text"
-                id="tags"
-                className="form-input"
-                placeholder="Presiona Enter para agregar una etiqueta"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={handleTagKeyDown}
-                disabled={isSubmitting}
-              />
-              <div className="tag-list">
-                {tags.map((tag) => (
-                  <div key={tag} className="tag-item">
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => removeTag(tag)}
-                      className="tag-remove"
-                      aria-label="Eliminar etiqueta"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
             </div>
 
             <div className="form-group">
