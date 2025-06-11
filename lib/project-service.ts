@@ -168,7 +168,7 @@ export async function createOrUpdateProject(
       name: updatedProject.name,
       slug: updatedProject.slug,
       client: updatedProject.client,
-      categories: updatedProject.categories || [], // ✅ FIXED - was 'tags'
+      categories: updatedProject.categories || [],
       location: updatedProject.location || "",
       year: updatedProject.year || new Date().getFullYear(),
       description: updatedProject.description || "",
