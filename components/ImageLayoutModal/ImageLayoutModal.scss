@@ -1,7 +1,6 @@
 @use "abstracts/variables" as *;
 @use "base/colors" as *;
 @use "abstracts/mixins" as *;
-@use "base/animations" as *;
 
 .image-layout-modal {
   position: fixed;
@@ -17,75 +16,132 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba($black, 0.75);
+    background-color: rgba($black, 0.8);
+    backdrop-filter: blur(4px);
     @include flex(row, center, center);
-    @include padding(md);
+    @include padding(lg);
   }
 
   .modal-content {
     background: $white;
-    @include border-radius(lg);
-    @include shadow(lg);
+    @include border-radius(xl);
+    box-shadow: $shadow-lg;
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
+    animation: modalSlideUp 0.3s ease-out;
 
     @include min-width(md) {
-      width: 80%;
-    }
-
-    @include min-width(lg) {
-      width: 60%;
+      max-width: 700px;
     }
   }
 
   .modal-header {
     @include flex(row, space-between, center);
-    @include padding(lg, x);
-    @include padding(md, top);
-    @include padding(sm, bottom);
-    border-bottom: 1px solid $secondary-color;
+    @include padding(xl);
+    @include padding(lg, bottom);
+    border-bottom: 1px solid rgba($black, 0.1);
 
-    h3 {
+    .modal-title {
       @include font-size(xl);
       @include font-weight(semibold);
       color: $black;
       margin: 0;
     }
 
-    .close-btn {
+    .modal-close {
       background: none;
       border: none;
-      color: $black;
+      color: rgba($black, 0.6);
       cursor: pointer;
-      @include padding(xs);
-      @include border-radius(md);
-      @include transition(background-color, fast);
+      @include padding(sm);
+      @include border-radius(full);
+      @include transition(all, normal);
+      @include font-size(lg);
+      width: 40px;
+      height: 40px;
+      @include flex(row, center, center);
 
       &:hover {
-        background-color: $secondary-color;
-      }
-
-      svg {
-        display: block;
-        width: 24px;
-        height: 24px;
+        color: $black;
+        background-color: rgba($black, 0.05);
       }
     }
   }
 
   .modal-body {
-    @include padding(lg);
+    @include padding(xl);
 
     .modal-description {
-      color: lighten($black, 20%);
       @include font-size(base);
-      @include margin(md, bottom);
+      color: rgba($black, 0.7);
+      @include margin(lg, bottom);
       margin-top: 0;
+      line-height: 1.5;
     }
 
+    // Choice layout styles
+    .layout-options {
+      @include flex(row, center, stretch);
+      @include gap(lg);
+
+      @media (max-width: map-get($breakpoints, sm)) {
+        @include flex(column, stretch, stretch);
+        @include gap(md);
+      }
+    }
+
+    .layout-option {
+      @include flex(column, center, center);
+      @include padding(xl);
+      border: 2px solid rgba($black, 0.1);
+      @include border-radius(lg);
+      background: $white;
+      cursor: pointer;
+      @include transition(all, normal);
+      flex: 1;
+
+      &:hover {
+        border-color: $primary-color;
+        box-shadow: $shadow-md;
+        transform: translateY(-2px);
+      }
+
+      .layout-preview {
+        @include margin(md, bottom);
+        
+        &.single-preview {
+          width: 60px;
+          height: 40px;
+          background: rgba($black, 0.15);
+          @include border-radius(md);
+        }
+
+        &.dual-preview {
+          @include flex(row, center, center);
+          @include gap(xs);
+
+          .dual-left,
+          .dual-right {
+            width: 28px;
+            height: 40px;
+            background: rgba($black, 0.15);
+            @include border-radius(sm);
+          }
+        }
+      }
+
+      span {
+        @include font-size(base);
+        @include font-weight(medium);
+        color: $black;
+        text-align: center;
+      }
+    }
+
+    // Dual upload styles
     .dual-upload-container {
       @include flex(column, flex-start, stretch);
       @include gap(lg);
@@ -100,10 +156,10 @@
       flex: 1;
 
       h4 {
-        @include font-size(lg);
-        @include font-weight(medium);
+        @include font-size(base);
+        @include font-weight(semibold);
         color: $black;
-        @include margin(sm, bottom);
+        @include margin(md, bottom);
         margin-top: 0;
       }
 
@@ -113,7 +169,7 @@
         aspect-ratio: 4/3;
         @include border-radius(lg);
         overflow: hidden;
-        border: 2px dashed lighten($black, 60%);
+        border: 2px dashed rgba($black, 0.2);
         @include transition(border-color, normal);
 
         &:hover {
@@ -126,21 +182,23 @@
         height: 100%;
         width: 100%;
         cursor: pointer;
-        background-color: lighten($secondary-color, 5%);
+        background-color: rgba($black, 0.02);
         @include transition(background-color, normal);
 
         &:hover {
-          background-color: $secondary-color;
+          background-color: rgba($primary-color, 0.05);
         }
 
-        svg {
-          color: lighten($black, 40%);
+        .upload-icon {
+          @include font-size(3xl);
           @include margin(sm, bottom);
+          opacity: 0.6;
         }
 
         p {
-          color: lighten($black, 30%);
           @include font-size(sm);
+          @include font-weight(medium);
+          color: rgba($black, 0.6);
           text-align: center;
           margin: 0;
         }
@@ -162,21 +220,22 @@
           position: absolute;
           top: map-get($spacing, xs);
           right: map-get($spacing, xs);
-          background: rgba($white, 0.9);
+          background: rgba($white, 0.95);
           border: none;
           @include border-radius(full);
           @include padding(xs);
           cursor: pointer;
-          @include shadow(md);
-          @include transition(background-color, fast);
+          box-shadow: $shadow-md;
+          @include transition(all, fast);
+          width: 32px;
+          height: 32px;
+          @include flex(row, center, center);
+          @include font-size(sm);
 
           &:hover {
             background: $white;
-          }
-
-          svg {
-            display: block;
-            color: $danger-color;
+            color: $primary-color;
+            transform: scale(1.1);
           }
         }
       }
@@ -185,209 +244,26 @@
 
   .modal-footer {
     @include flex(row, flex-end, center);
-    @include gap(sm);
-    @include padding(lg, x);
-    @include padding(lg, bottom);
-    @include padding(md, top);
-    border-top: 1px solid $secondary-color;
+    @include gap(md);
+    @include padding(xl);
+    @include padding(lg, top);
+    border-top: 1px solid rgba($black, 0.1);
 
-    .cancel-btn,
-    .submit-btn {
-      @include padding(sm, y);
-      @include padding(lg, x);
-      @include border-radius(md);
-      @include font-size(base);
-      @include font-weight(medium);
-      border: none;
-      cursor: pointer;
-      @include transition(all, normal);
-
-      @include min-width(sm) {
-        @include padding(md, x);
-      }
-    }
-
-    .cancel-btn {
-      background: transparent;
-      color: $black;
-      border: 1px solid lighten($black, 60%);
-
-      &:hover {
-        background: $secondary-color;
-        border-color: lighten($black, 40%);
-      }
-    }
-
-    .submit-btn {
-      background: $primary-color;
-      color: $white;
-
-      &:hover:not(:disabled) {
-        background: darken($primary-color, 10%);
-      }
-
-      &:disabled {
-        background: lighten($black, 60%);
-        cursor: not-allowed;
-        opacity: 0.6;
-      }
-    }
-  }
-
-  // Mobile responsive adjustments
-  @media (max-width: map-get($breakpoints, sm)) {
-    .modal-overlay {
-      @include padding(sm);
-    }
-
-    .modal-content {
-      max-height: 95vh;
-    }
-
-    .modal-header,
-    .modal-body,
-    .modal-footer {
-      @include padding(md, x);
-    }
-
-    .modal-body {
-      .dual-upload-container {
-        @include gap(md);
-      }
-
-      .image-upload-section {
-        .upload-area {
-          aspect-ratio: 3/2;
-        }
-      }
-    }
-
-    .modal-footer {
-      @include flex(column, stretch, stretch);
-
-      .cancel-btn,
-      .submit-btn {
-        width: 100%;
-        @include margin(2xs, bottom);
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
+    @media (max-width: map-get($breakpoints, sm)) {
+      @include flex(column-reverse, stretch, stretch);
+      @include gap(sm);
     }
   }
 }
 
-// Layout choice modal styles (for the initial choice)
-.image-layout-choice-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  @include z-index(modal);
-
-  .modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba($black, 0.75);
-    @include flex(row, center, center);
-    @include padding(md);
+// Animation keyframes
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
   }
-
-  .modal-content {
-    background: $white;
-    @include border-radius(lg);
-    @include shadow(lg);
-    @include padding(xl);
-    max-width: 500px;
-    width: 100%;
-
-    h3 {
-      @include font-size(xl);
-      @include font-weight(semibold);
-      color: $black;
-      text-align: center;
-      @include margin(lg, bottom);
-      margin-top: 0;
-    }
-
-    .layout-options {
-      @include flex(row, center, stretch);
-      @include gap(lg);
-      @include margin(xl, bottom);
-
-      @media (max-width: map-get($breakpoints, sm)) {
-        @include flex(column, stretch, stretch);
-        @include gap(md);
-      }
-    }
-
-    .layout-option {
-      @include flex(column, center, center);
-      @include padding(lg);
-      border: 2px solid $secondary-color;
-      @include border-radius(lg);
-      background: $white;
-      cursor: pointer;
-      @include transition(all, normal);
-      flex: 1;
-
-      &:hover {
-        border-color: $primary-color;
-        @include shadow(md);
-      }
-
-      .layout-preview {
-        @include margin(sm, bottom);
-        
-        &.single-preview {
-          width: 60px;
-          height: 40px;
-          background: $secondary-color;
-          @include border-radius(md);
-        }
-
-        &.dual-preview {
-          @include flex(row, center, center);
-          @include gap(xs);
-
-          .dual-left,
-          .dual-right {
-            width: 28px;
-            height: 40px;
-            background: $secondary-color;
-            @include border-radius(sm);
-          }
-        }
-      }
-
-      span {
-        @include font-size(base);
-        @include font-weight(medium);
-        color: $black;
-      }
-    }
-
-    .cancel-btn {
-      @include padding(sm, y);
-      @include padding(lg, x);
-      @include border-radius(md);
-      @include font-size(base);
-      background: transparent;
-      color: $black;
-      border: 1px solid lighten($black, 60%);
-      cursor: pointer;
-      @include transition(all, normal);
-      width: 100%;
-
-      &:hover {
-        background: $secondary-color;
-        border-color: lighten($black, 40%);
-      }
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
