@@ -6,6 +6,7 @@
 .dual-image-wrapper {
   @include margin(lg, y);
   width: 100%;
+  position: relative;
 
   &.align-left {
     text-align: left;
@@ -24,6 +25,7 @@
     flex-direction: column;
     @include gap(sm);
     max-width: 100%;
+    position: relative;
 
     @include min-width(md) {
       flex-direction: row !important;

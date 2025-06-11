@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
+import { useDataStore } from "@/store/useDataStore";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
@@ -158,8 +159,12 @@ function AdminPanelPage() {
 
       if (itemToDelete.type === "blog") {
         await deletePost(itemToDelete.id);
+        // Update the store cache immediately
+        useDataStore.getState().removePost(itemToDelete.id);
       } else {
         await deleteProject(itemToDelete.id);
+        // Update the store cache immediately
+        useDataStore.getState().removeProject(itemToDelete.id);
       }
 
       const itemElement = document.querySelector(

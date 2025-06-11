@@ -12,6 +12,7 @@ import {
   lexicalToEditorBlocks,
 } from "@/utils/editor";
 import "./edit-blog-post-page.scss";
+import { useDataStore } from "@/store/useDataStore";
 import { useRouter, useParams } from "next/navigation";
 import { Trash2, Upload, Image } from "lucide-react";
 import gsap from "gsap";
@@ -22,6 +23,7 @@ import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import Loading from "@/components/ui/Loading/Loading";
 import Footer from "@/components/layout/Footer/footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { generateSlug } from "@/utils/slug-generator";
 
 export default function EditBlogPostPage() {
   const router = useRouter();
@@ -275,6 +277,14 @@ export default function EditBlogPostPage() {
       // Process editor content with unique blocks
       const htmlContent = processEditorContent(uniqueEditorContent as any);
 
+      // Get the original post to preserve date
+      const originalPost = await fetch(`/api/blog/${postId}`).then((res) =>
+        res.json()
+      );
+
+      // GENERATE NEW SLUG FROM UPDATED TITLE
+      const updatedSlug = generateSlug(data.title || "");
+
       // Create the updated post object
       const updatedPost: Partial<BlogPost> = {
         id: postId,
@@ -285,11 +295,11 @@ export default function EditBlogPostPage() {
         author: data.author || "Dos x Dos Grupo Imagen",
         published: data.published ?? true,
         coverImage: effectiveCoverImage,
-        slug: data.slug || undefined,
+        slug: updatedSlug, // 🔥 USE NEW SLUG BASED ON UPDATED TITLE
         tags: tags,
         readTime: calculateReadTime(htmlContent),
         editorBlocks: JSON.stringify(uniqueEditorContent),
-        // Don't update the date to preserve the original creation date
+        date: originalPost.date, // Preserve the original date
       };
 
       // Animation before submitting
@@ -304,6 +314,9 @@ export default function EditBlogPostPage() {
 
       // Use the server action to update the post
       await createOrUpdatePost(updatedPost as BlogPost);
+
+      // 🚀 UPDATE CACHE IMMEDIATELY AFTER SUCCESSFUL API CALL
+      useDataStore.getState().updatePost(postId, updatedPost);
 
       // Success animation
       if (formRef.current) {

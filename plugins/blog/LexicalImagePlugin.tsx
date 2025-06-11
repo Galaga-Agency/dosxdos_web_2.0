@@ -1,4 +1,3 @@
-// LexicalImagePlugin.tsx
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
@@ -8,6 +7,8 @@ import {
   createCommand,
   LexicalCommand,
   $getRoot,
+  $setSelection,
+  $createNodeSelection,
 } from "lexical";
 import { useEffect, useState, useCallback, JSX } from "react";
 import { $createImageNode, ImageNode } from "@/nodes/image-node";
@@ -65,53 +66,54 @@ export default function LexicalImagePlugin({
         const { src, altText, width, height, caption, alignment } = payload;
 
         editor.update(() => {
-          const selection = $getSelection();
+          let selection = $getSelection();
 
-          if (!$isRangeSelection(selection)) {
-            return;
+          // If no selection, place at the end of the document
+          if (!selection || !$isRangeSelection(selection)) {
+            const root = $getRoot();
+            const lastChild = root.getLastChild();
+
+            if (lastChild) {
+              lastChild.selectEnd();
+              selection = $getSelection();
+            } else {
+              // Create a paragraph and select it
+              const paragraph = $createParagraphNode();
+              root.append(paragraph);
+              paragraph.select();
+              selection = $getSelection();
+            }
           }
 
-          const imageNode = $createImageNode(
-            src,
-            altText,
-            width,
-            height,
-            caption,
-            alignment || "center"
-          );
+          if ($isRangeSelection(selection)) {
+            const imageNode = $createImageNode(
+              src,
+              altText,
+              width,
+              height,
+              caption,
+              alignment || "center"
+            );
 
-          selection.insertNodes([imageNode]);
+            selection.insertNodes([imageNode]);
 
-          // Create a paragraph after the image if at the end of the editor
-          const anchor = selection.anchor;
-          if (
-            anchor.type === "element" &&
-            anchor.offset === anchor.getNode().getChildrenSize()
-          ) {
+            // Create a paragraph after the image
             const paragraph = $createParagraphNode();
             imageNode.insertAfter(paragraph);
+
+            // Select the paragraph after insertion
+            paragraph.select();
           }
 
-          // If callback is provided, call it with image block info
-          if (onImageInserted) {
-            onImageInserted({
-              id: Date.now().toString(),
-              type: "image",
-              content: src,
-              alignment: alignment || "center",
-              meta: {
-                alt: altText || "",
-                caption: caption || "",
-              },
-            });
-          }
+          // DON'T call onImageInserted - this causes duplication
+          // The editor state change will be handled by handleEditorChange
         });
 
         return true;
       },
       COMMAND_PRIORITY_EDITOR
     );
-  }, [editor, onImageInserted]);
+  }, [editor]); // Remove onImageInserted from dependencies
 
   // Register dual image command
   useEffect(() => {
@@ -124,54 +126,43 @@ export default function LexicalImagePlugin({
       (payload) => {
         const { leftImage, rightImage, alignment } = payload;
 
-        try {
-          // Signal that we need to allow editor focus temporarily
-          document.dispatchEvent(new CustomEvent("allowEditorFocus"));
+        editor.update(() => {
+          let selection = $getSelection();
 
-          // Wait a moment for the event to be processed
-          setTimeout(() => {
-            editor.focus();
+          // If no selection, place at the end of the document
+          if (!selection || !$isRangeSelection(selection)) {
+            const root = $getRoot();
+            const lastChild = root.getLastChild();
 
-            editor.update(() => {
-              try {
-                let selection = $getSelection();
+            if (lastChild) {
+              lastChild.selectEnd();
+              selection = $getSelection();
+            } else {
+              // Create a paragraph and select it
+              const paragraph = $createParagraphNode();
+              root.append(paragraph);
+              paragraph.select();
+              selection = $getSelection();
+            }
+          }
 
-                // If no selection, create one at the end of the editor
-                if (!selection || !$isRangeSelection(selection)) {
-                  const root = $getRoot();
-                  const paragraph = $createParagraphNode();
-                  root.append(paragraph);
-                  paragraph.select();
-                  selection = $getSelection();
-                }
+          if ($isRangeSelection(selection)) {
+            const dualImageNode = $createDualImageNode(
+              leftImage,
+              rightImage,
+              alignment || "center"
+            );
 
-                if ($isRangeSelection(selection)) {
-                  const dualImageNode = $createDualImageNode(
-                    leftImage,
-                    rightImage,
-                    alignment || "center"
-                  );
+            selection.insertNodes([dualImageNode]);
 
-                  selection.insertNodes([dualImageNode]);
+            // Create a paragraph after the dual image
+            const paragraph = $createParagraphNode();
+            dualImageNode.insertAfter(paragraph);
 
-                  // Create a paragraph after the dual image
-                  const anchor = selection.anchor;
-                  if (
-                    anchor.type === "element" &&
-                    anchor.offset === anchor.getNode().getChildrenSize()
-                  ) {
-                    const paragraph = $createParagraphNode();
-                    dualImageNode.insertAfter(paragraph);
-                  }
-                }
-              } catch (updateError) {
-                console.error("Error in editor.update:", updateError);
-              }
-            });
-          }, 100);
-        } catch (commandError) {
-          console.error("Error in dual image command:", commandError);
-        }
+            // Select the paragraph after insertion
+            paragraph.select();
+          }
+        });
 
         return true;
       },

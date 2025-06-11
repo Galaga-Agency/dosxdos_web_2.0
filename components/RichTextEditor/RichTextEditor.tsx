@@ -28,8 +28,6 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { PreventFocusStealingPlugin } from "@/plugins/blog/PreventFocusStealingPlugin";
 import { BlockType } from "@/types/editor-types";
 
-console.log("🔍 RichTextEditor loaded, DualImageNode:", DualImageNode);
-
 export interface RichTextEditorProps {
   value?: any;
   onChange?: (content: any) => void;
@@ -49,7 +47,6 @@ export default function RichTextEditor({
     null
   );
   const [canRender, setCanRender] = useState(false);
-  const [localImageBlocks, setLocalImageBlocks] = useState<any[]>([]);
   const editorRef = useRef<HTMLDivElement>(null);
   useStickyInputFocus("#tags");
 
@@ -97,11 +94,6 @@ export default function RichTextEditor({
       if (Array.isArray(value)) {
         const lexicalState = editorBlocksToLexical(value);
         setInitialEditorState(lexicalState);
-
-        const images = value.filter(
-          (b) => b.type === "image" || b.type === "dual-image"
-        );
-        setLocalImageBlocks(images);
       } else if (typeof value === "string") {
         try {
           JSON.parse(value);
@@ -162,20 +154,6 @@ export default function RichTextEditor({
     alignJustify: "editor-align-justify",
   };
 
-  console.log("🔍 Initializing Lexical with nodes:", [
-    HeadingNode,
-    QuoteNode,
-    ListNode,
-    ListItemNode,
-    LinkNode,
-    AutoLinkNode,
-    ImageNode,
-    DualImageNode,
-    TableNode,
-    TableCellNode,
-    TableRowNode,
-  ]);
-
   const initialConfig = {
     namespace: "RichTextEditor",
     theme,
@@ -200,34 +178,17 @@ export default function RichTextEditor({
     editorState: initialEditorState,
   };
 
-  const handleAddImage = (imageBlock: any) => {
-    setLocalImageBlocks((prev) => [...prev, imageBlock]);
+  // Simplified handleEditorChange - no more localImageBlocks mess
+  const handleEditorChange = (editorState: EditorState) => {
+    if (!onChange) return;
+
+    editorState.read(() => {
+      const json = editorState.toJSON();
+      const stateString = JSON.stringify(json);
+      const blocks = lexicalToEditorBlocks(stateString);
+      onChange(blocks);
+    });
   };
-
-const handleEditorChange = (editorState: EditorState) => {
-  if (!onChange) return;
-
-  editorState.read(() => {
-    const json = editorState.toJSON();
-    const stateString = JSON.stringify(json);
-    const blocks = lexicalToEditorBlocks(stateString);
-
-    const updatedImages = localImageBlocks.filter((img) =>
-      blocks.find(
-        (b) =>
-          (b.type === "image" && b.content === img.content) ||
-          (b.type === "dual-image" &&
-            JSON.stringify(b.content) === JSON.stringify(img.content)) ||
-          (b.type === BlockType.DUAL_IMAGE &&
-            JSON.stringify(b.content) === JSON.stringify(img.content))
-      )
-    );
-
-    const finalBlocks = [...blocks, ...updatedImages];
-    setLocalImageBlocks(updatedImages);
-    onChange(finalBlocks);
-  });
-};
 
   useEffect(() => {
     const editorEl = editorRef.current?.querySelector(
@@ -295,7 +256,6 @@ const handleEditorChange = (editorState: EditorState) => {
               <LexicalLinkDialogPlugin />
               <LexicalImagePlugin
                 onImageUpload={onImageUpload}
-                onImageInserted={handleAddImage}
               />
               <LexicalEmojiPlugin />
               <HistoryPlugin />

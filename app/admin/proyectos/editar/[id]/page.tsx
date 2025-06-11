@@ -15,6 +15,7 @@ import Loading from "@/components/ui/Loading/Loading";
 import { useDataStore } from "@/store/useDataStore";
 import Footer from "@/components/layout/Footer/footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { generateSlug } from "@/utils/slug-generator";
 
 export default function EditProjectPage() {
   const router = useRouter();
@@ -257,10 +258,14 @@ export default function EditProjectPage() {
     try {
       setIsSubmitting(true);
 
+      // GENERATE NEW SLUG FROM UPDATED PROJECT NAME
+      const updatedSlug = generateSlug(data.name || "");
+
       // Create the updated project object
       const updatedProject: Partial<Project> = {
         id: projectId,
         name: data.name || "",
+        slug: updatedSlug,
         client: data.client || "",
         tags: tags,
         location: data.location || "",
@@ -276,7 +281,6 @@ export default function EditProjectPage() {
           "/assets/img/default-project-image.jpg",
         images: projectImages,
         featured: data.featured || false,
-        slug: data.slug || undefined,
       };
 
       // Animation before submitting
@@ -292,9 +296,8 @@ export default function EditProjectPage() {
       // Use the server action to update the project
       await createOrUpdateProject(updatedProject as Project);
 
-      // Update store with updated project
-      const fetchProjects = useDataStore.getState().fetchProjects;
-      await fetchProjects(); // Refresh store data
+      // UPDATE CACHE IMMEDIATELY AFTER SUCCESSFUL API CALL
+      useDataStore.getState().updateProject(projectId, updatedProject);
 
       // Success animation
       if (formRef.current) {

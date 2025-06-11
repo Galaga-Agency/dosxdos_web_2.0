@@ -172,36 +172,37 @@ const BlogPage: React.FC = () => {
               </div>
             </div>
           )}
+          {currentItems.length > 1 && (
+            <div className="blog-page__posts-section" id="pagination-section">
+              <h2 className="posts-title small-title ">
+                Artículos <span className="highlight">Recientes</span>
+              </h2>
 
-          <div className="blog-page__posts-section" id="pagination-section">
-            <h2 className="posts-title small-title ">
-              Artículos <span className="highlight">Recientes</span>
-            </h2>
+              <div className="posts-grid">
+                {currentItems.map((item, index) => (
+                  <div key={item.id} className="blog-page__post-item">
+                    <BlogItem
+                      key={`blog-item-${item.id}`}
+                      item={item}
+                      index={index}
+                    />
+                  </div>
+                ))}
+              </div>
 
-            <div className="posts-grid">
-              {currentItems.map((item, index) => (
-                <div key={item.id} className="blog-page__post-item">
-                  <BlogItem
-                    key={`blog-item-${item.id}`}
-                    item={item}
-                    index={index}
+              {pageCount > 1 && (
+                <div className="blog-page__pagination ">
+                  <Pagination
+                    handlePageClick={(page) =>
+                      handlePageClick({ selected: page })
+                    }
+                    pageCount={pageCount}
+                    currentPage={currentPage}
                   />
                 </div>
-              ))}
+              )}
             </div>
-
-            {pageCount > 1 && (
-              <div className="blog-page__pagination ">
-                <Pagination
-                  handlePageClick={(page) =>
-                    handlePageClick({ selected: page })
-                  }
-                  pageCount={pageCount}
-                  currentPage={currentPage}
-                />
-              </div>
-            )}
-          </div>
+          )}
 
           <div className="blog-page__mobile-social-section">
             <div className="blog-page__mobile-social-header">

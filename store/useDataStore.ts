@@ -1,4 +1,3 @@
-// store/useDataStore.ts
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { Project } from "@/types/project-types";
@@ -19,6 +18,21 @@ interface DataState {
   fetchProjects: () => Promise<void>;
   fetchPosts: () => Promise<void>;
   fetchAllData: () => Promise<void>;
+
+  // Cache invalidation methods
+  invalidateProjects: () => Promise<void>;
+  invalidatePosts: () => Promise<void>;
+  invalidateAllData: () => Promise<void>;
+
+  // CRUD operations for posts
+  addPost: (post: BlogPost) => void;
+  updatePost: (postId: string, updatedPost: Partial<BlogPost>) => void;
+  removePost: (postId: string) => void;
+
+  // CRUD operations for projects
+  addProject: (project: Project) => void;
+  updateProject: (projectId: string, updatedProject: Partial<Project>) => void;
+  removeProject: (projectId: string) => void;
 
   // Getters
   getProjectBySlug: (slug: string) => Project | undefined;
@@ -91,6 +105,73 @@ export const useDataStore = create<DataState>()(
       fetchAllData: async () => {
         const { fetchProjects, fetchPosts } = get();
         await Promise.allSettled([fetchProjects(), fetchPosts()]);
+      },
+
+      // Cache invalidation methods - force fresh data
+      invalidateProjects: async () => {
+        set({ projectsLoaded: false, projectsError: null });
+        await get().fetchProjects();
+      },
+
+      invalidatePosts: async () => {
+        set({ postsLoaded: false, postsError: null });
+        await get().fetchPosts();
+      },
+
+      invalidateAllData: async () => {
+        set({
+          projectsLoaded: false,
+          postsLoaded: false,
+          projectsError: null,
+          postsError: null,
+        });
+        await get().fetchAllData();
+      },
+
+      // CRUD operations for posts
+      addPost: (post: BlogPost) => {
+        set((state) => ({
+          posts: [post, ...state.posts],
+        }));
+      },
+
+      updatePost: (postId: string, updatedPost: Partial<BlogPost>) => {
+        set((state) => ({
+          posts: state.posts.map((post) =>
+            post.id === postId ? { ...post, ...updatedPost } : post
+          ),
+        }));
+      },
+
+      removePost: (postId: string) => {
+        set((state) => ({
+          posts: state.posts.filter((post) => post.id !== postId),
+        }));
+      },
+
+      // CRUD operations for projects
+      addProject: (project: Project) => {
+        set((state) => ({
+          projects: [project, ...state.projects],
+        }));
+      },
+
+      updateProject: (projectId: string, updatedProject: Partial<Project>) => {
+        set((state) => ({
+          projects: state.projects.map((project) =>
+            project.id === projectId
+              ? { ...project, ...updatedProject }
+              : project
+          ),
+        }));
+      },
+
+      removeProject: (projectId: string) => {
+        set((state) => ({
+          projects: state.projects.filter(
+            (project) => project.id !== projectId
+          ),
+        }));
       },
 
       // Get project by slug

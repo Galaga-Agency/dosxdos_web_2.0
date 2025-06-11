@@ -157,7 +157,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
 
           {relatedPosts.length > 0 && (
             <div className="blog-detail__related-posts ">
-              <h2 className="blog-detail__related-title title">
+              <h2 className="blog-detail__related-title secondary-title">
                 Artículos relacionados
               </h2>
               <div className="blog-detail__related-grid">

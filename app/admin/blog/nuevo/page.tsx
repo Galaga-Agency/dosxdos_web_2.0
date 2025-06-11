@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 
+import { useDataStore } from "@/store/useDataStore";
+
 import { createOrUpdatePost } from "@/lib/blog-service";
 import { BlogPost } from "@/types/blog-post-types";
 import { processEditorContent, calculateReadTime } from "@/utils/editor";
@@ -26,6 +28,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import "./new-blog-post-page.scss";
 import TagsInput from "@/components/TagsInput";
 import CoverImageUpload from "@/components/CoverImageUpload/CoverImageUpload";
+import { generateSlug } from "@/utils/slug-generator";
 
 gsap.registerPlugin(useGSAP);
 
@@ -41,6 +44,7 @@ export default function NewBlogPostPage() {
   const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [articleId] = useState(() => uuidv4());
+  const [originalPost, setOriginalPost] = useState<BlogPost | null>(null);
 
   // Refs
   const coverImageInputRef = useRef<HTMLInputElement>(null);
@@ -134,61 +138,66 @@ export default function NewBlogPostPage() {
   };
 
   // Handle form submission
-  const onSubmit = async (data: Partial<BlogPost>) => {
-    try {
-      setIsSubmitting(true);
+const onSubmit = async (data: Partial<BlogPost>) => {
+  try {
+    setIsSubmitting(true);
 
-      // Animate form before submission
-      await blogFormSubmitAnimation();
+    // Animate form before submission
+    await blogFormSubmitAnimation();
 
-      // Process content
-      const uniqueEditorContent = editorContent.filter(
-        (block, index, self) =>
-          block.type !== "image" ||
-          self.findIndex(
-            (b) => b.type === "image" && b.content === block.content
-          ) === index
-      );
+    // Process content
+    const uniqueEditorContent = editorContent.filter(
+      (block, index, self) =>
+        block.type !== "image" ||
+        self.findIndex(
+          (b) => b.type === "image" && b.content === block.content
+        ) === index
+    );
 
-      const effectiveCoverImage =
-        coverImage ||
-        uniqueEditorContent.find((block) => block.type === "image")?.content ||
-        "/assets/img/default-blog-image.jpg";
+    const effectiveCoverImage =
+      coverImage ||
+      uniqueEditorContent.find((block) => block.type === "image")?.content ||
+      "/assets/img/default-blog-image.jpg";
 
-      const htmlContent = processEditorContent(uniqueEditorContent as any);
+    const htmlContent = processEditorContent(uniqueEditorContent as any);
 
-      // Create post object
-      const newPost: BlogPost = {
-        id: uuidv4(),
-        date: new Date().toISOString(),
-        title: data.title || "",
-        content: htmlContent,
-        category: data.category || "",
-        excerpt: data.excerpt || "",
-        author: data.author || "Admin",
-        published: data.published ?? true,
-        coverImage: effectiveCoverImage,
-        slug: data.slug || undefined,
-        tags: tags,
-        readTime: calculateReadTime(htmlContent),
-        editorBlocks: JSON.stringify(uniqueEditorContent),
-      };
+    const generatedSlug = generateSlug(data.title || "");
 
-      // Submit post
-      await createOrUpdatePost(newPost);
+    // Create post object
+    const newPost: BlogPost = {
+      id: uuidv4(),
+      date: new Date().toISOString(),
+      title: data.title || "",
+      content: htmlContent,
+      category: data.category || "",
+      excerpt: data.excerpt || "",
+      author: data.author || "Admin",
+      published: data.published ?? true,
+      coverImage: effectiveCoverImage,
+      slug: generatedSlug,
+      tags: tags,
+      readTime: calculateReadTime(htmlContent),
+      editorBlocks: JSON.stringify(uniqueEditorContent),
+    };
 
-      // Reset form animation and redirect
-      await blogFormResetAnimation();
-      router.push("/admin");
-    } catch (error) {
-      console.error("Error creating post:", error);
-      alert("No se pudo crear el post. Por favor, inténtalo de nuevo.");
+    // Submit post
+    await createOrUpdatePost(newPost);
 
-      // Reset form animation on error
-      await blogFormResetAnimation();
-      setIsSubmitting(false);
-    }
-  };
+    // UPDATE CACHE IMMEDIATELY AFTER SUCCESSFUL API CALL
+    useDataStore.getState().addPost(newPost);
+
+    // Reset form animation and redirect
+    await blogFormResetAnimation();
+    router.push("/admin");
+  } catch (error) {
+    console.error("Error creating post:", error);
+    alert("No se pudo crear el post. Por favor, inténtalo de nuevo.");
+
+    // Reset form animation on error
+    await blogFormResetAnimation();
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <ProtectedRoute>
