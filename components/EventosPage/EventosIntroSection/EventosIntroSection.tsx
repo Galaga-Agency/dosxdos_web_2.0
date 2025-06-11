@@ -9,7 +9,7 @@ const EventosIntroSection: React.FC = () => {
   const { isMobile } = useDeviceDetect();
   const repeatedText = Array.from({ length: 20 }).map((_, i) => (
     <span key={i}>
-      Hecho en dos x dos&nbsp;<span className="dot">•</span>&nbsp;
+      experiencias a medidas&nbsp;<span className="dot">•</span>&nbsp;
     </span>
   ));
 

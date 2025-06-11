@@ -7,7 +7,7 @@
   position: relative;
   width: 100%;
   background-color: $white;
-  @include section-padding-y();
+  @include section-padding-bottom();
 
   &__container {
     @include container-width(mobile);
@@ -24,6 +24,10 @@
     @include min-width(xl) {
       @include container-width(desktop);
     }
+  }
+
+  &__title {
+    margin-right: auto;
   }
 
   &__subtitle {

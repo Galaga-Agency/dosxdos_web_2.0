@@ -1,0 +1,242 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+
+.eventos-methodology-section {
+  position: relative;
+  width: 100%;
+  @include section-padding-y();
+
+  &__header {
+    position: relative;
+    @include margin(3xl, bottom);
+
+    @include min-width(lg) {
+      margin: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    @include margin(sm, bottom);
+  }
+
+  &__title {
+    max-width: 1000px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+
+    @include min-width(md) {
+      @include gap(2xl);
+    }
+
+    @include min-width(lg) {
+      grid-template-columns: 1fr 1fr;
+      @include gap(4xl);
+    }
+  }
+
+  &__image {
+    @include flex(row, center, center);
+    height: 100%;
+    max-height: 450px;
+    position: relative;
+
+    @include min-width(md) {
+      @include margin(4xl, top);
+    }
+  }
+
+  &__main-image {
+    position: relative;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+
+    img {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+
+      @include min-width(md) {
+        max-width: 500px;
+      }
+
+      @include min-width(xl) {
+        max-width: 300px;
+      }
+    }
+  }
+
+  &__slogan-container {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    z-index: 2;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+
+    @include min-width(md) {
+      left: 0;
+    }
+
+    @include min-width(xl) {
+      left: 15%;
+    }
+
+    .slogan-overlay {
+      width: auto !important;
+      height: auto !important;
+      max-width: 300px !important;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+  }
+
+  &__content {
+    width: 100%;
+    @include margin(xl, top);
+
+    @include min-width(xl) {
+      margin: 0;
+    }
+  }
+
+  &__below-image {
+    @include flex(row, end, center);
+    height: 100%;
+    position: relative;
+
+    @include min-width(md) {
+      @include margin(4xl, top);
+      @include margin(4xl, x);
+    }
+  }
+
+  &__below-image-container {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+
+    img {
+      width: auto;
+      height: 350px;
+      object-fit: cover;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+  }
+
+  // Accordion Styles
+  &__accordion {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__accordion-item {
+    border-bottom: 1px solid rgba($black, 0.1);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__accordion-header {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    @include padding(md, y);
+    @include flex(row, space-between, center);
+    text-align: left;
+    @include transition(all, normal);
+  }
+
+  &__accordion-left {
+    @include flex(row, flex-start, center);
+    @include gap(md);
+    flex: 1;
+  }
+
+  &__step-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    @include flex(row, center, center);
+    @include font-size(4xl);
+    color: $black;
+  }
+
+  &__step-title {
+    @include font-size(lg);
+    @include font-weight(medium);
+    color: $black;
+    margin: 0;
+
+    @include min-width(md) {
+      @include font-size(3xl);
+    }
+  }
+
+  &__accordion-toggle {
+    flex-shrink: 0;
+    @include flex(row, center, center);
+    padding: 0.5rem;
+  }
+
+  &__accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    @include transition(max-height, very-slow);
+
+    .is-open & {
+      max-height: 300px;
+    }
+  }
+
+  &__accordion-body {
+    @include padding(0, y);
+    @include padding(xl, bottom);
+    @include padding(xs, x);
+  }
+}
+
+// Animated Plus/Minus Icon
+.plus-minus-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  @include flex(row, center, center);
+
+  .horizontal-line,
+  .vertical-line {
+    position: absolute;
+    background: $black;
+    @include transition(all, normal);
+  }
+
+  .horizontal-line {
+    width: 16px;
+    height: 2px;
+  }
+
+  .vertical-line {
+    width: 2px;
+    height: 16px;
+    @include transition(transform, normal);
+  }
+
+  .is-open & .vertical-line {
+    transform: rotate(90deg);
+  }
+}

@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
+import gsap from "gsap";
 import "./DisenoInterioresHeroSection.scss";
 
 interface DisenoInterioresHeroSectionProps {
@@ -11,6 +13,7 @@ interface DisenoInterioresHeroSectionProps {
 const DisenoInterioresHeroSection: React.FC<
   DisenoInterioresHeroSectionProps
 > = ({ onImageLoad }) => {
+  const { isMobile } = useDeviceDetect();
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -22,6 +25,22 @@ const DisenoInterioresHeroSection: React.FC<
       setTimeout(onImageLoad, 50);
     }
   }, [onImageLoad]);
+
+  useEffect(() => {
+    // Set initial state and animate floating image
+    gsap.set(".diseno-interiores-hero__floating-image-wrapper", {
+      opacity: 0,
+      y: 100,
+    });
+
+    gsap.to(".diseno-interiores-hero__floating-image-wrapper", {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      delay: 1.5,
+      ease: "power2.out",
+    });
+  }, []);
 
   return (
     <>
@@ -65,11 +84,13 @@ const DisenoInterioresHeroSection: React.FC<
             </h2>
           </div>
         </div>
-
-        {/* Floating Image */}
-        <div className="diseno-interiores-hero__floating-image-wrapper featured-image-container">
+        {/* Floating Image - Back inside hero container */}
+        <div
+          className="diseno-interiores-hero__floating-image-wrapper featured-image-container"
+          data-speed={isMobile ? "0" : "1.1"}
+        >
           <Image
-            src="/assets/img/servicios/diseno-interiores/diseno-1.avif"
+            src="/assets/img/about-us-page/vicente-ferrer-illustration.avif"
             alt="Diseño de Interiores Detail"
             fill
             quality={100}

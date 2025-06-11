@@ -9,28 +9,22 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
 import Breadcrumbs from "@/components/SEO/Breadcrumbs";
-
 import ConsultoriaHeroSection from "@/components/ConsultoriaPage/ConsultoriaHeroSection/ConsultoriaHeroSection";
 import Footer from "@/components/layout/Footer/footer";
-
-import {
-  charAnimation,
-  rollUpTextAnimation,
-} from "@/utils/animations/text-anim";
-import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
-import { imageParallax } from "@/utils/animations/image-parallax";
-import { initStatsCounter } from "@/utils/animations/stats-counter";
-import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
-import { highlightAnimation } from "@/utils/animations/highlight-anim";
-
-import "./consultoria-page.scss";
 import ConsultoriaMethodlogySection from "@/components/ConsultoriaPage/ConsultoriaMethodlogySection/ConsultoriaMethodlogySection";
 import MarqueeSection from "@/components/ConsultoriaPage/MarqueeSection/MarqueeSection";
 import ConsultoriaAboutSection from "@/components/ConsultoriaPage/ConsultoriaAboutSection/ConsultoriaAboutSection";
 import ConsultoriaCTASection from "@/components/ConsultoriaPage/ConsultoriaCTASection/ConsultoriaCTASection";
-import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+
+import { charAnimation } from "@/utils/animations/text-anim";
+import { imageParallax } from "@/utils/animations/image-parallax";
+import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { footerAnimation } from "@/utils/animations/footer-anim";
+import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
+import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
+
+import "./consultoria-page.scss";
 
 const ConsultoriaPage = () => {
   useScrollSmooth();
@@ -68,12 +62,9 @@ const ConsultoriaPage = () => {
 
     const timer = setTimeout(() => {
       charAnimation();
-      initCardMouseParallax();
       imageParallax();
-      initStatsCounter();
-      rollUpTextAnimation();
-      featuredImageAnimation();
       highlightAnimation();
+      featuredImageAnimation();
       footerAnimation();
 
       cleanupRef.current = cursorBubbleAnimation();

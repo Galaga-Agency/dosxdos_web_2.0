@@ -69,12 +69,8 @@ const DisenoInterioresPage = () => {
 
     const timer = setTimeout(() => {
       accionSocialHeroAnim();
-      charAnimation();
-      initCardMouseParallax();
       imageParallax();
-      initStatsCounter();
       servicePanel();
-      rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
       footerAnimation();
