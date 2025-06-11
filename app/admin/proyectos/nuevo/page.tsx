@@ -38,8 +38,7 @@ export default function NewProjectPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [projectImages, setProjectImages] = useState<string[]>([]);
-  const [services, setServices] = useState<string[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [projectId] = useState(() => uuidv4());
 
   // Refs
@@ -54,7 +53,6 @@ export default function NewProjectPage() {
       name: "",
       client: "",
       location: "",
-      duration: "",
       year: new Date().getFullYear(),
       description: "",
       challenge: "",
@@ -129,11 +127,9 @@ export default function NewProjectPage() {
         name: data.name || "",
         slug: generatedSlug,
         client: data.client || "",
-        tags: tags,
+        categories: categories,
         location: data.location || "",
-        duration: data.duration || "",
         year: data.year || new Date().getFullYear(),
-        services: services,
         description: data.description || "",
         challenge: data.challenge || "",
         solution: data.solution || "",
@@ -230,7 +226,7 @@ export default function NewProjectPage() {
 
             {/* Duration and Year Row */}
             <div className="form-row">
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="duration">Duración</label>
                 <input
                   id="duration"
@@ -242,7 +238,7 @@ export default function NewProjectPage() {
                   disabled={isSubmitting}
                   {...register("duration")}
                 />
-              </div>
+              </div> */}
 
               <div className="form-group">
                 <label htmlFor="year">Año</label>
@@ -266,9 +262,20 @@ export default function NewProjectPage() {
               </div>
             </div>
 
+            <div className="form-group">
+              <label htmlFor="services">Categorías</label>
+              <TagsInput
+                tags={categories}
+                onTagsChange={setCategories}
+                disabled={isSubmitting}
+                placeholder="Presiona Enter para agregar una categoría"
+                inputId="categories"
+              />
+            </div>
+
             {/* Description */}
             <div className="form-group">
-              <label htmlFor="description">Descripción</label>
+              <label htmlFor="description">Descripción / Subtitúlo</label>
               <textarea
                 id="description"
                 rows={3}
@@ -288,7 +295,7 @@ export default function NewProjectPage() {
 
             {/* Challenge */}
             <div className="form-group">
-              <label htmlFor="challenge">Desafío</label>
+              <label htmlFor="challenge">Reto</label>
               <textarea
                 id="challenge"
                 rows={4}
@@ -325,25 +332,6 @@ export default function NewProjectPage() {
                 <p className="form-error">{errors.solution.message}</p>
               )}
             </div>
-
-            {/* Services - Reusing TagsInput component */}
-            <div className="form-group">
-              <label htmlFor="services">Servicios</label>
-              <TagsInput
-                tags={services}
-                onTagsChange={setServices}
-                disabled={isSubmitting}
-                placeholder="Presiona Enter para agregar un servicio"
-                inputId="services"
-              />
-            </div>
-
-            {/* Tags */}
-            <TagsInput
-              tags={tags}
-              onTagsChange={setTags}
-              disabled={isSubmitting}
-            />
 
             {/* Cover Image */}
             <div className="form-group">

@@ -60,12 +60,10 @@ export async function getAllProjects(): Promise<Project[]> {
           "Proyecto Sin Nombre",
         slug,
         client: matterResult.data.client || "",
-        tags: matterResult.data.tags || [],
+        categories: matterResult.data.categories || [],
         location: matterResult.data.location || "",
-        duration: matterResult.data.duration || "",
         year: matterResult.data.year || new Date().getFullYear(),
-        services: matterResult.data.services || [],
-        description: matterResult.data.description || "",
+        description: matterResult.data.description || subtitle, // Keep for backwards compatibility
         challenge: matterResult.data.challenge || "",
         solution: matterResult.data.solution || "",
         coverImage:

@@ -33,7 +33,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
 
   return (
     <div className="form-group">
-      <label htmlFor="tags">Etiquetas</label>
       <input
         type="text"
         id="tags"

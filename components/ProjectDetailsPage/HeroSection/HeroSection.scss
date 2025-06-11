@@ -325,8 +325,8 @@
     @include min-width(sm) {
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 1.5rem;
+      justify-content: flex-start;
+      gap: 10rem;
     }
   }
 
