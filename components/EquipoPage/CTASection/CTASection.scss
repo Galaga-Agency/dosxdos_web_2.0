@@ -91,14 +91,9 @@
     transform: translateZ(0);
     @include transition(transform, slow, ease-out);
 
-    // Desktop: allow overflow for parallax effect
     @include min-width(md) {
       width: 120% !important;
       height: 120% !important;
-    }
-
-    &:hover {
-      transform: scale(1.03);
     }
   }
 }

@@ -75,7 +75,7 @@ const LocationCard: React.FC<LocationCardProps> = ({
       <div className="location-card__content">
         <div className="location-card__header">
           <div className="location-card__city-badge">
-            <MapPin size={20} color="#e63322" />
+            <MapPin size={20} color="#281528" />
             <h3>{city}</h3>
           </div>
           <div className="location-card__timezone">
@@ -95,7 +95,10 @@ const LocationCard: React.FC<LocationCardProps> = ({
           </div>
 
           <div className="location-card__contact">
-            <Link href={`mailto:${email}`} className="location-card__contact-item">
+            <Link
+              href={`mailto:${email}`}
+              className="location-card__contact-item"
+            >
               <Mail size={18} />
               <span>{email}</span>
             </Link>

@@ -12,13 +12,11 @@
   @include padding(6xl, bottom);
 
   &__header {
-    @include flex(row, space-between, center);
+    @include flex(column, space-between, start);
     @include padding(2xl, bottom);
-    flex-direction: column;
-    align-items: flex-start;
     @include gap(lg);
 
-    @include min-width(md) {
+    @include min-width(xl) {
       flex-direction: row;
       align-items: center;
     }
@@ -69,6 +67,7 @@
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
     transform: skew(-10deg);
+    text-wrap: nowrap;
 
     &.active {
       z-index: 3;
@@ -114,11 +113,15 @@
   &__content-area {
     clear: left;
     position: relative;
+    @include padding(xl, y);
     z-index: 2;
-    @include padding(xl, all);
     border-top: 2px solid $secondary-color;
     background: $white;
     border-radius: 3px;
+
+    @include min-width(xl) {
+      @include padding(xl, all);
+    }
   }
 
   &__tab-actions {

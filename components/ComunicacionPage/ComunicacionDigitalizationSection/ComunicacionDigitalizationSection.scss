@@ -10,7 +10,13 @@
   @include section-padding-y();
 
   &__header {
-    @include margin(3xl, bottom);
+    @include min-width(md) {
+      @include margin(3xl, bottom);
+    }
+  }
+
+  &__title {
+    margin-bottom: 0;
   }
 
   &__label {

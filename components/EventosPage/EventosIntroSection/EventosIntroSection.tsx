@@ -4,14 +4,10 @@ import React from "react";
 import Image from "next/image";
 import "./EventosIntroSection.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
+import TextMarquee from "@/components/TextMarquee/TextMarquee";
 
 const EventosIntroSection: React.FC = () => {
   const { isMobile } = useDeviceDetect();
-  const repeatedText = Array.from({ length: 20 }).map((_, i) => (
-    <span key={i}>
-      experiencias a medidas&nbsp;<span className="dot">•</span>&nbsp;
-    </span>
-  ));
 
   return (
     <>
@@ -19,13 +15,13 @@ const EventosIntroSection: React.FC = () => {
         <div className="eventos-intro-section__container container">
           <div className="eventos-intro-section__header header">
             <h2 className="eventos-intro-section__title secondary-title">
-              Creamos <span className="highlight">eventos que funcionan</span>{" "}
+              Creamos eventos que <span className="highlight">funcionan</span>{" "}
               de principio a fin.
             </h2>
           </div>
           <div className="eventos-intro-section__content">
             <div className="eventos-intro-section__visual-column">
-              <div className="eventos-intro-section__text-block ">
+              <div className="eventos-intro-section__text-block">
                 <p className="eventos-intro-section__text text">
                   Diseñamos, producimos y montamos experiencias únicas,
                   tecnológicas y sostenibles, con medios propios y en cualquier
@@ -70,11 +66,10 @@ const EventosIntroSection: React.FC = () => {
           </div>
         </div>
       </section>
-      <div className="marquee-container">
-        <div className="marquee-track">
-          <div className="marquee-text">{repeatedText}</div>
-        </div>
-      </div>
+      <TextMarquee
+        text="experiencias a medidas"
+        speed={50}
+      />
     </>
   );
 };

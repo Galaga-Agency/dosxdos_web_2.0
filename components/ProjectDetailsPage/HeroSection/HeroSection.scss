@@ -318,14 +318,18 @@
     align-items: flex-start;
     gap: 0.75rem; // Smaller by default
 
-    @include min-width(xxs) {
+    @include min-width(sm) {
       gap: 1rem;
     }
 
-    @include min-width(sm) {
+    @include min-width(md) {
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: flex-start;
+      gap: 7rem;
+    }
+
+    @include min-width(lg) {
       gap: 10rem;
     }
   }

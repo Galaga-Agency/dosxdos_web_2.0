@@ -8,7 +8,11 @@
   overflow: hidden;
   width: 100%;
   background-color: $white;
-  @include section-padding-y();
+  @include section-padding-bottom();
+
+  @include min-width(md) {
+    @include section-padding-y();
+  }
 
   &__container {
     position: relative;

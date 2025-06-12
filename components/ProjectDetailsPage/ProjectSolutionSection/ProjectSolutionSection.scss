@@ -54,9 +54,6 @@
   &__floating-images {
     position: relative;
     width: 100%;
-    padding: 32px 16px;
-    margin-top: 3rem;
-    min-height: 60vh;
     z-index: 2;
     @include container-width(mobile);
     margin-inline: auto;
@@ -81,26 +78,23 @@
 
   &__floating-image {
     position: relative;
-    width: 90%;
-    height: 60vw;
+    width: 100%;
+    height: auto;
     max-height: 60vh;
-    margin: 0 auto 48px;
     overflow: hidden;
     background-color: $white;
     box-shadow: $shadow-md;
 
-    &:hover {
-      .project-process-section__floating-image-inner img {
-        transform: scale(1.05);
-      }
-    }
-
     @include min-width(md) {
       position: absolute;
+      width: 90%;
       margin: 0;
+      height: 60vw;
     }
 
     &--1 {
+      width: 100%;
+
       @include min-width(md) {
         width: 55%;
         height: 45vh;
@@ -117,6 +111,8 @@
     }
 
     &--2 {
+      width: 100%;
+
       @include min-width(md) {
         width: 45%;
         height: 40vh;
