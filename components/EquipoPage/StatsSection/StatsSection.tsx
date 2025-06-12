@@ -5,12 +5,12 @@ import "./StatsSection.scss";
 
 const StatsSection: React.FC = () => {
   const stats = [
-    { number: "+2,2K", label: "Instalaciones fijas montadas" },
-    { number: "+52K", label: "Escaparates instalados" },
-    { number: "228", label: "Espacios comerciales" },
-    { number: "5K", label: "Diseño de espacios" },
     { number: "+38", label: "Años de experiencia" },
     { number: "87%", label: "Satisfacción de los clientes" },
+    { number: "+1.2K", label: "Instalaciones fijas montadas" },
+    { number: "+35K", label: "Escaparates instalados" },
+    { number: "180", label: "Espacios comerciales" },
+    { number: "3.5K", label: "Diseño de espacios" },
   ];
 
   return (

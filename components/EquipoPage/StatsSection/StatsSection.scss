@@ -43,10 +43,10 @@
     @include font-size(2xl);
     color: $black;
     margin-bottom: 4rem;
-    font-weight: 600;
+    @include font-weight(semibold);
     display: flex;
     align-items: center;
-    @include title-line-height;
+    line-height: 1.2;
     letter-spacing: -0.02em;
 
     @include min-width(md) {
@@ -62,7 +62,7 @@
     &-icon {
       display: inline-block;
       margin-right: 1rem;
-      font-weight: 300;
+      @include font-weight(light);
       color: $primary-color;
     }
   }
@@ -99,19 +99,19 @@
     position: relative;
     width: 100%;
     margin-bottom: 1rem;
-    height: 6rem;
+    height: 4rem; // Reduced from 6rem
 
     @include min-width(md) {
-      height: 7rem;
+      height: 4.5rem; // Reduced from 7rem
     }
 
     @include min-width(lg) {
-      height: 8rem;
+      height: 5rem; // Reduced from 8rem
     }
   }
 
   &__number {
-    @include font-size(6xl);
+    @include font-size(4xl); // Reduced from 6xl
     color: $black;
     @include font-weight(semibold);
     line-height: 1;
@@ -123,15 +123,15 @@
     text-align: left;
 
     @include min-width(md) {
-      @include font-size(7xl);
+      @include font-size(5xl); // Reduced from 7xl
     }
 
     @include min-width(lg) {
-      @include font-size(9xl);
+      @include font-size(6xl); // Reduced from 9xl
     }
 
     @include min-width(xl) {
-      @include font-size(8xl);
+      @include font-size(6xl); // Reduced from 8xl
     }
   }
 
@@ -151,7 +151,7 @@
     line-height: 1.5;
 
     @include min-width(lg) {
-      @include font-size(md);
+      @include font-size(base);
     }
   }
 }

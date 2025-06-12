@@ -1,0 +1,60 @@
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "base/colors" as *;
+
+.text-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  background-color: rgba($secondary-color, 0.5);
+  @include padding(2xl, y);
+  margin: 0;
+
+  @include min-width(sm) {
+    min-height: 100px;
+  }
+
+  @include min-width(md) {
+    min-height: 150px;
+  }
+
+  @include min-width(lg) {
+    min-height: 180px;
+  }
+
+  .marquee-text {
+    @include font-weight(semibold);
+    color: rgba($black, 0.15);
+    text-transform: uppercase;
+    @include letter-spacing(wide);
+    font-family: var(--font-display);
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    font-size: 50px;
+
+    @include min-width(md) {
+      font-size: 90px;
+    }
+
+    @include min-width(lg) {
+      font-size: 120px;
+    }
+
+    @include min-width(xl) {
+      font-size: 120px;
+    }
+
+    .dot {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+      vertical-align: middle;
+    }
+  }
+}

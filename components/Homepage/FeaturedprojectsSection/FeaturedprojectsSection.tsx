@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import TextMarquee from "@/components/TextMarquee/TextMarquee";
 import "./FeaturedprojectsSection.scss";
 import { Project } from "@/types/project-types";
 import Link from "next/link";
@@ -10,20 +11,16 @@ interface FeaturedprojectsSectionProps {
   projects: Project[];
 }
 
-const FeaturedprojectsSection: React.FC<FeaturedprojectsSectionProps> = ({ projects }) => {
-  const repeatedText = Array.from({ length: 20 }).map((_, i) => (
-    <span key={i}>
-      Hecho en dos x dos&nbsp;<span className="dot">•</span>&nbsp;
-    </span>
-  ));
-
+const FeaturedprojectsSection: React.FC<FeaturedprojectsSectionProps> = ({
+  projects,
+}) => {
   return (
     <section className="latest-projects">
-      <div className="marquee-container">
-        <div className="marquee-track">
-          <div className="marquee-text">{repeatedText}</div>
-        </div>
-      </div>
+      <TextMarquee
+        text="Hecho en dos x dos"
+        speed={50}
+        className="projects-marquee"
+      />
 
       <div className="project-panel-area">
         {projects.map((project) => (
@@ -42,9 +39,7 @@ const FeaturedprojectsSection: React.FC<FeaturedprojectsSectionProps> = ({ proje
             </div>
 
             <div className="project-panel__content">
-              <h3 className="project-panel__title">
-                {project.name}
-              </h3>
+              <h3 className="project-panel__title">{project.name}</h3>
               <Link
                 href={`/portfolio/${project.slug}`}
                 className="project-panel__link"

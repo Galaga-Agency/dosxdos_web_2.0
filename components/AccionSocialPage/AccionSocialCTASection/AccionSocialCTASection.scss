@@ -8,7 +8,7 @@
   width: 100%;
   @include section-padding-top();
   background-color: $white;
-  overflow-x: hidden; 
+  overflow: hidden; 
 
   &__content {
     @include grid(1, md);

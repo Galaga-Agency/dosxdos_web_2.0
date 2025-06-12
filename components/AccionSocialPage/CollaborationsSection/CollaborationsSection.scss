@@ -56,7 +56,6 @@
     object-fit: cover;
   }
 
-
   &__logo {
     position: absolute;
     bottom: 1rem;
@@ -118,6 +117,7 @@
   &__content {
     max-width: 80vw;
     @include flex(column, center, start);
+    padding: 4rem 2rem;
 
     @include min-width(md) {
       padding: 4rem;
@@ -143,11 +143,8 @@
   }
 
   &__title {
-    @include font-size(3xl);
-    @include font-weight(bold);
     margin-bottom: 1.5rem;
     color: $white;
-    @include title-line-height;
     position: relative;
     padding-bottom: 0.8rem;
 
@@ -173,10 +170,9 @@
   }
 
   &__description {
-    @include font-size(lg);
     color: rgba($white, 0.8);
-    line-height: 1.6;
     margin-bottom: 2rem;
+    margin-top: 0 !important;
   }
 
   &__link {

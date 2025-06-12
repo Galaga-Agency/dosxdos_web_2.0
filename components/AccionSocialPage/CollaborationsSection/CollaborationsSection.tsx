@@ -56,10 +56,10 @@ const CollaborationsSection: React.FC = () => {
                   <div className="project-panel__index">
                     {String(collaboration.id).padStart(2, "0")}
                   </div>
-                  <h3 className="project-panel__title">
+                  <h3 className="project-panel__title small-title">
                     {collaboration.title}
                   </h3>
-                  <p className="project-panel__description">
+                  <p className="project-panel__description text">
                     {collaboration.description}
                   </p>
                   <PrimaryButton
