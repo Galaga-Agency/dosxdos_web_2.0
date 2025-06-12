@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import "./HeroSection.scss";
 
@@ -10,10 +10,20 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
   const [loadedImages, setLoadedImages] = useState(new Set<number>());
+  const [isMobile, setIsMobile] = useState(false);
   const totalImages = 4; // 1 main + 3 floating images
 
-  // Simple function to check if we're on a mobile device
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  // Check if we're on a mobile device with proper hydration
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleImageLoad = useCallback(
     (imageIndex: number) => {
@@ -40,7 +50,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
             className={`hero-section__image-wrapper fade-in-scale featured-image-wrapper hero-image-wrapper ${
               loadedImages.has(0) ? "loaded" : "loading"
             }`}
-            data-speed={isMobile ? "1" : "0.9"}
+            data-speed={isMobile ? undefined : "0.9"}
           >
             <Image
               src="/assets/img/team/dospodos_personal_oficina-3.webp"
@@ -52,7 +62,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
               style={{
                 objectFit: "cover",
                 objectPosition: "center",
-                willChange: "transform",
+                willChange: isMobile ? "auto" : "transform",
               }}
               unoptimized={true}
             />
@@ -75,23 +85,29 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
           const imgSrc = `/assets/img/about-us-page/equipo-${i + 1}.avif`;
           const imageIndex = i + 1; // 1, 2, 3 for floating images
 
-          // Set different speeds based on image index
+          // Set different speeds based on image index - only for desktop
           const containerSpeed = isMobile
-            ? "1"
+            ? undefined
             : i === 0
             ? "1.3"
             : i === 1
             ? "0.9"
             : "1.1";
 
-          const innerSpeed = i === 0 ? "1.1" : i === 1 ? "0.8" : "0.9";
+          const innerSpeed = isMobile
+            ? undefined
+            : i === 0
+            ? "1.1"
+            : i === 1
+            ? "0.8"
+            : "0.9";
 
           return (
             <div
               key={i}
               className={`random-images__container random-images__container--${
                 i + 1
-              } featured-image-container`}
+              } featured-image-container ${isMobile ? 'mobile-layout' : ''}`}
               data-speed={containerSpeed}
             >
               <div
@@ -102,7 +118,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
               >
                 <Image
                   src={imgSrc}
-                  alt={`Fiesta ${i + 1}`}
+                  alt={`Equipo ${i + 1}`}
                   fill
                   priority
                   unoptimized={true}
@@ -110,6 +126,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
                   onLoad={() => handleImageLoad(imageIndex)}
                   className="random-images__img"
                   sizes="(min-width: 1024px) 80vw, (min-width: 768px) 60vw, 90vw"
+                  style={{
+                    willChange: isMobile ? "auto" : "transform",
+                  }}
                 />
               </div>
             </div>

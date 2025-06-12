@@ -152,7 +152,7 @@
   }
 
   &__items-grid {
-    @include flex(row, flex-start, flex-start);
+    @include flex(row, flex-start, stretch);
     flex-wrap: wrap;
     @include gap(md);
 

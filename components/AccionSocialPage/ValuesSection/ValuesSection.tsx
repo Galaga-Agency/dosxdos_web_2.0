@@ -46,7 +46,7 @@ const ValuesSection: React.FC = () => {
         </div>
 
         <div className="values-section__services">
-          <h3 className="values-section__services-title">
+          <h3 className="values-section__services-title secondary-title">
             NUESTROS PRINCIPIOS
           </h3>
           <div className="values-section__services-grid">

@@ -9,7 +9,11 @@
 
   &__description {
     max-width: 1000px;
-    @include margin(5xl, bottom);
+    @include margin(2xl, bottom);
+
+    @include min-width(md) {
+      @include margin(5xl, bottom);
+    }
   }
 
   &__services {
@@ -42,12 +46,13 @@
     &-grid {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1rem;
 
       @include min-width(md) {
         display: grid;
         grid-template-columns: repeat(3, max-content);
         justify-content: start;
+        gap: 2rem;
       }
 
       @include min-width(xl) {
