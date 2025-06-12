@@ -9,10 +9,14 @@
   left: 50%;
   transform: translateX(-50%);
   height: 100vh;
-  margin-bottom: 3rem;
   overflow: hidden;
   display: flex;
   align-items: flex-end;
+  margin-bottom: 1rem;
+
+  @include min-width(md) {
+    margin-bottom: 3rem;
+  }
 
   &__bg-container {
     position: relative;

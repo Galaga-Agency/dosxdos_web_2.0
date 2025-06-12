@@ -8,11 +8,13 @@
   overflow: hidden;
 
   &__description {
-    @include font-size(xl);
-    color: rgba($black, 0.8);
     max-width: 1000px;
-    line-height: 1.7;
-    @include margin(5xl, bottom);
+
+    @include margin(2xl, bottom);
+
+    @include min-width(md) {
+      @include margin(5xl, bottom);
+    }
   }
 
   &__services {
@@ -20,21 +22,13 @@
     margin-left: auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 
-    @include min-width(xl) {
-      flex-direction: row;
-      gap: 5rem;
-    }
+
 
     &-title {
-      @include font-size(4xl);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: $black;
       padding-bottom: 0.5rem;
       position: relative;
-      text-wrap: nowrap;
 
       @include min-width(lg) {
         max-width: 50%;

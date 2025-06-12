@@ -49,7 +49,7 @@ const CTASection: React.FC = () => {
           <div className="cta-section__image-column">
             <div
               className="cta-section__image-wrapper"
-              data-speed={isMobile ? "0" : "1.15"}
+              {...(!isMobile && { "data-speed": "1.15" })}
             >
               <Image
                 src="/assets/img/about-us-page/accion-social-cta.webp"

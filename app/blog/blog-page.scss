@@ -8,7 +8,15 @@
   background-color: $white;
   position: relative;
   overflow: visible;
-  @include margin(3xl, top);
+  @include margin(lg, top);
+
+  @include min-width(md) {
+    @include margin(2xl, top);
+  }
+
+  @include min-width(lg) {
+    @include margin(3xl, top);
+  }
 
   &__container {
     @include container-width(mobile);
@@ -65,39 +73,51 @@
   &__featured-section {
     position: relative;
     width: 100%;
-    height: 100vh;
-    margin-bottom: 4rem;
+    height: 90vh;
+    min-height: 600px;
+    @include margin(2xl, bottom);
     overflow: hidden;
-    border-radius: 4px;
+    @include border-radius(md);
     box-shadow: $shadow-lg;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 
-    // For very small devices, reduce height to avoid excessive space
-    @media (max-height: 700px) {
-      height: 90vh;
+    @include min-width(md) {
+      height: 95vh;
+      min-height: 700px;
+      @include margin(3xl, bottom);
     }
 
-    // Bottom gradient overlay for text readability
+    @include min-width(lg) {
+      height: 100vh;
+      min-height: 800px;
+      @include margin(4xl, bottom);
+    }
+
     &::before {
       content: "";
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 50%;
+      height: 60%;
       background: linear-gradient(
         to bottom,
         rgba($black, 0),
-        rgba($black, 0.7)
+        rgba($black, 0.8)
       );
       @include z-index(above);
       pointer-events: none;
-    }
 
-    @include min-width(md) {
-      height: 90vh;
+      @include min-width(md) {
+        height: 50%;
+        background: linear-gradient(
+          to bottom,
+          rgba($black, 0),
+          rgba($black, 0.7)
+        );
+      }
     }
   }
 
@@ -109,8 +129,8 @@
     height: 100%;
     @include z-index(default);
     overflow: hidden;
-    opacity: 0; /* Estado inicial para la animación - evita el parpadeo */
-    transform: translateY(50px); /* Posición inicial para la animación */
+    opacity: 0;
+    transform: translateY(50px);
   }
 
   &__featured-image-title {
@@ -146,10 +166,18 @@
     height: 100%;
     background: linear-gradient(
       to bottom,
-      rgba($black, 0.2),
-      rgba($black, 0.6)
+      rgba($black, 0.3),
+      rgba($black, 0.7)
     );
     @include z-index(above);
+
+    @include min-width(md) {
+      background: linear-gradient(
+        to bottom,
+        rgba($black, 0.2),
+        rgba($black, 0.6)
+      );
+    }
   }
 
   &__featured-content-container {
@@ -163,12 +191,18 @@
     width: 100%;
     color: $white;
     text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 2rem;
+    @include flex(column, flex-end, flex-start);
+    @include padding(lg, all);
     pointer-events: auto;
     position: relative;
+
+    @include min-width(md) {
+      @include padding(xl, all);
+    }
+
+    @include min-width(lg) {
+      @include padding(2xl, all);
+    }
 
     &:hover {
       .blog-page__featured-read-more {
@@ -177,62 +211,109 @@
         }
       }
     }
-
-    // Ensure all the content fits inside by allowing scroll on very small devices
-    @media (max-height: 600px) {
-      max-height: 70vh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
   }
 
   &__labels-container {
-    @include flex(row, unset, center);
-    gap: 1rem;
+    @include flex(column, flex-start, flex-start);
+    @include gap(sm);
+    @include margin(md, bottom);
+
+    @include min-width(md) {
+      @include flex(row, flex-start, center);
+      @include gap(md);
+    }
   }
 
   &__featured-category {
-    background-color: rgba($white, 0.85);
+    background-color: rgba($white, 0.9);
     color: $black;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
+    @include padding(sm, x);
+    @include padding(xs, y);
+    @include font-size(sm);
+    @include font-weight(semibold);
     text-transform: uppercase;
     pointer-events: auto;
+    @include border-radius(sm);
+    width: fit-content;
+
+    @include min-width(md) {
+      @include font-size(base);
+      padding: 0.5rem 1rem;
+    }
+
+    span {
+      display: block;
+    }
   }
 
   &__featured-image-date {
-    background-color: rgba($black, 0.85);
+    background-color: rgba($black, 0.9);
     color: white;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
+    @include padding(sm, x);
+    @include padding(xs, y);
+    @include font-size(sm);
+    @include font-weight(semibold);
     text-transform: uppercase;
     pointer-events: auto;
+    @include border-radius(sm);
+    width: fit-content;
+
+    @include min-width(md) {
+      @include font-size(base);
+      padding: 0.5rem 1rem;
+    }
   }
 
   &__featured-image-title {
-    max-width: 60%;
+    max-width: 100%;
     color: $white;
     @include margin(lg, y);
+    @include font-size(4xl);
+    @include font-weight(bold);
+    line-height: 1.1;
+
+    @include min-width(md) {
+      @include font-size(5xl);
+      max-width: 80%;
+    }
+
+    @include min-width(lg) {
+      @include font-size(6xl);
+      max-width: 70%;
+    }
+
+    @include min-width(xl) {
+      @include font-size(7xl);
+      max-width: 60%;
+    }
   }
 
   &__featured-excerpt {
     position: relative;
     color: rgba($white, 0.95);
-    max-width: 55ch;
+    max-width: 100%;
     pointer-events: auto;
+
+    @include min-width(md) {
+      max-width: 75%;
+    }
 
     @include min-width(lg) {
       max-width: 60%;
     }
 
     p {
-      margin-bottom: 1rem;
-      @include font-size(lg);
+      @include margin(md, bottom);
+      @include font-size(base);
       line-height: 1.6;
+
+      @include min-width(md) {
+        @include font-size(lg);
+      }
 
       strong {
         color: $white;
-        font-weight: 700;
+        @include font-weight(bold);
       }
     }
   }
@@ -241,14 +322,19 @@
     display: inline-flex;
     align-items: center;
     color: $white;
-    font-weight: 600;
-    font-size: 1rem;
+    @include font-weight(semibold);
+    @include font-size(base);
     padding-bottom: 0.25rem;
     border-bottom: 1px solid rgba($white, 0.3);
     transition: all 0.3s ease;
     position: relative;
     pointer-events: auto;
-    margin-bottom: 1rem;
+    @include margin(md, bottom);
+    width: fit-content;
+
+    @include min-width(md) {
+      @include font-size(lg);
+    }
 
     .arrow {
       margin-left: 0.5rem;
@@ -261,9 +347,13 @@
   }
 
   &__posts-section {
-    padding-top: 2rem;
+    @include padding(xl, top);
     width: 100%;
     position: relative;
+
+    @include min-width(md) {
+      padding-top: 2rem;
+    }
 
     .posts-title {
       color: $black;
@@ -272,17 +362,17 @@
 
     .posts-grid {
       display: grid;
-      grid-template-columns: 1fr; // 1 column for mobile
-      gap: 2rem;
+      grid-template-columns: 1fr;
+      @include gap(xl);
       position: relative;
 
       @include min-width(md) {
-        grid-template-columns: repeat(2, 1fr); // Exactly 2 columns for tablets
+        grid-template-columns: repeat(2, 1fr);
         gap: 2.5rem;
       }
 
       @include min-width(lg) {
-        grid-template-columns: repeat(3, 1fr); // Exactly 3 columns for desktop
+        grid-template-columns: repeat(3, 1fr);
         gap: 3rem;
       }
     }
@@ -290,18 +380,18 @@
 
   &__post-item {
     opacity: 0;
-    transform: translateY(40px); /* Posición inicial para la animación */
+    transform: translateY(40px);
     will-change: opacity, transform;
   }
 
   &__pagination {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    @include margin(xl, top);
 
     @include min-width(md) {
       margin-top: 2.5rem;
-      padding-top: 2rem;
+      @include padding(lg, top);
     }
 
     @include min-width(lg) {
@@ -319,10 +409,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    @include gap(lg);
     width: 100%;
     position: relative;
-    @include section-padding-y();
+    @include padding(2xl, y);
 
     @include min-width(lg) {
       display: none;
@@ -339,9 +429,9 @@
 
   &__mobile-social-title {
     @include font-size(xl);
-    font-weight: 600;
+    @include font-weight(semibold);
     color: $black;
-    margin-bottom: 1rem;
+    @include margin(md, bottom);
     position: relative;
     z-index: 1;
     text-transform: uppercase;
@@ -352,14 +442,14 @@
     width: 100%;
     height: 1px;
     background: rgba($black, 0.1);
-    margin-bottom: 1rem;
+    @include margin(md, bottom);
   }
 
   &__desktop-social-cta {
     display: none;
     position: relative;
     text-align: center;
-    @include section-padding-y();
+    @include padding(3xl, y);
 
     @include min-width(xl) {
       display: block;
@@ -368,14 +458,29 @@
     &-content {
       max-width: 800px;
       margin: 0 auto;
-      @include flex(column, unset, center);
+      @include flex(column, center, center);
       position: relative;
+      @include gap(lg);
     }
+  }
+
+  &__desktop-social-icons {
+    display: flex;
+    justify-content: center;
   }
 
   &__empty {
     min-height: 80vh;
     @include flex(column, center, center);
+    text-align: center;
+
+    h2 {
+      @include margin(md, bottom);
+    }
+
+    p {
+      color: rgba($black, 0.6);
+    }
   }
 
   #pagination-section {
