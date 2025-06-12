@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import HoverCard from "../../ui/HoverCard/HoverCard";
+import TextMarquee from "@/components/TextMarquee/TextMarquee";
 import "./FabricacionGridSection.scss";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 
@@ -13,7 +14,7 @@ const FabricacionGridSection: React.FC = () => {
       name: "Innovación",
       description:
         "Una clara apuesta por la innovación tecnológica y la investigación constante en materiales.",
-      imageUrl: "/assets/img/servicios/fabricacion-impresion/Innovación.jpg",
+      imageUrl: "/assets/img/servicios/fabricacion-impresion/innovacion.jpg",
       slug: "innovacion",
     },
     {
@@ -22,7 +23,7 @@ const FabricacionGridSection: React.FC = () => {
       description:
         "Impresiones con excelente fidelidad cromática, adaptadas a las necesidades del cliente, del presupuesto y del uso final.",
       imageUrl:
-        "/assets/img/servicios/fabricacion-impresion/Fidelidad cromática.avif",
+        "/assets/img/servicios/fabricacion-impresion/fidelidad-cromatica.avif",
       slug: "fidelidad-cromatica",
     },
     {
@@ -31,18 +32,10 @@ const FabricacionGridSection: React.FC = () => {
       description:
         "Un enfoque de producción eficiente, sostenible y completo, que une agilidad, calidad y control de cada proceso.",
       imageUrl:
-        "/assets/img/servicios/fabricacion-impresion/Sostenibilidad .avif",
+        "/assets/img/servicios/fabricacion-impresion/sostenibilidad.avif",
       slug: "sostenibilidad",
     },
   ];
-
-  const repeatedText = Array.from({ length: 20 }).map((_, i) => (
-    <span key={i}>
-      EMOCIONAMOS&nbsp;<span className="dot">•</span>&nbsp;DESTACAMOS&nbsp;
-      <span className="dot">•</span>&nbsp;PERDURAMOS&nbsp;
-      <span className="dot">•</span>&nbsp;
-    </span>
-  ));
 
   return (
     <section className="fabricacion-services-grid">
@@ -76,11 +69,7 @@ const FabricacionGridSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="marquee-container">
-        <div className="marquee-track">
-          <div className="marquee-text">{repeatedText}</div>
-        </div>
-      </div>
+      <TextMarquee text="EMOCIONAMOS • DESTACAMOS • PERDURAMOS" speed={50} />
     </section>
   );
 };

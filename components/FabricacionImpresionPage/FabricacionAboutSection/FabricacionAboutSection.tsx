@@ -26,7 +26,7 @@ const FabricacionAboutSection: React.FC = () => {
               data-speed={isMobile ? "0" : "1.15"}
             >
               <Image
-                src="/assets/img/servicios/fabricacion-impresion/Foto horizontal .avif"
+                src="/assets/img/servicios/fabricacion-impresion/foto-horizontal.avif"
                 alt="Fabricación e impresión - Dos por Dos"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

@@ -54,7 +54,7 @@ const MontajeMantenimientoHeroSection: React.FC<
             }`}
           >
             <Image
-              src="/assets/img/servicios/montaje-mantenimiento/Header .avif"
+              src="/assets/img/servicios/montaje-mantenimiento/header.avif"
               alt="Montaje y mantenimiento dosxdos"
               fill
               priority

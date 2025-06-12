@@ -33,28 +33,42 @@
     @include letter-spacing(wide);
     font-family: var(--font-display);
     display: inline-block;
-    line-height: 1;
-    vertical-align: middle;
+    line-height: 0.8;
+    margin: 0;
+    padding: 0;
     font-size: 50px;
+    position: relative;
+    top: 0.05em;
 
     @include min-width(md) {
       font-size: 90px;
+      top: 0.04em;
     }
 
     @include min-width(lg) {
       font-size: 120px;
+      top: 0.03em;
     }
 
     @include min-width(xl) {
       font-size: 120px;
+      top: 0.03em;
     }
 
     .dot {
       display: inline-block;
       margin: 0;
       padding: 0;
-      line-height: 1;
-      vertical-align: middle;
+      line-height: inherit;
+    }
+  }
+
+  // Dark mode variant
+  &--dark {
+    background-color: $black;
+
+    .marquee-text {
+      color: rgba($white, 0.15);
     }
   }
 }

@@ -43,7 +43,7 @@ const FabricacionFloatingImagesSection: React.FC<
               data-speed={isMobile ? "1" : "0.9"}
             >
               <Image
-                src="/assets/img/servicios/fabricacion-impresion/Imagen vertical pequeña.avif"
+                src="/assets/img/servicios/fabricacion-impresion/imagen-vertical-pequena.avif"
                 alt="Elementos de diseño"
                 fill
                 quality={100}

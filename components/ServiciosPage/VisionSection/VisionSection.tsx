@@ -119,7 +119,7 @@ const VisionSection: React.FC = () => {
                 data-speed={isMobile ? "0" : "0.95"}
               >
                 <Image
-                  src="/assets/img/blog/corporate-branding.jpg"
+                  src="/assets/img/servicios/consultoria/consultoria-2.webp"
                   alt="Diseño de interiores"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
