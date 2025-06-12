@@ -174,7 +174,7 @@ const BlogPage: React.FC = () => {
           )}
           {currentItems.length !== 0 && (
             <div className="blog-page__posts-section" id="pagination-section">
-              <h2 className="posts-title small-title ">
+              <h2 className="posts-title secondary-title ">
                 Artículos <span className="highlight">Recientes</span>
               </h2>
 

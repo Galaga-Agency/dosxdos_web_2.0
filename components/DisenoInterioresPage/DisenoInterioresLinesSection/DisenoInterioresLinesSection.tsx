@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import "./DisenoInterioresLinesSection.scss";
-import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 const interiorismoLines = [
   {
@@ -11,21 +10,21 @@ const interiorismoLines = [
     title: "Interiorismo comercial",
     description:
       "Diseñamos espacios que invitan, orientan y venden. Optimizamos la experiencia del cliente, mejoramos la funcionalidad y reflejamos la identidad de marca en cada rincón.",
-    image: "/assets/img/homepage/slider-3.webp",
+    image: "/assets/img/homepage/slider-3.avif",
   },
   {
     id: 2,
     title: "Perfumería",
     description:
       "Más de 38 años diseñando perfumerías nos avalan. Creamos espacios sensoriales, cuidados y eficaces, adaptando cada propuesta al concepto de marca, a los materiales y a la funcionalidad específica de este tipo de negocio. Algunos de nuestros proyectos han sido reconocidos con premios de interiorismo.",
-    image: "/assets/img/homepage/slider-1.webp",
+    image: "/assets/img/homepage/slider-1.avif",
   },
   {
     id: 3,
     title: "Residenciales",
     description:
       "Creamos hogares con carácter y coherencia. Desde una reforma puntual hasta un rediseño integral, cada proyecto se adapta a los gustos, estilo de vida y necesidades de quienes lo habitan. Buscamos equilibrio entre estética, funcionalidad y sostenibilidad.",
-    image: "/assets/img/homepage/slider-2.webp",
+    image: "/assets/img/homepage/slider-2.avif",
   },
 ];
 

@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import "./DisenoInterioresMethodologySection.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 const DisenoInterioresMethodologySection = () => {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
+  const { isMobile } = useDeviceDetect();
 
   const methodologySteps = [
     {
@@ -50,7 +52,7 @@ const DisenoInterioresMethodologySection = () => {
         <div className="diseno-interiores-methodology-section__grid">
           <div
             className="diseno-interiores-methodology-section__image"
-            data-speed="1.15"
+            data-speed={isMobile ? "1" : "1.15"}
           >
             <Image
               src="/assets/img/homepage/foto-landing.avif"
@@ -58,7 +60,7 @@ const DisenoInterioresMethodologySection = () => {
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
-              data-speed="0.95"
+              data-speed={isMobile ? "1" : "0.95"}
             />
           </div>
 

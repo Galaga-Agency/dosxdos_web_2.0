@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import "./ComunicacionProcessSection.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 interface ComunicacionProcessSectionProps {
   onImagesLoad?: () => void;
@@ -14,7 +15,7 @@ const ComunicacionProcessSection: React.FC<ComunicacionProcessSectionProps> = ({
   const [loadedImages, setLoadedImages] = useState(new Set<number>());
   const totalImages = 2;
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const { isMobile } = useDeviceDetect();
 
   const handleImageLoad = useCallback(
     (imageIndex: number) => {

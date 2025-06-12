@@ -98,7 +98,6 @@ const VisionSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Section - Portfolio Preview (Using AboutUs structure) */}
       <div className="vision-section__bottom">
         <div className="vision-section__container container">
           <div className="vision-section__header header">

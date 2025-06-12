@@ -43,7 +43,6 @@
 .comunicacion-floating-images {
   position: relative;
   width: 100%;
-  padding: 32px 16px;
   @include z-index(above);
   margin-top: 3rem;
 
@@ -75,7 +74,6 @@
     background-color: $white;
     box-shadow: 0 10px 15px -3px rgba($black, 0.1),
       0 4px 6px -2px rgba($black, 0.05);
-    @include border-radius(md);
     will-change: transform;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 

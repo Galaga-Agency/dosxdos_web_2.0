@@ -318,3 +318,11 @@ strong {
 .page-template {
   will-change: transform, opacity;
 }
+
+.desktop-only {
+  display: none;
+
+  @include min-width(lg) {
+    display: block;
+  }
+}

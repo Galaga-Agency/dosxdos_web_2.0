@@ -6,8 +6,12 @@
 .about-services {
   position: relative;
   width: 100%;
-  @include section-padding-y();
+  @include section-padding-bottom();
   background-color: $white;
+
+  @include min-width(lg) {
+    @include section-padding-y();
+  }
 
   &__container {
     width: 100%;
@@ -34,7 +38,6 @@
 
   &__content {
     @include flex(column, flex-start, flex-start);
-    @include gap(2xl);
 
     @include min-width(md) {
       flex-direction: row;
@@ -52,7 +55,6 @@
   }
 
   &__categories {
-    @include margin(xl, y);
     display: flex;
     flex-wrap: wrap;
     @include gap(md);
@@ -67,6 +69,7 @@
     @include min-width(xl) {
       width: 35%;
       @include gap(lg);
+      @include margin(xl, y);
     }
   }
 

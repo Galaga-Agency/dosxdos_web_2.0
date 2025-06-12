@@ -34,7 +34,6 @@
 
   &__content {
     @include flex(column, flex-start, flex-start);
-    @include gap(2xl);
 
     @include min-width(md) {
       flex-direction: row-reverse;
@@ -48,10 +47,17 @@
 
   &__header {
     position: relative;
-    @include margin(3xl, bottom);
+
+    @include min-width(md) {
+      @include margin(3xl, bottom);
+    }
   }
 
-&__visual-column {
+  &__title {
+    margin-bottom: 0;
+  }
+
+  &__visual-column {
     width: 100%;
     display: flex;
     justify-content: center;

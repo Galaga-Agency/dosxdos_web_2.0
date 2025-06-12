@@ -84,7 +84,7 @@
     text-align: center;
     width: 100%;
     box-sizing: border-box;
-    
+
     // Ensure consistent alignment across all breakpoints
     display: flex;
     flex-direction: column;
@@ -137,7 +137,7 @@
     max-width: none;
   }
 
-  // MIDDLE FLOATING IMAGE - Smart responsive display
+  // MIDDLE FLOATING IMAGE
   &__middle-image {
     position: absolute;
     display: none;
@@ -218,9 +218,12 @@
   }
 
   &__header {
-    @include margin(3xl, bottom);
     text-align: left;
     width: 100%;
+
+    @include min-width(md) {
+      @include margin(3xl, bottom);
+    }
   }
 
   &__label {
@@ -241,12 +244,12 @@
     width: 100%;
     align-items: center;
 
-    @include min-width(md) {
+    @include min-width(lg) {
       grid-template-columns: repeat(2, 1fr);
       @include gap(xl);
     }
 
-    @include min-width(lg) {
+    @include min-width(xl) {
       @include gap(4xl);
     }
   }

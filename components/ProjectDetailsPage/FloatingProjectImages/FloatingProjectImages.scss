@@ -41,9 +41,7 @@
   &__floating-images {
     position: relative;
     width: 100%;
-    padding: 32px 16px;
     margin-top: 3rem;
-    min-height: 60vh;
     z-index: 2;
     @include container-width(mobile);
     margin-inline: auto;
@@ -68,10 +66,9 @@
 
   &__floating-image {
     position: relative;
-    width: 90%;
+    width: 100%;
     height: 60vw;
     max-height: 60vh;
-    margin: 0 auto 48px;
     overflow: hidden;
     background-color: $white;
     box-shadow: $shadow-md;
@@ -79,6 +76,8 @@
     @include min-width(md) {
       position: absolute;
       margin: 0;
+      width: 90%;
+      margin: 0 auto 48px;
     }
 
     &--1 {

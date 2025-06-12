@@ -37,8 +37,9 @@
     @include gap(2xl);
     color: $white;
 
-    @include min-width(md) {
+    @include min-width(lg) {
       flex-direction: row;
+      @include margin(xl, y);
       @include gap(4xl);
     }
   }
@@ -53,14 +54,13 @@
   }
 
   &__categories {
-    @include margin(xl, y);
     display: flex;
     flex-wrap: wrap;
     @include gap(sm);
     justify-content: flex-start;
     width: 100%;
 
-    @include min-width(md) {
+    @include min-width(lg) {
       width: 40%;
       margin-bottom: 0;
     }
@@ -94,7 +94,7 @@
   &__description {
     width: 100%;
 
-    @include min-width(md) {
+    @include min-width(lg) {
       width: 60%;
     }
   }

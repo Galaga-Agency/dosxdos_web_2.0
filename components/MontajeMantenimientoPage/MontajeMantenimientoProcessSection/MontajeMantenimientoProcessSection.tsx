@@ -2,6 +2,7 @@
 
 import React from "react";
 import "./MontajeMantenimientoProcessSection.scss";
+import TextMarquee from "@/components/TextMarquee/TextMarquee";
 
 const MontajeMantenimientoProcessSection: React.FC = () => {
   const services = [
@@ -18,12 +19,6 @@ const MontajeMantenimientoProcessSection: React.FC = () => {
       title: "Instalaciones técnicas con acabados premium.",
     },
   ];
-
-  const repeatedText = Array.from({ length: 20 }).map((_, i) => (
-    <span key={i}>
-      del montaje al mantenimiento&nbsp;<span className="dot">•</span>&nbsp;
-    </span>
-  ));
 
   return (
     <section className="montaje-mantenimiento-process">
@@ -67,13 +62,7 @@ const MontajeMantenimientoProcessSection: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="marquee-section">
-        <div className="marquee-container">
-          <div className="marquee-track">
-            <div className="marquee-text">{repeatedText}</div>
-          </div>
-        </div>
-      </div>
+      <TextMarquee text=" del montaje al mantenimiento" speed={50} />
     </section>
   );
 };

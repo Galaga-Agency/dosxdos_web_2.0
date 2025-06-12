@@ -21,7 +21,11 @@
 
     .moving-gallery {
       width: 100%;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
+
+      @include min-width(md) {
+        margin-bottom: 2rem;
+      }
 
       &.slider-wrap-top,
       &.slider-wrap-bottom {

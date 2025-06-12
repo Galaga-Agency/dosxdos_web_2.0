@@ -268,8 +268,6 @@
     max-width: 100%;
     color: $white;
     @include margin(lg, y);
-    @include font-size(4xl);
-    @include font-weight(bold);
     line-height: 1.1;
 
     @include min-width(md) {
@@ -306,6 +304,14 @@
       @include margin(md, bottom);
       @include font-size(base);
       line-height: 1.6;
+
+      // Limit to 3 lines with ellipsis
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       @include min-width(md) {
         @include font-size(lg);

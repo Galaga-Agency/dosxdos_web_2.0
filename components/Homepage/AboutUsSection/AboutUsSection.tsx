@@ -15,8 +15,8 @@ const AboutUsSection: React.FC = () => {
       <div className="aboutus-section__container container">
         <div className="aboutus-section__header header">
           <h2 className="aboutus-section__title secondary-title ">
-            38 años diseñando, produciendo y <br />
-            <span className="highlight">cuidando cada detalle</span> para marcas
+            38 años diseñando, produciendo y <br className="desktop-only"/>
+            cuidando <span className="highlight">cada detalle</span> para marcas
             líderes
           </h2>
         </div>

@@ -12,12 +12,12 @@
   &__content {
     @include grid(1, md);
 
-    @include min-width(md) {
+    @include min-width(lg) {
       @include grid(2, xl);
       margin: auto 0;
     }
 
-    @include min-width(md) {
+    @include min-width(xl) {
       @include grid(2, 6xl);
     }
   }
