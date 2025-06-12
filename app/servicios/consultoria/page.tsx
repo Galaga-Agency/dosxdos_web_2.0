@@ -12,7 +12,6 @@ import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 import ConsultoriaHeroSection from "@/components/ConsultoriaPage/ConsultoriaHeroSection/ConsultoriaHeroSection";
 import Footer from "@/components/layout/Footer/footer";
 import ConsultoriaMethodlogySection from "@/components/ConsultoriaPage/ConsultoriaMethodlogySection/ConsultoriaMethodlogySection";
-import MarqueeSection from "@/components/ConsultoriaPage/MarqueeSection/MarqueeSection";
 import ConsultoriaAboutSection from "@/components/ConsultoriaPage/ConsultoriaAboutSection/ConsultoriaAboutSection";
 import ConsultoriaCTASection from "@/components/ConsultoriaPage/ConsultoriaCTASection/ConsultoriaCTASection";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
@@ -25,6 +24,7 @@ import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
 import "./consultoria-page.scss";
+import TextMarquee from "@/components/TextMarquee/TextMarquee";
 
 const ConsultoriaPage = () => {
   useScrollSmooth();
@@ -93,7 +93,7 @@ const ConsultoriaPage = () => {
         <div className="consultoria-page__container">
           <ConsultoriaHeroSection onImagesLoad={handleHeroImagesLoad} />
           <ConsultoriaMethodlogySection />
-          <MarqueeSection />
+          <TextMarquee text="aliados estratégicos" speed={50} />
           <ConsultoriaAboutSection />
           <ConsultoriaCTASection />
         </div>

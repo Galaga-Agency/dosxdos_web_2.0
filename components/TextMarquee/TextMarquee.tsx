@@ -8,15 +8,21 @@ interface TextMarqueeProps {
   text: string;
   speed?: number;
   className?: string;
+  dark?: boolean;
 }
 
 const TextMarquee: React.FC<TextMarqueeProps> = ({
   text,
   speed = 50,
   className = "",
+  dark = false,
 }) => {
   return (
-    <div className={`text-marquee ${className}`}>
+    <div
+      className={`text-marquee ${
+        dark ? "text-marquee--dark" : ""
+      } ${className}`}
+    >
       <Marquee
         speed={speed}
         gradient={false}
