@@ -1,9 +1,83 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+async function sendNotificationEmail(
+  subject: string,
+  message: string,
+  formData: any
+) {
   try {
-    const data = await request.json();
-    console.log("Received form data:", data);
+    const nodemailer = require("nodemailer");
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    const recipients = [
+      process.env.NOTIFICATION_EMAIL_1,
+      process.env.NOTIFICATION_EMAIL_2,
+      process.env.NOTIFICATION_EMAIL_3,
+      process.env.NOTIFICATION_EMAIL_4,
+    ].filter(Boolean);
+
+    const mailOptions = {
+      from: process.env.SMTP_USER,
+      to: recipients,
+      subject: "PETICIÓN DE CONTACTO DESDE LA PÁGINA WEB",
+      html: `
+        <p><strong>Mensaje:</strong> DATOS DEL CONTACTO SOLICITADO: </p>
+        <ul>
+          <li><strong>Nombre:</strong> ${formData.firstName} ${
+        formData.lastName
+      }</li>
+          <li><strong>Correo Electrónico:</strong> ${formData.email}</li>
+          <li><strong>Teléfono:</strong> ${formData.phone}</li>
+          <li><strong>¿Cómo nos conoció?</strong> ${
+            formData.howDidYouKnow
+          }</li>
+          <li><strong>Servicios:</strong> ${formData.servicios}</li>
+          <li><strong>Otros detalles:</strong> ${formData.otrosDetalles}</li>
+          <li><strong>Mensaje:</strong> ${formData.message}</li>
+        </ul>
+        <p><strong>Fecha:</strong> ${new Date().toISOString()}</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Notification email sent successfully to multiple recipients");
+
+    return NextResponse.json(
+      {
+        message: "Contact request successfully sent",
+        status: "success",
+      },
+      { status: 200 }
+    );
+  } catch (emailError) {
+    console.error("Failed to send notification email:", emailError);
+    return NextResponse.json(
+      {
+        message: "Error sending contact request",
+        error:
+          emailError instanceof Error ? emailError.message : "Unknown error",
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  let formData: any = null;
+
+  try {
+    formData = await request.json();
+    console.log("Received form data:", formData);
 
     // Step 1: Get Access Token from Zoho CRM
     console.log("Getting Zoho CRM access token...");
@@ -38,77 +112,25 @@ export async function POST(request: NextRequest) {
     console.log("Access token obtained successfully");
 
     // Step 2: Prepare data for Zoho CRM using correct API field names
-    const currentDateTime = new Date().toISOString();
-
     const crmData = {
       data: [
         {
-          // Standard Account fields using correct API names
-          Account_Name: data.company,
-          Phone: data.phone,
-          Website: "", // You can add this to your form if needed
-
-          // Address fields using correct API names
-          Billing_Street: data.address,
-          Billing_City: data.city,
-          Billing_State: data.province,
-          Billing_Code: data.postalCode,
-          Billing_Country: "España",
-
-          // Shipping address (same as billing for this case)
-          Shipping_Street: data.address,
-          Shipping_City: data.city,
-          Shipping_State: data.province,
-          Shipping_Code: data.postalCode,
-          Shipping_Country: "España",
-
-          // Custom fields using exact API names from your Zoho setup
-          CIF_NIF1: data.cif, // Using the API name from your screenshot
-          Correo_electr_nico: data.email, // Company email
-
-          // Contact information - this might need to be a separate contact record
-          // For now, we'll store it in description and custom fields
-
-          // Account type and classification
-          Account_Type: "Customer", // You can customize this
-          Industry: "Retail", // You can add this to your form or set default
-
-          // Description with all contact and form details
-          Description: `
-FORMULARIO DE ALTA DE CLIENTE - ${currentDateTime}
-
-=== DATOS DE LA EMPRESA ===
-Razón Social: ${data.company}
-CIF/NIF: ${data.cif}
-Dirección Fiscal: ${data.address}
-Población: ${data.city}
-Código Postal: ${data.postalCode}
-Provincia: ${data.province}
-Teléfono: ${data.phone}
-Email: ${data.email}
-
-=== CONTACTO PRINCIPAL ===
-Nombre: ${data.firstName} ${data.lastName}
-Teléfono: ${data.contactPhone}
-Email: ${data.contactEmail}
-Administración: ${data.administration}
-
-=== INFORMACIÓN ADICIONAL ===
-¿Cómo nos conoció?: ${data.howDidYouKnow}
-Firma: ${data.signature}
-Firmante: ${data.signerName} (${data.signerPosition})
-Acepta términos: ${data.acceptTerms ? "Sí" : "No"}
-
-Enviado desde: Formulario web personalizado
-          `.trim(),
+          First_Name: formData.firstName,
+          Last_Name: formData.lastName,
+          Email: formData.email,
+          Phone: formData.phone,
+          Nos_conoci: formData.howDidYouKnow,
+          Servicios: formData.servicios,
+          Otros_detalles: formData.otrosDetalles,
+          Mensaje: formData.message,
         },
       ],
     };
 
     console.log("Sending data to Zoho CRM:", JSON.stringify(crmData, null, 2));
 
-    // Step 3: Create Account in Zoho CRM
-    const crmResponse = await fetch("https://www.zohoapis.eu/crm/v3/Accounts", {
+    // Step 3: Create Contact in Zoho CRM
+    const crmResponse = await fetch("https://www.zohoapis.eu/crm/v3/Contacts", {
       method: "POST",
       headers: {
         Authorization: `Zoho-oauthtoken ${accessToken}`,
@@ -125,96 +147,46 @@ Enviado desde: Formulario web personalizado
       throw new Error(`CRM error: ${JSON.stringify(crmResult)}`);
     }
 
-    // Check if account was created successfully
+    // Check if contact was created successfully
     if (
       crmResult.data &&
       crmResult.data[0] &&
       crmResult.data[0].status === "success"
     ) {
-      const accountId = crmResult.data[0].details.id;
-      console.log(`SUCCESS - Account created with ID: ${accountId}`);
-
-      // Step 4: Create Contact record for the contact person
-      const contactData = {
-        data: [
-          {
-            First_Name: data.firstName,
-            Last_Name: data.lastName,
-            Email: data.contactEmail,
-            Phone: data.contactPhone,
-            Account_Name: accountId, // 
-            //  to the account we just created
-            Description: `
-CONTACTO PRINCIPAL DE: ${data.company}
-
-Administración: ${data.administration}
-Firmante: ${data.signerName} (${data.signerPosition})
-Forma de conocernos: ${data.howDidYouKnow}
-Fecha de registro: ${currentDateTime}
-            `.trim(),
-          },
-        ],
-      };
-
-      console.log(
-        "Creating contact in Zoho CRM:",
-        JSON.stringify(contactData, null, 2)
-      );
-
-      const contactResponse = await fetch(
-        "https://www.zohoapis.eu/crm/v3/Contacts",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Zoho-oauthtoken ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(contactData),
-        }
-      );
-
-      const contactResult = await contactResponse.json();
-      console.log("CRM Contact response:", contactResult);
-
-      let contactId = null;
-      if (
-        contactResponse.ok &&
-        contactResult.data &&
-        contactResult.data[0] &&
-        contactResult.data[0].status === "success"
-      ) {
-        contactId = contactResult.data[0].details.id;
-        console.log(`SUCCESS - Contact created with ID: ${contactId}`);
-      } else {
-        console.warn(
-          "Contact creation failed, but account was created successfully:",
-          contactResult
-        );
-      }
+      const contactId = crmResult.data[0].details.id;
+      console.log(`SUCCESS - Account created with ID: ${contactId}`);
 
       return NextResponse.json(
         {
-          message: "Client created successfully in Zoho CRM",
-          accountId: accountId,
+          message: "Contact created successfully in Zoho CRM",
           contactId: contactId,
           status: "success",
         },
         { status: 200 }
       );
     } else {
-      throw new Error(`Account creation failed: ${JSON.stringify(crmResult)}`);
+      throw new Error(`Contact creation failed: ${JSON.stringify(crmResult)}`);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("=== ZOHO CRM API ERROR ===");
-    console.error("Error details:", error);
 
-    return NextResponse.json(
-      {
-        message: "Error creating client in Zoho CRM",
-        error: error instanceof Error ? error.message : "Unknown error",
-        timestamp: new Date().toISOString(),
-      },
-      { status: 500 }
-    );
+    // Check for duplicate data error and send email notification
+    if (error.data?.code === "DUPLICATE_DATA") {
+      console.error("Duplicate contact detected");
+
+      // Send email notification to multiple recipients
+      return await sendNotificationEmail(
+        "🔄 Duplicate Contact Attempt - dosxdos Website",
+        "Someone tried to submit a contact form with an email that already exists in Zoho CRM.",
+        formData
+      );
+    } else {
+      // Send email for other errors too
+      return await sendNotificationEmail(
+        "❌ Zoho CRM Error - dosxdos Website",
+        `Error occurred while creating contact: ${error.message}`,
+        formData
+      );
+    }
   }
 }
