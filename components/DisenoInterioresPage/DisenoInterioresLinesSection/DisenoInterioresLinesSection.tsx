@@ -58,8 +58,8 @@ const DisenoInterioresLinesSection: React.FC = () => {
                   <div className="project-panel__index">
                     {String(line.id).padStart(2, "0")}
                   </div>
-                  <h3 className="project-panel__title">{line.title}</h3>
-                  <p className="project-panel__description">
+                  <h3 className="project-panel__title small-title">{line.title}</h3>
+                  <p className="project-panel__description text">
                     {line.description}
                   </p>
                 </div>
