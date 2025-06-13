@@ -6,10 +6,12 @@
 .diseno-interiores-methodology-section {
   position: relative;
   width: 100%;
-  @include section-padding-y();
+  @include section-padding-bottom();
 
   &__header {
-    @include margin(3xl, bottom);
+    @include min-width(md) {
+      @include margin(3xl, bottom);
+    }
 
     @include min-width(lg) {
       margin: 0;
@@ -23,13 +25,21 @@
 
   &__title {
     max-width: 1000px;
+    margin-bottom: 0;
+
+    @include min-width(md) {
+      @include margin(lg, bottom);
+    }
   }
 
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    @include gap(2xl);
     align-items: start;
+
+    @include min-width(md) {
+      @include gap(xl);
+    }
 
     @include min-width(lg) {
       grid-template-columns: 1fr 1fr;
@@ -39,7 +49,7 @@
 
   &__image {
     position: relative;
-    width: 90%;
+    width: 100%;
     height: 300px;
     overflow: hidden;
     will-change: transform;
@@ -53,6 +63,7 @@
 
     @include min-width(lg) {
       height: 450px;
+      width: 90%;
     }
 
     @include min-width(xl) {
@@ -69,12 +80,6 @@
       backface-visibility: hidden;
       filter: brightness(1.02) contrast(1.05) saturate(1.1);
       transition: filter 0.3s ease;
-    }
-
-    &:hover img {
-      filter: brightness(1.05) contrast(1.08) saturate(1.15);
-      transform: scale(1.02);
-      transition: all 0.6s ease;
     }
   }
 

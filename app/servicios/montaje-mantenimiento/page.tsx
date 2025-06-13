@@ -31,7 +31,6 @@ import MontajeMantenimientoDiferenciasSection from "@/components/MontajeMantenim
 import MontajeMantenimientoCTASection from "@/components/MontajeMantenimientoPage/MontajeMantenimientoCTASection/MontajeMantenimientoCTASection";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const MontajeMantenimientoPage = () => {
   useScrollSmooth();
@@ -70,7 +69,6 @@ const MontajeMantenimientoPage = () => {
       featuredImageAnimation();
       highlightAnimation();
       cursorBubbleAnimation();
-      footerAnimation();
     }, 100);
 
     return () => {

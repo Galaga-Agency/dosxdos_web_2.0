@@ -16,7 +16,6 @@ import { charAnimation } from "@/utils/animations/text-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 import ComunicacionHeroSection from "@/components/ComunicacionPage/ComunicacionHeroSection/ComunicacionHeroSection";
 
@@ -55,7 +54,6 @@ const ComunicacionPage = () => {
       charAnimation();
       imageParallax();
       highlightAnimation();
-      footerAnimation();
       accionSocialHeroAnim();
       charAnimation();
       featuredImageAnimation();

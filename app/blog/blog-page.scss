@@ -224,25 +224,29 @@
     }
   }
 
-  &__featured-category {
-    background-color: rgba($white, 0.9);
-    color: $black;
-    @include padding(sm, x);
-    @include padding(xs, y);
-    @include font-size(sm);
-    @include font-weight(semibold);
-    text-transform: uppercase;
-    pointer-events: auto;
-    @include border-radius(sm);
-    width: fit-content;
-
-    @include min-width(md) {
-      @include font-size(base);
-      padding: 0.5rem 1rem;
-    }
+  &__featured-tags {
+    @include flex(row, start, center);
+    flex-wrap: wrap;
+    gap: 0.5rem;
 
     span {
       display: block;
+      background-color: rgba($white, 0.9);
+      color: $black;
+      text-wrap: nowrap;
+      @include padding(sm, x);
+      @include padding(xs, y);
+      @include font-size(sm);
+      @include font-weight(semibold);
+      text-transform: uppercase;
+      pointer-events: auto;
+      @include border-radius(sm);
+      width: fit-content;
+
+      @include min-width(md) {
+        @include font-size(base);
+        padding: 0.5rem 1rem;
+      }
     }
   }
 

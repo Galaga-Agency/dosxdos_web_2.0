@@ -31,7 +31,6 @@ import DisenoInterioresMethodologySection from "@/components/DisenoInterioresPag
 
 import "./diseno-interiores-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const DisenoInterioresPage = () => {
   useScrollSmooth();
@@ -73,7 +72,6 @@ const DisenoInterioresPage = () => {
       servicePanel();
       featuredImageAnimation();
       highlightAnimation();
-      footerAnimation();
     }, 100);
 
     return () => {

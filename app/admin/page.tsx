@@ -28,7 +28,6 @@ import { animatePaginatedItems } from "@/utils/animations/stagger-items-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./admin-panel.scss";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 type TabType = "blog" | "proyectos";
 
@@ -102,7 +101,6 @@ function AdminPanelPage() {
 
     const timer = setTimeout(() => {
       highlightAnimation();
-      footerAnimation();
       const selector =
         activeTab === "blog" ? ".blog-post-card" : ".project-card";
       animatePaginatedItems(selector, {

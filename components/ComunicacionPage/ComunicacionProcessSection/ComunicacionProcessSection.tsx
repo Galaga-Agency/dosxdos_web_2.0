@@ -50,8 +50,8 @@ const ComunicacionProcessSection: React.FC<ComunicacionProcessSectionProps> = ({
         {[0, 1].map((i) => {
           const imgSrc =
             i === 0
-              ? "/assets/img/about-us-page/equipo-1.avif"
-              : "/assets/img/about-us-page/equipo-2.avif";
+              ? "/assets/img/servicios/comunicacion/comunicacion-1.avif"
+              : "/assets/img/servicios/comunicacion/comunicacion-2.avif";
 
           const containerSpeed = isMobile ? "1" : i === 0 ? "1.2" : "0.9";
           const innerSpeed = i === 0 ? "0.8" : "1.1";

@@ -27,7 +27,6 @@ import {
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 import "./blog-details.scss";
 
@@ -64,7 +63,6 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ params }) => {
       rollUpTextAnimation();
       featuredImageAnimation();
       hoverCircleButtonAnimation();
-      footerAnimation();
     }, 300);
 
     return () => clearTimeout(timer);

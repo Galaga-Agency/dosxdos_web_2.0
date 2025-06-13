@@ -21,7 +21,6 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 
 import "./portfolio-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const PortfolioPage: React.FC = () => {
   const cleanupRef = useRef<(() => void) | null>(null);
@@ -37,7 +36,6 @@ const PortfolioPage: React.FC = () => {
       revealForTouchDevices();
       randomGridAnim();
       highlightAnimation(1.2);
-      footerAnimation();
 
       // Store cleanup function
       cleanupRef.current = cursorBubbleAnimation();

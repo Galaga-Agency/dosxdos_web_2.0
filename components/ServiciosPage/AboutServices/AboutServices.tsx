@@ -13,7 +13,7 @@ const AboutServices: React.FC = () => {
           </div>
           <h2 className="about-services__title secondary-title">
             Servicios integrales para transformar ideas <br /> en{" "}
-            <span className="highlight">experiencias memorables</span>.
+            experiencias <span className="highlight">memorables</span>.
           </h2>
         </div>
 

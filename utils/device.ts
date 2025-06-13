@@ -70,3 +70,90 @@ export const isTouchDevice = (): boolean => {
   if (typeof window === "undefined") return false;
   return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 };
+
+// NEW: Create external store for instant updates
+let listeners = new Set<() => void>();
+let cachedSnapshot: any = null;
+
+// Cache the server snapshot to avoid infinite loops
+const SERVER_SNAPSHOT = {
+  isMobile: true,
+  isTablet: false,
+  isDesktop: false,
+  isTouchDevice: false,
+  windowDimensions: { width: 0, height: 0 },
+};
+
+const deviceStore = {
+  getSnapshot(): {
+    isMobile: boolean;
+    isTablet: boolean;
+    isDesktop: boolean;
+    isTouchDevice: boolean;
+    windowDimensions: { width: number; height: number };
+  } {
+    const newSnapshot = {
+      isMobile: isMobile(),
+      isTablet: isTablet(),
+      isDesktop: isDesktop(),
+      isTouchDevice: isTouchDevice(),
+      windowDimensions: getWindowDimensions(),
+    };
+
+    // Only update cache if values actually changed
+    if (
+      !cachedSnapshot ||
+      cachedSnapshot.isMobile !== newSnapshot.isMobile ||
+      cachedSnapshot.isTablet !== newSnapshot.isTablet ||
+      cachedSnapshot.isDesktop !== newSnapshot.isDesktop ||
+      cachedSnapshot.isTouchDevice !== newSnapshot.isTouchDevice ||
+      cachedSnapshot.windowDimensions.width !==
+        newSnapshot.windowDimensions.width ||
+      cachedSnapshot.windowDimensions.height !==
+        newSnapshot.windowDimensions.height
+    ) {
+      cachedSnapshot = newSnapshot;
+    }
+
+    return cachedSnapshot;
+  },
+
+  getServerSnapshot() {
+    // Return cached stable reference
+    return SERVER_SNAPSHOT;
+  },
+
+  subscribe(listener: () => void) {
+    if (typeof window === "undefined") return () => {};
+
+    listeners.add(listener);
+
+    // Add resize listener only once
+    if (listeners.size === 1) {
+      let timeoutId: NodeJS.Timeout;
+      const debouncedUpdate = () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          listeners.forEach((l) => l());
+        }, 100);
+      };
+
+      window.addEventListener("resize", debouncedUpdate);
+
+      // Store cleanup function
+      (deviceStore as any)._cleanup = () => {
+        window.removeEventListener("resize", debouncedUpdate);
+        clearTimeout(timeoutId);
+      };
+    }
+
+    return () => {
+      listeners.delete(listener);
+      if (listeners.size === 0 && (deviceStore as any)._cleanup) {
+        (deviceStore as any)._cleanup();
+      }
+    };
+  },
+};
+
+export { deviceStore };

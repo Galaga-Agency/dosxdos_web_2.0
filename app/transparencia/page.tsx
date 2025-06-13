@@ -17,7 +17,6 @@ import { charAnimation } from "@/utils/animations/text-anim";
 import "./transparencia-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
 import Link from "next/link";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const TransparenciaPage: React.FC = () => {
   useScrollSmooth();
@@ -32,7 +31,6 @@ const TransparenciaPage: React.FC = () => {
   useGSAP(() => {
     const timer = setTimeout(() => {
       charAnimation();
-      footerAnimation();
     }, 100);
 
     return () => clearTimeout(timer);

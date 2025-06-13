@@ -5,12 +5,9 @@ import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
-
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
-
 import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 import Footer from "@/components/layout/Footer/footer";
-
 import {
   charAnimation,
   rollUpTextAnimation,
@@ -21,10 +18,7 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
-
-import "./eventos-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animation";
 import EventosHeroSection from "@/components/EventosPage/EventosHeroSection/EventosHeroSection";
@@ -33,6 +27,8 @@ import EventosMethodologySection from "@/components/EventosPage/EventosMethodolo
 import EventosPhilosophySection from "@/components/EventosPage/EventosPhilosophySection/EventosPhilosophySection";
 import EventosCTASection from "@/components/EventosPage/EventosCTASection/EventosCTASection";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
+
+import "./eventos-page.scss";
 
 const EventosPage = () => {
   useScrollSmooth();
@@ -72,7 +68,6 @@ const EventosPage = () => {
       featuredImageAnimation();
       highlightAnimation();
       cursorBubbleAnimation();
-      footerAnimation();
     }, 100);
 
     return () => {

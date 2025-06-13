@@ -30,7 +30,6 @@ import FabricacionFloatingImagesSection from "@/components/FabricacionImpresionP
 import FabricacionProcessSection from "@/components/FabricacionImpresionPage/FabricacionProcessSection/FabricacionProcessSection";
 import FabricacionGridSection from "@/components/FabricacionImpresionPage/FabricacionGridSection/FabricacionGridSection";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const FabricacionImpresionPage = () => {
   useScrollSmooth();
@@ -67,7 +66,6 @@ const FabricacionImpresionPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
-      footerAnimation();
     }, 100);
 
     return () => {

@@ -22,15 +22,8 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { servicePanel } from "@/utils/animations/panel-animation";
-
-// import NuestroEspacioHeroSection from "@/components/NuestroEspacioPage/NuestroEspacioHeroSection/NuestroEspacioHeroSection";
-// import NuestroEspacioGallerySection from "@/components/NuestroEspacioPage/NuestroEspacioGallerySection/NuestroEspacioGallerySection";
-// import NuestroEspacioFacilitiesSection from "@/components/NuestroEspacioPage/NuestroEspacioFacilitiesSection/NuestroEspacioFacilitiesSection";
-// import NuestroEspacioLocationSection from "@/components/NuestroEspacioPage/NuestroEspacioLocationSection/NuestroEspacioLocationSection";
-
-import "./nuestro-espacio-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
+import "./nuestro-espacio-page.scss";
 
 const NuestroEspacioPage = () => {
   useScrollSmooth();
@@ -68,7 +61,6 @@ const NuestroEspacioPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
-      footerAnimation();
     }, 100);
 
     return () => {

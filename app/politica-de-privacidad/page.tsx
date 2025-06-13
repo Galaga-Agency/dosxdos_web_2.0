@@ -15,7 +15,6 @@ import { charAnimation } from "@/utils/animations/text-anim";
 
 import "./privacidad-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const PrivacidadPage: React.FC = () => {
   useScrollSmooth();
@@ -30,7 +29,6 @@ const PrivacidadPage: React.FC = () => {
   useGSAP(() => {
     const timer = setTimeout(() => {
       charAnimation();
-      footerAnimation();
     }, 100);
 
     return () => clearTimeout(timer);
