@@ -28,7 +28,6 @@ import { useDataStore } from "@/store/useDataStore";
 
 import "./servicios-page.scss";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const ServiciosPage: React.FC = () => {
   useScrollSmooth();
@@ -62,7 +61,6 @@ const ServiciosPage: React.FC = () => {
       revealForTouchDevices();
       highlightAnimation();
       randomStaggerAnimation();
-      footerAnimation();
     }, 100);
 
     return () => clearTimeout(timer);

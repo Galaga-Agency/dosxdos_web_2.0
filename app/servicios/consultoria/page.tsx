@@ -19,7 +19,6 @@ import PageWrapper from "@/components/PageWrapper/PageWrapper";
 import { charAnimation } from "@/utils/animations/text-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 
@@ -65,7 +64,6 @@ const ConsultoriaPage = () => {
       imageParallax();
       highlightAnimation();
       featuredImageAnimation();
-      footerAnimation();
 
       cleanupRef.current = cursorBubbleAnimation();
     }, 100);

@@ -20,7 +20,6 @@ import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { setupMouseMoveAnimation } from "@/utils/animations/mouse-move-anim";
 
 import "./contact-page.scss";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const ContactPage: React.FC = () => {
   useScrollSmooth();
@@ -44,7 +43,6 @@ const ContactPage: React.FC = () => {
   useGSAP(() => {
     const timer = setTimeout(() => {
       charAnimation();
-      footerAnimation();
       highlightAnimation();
 
       // Store cleanup function

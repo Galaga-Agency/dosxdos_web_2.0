@@ -13,7 +13,6 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 
 import "./not-found.scss";
 import Footer from "@/components/layout/Footer/footer";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 import { initNotFoundAnimations } from "@/utils/animations/not-found-anim";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
@@ -39,7 +38,6 @@ const NotFound = () => {
 
   useGSAP(() => {
     const timer = setTimeout(() => {
-      footerAnimation();
       initNotFoundAnimations();
     }, 100);
 

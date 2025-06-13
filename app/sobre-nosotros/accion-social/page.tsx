@@ -25,7 +25,6 @@ import { servicePanel } from "@/utils/animations/panel-animation";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 import "./accion-social-page.scss";
 
@@ -60,7 +59,6 @@ const AccionSocialPage = () => {
       servicePanel();
       featuredImageAnimation();
       highlightAnimation();
-      footerAnimation();
     }, 100); 
 
     return () => clearTimeout(timer);

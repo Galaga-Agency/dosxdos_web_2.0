@@ -30,13 +30,13 @@ const DisenoInterioresHeroSection: React.FC<
     // Set initial state and animate floating image
     gsap.set(".diseno-interiores-hero__floating-image-wrapper", {
       opacity: 0,
-      y: 100,
+      y: 150,
     });
 
     gsap.to(".diseno-interiores-hero__floating-image-wrapper", {
       opacity: 1,
       y: 0,
-      duration: 1,
+      duration: 2.5,
       delay: 1.5,
       ease: "power2.out",
     });

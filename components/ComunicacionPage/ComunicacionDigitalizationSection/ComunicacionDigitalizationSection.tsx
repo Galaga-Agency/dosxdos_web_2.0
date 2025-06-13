@@ -26,7 +26,7 @@ const ComunicacionDigitalizationSection: React.FC = () => {
               data-speed={isMobile ? "0" : "1.15"}
             >
               <Image
-                src="/assets/img/homepage/foto-landing.avif"
+                src="/assets/img/servicios/comunicacion/digitalizacion-comunicacion.avif"
                 alt="Digitalización"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

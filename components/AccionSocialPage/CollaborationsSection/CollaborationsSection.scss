@@ -100,11 +100,9 @@
   &__content-side {
     position: relative;
     width: 100%;
-    min-height: 70vh;
+    min-height: 80vh;
     height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex(row, center, center);
     background-color: $black;
     color: $white;
 

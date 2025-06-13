@@ -9,10 +9,14 @@
   left: 50%;
   transform: translateX(-50%);
   height: 100vh;
-  margin-bottom: 3rem;
-  overflow: visible; // Changed to visible to show floating image
+  overflow: visible;
   display: flex;
   align-items: flex-end;
+  margin-bottom: 1rem;
+
+  @include min-width(md) {
+    margin-bottom: 3rem;
+  }
 
   &__bg-container {
     position: relative;
@@ -98,18 +102,11 @@
     opacity: 0;
     visibility: hidden;
 
-    @include min-width(md) {
-      width: 350px;
-      height: 230px;
-      bottom: -18%;
-      right: 4%;
-      visibility: visible;
-    }
-
     @include min-width(lg) {
-      width: 450px;
-      height: 300px;
-      bottom: -15%;
+      width: 400px;
+      visibility: visible;
+      height: 270px;
+      bottom: -5%;
       right: 10%;
     }
 

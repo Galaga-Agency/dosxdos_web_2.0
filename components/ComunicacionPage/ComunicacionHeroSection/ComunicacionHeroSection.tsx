@@ -33,7 +33,7 @@ const ComunicacionHeroSection: React.FC<ComunicacionHeroSectionProps> = ({
           }`}
         >
           <Image
-            src="/assets/img/about-us-page/equipo-1.avif"
+            src="/assets/img/servicios/comunicacion/header-comunicacion.avif"
             alt="Comunicación"
             fill
             quality={100}

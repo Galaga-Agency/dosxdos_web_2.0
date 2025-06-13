@@ -9,6 +9,8 @@
   background-color: $white;
   overflow: hidden;
   @include section-padding-top();
+  // Add bottom padding on mobile to prevent overflow into footer
+  @include spacing(xl, padding-bottom);
 
   @include min-width(lg) {
     @include section-padding-y();
@@ -46,9 +48,13 @@
 
   &__image-column {
     @include flex(column, center, center);
-    will-change: transform;
-
+    // Prevent overflow on mobile
+    max-width: 100%;
+    overflow: hidden;
+    
+    // Only add parallax behavior on desktop
     @include min-width(md) {
+      will-change: transform;
       justify-content: flex-end;
     }
   }
@@ -60,7 +66,11 @@
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     @include border-radius(md);
-    will-change: transform;
+    
+    // Only add parallax behavior on desktop
+    @include min-width(md) {
+      will-change: transform;
+    }
 
     @include min-width(sm) {
       height: 300px;
@@ -82,18 +92,18 @@
   }
 
   &__image {
-    // Mobile: fit properly within container
     width: 100% !important;
     height: 100% !important;
     object-fit: cover;
     object-position: center;
-    will-change: transform;
-    transform: translateZ(0);
     @include transition(transform, slow, ease-out);
 
     @include min-width(md) {
+      // Desktop: restore your original parallax sizing
       width: 120% !important;
       height: 120% !important;
+      will-change: transform;
+      transform: translateZ(0);
     }
   }
 }

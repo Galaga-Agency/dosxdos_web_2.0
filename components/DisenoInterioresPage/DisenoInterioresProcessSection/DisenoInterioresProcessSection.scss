@@ -29,7 +29,6 @@
   &__description {
     max-width: 100%; // Full width on mobile
     margin-left: auto;
-    @include padding(xl, bottom); // Smaller padding on mobile
 
     @include min-width(md) {
       max-width: 800px;

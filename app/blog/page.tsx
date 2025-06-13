@@ -27,7 +27,6 @@ import { animatePaginatedItems } from "@/utils/animations/stagger-items-anim";
 
 import "./blog-page.scss";
 import Link from "next/link";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const BlogPage: React.FC = () => {
   useScrollSmooth();
@@ -87,7 +86,6 @@ const BlogPage: React.FC = () => {
         charAnimation();
         rollUpTextAnimation();
         featuredImageAnimation();
-        footerAnimation();
 
         animatePaginatedItems(".blog-page__post-item", {
           container: ".posts-grid",
@@ -118,6 +116,8 @@ const BlogPage: React.FC = () => {
       </PageWrapper>
     );
   }
+
+  console.log("first_blog.tags", first_blog.tags);
 
   return (
     <PageWrapper>
@@ -154,8 +154,14 @@ const BlogPage: React.FC = () => {
                     <div className="blog-page__featured-image-date ">
                       {formatDate(first_blog?.date)}
                     </div>
-                    <div className="blog-page__featured-category ">
-                      <span>{first_blog?.category}</span>
+                    <div className="blog-page__featured-tags">
+                      {first_blog.tags.map((tag, index) => {
+                        return (
+                          <span className="blog-page__featured-tag" key={index}>
+                            {tag}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
 

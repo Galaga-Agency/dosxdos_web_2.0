@@ -29,7 +29,6 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import "./equipo-page.scss";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const EquipoPage = () => {
   useScrollSmooth();
@@ -65,7 +64,6 @@ const EquipoPage = () => {
       rollUpTextAnimation();
       featuredImageAnimation();
       highlightAnimation();
-      footerAnimation();
     }, 100);
 
     return () => clearTimeout(timer);
