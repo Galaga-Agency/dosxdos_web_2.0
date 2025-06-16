@@ -33,7 +33,7 @@ const FabricacionProcessSection: React.FC = () => {
         <div className="fabricacion-process-section__header header">
           <h3 className="label">(Impresión)</h3>
           <h1 className="fabricacion-process-section__title secondary-title ">
-            El detalle que multiplica
+            El detalle que multiplica&nbsp;
             <span className="highlight">el impacto</span>
           </h1>
           <div className="fabricacion-process-section__subtitle text">
