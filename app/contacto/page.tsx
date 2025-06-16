@@ -67,21 +67,21 @@ const ContactPage: React.FC = () => {
             <h4 className="contact-page__subtitle label">
               (Solicita tu presupuesto personalizado, sin compromiso)
             </h4>
-            <h1 className="contact-page__title char-animation">Contáctanos</h1>
+            <h1 className="contact-page__title char-animation">¿Hablamos?</h1>
           </div>
 
           <div className="contact-page__layout">
             <div className="contact-page__left fade_bottom">
               <div className="contact-page__left-info-section">
                 <p>
-                  Contacta con nosotros para cualquier tipo de consulta o para
-                  obtener más información. Nuestro equipo te responderá lo antes
-                  posible.
+                  Da igual si tienes un briefing o solo una idea suelta: nos
+                  encantará escucharte. Te asesoramos, resolvemos dudas y te
+                  ayudamos a encontrar la mejor solución.
                 </p>
                 <div className="contact-page__info-divider"></div>
                 <div className="contact-page__additional-info">
                   <h2 className="contact-page__additional-info-title small-title">
-                    Horario de atención
+                    ¿Cuándo puedes encontrarnos?
                   </h2>
                   <p>
                     Lunes a Jueves, 08:00 - 16:00 <br />
@@ -120,7 +120,8 @@ const ContactPage: React.FC = () => {
                 timeZoneIdentifier="Europe/Madrid"
                 address={[
                   "Calle Vicente Aleixandre, 2",
-                  "Humanes de Madrid (MADRID)",
+                  "Humanes de Madrid",
+                  "Madrid",
                 ]}
                 email="hola@dospordosgrupoimagen.com"
                 phones={["+34 916 04 84 95"]}
@@ -131,9 +132,9 @@ const ContactPage: React.FC = () => {
 
           <div className="contact-page__desktop-social-cta fade_bottom">
             <h3 className="small-title">
-              Si quieres conocer{" "}
-              <span className="highlight">nuestros últimos proyectos</span>{" "}
-              únete a nuestras redes sociales y permanece en contacto.
+              <span className="highlight">Inspiración</span> en tiempo real.
+              Proyectos, detalles, ideas. Síguenos en redes y mantente cerca. Te
+              esperamos por allí.
             </h3>
             <div className="contact-page__desktop-social-icons">
               <SocialIcons orientation="horizontal" color="primary" />
