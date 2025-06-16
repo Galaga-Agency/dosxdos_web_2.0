@@ -88,7 +88,7 @@ const VisionSection: React.FC = () => {
       <div className="vision-section__middle-image " data-speed="1.15">
         <div className="vision-section__middle-image-inner">
           <Image
-            src="/assets/img/blog/visual-storytelling.jpg"
+            src="/assets/img/servicios/consultoria/consultoria-2.webp"
             alt="Equipo trabajando juntos"
             width={500}
             height={400}

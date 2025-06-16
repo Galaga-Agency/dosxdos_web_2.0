@@ -26,9 +26,13 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 130%;
+    height: 100%; // No parallax on mobile
     will-change: transform;
     @include z-index(default);
+
+    @include min-width(md) {
+      height: 130%; // Parallax only on desktop
+    }
 
     img {
       width: 100%;
@@ -55,7 +59,7 @@
     @include z-index(header);
     width: 100%;
     @include padding(4xl, bottom);
-    
+
     @include min-width(md) {
       @include padding(6xl, bottom);
     }
@@ -74,11 +78,14 @@
   @include margin(xl, y);
   @include container-width(mobile);
   margin-inline: auto;
+  display: flex;
+  flex-direction: column; // Stack on mobile
 
   @include min-width(md) {
     @include container-width(tablet);
     @include padding(xl);
     min-height: 75vh;
+    display: block; // Reset to positioning on desktop
   }
 
   @include min-width(lg) {
@@ -93,9 +100,9 @@
   &__container {
     position: relative;
     width: 100%;
-    height: 60vw;
-    max-height: 300px;
-    @include margin(xl, bottom);
+    height: 40vh; // Shorter height on mobile
+    min-height: 200px; // Smaller min-height
+    margin-bottom: 1.5rem; // Tighter spacing
     overflow: hidden;
     background-color: $white;
     box-shadow: 0 10px 15px -3px rgba($black, 0.1),
@@ -109,27 +116,19 @@
       box-shadow: 0 12px 25px rgba($black, 0.2);
     }
 
-    // Mobile layout - stack vertically
-    &.mobile-layout {
-      position: relative !important;
-      width: 100% !important;
-      height: 250px !important;
-      max-height: none !important;
-      top: auto !important;
-      left: auto !important;
-      right: auto !important;
-      margin: 0 auto map-get($spacing, 'lg') !important;
-      
-      &:last-child {
-        margin-bottom: 0 !important;
-      }
+    // Last item no margin bottom
+    &:last-child {
+      margin-bottom: 0;
     }
 
     // Desktop positioning starts from md breakpoint
     @include min-width(md) {
       position: absolute;
       margin: 0;
+      width: 100%;
+      height: 60vw;
       max-height: none;
+      @include margin(xl, bottom);
     }
 
     &--1 {
@@ -186,17 +185,16 @@
   }
 
   &__inner-container {
-    position: absolute;
+    position: relative; // No absolute positioning on mobile
     width: 100%;
     height: 100%;
     overflow: hidden;
-    
-    // Mobile - no parallax positioning
     top: 0;
     left: 0;
-    
+
     // Desktop - parallax positioning
     @include min-width(md) {
+      position: absolute;
       top: -30%;
       left: -15%;
       width: 130%;
@@ -214,11 +212,11 @@
     object-fit: cover !important;
     object-position: center !important;
     opacity: 0.95;
-    
+
     // Mobile - no animation
     transition: none;
     will-change: auto;
-    
+
     // Desktop - smooth animations
     @include min-width(md) {
       will-change: transform;
