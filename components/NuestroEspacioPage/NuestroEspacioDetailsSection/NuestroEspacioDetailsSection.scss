@@ -1,0 +1,10 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.nuestro-espacio-details-section {
+  position: relative;
+  width: 100%;
+  @include section-padding-bottom();
+}

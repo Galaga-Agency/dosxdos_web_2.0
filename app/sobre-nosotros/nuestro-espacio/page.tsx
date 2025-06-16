@@ -15,15 +15,13 @@ import {
   charAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
-import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
-import { imageParallax } from "@/utils/animations/image-parallax";
-import { initStatsCounter } from "@/utils/animations/stats-counter";
-import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
-import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";
-import { servicePanel } from "@/utils/animations/panel-animation";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
 import "./nuestro-espacio-page.scss";
+import NuestroEspacioHeaderSection from "@/components/NuestroEspacioPage/NuestroEspacioHeaderSection/NuestroEspacioHeaderSection";
+import NuestroEspacioImageSection from "@/components/NuestroEspacioPage/NuestroEspacioImageSection/NuestroEspacioImageSection";
+import NuestroEspacioDetailsSection from "@/components/NuestroEspacioPage/NuestroEspacioDetailsSection/NuestroEspacioDetailsSection";
+import TextMarquee from "@/components/TextMarquee/TextMarquee";
 
 const NuestroEspacioPage = () => {
   useScrollSmooth();
@@ -52,14 +50,8 @@ const NuestroEspacioPage = () => {
 
   useGSAP(() => {
     const timer = setTimeout(() => {
-      accionSocialHeroAnim();
       charAnimation();
-      initCardMouseParallax();
-      imageParallax();
-      initStatsCounter();
-      servicePanel();
       rollUpTextAnimation();
-      featuredImageAnimation();
       highlightAnimation();
     }, 100);
 
@@ -83,22 +75,14 @@ const NuestroEspacioPage = () => {
         </div>
 
         <div className="nuestro-espacio-page__container">
-          {/* <NuestroEspacioHeroSection />
-            <NuestroEspacioGallerySection />
-            <NuestroEspacioFacilitiesSection />
-            <NuestroEspacioLocationSection /> */}
-
-          {/* Temporary content placeholder */}
-          <div
-            style={{
-              minHeight: "60vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1>Nuestro Espacio - Coming Soon</h1>
-          </div>
+          <NuestroEspacioHeaderSection />
+          <NuestroEspacioImageSection />
+          <NuestroEspacioDetailsSection />
+          <TextMarquee
+            text="Nuestro punto de partida"
+            speed={50}
+            className="projects-marquee"
+          />
         </div>
       </div>
       <Footer />

@@ -1,0 +1,21 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/base/colors" as *;
+@use "@/styles/abstracts/mixins" as *;
+@use "@/styles/base/animations" as *;
+
+.nuestro-espacio-image-section {
+  position: relative;
+  width: 100%;
+
+  &__wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
