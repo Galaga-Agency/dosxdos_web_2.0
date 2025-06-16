@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog-service";
-import { projects } from "@/data/projects";
+import { getAllProjects } from "@/lib/project-service";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://dospordosgrupoimagen.com";
@@ -148,7 +148,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
-    // Map portfolio projects from the data file
+    // Map portfolio projects
+    const projects = await getAllProjects()
     const projectPages: MetadataRoute.Sitemap = projects.map((project) => ({
       url: `${baseUrl}/portfolio/${project.slug}`,
       lastModified: new Date(project.date), // Using the date field from your project data
