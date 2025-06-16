@@ -16,11 +16,8 @@ const ProjectChallengeSection: React.FC<ProjectChallengeSectionProps> = ({
     <section className="project-challenge-section">
       <div className="project-challenge-section__container container">
         <div className="project-challenge-section__content-wrapper">
-          <h3 className="project-challenge-section__label label">
-            (Reto del Proyecto)
-          </h3>
           <h2 className="project-challenge-section__title secondary-title ">
-            El <span className="highlight">Desafío</span>
+            El <span className="highlight">Reto</span>
           </h2>
 
           <div className="project-challenge-section__text">
