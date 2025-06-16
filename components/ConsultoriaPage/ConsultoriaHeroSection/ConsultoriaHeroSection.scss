@@ -41,15 +41,18 @@
   &__image-container {
     position: relative;
     width: 90%;
-    height: 60vh;
+    height: 50vh; // Same as floating images
+    min-height: 250px; // Same as floating images
     opacity: 0;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba($black, 0.3);
     margin-left: auto;
+    margin-bottom: 2rem; // Same spacing
 
     @include min-width(md) {
       width: 80%;
       height: 45vh;
+      margin-bottom: 0;
     }
 
     @include min-width(lg) {
@@ -141,9 +144,9 @@
 .random-images {
   position: relative;
   width: 100%;
-  @include padding(lg, x);
   @include z-index(above);
-  @include margin(3xl, top);
+  display: flex;
+  flex-direction: column; // Stack on mobile
 
   @include container-width(mobile);
   margin-inline: auto;
@@ -152,6 +155,7 @@
     @include container-width(tablet);
     @include padding(xl, x);
     min-height: 75vh;
+    display: block; // Reset to normal positioning on desktop
   }
 
   @include min-width(lg) {
@@ -165,9 +169,10 @@
 
   &__container {
     position: relative;
-    width: 90%;
-    height: 60vw;
-    @include margin(3xl, bottom);
+    width: 100%; // Full width on mobile
+    height: 40vh; // Shorter height on mobile
+    min-height: 200px; // Smaller min-height
+    margin-bottom: 1.5rem; // Tighter spacing
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
@@ -184,28 +189,16 @@
       box-shadow: 0 12px 25px rgba($black, 0.2);
     }
 
+    // Last item no margin bottom
+    &:last-child {
+      margin-bottom: 0;
+    }
+
     @include min-width(md) {
       position: absolute;
       margin: 0;
-    }
-
-    @media (max-width: 767px) {
-      width: 100%;
-      height: 50vw;
-      position: relative !important;
-      top: auto !important;
-      left: auto !important;
-      right: auto !important;
-
-      &:nth-child(1) {
-        @include margin(2xl, bottom);
-      }
-      &:nth-child(2) {
-        @include margin(2xl, bottom);
-      }
-      &:nth-child(3) {
-        @include margin(2xl, bottom);
-      }
+      width: 90%;
+      height: 60vw;
     }
 
     &--1 {
@@ -262,19 +255,18 @@
   }
 
   &__inner-container {
-    position: absolute;
-    top: -15%;
-    left: -10%;
-    width: 120%;
-    height: 130%;
+    position: relative; // Remove absolute positioning on mobile
+    width: 100%; // Full width on mobile
+    height: 100%; // Full height on mobile
     overflow: hidden;
     will-change: transform;
 
-    @media (max-width: 767px) {
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    @include min-width(md) {
+      position: absolute; // Only absolute on desktop
+      top: -15%;
+      left: -10%;
+      width: 120%;
+      height: 130%;
     }
   }
 

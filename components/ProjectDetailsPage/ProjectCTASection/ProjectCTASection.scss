@@ -8,6 +8,12 @@
   width: 100%;
   background-color: $white;
   overflow: hidden;
+  @include section-padding-y();
+
+  @include min-width(md) {
+    padding-top: 0;
+    @include section-padding-bottom();
+  }
 
   &__title {
     color: $black;
@@ -19,7 +25,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    @include padding(lg, bottom);
 
     @include min-width(md) {
       justify-content: flex-start;

@@ -23,7 +23,7 @@ const MontajeMantenimientoDiferenciasSection: React.FC = () => {
       description:
         "Intervenciones especializadas para renovar, reparar o sustituir elementos que requieren atención.",
       imageUrl:
-        "/assets/img/servicios/montaje-mantenimiento/sustitución o reparación.avif",
+        "/assets/img/servicios/montaje-mantenimiento/sustitucion-o-reparacion.avif",
       slug: "sustitucion-reparacion",
     },
     {
@@ -32,7 +32,7 @@ const MontajeMantenimientoDiferenciasSection: React.FC = () => {
       description:
         "Inspecciones regulares que garantizan el funcionamiento óptimo y la imagen impecable de tus instalaciones.",
       imageUrl:
-        "/assets/img/servicios/montaje-mantenimiento/revisión técnica.avif",
+        "/assets/img/servicios/montaje-mantenimiento/revision-tecnica.avif",
       slug: "revision-tecnica",
     },
     {

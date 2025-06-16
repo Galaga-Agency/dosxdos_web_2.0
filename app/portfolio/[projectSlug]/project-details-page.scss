@@ -8,38 +8,6 @@
   margin-inline: auto;
   min-height: 100vh;
   width: 100%;
-  padding-bottom: 6rem;
-
-  // Mobile Social Section
-  &__mobile-social-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    margin-top: 3rem;
-    width: 100%;
-
-    @include min-width(lg) {
-      display: none;
-    }
-  }
-
-  &__mobile-social-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    width: 100%;
-  }
-
-  &__mobile-social-title {
-    @include font-size(xl);
-    font-weight: 600;
-    color: $black;
-    margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
-  }
 
   &__loading {
     height: 60vh;
