@@ -1,0 +1,45 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.nuestro-espacio-header-section {
+  position: relative;
+  width: 100%;
+  background-color: $white;
+  @include section-padding-top();
+  @include margin(3xl, top);
+  margin-bottom: -2rem;
+  @include z-index(above);
+
+  @include min-width(md) {
+    margin-bottom: -5rem;
+  }
+
+  &__container {
+    @include container-width(mobile);
+    margin: 0 auto;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__title {
+    color: $black;
+  }
+
+  &__subtitle {
+    @include font-size(lg);
+    opacity: 0;
+    color: $black;
+  }
+}

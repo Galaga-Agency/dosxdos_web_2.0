@@ -36,7 +36,6 @@ import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animat
 import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { servicesList } from "@/data/services";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
-import { footerAnimation } from "@/utils/animations/footer-anim";
 
 const heroSlides = [
   {
@@ -118,7 +117,6 @@ const HomePage = () => {
         hoverCircleButtonAnimation();
         highlightAnimation();
         featuredImageAnimation();
-        footerAnimation();
 
         // Initialize service animations if services exist
         if (hasServices) {
