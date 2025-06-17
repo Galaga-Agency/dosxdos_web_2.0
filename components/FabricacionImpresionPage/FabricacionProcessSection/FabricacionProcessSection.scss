@@ -82,7 +82,7 @@
   }
 
   &__item-title {
-    @include font-size(2xl);
+    @include font-size(lg);
     @include font-weight(bold);
     color: $black;
     @include margin(lg, bottom);
@@ -102,7 +102,7 @@
     }
 
     @include min-width(md) {
-      @include font-size(3xl);
+      @include font-size(xl);
     }
   }
 

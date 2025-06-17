@@ -7,4 +7,12 @@
   position: relative;
   width: 100%;
   @include section-padding-bottom();
+
+  &__text {
+    @include min-width(md) {
+      max-width: 900px;
+      margin-left: auto;
+      @include margin(3xl, top)
+    }
+  }
 }

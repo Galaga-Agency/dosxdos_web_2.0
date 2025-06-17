@@ -8,7 +8,7 @@
   width: 100%;
   background-color: $white;
   @include section-padding-top();
-  @include margin(3xl, top);
+  @include margin(xl, top);
   margin-bottom: -2rem;
   @include z-index(above);
 

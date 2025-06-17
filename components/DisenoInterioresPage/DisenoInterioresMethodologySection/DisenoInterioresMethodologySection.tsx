@@ -79,9 +79,9 @@ const DisenoInterioresMethodologySection = () => {
                     aria-expanded={openAccordion === index}
                   >
                     <div className="diseno-interiores-methodology-section__accordion-left">
-                      <h3 className="diseno-interiores-methodology-section__step-title">
+                      <p className="diseno-interiores-methodology-section__step-title">
                         {step.title}
-                      </h3>
+                      </p>
                     </div>
                     <div className="diseno-interiores-methodology-section__accordion-toggle">
                       <div className="plus-minus-icon">
