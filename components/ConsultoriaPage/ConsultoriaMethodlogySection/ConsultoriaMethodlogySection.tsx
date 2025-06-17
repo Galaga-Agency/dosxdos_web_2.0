@@ -95,9 +95,9 @@ const ConsultoriaMethodlogySection = () => {
                       <div className="methodology-section__step-icon">
                         {step.icon}
                       </div>
-                      <h3 className="methodology-section__step-title">
+                      <p className="methodology-section__step-title">
                         {step.title}
-                      </h3>
+                      </p>
                     </div>
                     <div className="methodology-section__accordion-toggle">
                       <div className="plus-minus-icon">

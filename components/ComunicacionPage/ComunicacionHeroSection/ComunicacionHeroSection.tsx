@@ -41,7 +41,6 @@ const ComunicacionHeroSection: React.FC<ComunicacionHeroSectionProps> = ({
             onLoad={handleImageLoad}
             onError={() => {
               console.error("Hero image failed to load");
-              // Still trigger animations even if image fails
               handleImageLoad();
             }}
             placeholder="blur"
@@ -58,10 +57,7 @@ const ComunicacionHeroSection: React.FC<ComunicacionHeroSectionProps> = ({
           </h3>
 
           <h2 className="comunicacion-hero__title title text-1">
-            Comunicación
-          </h2>
-          <h2 className="comunicacion-hero__title title text-2">
-            <span>que construye.</span>
+            Comunicación que construye.
           </h2>
         </div>
       </div>
