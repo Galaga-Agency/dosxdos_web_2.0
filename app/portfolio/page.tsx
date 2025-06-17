@@ -27,6 +27,15 @@ const PortfolioPage: React.FC = () => {
 
   const projects = useDataStore((state) => state.projects);
 
+  // Ordenar proyectos por año, más recientes primero
+  const sortedProjects = React.useMemo(() => {
+    return [...projects].sort((a, b) => {
+      const yearA = parseInt(a.year.toString());
+      const yearB = parseInt(b.year.toString());
+      return yearB - yearA; // Orden descendente (más reciente primero)
+    });
+  }, [projects]);
+
   useScrollSmooth();
 
   useGSAP(() => {
@@ -54,7 +63,7 @@ const PortfolioPage: React.FC = () => {
     <PageWrapper>
       <main className="portfolio-page">
         <PortfolioHeader />
-        <MasProyectosGrid projects={projects} />
+        <MasProyectosGrid projects={sortedProjects} />
         <PortfolioCTA />
       </main>
       <Footer />

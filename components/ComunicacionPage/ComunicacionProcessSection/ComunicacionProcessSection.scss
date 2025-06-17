@@ -97,7 +97,7 @@
 
       @include min-width(lg) {
         width: 50%;
-        height: 65vh;
+        height: 40vh;
         top: 0;
         left: 0;
       }
@@ -112,7 +112,7 @@
       }
 
       @include min-width(lg) {
-        width: 40%;
+        width: 35%;
         height: 50vh;
         top: 10vh;
         right: 0;
