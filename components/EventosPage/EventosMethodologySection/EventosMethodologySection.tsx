@@ -120,9 +120,9 @@ const EventosMethodologySection = () => {
                       <div className="eventos-methodology-section__step-icon">
                         {step.icon}
                       </div>
-                      <h3 className="eventos-methodology-section__step-title">
+                      <p className="eventos-methodology-section__step-title">
                         {step.title}
-                      </h3>
+                      </p>
                     </div>
                     <div className="eventos-methodology-section__accordion-toggle">
                       <div className="plus-minus-icon">

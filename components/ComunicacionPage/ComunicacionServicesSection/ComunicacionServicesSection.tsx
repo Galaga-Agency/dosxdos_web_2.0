@@ -56,9 +56,9 @@ const ComunicacionServicesSection = () => {
                 key={index}
                 className="comunicacion-services-section__service-item"
               >
-                <h3 className="comunicacion-services-section__service-title">
+                <p className="comunicacion-services-section__service-title">
                   {service}
-                </h3>
+                </p>
                 <div className="comunicacion-services-section__service-line"></div>
               </div>
             ))}

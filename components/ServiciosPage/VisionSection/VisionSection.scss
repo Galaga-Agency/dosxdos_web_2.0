@@ -150,9 +150,9 @@
     // Only show when there's sufficient horizontal space
     @media (min-width: 1600px) and (min-aspect-ratio: 16/10) {
       display: block;
-      width: 380px;
+      width: 400px;
       height: 280px;
-      right: 3%;
+      right: 7%;
       top: 50%;
       transform: translateY(-50%);
     }
@@ -202,19 +202,6 @@
     @include min-width(xxl) {
       @include section-padding-y();
     }
-
-    // Add extra padding on the right when floating image is visible
-    @media (min-width: 1600px) {
-      .vision-section__container {
-        padding-right: clamp(2rem, 8vw, 12rem);
-      }
-    }
-
-    @media (min-width: 1800px) {
-      .vision-section__container {
-        padding-right: clamp(3rem, 10vw, 15rem);
-      }
-    }
   }
 
   &__header {
@@ -236,7 +223,6 @@
     text-align: left;
   }
 
-  // Content Grid (Improved alignment)
   &__content {
     display: grid;
     grid-template-columns: 1fr;
@@ -250,7 +236,7 @@
     }
 
     @include min-width(xl) {
-      @include gap(4xl);
+      @include gap(8xl);
     }
   }
 
@@ -286,19 +272,9 @@
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
-    @include border-radius(md);
 
     @include min-width(md) {
       height: 400px;
-    }
-
-    @include min-width(lg) {
-      height: 450px;
-    }
-
-    @include min-width(xl) {
-      height: 500px;
-      width: 90%;
     }
 
     img {
@@ -336,35 +312,5 @@
     width: fit-content;
     @include margin(md, y);
     will-change: transform, opacity;
-  }
-}
-
-.line-break {
-  @include min-width(md) {
-    display: none;
-  }
-}
-
-// Ensure consistent container behavior globally
-.container {
-  width: 100%;
-  @include container-width(mobile);
-  @include padding(sm, x);
-  margin: 0 auto;
-  box-sizing: border-box;
-
-  @include min-width(md) {
-    @include container-width(tablet);
-    @include padding(md, x);
-  }
-
-  @include min-width(lg) {
-    @include container-width(smalldesktop);
-    @include padding(lg, x);
-  }
-
-  @include min-width(xl) {
-    @include container-width(desktop);
-    @include padding(xl, x);
   }
 }

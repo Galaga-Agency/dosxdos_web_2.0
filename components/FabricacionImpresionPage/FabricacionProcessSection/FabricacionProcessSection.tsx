@@ -52,9 +52,9 @@ const FabricacionProcessSection: React.FC = () => {
 
           {servicios.map((servicio, index) => (
             <div key={index} className="fabricacion-process-section__item">
-              <h3 className="fabricacion-process-section__item-title">
+              <p className="fabricacion-process-section__item-title">
                 {servicio.titulo}
-              </h3>
+              </p>
               <p className="fabricacion-process-section__item-description">
                 {servicio.descripcion}
               </p>
