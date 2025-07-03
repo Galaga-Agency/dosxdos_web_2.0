@@ -42,7 +42,7 @@ const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({
             (Diseñamos soluciones con propósito)
           </h3>
           <h1 className="consultoria-hero-section__title title char-animation">
-            Consultoría <br />
+            Consultoría
             creativa y estratégica.
           </h1>
         </div>

@@ -6,7 +6,7 @@
 .diseno-interiores-methodology-section {
   position: relative;
   width: 100%;
-  @include section-padding-bottom();
+  @include section-padding-top();
 
   &__header {
     @include min-width(md) {
@@ -67,7 +67,7 @@
     }
 
     @include min-width(xl) {
-      height: 500px;
+      height: 400px;
     }
 
     img {

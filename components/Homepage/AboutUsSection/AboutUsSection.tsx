@@ -15,7 +15,7 @@ const AboutUsSection: React.FC = () => {
       <div className="aboutus-section__container container">
         <div className="aboutus-section__header header">
           <h2 className="aboutus-section__title secondary-title ">
-            38 años diseñando, produciendo y <br className="desktop-only"/>
+            38 años diseñando, produciendo y <br className="desktop-only" />
             cuidando <span className="highlight">cada detalle</span> para marcas
             líderes
           </h2>
@@ -47,7 +47,7 @@ const AboutUsSection: React.FC = () => {
               y experienciales. Nos implicamos en cada fase del proceso con un
               equipo propio y una ejecución impecable, adaptada a cada necesidad
               y a cada isla. <br /> <br /> Nuestra capacidad de dar servicio
-              simultaneo en varias islas, nuestra experiencia multisectorial y
+              simultáneo en varias islas, nuestra experiencia multisectorial y
               nuestro compromiso con la sostenibilidad nos convierten en el
               socio ideal para quienes buscan resultados reales, con
               creatividad, agilidad y excelencia.

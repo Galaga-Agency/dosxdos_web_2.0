@@ -8,7 +8,7 @@
   width: 100%;
   overflow: visible;
   background-color: $white;
-  @include section-padding-bottom();
+  @include section-padding-y();
 }
 
 .project-panel-area {
@@ -115,61 +115,115 @@
   }
 
   &__content {
-    max-width: 80vw;
+    max-width: 85vw;
     @include flex(column, center, start);
-    padding: 4rem 2rem;
+    @include padding(3xl, y);
+    @include padding(lg, x);
 
     @include min-width(md) {
-      @include padding(4xl);
-      max-width: 500px;
+      @include padding(5xl, y);
+      @include padding(4xl, x);
+      max-width: 540px;
+    }
+
+    @include min-width(lg) {
+      @include padding(6xl, y);
+      @include padding(5xl, x);
+      max-width: 580px;
     }
   }
 
   &__index {
-    @include font-size(sm);
+    @include font-size(base);
     color: rgba($white, 0.6);
-    @include margin(sm, bottom);
-    @include letter-spacing(wide);
+    @include margin(md, bottom);
+    @include letter-spacing(wider);
     display: flex;
     align-items: center;
 
+    @include min-width(md) {
+      @include font-size(lg);
+      @include margin(lg, bottom);
+    }
+
     &::before {
       content: "";
-      width: 30px;
+      width: 40px;
       height: 1px;
       background-color: rgba($white, 0.3);
-      @include margin(sm, right);
+      @include margin(md, left);
       display: block;
       flex-shrink: 0;
+      order: 2;
+
+      @include min-width(md) {
+        width: 50px;
+        height: 2px;
+        @include margin(lg, right);
+      }
     }
   }
 
   &__title {
-    @include margin(lg, bottom);
+    @include margin(xl, bottom);
     color: $white;
     position: relative;
-    @include padding(md, bottom);
+    @include padding(lg, bottom);
+    @include font-size(2xl);
+    line-height: 1.3;
+
+    @include min-width(md) {
+      @include font-size(3xl);
+      @include margin(2xl, bottom);
+      @include padding(xl, bottom);
+    }
+
+    @include min-width(lg) {
+      @include font-size(4xl);
+    }
 
     &::after {
       content: "";
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 40px;
-      height: 2px;
+      width: 50px;
+      height: 3px;
       background-color: $primary-color;
       @include transition(width, slow, ease);
+
+      @include min-width(md) {
+        width: 60px;
+        height: 4px;
+      }
     }
   }
 
   &:hover &__title::after {
-    width: 80px;
+    width: 100px;
+
+    @include min-width(md) {
+      width: 120px;
+    }
   }
 
   &__description {
-    color: rgba($white, 0.8);
-    @include margin(xl, bottom);
+    color: rgba($white, 0.85);
+    @include margin(2xl, bottom);
     margin-top: 0;
+    @include font-size(lg);
+    line-height: 1.6;
+
+    @include min-width(md) {
+      @include font-size(xl);
+      line-height: 1.7;
+      @include margin(3xl, bottom);
+    }
+
+    @include min-width(lg) {
+      @include font-size(xl);
+      line-height: 1.8;
+    }
   }
 
   &__link {

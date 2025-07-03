@@ -28,7 +28,6 @@
 
     @include min-width(xl) {
       @include container-width(desktop);
-      max-width: 1200px;
     }
   }
 

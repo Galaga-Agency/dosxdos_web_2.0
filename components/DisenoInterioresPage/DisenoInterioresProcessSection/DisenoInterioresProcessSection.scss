@@ -6,7 +6,7 @@
 .diseno-interiores-process {
   width: 100%;
   position: relative;
-  overflow: hidden; // Prevent horizontal scroll on mobile
+  overflow: hidden; 
 
   &__container {
     @include container-width(mobile);
@@ -79,18 +79,19 @@
     margin: 0 auto;
     max-width: 100%;
     background-color: $white;
-    @include padding(xl, y); // Smyer padding on mobile
+    @include padding(xl, top); 
     position: relative;
     @include container-width(mobile);
 
     @include min-width(md) {
       @include padding(3xl, all);
+      @include padding(xs, bottom);
       @include container-width(tablet);
       max-width: 900px;
     }
 
     @include min-width(lg) {
-      @include padding(4xl, y);
+      @include padding(4xl, top);
       @include container-width(smalldesktop);
       max-width: 1000px;
     }

@@ -37,7 +37,7 @@ const DisenoInterioresProcessSection: React.FC = () => {
       <div className="diseno-interiores-process__image-area">
         <div className="diseno-interiores-process__image-wrapper">
           <Image
-            src="/assets/img/servicios/consultoria/consultoria-2.webp"
+            src="/assets/img/servicios/diseno-interiores/disneo-interirores-img-amplia-scroll.webp"
             alt="Proceso de diseño de interiores"
             fill
             quality={100}
@@ -48,8 +48,9 @@ const DisenoInterioresProcessSection: React.FC = () => {
       </div>
 
       <h3 className="diseno-interiores-process__below-statement small-title">
-        Nuestro método garantiza <span className="highlight">resultados sólidos</span>, estéticos y realistas, sin
-        sorpresas. Independientemente del tipo de espacio,{" "}
+        Nuestro método garantiza{" "}
+        <span className="highlight">resultados sólidos</span>, estéticos y
+        realistas, sin sorpresas. Independientemente del tipo de espacio,{" "}
         acompañamos al cliente en cada paso.
       </h3>
     </section>

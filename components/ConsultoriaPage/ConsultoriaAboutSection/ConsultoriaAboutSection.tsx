@@ -24,7 +24,7 @@ const ConsultoriaAboutSection: React.FC = () => {
         <div className="consultoria-about__content">
           <div className="consultoria-about__image-container" data-speed="0.95">
             <Image
-              src="/assets/img/servicios/consultoria/header.webp"
+              src="/assets/img/servicios/consultoria/consultoria-2.webp"
               alt="Consultoría dosxdos"
               fill
               priority
