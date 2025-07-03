@@ -147,7 +147,7 @@
   // Random layout with varied heights inspired by the reference code
   &.item-1 {
     @include min-width(md) {
-      height: clamp(400px, 35vh, 450px); // Medium height
+      height: clamp(450px, 35vh, 450px); // Medium height
       width: 100%;
       transform: translate(0px, clamp(40px, 8vh, 80px));
       margin-bottom: clamp(2rem, 5vw, 4rem);
@@ -160,7 +160,7 @@
 
   &.item-2 {
     @include min-width(md) {
-      height: clamp(600px, 60vh, 820px); // Tall vertical
+      height: clamp(820px, 60vh, 820px); // Tall vertical
       width: 100%;
     }
 
@@ -171,54 +171,54 @@
 
   &.item-3 {
     @include min-width(md) {
-      height: clamp(450px, 45vh, 580px); // Medium-tall
+      height: clamp(580px, 45vh, 580px); // Medium-tall
       width: 100%;
       transform: translate(0px, clamp(-80px, -10vh, -120px));
       margin-left: 0;
-      margin-top: clamp(2rem, 5vw, 4rem);
+      margin-top: clamp(2rem, 5vw, 14rem);
     }
 
     @include min-width(xxl) {
       width: min(440px, 100%);
-      margin-left: min(15rem, 20%);
+      margin-left: min(35rem, 50%);
     }
   }
 
   &.item-4 {
     @include min-width(md) {
-      height: clamp(320px, 30vh, 399px); // Short
+      height: clamp(399px, 30vh, 399px); // Short
       width: 100%;
       margin-left: 0;
-      margin-block: clamp(1.5rem, 3vw, 3rem);
+      margin-block: clamp(1.5rem, 10vw, 25rem);
     }
 
     @include min-width(xxl) {
       width: min(332px, 100%);
-      margin-left: min(10rem, 15%);
+      margin-left: min(5rem, -15%);
     }
   }
 
   &.item-5 {
     @include min-width(md) {
-      height: clamp(720px, 72vh, 900px); // Very tall vertical
+      height: clamp(820px, 72vh, 900px); // Very tall vertical
       width: 100%;
       margin-bottom: clamp(1rem, 2vw, 2rem);
     }
 
     @include min-width(xxl) {
-      width: min(491px, 100%);
+      width: min(650px, 100%);
     }
   }
 
   &.item-6 {
     @include min-width(md) {
-      height: clamp(380px, 38vh, 455px); // Medium height
+      height: clamp(510px, 38vh, 455px); // Medium height
       width: 100%;
       margin-bottom: clamp(1rem, 2vw, 2rem);
     }
 
     @include min-width(xxl) {
-      width: min(581px, 100%);
+      width: min(650px, 100%);
     }
   }
 }
