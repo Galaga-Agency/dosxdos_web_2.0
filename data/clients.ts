@@ -5,11 +5,11 @@ export interface ClientLogo {
 }
 
 export const clientLogos: ClientLogo[] = [
-  {
-    id: "chanel",
-    name: "Chanel",
-    src: "/assets/img/logos-clientes/chanel.webp",
-  },
+  // {
+  //   id: "chanel",
+  //   name: "Chanel",
+  //   src: "/assets/img/logos-clientes/chanel.webp",
+  // },
   {
     id: "dior",
     name: "Dior",
@@ -55,11 +55,11 @@ export const clientLogos: ClientLogo[] = [
     name: "Paco Rabanne",
     src: "/assets/img/logos-clientes/paco-rabanne.webp",
   },
-  {
-    id: "prada",
-    name: "Prada",
-    src: "/assets/img/logos-clientes/prada.webp",
-  },
+  // {
+  //   id: "prada",
+  //   name: "Prada",
+  //   src: "/assets/img/logos-clientes/prada.webp",
+  // },
   {
     id: "estee-lauder",
     name: "Estée Lauder",
@@ -125,11 +125,11 @@ export const clientLogos: ClientLogo[] = [
     name: "Kiehl's",
     src: "/assets/img/logos-clientes/kiehls.webp",
   },
-  {
-    id: "nina-ricci",
-    name: "Nina Ricci",
-    src: "/assets/img/logos-clientes/nina-ricci.webp",
-  },
+  // {
+  //   id: "nina-ricci",
+  //   name: "Nina Ricci",
+  //   src: "/assets/img/logos-clientes/nina-ricci.webp",
+  // },
   {
     id: "sisley",
     name: "Sisley",
@@ -165,26 +165,26 @@ export const clientLogos: ClientLogo[] = [
     name: "Farlabo GN",
     src: "/assets/img/logos-clientes/farlabo.webp",
   },
-  {
-    id: "calvin-klein",
-    name: "Calvin Klein",
-    src: "/assets/img/logos-clientes/calvin-klein.webp",
-  },
-  {
-    id: "chloe",
-    name: "Chloé",
-    src: "/assets/img/logos-clientes/chloe.webp",
-  },
-  {
-    id: "hugo-boss",
-    name: "Hugo Boss",
-    src: "/assets/img/logos-clientes/hugo-boss.webp",
-  },
-  {
-    id: "gucci",
-    name: "Gucci",
-    src: "/assets/img/logos-clientes/gucci.webp",
-  },
+  // {
+  //   id: "calvin-klein",
+  //   name: "Calvin Klein",
+  //   src: "/assets/img/logos-clientes/calvin-klein.webp",
+  // },
+  // {
+  //   id: "chloe",
+  //   name: "Chloé",
+  //   src: "/assets/img/logos-clientes/chloe.webp",
+  // },
+  // {
+  //   id: "hugo-boss",
+  //   name: "Hugo Boss",
+  //   src: "/assets/img/logos-clientes/hugo-boss.webp",
+  // },
+  // {
+  //   id: "gucci",
+  //   name: "Gucci",
+  //   src: "/assets/img/logos-clientes/gucci.webp",
+  // },
   {
     id: "lacoste",
     name: "Lacoste",
@@ -215,11 +215,11 @@ export const clientLogos: ClientLogo[] = [
     name: "MAC",
     src: "/assets/img/logos-clientes/mac.webp",
   },
-  {
-    id: "balenciaga",
-    name: "Balenciaga",
-    src: "/assets/img/logos-clientes/balenciaga.webp",
-  },
+  // {
+  //   id: "balenciaga",
+  //   name: "Balenciaga",
+  //   src: "/assets/img/logos-clientes/balenciaga.webp",
+  // },
   {
     id: "ralph-lauren",
     name: "R.Lauren",

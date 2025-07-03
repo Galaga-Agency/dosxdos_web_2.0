@@ -259,7 +259,7 @@ export default function NewBlogPostPage() {
 
             {/* Tags */}
             <div className="form-group">
-              <label htmlFor="excerpt">Extracto</label>
+              <label htmlFor="excerpt">Etiquetas</label>
               <TagsInput
                 tags={tags}
                 onTagsChange={setTags}
