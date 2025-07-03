@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 // Global loading state that persists across all components
 let isGlobalLoading = false;
 let globalSetters: Set<(loading: boolean) => void> = new Set();
 let currentPath = "";
 let navigationStartTime = 0;
+let pendingNavigation = false;
 
 const updateGlobalLoading = (loading: boolean) => {
   isGlobalLoading = loading;
@@ -17,6 +18,7 @@ const updateGlobalLoading = (loading: boolean) => {
 export const useInstantLoading = () => {
   const [isLoading, setIsLoading] = useState(isGlobalLoading);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     // Register this setter
@@ -33,9 +35,10 @@ export const useInstantLoading = () => {
   }, []);
 
   useEffect(() => {
-    // Check if this is actually a new page
-    if (currentPath !== pathname && isGlobalLoading) {
+    // If we have a pending navigation and the path actually changed
+    if (pendingNavigation && currentPath !== pathname) {
       currentPath = pathname;
+      pendingNavigation = false;
 
       // Wait for page to be fully rendered before hiding loading
       const hideLoading = () => {
@@ -61,10 +64,38 @@ export const useInstantLoading = () => {
         // Fallback timeout
         setTimeout(hideLoading, 200);
       }
+    } else if (pendingNavigation && currentPath === pathname) {
+      // We clicked a link but didn't navigate (same page) - hide loading immediately
+      pendingNavigation = false;
+      updateGlobalLoading(false);
     }
   }, [pathname]);
 
   return isLoading;
+};
+
+// Helper function to normalize URL paths for comparison
+const normalizePath = (url: string): string => {
+  try {
+    // Handle both relative and absolute URLs
+    let path;
+    if (url.startsWith("http")) {
+      const urlObj = new URL(url);
+      path = urlObj.pathname;
+    } else if (url.startsWith("/")) {
+      path = url;
+    } else {
+      // Relative path - resolve against current location
+      const currentUrl = new URL(window.location.href);
+      const resolvedUrl = new URL(url, currentUrl);
+      path = resolvedUrl.pathname;
+    }
+
+    // Remove trailing slash except for root and normalize
+    return path.replace(/\/$/, "") || "/";
+  } catch {
+    return url;
+  }
 };
 
 // Initialize global click listener immediately
@@ -83,13 +114,32 @@ if (typeof window !== "undefined") {
         link.href &&
         !link.href.includes("#") &&
         !link.target &&
-        !link.hasAttribute("download")
+        !link.hasAttribute("download") &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.shiftKey
       ) {
-        // Record start time
-        navigationStartTime = Date.now();
+        // Get the destination path
+        const destinationPath = normalizePath(link.href);
+        const currentNormalizedPath = normalizePath(window.location.pathname);
 
-        // Show loading INSTANTLY
-        updateGlobalLoading(true);
+        console.log("Click detected:", {
+          destinationPath,
+          currentNormalizedPath,
+          willNavigate: destinationPath !== currentNormalizedPath,
+        });
+
+        // Only show loading if we're actually navigating to a different page
+        if (destinationPath !== currentNormalizedPath) {
+          // Record start time
+          navigationStartTime = Date.now();
+          pendingNavigation = true;
+
+          // Show loading INSTANTLY
+          updateGlobalLoading(true);
+        } else {
+          console.log("Same page click detected, not showing loading");
+        }
       }
     };
 
