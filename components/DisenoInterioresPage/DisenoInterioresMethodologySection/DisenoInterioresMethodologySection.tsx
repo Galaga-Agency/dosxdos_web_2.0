@@ -55,7 +55,7 @@ const DisenoInterioresMethodologySection = () => {
             data-speed={isMobile ? "1" : "1.15"}
           >
             <Image
-              src="/assets/img/homepage/foto-landing.avif"
+              src="/assets/img/servicios/diseno-interiores/diseno-interiores-loquehacemos.webp"
               alt="Diseño de interiores"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"

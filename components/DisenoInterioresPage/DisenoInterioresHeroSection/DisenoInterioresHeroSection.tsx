@@ -53,7 +53,7 @@ const DisenoInterioresHeroSection: React.FC<
             }`}
           >
             <Image
-              src="/assets/img/about-us-page/vicente-ferrer-illustration.avif"
+              src="/assets/img/servicios/diseno-interiores/diseno-interiores-header.webp"
               alt="Diseño de Interiores"
               fill
               quality={100}
@@ -90,7 +90,7 @@ const DisenoInterioresHeroSection: React.FC<
           data-speed={isMobile ? "0" : "1.1"}
         >
           <Image
-            src="/assets/img/about-us-page/vicente-ferrer-illustration.avif"
+            src="/assets/img/servicios/diseno-interiores/diseno-interiores-header-floating-img.webp"
             alt="Diseño de Interiores Detail"
             fill
             quality={100}

@@ -42,7 +42,7 @@ const MontajeMantenimientoHeroSection: React.FC<
             (Del diseño a la realidad… y su cuidado en el tiempo)
           </h3>
           <h1 className="montaje-mantenimiento-hero-section__title title char-animation">
-            Montaje y <br />
+            Montaje y
             mantenimiento.
           </h1>
         </div>

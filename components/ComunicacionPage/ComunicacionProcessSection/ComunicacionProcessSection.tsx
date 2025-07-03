@@ -38,11 +38,17 @@ const ComunicacionProcessSection: React.FC<ComunicacionProcessSectionProps> = ({
       <div className="comunicacion-process__container container">
         <div className="comunicacion-process__header">
           <h2 className="comunicacion-process__title small-title">
-            Hay marcas que se abren paso en el mercado, y otras que logran&nbsp;
-            <span className="highlight">quedarse en la memoria.</span>
-            <br /> Nuestro trabajo empieza cuando una marca quiere hacer ambas
-            cosas.
+            Apostamos por una comunicación que nace del diseño y se sostiene
+            con&nbsp;
+            <span className="highlight">estrategia.</span>
           </h2>
+          <p className="comunicacion-process__description">
+            Diseñamos identidades que tienen sentido y continuidad. Creamos
+            plataformas, aplicaciones y contenidos digitales que responden a
+            necesidades concretas. Y lo hacemos combinando creatividad, criterio
+            técnico y una mirada práctica. Porque para comunicar bien: hay que
+            saber cómo, cuándo y a través de qué canales.
+          </p>
         </div>
       </div>
 

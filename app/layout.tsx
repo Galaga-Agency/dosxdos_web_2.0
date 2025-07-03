@@ -77,14 +77,19 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://dospordosgrupoimagen.com/"),
   title: {
     default:
-      "Dos x Dos Grupo Imagen | Diseño de Interiores Comerciales de Lujo Madrid y Canarias",
+      "Dos x Dos Grupo Imagen - Diseño, fabricación y montaje de espacios comerciales",
     template: "%s | Dos x Dos Grupo Imagen",
   },
   description:
-    "Especialistas en diseño de interiores para espacios comerciales de lujo en Madrid y Canarias. Más de 35 años de experiencia creando experiencias únicas para marcas de cosmética y perfumería. Servicios integrales de interiorismo comercial.",
+    "Más de 38 años creando soluciones integrales en diseño, fabricación y montaje de espacios para retail, ferias y promociones. Especialistas en espacios comerciales de lujo en Madrid y Canarias.",
   keywords: [
-    "diseño de interiores madrid",
-    "diseño de interiores canarias",
+    "diseño fabricación montaje espacios comerciales",
+    "espacios retail madrid",
+    "espacios retail canarias",
+    "diseño ferias promociones",
+    "fabricación espacios comerciales",
+    "montaje espacios comerciales",
+    "soluciones integrales retail",
     "espacios comerciales lujo",
     "interiorismo comercial madrid",
     "interiorismo canarias",
@@ -93,8 +98,6 @@ export const metadata: Metadata = {
     "diseño perfumería",
     "diseño cosmética",
     "arquitectura comercial",
-    "interiorismo perfumería",
-    "diseño retail lujo",
     "espacios comerciales premium",
     "interiorismo tiendas",
     "renovar imagen tienda",
@@ -117,15 +120,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_ES",
     url: "https://dospordosgrupoimagen.com",
-    title: "Dos x Dos Grupo Imagen - Diseño de Interiores Comerciales de Lujo",
+    title:
+      "Dos x Dos Grupo Imagen - Diseño, fabricación y montaje de espacios comerciales",
     description:
-      "35+ años diseñando espacios comerciales únicos en Madrid y Canarias. Especialistas en perfumería, cosmética y retail de lujo. Más de 200 proyectos completados.",
+      "Más de 38 años creando soluciones integrales en diseño, fabricación y montaje de espacios para retail, ferias y promociones. Especialistas en Madrid y Canarias.",
     images: [
       {
         url: "/assets/img/homepage/slider-3.avif",
         width: 1200,
         height: 630,
-        alt: "Diseño de interiores comerciales de lujo - Dos x Dos Grupo Imagen",
+        alt: "Diseño, fabricación y montaje de espacios comerciales - Dos x Dos Grupo Imagen",
       },
       {
         url: "/assets/img/logo_full_rojo.png",
@@ -138,9 +142,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dos x Dos Grupo Imagen - Diseño de Interiores Comerciales de Lujo",
+    title:
+      "Dos x Dos Grupo Imagen - Diseño, fabricación y montaje de espacios comerciales",
     description:
-      "35+ años diseñando espacios comerciales únicos en Madrid y Canarias. Especialistas en perfumería y cosmética.",
+      "Más de 38 años creando soluciones integrales en diseño, fabricación y montaje de espacios para retail, ferias y promociones.",
     images: ["/assets/img/homepage/slider-3.avif"],
   },
   icons: {
@@ -171,7 +176,7 @@ export const metadata: Metadata = {
       // "en-US": "https://dospordosgrupoimagen.com/en", // Future English version
     },
   },
-  category: "Interior Design Services",
+  category: "Design, Manufacturing & Installation Services",
   other: {
     "theme-color": "#e63322",
     "msapplication-TileColor": "#e63322",
@@ -203,8 +208,8 @@ export default function RootLayout({
       height: 600,
     },
     description:
-      "Especialistas en diseño de interiores para espacios comerciales de lujo. Más de 35 años de experiencia en Madrid y Canarias.",
-    foundingDate: "1989",
+      "Más de 38 años creando soluciones integrales en diseño, fabricación y montaje de espacios para retail, ferias y promociones. Especialistas en espacios comerciales de lujo en Madrid y Canarias.",
+    foundingDate: "1986",
     numberOfEmployees: {
       "@type": "QuantitativeValue",
       value: "45+",
@@ -240,8 +245,12 @@ export default function RootLayout({
       },
     ],
     serviceType: [
-      "Diseño de Interiores Comerciales",
-      "Interiorismo",
+      "Diseño de Espacios Comerciales",
+      "Fabricación de Espacios Comerciales",
+      "Montaje de Espacios Comerciales",
+      "Espacios para Retail",
+      "Diseño de Ferias",
+      "Espacios para Promociones",
       "Shop in Shop",
       "Escaparatismo",
       "Diseño de Espacios de Perfumería",
@@ -269,7 +278,7 @@ export default function RootLayout({
     url: "https://dospordosgrupoimagen.com",
     name: "Dos x Dos Grupo Imagen",
     description:
-      "Especialistas en diseño de interiores para espacios comerciales de lujo",
+      "Más de 38 años creando soluciones integrales en diseño, fabricación y montaje de espacios para retail, ferias y promociones",
     publisher: {
       "@id": "https://dospordosgrupoimagen.com/#organization",
     },
