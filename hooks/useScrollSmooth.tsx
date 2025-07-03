@@ -3,7 +3,9 @@
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
-let ScrollSmoother: { create: (options: any) => void };
+let ScrollSmoother: any;
+let smootherInstance: any = null;
+
 try {
   ScrollSmoother = require("@/plugins").ScrollSmoother;
   gsap.registerPlugin(ScrollSmoother);
@@ -11,21 +13,35 @@ try {
   console.error("ScrollSmoother failed to load");
 }
 
+const createScrollSmoother = () => {
+  if (!ScrollSmoother) return;
+
+  const smoothWrapper = document.getElementById("smooth-wrapper");
+  const smoothContent = document.getElementById("smooth-content");
+
+  if (smoothWrapper && smoothContent) {
+    // Kill existing instance
+    if (smootherInstance) {
+      smootherInstance.kill();
+    }
+
+    smootherInstance = ScrollSmoother.create({
+      wrapper: smoothWrapper,
+      content: smoothContent,
+      smooth: 2,
+      effects: true,
+      smoothTouch: 0.1,
+    });
+
+    return smootherInstance;
+  }
+};
+
 export default function useScrollSmooth() {
   useGSAP(() => {
-    if (!ScrollSmoother) return;
-
-    const smoothWrapper = document.getElementById("smooth-wrapper");
-    const smoothContent = document.getElementById("smooth-content");
-
-    if (smoothWrapper && smoothContent) {
-      ScrollSmoother.create({
-        wrapper: smoothWrapper,
-        content: smoothContent,
-        smooth: 2,
-        effects: true,
-        smoothTouch: 0.1,
-      });
-    }
+    createScrollSmoother();
   });
 }
+
+// Export function to recreate ScrollSmoother
+export { createScrollSmoother };

@@ -94,39 +94,55 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
     setVisibleCount(nextVisibleCount);
 
     setTimeout(() => {
-      const allGridItems = gridRef.current?.querySelectorAll(".item");
-      if (!allGridItems) return;
+      const allItems = gridRef.current?.querySelectorAll(".item");
+      if (!allItems) return;
 
-      const allItemsArray = Array.from(allGridItems);
-      const newItems = allItemsArray.slice(currentVisible, nextVisibleCount);
+      const itemsToReveal = Array.from(allItems).slice(
+        currentVisible,
+        nextVisibleCount
+      );
 
-      gsap.set(newItems, {
-        opacity: 0,
-        y: isMobile ? 30 : 50,
+      // Just remove the class - CSS transition handles the fade
+      itemsToReveal.forEach((item: any, index: number) => {
+        setTimeout(() => {
+          item.classList.remove("is-hidden");
+          item.style.pointerEvents = "auto";
+        }, index * 100); // Stagger the reveals
       });
 
-      gsap.to(newItems, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: isMobile ? 0.15 : 0.1,
-        ease: "power2.out",
-        onComplete: () => {
-          setIsRevealing(false);
-        },
-      });
+      // Wait for all animations to complete
+      setTimeout(() => {
+        setIsRevealing(false);
+      }, itemsToReveal.length * 100 + 1000);
     }, 50);
+  };
+
+  // Function to get consistent random speed per index
+  const getRandomSpeed = (index: number) => {
+    // Use index as seed for consistent random values
+    const seed = index * 0.1234;
+    const random = (Math.sin(seed) + 1) / 2; // Pseudo-random between 0-1
+    return (0.8 + random * 0.2).toFixed(2); // Random between 0.8 and 1.0
+  };
+
+  // Function to get the correct item class based on index
+  const getItemClass = (index: number) => {
+    const itemNumber = (index % 18) + 1; // Create pattern for 18 different layouts
+    return `item item-${itemNumber}`;
   };
 
   return (
     <div className="mas-proyectos-container">
       <div className="mas-proyectos-grid" ref={gridRef}>
-        {projects.slice(0, visibleCount).map((project, index) => (
+        {/* Render ALL projects for parallax */}
+        {projects.map((project, index) => (
           <Link
             key={project.id}
             href={`/portfolio/${project.slug}`}
-            className={`item item-${(index % 6) + 1}`}
-            data-speed={isMobile ? "0" : (0.8 + (index % 6) * 0.02).toFixed(2)}
+            className={`${getItemClass(index)} ${
+              index >= visibleCount ? "is-hidden" : ""
+            }`}
+            data-speed={isMobile ? "0" : getRandomSpeed(index)}
             ref={(el: any) => (projectItemRefs.current[index] = el) as any}
           >
             <div className="item__overlay"></div>
@@ -155,8 +171,9 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
         ))}
       </div>
 
+      {/* Absolutely positioned button exactly where you drew it */}
       {hasMoreProjects && (
-        <div className="reveal-more-container" ref={buttonRef}>
+        <div className="floating-button" ref={buttonRef}>
           <HoverCircleButton
             type="button"
             onClick={handleRevealMore}
