@@ -154,20 +154,20 @@ const BlogPage: React.FC = () => {
                     <div className="blog-page__featured-image-date ">
                       {formatDate(first_blog?.date)}
                     </div>
-                    <div className="blog-page__featured-tags">
-                      {first_blog.tags.map((tag, index) => {
-                        return (
-                          <span className="blog-page__featured-tag" key={index}>
-                            {tag}
-                          </span>
-                        );
-                      })}
-                    </div>
                   </div>
 
                   <h1 className="blog-page__featured-image-title secondary-title char-animation">
                     {first_blog?.title}
                   </h1>
+                  <div className="blog-page__featured-tags">
+                    {first_blog.tags.map((tag, index) => {
+                      return (
+                        <span className="blog-page__featured-tag" key={index}>
+                          {tag}
+                        </span>
+                      );
+                    })}
+                  </div>
                   <div className="blog-page__featured-excerpt">
                     <p>{first_blog?.excerpt}</p>
                     <span className="blog-page__featured-read-more">

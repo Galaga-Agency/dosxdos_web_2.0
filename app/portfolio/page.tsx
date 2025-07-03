@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 
@@ -46,7 +46,6 @@ const PortfolioPage: React.FC = () => {
       randomGridAnim();
       highlightAnimation(1.2);
 
-      // Store cleanup function
       cleanupRef.current = cursorBubbleAnimation();
     }, 300);
 

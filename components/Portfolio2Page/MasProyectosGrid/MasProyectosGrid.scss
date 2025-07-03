@@ -6,14 +6,14 @@
   position: relative;
   width: 100%;
   height: auto;
-  overflow-x: hidden;
+  overflow: hidden; // Prevent scrollbar glitches from hidden items
 }
 
 .mas-proyectos-grid {
   display: flex;
   flex-direction: column;
   @include gap(sm);
-  
+
   width: 100%;
   @include padding(sm, x);
   margin: 0 auto;
@@ -26,23 +26,23 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
-    gap: clamp(3rem, 6vw, 4rem) clamp(2rem, 4vw, 3rem); // Reduced gaps
+    gap: clamp(3rem, 6vw, 4rem) clamp(2rem, 4vw, 3rem);
     @include padding(md, x);
-    justify-items: center; // Center items horizontally
+    justify-items: center;
   }
 
   @include min-width(lg) {
     width: 100%;
-    @include padding(lg, x); // Balanced padding
-    @include padding(5xl, y);
-    gap: clamp(4rem, 8vw, 6rem) clamp(3rem, 6vw, 4rem); // Reduced from huge gaps
+    @include padding(lg, x);
+    @include padding(5xl, top);
+    gap: clamp(4rem, 8vw, 6rem) clamp(3rem, 6vw, 4rem);
     justify-items: center;
   }
 
   @include min-width(xl) {
-    gap: clamp(5rem, 10vw, 8rem) clamp(4rem, 8vw, 6rem); // Much smaller than before
+    gap: clamp(5rem, 10vw, 8rem) clamp(4rem, 8vw, 6rem);
     width: 100%;
-    @include padding(lg, x); // More balanced padding
+    @include padding(lg, x);
     justify-items: center;
   }
 }
@@ -58,10 +58,29 @@
   opacity: 0;
   box-sizing: border-box;
   height: clamp(280px, 50vh, 400px);
+  transition: opacity 1s ease-out;
 
   @include min-width(md) {
     max-width: 100%;
     height: auto;
+  }
+
+  // Hidden items - collapse height but keep in DOM
+  &.is-hidden {
+    opacity: 0 !important;
+    pointer-events: none;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden;
+    transition: none; // No transition while hidden
+  }
+
+  // When revealed, smooth opacity transition
+  &:not(.is-hidden) {
+    opacity: 1;
+    transition: opacity 1s ease-out;
   }
 
   &__image-wrapper {
@@ -69,12 +88,12 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    
+
     &.loading {
       background-color: rgba($secondary-color, 0.3);
-      
+
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -87,7 +106,7 @@
         animation: spin 1s linear infinite;
       }
     }
-    
+
     &.loaded {
       .item-image {
         opacity: 1;
@@ -144,10 +163,10 @@
     hyphens: auto;
   }
 
-  // Random layout with varied heights inspired by the reference code
+  // First 6 items - original layout
   &.item-1 {
     @include min-width(md) {
-      height: clamp(450px, 35vh, 450px); // Medium height
+      height: clamp(450px, 35vh, 450px);
       width: 100%;
       transform: translate(0px, clamp(40px, 8vh, 80px));
       margin-bottom: clamp(2rem, 5vw, 4rem);
@@ -160,7 +179,7 @@
 
   &.item-2 {
     @include min-width(md) {
-      height: clamp(820px, 60vh, 820px); // Tall vertical
+      height: clamp(820px, 60vh, 820px);
       width: 100%;
     }
 
@@ -171,7 +190,7 @@
 
   &.item-3 {
     @include min-width(md) {
-      height: clamp(580px, 45vh, 580px); // Medium-tall
+      height: clamp(580px, 45vh, 580px);
       width: 100%;
       transform: translate(0px, clamp(-80px, -10vh, -120px));
       margin-left: 0;
@@ -186,7 +205,7 @@
 
   &.item-4 {
     @include min-width(md) {
-      height: clamp(399px, 30vh, 399px); // Short
+      height: clamp(399px, 30vh, 399px);
       width: 100%;
       margin-left: 0;
       margin-block: clamp(1.5rem, 10vw, 25rem);
@@ -200,7 +219,7 @@
 
   &.item-5 {
     @include min-width(md) {
-      height: clamp(820px, 72vh, 900px); // Very tall vertical
+      height: clamp(820px, 72vh, 900px);
       width: 100%;
       margin-bottom: clamp(1rem, 2vw, 2rem);
     }
@@ -212,7 +231,7 @@
 
   &.item-6 {
     @include min-width(md) {
-      height: clamp(510px, 38vh, 455px); // Medium height
+      height: clamp(510px, 38vh, 455px);
       width: 100%;
       margin-bottom: clamp(1rem, 2vw, 2rem);
     }
@@ -221,31 +240,214 @@
       width: min(650px, 100%);
     }
   }
+
+  &.item-7 {
+    @include min-width(md) {
+      height: clamp(380px, 28vh, 380px);
+      width: 100%;
+      transform: translate(0px, clamp(60px, 12vh, 100px));
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(500px, 100%); // Different width
+      margin-left: min(10rem, 25%); // Different margin
+    }
+
+    img {
+      scale: 1.5; // Slightly larger image scale
+    }
+  }
+
+  &.item-8 {
+    @include min-width(md) {
+      height: clamp(680px, 50vh, 680px); // Shorter than item-2
+      width: 100%;
+      transform: translate(0px, clamp(-40px, -6vh, -60px)); // Negative offset
+    }
+
+    @include min-width(xxl) {
+      width: min(580px, 100%); // Different width
+      margin-left: min(-8rem, -20%); // Pull left
+    }
+  }
+
+  &.item-9 {
+    @include min-width(md) {
+      height: clamp(490px, 36vh, 490px); // Between item-3 and item-4
+      width: 100%;
+    }
+
+    @include min-width(xxl) {
+      width: min(420px, 100%);
+      margin-left: min(25rem, 40%);
+    }
+  }
+
+  &.item-10 {
+    @include min-width(md) {
+      height: clamp(340px, 25vh, 340px); // Shortest so far
+      width: 100%;
+      margin-block: clamp(2rem, 12vw, 30rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(380px, 100%);
+      margin-left: min(-5rem, -10%);
+    }
+  }
+
+  &.item-11 {
+    @include min-width(md) {
+      height: clamp(750px, 55vh, 750px); // Tall but different from item-5
+      width: 100%;
+      transform: translate(0px, clamp(-60px, -8vh, -80px));
+      margin-bottom: clamp(1.5rem, 3vw, 3rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(600px, 100%);
+    }
+  }
+
+  &.item-12 {
+    @include min-width(md) {
+      height: clamp(460px, 34vh, 460px); // Similar to item-6 but different
+      width: 100%;
+      transform: translate(0px, clamp(20px, 4vh, 40px));
+      margin-bottom: clamp(2rem, 4vw, 4rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(520px, 100%);
+      margin-left: min(15rem, 30%);
+    }
+  }
+
+  // Pattern repeats for items 13+, creating even more variation
+  &.item-13 {
+    @include min-width(md) {
+      height: clamp(420px, 32vh, 420px);
+      width: 100%;
+      transform: translate(0px, clamp(80px, 14vh, 120px));
+      margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(480px, 100%);
+      margin-left: min(5rem, 15%);
+    }
+  }
+
+  &.item-14 {
+    @include min-width(md) {
+      height: clamp(720px, 52vh, 720px);
+      width: 100%;
+      transform: translate(0px, clamp(-100px, -12vh, -140px));
+    }
+
+    @include min-width(xxl) {
+      width: min(620px, 100%);
+      margin-left: min(-10rem, -25%);
+    }
+  }
+
+  &.item-15 {
+    @include min-width(md) {
+      height: clamp(360px, 27vh, 360px);
+      width: 100%;
+      margin-block: clamp(3rem, 15vw, 35rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(400px, 100%);
+      margin-left: min(30rem, 45%);
+    }
+  }
+
+  &.item-16 {
+    @include min-width(md) {
+      height: clamp(540px, 40vh, 540px);
+      width: 100%;
+      transform: translate(0px, clamp(40px, 8vh, 60px));
+      margin-bottom: clamp(1.5rem, 3vw, 3rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(560px, 100%);
+    }
+  }
+
+  &.item-17 {
+    @include min-width(md) {
+      height: clamp(800px, 58vh, 800px);
+      width: 100%;
+      transform: translate(0px, clamp(-20px, -3vh, -30px));
+      margin-bottom: clamp(2rem, 4vw, 4rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(640px, 100%);
+      margin-left: min(8rem, 20%);
+    }
+  }
+
+  &.item-18 {
+    @include min-width(md) {
+      height: clamp(480px, 36vh, 480px);
+      width: 100%;
+      transform: translate(0px, clamp(120px, 18vh, 160px));
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+    }
+
+    @include min-width(xxl) {
+      width: min(440px, 100%);
+      margin-left: min(20rem, 35%);
+    }
+  }
 }
 
-// Reveal More Section
-.reveal-more-container {
+.floating-button {
+  // Mobile - normal flow below the grid
   @include flex(column, center, center);
   @include margin(xl, top);
   width: 100%;
-  box-sizing: border-box;
+
+  @include min-width(md) {
+    // Desktop - absolute positioning where you drew it
+    position: absolute;
+    z-index: 10;
+    bottom: 5%;
+    right: 20%;
+    width: auto;
+    margin: 0;
+  }
+
+  @include min-width(lg) {
+    right: 25%;
+    bottom: 8%;
+  }
+
+  @include min-width(xl) {
+    right: 30%;
+  }
 }
 
 // Loading animation
 @keyframes spin {
-  0% { 
-    transform: rotate(0deg); 
+  0% {
+    transform: rotate(0deg);
   }
-  100% { 
-    transform: rotate(360deg); 
+  100% {
+    transform: rotate(360deg);
   }
 }
 
 // Ensure proper spacing on very large screens
 @include min-width(xxxl) {
   .mas-proyectos-grid {
-    @include padding(xl, x); // Balanced padding
-    gap: clamp(6rem, 12vw, 10rem) clamp(5rem, 10vw, 8rem); // Reasonable gaps
+    @include padding(xl, x);
+    gap: clamp(6rem, 12vw, 10rem) clamp(5rem, 10vw, 8rem);
     justify-items: center;
   }
 }

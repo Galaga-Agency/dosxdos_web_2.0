@@ -8,7 +8,8 @@ declare global {
   interface Window {
     __smoother__: any;
     cursorAnimationFrame?: number;
-    ScrollTrigger: any;
+    controller?: any;
+    ScrollTrigger?: any;
     ScrollSmoother: any;
     gsap?: any;
     projectsObserver?: IntersectionObserver;
@@ -16,6 +17,7 @@ declare global {
     pageTransitionComplete: any;
     __transitionTriggeredByMenu: any;
     __targetHref: any;
+    randomGridAnim?: any;
   }
 }
 
