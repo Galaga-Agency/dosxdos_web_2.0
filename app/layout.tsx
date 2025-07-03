@@ -7,6 +7,7 @@ import AuthProvider from "@/components/AuthProvider";
 import CookieConsentBanner from "@/components/CookieConsentBanner/CookieConsentBanner";
 import JsonLd from "@/components/SEO/JsonLd";
 import DataPreloader from "@/components/DataPreloader/DataPreloader";
+import InstantLoadingOverlay from "@/components/InstantLoadingOverlay";
 
 const bigShoulders = localFont({
   variable: "--font-big-shoulders",
@@ -455,6 +456,7 @@ export default function RootLayout({
             suppressHydrationWarning
           >
             <Menu />
+            <InstantLoadingOverlay />
             {children}
             <BackToTop />
             <CookieConsentBanner />

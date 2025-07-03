@@ -99,9 +99,9 @@ const HomePage = () => {
     setHeroReady(true);
   }, []);
 
+  // ONLY CHANGE: Remove heroReady dependency, just initialize on mount
   useGSAP(() => {
-    if (heroReady && !animationsInitialized) {
-      // Set a flag to prevent re-initialization
+    if (!animationsInitialized) {
       setAnimationsInitialized(true);
 
       // Initialize hero animations immediately
@@ -139,7 +139,7 @@ const HomePage = () => {
         }
       };
     }
-  }, [heroReady, animationsInitialized, hasServices]);
+  }, [animationsInitialized, hasServices]);
 
   // Initialize project-specific animations when projects are ready
   useGSAP(() => {
