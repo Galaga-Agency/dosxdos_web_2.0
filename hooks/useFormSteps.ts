@@ -9,6 +9,9 @@ export const useFormSteps = (trigger: any) => {
       2: [
         // No mandatory fields for step 2 - only service selection is required but handled separately
       ],
+      3: [
+        // No mandatory fields for step 3 - file upload is optional
+      ],
     };
 
     return await trigger(fieldsMap[step as keyof typeof fieldsMap]);
@@ -17,7 +20,7 @@ export const useFormSteps = (trigger: any) => {
   const nextStep = async () => {
     const isValid = await validateStep(currentStep);
     if (isValid) {
-      setCurrentStep((prev) => Math.min(prev + 1, 2));
+      setCurrentStep((prev) => Math.min(prev + 1, 3)); // Changed from 2 to 3
     }
   };
 

@@ -1,0 +1,273 @@
+@use "sass:math";
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.custom-file-upload {
+  width: 100%;
+  position: relative;
+
+  .file-upload-label {
+    display: block;
+    @include font-size(sm);
+    @include font-weight(medium);
+    color: $black;
+    @include margin(xs, bottom);
+
+    @include min-width(md) {
+      @include font-size(base);
+    }
+  }
+
+  .file-upload-area {
+    width: 100%;
+    min-height: 120px;
+    border: 2px dashed $secondary-color;
+    @include border-radius(md);
+    background-color: lighten($secondary-color, 10%);
+    cursor: pointer;
+    @include transition-duration(normal);
+    @include flex(column, center, center);
+    @include padding(lg);
+    position: relative;
+
+    @include min-width(md) {
+      min-height: 140px;
+      @include padding(xl);
+    }
+
+    &:hover {
+      border-color: darken($secondary-color, 15%);
+      background-color: lighten($secondary-color, 5%);
+    }
+
+    &.drag-active {
+      border-color: $black;
+      background-color: lighten($black, 95%);
+      transform: scale(1.02);
+    }
+
+    &.has-files {
+      min-height: 80px;
+      @include padding(md);
+
+      @include min-width(md) {
+        min-height: 100px;
+      }
+    }
+
+    .upload-content {
+      text-align: center;
+      pointer-events: none;
+
+      .upload-icon {
+        @include font-size(2xl);
+        @include margin(xs, bottom);
+        opacity: 0.7;
+
+        @include min-width(md) {
+          @include font-size(3xl);
+          @include margin(sm, bottom);
+        }
+      }
+
+      .upload-text {
+        .primary-text {
+          @include font-size(sm);
+          @include font-weight(medium);
+          color: $black;
+          @include margin(xs, bottom);
+
+          @include min-width(md) {
+            @include font-size(base);
+          }
+        }
+
+        .secondary-text {
+          @include font-size(xs);
+          color: rgba($black, 0.7);
+          @include margin(2xs, bottom);
+
+          @include min-width(md) {
+            @include font-size(sm);
+          }
+        }
+
+        .accepted-types {
+          @include font-size(2xs);
+          color: rgba($black, 0.5);
+          @include font-weight(light);
+
+          @include min-width(md) {
+            @include font-size(xs);
+          }
+        }
+      }
+    }
+  }
+
+  .file-list {
+    @include margin(sm, top);
+    @include border-radius(md);
+    border: 1px solid $secondary-color;
+    background-color: $white;
+    overflow: hidden;
+
+    .file-item {
+      @include flex(row, space-between, center);
+      @include padding(sm, x);
+      @include padding(xs, y);
+      border-bottom: 1px solid $secondary-color;
+      @include transition-duration(fast);
+
+      @include min-width(md) {
+        @include padding(md, x);
+        @include padding(sm, y);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: lighten($secondary-color, 15%);
+      }
+
+      .file-info {
+        @include flex(row, flex-start, center);
+        @include gap(xs);
+        flex: 1;
+        min-width: 0; // Allow text truncation
+
+        .file-icon {
+          @include font-size(lg);
+          flex-shrink: 0;
+
+          @include min-width(md) {
+            @include font-size(xl);
+          }
+        }
+
+        .file-details {
+          @include flex(column, flex-start, flex-start);
+          min-width: 0; // Allow text truncation
+          flex: 1;
+
+          .file-name {
+            @include font-size(xs);
+            @include font-weight(medium);
+            color: $black;
+            @include text-truncate;
+            width: 100%;
+
+            @include min-width(md) {
+              @include font-size(sm);
+            }
+          }
+
+          .file-size {
+            @include font-size(2xs);
+            color: rgba($black, 0.6);
+            @include font-weight(light);
+
+            @include min-width(md) {
+              @include font-size(xs);
+            }
+          }
+        }
+      }
+
+      .remove-file {
+        background: none;
+        border: none;
+        color: rgba($black, 0.5);
+        cursor: pointer;
+        @include padding(xs);
+        @include border-radius(sm);
+        @include font-size(sm);
+        @include font-weight(bold);
+        @include transition-duration(fast);
+        flex-shrink: 0;
+        @include flex(row, center, center);
+        width: 24px;
+        height: 24px;
+
+        @include min-width(md) {
+          width: 28px;
+          height: 28px;
+          @include font-size(base);
+        }
+
+        &:hover {
+          background-color: rgba($danger-color, 0.1);
+          color: $danger-color;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  .file-count-info {
+    @include margin(xs, top);
+    @include font-size(2xs);
+    color: rgba($black, 0.6);
+    text-align: center;
+    @include font-weight(medium);
+
+    @include min-width(md) {
+      @include font-size(xs);
+    }
+  }
+
+  .error-message {
+    display: block;
+    @include margin(xs, top);
+    color: $danger-color;
+    @include font-size(xs);
+    @include font-weight(medium);
+
+    @include min-width(md) {
+      @include font-size(sm);
+    }
+  }
+
+  // Error state
+  &.error {
+    .file-upload-area {
+      border-color: $danger-color;
+      background-color: rgba($danger-color, 0.05);
+    }
+  }
+
+  // Loading state
+  &.loading {
+    opacity: 0.7;
+    pointer-events: none;
+
+    .file-upload-area {
+      cursor: not-allowed;
+    }
+  }
+
+  // Mobile optimizations
+  @include touch-device {
+    .file-upload-area {
+      &:hover {
+        border-color: $secondary-color;
+        background-color: lighten($secondary-color, 10%);
+      }
+    }
+
+    .file-item {
+      .remove-file {
+        // Larger touch target on mobile
+        min-width: 32px;
+        min-height: 32px;
+      }
+    }
+  }
+}

@@ -2,12 +2,13 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast, Toaster } from "react-hot-toast";
+import { RxCross2 } from "react-icons/rx";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../ui/SecondaryButton/SecondaryButton";
 import CustomInput from "@/components/ui/CustomInput/CustomInput";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import CustomSelect from "@/components/ui/CustomSelect/CustomSelect";
+import CustomFileUpload from "@/components/CustomFileUpload/CustomFileUpload";
 import {
   animateFormGroups,
   animateSuccess,
@@ -16,6 +17,8 @@ import {
 import { useFormSteps } from "@/hooks/useFormSteps";
 
 import "./ZohoContactForm.scss";
+import { IoIosSend } from "react-icons/io";
+import { FaCheck } from "react-icons/fa6";
 
 interface ContactFormInputs {
   // Paso 1 - Información personal
@@ -29,6 +32,9 @@ interface ContactFormInputs {
   servicios: string[];
   otrosDetalles?: string; // Optional - only when "Otros" is selected
   message?: string; // Optional
+
+  // Paso 3 - Archivos adjuntos (optional)
+  attachments?: File[]; // File attachments
 }
 
 const ZohoContactForm: React.FC = () => {
@@ -38,6 +44,7 @@ const ZohoContactForm: React.FC = () => {
   const [isError, setIsError] = useState(false);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [showOtrosInput, setShowOtrosInput] = useState(false);
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
 
   const {
     register,
@@ -78,24 +85,59 @@ const ZohoContactForm: React.FC = () => {
     }
   };
 
+  // Handle file changes
+  const handleFilesChange = (files: File[]) => {
+    setAttachedFiles(files);
+    setValue("attachments", files);
+  };
+
+  // Reset form completely
+  const resetFormCompletely = () => {
+    reset();
+    setCurrentStep(1);
+    setSelectedServices([]);
+    setShowOtrosInput(false);
+    setAttachedFiles([]);
+    setIsSuccess(false);
+    setIsError(false);
+  };
+
   const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
     console.log("=== FORM SUBMISSION STARTED ===");
 
-    const formData = {
-      ...data,
-      servicios: selectedServices,
-    };
+    // Create FormData for file upload
+    const formData = new FormData();
 
-    console.log("Form data:", formData);
+    // Add regular form fields
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("phone", data.phone);
+    formData.append("email", data.email);
+    formData.append("howDidYouKnow", data.howDidYouKnow);
+    formData.append("servicios", JSON.stringify(selectedServices));
+
+    if (data.otrosDetalles) {
+      formData.append("otrosDetalles", data.otrosDetalles);
+    }
+
+    if (data.message) {
+      formData.append("message", data.message);
+    }
+
+    // Add files
+    attachedFiles.forEach((file, index) => {
+      formData.append(`attachment_${index}`, file);
+    });
+
+    formData.append("attachmentCount", attachedFiles.length.toString());
+
+    console.log("Form data prepared with", attachedFiles.length, "files");
 
     try {
       console.log("=== SENDING REQUEST TO API ===");
       const response = await fetch("/api/submit-to-zoho", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formData, // No Content-Type header - let browser set it with boundary
       });
 
       console.log("=== API RESPONSE RECEIVED ===");
@@ -121,11 +163,7 @@ const ZohoContactForm: React.FC = () => {
 
       // Auto-reset after 10 seconds
       setTimeout(() => {
-        reset();
-        setCurrentStep(1);
-        setSelectedServices([]);
-        setShowOtrosInput(false);
-        setIsSuccess(false);
+        resetFormCompletely();
       }, 10000);
     } catch (error) {
       console.log("=== ERROR OCCURRED ===");
@@ -148,16 +186,26 @@ const ZohoContactForm: React.FC = () => {
   };
 
   return (
-    <div className="contact-form-wrapper">
+    <div
+      className={`contact-form-wrapper ${
+        isSuccess || isError ? "feedback-active" : ""
+      }`}
+    >
       {/* SUCCESS FEEDBACK */}
       {isSuccess && (
         <div className="feedback-screen success">
           <div className="feedback-content">
-            <div className="feedback-icon">✅</div>
+            <div className="feedback-icon">
+              <FaCheck />
+            </div>
             <h2>¡Mensaje enviado exitosamente!</h2>
             <p>
-              Gracias por contactarnos. Hemos recibido tu consulta y nos
-              pondremos en contacto contigo muy pronto.
+              Gracias por contactarnos. Hemos recibido tu consulta
+              {attachedFiles.length > 0 &&
+                ` y ${attachedFiles.length} archivo${
+                  attachedFiles.length > 1 ? "s" : ""
+                } adjunto${attachedFiles.length > 1 ? "s" : ""}`}
+              . Nos pondremos en contacto contigo muy pronto.
             </p>
             <div className="feedback-details">
               <p>
@@ -178,7 +226,9 @@ const ZohoContactForm: React.FC = () => {
       {isError && (
         <div className="feedback-screen error">
           <div className="feedback-content">
-            <div className="feedback-icon">❌</div>
+            <div className="feedback-icon">
+              <RxCross2 />
+            </div>
             <h2>Error al enviar el formulario</h2>
             <p>Lo sentimos, ha ocurrido un error al procesar tu solicitud.</p>
             <div className="feedback-details">
@@ -208,11 +258,15 @@ const ZohoContactForm: React.FC = () => {
                 <span>2</span>
                 <label>¿Cómo podemos ayudarte?</label>
               </div>
+              <div className={`step ${currentStep >= 3 ? "active" : ""}`}>
+                <span>3</span>
+                <label>Archivos adjuntos</label>
+              </div>
             </div>
             <div className="progress-line">
               <div
                 className="progress-fill"
-                style={{ width: `${((currentStep - 1) / 1) * 100}%` }}
+                style={{ width: `${((currentStep - 1) / 2) * 100}%` }}
               ></div>
             </div>
           </div>
@@ -358,10 +412,7 @@ const ZohoContactForm: React.FC = () => {
                 </p>
 
                 <div className="services-grid">
-                  <div
-                    className="form-group full-width"
-                    ref={(el) => (formGroupRefs.current[6] = el) as any}
-                  >
+                  <div className="form-group full-width">
                     <div className="services-checkboxes">
                       <CustomCheckbox
                         label="Consultoría"
@@ -444,10 +495,7 @@ const ZohoContactForm: React.FC = () => {
 
                   {/* Conditional "Otros" input */}
                   {showOtrosInput && (
-                    <div
-                      className="form-group full-width otros-details"
-                      ref={(el) => (formGroupRefs.current[7] = el) as any}
-                    >
+                    <div className="form-group full-width otros-details">
                       <CustomInput
                         label="Especifica otros servicios *"
                         placeholder="Describe qué otros servicios necesitas..."
@@ -469,27 +517,6 @@ const ZohoContactForm: React.FC = () => {
                   )}
                 </div>
 
-                {/* Message */}
-                <div
-                  className="form-group full-width"
-                  ref={(el) => (formGroupRefs.current[5] = el) as any}
-                >
-                  <CustomInput
-                    label="Mensaje"
-                    placeholder="Cuéntanos más sobre tu proyecto o consulta..."
-                    error={errors.message}
-                    isLoading={isSubmitting}
-                    multiline={true}
-                    rows={4}
-                    {...register("message", {
-                      minLength: {
-                        value: 10,
-                        message: "Debe tener al menos 10 caracteres",
-                      },
-                    })}
-                  />
-                </div>
-
                 <div className="form-navigation">
                   <SecondaryButton
                     lightBg
@@ -500,8 +527,94 @@ const ZohoContactForm: React.FC = () => {
                     Anterior
                   </SecondaryButton>
                   <PrimaryButton
+                    type="button"
+                    onClick={nextStep}
+                    disabled={selectedServices.length === 0}
+                    className="next-btn"
+                  >
+                    Siguiente
+                  </PrimaryButton>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 3 - FILE ATTACHMENTS */}
+            {currentStep === 3 && (
+              <div className="form-step">
+                {/* Show loading content when submitting */}
+                {isSubmitting ? (
+                  <div className="submitting-content">
+                    <div className="submitting-icon">
+                      <IoIosSend />
+                    </div>
+                    <h4>Procesando tu consulta...</h4>
+                    <p>Estamos enviando tu información y archivos adjuntos.</p>
+                  </div>
+                ) : (
+                  <>
+                    <h3>Archivos adjuntos</h3>
+                    <p className="step-description">
+                      Si tienes documentos, planos, imágenes de referencia o
+                      cualquier material que pueda ayudarnos a entender mejor tu
+                      proyecto, puedes adjuntarlos aquí. Este paso es opcional.
+                    </p>
+                    <div className="form-grid">
+                      <div
+                        className="form-group full-width"
+                        ref={(el) => (formGroupRefs.current[8] = el) as any}
+                      >
+                        <CustomFileUpload
+                          label="Documentos del proyecto (opcional)"
+                          files={attachedFiles}
+                          onFilesChange={handleFilesChange}
+                          isLoading={isSubmitting}
+                          maxFiles={5}
+                          maxSizePerFile={10}
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt,.dwg,.zip,.rar"
+                        />
+                      </div>
+                    </div>
+
+                    <br />
+
+                    {/* Message section */}
+                    <div className="message-section">
+                      <div
+                        className="form-group full-width"
+                        ref={(el) => (formGroupRefs.current[9] = el) as any}
+                      >
+                        <CustomInput
+                          label="Mensaje (opcional)"
+                          placeholder="Cuéntanos más sobre tu proyecto, adjunta archivos si lo necesitas y cualquier detalle adicional..."
+                          error={errors.message}
+                          isLoading={isSubmitting}
+                          multiline={true}
+                          rows={4}
+                          {...register("message", {
+                            minLength: {
+                              value: 10,
+                              message: "Debe tener al menos 10 caracteres",
+                            },
+                          })}
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <div className="form-navigation">
+                  <SecondaryButton
+                    lightBg
+                    type="button"
+                    onClick={prevStep}
+                    className="prev-btn"
+                    disabled={isSubmitting}
+                  >
+                    Anterior
+                  </SecondaryButton>
+                  <PrimaryButton
                     type="submit"
-                    disabled={isSubmitting || selectedServices.length === 0}
+                    isLoading={isSubmitting}
                     className="submit-btn"
                   >
                     {isSubmitting ? "Enviando..." : "Enviar Consulta"}

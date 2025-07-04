@@ -16,9 +16,10 @@ interface PrimaryButtonProps {
   fullWidth?: boolean;
   disabled?: boolean;
   isDarkBackground?: boolean;
+  isLoading?: boolean; // NEW: Loading state prop
   ref?: any;
-  target?: string; // Add target property for links
-  rel?: string; // Add rel property for security when using target="_blank"
+  target?: string;
+  rel?: string;
 }
 
 const PrimaryButton = ({
@@ -31,6 +32,7 @@ const PrimaryButton = ({
   fullWidth = false,
   disabled = false,
   isDarkBackground,
+  isLoading = false, // NEW: Default to false
   ref,
   target,
   rel,
@@ -41,7 +43,8 @@ const PrimaryButton = ({
     baseClass,
     size && `${baseClass}--${size}`,
     fullWidth && `${baseClass}--full-width`,
-    disabled && `${baseClass}--disabled`,
+    (disabled || isLoading) && `${baseClass}--disabled`, // NEW: Disable when loading
+    isLoading && `${baseClass}--loading`, // NEW: Loading class
     isDarkBackground !== undefined &&
       `${baseClass}--on-${isDarkBackground ? "dark" : "light"}`,
     className,
@@ -50,19 +53,15 @@ const PrimaryButton = ({
     .join(" ");
 
   // If href is provided, render as a Link
-  if (href && !disabled) {
-    // Add target and rel attributes when provided
+  if (href && !disabled && !isLoading) {
     const linkProps: any = {
       href,
       className: buttonClasses,
       onClick,
     };
 
-    // Only add target and rel if they are provided
     if (target) {
       linkProps.target = target;
-
-      // Automatically add noopener and noreferrer when target="_blank" for security
       if (target === "_blank") {
         linkProps.rel = rel || "noopener noreferrer";
       } else if (rel) {
@@ -83,9 +82,35 @@ const PrimaryButton = ({
       type={type}
       className={buttonClasses}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isLoading} // NEW: Disable when loading
     >
-      <span className={`${baseClass}__content`}>{children}</span>
+      <span className={`${baseClass}__content`}>
+        {isLoading && (
+          <span className={`${baseClass}__spinner`}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle
+                cx="8"
+                cy="8"
+                r="6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="30"
+                strokeDashoffset="30"
+              >
+                <animateTransform
+                  attributeName="transform"
+                  type="rotate"
+                  values="0 8 8;360 8 8"
+                  dur="1s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+            </svg>
+          </span>
+        )}
+        {children}
+      </span>
     </button>
   );
 };

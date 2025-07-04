@@ -1,4 +1,60 @@
 import { NextRequest, NextResponse } from "next/server";
+import { writeFile } from "fs/promises";
+import { join } from "path";
+import { mkdir } from "fs/promises";
+
+async function uploadFiles(formData: FormData): Promise<string[]> {
+  try {
+    const fileUrls: string[] = [];
+
+    // Get all files from FormData
+    const files: File[] = [];
+    for (const [key, value] of formData.entries()) {
+      if (key.startsWith("file_") && value instanceof File) {
+        files.push(value);
+      }
+    }
+
+    if (files.length === 0) {
+      return fileUrls;
+    }
+
+    console.log(`Uploading ${files.length} files...`);
+
+    // Ensure uploads directory exists
+    const uploadsDir = join(process.cwd(), "public/uploads");
+    try {
+      await mkdir(uploadsDir, { recursive: true });
+    } catch (error) {
+      // Directory might already exist
+    }
+
+    for (const file of files) {
+      // Generate unique filename
+      const timestamp = Date.now();
+      const randomId = Math.random().toString(36).substring(2);
+      const filename = `${timestamp}-${randomId}-${file.name}`;
+
+      // Save file
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const uploadPath = join(uploadsDir, filename);
+
+      await writeFile(uploadPath, buffer);
+
+      // Create public URL
+      const fileUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${filename}`;
+      fileUrls.push(fileUrl);
+
+      console.log(`File uploaded: ${file.name} -> ${fileUrl}`);
+    }
+
+    return fileUrls;
+  } catch (error) {
+    console.error("File upload error:", error);
+    throw new Error("Failed to upload files");
+  }
+}
 
 async function sendNotificationEmail(
   subject: string,
@@ -37,9 +93,7 @@ async function sendNotificationEmail(
       }</li>
           <li><strong>Correo Electrónico:</strong> ${formData.email}</li>
           <li><strong>Teléfono:</strong> ${formData.phone}</li>
-          <li><strong>¿Cómo nos conoció?</strong> ${
-            formData.howDidYouKnow
-          }</li>
+          <li><strong>¿Cómo nos conoció?</strong> ${formData.howDidYouKnow}</li>
           <li><strong>Servicios:</strong> ${formData.servicios}</li>
           <li><strong>Otros detalles:</strong> ${formData.otrosDetalles}</li>
           <li><strong>Mensaje:</strong> ${formData.message}</li>
@@ -76,7 +130,33 @@ export async function POST(request: NextRequest) {
   let formData: any = null;
 
   try {
-    formData = await request.json();
+    // Check if request has files (FormData) or is JSON
+    const contentType = request.headers.get("content-type");
+    let fileUrls: string[] = [];
+
+    if (contentType && contentType.includes("multipart/form-data")) {
+      // Handle FormData (with files)
+      const data = await request.formData();
+
+      // Upload files first
+      fileUrls = await uploadFiles(data);
+
+      // Extract form fields from FormData
+      formData = {
+        firstName: data.get("firstName") as string,
+        lastName: data.get("lastName") as string,
+        email: data.get("email") as string,
+        phone: data.get("phone") as string,
+        howDidYouKnow: data.get("howDidYouKnow") as string,
+        servicios: JSON.parse((data.get("servicios") as string) || "[]"),
+        otrosDetalles: data.get("otrosDetalles") as string,
+        message: data.get("message") as string,
+      };
+    } else {
+      // Handle JSON (no files)
+      formData = await request.json();
+    }
+
     console.log("Received form data:", formData);
 
     // Step 1: Get Access Token from Zoho CRM
@@ -123,6 +203,10 @@ export async function POST(request: NextRequest) {
           Servicios: formData.servicios,
           Otros_detalles: formData.otrosDetalles,
           Mensaje: formData.message,
+          // Add file URLs if any
+          ...(fileUrls.length > 0 && {
+            Archivos_Adjuntos: fileUrls.join("\n"),
+          }),
         },
       ],
     };
