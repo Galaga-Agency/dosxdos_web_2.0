@@ -80,7 +80,7 @@ const EventosMethodologySection = () => {
               data-speed={isMobile ? "0" : "0.95"}
             >
               <Image
-                src="/assets/img/homepage/foto-landing.avif"
+                src="/assets/img/servicios/eventos/vertical-eventos.webp"
                 alt="Metodología de eventos"
                 width={500}
                 height={500}
@@ -151,7 +151,7 @@ const EventosMethodologySection = () => {
             data-speed={isMobile ? "0" : "0.95"}
           >
             <Image
-              src="/assets/img/homepage/foto-landing.avif"
+              src="/assets/img/servicios/eventos/horizontal-segunda-eventos.webp"
               alt="Metodología de eventos"
               width={500}
               height={500}
