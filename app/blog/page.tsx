@@ -159,7 +159,7 @@ const BlogPage: React.FC = () => {
                   <h1 className="blog-page__featured-image-title secondary-title char-animation">
                     {first_blog?.title}
                   </h1>
-                  <div className="blog-page__featured-tags">
+                  {/* <div className="blog-page__featured-tags">
                     {first_blog.tags.map((tag, index) => {
                       return (
                         <span className="blog-page__featured-tag" key={index}>
@@ -167,7 +167,7 @@ const BlogPage: React.FC = () => {
                         </span>
                       );
                     })}
-                  </div>
+                  </div> */}
                   <div className="blog-page__featured-excerpt">
                     <p>{first_blog?.excerpt}</p>
                     <span className="blog-page__featured-read-more">
