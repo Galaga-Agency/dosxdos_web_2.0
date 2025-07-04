@@ -36,7 +36,7 @@ const EventosIntroSection: React.FC = () => {
                 data-speed={isMobile ? "0" : "1.15"}
               >
                 <Image
-                  src="/assets/img/homepage/foto-landing.avif"
+                  src="/assets/img/servicios/eventos/horizontal-primera-eventos.webp"
                   alt="Eventos y experiencias corporativas"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -66,10 +66,7 @@ const EventosIntroSection: React.FC = () => {
           </div>
         </div>
       </section>
-      <TextMarquee
-        text="experiencias a medidas"
-        speed={50}
-      />
+      <TextMarquee text="experiencias a medidas" speed={50} />
     </>
   );
 };

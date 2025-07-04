@@ -26,7 +26,7 @@ const EventosHeroSection: React.FC<EventosHeroSectionProps> = ({
       <div className="eventos-hero__container featured-image-container">
         <div className="eventos-hero__image-wrapper featured-image-wrapper hero-image-wrapper">
           <Image
-            src="/assets/img/about-us-page/equipo-2.avif"
+            src="/assets/img/servicios/eventos/header-eventos.webp"
             alt="Eventos - Dos por Dos"
             fill
             priority
