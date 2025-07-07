@@ -71,14 +71,6 @@ const Menu: React.FC = () => {
     };
   }, [isMobile, throttledScrollHandler]);
 
-  const handleNavigation = (href: string, e?: React.MouseEvent) => {
-    console.log("🟡 Click received at:", Date.now());
-    if (e) e.preventDefault();
-    console.log("🟢 About to call router.push at:", Date.now());
-    router.push(href);
-    console.log("🔵 router.push called at:", Date.now());
-  };
-
   // Memoized submenu animation
   const animateSubmenuItems = useCallback((submenuId: string) => {
     if (submenuItemsRef.current.has(submenuId)) {
@@ -167,11 +159,9 @@ const Menu: React.FC = () => {
     []
   );
 
-  // Simple logo click handler
+  // Simplified logo click handler - let the useInstantLoading hook handle the loading
   const handleLogoClick = useCallback(
     (e: React.MouseEvent) => {
-      e.preventDefault();
-
       const now = Date.now();
 
       if (!window.clickTimes) {
@@ -182,17 +172,14 @@ const Menu: React.FC = () => {
       window.clickTimes = window.clickTimes.filter((time) => now - time < 1000);
 
       if (window.clickTimes.length >= 3) {
+        e.preventDefault();
         window.clickTimes = [];
         router.push("/login");
         return;
       }
 
-      setTimeout(() => {
-        if (window.clickTimes && window.clickTimes.length < 3) {
-          router.push("/");
-          window.clickTimes = [];
-        }
-      }, 1000);
+      // For normal navigation, let Next.js Link handle it naturally
+      // The useInstantLoading hook will detect the click and show loading
     },
     [router]
   );
@@ -227,40 +214,14 @@ const Menu: React.FC = () => {
       }
 
       return isScrolled ? (
-        <SecondaryButton
-          {...ctaProps}
-          onClick={(e) => handleNavigation(ctaButton.href, e)}
-        >
-          {ctaButton.label}
-        </SecondaryButton>
+        <SecondaryButton {...ctaProps}>{ctaButton.label}</SecondaryButton>
       ) : (
-        <PrimaryButton
-          {...ctaProps}
-          onClick={(e) => handleNavigation(ctaButton.href, e)}
-        >
-          {ctaButton.label}
-        </PrimaryButton>
+        <PrimaryButton {...ctaProps}>{ctaButton.label}</PrimaryButton>
       );
     }
 
-    // For mobile: Always Primary button
-    return (
-      <>
-        {isDesktop ? (
-          <PrimaryButton
-            href={ctaButton.href}
-            onClick={(e) => {
-              handleNavigation(ctaButton.href, e);
-              toggleMobileMenu();
-            }}
-            fullWidth
-          >
-            {ctaButton.label}
-          </PrimaryButton>
-        ) : null}
-      </>
-    );
-  }, [isMobile, isDesktop, isScrolled, handleNavigation, toggleMobileMenu]);
+    return null;
+  }, [isMobile, isDesktop, isScrolled]);
 
   return (
     <header
@@ -268,7 +229,7 @@ const Menu: React.FC = () => {
       className={`menu ${isScrolled ? "menu--scrolled" : ""}`}
     >
       <div className="menu__container">
-        {/* Logo Area */}
+        {/* Logo Area - Use native Next.js Link */}
         <Link href="/" className="menu__logo" onClick={handleLogoClick}>
           {/* Mobile logos */}
           <Image
@@ -299,7 +260,7 @@ const Menu: React.FC = () => {
           />
         </Link>
 
-        {/* Main Navigation */}
+        {/* Main Navigation - Use native Next.js Links */}
         <nav className="menu__nav">
           <ul className="menu__nav-list">
             {menuItems.map((item) => (
@@ -313,11 +274,7 @@ const Menu: React.FC = () => {
               >
                 {item.children ? (
                   <>
-                    <Link
-                      href={item.href}
-                      className="menu__nav-button"
-                      onClick={(e) => handleNavigation(item.href, e)}
-                    >
+                    <Link href={item.href} className="menu__nav-button">
                       {item.label}
                       <ChevronDown
                         className={`menu__nav-icon ${
@@ -336,7 +293,6 @@ const Menu: React.FC = () => {
                           key={child.id}
                           href={child.href}
                           className="menu__dropdown-link"
-                          onClick={(e) => handleNavigation(child.href, e)}
                         >
                           {child.label}
                         </Link>
@@ -344,11 +300,7 @@ const Menu: React.FC = () => {
                     </div>
                   </>
                 ) : (
-                  <Link
-                    href={item.href}
-                    className="menu__nav-link"
-                    onClick={(e) => handleNavigation(item.href, e)}
-                  >
+                  <Link href={item.href} className="menu__nav-link">
                     {item.label}
                   </Link>
                 )}
@@ -412,10 +364,7 @@ const Menu: React.FC = () => {
                       <Link
                         href={item.href}
                         className="menu__mobile-button-main"
-                        onClick={(e) => {
-                          handleNavigation(item.href, e);
-                          toggleMobileMenu();
-                        }}
+                        onClick={() => toggleMobileMenu()}
                       >
                         {item.label}
                       </Link>
@@ -451,10 +400,7 @@ const Menu: React.FC = () => {
                             ref={(el: any) =>
                               collectSubmenuItem(item.id, el as HTMLElement)
                             }
-                            onClick={(e) => {
-                              handleNavigation(sub.href, e);
-                              toggleMobileMenu();
-                            }}
+                            onClick={() => toggleMobileMenu()}
                           >
                             {sub.label}
                           </Link>
@@ -466,10 +412,7 @@ const Menu: React.FC = () => {
                   <Link
                     href={item.href}
                     className="menu__mobile-link"
-                    onClick={(e) => {
-                      handleNavigation(item.href, e);
-                      toggleMobileMenu();
-                    }}
+                    onClick={() => toggleMobileMenu()}
                   >
                     {item.label}
                   </Link>
@@ -504,10 +447,7 @@ const Menu: React.FC = () => {
             <div className="menu__mobile-cta">
               <PrimaryButton
                 href={ctaButton.href}
-                onClick={(e) => {
-                  handleNavigation(ctaButton.href, e);
-                  toggleMobileMenu();
-                }}
+                onClick={() => toggleMobileMenu()}
                 fullWidth
               >
                 {ctaButton.label}
