@@ -14,7 +14,7 @@ const EventosIntroSection: React.FC = () => {
       <section className="eventos-intro-section">
         <div className="eventos-intro-section__container container">
           <div className="eventos-intro-section__header header">
-            <h2 className="eventos-intro-section__title secondary-title">
+            <h2 className="eventos-intro-section__title small-title">
               Creamos eventos que <span className="highlight">funcionan</span>{" "}
               de principio a fin.
             </h2>

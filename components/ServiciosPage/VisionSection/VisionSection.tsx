@@ -88,7 +88,7 @@ const VisionSection: React.FC = () => {
       <div className="vision-section__middle-image " data-speed="1.15">
         <div className="vision-section__middle-image-inner">
           <Image
-            src="/assets/img/servicios/consultoria/consultoria-2.webp"
+            src="/assets/img/servicios/floating-img.webp"
             alt="Equipo trabajando juntos"
             width={500}
             height={400}
@@ -118,10 +118,10 @@ const VisionSection: React.FC = () => {
                 data-speed={isMobile ? "0" : "0.95"}
               >
                 <Image
-                  src="/assets/img/servicios/consultoria/consultoria-2.webp"
+                  src="/assets/img/servicios/ultima.webp"
                   alt="Diseño de interiores"
                   fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, 60vw"
                   priority
                   quality={90}
                   unoptimized={true}

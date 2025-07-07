@@ -11,7 +11,7 @@ const NuestroEspacioHeaderSection = () => {
       <div className="nuestro-espacio-header-section__container container">
         <div className="nuestro-espacio-header-section__header header">
           <h1 className="nuestro-espacio-header-section__title title char-animation">
-            Donde las ideas <span className="highlight">toman forma</span>
+            Donde las ideas <span className="highlight">toman forma.</span>
           </h1>
         </div>
 

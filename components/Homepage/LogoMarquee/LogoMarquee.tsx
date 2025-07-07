@@ -36,7 +36,7 @@ const LogoMarquee = ({
             speed={50}
             gradient={false}
             pauseOnHover={true}
-            direction="right"
+            direction="left"
           >
             {clientLogos.map((logo, index) => (
               <div key={`logo-${index}`} className="logo-marquee__item" style={{width: "200px", height: "120px"}}>

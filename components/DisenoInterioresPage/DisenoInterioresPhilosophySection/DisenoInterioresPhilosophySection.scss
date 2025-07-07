@@ -29,4 +29,10 @@
     margin-left: auto;
     @include padding(4xl, bottom);
   }
+
+  &__cta {
+    display: flex;
+    justify-content: center;
+    @include margin(3xl, y);
+  }
 }

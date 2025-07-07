@@ -70,8 +70,19 @@
   }
 
   &__label {
+    @include font-size(lg);
+    font-family: "Sarabun";
+    font-style: normal;
+    font-weight: 100 !important;
+    @include margin(md, bottom);
     color: $white;
-    font-weight: 500 !important;
+    font-style: italic;
+
+    @include min-width(xl) {
+      position: absolute;
+      left: 0;
+      top: -3rem;
+    }
   }
 
   &__title {
