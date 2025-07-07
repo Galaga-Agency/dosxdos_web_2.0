@@ -6,8 +6,17 @@ const path = require("path");
 const nextConfig = {
   reactStrictMode: false,
 
+  // Performance optimizations
+  experimental: {
+    optimizePackageImports: ['gsap', 'lucide-react'],
+    scrollRestoration: true,
+    optimizeCss: true,
+    // Enable static optimization
+    staticWorkerRequestDeduping: true,
+  },
+
   // Webpack configuration
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       "@": path.resolve(__dirname, "."),
@@ -22,6 +31,33 @@ const nextConfig = {
         "gsap/ScrollSmoother": false,
         "gsap/SplitText": false,
       };
+    }
+
+    // Production optimizations
+    if (!dev) {
+      // Split chunks for better caching
+      config.optimization.splitChunks = {
+        ...config.optimization.splitChunks,
+        cacheGroups: {
+          ...config.optimization.splitChunks?.cacheGroups,
+          animations: {
+            name: 'animations',
+            chunks: 'all',
+            test: /[\\/]node_modules[\\/](gsap|@gsap)[\\/]/,
+            priority: 20,
+          },
+          vendor: {
+            name: 'vendor',
+            chunks: 'all',
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10,
+          },
+        },
+      };
+
+      // Minimize bundle size
+      config.optimization.usedExports = true;
+      config.optimization.sideEffects = false;
     }
 
     return config;
@@ -43,13 +79,71 @@ const nextConfig = {
   // Optimize production builds
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
+    // Remove React DevTools in production
+    reactRemoveProperties: process.env.NODE_ENV === "production",
   },
 
+  // Performance headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin'
+          }
+        ]
+      },
+      {
+        source: '/assets/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+
+  // Optimize images
   images: {
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 64, 96, 128, 256, 384, 512, 768, 1024],
-    formats: ["image/webp", "image/avif"],
-    minimumCacheTTL: 60 * 60 * 24 * 30,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ["image/avif", "image/webp"], // AVIF first for better compression
+    minimumCacheTTL: 60 * 60 * 24 * 365, // Cache for 1 year
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: ["dospordosgrupoimagen.com"],
     remotePatterns: [
       {
@@ -82,6 +176,24 @@ const nextConfig = {
       },
     ],
   },
+
+  // Output configuration for better performance
+  output: 'standalone',
+
+  // Disable powered by header
+  poweredByHeader: false,
+
+  // Compress pages
+  compress: true,
+
+  // Optimize CSS
+  optimizeFonts: true,
+
+  // Generate ETags for better caching
+  generateEtags: true,
+
+  // Disable x-powered-by header
+  poweredByHeader: false,
 };
 
 module.exports = nextConfig;
