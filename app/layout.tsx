@@ -465,7 +465,7 @@ export default function RootLayout({
             suppressHydrationWarning
           >
             <Menu />
-            {/* <InstantLoadingOverlay /> */}
+            <InstantLoadingOverlay />
             {children}
             <BackToTop />
             <CookieConsentBanner />
