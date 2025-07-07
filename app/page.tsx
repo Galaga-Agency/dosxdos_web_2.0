@@ -53,6 +53,7 @@ const heroSlides = [
 ];
 
 const HomePage = () => {
+  const [heroReady, setHeroReady] = useState(false);
   const [animationsInitialized, setAnimationsInitialized] = useState(false);
   const cleanupRef = useRef<(() => void) | null>(null);
 
@@ -94,55 +95,73 @@ const HomePage = () => {
     };
   }, []);
 
-  // Simplified animation initialization - remove heroReady dependency
+  const handleHeroReady = useCallback(() => {
+    setHeroReady(true);
+  }, []);
+
   useGSAP(() => {
     if (!animationsInitialized) {
+      // Set a flag to prevent re-initialization
       setAnimationsInitialized(true);
 
-      // Initialize all animations immediately but with minimal delays
-      const initAnimations = () => {
-        // Hero animations first
-        animateHeroSlider();
-        
-        // Initialize rolling text
-        const cleanupRollingText = initRollingTextAnimation();
+      // Initialize hero animations immediately
+      animateHeroSlider();
 
-        // Base animations with minimal delay
-        setTimeout(() => {
-          charAnimation();
-          imageParallax();
-          hoverCircleButtonAnimation();
-          highlightAnimation();
-          featuredImageAnimation();
+      // Initialize rolling text (but don't start auto-animation since HeroSlider controls it)
+      const cleanupRollingText = initRollingTextAnimation();
 
-          // Service animations
-          if (hasServices) {
-            initCardMouseParallax();
-          }
+      // Initialize other base animations with a small delay for DOM readiness
+      const timer = setTimeout(() => {
+        charAnimation();
+        imageParallax();
+        hoverCircleButtonAnimation();
+        highlightAnimation();
+        featuredImageAnimation();
 
-          // Project animations
-          if (hasFeaturedProjects) {
-            panelTwoAnimation();
-          }
-        }, 100);
+        // Initialize service animations if services exist
+        if (hasServices) {
+          initCardMouseParallax();
+        }
+      }, 200);
 
-        // Store cleanup function
-        cleanupRef.current = () => {
-          if (cleanupRollingText) {
-            cleanupRollingText();
-          }
-        };
-
-        return () => {
-          if (cleanupRollingText) {
-            cleanupRollingText();
-          }
-        };
+      // Store cleanup function
+      cleanupRef.current = () => {
+        clearTimeout(timer);
+        if (cleanupRollingText) {
+          cleanupRollingText();
+        }
       };
 
-      return initAnimations();
+      return () => {
+        clearTimeout(timer);
+        if (cleanupRollingText) {
+          cleanupRollingText();
+        }
+      };
     }
-  }, [animationsInitialized, hasServices, hasFeaturedProjects]);
+  }, [animationsInitialized, hasServices]);
+
+  // Initialize project-specific animations when projects are ready
+  useGSAP(() => {
+    if (animationsInitialized && hasFeaturedProjects) {
+      const timer = setTimeout(() => {
+        panelTwoAnimation();
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [animationsInitialized, hasFeaturedProjects]);
+
+  // Blog section animations - only when everything is ready
+  useGSAP(() => {
+    if (animationsInitialized && hasBlogPosts) {
+      const timer = setTimeout(() => {
+        highlightAnimation(0.3);
+      }, 150);
+
+      return () => clearTimeout(timer);
+    }
+  }, [animationsInitialized, hasBlogPosts]);
 
   return (
     <PageWrapper>
@@ -156,6 +175,7 @@ const HomePage = () => {
         <HeroSlider
           slides={heroSlides}
           autoplaySpeed={3000}
+          onImagesLoad={handleHeroReady}
         />
         <AboutUsSection />
         <LogoMarquee />
