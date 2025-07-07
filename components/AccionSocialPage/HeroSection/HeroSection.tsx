@@ -51,14 +51,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImageLoad }) => {
 
         <div className="accion-social-hero__content container">
           <h3 className="accion-social-hero__label label">
-            (COMPROMISO QUE TRANSFORMA)
+            (Compromiso que transforma)
           </h3>
 
           <h2 className="accion-social-hero__title title text-1">
             Un diseño que también
           </h2>
           <h2 className="accion-social-hero__title title text-2">
-            <span>transforma comunidades y entorno</span>
+            <span>transforma comunidades y entorno.</span>
           </h2>
         </div>
       </div>

@@ -14,7 +14,7 @@ const FabricacionAboutSection: React.FC = () => {
     <section className="fabricacion-about-section">
       <div className="fabricacion-about-section__container container">
         <div className="fabricacion-about-section__header header">
-          <h2 className="fabricacion-about-section__title secondary-title ">
+          <h2 className="fabricacion-about-section__title small-title ">
             Entendemos que una idea vale lo que vale su{" "}
             <span className="highlight">ejecución.</span>
           </h2>
@@ -39,12 +39,15 @@ const FabricacionAboutSection: React.FC = () => {
             <p className="fabricacion-about-section__text text">
               Por eso unimos en un mismo flujo de trabajo dos servicios que,
               aunque diferentes, comparten un objetivo común: dar forma a los
-              conceptos con precisión, calidad y personalidad. Nuestra capacidad
-              de fabricación propia, unida a nuestra experiencia en impresión y
-              acabados avanzados, nos permite materializar proyectos desde cero,
-              con soluciones a medida, control de cada detalle y una visión
-              global que va más allá de lo visual.
+              conceptos con precisión, calidad y personalidad. <br />
+              <br />
+              Nuestra capacidad de fabricación propia, unida a nuestra
+              experiencia en impresión y acabados avanzados, nos permite
+              materializar proyectos desde cero, con soluciones a medida,
+              control de cada detalle y una visión global que va más allá de lo
+              visual.
             </p>
+
             <div className="fabricacion-about-section__tags">
               <span className="fabricacion-about-section__tag">Fabricamos</span>
               <span className="fabricacion-about-section__tag">Imprimimos</span>

@@ -266,7 +266,7 @@
   &__animated-image {
     position: relative;
     width: 100%;
-    max-width: 500px;
+    max-width: 900px;
     height: 300px;
     overflow: hidden;
     will-change: transform;
@@ -275,6 +275,10 @@
 
     @include min-width(md) {
       height: 400px;
+    }
+
+    @include min-width(xl) {
+      aspect-ratio: 16/9;
     }
 
     img {

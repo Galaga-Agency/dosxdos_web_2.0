@@ -81,16 +81,20 @@ const MontajeMantenimientoHeroSection: React.FC<
           <div className="montaje-mantenimiento-hero-section__columns">
             <div className="montaje-mantenimiento-hero-section__column">
               <p className="montaje-mantenimiento-hero-section__column-text text">
-                Acompañamos a nuestros clientes más allá de la entrega del
-                proyecto: nos ocupamos del montaje completo y del mantenimiento
-                continuo de los espacios,
+                Acompañamos a nuestros clientes más allá de la entrega del proyecto. 
+                Nos encargamos del montaje integral y del mantenimiento continuo de los 
+                espacios, garantizando que cada elemento esté correctamente instalado, 
+                funcione como debe y conserve su impacto con el paso del tiempo.
               </p>
             </div>
 
             <div className="montaje-mantenimiento-hero-section__column">
               <p className="montaje-mantenimiento-hero-section__column-text text">
-                asegurando que cada detalle funcione, esté en su sitio y
-                mantenga el impacto que se pensó desde el inicio.
+                Coordinamos todos los procesos de forma precisa, desde la logística 
+                hasta la puesta a punto final, asegurando que cada intervención se 
+                ejecute con agilidad, limpieza y respeto por los plazos. Nuestro equipo 
+                técnico supervisa cada detalle y responde ante cualquier imprevisto para 
+                que todo siga funcionando como el primer día.
               </p>
             </div>
           </div>

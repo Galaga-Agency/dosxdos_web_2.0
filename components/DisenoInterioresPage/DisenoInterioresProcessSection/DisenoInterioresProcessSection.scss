@@ -6,7 +6,7 @@
 .diseno-interiores-process {
   width: 100%;
   position: relative;
-  overflow: hidden; 
+  overflow: hidden;
 
   &__container {
     @include container-width(mobile);
@@ -27,6 +27,20 @@
   }
 
   &__description {
+    max-width: 100%; // Full width on mobile
+    margin-left: auto;
+    padding: 0!important;
+
+    @include min-width(md) {
+      max-width: 800px;
+    }
+
+    @include min-width(lg) {
+      max-width: 1000px;
+    }
+  }
+
+  &__description-2 {
     max-width: 100%; // Full width on mobile
     margin-left: auto;
 
@@ -79,7 +93,7 @@
     margin: 0 auto;
     max-width: 100%;
     background-color: $white;
-    @include padding(xl, top); 
+    @include padding(xl, top);
     position: relative;
     @include container-width(mobile);
 

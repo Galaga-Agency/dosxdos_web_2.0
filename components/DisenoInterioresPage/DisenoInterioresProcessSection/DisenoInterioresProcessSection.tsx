@@ -21,15 +21,21 @@ const DisenoInterioresProcessSection: React.FC = () => {
     <section className="diseno-interiores-process">
       <div className="diseno-interiores-process__container container">
         <div className="diseno-interiores-process__header">
-          <h2 className="diseno-interiores-process__title secondary-title ">
+          <h2 className="diseno-interiores-process__title small-title ">
             Un <span className="highlight">proceso cuidado</span> de principio a
             fin
           </h2>
           <p className="diseno-interiores-process__description text">
-            Desde locales comerciales hasta hogares, creamos entornos
-            funcionales, estéticos y sostenibles. Cada proyecto nace del diálogo
-            con el cliente y se traduce en un diseño único, alineado con su
-            identidad y objetivos.
+            Diseñamos espacios que comunican, conectan y funcionan. Desde locales 
+            comerciales hasta hogares, creamos entornos alineados con la identidad 
+            y los objetivos de cada cliente.
+          </p>
+          <p className="diseno-interiores-process__description-2 text">
+            Nuestro equipo —formado por más de 45 profesionales de distintas 
+            disciplinas— trabaja para que diseño, experiencia de usuario y filosofía 
+            de marca hablen un mismo idioma. Apostamos por soluciones sostenibles, 
+            funcionales y con carácter, que respondan tanto a las necesidades del 
+            presente como a los retos del futuro.
           </p>
         </div>
       </div>

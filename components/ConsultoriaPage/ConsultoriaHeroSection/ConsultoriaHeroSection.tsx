@@ -82,17 +82,22 @@ const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({
           <div className="consultoria-hero-section__columns">
             <div className="consultoria-hero-section__column">
               <p className="consultoria-hero-section__column-text text">
-                Partimos del análisis para llegar a la acción. Nuestro enfoque
-                se adapta a cada cliente, combinando auditoría, estrategia y
-                acompañamiento operativo.
+                Partimos del análisis para llegar a la acción. Nuestra consultoría combina 
+                auditoría, estrategia y acompañamiento operativo para ayudarte a tomar 
+                decisiones fundamentadas y construir marcas, espacios y experiencias con 
+                propósito. Entendemos cada proyecto como un reto único, por eso adaptamos 
+                nuestro enfoque a tus necesidades reales, involucrándonos desde el diagnóstico 
+                hasta la implementación.
               </p>
             </div>
 
             <div className="consultoria-hero-section__column">
               <p className="consultoria-hero-section__column-text text">
-                Nos implicamos desde el diagnóstico hasta la implementación para
-                generar impacto real, medible y alineado con tus objetivos de
-                negocio.
+                Investigamos, preguntamos, escuchamos y proponemos: todo en estrecha 
+                colaboración contigo. Aportamos una visión externa, creativa y crítica, 
+                pero también compromiso operativo y capacidad de ejecución. Nuestro objetivo 
+                es generar impacto tangible, medible y alineado con los objetivos de tu 
+                negocio. Porque las buenas ideas no solo se piensan: se hacen.
               </p>
             </div>
           </div>

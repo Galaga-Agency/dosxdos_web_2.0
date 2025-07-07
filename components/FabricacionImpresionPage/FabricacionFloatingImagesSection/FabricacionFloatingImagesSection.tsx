@@ -57,7 +57,7 @@ const FabricacionFloatingImagesSection: React.FC<
               data-speed={isMobile ? "1" : "1.05"}
             >
               <Image
-                src="/assets/img/about-us-page/equipo-2.avif"
+                src="/assets/img/servicios/fabricacion-impresion/floating-img-2.webp"
                 alt="Equipo trabajando"
                 fill
                 quality={100}
@@ -72,7 +72,7 @@ const FabricacionFloatingImagesSection: React.FC<
             data-speed={isMobile ? "1" : "1.1"}
           >
             <Image
-              src="/assets/img/about-us-page/equipo-3.avif"
+                src="/assets/img/servicios/fabricacion-impresion/floating-img-3.webp"
               alt="Espacio comercial moderno"
               fill
               priority

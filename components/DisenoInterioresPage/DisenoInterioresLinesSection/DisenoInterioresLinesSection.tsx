@@ -35,7 +35,7 @@ const DisenoInterioresLinesSection: React.FC = () => {
   return (
     <section className="collaborations-section">
       <div className="collaborations-section__header header container">
-        <h2 className="collaborations-section__title secondary-title ">
+        <h2 className="collaborations-section__title small-title ">
           Tres líneas de interiorismo, <br />
           <span className="highlight">una misma dedicación.</span>
         </h2>

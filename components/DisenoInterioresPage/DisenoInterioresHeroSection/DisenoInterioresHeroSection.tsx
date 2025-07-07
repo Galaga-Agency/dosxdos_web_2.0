@@ -73,14 +73,14 @@ const DisenoInterioresHeroSection: React.FC<
 
           <div className="diseno-interiores-hero__content container">
             <h3 className="diseno-interiores-hero__label label">
-              (ESPACIOS QUE CONECTAN)
+              (Espacios que conectan)
             </h3>
 
             <h2 className="diseno-interiores-hero__title title text-1">
               Diseñamos espacios
             </h2>
             <h2 className="diseno-interiores-hero__title title text-2">
-              <span>que conectan con las personas</span>
+              <span>que conectan con las personas.</span>
             </h2>
           </div>
         </div>
