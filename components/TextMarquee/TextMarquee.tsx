@@ -28,7 +28,7 @@ const TextMarquee: React.FC<TextMarqueeProps> = ({
         gradient={false}
         pauseOnHover={false}
         autoFill={true}
-        direction="right"
+        direction="left"
       >
         <span className="marquee-text">
           {text}&nbsp;<span className="dot">•</span>&nbsp;

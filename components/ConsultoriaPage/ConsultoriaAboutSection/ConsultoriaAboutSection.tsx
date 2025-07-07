@@ -24,7 +24,7 @@ const ConsultoriaAboutSection: React.FC = () => {
         <div className="consultoria-about__content">
           <div className="consultoria-about__image-container" data-speed="0.95">
             <Image
-              src="/assets/img/servicios/consultoria/consultoria-2.webp"
+              src="/assets/img/servicios/consultoria/team.webp"
               alt="Consultoría dosxdos"
               fill
               priority
@@ -41,11 +41,22 @@ const ConsultoriaAboutSection: React.FC = () => {
 
           <div className="consultoria-about__description">
             <p className="consultoria-about__text text">
-              Nos implicamos en cada proyecto como si fuera propio.
-              Transformamos necesidades en soluciones tangibles, con foco en
-              eficiencia, sostenibilidad y excelencia operativa. Nuestro equipo
-              interdisciplinar aporta perspectiva, experiencia y compromiso en
-              cada fase del proceso.
+              Nos implicamos en cada proyecto como si fuera propio, combinando análisis, 
+              creatividad y ejecución para dar respuestas concretas a necesidades reales.
+            </p>
+            
+            <p className="consultoria-about__text text">
+              Nuestro equipo interdisciplinar trabaja de forma integrada para convertir 
+              ideas en soluciones funcionales, sostenibles y alineadas con tu marca. 
+              Pensamos en cada detalle: desde cómo se estructura un espacio hasta cómo se 
+              vive, se recorre y se recuerda. Aplicamos criterios de eficiencia, ergonomía 
+              y diseño consciente para crear entornos que no solo se vean bien, sino que 
+              funcionen mejor.
+            </p>
+            
+            <p className="consultoria-about__text text">
+              Creemos que la excelencia está en unir forma y propósito: espacios que 
+              inspiran, comunican y se adaptan al cambio.
             </p>
           </div>
         </div>

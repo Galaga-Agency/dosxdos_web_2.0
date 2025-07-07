@@ -39,15 +39,9 @@
     @include border-radius(md);
 
     @include min-width(md) {
+          width: 80%;
       height: 400px;
-    }
-
-    @include min-width(lg) {
-      height: 450px;
-    }
-
-    @include min-width(xl) {
-      height: 500px;
+      @include margin(xl, top);
     }
   }
 

@@ -2,6 +2,7 @@
 
 import React from "react";
 import "./DisenoInterioresPhilosophySection.scss";
+import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
 
 const DisenoInterioresPhilosophySection: React.FC = () => {
   return (
@@ -19,6 +20,9 @@ const DisenoInterioresPhilosophySection: React.FC = () => {
             Trabajamos desde la confianza, la escucha activa y el compromiso con
             la excelencia.
           </p>
+        </div>
+        <div className="diseno-interiores-process__cta">
+          <HoverCircleButton href="/contacto" label="¿Hablamos?" />
         </div>
       </div>
     </section>

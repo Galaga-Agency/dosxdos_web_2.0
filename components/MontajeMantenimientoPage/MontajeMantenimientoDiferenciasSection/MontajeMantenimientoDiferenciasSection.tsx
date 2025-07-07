@@ -41,7 +41,7 @@ const MontajeMantenimientoDiferenciasSection: React.FC = () => {
       description:
         "Renovación y modernización de elementos gráficos y visuales para mantener la relevancia de tu marca.",
       imageUrl:
-        "/assets/img/servicios/montaje-mantenimiento/actualizacion-de-imagen.avif",
+        "/assets/img/servicios/montaje-mantenimiento/actualizacion-de-imagen.webp",
       slug: "actualizacion-campanas",
     },
   ];

@@ -39,7 +39,7 @@
   }
 
   &__text {
-    max-width: 1200px;
+    max-width: 1000px;
     @include padding(2xl, bottom);
 
     @include min-width(lg) {
@@ -73,6 +73,9 @@
 
   &__service-title {
     text-align: left;
+    font-family: Sarabun, sans-serif;
+    letter-spacing: normal;
+    font-size: 28px;
     margin: 0 !important;
     max-width: 100% !important;
   }

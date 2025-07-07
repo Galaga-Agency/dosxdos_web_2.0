@@ -71,7 +71,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onImagesLoad }) => {
           <div className="hero-section__overlay"></div>
 
           <div className="hero-section__content container">
-            <h3 className="hero-section__label label ">(SOBRE NOSOTROS)</h3>
+            <h3 className="hero-section__label label ">(Sobre nosotros)</h3>
             <h1 className="hero-section__title title char-animation">
               Todo empieza con una idea. <br/>Lo demás, lo hacemos en equipo.
             </h1>
