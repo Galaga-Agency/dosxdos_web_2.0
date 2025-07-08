@@ -11,13 +11,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
 import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 import Footer from "@/components/layout/Footer/footer";
 
-import {
-  charAnimation,
-  rollUpTextAnimation,
-} from "@/utils/animations/text-anim";
-import { initCardMouseParallax } from "@/utils/animations/card-hover-anim";
 import { imageParallax } from "@/utils/animations/image-parallax";
-import { initStatsCounter } from "@/utils/animations/stats-counter";
 import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import { accionSocialHeroAnim } from "@/utils/animations/accion-social-hero-anim";

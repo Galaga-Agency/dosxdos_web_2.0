@@ -17,7 +17,7 @@ const MontajeMantenimientoServicesSection: React.FC = () => {
           </div>
           <h2 className="montaje-mantenimiento-services__title secondary-title">
             El cuidado continuo que garantiza una{" "}
-            <span className="highlight">imagen impecable</span>.
+            <span className="highlight">imagen impecable.</span>
           </h2>
         </div>
 

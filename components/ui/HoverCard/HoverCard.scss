@@ -82,7 +82,7 @@
 
   &__title {
     color: $white;
-    @include font-size(xl);
+    @include font-size(3xl);
     @include font-weight(bold);
     margin: 0;
     @include title-line-height;
