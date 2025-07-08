@@ -12,13 +12,17 @@ interface ProjectGalleryMarqueeProps {
 const ProjectGalleryMarquee: React.FC<ProjectGalleryMarqueeProps> = ({
   project,
 }) => {
+  const imagesToUse = project.galleryImages && project.galleryImages.length > 0 
+    ? project.galleryImages 
+    : project.images;
+
   return (
     <section className="project-gallery-marquee">
       <div className="project-gallery-marquee__image-column">
         <div className="project-gallery-marquee__gallery">
           <div className="moving-gallery slider-wrap-top">
             <div className="wrapper-gallery">
-              {project.images.slice(0, 4).map((imgSrc, i) => (
+              {imagesToUse.slice(0, 4).map((imgSrc, i) => (
                 <div key={i} className="project-gallery-marquee__gallery-item">
                   <div className="image-container">
                     <Image
@@ -35,7 +39,7 @@ const ProjectGalleryMarquee: React.FC<ProjectGalleryMarqueeProps> = ({
           </div>
           <div className="moving-gallery slider-wrap-bottom">
             <div className="wrapper-gallery">
-              {project.images.slice(4, 8).map((imgSrc, i) => (
+              {imagesToUse.slice(4, 8).map((imgSrc, i) => (
                 <div
                   key={i + 4}
                   className="project-gallery-marquee__gallery-item"

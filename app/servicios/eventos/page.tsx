@@ -5,7 +5,9 @@ import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
 import { ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
 import { useGSAP } from "@gsap/react";
+
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
+
 import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 import Footer from "@/components/layout/Footer/footer";
 import {
@@ -32,7 +34,6 @@ import "./eventos-page.scss";
 
 const EventosPage = () => {
   useScrollSmooth();
-
   const cleanupRef = useRef<(() => void) | null>(null);
 
   const breadcrumbItems = [
@@ -78,7 +79,7 @@ const EventosPage = () => {
         cleanupRef.current = null;
       }
     };
-  });
+  }, []);
 
   return (
     <PageWrapper>
