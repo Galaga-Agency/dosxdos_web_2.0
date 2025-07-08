@@ -131,7 +131,6 @@ const EventosMethodologySection = () => {
                       </div>
                     </div>
                   </button>
-
                   <div className="eventos-methodology-section__accordion-content">
                     <div className="eventos-methodology-section__accordion-body">
                       <p className="eventos-methodology-section__step-description text">
@@ -144,7 +143,6 @@ const EventosMethodologySection = () => {
             </div>
           </div>
         </div>
-
         <div className="eventos-methodology-section__below-image">
           <div
             className="eventos-methodology-section__below-image-container"
