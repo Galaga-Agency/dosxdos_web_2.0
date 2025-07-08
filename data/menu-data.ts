@@ -21,6 +21,11 @@ export const menuItems: MenuItem[] = [
         label: "Nuestro espacio",
         href: "/sobre-nosotros/nuestro-espacio",
       },
+      {
+        id: "nuestros-clientes",
+        label: "Nuestros Clientes",
+        href: "/sobre-nosotros/nuestros-clientes",
+      },
     ],
   },
   {

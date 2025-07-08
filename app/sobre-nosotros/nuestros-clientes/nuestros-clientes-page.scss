@@ -1,0 +1,8 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+
+.nuestros-clientes-page {
+  width: 100%;
+  background-color: $white;
+}
