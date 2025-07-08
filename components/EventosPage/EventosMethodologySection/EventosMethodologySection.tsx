@@ -67,7 +67,7 @@ const EventosMethodologySection = () => {
             Lo que podemos hacer por ti
           </span>
           <h2 className="eventos-methodology-section__title secondary-title">
-            Lo que imaginas, lo diseñamos. Y{" "}
+            Lo que imaginas, lo diseñamos. <br/> Y{" "}
             <span className="highlight">lo hacemos posible.</span>
           </h2>
         </div>
@@ -141,19 +141,6 @@ const EventosMethodologySection = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-        <div className="eventos-methodology-section__below-image">
-          <div
-            className="eventos-methodology-section__below-image-container"
-            data-speed={isMobile ? "0" : "0.95"}
-          >
-            <Image
-              src="/assets/img/servicios/eventos/horizontal-segunda-eventos.webp"
-              alt="Metodología de eventos"
-              width={500}
-              height={500}
-            />
           </div>
         </div>
       </div>

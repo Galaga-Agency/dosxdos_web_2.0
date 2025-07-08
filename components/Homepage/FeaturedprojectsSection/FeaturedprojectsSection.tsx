@@ -39,7 +39,7 @@ const FeaturedprojectsSection: React.FC<FeaturedprojectsSectionProps> = ({
             </div>
 
             <div className="project-panel__content">
-              <h3 className="project-panel__title">{project.name}</h3>
+              <h3 className="project-panel__title small-title">{project.name}</h3>
               <Link
                 href={`/portfolio/${project.slug}`}
                 className="project-panel__link"

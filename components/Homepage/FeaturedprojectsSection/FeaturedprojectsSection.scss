@@ -163,13 +163,11 @@
   }
 
   &__title {
-    font-size: 2.25rem;
-    font-weight: 400;
     margin-bottom: 0.75rem;
+    text-wrap: nowrap;
     color: $white;
     position: relative;
     padding-bottom: 0.5rem;
-    width: fit-content;
     text-shadow: 0 1px 2px rgba($black, 0.2);
 
     &::after {
@@ -194,7 +192,7 @@
 
   &__link {
     color: $white;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 400;
     display: inline-flex;
     align-items: center;

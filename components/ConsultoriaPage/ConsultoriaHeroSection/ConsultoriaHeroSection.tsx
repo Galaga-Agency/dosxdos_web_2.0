@@ -42,8 +42,7 @@ const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({
             (Diseñamos soluciones con propósito)
           </h3>
           <h1 className="consultoria-hero-section__title title char-animation">
-            Consultoría
-            creativa y estratégica.
+            Consultoría creativa y estratégica.
           </h1>
         </div>
 
@@ -79,28 +78,56 @@ const ConsultoriaHeroSection: React.FC<ConsultoriaHeroSectionProps> = ({
             sostenibilidad y creatividad.
           </h3>
 
-          <div className="consultoria-hero-section__columns">
-            <div className="consultoria-hero-section__column">
-              <p className="consultoria-hero-section__column-text text">
-                Partimos del análisis para llegar a la acción. Nuestra consultoría combina 
-                auditoría, estrategia y acompañamiento operativo para ayudarte a tomar 
-                decisiones fundamentadas y construir marcas, espacios y experiencias con 
-                propósito. Entendemos cada proyecto como un reto único, por eso adaptamos 
-                nuestro enfoque a tus necesidades reales, involucrándonos desde el diagnóstico 
-                hasta la implementación.
-              </p>
-            </div>
+          {!isMobile ? (
+            <div className="consultoria-hero-section__columns">
+              <div className="consultoria-hero-section__column">
+                <p className="consultoria-hero-section__column-text text">
+                  Partimos del análisis para llegar a la acción. Nuestra
+                  consultoría combina auditoría, estrategia y acompañamiento
+                  operativo para ayudarte a tomar decisiones fundamentadas y
+                  construir marcas, espacios y experiencias con propósito.
+                  Entendemos cada proyecto como un reto único, por eso adaptamos
+                  nuestro enfoque a tus necesidades reales, involucrándonos
+                  desde
+                </p>
+              </div>
 
-            <div className="consultoria-hero-section__column">
-              <p className="consultoria-hero-section__column-text text">
-                Investigamos, preguntamos, escuchamos y proponemos: todo en estrecha 
-                colaboración contigo. Aportamos una visión externa, creativa y crítica, 
-                pero también compromiso operativo y capacidad de ejecución. Nuestro objetivo 
-                es generar impacto tangible, medible y alineado con los objetivos de tu 
-                negocio. Porque las buenas ideas no solo se piensan: se hacen.
-              </p>
+              <div className="consultoria-hero-section__column">
+                <p className="consultoria-hero-section__column-text text">
+                  el diagnóstico hasta la implementación. Investigamos,
+                  preguntamos, escuchamos y proponemos: todo en estrecha
+                  colaboración contigo. Aportamos una visión externa, creativa y
+                  crítica, pero también compromiso operativo y capacidad de
+                  ejecución. Nuestro objetivo es generar impacto tangible,
+                  medible y alineado con los objetivos de tu negocio.
+                </p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="consultoria-hero-section__columns">
+              <div className="consultoria-hero-section__column">
+                <p className="consultoria-hero-section__column-text text">
+                  Partimos del análisis para llegar a la acción. Nuestra
+                  consultoría combina auditoría, estrategia y acompañamiento
+                  operativo para ayudarte a tomar decisiones fundamentadas y
+                  construir marcas, espacios y experiencias con propósito.
+                  Entendemos cada proyecto como un reto único, por eso adaptamos
+                  nuestro enfoque a tus necesidades reales, involucrándonos
+                  desde el diagnóstico hasta la implementación.
+                </p>
+              </div>
+
+              <div className="consultoria-hero-section__column">
+                <p className="consultoria-hero-section__column-text text">
+                  Investigamos, preguntamos, escuchamos y proponemos: todo en
+                  estrecha colaboración contigo. Aportamos una visión externa,
+                  creativa y crítica, pero también compromiso operativo y
+                  capacidad de ejecución. Nuestro objetivo es generar impacto
+                  tangible, medible y alineado con los objetivos de tu negocio.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

@@ -111,32 +111,6 @@
     }
   }
 
-  &__below-image {
-    @include flex(row, end, center);
-    height: 100%;
-    position: relative;
-
-    @include min-width(md) {
-      @include margin(4xl, top);
-      @include margin(4xl, x);
-    }
-  }
-
-  &__below-image-container {
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-
-    img {
-      width: auto;
-      height: 350px;
-      object-fit: cover;
-      will-change: transform;
-      transform: translateZ(0);
-      backface-visibility: hidden;
-    }
-  }
-
   // Accordion Styles
   &__accordion {
     display: flex;
