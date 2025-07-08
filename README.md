@@ -32,6 +32,7 @@ Live wesbite: https://dosxdos.netlify.app/
 
 ---
 
+
 ## File Structure
 
 Below is a high‐level view of the main directories and their responsibilities:
