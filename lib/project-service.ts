@@ -12,7 +12,6 @@ const PROJECTS_DIRECTORY = path.join(process.cwd(), "data/projects");
 
 export async function getAllProjects(): Promise<Project[]> {
   try {
-    // Ensure the directory exists
     try {
       await fs.access(PROJECTS_DIRECTORY);
     } catch {
@@ -28,21 +27,17 @@ export async function getAllProjects(): Promise<Project[]> {
     for (const fileName of fileNames) {
       if (!fileName.endsWith(".md")) continue;
 
-      // Read markdown file as string
       const fullPath = path.join(PROJECTS_DIRECTORY, fileName);
       const fileContents = await fs.readFile(fullPath, "utf8");
 
-      // Use gray-matter to parse the project metadata section
       const matterResult = matter(fileContents);
 
-      // Convert date to string if it's a Date object
       const date = matterResult.data.date
         ? matterResult.data.date instanceof Date
           ? matterResult.data.date.toISOString()
           : matterResult.data.date
         : new Date().toISOString();
 
-      // Generate or use existing slug
       const slug =
         matterResult.data.slug ||
         generateUniqueSlug(
@@ -51,7 +46,6 @@ export async function getAllProjects(): Promise<Project[]> {
         );
       existingSlugs.push(slug);
 
-      // Create project object
       const project: Project = {
         id: matterResult.data.id || uuidv4(),
         name:
@@ -60,7 +54,7 @@ export async function getAllProjects(): Promise<Project[]> {
           "Proyecto Sin Nombre",
         slug,
         client: matterResult.data.client || "",
-        categories: matterResult.data.categories || [], // ✅ FIXED
+        categories: matterResult.data.categories || [],
         location: matterResult.data.location || "",
         year: matterResult.data.year || new Date().getFullYear(),
         description: matterResult.data.description || "",
@@ -70,7 +64,10 @@ export async function getAllProjects(): Promise<Project[]> {
           matterResult.data.coverImage ||
           matterResult.data.image ||
           "/assets/img/default-project-image.jpg",
+        portfolioThumbnail: matterResult.data.portfolioThumbnail || undefined,
         images: matterResult.data.images || [],
+        galleryImages: matterResult.data.galleryImages || [],
+        floatingImages: matterResult.data.floatingImages || [],
         date,
         featured: matterResult.data.featured || false,
       };
@@ -78,7 +75,6 @@ export async function getAllProjects(): Promise<Project[]> {
       allProjectsData.push(project);
     }
 
-    // Sort projects by date in descending order
     return allProjectsData.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
@@ -94,7 +90,6 @@ export async function getProjectById(
   try {
     const fullPath = path.join(PROJECTS_DIRECTORY, `${projectId}.md`);
 
-    // Check if file exists
     await fs.access(fullPath);
 
     const fileContents = await fs.readFile(fullPath, "utf8");
@@ -108,7 +103,7 @@ export async function getProjectById(
         "Proyecto Sin Nombre",
       slug: matterResult.data.slug || "",
       client: matterResult.data.client || "",
-      categories: matterResult.data.categories || [], // ✅ FIXED
+      categories: matterResult.data.categories || [],
       location: matterResult.data.location || "",
       year: matterResult.data.year || new Date().getFullYear(),
       description: matterResult.data.description || "",
@@ -118,7 +113,10 @@ export async function getProjectById(
         matterResult.data.coverImage ||
         matterResult.data.image ||
         "/assets/img/default-project-image.jpg",
+      portfolioThumbnail: matterResult.data.portfolioThumbnail || undefined,
       images: matterResult.data.images || [],
+      galleryImages: matterResult.data.galleryImages || [],
+      floatingImages: matterResult.data.floatingImages || [],
       date: matterResult.data.date || new Date().toISOString(),
       featured: matterResult.data.featured || false,
     };
@@ -146,23 +144,18 @@ export async function createOrUpdateProject(
   project: Project
 ): Promise<Project> {
   try {
-    // Ensure we have an id
     const id = project.id || uuidv4();
 
-    // Get all existing projects to generate unique slug
     const allProjects = await getAllProjects();
     const existingSlugs = allProjects
       .map((p) => p.slug)
       .filter((slug) => slug !== project.slug);
 
-    // Generate or use existing slug
     const slug =
       project.slug || generateUniqueSlug(project.name, existingSlugs);
 
-    // Update the project with the id and slug
     const updatedProject = { ...project, id, slug };
 
-    // Prepare frontmatter
     const frontmatter = {
       id: updatedProject.id,
       name: updatedProject.name,
@@ -176,21 +169,21 @@ export async function createOrUpdateProject(
       solution: updatedProject.solution || "",
       coverImage:
         updatedProject.coverImage || "/assets/img/default-project-image.jpg",
+      portfolioThumbnail: updatedProject.portfolioThumbnail || undefined, // THIS WAS MISSING!
       images: updatedProject.images || [],
+      galleryImages: updatedProject.galleryImages || [],
+      floatingImages: updatedProject.floatingImages || [],
       date: updatedProject.date || new Date().toISOString(),
       featured: updatedProject.featured || false,
     };
 
-    // Create markdown content
     const markdown = matter.stringify(
-      "", // Empty content since everything is in frontmatter
+      "",
       frontmatter
     );
 
-    // Ensure the directory exists
     await fs.mkdir(PROJECTS_DIRECTORY, { recursive: true });
 
-    // Write the file
     const fullPath = path.join(PROJECTS_DIRECTORY, `${id}.md`);
     await fs.writeFile(fullPath, markdown);
 
@@ -205,10 +198,8 @@ export async function deleteProject(projectId: string): Promise<boolean> {
   try {
     const fullPath = path.join(PROJECTS_DIRECTORY, `${projectId}.md`);
 
-    // Check if file exists
     await fs.access(fullPath);
 
-    // Delete the file
     await fs.unlink(fullPath);
 
     console.log(`Deleted project with ID: ${projectId}`);

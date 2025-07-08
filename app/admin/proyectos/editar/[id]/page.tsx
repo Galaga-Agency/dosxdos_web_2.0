@@ -1,21 +1,34 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter, useParams } from "next/navigation";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+
 import { createOrUpdateProject } from "@/lib/project-service";
 import { Project } from "@/types/project-types";
-import "./edit-project-page.scss";
-import { useRouter, useParams } from "next/navigation";
-import { Trash2, Upload, Image } from "lucide-react";
-import gsap from "gsap";
+import { useDataStore } from "@/store/useDataStore";
+import {
+  projectFormAnimation,
+  projectFormSubmitAnimation,
+  projectFormResetAnimation,
+} from "@/utils/animations/project-form-anim";
+
+import { generateSlug } from "@/utils/slug-generator";
+
 import SecondaryButton from "@/components/ui/SecondaryButton/SecondaryButton";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import CustomCheckbox from "@/components/ui/CustomCheckbox/CustomCheckbox";
 import Loading from "@/components/ui/Loading/Loading";
-import { useDataStore } from "@/store/useDataStore";
 import Footer from "@/components/layout/Footer/footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { generateSlug } from "@/utils/slug-generator";
+import TagsInput from "@/components/TagsInput";
+import VisualLayoutGallery from "@/components/VisualLayoutGallery/VisualLayoutGallery";
+
+import "./edit-project-page.scss";
+
+gsap.registerPlugin(useGSAP);
 
 export default function EditProjectPage() {
   const router = useRouter();
@@ -25,24 +38,19 @@ export default function EditProjectPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [coverImage, setCoverImage] = useState<string | null>(null);
-  const [projectImages, setProjectImages] = useState<string[]>([]);
+  const [portfolioThumbnail, setPortfolioThumbnail] = useState<string | null>(
+    null
+  );
+  const [carouselImages, setCarouselImages] = useState<string[]>([]);
+  const [finalSectionImages, setFinalSectionImages] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
-  const [categoryInput, setCategoryInput] = useState("");
   const [notFound, setNotFound] = useState(false);
-
-  // Refs
-  const pageRef = useRef(null);
-  const headerRef = useRef(null);
-  const formRef = useRef(null);
-  const coverImageInputRef = useRef<HTMLInputElement>(null);
-  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
   } = useForm<Partial<Project>>({
     defaultValues: {
       name: "",
@@ -56,7 +64,6 @@ export default function EditProjectPage() {
     },
   });
 
-  // Fetch existing project data
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
@@ -79,12 +86,7 @@ export default function EditProjectPage() {
           return;
         }
 
-        // Set categories
-        if (project.categories && Array.isArray(project.categories)) {
-          setCategories(project.categories);
-        }
-
-        // Populate form with existing data
+        // Set form data
         reset({
           name: project.name || "",
           client: project.client || "",
@@ -96,7 +98,12 @@ export default function EditProjectPage() {
           featured: project.featured || false,
         });
 
-        // Set cover image if exists
+        // Set categories
+        if (project.categories && Array.isArray(project.categories)) {
+          setCategories(project.categories);
+        }
+
+        // Set cover image
         if (
           project.coverImage &&
           project.coverImage !== "/assets/img/default-project-image.jpg"
@@ -104,13 +111,22 @@ export default function EditProjectPage() {
           setCoverImage(project.coverImage);
         }
 
-        // Set gallery images
-        if (project.images && Array.isArray(project.images)) {
-          setProjectImages(project.images);
+        // Set portfolio thumbnail
+        if (project.portfolioThumbnail) {
+          setPortfolioThumbnail(project.portfolioThumbnail);
+        }
+
+        // Set carousel images (gallery images)
+        if (project.galleryImages && Array.isArray(project.galleryImages)) {
+          setCarouselImages(project.galleryImages);
+        }
+
+        // Set floating images
+        if (project.floatingImages && Array.isArray(project.floatingImages)) {
+          setFinalSectionImages(project.floatingImages);
         }
 
         setIsLoading(false);
-        runEntryAnimations();
       } catch (error) {
         console.error("Error fetching project data:", error);
         setIsLoading(false);
@@ -122,125 +138,27 @@ export default function EditProjectPage() {
     }
   }, [projectId, reset]);
 
-  // Animations
-  const runEntryAnimations = () => {
-    const tl = gsap.timeline();
+  useGSAP(() => {
+    if (!isLoading && !notFound) {
+      const timer = setTimeout(() => {
+        projectFormAnimation();
+      }, 100);
 
-    if (headerRef.current && formRef.current) {
-      tl.fromTo(
-        headerRef.current,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
-      );
-
-      tl.fromTo(
-        formRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-        "-=0.3"
-      );
+      return () => clearTimeout(timer);
     }
-  };
-
-  const handleCoverImageChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    const file = files[0];
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("articleId", projectId);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        throw new Error("Cover image upload failed");
-      }
-
-      const { url } = await res.json();
-      setCoverImage(url);
-    } catch (err) {
-      console.error("Failed to upload cover image:", err);
-      alert("No se pudo subir la imagen de portada");
-    }
-  };
-
-  const handleGalleryImagesChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    try {
-      const uploadPromises = Array.from(files).map(async (file) => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("articleId", projectId);
-
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!res.ok) {
-          throw new Error("Image upload failed");
-        }
-
-        const { url } = await res.json();
-        return url;
-      });
-
-      const uploadedUrls = await Promise.all(uploadPromises);
-      setProjectImages((prev) => [...prev, ...uploadedUrls]);
-    } catch (err) {
-      console.error("Failed to upload gallery images:", err);
-      alert("No se pudieron subir algunas imágenes de la galería");
-    }
-  };
-
-  const handleRemoveCoverImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCoverImage(null);
-    if (coverImageInputRef.current) {
-      coverImageInputRef.current.value = "";
-    }
-  };
-
-  const handleRemoveGalleryImage = (index: number) => {
-    setProjectImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleCategoryKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && categoryInput.trim()) {
-      e.preventDefault();
-      if (!categories.includes(categoryInput.trim())) {
-        setCategories([...categories, categoryInput.trim()]);
-      }
-      setCategoryInput("");
-    }
-  };
-
-  const removeCategory = (category: string) => {
-    setCategories(categories.filter((s) => s !== category));
-  };
+  }, [isLoading, notFound]);
 
   const onSubmit = async (data: Partial<Project>) => {
     try {
       setIsSubmitting(true);
 
-      // GENERATE NEW SLUG FROM UPDATED PROJECT NAME
+      await projectFormSubmitAnimation();
+
       const updatedSlug = generateSlug(data.name || "");
 
-      // Create the updated project object
-      const updatedProject: Partial<Project> = {
+      const updatedProject: Project = {
         id: projectId,
+        date: new Date().toISOString(), // Keep original date or update as needed
         name: data.name || "",
         slug: updatedSlug,
         client: data.client || "",
@@ -252,39 +170,21 @@ export default function EditProjectPage() {
         solution: data.solution || "",
         coverImage:
           coverImage ||
-          projectImages[0] ||
+          carouselImages[0] ||
+          finalSectionImages[0] ||
           "/assets/img/default-project-image.jpg",
-        images: projectImages,
+        portfolioThumbnail: portfolioThumbnail || undefined,
+        images: [...carouselImages, ...finalSectionImages],
+        galleryImages: carouselImages,
+        floatingImages: finalSectionImages,
         featured: data.featured || false,
       };
 
-      // Animation before submitting
-      if (formRef.current) {
-        await gsap.to(formRef.current, {
-          opacity: 0.7,
-          scale: 0.98,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
+      await createOrUpdateProject(updatedProject);
 
-      // Use the server action to update the project
-      await createOrUpdateProject(updatedProject as Project);
-
-      // UPDATE CACHE IMMEDIATELY AFTER SUCCESSFUL API CALL
       useDataStore.getState().updateProject(projectId, updatedProject);
 
-      // Success animation
-      if (formRef.current) {
-        await gsap.to(formRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-
-      // Redirect to admin panel
+      await projectFormResetAnimation();
       router.push("/admin");
     } catch (error) {
       console.error("Error updating project:", error);
@@ -292,55 +192,58 @@ export default function EditProjectPage() {
         "No se pudo actualizar el proyecto. Por favor, inténtalo de nuevo."
       );
 
-      // Reset form animation
-      if (formRef.current) {
-        gsap.to(formRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-
+      await projectFormResetAnimation();
       setIsSubmitting(false);
     }
   };
 
   if (notFound) {
     return (
-      <div className="edit-project-page not-found">
-        <div className="edit-project-page__container">
-          <h1>Proyecto no encontrado</h1>
-          <p>El proyecto que intentas editar no existe.</p>
-          <PrimaryButton type="button" onClick={() => router.push("/admin")}>
-            Volver al panel
-          </PrimaryButton>
+      <ProtectedRoute>
+        <div className="edit-project-page">
+          <div className="edit-project-page__container container">
+            <div className="edit-project-page__header header">
+              <h1 className="secondary-title">Proyecto no encontrado</h1>
+              <p>El proyecto que intentas editar no existe.</p>
+              <PrimaryButton
+                type="button"
+                onClick={() => router.push("/admin")}
+              >
+                Volver al panel
+              </PrimaryButton>
+            </div>
+          </div>
         </div>
-      </div>
+      </ProtectedRoute>
     );
   }
 
   if (isLoading) {
     return (
-      <div className="edit-project-page loading">
-        <Loading />
-        <p>Cargando proyecto...</p>
-      </div>
+      <ProtectedRoute>
+        <div className="edit-project-page">
+          <div className="edit-project-page__container container">
+            <div className="edit-project-page__header header">
+              <Loading />
+              <p>Cargando proyecto...</p>
+            </div>
+          </div>
+        </div>
+      </ProtectedRoute>
     );
   }
 
   return (
     <ProtectedRoute>
-      <div className="edit-project-page" ref={pageRef}>
+      <div className="edit-project-page">
         <div className="edit-project-page__container container">
-          <div className="edit-project-page__header header" ref={headerRef}>
+          <div className="edit-project-page__header header">
             <h1 className="secondary-title">Editar Proyecto</h1>
           </div>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="edit-project-page__form"
-            ref={formRef}
           >
             <div className="form-group">
               <label htmlFor="name">Nombre del Proyecto</label>
@@ -391,20 +294,6 @@ export default function EditProjectPage() {
             </div>
 
             <div className="form-row">
-              {/* <div className="form-group">
-                <label htmlFor="duration">Duración</label>
-                <input
-                  id="duration"
-                  type="text"
-                  className={`form-input ${
-                    errors.duration ? "is-invalid" : ""
-                  }`}
-                  placeholder="Ej: 3 meses, 6 semanas..."
-                  disabled={isSubmitting}
-                  {...register("duration")}
-                />
-              </div> */}
-
               <div className="form-group">
                 <label htmlFor="year">Año</label>
                 <input
@@ -428,32 +317,14 @@ export default function EditProjectPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="categories">Categorías</label>
-              <input
-                type="text"
-                id="categories"
-                className="form-input"
-                placeholder="Presiona Enter para agregar una categoría"
-                value={categoryInput}
-                onChange={(e) => setCategoryInput(e.target.value)}
-                onKeyDown={handleCategoryKeyDown}
+              <label htmlFor="services">Categorías</label>
+              <TagsInput
+                tags={categories}
+                onTagsChange={setCategories}
                 disabled={isSubmitting}
+                placeholder="Presiona Enter para agregar una categoría"
+                inputId="categories"
               />
-              <div className="tag-list">
-                {categories.map((category) => (
-                  <div key={category} className="tag-item">
-                    {category}
-                    <button
-                      type="button"
-                      onClick={() => removeCategory(category)}
-                      className="tag-remove"
-                      aria-label="Eliminar categoría"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
             </div>
 
             <div className="form-group">
@@ -513,98 +384,19 @@ export default function EditProjectPage() {
               )}
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Imagen Principal</label>
-              <div className="cover-image-upload">
-                <input
-                  type="file"
-                  ref={coverImageInputRef}
-                  style={{ display: "none" }}
-                  accept="image/*"
-                  onChange={handleCoverImageChange}
-                  disabled={isSubmitting}
-                />
-
-                <div
-                  className={`cover-image-preview ${
-                    !coverImage ? "empty" : ""
-                  }`}
-                  onClick={() =>
-                    !isSubmitting && coverImageInputRef.current?.click()
-                  }
-                >
-                  {coverImage ? (
-                    <>
-                      <img src={coverImage} alt="Imagen principal" />
-                      <button
-                        type="button"
-                        className="cover-image-delete-btn"
-                        onClick={handleRemoveCoverImage}
-                        disabled={isSubmitting}
-                        aria-label="Eliminar imagen"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </>
-                  ) : (
-                    <div className="cover-image-placeholder">
-                      <div className="cover-image-icon">
-                        <Image size={32} />
-                      </div>
-                      <p>Haz clic para subir la imagen principal</p>
-                      <span className="cover-image-note">
-                        Esta será la imagen de portada del proyecto
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Galería de Imágenes</label>
-              <div className="gallery-upload">
-                <input
-                  type="file"
-                  ref={galleryInputRef}
-                  style={{ display: "none" }}
-                  accept="image/*"
-                  multiple
-                  onChange={handleGalleryImagesChange}
-                  disabled={isSubmitting}
-                />
-
-                <button
-                  type="button"
-                  className="gallery-upload-btn"
-                  onClick={() =>
-                    !isSubmitting && galleryInputRef.current?.click()
-                  }
-                  disabled={isSubmitting}
-                >
-                  <Upload size={20} />
-                  Subir Imágenes
-                </button>
-
-                <div className="gallery-grid">
-                  {projectImages.map((image, index) => (
-                    <div key={index} className="gallery-item">
-                      <img src={image} alt={`Imagen ${index + 1}`} />
-                      <button
-                        type="button"
-                        className="gallery-item-delete"
-                        onClick={() => handleRemoveGalleryImage(index)}
-                        disabled={isSubmitting}
-                        aria-label="Eliminar imagen"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
+            <VisualLayoutGallery
+              coverImage={coverImage}
+              portfolioThumbnail={portfolioThumbnail}
+              galleryImages={carouselImages}
+              floatingImages={finalSectionImages}
+              onCoverImageChange={setCoverImage}
+              onPortfolioThumbnailChange={setPortfolioThumbnail}
+              onGalleryImagesChange={setCarouselImages}
+              onFloatingImagesChange={setFinalSectionImages}
+              projectId={projectId}
+              disabled={isSubmitting}
+            />
+            <br />
             <div className="form-group">
               <CustomCheckbox
                 id="featured"
@@ -629,8 +421,9 @@ export default function EditProjectPage() {
             </div>
           </form>
         </div>
-        <Footer />
       </div>
+
+      <Footer />
     </ProtectedRoute>
   );
 }

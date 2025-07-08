@@ -21,12 +21,20 @@ const FloatingProjectImages: React.FC<FloatingProjectImagesProps> = ({
     }
   }, []);
 
+  const imagesToUse = project.floatingImages && project.floatingImages.length > 0 
+    ? project.floatingImages 
+    : project.images;
+
+  const mainImage = imagesToUse[0] || project.coverImage;
+  const floatingImage1 = imagesToUse[1] || project.images[1];
+  const floatingImage2 = imagesToUse[2] || project.images[2];
+
   return (
     <div ref={sectionRef} className="floating-project-images">
       <div className="floating-project-images__full-image">
         <div className="floating-project-images__image-container">
           <Image
-            src={project.coverImage}
+            src={mainImage}
             alt={`${project.name} - Illustración`}
             fill
             quality={100}
@@ -38,25 +46,29 @@ const FloatingProjectImages: React.FC<FloatingProjectImagesProps> = ({
       </div>
 
       <div className="floating-project-images__floating-images">
-        <div className="floating-project-images__floating-image floating-project-images__floating-image--1">
-          <Image
-            src={project.images[1]}
-            alt={`${project.name} - `}
-            fill
-            sizes="(max-width: 768px) 90vw, 50vw"
-            style={{ objectFit: "cover" }}
-          />
-        </div>
+        {floatingImage1 && (
+          <div className="floating-project-images__floating-image floating-project-images__floating-image--1">
+            <Image
+              src={floatingImage1}
+              alt={`${project.name} - `}
+              fill
+              sizes="(max-width: 768px) 90vw, 50vw"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        )}
 
-        <div className="floating-project-images__floating-image floating-project-images__floating-image--2">
-          <Image
-            src={project.images[2]}
-            alt={`${project.name} - Illustración`}
-            fill
-            sizes="(max-width: 768px) 90vw, 50vw"
-            style={{ objectFit: "cover" }}
-          />
-        </div>
+        {floatingImage2 && (
+          <div className="floating-project-images__floating-image floating-project-images__floating-image--2">
+            <Image
+              src={floatingImage2}
+              alt={`${project.name} - Illustración`}
+              fill
+              sizes="(max-width: 768px) 90vw, 50vw"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
