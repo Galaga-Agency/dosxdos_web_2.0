@@ -1,0 +1,89 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.nuestros-clientes-hero-section {
+  position: relative;
+  width: 100%;
+  background-color: $white;
+  @include section-padding-top();
+  @include margin(xl, top);
+  // Removed negative margin to prevent overlap issues
+  @include padding(md, bottom);
+  @include z-index(above);
+  
+  // Ensure proper stacking context
+  isolation: isolate;
+
+  &__container {
+    @include container-width(mobile);
+    margin: 0 auto;
+
+    @include min-width(md) {
+      @include container-width(tablet);
+    }
+
+    @include min-width(lg) {
+      @include container-width(smalldesktop);
+    }
+
+    @include min-width(xl) {
+      @include container-width(desktop);
+    }
+  }
+
+  &__header {
+    @include margin(lg, bottom);
+  }
+
+  &__title {
+    color: $black;
+    // Prevent text from causing layout shifts
+    line-height: 1.2;
+    
+    // Set initial hidden state for GSAP animations
+    opacity: 0;
+    transform: translateY(30px);
+    
+    .highlight {
+      position: relative;
+      // Ensure highlight doesn't create stacking issues
+      z-index: 1;
+    }
+    
+    // Ensure char animation elements are properly positioned
+    .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(100px) rotateX(-90deg);
+      transform-origin: center bottom;
+    }
+  }
+
+  &__subtitle {
+    @include font-size(lg);
+    color: $black;
+    line-height: 1.6;
+    max-width: 600px;
+    
+    // Set initial hidden state for GSAP animations
+    opacity: 0;
+    transform: translateY(30px);
+    
+    @include min-width(md) {
+      @include font-size(xl);
+    }
+  }
+}
+
+// Ensure animations don't interfere with layout
+.char-animation {
+  .char {
+    will-change: transform, opacity;
+  }
+}
+
+.rollup-text {
+  will-change: transform, opacity;
+}
