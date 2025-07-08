@@ -10,7 +10,10 @@ export interface Project {
   challenge: string; 
   solution: string; 
   coverImage: string;
+  portfolioThumbnail?: string;
   images: string[];
+  galleryImages?: string[];
+  floatingImages?: string[];
   date: string;
   featured: boolean;
 }

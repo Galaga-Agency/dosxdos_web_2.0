@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
@@ -26,23 +26,20 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 
 import "./new-project-page.scss";
 import TagsInput from "@/components/TagsInput";
-import CoverImageUpload from "@/components/CoverImageUpload/CoverImageUpload";
-import GalleryUpload from "@/components/GalleryUpload";
+import VisualLayoutGallery from "@/components/VisualLayoutGallery/VisualLayoutGallery";
 
 gsap.registerPlugin(useGSAP);
 
 export default function NewProjectPage() {
   const router = useRouter();
 
-  // Form state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [coverImage, setCoverImage] = useState<string | null>(null);
-  const [projectImages, setProjectImages] = useState<string[]>([]);
+  const [portfolioThumbnail, setPortfolioThumbnail] = useState<string | null>(null);
+  const [carouselImages, setCarouselImages] = useState<string[]>([]);
+  const [finalSectionImages, setFinalSectionImages] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [projectId] = useState(() => uuidv4());
-
-  // Refs
-  const coverImageInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -61,7 +58,6 @@ export default function NewProjectPage() {
     },
   });
 
-  // Initialize animations
   useGSAP(() => {
     const timer = setTimeout(() => {
       projectFormAnimation();
@@ -70,57 +66,14 @@ export default function NewProjectPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle cover image upload
-  const handleCoverImageChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    const file = files[0];
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("articleId", projectId);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        throw new Error("Cover image upload failed");
-      }
-
-      const { url } = await res.json();
-      setCoverImage(url);
-    } catch (err) {
-      console.error("Failed to upload cover image:", err);
-      alert("No se pudo subir la imagen de portada");
-    }
-  };
-
-  // Handle removing cover image
-  const handleRemoveCoverImage = () => {
-    setCoverImage(null);
-    if (coverImageInputRef.current) {
-      coverImageInputRef.current.value = "";
-    }
-  };
-
-  // Handle form submission
   const onSubmit = async (data: Partial<Project>) => {
     try {
       setIsSubmitting(true);
 
-      // Animate form before submission
       await projectFormSubmitAnimation();
 
-      // GENERATE SLUG FROM PROJECT NAME
       const generatedSlug = generateSlug(data.name || "");
 
-      // Create project object
       const newProject: Project = {
         id: uuidv4(),
         date: new Date().toISOString(),
@@ -135,26 +88,26 @@ export default function NewProjectPage() {
         solution: data.solution || "",
         coverImage:
           coverImage ||
-          projectImages[0] ||
+          carouselImages[0] ||
+          finalSectionImages[0] ||
           "/assets/img/default-project-image.jpg",
-        images: projectImages,
+        portfolioThumbnail: portfolioThumbnail || undefined,
+        images: [...carouselImages, ...finalSectionImages],
+        galleryImages: carouselImages,
+        floatingImages: finalSectionImages,
         featured: data.featured || false,
       };
 
-      // Submit project
       await createOrUpdateProject(newProject);
 
-      // UPDATE CACHE IMMEDIATELY AFTER SUCCESSFUL API CALL
       useDataStore.getState().addProject(newProject);
 
-      // Reset form animation and redirect
       await projectFormResetAnimation();
       router.push("/admin");
     } catch (error) {
       console.error("Error creating project:", error);
       alert("No se pudo crear el proyecto. Por favor, inténtalo de nuevo.");
 
-      // Reset form animation on error
       await projectFormResetAnimation();
       setIsSubmitting(false);
     }
@@ -164,17 +117,14 @@ export default function NewProjectPage() {
     <ProtectedRoute>
       <div className="new-project-page">
         <div className="new-project-page__container container">
-          {/* Header */}
           <div className="new-project-page__header header">
             <h1 className="secondary-title">Crear Nuevo Proyecto</h1>
           </div>
 
-          {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="new-project-page__form"
           >
-            {/* Project Name */}
             <div className="form-group">
               <label htmlFor="name">Nombre del Proyecto</label>
               <input
@@ -190,7 +140,6 @@ export default function NewProjectPage() {
               )}
             </div>
 
-            {/* Client and Location Row */}
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="client">Cliente</label>
@@ -224,22 +173,7 @@ export default function NewProjectPage() {
               </div>
             </div>
 
-            {/* Duration and Year Row */}
             <div className="form-row">
-              {/* <div className="form-group">
-                <label htmlFor="duration">Duración</label>
-                <input
-                  id="duration"
-                  type="text"
-                  className={`form-input ${
-                    errors.duration ? "is-invalid" : ""
-                  }`}
-                  placeholder="Ej: 3 meses, 6 semanas..."
-                  disabled={isSubmitting}
-                  {...register("duration")}
-                />
-              </div> */}
-
               <div className="form-group">
                 <label htmlFor="year">Año</label>
                 <input
@@ -273,7 +207,6 @@ export default function NewProjectPage() {
               />
             </div>
 
-            {/* Description */}
             <div className="form-group">
               <label htmlFor="description">Descripción / Subtitúlo</label>
               <textarea
@@ -293,7 +226,6 @@ export default function NewProjectPage() {
               )}
             </div>
 
-            {/* Challenge */}
             <div className="form-group">
               <label htmlFor="challenge">Reto</label>
               <textarea
@@ -313,7 +245,6 @@ export default function NewProjectPage() {
               )}
             </div>
 
-            {/* Solution */}
             <div className="form-group">
               <label htmlFor="solution">Solución</label>
               <textarea
@@ -333,27 +264,19 @@ export default function NewProjectPage() {
               )}
             </div>
 
-            {/* Cover Image */}
-            <div className="form-group">
-              <label className="form-label">Imagen Principal</label>
-              <CoverImageUpload
-                coverImage={coverImage}
-                coverImageInputRef={coverImageInputRef as any}
-                isSubmitting={isSubmitting}
-                onImageChange={handleCoverImageChange}
-                onRemoveImage={handleRemoveCoverImage}
-              />
-            </div>
-
-            {/* Gallery Images */}
-            <GalleryUpload
-              images={projectImages}
-              onImagesChange={setProjectImages}
+            <VisualLayoutGallery
+              coverImage={coverImage}
+              portfolioThumbnail={portfolioThumbnail}
+              galleryImages={carouselImages}
+              floatingImages={finalSectionImages}
+              onCoverImageChange={setCoverImage}
+              onPortfolioThumbnailChange={setPortfolioThumbnail}
+              onGalleryImagesChange={setCarouselImages}
+              onFloatingImagesChange={setFinalSectionImages}
               projectId={projectId}
               disabled={isSubmitting}
             />
 
-            {/* Featured Checkbox */}
             <div className="form-group">
               <CustomCheckbox
                 id="featured"
@@ -363,7 +286,6 @@ export default function NewProjectPage() {
               />
             </div>
 
-            {/* Form Actions */}
             <div className="form-actions">
               <SecondaryButton
                 type="button"
