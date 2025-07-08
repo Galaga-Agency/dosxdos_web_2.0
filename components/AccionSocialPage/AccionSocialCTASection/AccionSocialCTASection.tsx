@@ -13,7 +13,7 @@ const AccionSocialCTASection = () => {
     <section className="cta-section">
       <div className="cta-section__container container">
         <div className="cta-section__header header">
-          <h3 className="cta-section__label label label">(NUESTRO EQUIPO)</h3>
+          <h3 className="cta-section__label label label">(Nuestro equipo)</h3>
 
           <h2 className="cta-section__title  secondary-title">
             Todo empieza por una idea, <br /> lo demás lo hacemos{" "}

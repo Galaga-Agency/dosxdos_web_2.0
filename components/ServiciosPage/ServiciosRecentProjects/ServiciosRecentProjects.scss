@@ -6,7 +6,7 @@
 .servicios-recent-projects {
   position: relative;
   width: 100%;
-  @include section-padding-y();
+  @include padding(xl, y);
 
   &__container {
     margin: 0 auto;

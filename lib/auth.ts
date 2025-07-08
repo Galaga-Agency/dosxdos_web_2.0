@@ -13,10 +13,8 @@ export const authOptions: NextAuthOptions = {
         const username = credentials?.username;
         const password = credentials?.password;
 
-        const expectedUsername =
-          process.env.ADMIN_USERNAME || "dosxdos2025";
-        const expectedPassword =
-          process.env.ADMIN_PASSWORD || "dosxdos2025*";
+        const expectedUsername = process.env.ADMIN_USERNAME || "dosxdos2025";
+        const expectedPassword = process.env.ADMIN_PASSWORD || "dosxdos2025*";
 
         if (username === expectedUsername && password === expectedPassword) {
           return { id: "1", name: "Admin", email: "admin@example.com" };
@@ -26,6 +24,10 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  // Use JWT instead of database sessions - THIS FIXES THE TIMEOUT
+  session: {
+    strategy: "jwt",
+  },
   pages: {
     signIn: "/login",
     error: "/login",

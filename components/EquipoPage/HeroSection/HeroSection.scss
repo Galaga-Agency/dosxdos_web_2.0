@@ -95,25 +95,26 @@
   @include min-width(md) {
     @include container-width(tablet);
     @include padding(xl);
-    min-height: 75vh;
+    min-height: 60vh; // Reduced from 75vh
     display: block; // Reset to positioning on desktop
   }
 
   @include min-width(lg) {
     @include container-width(smalldesktop);
-    min-height: 80vh;
+    min-height: 65vh; // Reduced from 80vh
   }
 
   @include min-width(xl) {
     @include container-width(desktop);
+    min-height: 70vh;
   }
 
   &__container {
     position: relative;
     width: 100%;
-    height: 40vh; // Shorter height on mobile
-    min-height: 200px; // Smaller min-height
-    margin-bottom: 1.5rem; // Tighter spacing
+    height: 35vh; // Reduced from 40vh
+    min-height: 180px; // Reduced from 200px
+    margin-bottom: 1rem; // Reduced spacing
     overflow: hidden;
     background-color: $white;
     box-shadow: 0 10px 15px -3px rgba($black, 0.1),
@@ -132,65 +133,74 @@
       margin-bottom: 0;
     }
 
-    // Desktop positioning starts from md breakpoint
+    // Desktop positioning - more conservative sizes
     @include min-width(md) {
       position: absolute;
       margin: 0;
-      width: 100%;
-      height: 60vw;
-      max-height: none;
       @include margin(xl, bottom);
     }
 
     &--1 {
       @include min-width(md) {
-        width: 75%;
-        height: 30vh;
+        width: 55%;
+        height: 25vh;
         top: 5vh;
         left: 5%;
       }
 
       @include min-width(lg) {
-        width: 57%;
-        height: 65vh;
+        width: 45%; 
+        height: 45vh; 
         top: 0;
         left: 0%;
+      }
+
+      @include min-width(xl) {
+        width: 45%;
+        height: 50vh;
       }
     }
 
     &--2 {
       @include min-width(md) {
-        width: 50%;
-        height: 30vh;
-        top: 30vh;
-        right: 0;
+        width: 40%; // Reduced from 50%
+        height: 22vh; // Reduced from 30vh
+        top: 25vh; // Adjusted position
+        right: 5%; // Added margin from edge
       }
 
       @include min-width(lg) {
-        width: 40%;
-        height: 50vh;
-        top: 5vh;
+        width: 35%; // Reduced from 40%
+        height: 35vh; // Reduced from 50vh
+        top: 3vh;
         right: 0;
+      }
+
+      @include min-width(xl) {
+        width: 32%;
+        height: 40vh;
       }
     }
 
     &--3 {
       @include min-width(md) {
-        width: 40%;
-        height: 30vh;
-        top: 45vh;
-        right: 45%;
+        width: 35%; // Reduced from 40%
+        height: 25vh; // Reduced from 30vh
+        top: 35vh; 
+        right: 35%;
       }
 
       @include min-width(lg) {
-        width: 45%;
-        height: 50vh;
-        top: 45vh;
-        right: 10%;
+        width: 32%; // Reduced from 45%
+        height: 40vh; // Reduced from 50vh
+        top: 35vh;
+        right: 15%;
       }
 
       @include min-width(xl) {
-        width: 25%;
+        width: 25%; // More conservative size
+        height: 45vh;
+        right: 18%;
       }
     }
   }
@@ -203,13 +213,13 @@
     top: 0;
     left: 0;
 
-    // Desktop - parallax positioning
+    // Desktop - more conservative parallax positioning
     @include min-width(md) {
       position: absolute;
-      top: -30%;
-      left: -15%;
-      width: 130%;
-      height: 160%;
+      top: -20%; // Reduced from -30%
+      left: -10%; // Reduced from -15%
+      width: 120%; // Reduced from 130%
+      height: 140%; // Reduced from 160%
       will-change: transform;
     }
   }

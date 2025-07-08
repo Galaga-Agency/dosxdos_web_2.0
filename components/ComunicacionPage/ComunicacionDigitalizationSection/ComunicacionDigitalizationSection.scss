@@ -118,6 +118,11 @@
 
   &__bottom-text {
     @include margin(3xl, top);
-    margin-inline: auto;
+    margin-left: auto;
+    max-width: 900px;
+
+    @include min-width(xl) {
+      padding-left: 10rem;
+    }
   }
 }

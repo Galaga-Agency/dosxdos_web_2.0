@@ -109,7 +109,7 @@ const ConsultoriaMethodlogySection = () => {
 
                   <div className="methodology-section__accordion-content">
                     <div className="methodology-section__accordion-body">
-                      <p className="methodology-section__step-description">
+                      <p className="methodology-section__step-description text">
                         {step.description}
                       </p>
                     </div>

@@ -1,32 +1,28 @@
-import gsap from "gsap";
 
 export const menuUtils = {
-  setupMenuScroll(menuElement: HTMLElement | null) {
+  setupMenuScroll(menuElement: any) {
     if (!menuElement) return () => {};
 
     let lastScrollY = 0;
     let isHidden = false;
 
-    // Simple function to show the menu - with linear, smooth animation
+    // Add CSS transition to the menu element
+    menuElement.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    menuElement.style.willChange = 'transform';
+
+    // Simple function to show the menu - pure CSS
     function showMenu() {
       if (isHidden) {
-        gsap.to(menuElement, {
-          y: 0,
-          duration: 0.4, // Slightly longer for smoother feel
-          ease: "power1.inOut", // Linear, smooth ease-in-out
-        });
+        menuElement.style.transform = 'translateY(0)';
         isHidden = false;
       }
     }
 
-    // Simple function to hide the menu - with linear, smooth animation
+    // Simple function to hide the menu - pure CSS
     function hideMenu() {
       if (!isHidden) {
-        gsap.to(menuElement, {
-          y: -(menuElement?.offsetHeight || 0),
-          duration: 0.4, // Match the duration
-          ease: "power1.inOut", // Linear, smooth ease-in-out
-        });
+        const menuHeight = menuElement?.offsetHeight || 0;
+        menuElement.style.transform = `translateY(-${menuHeight}px)`;
         isHidden = true;
       }
     }
@@ -41,9 +37,12 @@ export const menuUtils = {
           // Scrolling UP - show menu
           showMenu();
         } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          // Scrolling DOWN - hide menu (after scrolling down a bit)
+          // Scrolling DOWN - hide menu
           hideMenu();
         }
+      } else {
+        // Reset for mobile/tablet
+        showMenu();
       }
 
       lastScrollY = currentScrollY;
@@ -55,6 +54,12 @@ export const menuUtils = {
     // Return cleanup
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      // Reset styles on cleanup
+      if (menuElement) {
+        menuElement.style.transform = '';
+        menuElement.style.transition = '';
+        menuElement.style.willChange = '';
+      }
     };
   },
 };

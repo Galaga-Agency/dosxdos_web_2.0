@@ -36,8 +36,10 @@
     line-height: 0.8;
     margin: 0;
     padding: 0;
+    padding-block: 3px;
     font-size: 50px;
     position: relative;
+    overflow: hidden;
     top: 0.05em;
 
     @include min-width(md) {
