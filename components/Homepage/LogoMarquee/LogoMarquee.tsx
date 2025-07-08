@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
-import { clientLogos } from "@/data/clients";
+import { clients } from "@/data/clients";
 import "./LogoMarquee.scss";
 
 const LogoMarquee = ({
@@ -38,8 +38,12 @@ const LogoMarquee = ({
             pauseOnHover={true}
             direction="left"
           >
-            {clientLogos.map((logo, index) => (
-              <div key={`logo-${index}`} className="logo-marquee__item" style={{width: "200px", height: "120px"}}>
+            {clients.map((logo, index) => (
+              <div
+                key={`logo-${index}`}
+                className="logo-marquee__item"
+                style={{ width: "200px", height: "120px" }}
+              >
                 <Image
                   src={logo.src}
                   alt={logo.name}

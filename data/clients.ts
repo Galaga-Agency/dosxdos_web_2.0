@@ -4,7 +4,7 @@ export interface ClientLogo {
   src: string;
 }
 
-export const clientLogos: ClientLogo[] = [
+export const clients: ClientLogo[] = [
   {
     id: "estee-lauder",
     name: "Estée Lauder",
