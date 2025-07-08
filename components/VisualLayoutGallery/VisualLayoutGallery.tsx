@@ -164,7 +164,7 @@ const VisualLayoutGallery: React.FC<VisualLayoutGalleryProps> = ({
 
       {/* Hero Images Section */}
       <div className="form-group">
-        <label className="form-label">Imágenes Principales</label>
+        <label className="form-label">Imágenes Principales</label> 
         <div className="layout-section">
           <p className="layout-section__description">
             Imagen de portada para la página del proyecto y miniatura para el grid del portfolio
