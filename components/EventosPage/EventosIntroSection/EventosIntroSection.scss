@@ -27,7 +27,6 @@
     width: 100%;
     @include flex(column, center, center);
     position: relative;
-    overflow: hidden;
     order: 2;
     will-change: transform;
     perspective: 1000px;
