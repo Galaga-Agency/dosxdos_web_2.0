@@ -47,7 +47,7 @@
     position: relative;
 
     @include min-width(md) {
-      @include margin(4xl, top);
+      @include margin(6xl, top);
     }
   }
 
@@ -77,7 +77,7 @@
 
   &__slogan-container {
     position: absolute;
-    top: -10%;
+    top: -20%;
     left: -10%;
     z-index: 2;
     will-change: transform;

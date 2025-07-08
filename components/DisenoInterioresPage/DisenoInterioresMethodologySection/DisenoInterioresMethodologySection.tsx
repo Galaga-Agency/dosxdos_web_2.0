@@ -93,7 +93,7 @@ const DisenoInterioresMethodologySection = () => {
 
                   <div className="diseno-interiores-methodology-section__accordion-content">
                     <div className="diseno-interiores-methodology-section__accordion-body">
-                      <p className="diseno-interiores-methodology-section__step-description">
+                      <p className="diseno-interiores-methodology-section__step-description text">
                         {step.description}
                       </p>
                     </div>

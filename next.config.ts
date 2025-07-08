@@ -8,11 +8,9 @@ const nextConfig = {
 
   // Performance optimizations
   experimental: {
-    optimizePackageImports: ['gsap', 'lucide-react'],
+    optimizePackageImports: ["gsap", "lucide-react"],
     scrollRestoration: true,
     optimizeCss: true,
-    // Enable static optimization
-    staticWorkerRequestDeduping: true,
   },
 
   // Webpack configuration
@@ -41,14 +39,14 @@ const nextConfig = {
         cacheGroups: {
           ...config.optimization.splitChunks?.cacheGroups,
           animations: {
-            name: 'animations',
-            chunks: 'all',
+            name: "animations",
+            chunks: "all",
             test: /[\\/]node_modules[\\/](gsap|@gsap)[\\/]/,
             priority: 20,
           },
           vendor: {
-            name: 'vendor',
-            chunks: 'all',
+            name: "vendor",
+            chunks: "all",
             test: /[\\/]node_modules[\\/]/,
             priority: 10,
           },
@@ -87,49 +85,49 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
           },
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           {
-            key: 'X-Frame-Options',
-            value: 'DENY'
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
-          }
-        ]
-      },
-      {
-        source: '/assets/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Referrer-Policy",
+            value: "origin-when-cross-origin",
           },
         ],
       },
       {
-        source: '/_next/static/(.*)',
+        source: "/assets/(.*)",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/_next/static/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
@@ -178,7 +176,7 @@ const nextConfig = {
   },
 
   // Output configuration for better performance
-  output: 'standalone',
+  output: "standalone",
 
   // Disable powered by header
   poweredByHeader: false,
@@ -186,14 +184,8 @@ const nextConfig = {
   // Compress pages
   compress: true,
 
-  // Optimize CSS
-  optimizeFonts: true,
-
   // Generate ETags for better caching
   generateEtags: true,
-
-  // Disable x-powered-by header
-  poweredByHeader: false,
 };
 
 module.exports = nextConfig;

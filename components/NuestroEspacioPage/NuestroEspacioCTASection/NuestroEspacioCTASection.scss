@@ -1,0 +1,41 @@
+@use "abstracts/variables" as *;
+@use "base/colors" as *;
+@use "abstracts/mixins" as *;
+@use "base/animations" as *;
+
+.nuestro-espacio-cta-section {
+  position: relative;
+  width: 100%;
+  background-color: $white;
+  @include padding(3xl, top);
+
+  &__container {
+    @include flex(column, center, center);
+    text-align: center;
+ 
+  }
+
+  &__cta-container {
+    width: fit-content;
+    margin: 0 auto;
+    @include padding(3xl, bottom);
+  }
+
+  &__title {
+    text-align: center;
+    text-wrap: nowrap;
+    width: auto;
+    color: $black;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &__label {
+    @include min-width(md) {
+      margin: 0 4rem 0 -4rem !important;
+    }
+  }
+}

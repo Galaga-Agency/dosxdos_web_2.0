@@ -19,10 +19,10 @@ const ServiciosHero: React.FC = () => {
           Ofrecemos un servicio completo: diseño, producción, logística y
           ejecución.
         </p>
-
+{/* 
         <SecondaryButton href="/portfolio" lightBg={true}>
           Ver proyectos →
-        </SecondaryButton>
+        </SecondaryButton> */}
       </div>
     </section>
   );

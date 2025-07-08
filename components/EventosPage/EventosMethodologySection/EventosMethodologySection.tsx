@@ -134,7 +134,7 @@ const EventosMethodologySection = () => {
 
                   <div className="eventos-methodology-section__accordion-content">
                     <div className="eventos-methodology-section__accordion-body">
-                      <p className="eventos-methodology-section__step-description">
+                      <p className="eventos-methodology-section__step-description text">
                         {step.description}
                       </p>
                     </div>

@@ -21,7 +21,10 @@ import "./nuestro-espacio-page.scss";
 import NuestroEspacioHeaderSection from "@/components/NuestroEspacioPage/NuestroEspacioHeaderSection/NuestroEspacioHeaderSection";
 import NuestroEspacioImageSection from "@/components/NuestroEspacioPage/NuestroEspacioImageSection/NuestroEspacioImageSection";
 import NuestroEspacioDetailsSection from "@/components/NuestroEspacioPage/NuestroEspacioDetailsSection/NuestroEspacioDetailsSection";
-import TextMarquee from "@/components/TextMarquee/TextMarquee";
+import NuestroEspacioCTASection from "@/components/NuestroEspacioPage/NuestroEspacioCTASection/NuestroEspacioCTASection";
+import { hoverCircleButtonAnimation } from "@/utils/animations/hover-btn";
+import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
+import { cursorBubbleAnimation } from "@/utils/animations/cursor-bubble-anim";
 
 const NuestroEspacioPage = () => {
   useScrollSmooth();
@@ -53,6 +56,7 @@ const NuestroEspacioPage = () => {
       charAnimation();
       rollUpTextAnimation();
       highlightAnimation();
+      cursorBubbleAnimation();
     }, 100);
 
     return () => {
@@ -78,11 +82,7 @@ const NuestroEspacioPage = () => {
           <NuestroEspacioHeaderSection />
           <NuestroEspacioImageSection />
           <NuestroEspacioDetailsSection />
-          <TextMarquee
-            text="Nuestro punto de partida"
-            speed={50}
-            className="projects-marquee"
-          />
+          <NuestroEspacioCTASection />
         </div>
       </div>
       <Footer />

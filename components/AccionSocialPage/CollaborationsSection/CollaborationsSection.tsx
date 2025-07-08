@@ -19,7 +19,7 @@ const CollaborationsSection: React.FC = () => {
         </h2>
         <p className="collaborations-section__subtitle subtitle ">
           Apoyamos a fundaciones y organizaciones que construyen un futuro más
-          justo. Diseñamos con propósito, y también con corazón.
+          justo. <br/>Diseñamos con propósito, y también con corazón.
         </p>
       </div>
 

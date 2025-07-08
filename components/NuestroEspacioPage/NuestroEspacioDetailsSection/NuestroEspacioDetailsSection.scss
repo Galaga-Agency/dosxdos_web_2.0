@@ -6,7 +6,7 @@
 .nuestro-espacio-details-section {
   position: relative;
   width: 100%;
-  @include section-padding-bottom();
+  @include padding(md, bottom);
 
   &__text {
     @include min-width(md) {
