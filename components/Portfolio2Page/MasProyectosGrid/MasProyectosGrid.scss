@@ -205,15 +205,15 @@
 
   &.item-4 {
     @include min-width(md) {
-      height: clamp(399px, 30vh, 399px);
+      height: clamp(300px, 30vh, 300px);
       width: 100%;
       margin-left: 0;
       margin-block: clamp(1.5rem, 10vw, 25rem);
     }
 
     @include min-width(xxl) {
-      width: min(332px, 100%);
-      margin-left: min(5rem, -15%);
+      width: min(462px, 100%);
+      margin-left: min(5rem, -10%);
     }
   }
 
@@ -261,13 +261,13 @@
 
   &.item-8 {
     @include min-width(md) {
-      height: clamp(680px, 50vh, 680px); // Shorter than item-2
+      height: clamp(750px, 55vh, 950px); // Shorter than item-2
       width: 100%;
       transform: translate(0px, clamp(-40px, -6vh, -60px)); // Negative offset
     }
 
     @include min-width(xxl) {
-      width: min(580px, 100%); // Different width
+      width: min(550px, 100%); // Different width
       margin-left: min(-8rem, -20%); // Pull left
     }
   }

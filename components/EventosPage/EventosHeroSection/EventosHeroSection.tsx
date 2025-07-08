@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import "./EventosHeroSection.scss";
+import useDeviceDetect from "@/hooks/useDeviceDetect";
 
 interface EventosHeroSectionProps {
   onImagesLoad?: () => void;
@@ -12,6 +13,7 @@ const EventosHeroSection: React.FC<EventosHeroSectionProps> = ({
   onImagesLoad,
 }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const { isMobile } = useDeviceDetect();
 
   // Handle image load
   const handleImageLoad = useCallback(() => {
@@ -48,6 +50,19 @@ const EventosHeroSection: React.FC<EventosHeroSectionProps> = ({
           </h1>
         </div>
       </div>
+      {/* <div className="eventos-methodology-section__below-image">
+        <div
+          className="eventos-methodology-section__below-image-container"
+          data-speed={isMobile ? "0" : "0.95"}
+        >
+          <Image
+            src="/assets/img/servicios/eventos/horizontal-segunda-eventos.webp"
+            alt="Metodología de eventos"
+            width={500}
+            height={500}
+          />
+        </div>
+      </div> */}
     </div>
   );
 };
