@@ -10,7 +10,7 @@ async function uploadFiles(formData: FormData): Promise<string[]> {
     // Get all files from FormData
     const files: File[] = [];
     for (const [key, value] of formData.entries()) {
-      if (key.startsWith("file_") && value instanceof File) {
+      if (key.startsWith("attachment_") && value instanceof File) {
         files.push(value);
       }
     }
@@ -42,8 +42,9 @@ async function uploadFiles(formData: FormData): Promise<string[]> {
 
       await writeFile(uploadPath, buffer);
 
-      // Create public URL
-      const fileUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${filename}`;
+      // Create public URL - ensure proper format for Zoho website field
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+      const fileUrl = `${baseUrl}/uploads/${filename}`;
       fileUrls.push(fileUrl);
 
       console.log(`File uploaded: ${file.name} -> ${fileUrl}`);
@@ -192,6 +193,15 @@ export async function POST(request: NextRequest) {
     console.log("Access token obtained successfully");
 
     // Step 2: Prepare data for Zoho CRM using correct API field names
+    // Format URLs for Zoho website fields
+    const formatUrlForZoho = (url: string) => {
+      // Ensure URL starts with http:// or https://
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        return `http://${url}`;
+      }
+      return url;
+    };
+
     const crmData = {
       data: [
         {
@@ -203,9 +213,21 @@ export async function POST(request: NextRequest) {
           Servicios: formData.servicios,
           Otros_detalles: formData.otrosDetalles,
           Mensaje: formData.message,
-          // Add file URLs if any
-          ...(fileUrls.length > 0 && {
-            Archivos_Adjuntos: fileUrls.join("\n"),
+          // Add file URLs to separate fields (up to 5 files)
+          ...(fileUrls.length > 0 && fileUrls[0] && {
+            Archivos_Adjuntos: formatUrlForZoho(fileUrls[0]),
+          }),
+          ...(fileUrls.length > 1 && fileUrls[1] && {
+            Archivos_Adjuntos2: formatUrlForZoho(fileUrls[1]),
+          }),
+          ...(fileUrls.length > 2 && fileUrls[2] && {
+            Archivos_Adjuntos3: formatUrlForZoho(fileUrls[2]),
+          }),
+          ...(fileUrls.length > 3 && fileUrls[3] && {
+            Archivos_Adjuntos4: formatUrlForZoho(fileUrls[3]),
+          }),
+          ...(fileUrls.length > 4 && fileUrls[4] && {
+            Archivos_Adjuntos5: formatUrlForZoho(fileUrls[4]),
           }),
         },
       ],
@@ -228,6 +250,7 @@ export async function POST(request: NextRequest) {
 
     if (!crmResponse.ok) {
       console.error("CRM error details:", crmResult);
+      console.log("Full error details:", JSON.stringify(crmResult, null, 2));
       throw new Error(`CRM error: ${JSON.stringify(crmResult)}`);
     }
 
