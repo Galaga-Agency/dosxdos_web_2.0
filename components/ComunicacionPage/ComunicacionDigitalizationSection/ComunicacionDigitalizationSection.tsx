@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import "./ComunicacionDigitalizationSection.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
@@ -15,30 +15,25 @@ const ComunicacionDigitalizationSection: React.FC = () => {
 
   const galagaServices = [
     {
-      title: "Digitalización que optimiza:",
-      description:
-        "Automatizamos procesos internos e integramos herramientas como CRM, ERP o WhatsApp Business para mejorar la gestión diaria y ahorrar tiempo.",
+      title: "Digitalización que optimiza",
+      description: "Automatizamos procesos internos e integramos herramientas como CRM, ERP o WhatsApp Business para mejorar la gestión diaria y ahorrar tiempo."
     },
     {
-      title: "Retail conectado:",
-      description:
-        "Escaparates digitales, señalética interactiva y experiencias en tienda con tablets o tótems para crear puntos de contacto más dinámicos y útiles.",
+      title: "Retail conectado",
+      description: "Escaparates digitales, señalética interactiva y experiencias en tienda con tablets o tótems para crear puntos de contacto más dinámicos y útiles."
     },
     {
-      title: "Experiencias inmersivas:",
-      description:
-        "Activaciones con realidad aumentada, probadores virtuales o webs personalizadas que conectan con el cliente y refuerzan tu marca.",
+      title: "Experiencias inmersivas",
+      description: "Activaciones con realidad aumentada, probadores virtuales o webs personalizadas que conectan con el cliente y refuerzan tu marca."
     },
     {
-      title: "Gestión eficiente con IoT:",
-      description:
-        "Soluciones como RFID, análisis de comportamiento o sistemas de autopago para ganar en control y eficiencia.",
+      title: "Gestión eficiente con IoT",
+      description: "Soluciones como RFID, análisis de comportamiento o sistemas de autopago para ganar en control y eficiencia."
     },
     {
-      title: "Subvenciones sin complicaciones:",
-      description:
-        "Te acompañamos en todo el proceso de solicitud, justificación y gestión de ayudas públicas para digitalización.",
-    },
+      title: "Subvenciones sin complicaciones",
+      description: "Te acompañamos en todo el proceso de solicitud, justificación y gestión de ayudas públicas para digitalización."
+    }
   ];
 
   return (
@@ -49,10 +44,15 @@ const ComunicacionDigitalizationSection: React.FC = () => {
             (Digitalización)
           </span>
           <h2 className="comunicacion-digitalization-section__title secondary-title">
-            Herramientas digitales que te ayudan a crecer
+            Herramientas digitales que te <span className="highlight">ayudan a crecer.</span>
           </h2>
         </div>
         <div className="comunicacion-digitalization-section__content">
+          <div className="comunicacion-digitalization-section__content-column">
+            <p className="comunicacion-digitalization-section__content-column-text text">
+              Desde Dos x Dos creemos que el privilegio de poder crear debe ir de la mano del compromiso de contribuir. Por eso apoyamos iniciativas que promueven la inclusión, colaboramos con entidades que trabajan con quienes más lo necesitan y adoptamos medidas reales para reducir nuestra huella ecológica: desde el uso de materiales sostenibles hasta el autoconsumo energético y la optimización de nuestros desplazamientos. Porque ser parte del cambio también es parte de nuestro trabajo.
+            </p>
+          </div>
           <div className="comunicacion-digitalization-section__visual-column">
             <div
               className="comunicacion-digitalization-section__animated-logo"
@@ -68,89 +68,69 @@ const ComunicacionDigitalizationSection: React.FC = () => {
               />
             </div>
           </div>
-          <div className="comunicacion-digitalization-section__content-column container">
-            <p className="comunicacion-digitalization-section__text text">
-              La digitalización es un medio para que las marcas puedan operar
-              con más agilidad, conectar con sus públicos y responder mejor a lo
-              que el entorno exige. Desde Dos x Dos ofrecemos soluciones
-              digitales a medida: desarrollo web, aplicaciones internas,
-              plataformas de gestión y sistemas de contenidos que se integran
-              con la identidad y los objetivos de cada empresa. Todo pensado
-              para facilitar procesos, mejorar la presencia digital y acompañar
-              el crecimiento.
-            </p>
-          </div>
         </div>
       </div>
 
-      <div className="comunicacion-digitalization-section__bottom-text container">
-        <p className="comunicacion-digitalization-section__text text">
-          Además, contamos con la integración de <strong>Galaga Agency</strong>,
-          nuestra empresa hermana especializada en digitalización y marketing
-          experiencial. Esta colaboración nos permite ir un paso más allá: unir
-          diseño, estrategia y tecnología para ofrecer experiencias digitales
-          sólidas, funcionales y coherentes con la marca.
+      <div className="comunicacion-digitalization-section__bottom-text-container container">
+        <p className="comunicacion-digitalization-section__bottom-text-text text">
+          Desde Dos x Dos creemos que el privilegio de poder crear debe ir de la mano del compromiso de contribuir. Por eso apoyamos iniciativas que promueven la inclusión, colaboramos con entidades que trabajan con quienes más lo necesitan y adoptamos medidas reales para reducir nuestra huella ecológica: desde el uso de materiales sostenibles hasta el autoconsumo energético y la optimización de nuestros desplazamientos. Porque ser parte del cambio también es parte de nuestro trabajo.
         </p>
       </div>
 
       <div className="comunicacion-digitalization-section__galaga-section container">
-        <div className="comunicacion-digitalization-section__galaga-content">
-          <div className="comunicacion-digitalization-section__galaga-left">
-            <div className="comunicacion-digitalization-section__galaga-image">
-              <Image
-                src="/assets/img/servicios/comunicacion/galaga-image.avif"
-                alt="Galaga Agency"
-                width={400}
-                height={300}
-                sizes="(max-width: 768px) 100vw, 400px"
-              />
-            </div>
+        <span className="comunicacion-digitalization-section__galaga-label label">
+          (¿Qué puede hacer Galaga por ti?)
+        </span>
+        <h3 className="comunicacion-digitalization-section__galaga-subtitle small-title">
+          Cada herramienta tiene un porqué. Y un para qué.
+        </h3>
+        
+        <div className="comunicacion-digitalization-section__galaga-grid">
+          <div className="comunicacion-digitalization-section__galaga-image">
+            <Image
+                src="/assets/img/servicios/comunicacion/digitalizacion-comunicacion.avif"
+              alt="Galaga Agency"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              data-speed={isMobile ? "1" : "0.95"}
+            />
           </div>
-          <div className="comunicacion-digitalization-section__galaga-right">
-            <div className="comunicacion-digitalization-section__galaga-text">
-              <span className="comunicacion-digitalization-section__galaga-label">
-                (¿Qué puede hacer Galaga por ti?)
-              </span>
-              <h3 className="comunicacion-digitalization-section__galaga-subtitle">
-                Cada herramienta tiene un porqué. Y un para qué.
-              </h3>
-              <div className="comunicacion-digitalization-section__galaga-services">
-                {galagaServices.map((service, index) => (
-                  <div
-                    key={index}
-                    className={`comunicacion-digitalization-section__service-item ${
-                      openAccordion === index ? "is-open" : ""
-                    }`}
-                  >
-                    <button
-                      className="comunicacion-digitalization-section__service-header"
-                      onClick={() => handleAccordionClick(index)}
-                      aria-expanded={openAccordion === index}
-                    >
-                      <div className="comunicacion-digitalization-section__service-left">
-                        <p className="comunicacion-digitalization-section__service-title">
-                          {service.title}
-                        </p>
-                      </div>
-                      <div className="comunicacion-digitalization-section__service-toggle">
-                        <div className="plus-minus-icon">
-                          <span className="horizontal-line"></span>
-                          <span className="vertical-line"></span>
-                        </div>
-                      </div>
-                    </button>
-
-                    <div className="comunicacion-digitalization-section__service-content">
-                      <div className="comunicacion-digitalization-section__service-body">
-                        <p className="comunicacion-digitalization-section__service-description text">
-                          {service.description}
-                        </p>
-                      </div>
+          
+          <div className="comunicacion-digitalization-section__galaga-accordion">
+            {galagaServices.map((service, index) => (
+              <div
+                key={index}
+                className={`comunicacion-digitalization-section__service-item ${
+                  openAccordion === index ? "is-open" : ""
+                }`}
+              >
+                <button
+                  className="comunicacion-digitalization-section__service-header"
+                  onClick={() => handleAccordionClick(index)}
+                  aria-expanded={openAccordion === index}
+                >
+                  <div className="comunicacion-digitalization-section__service-left">
+                    <p className="comunicacion-digitalization-section__service-title">
+                      {service.title}
+                    </p>
+                  </div>
+                  <div className="comunicacion-digitalization-section__service-toggle">
+                    <div className="plus-minus-icon">
+                      <span className="horizontal-line"></span>
+                      <span className="vertical-line"></span>
                     </div>
                   </div>
-                ))}
+                </button>
+
+                <div className="comunicacion-digitalization-section__service-content">
+                  <div className="comunicacion-digitalization-section__service-body">
+                    <p className="comunicacion-digitalization-section__service-description text">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -158,4 +138,4 @@ const ComunicacionDigitalizationSection: React.FC = () => {
   );
 };
 
-export default ComunicacionDigitalizationSection;
+export default ComunicacionDigitalizationSection
