@@ -76,7 +76,7 @@ const ComunicacionPage = () => {
           <ComunicacionServicesSection />
           <ComunicacionDigitalizationSection />
           <TextMarquee
-            text="Innovar con sentido."
+            text="Innovar con sentido"
             speed={50}
           />
         </main>
