@@ -16,24 +16,29 @@ const ComunicacionDigitalizationSection: React.FC = () => {
   const galagaServices = [
     {
       title: "Digitalización que optimiza",
-      description: "Automatizamos procesos internos e integramos herramientas como CRM, ERP o WhatsApp Business para mejorar la gestión diaria y ahorrar tiempo."
+      description:
+        "Automatizamos procesos internos e integramos herramientas como CRM, ERP o WhatsApp Business para mejorar la gestión diaria y ahorrar tiempo.",
     },
     {
       title: "Retail conectado",
-      description: "Escaparates digitales, señalética interactiva y experiencias en tienda con tablets o tótems para crear puntos de contacto más dinámicos y útiles."
+      description:
+        "Escaparates digitales, señalética interactiva y experiencias en tienda con tablets o tótems para crear puntos de contacto más dinámicos y útiles.",
     },
     {
       title: "Experiencias inmersivas",
-      description: "Activaciones con realidad aumentada, probadores virtuales o webs personalizadas que conectan con el cliente y refuerzan tu marca."
+      description:
+        "Activaciones con realidad aumentada, probadores virtuales o webs personalizadas que conectan con el cliente y refuerzan tu marca.",
     },
     {
       title: "Gestión eficiente con IoT",
-      description: "Soluciones como RFID, análisis de comportamiento o sistemas de autopago para ganar en control y eficiencia."
+      description:
+        "Soluciones como RFID, análisis de comportamiento o sistemas de autopago para ganar en control y eficiencia.",
     },
     {
       title: "Subvenciones sin complicaciones",
-      description: "Te acompañamos en todo el proceso de solicitud, justificación y gestión de ayudas públicas para digitalización."
-    }
+      description:
+        "Te acompañamos en todo el proceso de solicitud, justificación y gestión de ayudas públicas para digitalización.",
+    },
   ];
 
   return (
@@ -44,13 +49,22 @@ const ComunicacionDigitalizationSection: React.FC = () => {
             (Digitalización)
           </span>
           <h2 className="comunicacion-digitalization-section__title secondary-title">
-            Herramientas digitales que te <span className="highlight">ayudan a crecer.</span>
+            Herramientas digitales que te{" "}
+            <span className="highlight">ayudan a crecer.</span>
           </h2>
         </div>
         <div className="comunicacion-digitalization-section__content">
           <div className="comunicacion-digitalization-section__content-column">
             <p className="comunicacion-digitalization-section__content-column-text text">
-En Dos x Dos trabajamos la comunicación desde la raíz: entendiendo qué se quiere decir, a quién y para qué. Diseñamos identidades con coherencia y propósito, creamos marcas desde cero, impulsamos procesos de rebranding y desarrollamos piezas gráficas que no solo destacan, sino que funcionan.             </p>
+              La digitalización es un medio para que las marcas puedan operar
+              con más agilidad, conectar con sus públicos y responder mejor a lo
+              que el entorno exige. Desde Dos x Dos ofrecemos soluciones
+              digitales a medida: desarrollo web, aplicaciones internas,
+              plataformas de gestión y sistemas de contenidos que se integran
+              con la identidad y los objetivos de cada empresa. Todo pensado
+              para facilitar procesos, mejorar la presencia digital y acompañar
+              el crecimiento.
+            </p>
           </div>
           <div className="comunicacion-digitalization-section__visual-column">
             <div
@@ -58,7 +72,7 @@ En Dos x Dos trabajamos la comunicación desde la raíz: entendiendo qué se qui
               data-speed={isMobile ? "0" : "1.15"}
             >
               <Image
-                src="/assets/img/servicios/comunicacion/digitalizacion-comunicacion.avif"
+                src="/assets/img/servicios/comunicacion/galaga.webp"
                 alt="Digitalización"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -72,7 +86,11 @@ En Dos x Dos trabajamos la comunicación desde la raíz: entendiendo qué se qui
 
       <div className="comunicacion-digitalization-section__bottom-text-container container">
         <p className="comunicacion-digitalization-section__bottom-text-text text">
-Junto a Galaga, nuestra empresa hermana especializada en desarrollo digital, damos forma a plataformas, aplicaciones y contenidos online que responden a necesidades reales. Del primer boceto a la última línea de código, unimos creatividad, criterio técnico y una mirada práctica.        </p>
+          Además, contamos con la integración de Galaga Agency, nuestra empresa
+          hermana especializada en digitalización y marketing experiencial. Esta
+          colaboración nos permite ir un paso más allá: unir diseño, estrategia
+          y tecnología para transformar por completo la experiencia en tienda.
+        </p>
       </div>
 
       <div className="comunicacion-digitalization-section__galaga-section container">
@@ -82,18 +100,18 @@ Junto a Galaga, nuestra empresa hermana especializada en desarrollo digital, dam
         <h3 className="comunicacion-digitalization-section__galaga-subtitle small-title">
           Cada herramienta tiene un porqué. Y un para qué.
         </h3>
-        
+
         <div className="comunicacion-digitalization-section__galaga-grid">
           <div className="comunicacion-digitalization-section__galaga-image">
             <Image
-                src="/assets/img/servicios/comunicacion/digitalizacion-comunicacion.avif"
+              src="/assets/img/servicios/comunicacion/digitalizacion-comunicacion.avif"
               alt="Galaga Agency"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               data-speed={isMobile ? "1" : "0.95"}
             />
           </div>
-          
+
           <div className="comunicacion-digitalization-section__galaga-accordion">
             {galagaServices.map((service, index) => (
               <div
@@ -136,4 +154,4 @@ Junto a Galaga, nuestra empresa hermana especializada en desarrollo digital, dam
   );
 };
 
-export default ComunicacionDigitalizationSection
+export default ComunicacionDigitalizationSection;

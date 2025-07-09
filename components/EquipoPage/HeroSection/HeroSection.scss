@@ -177,7 +177,7 @@
       }
 
       @include min-width(xl) {
-        width: 32%;
+        width: 42%;
         height: 40vh;
       }
     }
@@ -193,13 +193,13 @@
       @include min-width(lg) {
         width: 32%; // Reduced from 45%
         height: 40vh; // Reduced from 50vh
-        top: 35vh;
+        top: 30vh;
         right: 15%;
       }
 
       @include min-width(xl) {
-        width: 25%; // More conservative size
-        height: 45vh;
+        width: 20%; // More conservative size
+        height: 40vh;
         right: 18%;
       }
     }
