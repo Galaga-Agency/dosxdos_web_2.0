@@ -42,12 +42,16 @@ const ComunicacionProcessSection: React.FC<ComunicacionProcessSectionProps> = ({
             con&nbsp;
             <span className="highlight">estrategia.</span>
           </h2>
-          <p className="comunicacion-process__description">
-            Diseñamos identidades que tienen sentido y continuidad. Creamos
-            plataformas, aplicaciones y contenidos digitales que responden a
-            necesidades concretas. Y lo hacemos combinando creatividad, criterio
-            técnico y una mirada práctica. Porque para comunicar bien: hay que
-            saber cómo, cuándo y a través de qué canales.
+          <p className="comunicacion-process__description text">
+            En Dos x Dos trabajamos la comunicación desde la raíz: entendiendo
+            qué se quiere decir, a quién y para qué. Diseñamos identidades con
+            coherencia y propósito, creamos marcas desde cero, impulsamos
+            procesos de rebranding y desarrollamos piezas gráficas que no solo
+            destacan, sino que funcionan. <br/> <br/>Junto a Galaga, nuestra empresa
+            hermana especializada en desarrollo digital, damos forma a
+            plataformas, aplicaciones y contenidos online que responden a
+            necesidades reales. Del primer boceto a la última línea de código,
+            unimos creatividad, criterio técnico y una mirada práctica.
           </p>
         </div>
       </div>

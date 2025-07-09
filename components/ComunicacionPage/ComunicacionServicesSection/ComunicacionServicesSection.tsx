@@ -28,7 +28,7 @@ const ComunicacionServicesSection = () => {
             <p className="comunicacion-services-section__column-text text">
               Creamos marcas desde cero o las reorientamos cuando hace falta que
               la imagen tome un nuevo rumbo. Naming, identidad visual, tono,
-              aplicaciones, contenido. Todo lo que ayudaa que una marca diga lo
+              aplicaciones, contenido. Todo lo que ayuda a que una marca diga lo
             </p>
           </div>
 

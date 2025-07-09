@@ -3,7 +3,12 @@
 import React, { useEffect, useRef } from "react";
 import useScrollSmooth from "@/hooks/useScrollSmooth";
 import { gsap } from "gsap";
-import { cursorAnimation, ScrollSmoother, ScrollTrigger, SplitText } from "@/plugins";
+import {
+  cursorAnimation,
+  ScrollSmoother,
+  ScrollTrigger,
+  SplitText,
+} from "@/plugins";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
@@ -15,8 +20,6 @@ import {
   charAnimation,
   rollUpTextAnimation,
 } from "@/utils/animations/text-anim";
-import { imageParallax } from "@/utils/animations/image-parallax";
-import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import { highlightAnimation } from "@/utils/animations/highlight-anim";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
 
@@ -56,6 +59,7 @@ const NuestrosClientesPage = () => {
       charAnimation();
       rollUpTextAnimation();
       cursorBubbleAnimation();
+      highlightAnimation();
     }, 200);
 
     return () => {

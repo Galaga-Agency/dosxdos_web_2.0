@@ -142,7 +142,6 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 365, // Cache for 1 year
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    domains: ["dospordosgrupoimagen.com"],
     remotePatterns: [
       {
         protocol: "https",
