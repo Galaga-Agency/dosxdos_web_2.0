@@ -6,52 +6,10 @@
 .nuestros-clientes-grid {
   width: 100%;
   background-color: $white;
-  @include section-spacing();
+  @include section-padding-top();
+
 
   &__container {
-    @include container-width(mobile);
-    margin: 0 auto;
-
-    @include min-width(md) {
-      @include container-width(tablet);
-    }
-
-    @include min-width(lg) {
-      @include container-width(smalldesktop);
-    }
-
-    @include min-width(xl) {
-      @include container-width(desktop);
-    }
-  }
-
-  &__header {
-    text-align: center;
-    @include margin(4xl, bottom);
-
-    @include min-width(md) {
-      @include margin(5xl, bottom);
-    }
-  }
-
-  &__title {
-    color: $black;
-    @include margin(md, bottom);
-  }
-
-  &__subtitle {
-    @include font-size(lg);
-    color: $black;
-    opacity: 0;
-    max-width: 600px;
-    margin: 0 auto;
-
-    @include min-width(lg) {
-      @include font-size(xl);
-    }
-  }
-
-  &__grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     @include gap(lg);
