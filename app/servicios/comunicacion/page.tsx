@@ -24,6 +24,7 @@ import { featuredImageAnimation } from "@/utils/animations/featured-image-anim";
 import ComunicacionProcessSection from "@/components/ComunicacionPage/ComunicacionProcessSection/ComunicacionProcessSection";
 import ComunicacionServicesSection from "@/components/ComunicacionPage/ComunicacionServicesSection/ComunicacionServicesSection";
 import ComunicacionDigitalizationSection from "@/components/ComunicacionPage/ComunicacionDigitalizationSection/ComunicacionDigitalizationSection";
+import TextMarquee from "@/components/TextMarquee/TextMarquee";
 
 const ComunicacionPage = () => {
   useScrollSmooth();
@@ -74,6 +75,10 @@ const ComunicacionPage = () => {
           <ComunicacionProcessSection />
           <ComunicacionServicesSection />
           <ComunicacionDigitalizationSection />
+          <TextMarquee
+            text="Innovar con sentido."
+            speed={50}
+          />
         </main>
       </div>
       <Footer />

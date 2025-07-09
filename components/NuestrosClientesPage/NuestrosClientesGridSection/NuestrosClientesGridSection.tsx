@@ -30,18 +30,6 @@ const NuestrosClientesGridSection: React.FC = () => {
   return (
     <section className="nuestros-clientes-grid">
       <div className="nuestros-clientes-grid__container container">
-        <div className="nuestros-clientes-grid__header">
-          <h2 className="nuestros-clientes-grid__title secondary-title char-animation">
-            Marcas que han{" "}
-            <span className="highlight">confiado en nosotros</span>
-          </h2>
-          <p className="nuestros-clientes-grid__subtitle text rollup-text">
-            Desde grandes multinacionales hasta empresas locales, trabajamos con
-            las mejores marcas del sector cosmético, perfumería y retail.
-          </p>
-        </div>
-
-        <div className="nuestros-clientes-grid__grid">
           {loading
             ? // Loading skeleton
               Array.from({ length: 20 }).map((_, index) => (
@@ -83,7 +71,6 @@ const NuestrosClientesGridSection: React.FC = () => {
                 </div>
               ))}
         </div>
-      </div>
     </section>
   );
 };
