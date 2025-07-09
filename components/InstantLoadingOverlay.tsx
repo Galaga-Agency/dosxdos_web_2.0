@@ -20,11 +20,7 @@ const InstantLoadingOverlay = () => {
         bottom: 0,
         zIndex: 499,
         pointerEvents: "none",
-        backgroundColor: "rgba(255, 255, 255, 0.8)",
-        backdropFilter: "blur(2px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        opacity: 0,
       }}
     >
       <Loading />
