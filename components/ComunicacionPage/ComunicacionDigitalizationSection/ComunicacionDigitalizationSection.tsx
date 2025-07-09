@@ -50,8 +50,7 @@ const ComunicacionDigitalizationSection: React.FC = () => {
         <div className="comunicacion-digitalization-section__content">
           <div className="comunicacion-digitalization-section__content-column">
             <p className="comunicacion-digitalization-section__content-column-text text">
-              Desde Dos x Dos creemos que el privilegio de poder crear debe ir de la mano del compromiso de contribuir. Por eso apoyamos iniciativas que promueven la inclusión, colaboramos con entidades que trabajan con quienes más lo necesitan y adoptamos medidas reales para reducir nuestra huella ecológica: desde el uso de materiales sostenibles hasta el autoconsumo energético y la optimización de nuestros desplazamientos. Porque ser parte del cambio también es parte de nuestro trabajo.
-            </p>
+En Dos x Dos trabajamos la comunicación desde la raíz: entendiendo qué se quiere decir, a quién y para qué. Diseñamos identidades con coherencia y propósito, creamos marcas desde cero, impulsamos procesos de rebranding y desarrollamos piezas gráficas que no solo destacan, sino que funcionan.             </p>
           </div>
           <div className="comunicacion-digitalization-section__visual-column">
             <div
@@ -73,8 +72,7 @@ const ComunicacionDigitalizationSection: React.FC = () => {
 
       <div className="comunicacion-digitalization-section__bottom-text-container container">
         <p className="comunicacion-digitalization-section__bottom-text-text text">
-          Desde Dos x Dos creemos que el privilegio de poder crear debe ir de la mano del compromiso de contribuir. Por eso apoyamos iniciativas que promueven la inclusión, colaboramos con entidades que trabajan con quienes más lo necesitan y adoptamos medidas reales para reducir nuestra huella ecológica: desde el uso de materiales sostenibles hasta el autoconsumo energético y la optimización de nuestros desplazamientos. Porque ser parte del cambio también es parte de nuestro trabajo.
-        </p>
+Junto a Galaga, nuestra empresa hermana especializada en desarrollo digital, damos forma a plataformas, aplicaciones y contenidos online que responden a necesidades reales. Del primer boceto a la última línea de código, unimos creatividad, criterio técnico y una mirada práctica.        </p>
       </div>
 
       <div className="comunicacion-digitalization-section__galaga-section container">
