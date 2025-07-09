@@ -19,7 +19,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ services }) => {
               (Nuestros servicios)
             </h3>
             <h2 className="services-section__title secondary-title">
-              TE ESCUCHAMOS. CREAMOS. FABRICAMOS. <br />
+              TE ESCUCHAMOS. <br /> CREAMOS. FABRICAMOS. <br />
               INSTALAMOS. MANTENEMOS.
             </h2>
           </div>
