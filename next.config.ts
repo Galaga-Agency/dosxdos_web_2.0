@@ -61,9 +61,10 @@ const nextConfig = {
     return config;
   },
 
+  // FIXED: Correct SASS configuration
   sassOptions: {
-    includePaths: ["./styles"],
-    prependData: `@use "styles/abstracts" as *;`,
+    includePaths: [path.join(__dirname, "styles")],
+    prependData: `@use "abstracts" as *;`, // Removed "styles/" prefix
   },
 
   typescript: {
@@ -114,7 +115,8 @@ const nextConfig = {
         ],
       },
       {
-        source: "/assets/(.*)",
+        // FIXED: Changed from /assets/ to /public/ to match your structure
+        source: "/public/(.*)",
         headers: [
           {
             key: "Cache-Control",
@@ -174,8 +176,8 @@ const nextConfig = {
     ],
   },
 
-  // Output configuration for better performance
-  output: "standalone",
+  // FIXED: Only use standalone output in production
+  ...(process.env.NODE_ENV === "production" && { output: "standalone" }),
 
   // Disable powered by header
   poweredByHeader: false,
