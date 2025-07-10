@@ -93,7 +93,7 @@
       }
 
       @include min-width(lg) {
-        width: 40%;
+        width: 45%;
         height: 50vh;
         top: -5vh;
         left: 5%;
@@ -105,16 +105,16 @@
 
       @include min-width(md) {
         width: 45%;
-        height: 40vh;
+        height: 37vh;
         top: 20vh;
         right: 5%;
       }
 
       @include min-width(lg) {
-        width: 35%;
-        height: 45vh;
+        width: 40%;
+        height: 40vh;
         top: 10vh;
-        right: 10%;
+        right: 5%;
       }
     }
 
