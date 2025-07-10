@@ -9,6 +9,19 @@
   background-color: $black;
   overflow: hidden;
   @include section-padding-y();
+  margin-top: 64px;
+
+  @include min-width(md) {
+    margin-top: 80px;
+  }
+
+  @include min-width(lg) {
+    margin-top: 96px;
+  }
+
+  @include min-width(xl) {
+    margin-top: 140px;
+  }
 
   &__title {
     color: $white;

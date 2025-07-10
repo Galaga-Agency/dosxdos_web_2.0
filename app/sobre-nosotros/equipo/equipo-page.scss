@@ -16,8 +16,7 @@
     align-items: center;
     gap: 1.5rem;
     width: 100%;
-      @include section-padding-y();
-
+    @include section-padding-y();
 
     @include min-width(lg) {
       display: none;
@@ -60,5 +59,9 @@
       );
       bottom: 0;
     }
+  }
+
+  .space {
+    height: 120px;
   }
 }

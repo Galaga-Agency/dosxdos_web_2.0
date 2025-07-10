@@ -36,6 +36,8 @@ import { initRollingTextAnimation } from "@/utils/animations/rolling-text-animat
 import { animateHeroSlider } from "@/utils/animations/homepage-hero";
 import { servicesList } from "@/data/services";
 import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import StatsSection from "@/components/EquipoPage/StatsSection/StatsSection";
+import { initStatsCounter } from "@/utils/animations/stats-counter";
 
 const heroSlides = [
   {
@@ -117,6 +119,7 @@ const HomePage = () => {
         hoverCircleButtonAnimation();
         highlightAnimation();
         featuredImageAnimation();
+        initStatsCounter();
 
         // Initialize service animations if services exist
         if (hasServices) {
@@ -180,6 +183,7 @@ const HomePage = () => {
         <AboutUsSection />
         <LogoMarquee />
         <ServicesSection services={servicesList} />
+        <StatsSection />
         <FeaturedprojectsSection projects={featuredProjects} />
         <BlogCarouselSection posts={publishedPosts} />
       </main>

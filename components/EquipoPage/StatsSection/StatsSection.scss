@@ -8,7 +8,7 @@
   width: 100%;
   background-color: $white;
   overflow: hidden;
-  @include section-padding-y();
+  @include section-padding-top();
 
   &__container {
     @include container-width(mobile);
