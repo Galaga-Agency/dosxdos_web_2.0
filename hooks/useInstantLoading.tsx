@@ -22,7 +22,7 @@ export const useInstantLoading = () => {
 
   useEffect(() => {
     globalSetters.add(setIsLoading);
-    
+
     if (!currentPath) {
       currentPath = pathname;
     }
@@ -97,7 +97,9 @@ if (typeof window !== "undefined") {
 
   // Add listener when ready - only once
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", addGlobalListener, { once: true });
+    document.addEventListener("DOMContentLoaded", addGlobalListener, {
+      once: true,
+    });
   } else {
     addGlobalListener();
   }
