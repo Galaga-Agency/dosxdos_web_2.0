@@ -163,15 +163,15 @@
 
     &--2 {
       @include min-width(md) {
-        width: 40%; // Reduced from 50%
-        height: 22vh; // Reduced from 30vh
-        top: 25vh; // Adjusted position
-        right: 5%; // Added margin from edge
+        width: 45%; 
+        height: 22vh; 
+        top: 25vh;
+        right: 5%; 
       }
 
       @include min-width(lg) {
-        width: 35%; // Reduced from 40%
-        height: 35vh; // Reduced from 50vh
+        width: 50%; 
+        height: 35vh; 
         top: 3vh;
         right: 0;
       }
