@@ -33,6 +33,7 @@ interface DataState {
   addProject: (project: Project) => void;
   updateProject: (projectId: string, updatedProject: Partial<Project>) => void;
   removeProject: (projectId: string) => void;
+  updateProjects: (projects: Project[]) => void; // Add this method for bulk updates
 
   // Getters
   getProjectBySlug: (slug: string) => Project | undefined;
@@ -172,6 +173,13 @@ export const useDataStore = create<DataState>()(
             (project) => project.id !== projectId
           ),
         }));
+      },
+
+      // Bulk update projects - ADD THIS METHOD
+      updateProjects: (projects: Project[]) => {
+        set({
+          projects,
+        });
       },
 
       // Get project by slug

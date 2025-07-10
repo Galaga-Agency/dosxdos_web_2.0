@@ -408,13 +408,11 @@
 }
 
 .floating-button {
-  // Mobile - normal flow below the grid
   @include flex(column, center, center);
   @include margin(xl, top);
   width: 100%;
 
   @include min-width(md) {
-    // Desktop - absolute positioning where you drew it
     position: absolute;
     z-index: 10;
     bottom: 5%;
@@ -449,5 +447,78 @@
     @include padding(xl, x);
     gap: clamp(6rem, 12vw, 10rem) clamp(5rem, 10vw, 8rem);
     justify-items: center;
+  }
+}
+
+// Admin controls
+.admin-controls {
+  width: 100vw;
+  position: absolute;
+  top: 0px;
+  left: 7%;
+  @include z-index(header);
+
+  .admin-reorder-button {
+    @include padding(sm, x);
+    @include padding(xs, y);
+    background: $primary-color;
+    color: $white;
+    border: none;
+    @include border-radius(md);
+    @include font-size(sm);
+    @include font-weight(medium);
+    cursor: pointer;
+    box-shadow: $shadow-md;
+    @include transition-duration(normal);
+
+    &:hover {
+      background: darken($primary-color, 10%);
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
+    }
+  }
+}
+
+// Admin order indicator on each project
+.item {
+  position: relative;
+
+  .admin-order-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: $primary-color;
+    color: $white;
+    width: 30px;
+    height: 30px;
+    @include border-radius(full);
+    @include flex(row, center, center);
+    @include font-size(sm);
+    @include font-weight(bold);
+    @include z-index(above);
+    box-shadow: $shadow-md;
+  }
+}
+
+// Close button for admin overlay
+.admin-overlay-close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  @include z-index(modal);
+  background: rgba($white, 0.1);
+  border: 1px solid rgba($white, 0.3);
+  color: $white;
+  width: 40px;
+  height: 40px;
+  @include border-radius(full);
+  @include flex(row, center, center);
+  cursor: pointer;
+  @include font-size(lg);
+  @include transition-duration(normal);
+
+  &:hover {
+    background: rgba($white, 0.2);
+    transform: scale(1.1);
   }
 }

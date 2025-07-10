@@ -8,34 +8,62 @@ import "./MasProyectosGrid.scss";
 import useDeviceDetect from "@/hooks/useDeviceDetect";
 import useCursorBubble from "@/hooks/useCursorBubble";
 import HoverCircleButton from "@/components/ui/HoverCircleButton/HoverCircleButton";
+import AdminProjectOrdering from "@/components/AdminProjectOrdering/AdminProjectOrdering";
 import { Project } from "@/types/project-types";
+import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 
 interface MasProyectosGridProps {
   projects: Project[];
   onImagesLoad?: () => void;
+  isAdmin?: boolean; // Add this prop to check if user is admin
+  onUpdateProjectOrder?: (updatedProjects: Project[]) => Promise<void>; // Add this for saving
 }
 
 const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
   projects,
   onImagesLoad,
+  isAdmin = false,
+  onUpdateProjectOrder,
 }) => {
   const { isMobile, isTablet } = useDeviceDetect();
   const [visibleCount, setVisibleCount] = useState(6);
   const [isRevealing, setIsRevealing] = useState(false);
   const [loadedImages, setLoadedImages] = useState(new Set<number>());
+  const [showAdminOrdering, setShowAdminOrdering] = useState(false);
   const projectItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const buttonRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const hasMoreProjects = visibleCount < projects.length;
 
-  // Track initial visible images (first 6)
-  const initialImageCount = Math.min(6, projects.length);
+  // Sort projects by order field, then by year if no order
+  const sortedProjects = React.useMemo(() => {
+    return [...projects].sort((a, b) => {
+      // If both have order, sort by order
+      if (a.order !== undefined && b.order !== undefined) {
+        return a.order - b.order;
+      }
+      // If only one has order, prioritize it
+      if (a.order !== undefined && b.order === undefined) {
+        return -1;
+      }
+      if (a.order === undefined && b.order !== undefined) {
+        return 1;
+      }
+      // If neither has order, sort by year (newest first)
+      const yearA = parseInt(a.year.toString());
+      const yearB = parseInt(b.year.toString());
+      return yearB - yearA;
+    });
+  }, [projects]);
 
-  console.log("projects ----> ", projects);
+  const hasMoreProjects = visibleCount < sortedProjects.length;
+  const initialImageCount = Math.min(6, sortedProjects.length);
 
   useEffect(() => {
-    projectItemRefs.current = projectItemRefs.current.slice(0, projects.length);
-  }, [projects]);
+    projectItemRefs.current = projectItemRefs.current.slice(
+      0,
+      sortedProjects.length
+    );
+  }, [sortedProjects]);
 
   // Handle individual image load
   const handleImageLoad = useCallback(
@@ -44,7 +72,6 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
         const newSet = new Set(prev);
         newSet.add(imageIndex);
 
-        // Check if all initial images are loaded
         if (newSet.size === initialImageCount && onImagesLoad) {
           setTimeout(onImagesLoad, 50);
         }
@@ -89,7 +116,7 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
     }
 
     const currentVisible = visibleCount;
-    const nextVisibleCount = Math.min(visibleCount + 6, projects.length);
+    const nextVisibleCount = Math.min(visibleCount + 6, sortedProjects.length);
 
     setVisibleCount(nextVisibleCount);
 
@@ -102,40 +129,52 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
         nextVisibleCount
       );
 
-      // Just remove the class - CSS transition handles the fade
       itemsToReveal.forEach((item: any, index: number) => {
         setTimeout(() => {
           item.classList.remove("is-hidden");
           item.style.pointerEvents = "auto";
-        }, index * 100); // Stagger the reveals
+        }, index * 100);
       });
 
-      // Wait for all animations to complete
       setTimeout(() => {
         setIsRevealing(false);
       }, itemsToReveal.length * 100 + 1000);
     }, 50);
   };
 
-  // Function to get consistent random speed per index
   const getRandomSpeed = (index: number) => {
-    // Use index as seed for consistent random values
     const seed = index * 0.1234;
-    const random = (Math.sin(seed) + 1) / 2; // Pseudo-random between 0-1
-    return (0.8 + random * 0.2).toFixed(2); // Random between 0.8 and 1.0
+    const random = (Math.sin(seed) + 1) / 2;
+    return (0.8 + random * 0.2).toFixed(2);
   };
 
-  // Function to get the correct item class based on index
   const getItemClass = (index: number) => {
-    const itemNumber = (index % 18) + 1; // Create pattern for 18 different layouts
+    const itemNumber = (index % 18) + 1;
     return `item item-${itemNumber}`;
+  };
+
+  const handleSaveProjectOrder = async (updatedProjects: Project[]) => {
+    if (onUpdateProjectOrder) {
+      await onUpdateProjectOrder(updatedProjects);
+      setShowAdminOrdering(false);
+    }
   };
 
   return (
     <div className="mas-proyectos-container">
+      {/* Admin controls */}
+      {isAdmin && (
+        <div className="admin-controls">
+          <PrimaryButton
+            onClick={() => setShowAdminOrdering(true)}
+          >
+            Reordenar Proyectos
+          </PrimaryButton>
+        </div>
+      )}
+
       <div className="mas-proyectos-grid" ref={gridRef}>
-        {/* Render ALL projects for parallax */}
-        {projects.map((project, index) => (
+        {sortedProjects.map((project, index) => (
           <Link
             key={project.id}
             href={`/portfolio/${project.slug}`}
@@ -167,11 +206,17 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
             <div className="item__content">
               <h3 className="item__title">{project.name}</h3>
             </div>
+
+            {/* Show order number for admin */}
+            {isAdmin && (
+              <div className="admin-order-indicator">
+                {project.order || index + 1}
+              </div>
+            )}
           </Link>
         ))}
       </div>
 
-      {/* Absolutely positioned button exactly where you drew it */}
       {hasMoreProjects && (
         <div className="floating-button" ref={buttonRef}>
           <HoverCircleButton
@@ -181,6 +226,25 @@ const MasProyectosGrid: React.FC<MasProyectosGridProps> = ({
             label={`Mostrar más`}
           />
         </div>
+      )}
+
+      {/* Admin ordering interface */}
+      <AdminProjectOrdering
+        projects={sortedProjects}
+        onSaveOrder={handleSaveProjectOrder}
+        isVisible={showAdminOrdering}
+        onClose={() => setShowAdminOrdering(false)}
+      />
+
+      {/* Close admin overlay */}
+      {showAdminOrdering && (
+        <button
+          type="button"
+          onClick={() => setShowAdminOrdering(false)}
+          className="admin-overlay-close"
+        >
+          ✕
+        </button>
       )}
     </div>
   );

@@ -7,8 +7,8 @@ export interface Project {
   location?: string;
   year: number;
   description: string;
-  challenge: string; 
-  solution: string; 
+  challenge: string;
+  solution: string;
   coverImage: string;
   portfolioThumbnail?: string;
   images: string[];
@@ -16,6 +16,7 @@ export interface Project {
   floatingImages?: string[];
   date: string;
   featured: boolean;
+  order?: number; 
 }
 
 export interface ProjectCategory {

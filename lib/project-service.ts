@@ -70,6 +70,7 @@ export async function getAllProjects(): Promise<Project[]> {
         floatingImages: matterResult.data.floatingImages || [],
         date,
         featured: matterResult.data.featured || false,
+        order: matterResult.data.order || undefined,
       };
 
       allProjectsData.push(project);
@@ -119,6 +120,7 @@ export async function getProjectById(
       floatingImages: matterResult.data.floatingImages || [],
       date: matterResult.data.date || new Date().toISOString(),
       featured: matterResult.data.featured || false,
+      order: matterResult.data.order || undefined,
     };
 
     return project;
@@ -156,7 +158,8 @@ export async function createOrUpdateProject(
 
     const updatedProject = { ...project, id, slug };
 
-    const frontmatter = {
+    // Create frontmatter object and filter out undefined values
+    const rawFrontmatter = {
       id: updatedProject.id,
       name: updatedProject.name,
       slug: updatedProject.slug,
@@ -169,18 +172,23 @@ export async function createOrUpdateProject(
       solution: updatedProject.solution || "",
       coverImage:
         updatedProject.coverImage || "/assets/img/default-project-image.jpg",
-      portfolioThumbnail: updatedProject.portfolioThumbnail || undefined, // THIS WAS MISSING!
+      portfolioThumbnail: updatedProject.portfolioThumbnail,
       images: updatedProject.images || [],
       galleryImages: updatedProject.galleryImages || [],
       floatingImages: updatedProject.floatingImages || [],
       date: updatedProject.date || new Date().toISOString(),
       featured: updatedProject.featured || false,
+      order: updatedProject.order,
     };
 
-    const markdown = matter.stringify(
-      "",
-      frontmatter
+    // Filter out undefined values to prevent YAML serialization errors
+    const frontmatter = Object.fromEntries(
+      Object.entries(rawFrontmatter).filter(([_, value]) => value !== undefined)
     );
+
+    console.log("Frontmatter after filtering undefined values:", frontmatter);
+
+    const markdown = matter.stringify("", frontmatter);
 
     await fs.mkdir(PROJECTS_DIRECTORY, { recursive: true });
 
